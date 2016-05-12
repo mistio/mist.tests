@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<event>
+    <type>SUBSCRIPTION_ORDER</type>
+    <marketplace>
+        <partner>ACME</partner>
+        <baseUrl>https://www.acme-marketplace.com</baseUrl>
+    </marketplace>
+    <creator>
+        <email>andysen@gmail.com</email>
+        <firstName>Andy</firstName>
+        <lastName>Sen</lastName>
+        <openId>https://www.acme-marketplace.com/openid/id/a11a7918-bb43-4429-a256-f6d729c71033</openId>
+        <language>en</language>
+    </creator>
+    <payload>
+        <company>
+            <uuid>d15bb36e-5fb5-11e0-8c3c-00262d2cda03</uuid>
+            <email>admin@example.com</email>
+            <name>Example Company</name>
+            <phoneNumber>1-415-555-1212</phoneNumber>
+            <website>www.appdirect.com</website>
+        </company>
+        <order>
+            <editionCode>Lite</editionCode>
+            <item>
+                <quantity>10</quantity>
+                <unit>USER</unit>
+            </item>
+            <item>
+                <quantity>15</quantity>
+                <unit>MEGABYTE</unit>
+            </item>
+        </order>
+    </payload>
+</event>
