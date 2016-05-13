@@ -216,3 +216,24 @@ def check_if_its_machines_page(context):
         return True
     except NoSuchElementException:
         assert False, ''
+
+
+@step(u'my name should be "{my_name}"')
+def check_user_name(context, my_name):
+    user_span = context.browser.find_element_by_class_name('owner')
+    user_span_text = safe_get_element_text(user_span)
+    assert user_span_text.lower() == my_name.lower(), "Name appearing on the" \
+                                                      " screen is not " \
+                                                      "than %s" % my_name
+
+
+@step(u'I should read "{something}" in input with id "{input_id}"')
+def check_input_for_text(context, something, input_id):
+    input = None
+    try:
+        input = context.browser.find_element_by_id(input_id)
+    except NoSuchElementException:
+        pass
+    assert input, 'Could not find element with id %s' % input_id
+    assert input.get_attribute('value').lower() == something.lower(), \
+        "Input text did not match what was expected"
