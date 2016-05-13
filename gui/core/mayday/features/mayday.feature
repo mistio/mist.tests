@@ -88,37 +88,3 @@ Feature: Production
     Then I do the Github login
     And I wait for the links in homepage to appear
     Then I logout
-
-#  @google_sso_registration
-#  Scenario: Test google authentication registration
-#    Given I am not logged in to mist.core
-#    Given That the account with email "register.mist.io@gmail.com" is deleted
-#    Given special Google account for registration testing
-#    When I open the signup popup
-#    Then I click the google button in the landing page popup
-#    And I wait for 3 seconds
-#    Then I do the Google login
-#    Then my name should be "Register Bot"
-#    When I visit the Account page
-#    Then I wait for the mist.io splash page to load
-#    When I click the button "Account Details"
-#    And I wait for 3 seconds
-#    Then I should read "Register" in input with id "details-first-name"
-#    And I should read "Bot" in input with id "details-last-name"
-#    Then I logout
-#
-#  @github_sso_registration
-#  Scenario: Test google authentication registration
-#    Given I am not logged in to mist.core
-#    Given That the account with email "register.mist.io@gmail.com" is deleted
-#    Given special Github account for registration testing
-#    When I open the signup popup
-#    Then I click the github button in the landing page popup
-#    And I wait for 3 seconds
-#    Then I do the Github login
-#    Then my name should be "Register Bot"
-#    When I visit the Account page
-#    Then I wait for the mist.io splash page to load
-#    And I should read "Register" in input with id "details-first-name"
-#    And I should read "Bot" in input with id "details-last-name"
-#    Then I logout
