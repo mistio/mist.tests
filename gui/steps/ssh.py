@@ -7,6 +7,8 @@ from time import sleep
 
 from buttons import clicketi_click
 
+from utils import safe_get_element_text
+
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.common.exceptions import NoSuchElementException
