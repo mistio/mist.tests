@@ -1,5 +1,6 @@
 from behave import step
 from behave import given
+from behave import when
 
 from time import time
 from time import sleep
@@ -90,7 +91,7 @@ def go_to_some_page_after_loading(context, title):
                           u' loaded' % (title, title))
 
 
-@step(u'I visit the {title} page after the "{counter_title}" counter has loaded')
+@step(u'I visit the {title} page after the {counter_title} counter has loaded')
 def go_to_some_page_after_counter_loading(context, title, counter_title):
     """
     WIll visit one of the basic pages(Machines, Images, Keys, Scripts) and has
