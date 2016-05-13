@@ -1,9 +1,14 @@
 import shutil
 
+import logging
+import imaplib
+
 from time import sleep
 from time import time
 
 from behaving.mail.steps import *
+
+log = logging.getLogger(__name__)
 
 
 @step(u'I follow the link contained in the email sent at "{address}" with '
@@ -124,3 +129,64 @@ def dispose_registration_email(context):
             Then I save the confirmation link
             And I delete the confirmation email
     """)
+
+
+@step(u'I delete old emails')
+def delete_emails(context):
+    box = login_email(context)
+    box.select("INBOX")
+    typ, data = box.search(None, 'ALL')
+    if not data[0].split():
+        return
+
+    for num in data[0].split():
+        box.store(num, '+FLAGS', '\\Deleted')
+    box.expunge()
+    logout_email(box)
+
+
+@step(u'I should receive an email within {seconds} seconds')
+def receive_mail(context, seconds):
+    end_time = time() + int(seconds)
+    error = ""
+
+    while time() < end_time:
+        log.info("Looking if email has arrived\n\n")
+        try:
+            box = login_email(context)
+            if not box:
+                error = "login failed"
+                continue
+            inbox = box.select("INBOX")
+        except Exception as e:
+            log.info("An exception occurred: %s\n\n" % str(e))
+            continue
+
+        log.info("Searching in inbox for email\n\n")
+        typ, data = box.search(None, 'ALL')
+
+        if data[0].split():
+            return
+        else:
+            logout_email(box)
+            log.info("Email has not arrived yet. Sleeping for 15 seconds\n\n")
+            sleep(15)
+
+    assert False, u'Did not receive an email within %s seconds. %s' % (seconds,
+                                                                       error)
+
+
+def login_email(context):
+    box = imaplib.IMAP4_SSL("imap.gmail.com")
+    login = box.login(context.mist_config['GOOGLE_TEST_EMAIL'],
+                      context.mist_config['GOOGLE_TEST_PASSWORD'])
+    if 'OK' in login:
+        return box
+    else:
+        return False
+
+
+def logout_email(box):
+    box.close()
+    box.logout()
+
