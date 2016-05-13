@@ -2,7 +2,7 @@ import os
 import sys
 import argparse
 
-from tests import config
+import config
 
 
 def argument_cleanup_list(parser, arg_list, arg_name, *args, **kwargs):
