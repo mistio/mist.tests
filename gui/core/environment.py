@@ -2,7 +2,6 @@ import sys
 import json
 import logging
 
-
 from tests import config
 
 from tests.helpers.selenium_utils import choose_driver

@@ -19,14 +19,14 @@ Feature: Add second-tier clouds
     
     Examples: Providers
     | provider              | credentials  |
-    | Azure                 | AZURE        |
+#    | Azure                 | AZURE        |
     | GCE                   | GCE          |
     | DigitalOcean          | DIGITALOCEAN |
     | Rackspace             | RACKSPACE    |
     | SoftLayer             | SOFTLAYER    |
     | NephoScale            | NEPHOSCALE   |
-#    | Linode                | LINODE       |
-#    | Packet.net            | PACKET       |
+    | Linode                | LINODE       |
+    | Packet.net            | PACKET       |
 #    | EC2                   | EC2          |
 #    | VMware vCloud         | VMWARE       |
 #    | Indonesian Cloud      | INDONESIAN   |
