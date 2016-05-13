@@ -1,4 +1,7 @@
 from behave import step
+from behave import given
+
+from tests import config
 
 from selenium.common.exceptions import TimeoutException
 
@@ -107,3 +110,19 @@ def do_github_login(context):
             Then I wait for 5 seconds
             And I wait for the mist.io splash page to load
         ''')
+
+
+@given(u'special {service} account for registration testing')
+def override_sso_creds(context, service):
+    if service == 'Google':
+        context.mist_config['GOOGLE_TEST_EMAIL'] = \
+            config.GOOGLE_REGISTRATION_TEST_EMAIL
+        context.mist_config['GOOGLE_TEST_PASSWORD'] = \
+            config.GOOGLE_REGISTRATION_TEST_PASSWORD
+    elif service == 'Github':
+        context.mist_config['GITHUB_TEST_EMAIL'] = \
+            config.GITHUB_REGISTRATION_TEST_EMAIL
+        context.mist_config['GITHUB_TEST_PASSWORD'] = \
+            config.GITHUB_REGISTRATION_TEST_PASSWORD
+    else:
+        raise ValueError("Unknown authentication provider")
