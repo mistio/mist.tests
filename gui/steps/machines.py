@@ -7,8 +7,6 @@ from random import randrange
 
 from utils import safe_get_element_text
 
-from search import search_for_something
-
 from buttons import clicketi_click
 from buttons import click_button_from_collection
 
@@ -290,13 +288,6 @@ def check_probing(context):
                                           "(message is: %s)" % cells_one_text
             return
     assert False, "Could not find any line about probing"
-
-
-@step(u'I search for the "{text}" Machine')
-def search_image(context, text):
-    if context.mist_config.get(text):
-        text = context.mist_config.get(text)
-    search_for_something(context, text, 'machine')
 
 
 @given(u'ssh key with name "{ssh_key_name}" is added')
