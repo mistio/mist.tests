@@ -3,10 +3,10 @@ from behave import *
 from time import time
 from time import sleep
 
-from mist.io.tests.gui.features.steps.general import safe_get_element_text
+from tests.gui.steps.utils import safe_get_element_text
 
 
-@when(u'I fill "{text}" as key name')
+@step(u'I fill "{text}" as key name')
 def fill_key_name(context, text):
     if context.mist_config.get(text):
         text = context.mist_config.get(text)
@@ -15,7 +15,7 @@ def fill_key_name(context, text):
     textfield.send_keys(text)
 
 
-@when(u'I fill "{text}" as new key name')
+@step(u'I fill "{text}" as new key name')
 def fill_key_name(context, text):
     if context.mist_config.get(text):
         text = context.mist_config.get(text)
@@ -28,7 +28,7 @@ def fill_key_name(context, text):
         textfield.send_keys(letter)
 
 
-@then(u'"{text}" key should be added within {seconds} seconds')
+@step(u'"{text}" key should be added within {seconds} seconds')
 def key_added(context, text, seconds):
     if context.mist_config.get(text):
         text = context.mist_config.get(text)
@@ -44,7 +44,7 @@ def key_added(context, text, seconds):
     assert False, u'%s Key is not found added within %s seconds' % (text, seconds)
 
 
-@then(u'"{text}" key should be deleted')
+@step(u'"{text}" key should be deleted')
 def key_deleted(context, text):
     if context.mist_config.get(text):
         text = context.mist_config.get(text)

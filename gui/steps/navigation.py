@@ -1,6 +1,5 @@
 from behave import step
 from behave import given
-from behave import when
 
 from time import time
 from time import sleep
