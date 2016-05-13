@@ -1,10 +1,16 @@
 import re
 
+from behave import step
+
+from time import time
+from time import sleep
+
+from buttons import clicketi_click
+
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.common.exceptions import NoSuchElementException
-
-from mist.io.tests.gui.features.steps.general import *
+from selenium.webdriver.support import expected_conditions as EC
 
 
 def is_ssh_connection_up(lines):
