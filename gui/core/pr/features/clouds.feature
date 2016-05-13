@@ -26,7 +26,7 @@ Feature: Add second-tier clouds
     | SoftLayer             | SOFTLAYER    |
     | NephoScale            | NEPHOSCALE   |
     | Linode                | LINODE       |
-    | Packet.net            | PACKET       |
+#    | Packet.net            | PACKET       |
 #    | EC2                   | EC2          |
 #    | VMware vCloud         | VMWARE       |
 #    | Indonesian Cloud      | INDONESIAN   |
