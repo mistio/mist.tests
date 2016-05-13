@@ -1,4 +1,4 @@
-import mist.io.tests.config as config
+from tests import config
 
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
