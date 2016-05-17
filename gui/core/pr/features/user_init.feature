@@ -49,6 +49,7 @@ Feature: Login Scenarios
     Then I click the reset_pass_submit button in the landing page popup
     And I wait for the mist.io splash page to load
     And I logout
+    And I wait for 2 seconds
 
   @check-redirect
   Scenario: Add EC2 cloud, go to Machines logout and check redirect
@@ -63,6 +64,7 @@ Feature: Login Scenarios
     Then I wait for the mist.io splash page to load
     And I should be in the machines page
     Then I logout
+    And I wait for 2 seconds
 
   @req-demo
   Scenario: Request demo as an already registered member
@@ -72,29 +74,23 @@ Feature: Login Scenarios
     And I enter my standard credentials for demo request
     And I click the request demo button in the landing page popup
     Then I should receive an email at the address "MIST_DEMO_REQUEST_EMAIL" with subject "Demo request" within 10 seconds
+    Then I close the "Success" popup
 
   @req-demo-register
   Scenario: Request demo and sign up
     Given I am not logged in to mist.core
     When I open the signup popup
     And I click the request demo button in the landing page popup
-    And I enter my standard credentials for demo request
+    And I enter my alt credentials for demo request
     And I click the request demo button in the landing page popup
     Then I should receive an email at the address "MIST_DEMO_REQUEST_EMAIL" with subject "Demo request" within 10 seconds
     Then I should receive an email at the address "DEMO_EMAIL" with subject "[mist.io] Confirm your registration" within 10 seconds
-    Then I save the confirmation link and delete the email
-    Then I refresh the browser
-    Given I am not logged in to mist.core
-    When I open the signup popup
-    And I click the request demo button in the landing page popup
-    And I enter my standard credentials for demo request
-    And I click the request demo button in the landing page popup
-    Then I should receive an email at the address "EMAIL" with subject "[mist.io] Confirm your registration" within 10 seconds
-    When I make sure that this link is the same as before at email address "DEMO_EMAIL"
     And I follow the link contained in the email sent at the address "DEMO_EMAIL" with subject "[mist.io] Confirm your registration"
     Then I enter my standard credentials for signup_password_set
     And I click the submit button in the landing page popup
     And I wait for the mist.io splash page to load
+    Then I logout
+    And I wait for 2 seconds
 
 #  @multiple-login
 #  Scenario: Launch two browsers and try to login from both
