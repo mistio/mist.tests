@@ -95,6 +95,11 @@ EMAIL = test_settings.get("EMAIL", "")
 PASSWORD1 = test_settings.get("PASSWORD1", "")
 PASSWORD2 = test_settings.get("PASSWORD2", "")
 
+DEMO_EMAIL = test_settings.get("DEMO_EMAIL", "")
+DEMO_PASSWORD = test_settings.get("DEMO_PASSWORD", "")
+
+MIST_DEMO_REQUEST_EMAIL = test_settings.get("MIST_DEMO_REQUEST_EMAIL", "demo@mist.io")
+
 # CREDENTIALS FOR TESTING RBAC
 RBAC_OWNER_EMAIL = test_settings.get("RBAC_OWNER_EMAIL", "owner@dr.dr")
 RBAC_OWNER_PASSWORD  = test_settings.get("RBAC_OWNER_PASSWORD ", "dr")
