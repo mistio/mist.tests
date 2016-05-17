@@ -1,8 +1,9 @@
 import json
 
-from time import time, sleep
+from time import time
+from time import sleep
 
-from mist.io.tests.api.utils import *
+from tests.api.utils import *
 
 
 #def test_001_machine_start(pretty_print, mist_core,

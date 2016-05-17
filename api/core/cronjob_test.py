@@ -3,7 +3,7 @@ import json
 import pprint
 import pytest
 
-from mist.io.tests.api.utils import *
+from tests.api.utils import *
 
 
 def test_001_get_list_cronjobs_without_token(pretty_print, mist_core):
