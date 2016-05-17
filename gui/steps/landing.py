@@ -92,7 +92,7 @@ def open_login_popup(context, kind):
 @step("I click the {text} button in the landing page popup")
 def click_button_in_landing_page(context, text):
     if text.lower() not in ['email', 'google', 'github', 'sign in', 'sign up'
-                            , 'submit', 'forgot password',
+                            , 'submit', 'request demo', 'forgot password',
                             'reset_password_email_submit', 'reset_pass_submit']:
         raise ValueError('This button does not exist in the landing page popup')
     try:
@@ -155,7 +155,8 @@ def enter_creds(context, kind, action):
     kind = kind.lower()
     action = action.lower()
     if action not in ['login', 'signup', 'signup_password_set',
-                      'password_reset_request', 'password_reset']:
+                      'password_reset_request', 'password_reset',
+                      'demo request']:
         raise ValueError("Cannot input %s credentials" % action)
     if kind not in ['standard', 'alt', 'rbac_owner', 'rbac_member'] and not kind.startswith('invalid'):
         raise ValueError("No idea what %s credentials are" % kind)
@@ -247,6 +248,16 @@ def enter_creds(context, kind, action):
                                       context.mist_config['PASSWORD1'])
             clear_input_and_send_keys(second_textfield,
                                       context.mist_config['PASSWORD1'])
+    elif action == 'demo request':
+        try:
+            WebDriverWait(context.browser, 4).until(
+                EC.visibility_of_element_located((By.ID, "demo-email")))
+        except TimeoutException:
+            raise TimeoutException("Email input did not appear after 4 seconds")
+        email_input = context.browser.find_element_by_id("demo-email")
+        clear_input_and_send_keys(email_input, context.mist_config['DEMO_EMAIL'])
+        name_input = context.browser.find_element_by_id("demo-name")
+        clear_input_and_send_keys(name_input, context.mist_config['NAME'])
 
 
 def clear_input_and_send_keys(input_field, text):
