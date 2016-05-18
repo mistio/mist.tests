@@ -23,19 +23,13 @@ class MistIoApi(object):
         req.delete = req.unavailable_api_call
         return req
 
-    def add_cloud(self, title, provider, apikey, apisecret, apiurl=None,
-                  tenant_name=None, cookie=None, csrf_token=None,
-                  api_token=None):
+    def add_cloud(self, title, provider, api_token=None, **kwargs):
         payload = {
             'title': title,
-            'provider': provider,
-            'apikey': apikey,
-            'apisecret': apisecret,
-            'apiurl': apiurl,
-            'tenant_name': tenant_name
+            'provider': provider
         }
+        payload.update(kwargs)
         req = MistRequests(uri=self.uri + '/clouds', data=json.dumps(payload),
-                           cookie=cookie, csrf_token=csrf_token,
                            api_token=api_token)
         req.get = req.unavailable_api_call
         req.put = req.unavailable_api_call
