@@ -24,6 +24,9 @@ def before_all(context):
     context.mist_config['EMAIL'] = config.EMAIL
     context.mist_config['PASSWORD1'] = config.PASSWORD1
     context.mist_config['PASSWORD2'] = config.PASSWORD2
+    context.mist_config['DEMO_EMAIL'] = config.DEMO_EMAIL
+    context.mist_config['DEMO_PASSWORD'] = config.DEMO_PASSWORD
+    context.mist_config['MIST_DEMO_REQUEST_EMAIL'] = config.MIST_DEMO_REQUEST_EMAIL
     context.mist_config['RBAC_OWNER_EMAIL'] = config.RBAC_OWNER_EMAIL
     context.mist_config['RBAC_OWNER_PASSWORD'] = config.RBAC_OWNER_PASSWORD
     context.mist_config['RBAC_MEMBER_EMAIL'] = config.RBAC_MEMBER_EMAIL
