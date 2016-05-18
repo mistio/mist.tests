@@ -200,8 +200,10 @@ def enter_creds(context, kind, action):
             raise TimeoutException("Email input did not appear after 4 seconds")
         email_input = context.browser.find_element_by_id("signup-email")
         clear_input_and_send_keys(email_input, context.mist_config['EMAIL'])
-        name_input = context.browser.find_element_by_id("signup-name")
-        clear_input_and_send_keys(name_input, context.mist_config['NAME'])
+        first_name_input = context.browser.find_element_by_id("signup-firstname")
+        clear_input_and_send_keys(first_name_input, context.mist_config['NAME'].split(' ')[0])
+        last_name_input = context.browser.find_element_by_id("signup-lastname")
+        clear_input_and_send_keys(last_name_input, context.mist_config['NAME'].split(' ')[1])
     elif action == 'password_reset_request':
         try:
             WebDriverWait(context.browser, 4).until(
@@ -259,8 +261,10 @@ def enter_creds(context, kind, action):
             clear_input_and_send_keys(email_input, context.mist_config['EMAIL'])
         elif kind == 'alt':
             clear_input_and_send_keys(email_input, context.mist_config['DEMO_EMAIL'])
-        name_input = context.browser.find_element_by_id("demo-name")
-        clear_input_and_send_keys(name_input, context.mist_config['NAME'])
+        first_name_input = context.browser.find_element_by_id("demo-firstname")
+        clear_input_and_send_keys(first_name_input, context.mist_config['NAME'].split(' ')[0])
+        last_name_input = context.browser.find_element_by_id("demo-lastname")
+        clear_input_and_send_keys(last_name_input, context.mist_config['NAME'].split(' ')[1])
 
 
 def clear_input_and_send_keys(input_field, text):
