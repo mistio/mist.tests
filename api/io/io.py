@@ -199,7 +199,7 @@ class MistIoApi(object):
         return req
 
     def add_key(self, name, private, cookie=None, csrf_token=None,
-                api_token=None):
+                 api_token=None):
         payload = {
             'name': name,
             'priv': private
