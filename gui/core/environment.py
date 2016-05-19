@@ -10,6 +10,8 @@ from selenium.webdriver.remote.errorhandler import NoSuchWindowException
 
 log = logging.getLogger(__name__)
 
+logging.basicConfig(level=config.logging.INFO)
+
 
 def before_all(context):
     """
