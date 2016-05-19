@@ -29,6 +29,10 @@ def follow_link_inside_email(context, address, subject):
     str_end = message.find('\n\nIn the meantime')
     if str_end == -1:
         str_end = message.find('\n\nThis request originated')
+    if str_end == -1:
+        str_end = message.find('\n\nOnce you are done with the confirmation')
+    if str_end == -1:
+        str_end = message.find('\n\nOnce you are done with the registration')
     link_to_follow = message[(message.find('link:\n\n') + len('link:\n\n')):str_end]
     context.browser.get(link_to_follow)
     sleep(2)

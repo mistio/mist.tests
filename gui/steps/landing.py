@@ -199,6 +199,12 @@ def enter_creds(context, kind, action):
         except TimeoutException:
             raise TimeoutException("Email input did not appear after 4 seconds")
         email_input = context.browser.find_element_by_id("signup-email")
+        if kind == 'rbac_owner':
+            clear_input_and_send_keys(email_input, context.mist_config['RBAC_OWNER_EMAIL'])
+        elif kind == 'rbac_member':
+            clear_input_and_send_keys(email_input, context.mist_config['RBAC_MEMBER_EMAIL'])
+        else:
+            clear_input_and_send_keys(email_input, context.mist_config['EMAIL'])
         clear_input_and_send_keys(email_input, context.mist_config['EMAIL'])
         name_input = context.browser.find_element_by_id("signup-name")
         clear_input_and_send_keys(name_input, context.mist_config['NAME'])
@@ -298,10 +304,11 @@ def check_error_message(context, error_message, type_of_error):
 
 @step(u'I should get an already registered error')
 def already_registered(context):
-    text = safe_get_element_text(context.browser.find_element_by_id('registerForm').find_elements_by_class_name('center')[0])
-    if text != 'Already registered!':
-        raise ValueError("Expecting an Already registered! error message and "
-                         "didn't get it")
+    try:
+        WebDriverWait(context.browser, int(1)).until(
+            EC.visibility_of_element_located((By.CLASS_NAME, 'center')))
+    except TimeoutException:
+        raise TimeoutException("'Already Registered!' message did not appear.")
 
 
 # @step(u'I wait for some reaction for max {seconds} seconds')
