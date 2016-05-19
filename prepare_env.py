@@ -78,6 +78,7 @@ if __name__ == '__main__':
     argument_cleanup_list(parser, cleanup_list, '--mist-dir', default=None)
     argument_cleanup_list(parser, cleanup_list, '--xvfb-display', default=None)
     argument_cleanup_list(parser, cleanup_list, '--webdriver-path', default=None)
+    argument_cleanup_list(parser, cleanup_list, '--setup-environment', default=None)
 
     args = parser.parse_known_args()[0]
     # print "Args submitted: " + str(args)

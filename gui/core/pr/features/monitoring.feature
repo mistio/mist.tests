@@ -1,9 +1,12 @@
 @monitoring
 Feature: Create Machine and test monitoring
 
-  Scenario: Create Machine,deploy monitoring agent and check the graphs
+  Background:
+    When I setup user with email "EMAIL"
     Given I am logged in to mist.core
     Given "EC2" cloud has been added
+
+  Scenario: Create Machine,deploy monitoring agent and check the graphs
     When I visit the Images page after the counter has loaded
     Then there should be starred images
     When I search for the "ubuntu" Image
