@@ -3,6 +3,7 @@ Feature: Login Scenarios
 
   @signup
   Scenario: Sign Up success
+    When I make sure user with email "EMAIL" is absent
     Given I am not logged in to mist.core
     When I open the signup popup
     Then I click the sign up button in the landing page popup
@@ -78,6 +79,7 @@ Feature: Login Scenarios
 
   @req-demo-register
   Scenario: Request demo and sign up
+    When I make sure user with email "DEMO_EMAIL" is absent
     Given I am not logged in to mist.core
     When I open the signup popup
     And I click the request demo button in the landing page popup
