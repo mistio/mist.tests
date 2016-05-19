@@ -33,6 +33,7 @@ def before_all(context):
     context.mist_config['RBAC_MEMBER_PASSWORD'] = config.RBAC_MEMBER_PASSWORD
     context.mist_config['LOCAL'] = config.LOCAL
     context.mist_config['DEBUG'] = config.DEBUG
+    context.mist_config['ORG_NAME'] = config.ORG_NAME
     context.mist_config['NON_STOP'] = '--stop' not in sys.argv
     context.mist_config['ERROR_NUM'] = 0
     context.mist_config['MIST_URL'] = config.MIST_URL
