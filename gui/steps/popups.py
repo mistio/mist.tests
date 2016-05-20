@@ -87,4 +87,5 @@ def click_button_within_popup(context, text, popup):
 @step(u'I close the "{object_id}" popup')
 def close_popup(context, object_id):
     objectId = 'modal' + object_id
-    context.browser.find_element_by_id(objectId).find_element_by_class_name('modal-close').click()
+    context.browser.find_element_by_id(objectId).find_element_by_class_name(
+                   'modal-close').click()

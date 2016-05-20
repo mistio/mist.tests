@@ -1,10 +1,12 @@
 @machines
 Feature: Machines
 
-  Scenario: Create machine from Panel and from Image
+  Background:
+    When I setup user with email "EMAIL"
     Given I am logged in to mist.core
     Given "EC2" cloud has been added
 
+  Scenario: Create machine from Panel and from Image
     When I visit the Machines page after the Images counter has loaded
     When I click the button by "select-machines-btn" id_name
     Then I expect for "select-machines-popup-popup" popup to appear within max 5 seconds

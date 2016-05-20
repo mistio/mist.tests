@@ -29,6 +29,10 @@ def follow_link_inside_email(context, address, subject):
     str_end = message.find('\n\nIn the meantime')
     if str_end == -1:
         str_end = message.find('\n\nThis request originated')
+    if str_end == -1:
+        str_end = message.find('\n\nOnce you are done with the confirmation')
+    if str_end == -1:
+        str_end = message.find('\n\nOnce you are done with the registration')
     link_to_follow = message[(message.find('link:\n\n') + len('link:\n\n')):str_end]
     context.browser.get(link_to_follow)
     sleep(2)
@@ -93,7 +97,7 @@ def check_if_email_arrived(context, email_address, subject):
     if context.mist_config.get(subject):
         subject = context.mist_config.get(subject)
     context.execute_steps(u'Then I should receive an email at "%s" with subject'
-                          u' "%s"'% (email_address, subject))
+                          u' "%s"' % (email_address, subject))
 
 
 @step(u'I follow the link contained in the email sent at the address '
@@ -119,8 +123,7 @@ def check_if_email_arrived_with_delay(context, email_address, subject, seconds):
         except:
             pass
         sleep(1)
-    assert False, "Email has not arrived after %s seconds"\
-              % seconds
+    assert False, "Email has not arrived after %s seconds" % seconds
 
 
 @step(u'I save the confirmation link and delete the email')

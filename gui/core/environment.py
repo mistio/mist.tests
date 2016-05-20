@@ -10,6 +10,8 @@ from selenium.webdriver.remote.errorhandler import NoSuchWindowException
 
 log = logging.getLogger(__name__)
 
+logging.basicConfig(level=config.logging.INFO)
+
 
 def before_all(context):
     """
@@ -24,12 +26,17 @@ def before_all(context):
     context.mist_config['EMAIL'] = config.EMAIL
     context.mist_config['PASSWORD1'] = config.PASSWORD1
     context.mist_config['PASSWORD2'] = config.PASSWORD2
+    context.mist_config['SETUP_ENVIRONMENT'] = config.SETUP_ENVIRONMENT
+    context.mist_config['DEMO_EMAIL'] = config.DEMO_EMAIL
+    context.mist_config['DEMO_PASSWORD'] = config.DEMO_PASSWORD
+    context.mist_config['MIST_DEMO_REQUEST_EMAIL'] = config.MIST_DEMO_REQUEST_EMAIL
     context.mist_config['RBAC_OWNER_EMAIL'] = config.RBAC_OWNER_EMAIL
     context.mist_config['RBAC_OWNER_PASSWORD'] = config.RBAC_OWNER_PASSWORD
     context.mist_config['RBAC_MEMBER_EMAIL'] = config.RBAC_MEMBER_EMAIL
     context.mist_config['RBAC_MEMBER_PASSWORD'] = config.RBAC_MEMBER_PASSWORD
     context.mist_config['LOCAL'] = config.LOCAL
     context.mist_config['DEBUG'] = config.DEBUG
+    context.mist_config['ORG_NAME'] = config.ORG_NAME
     context.mist_config['NON_STOP'] = '--stop' not in sys.argv
     context.mist_config['ERROR_NUM'] = 0
     context.mist_config['MIST_URL'] = config.MIST_URL

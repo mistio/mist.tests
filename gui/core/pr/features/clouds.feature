@@ -2,6 +2,7 @@
 Feature: Add second-tier clouds
 
   Background:
+    When I setup user with email "EMAIL"
     Given I am logged in to mist.core
 
   @cloud-add

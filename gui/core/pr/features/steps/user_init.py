@@ -7,3 +7,4 @@ from tests.gui.steps.panels import *
 from tests.gui.steps.browser import *
 from tests.gui.steps.sessions import *
 from tests.gui.steps.api_tokens import *
+from tests.gui.steps.setup import *

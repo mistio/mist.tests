@@ -394,18 +394,13 @@ def rule_value(context, value):
 
 @step(u"I enable monitoring if it's not enabled")
 def enable_monitoring(context):
-    try:
-        button = context.browser.find_element_by_id("enable-monitoring-btn")
-        clicketi_click(context, button)
-        dialog = WebDriverWait(context.browser, 4).until(EC.visibility_of_element_located((By.ID, "dialog")))
-        try:
-            button_collection = dialog.find_elements_by_class_name('ui-btn')
-            click_button_from_collection(context, "yes", button_collection)
-        except TimeoutException:
-            raise TimeoutException("Dialog for enabling deployment did not "
-                                   "appear after 4 seconds")
-    except NoSuchElementException:
-        pass
+    button = context.browser.find_element_by_id("enable-monitoring-btn")
+    clicketi_click(context, button)
+    context.execute_steps("""
+        Then I expect for "dialog-popup" modal to appear within max 4 seconds
+        And I click the "Yes" button inside the "ENABLE MONITORING" modal
+        And I expect for "dialog-popup" modal to disappear within max 4 seconds
+    """)
 
 
 @step(u'I give a default script for python script')
