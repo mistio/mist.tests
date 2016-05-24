@@ -7,6 +7,8 @@ from time import sleep
 
 from tests.api.utils import *
 
+from tests.api.helpers import get_random_str
+
 
 def test_001_get_api_token_with_empty_fields(pretty_print, mist_core):
     print "\n>>>  POSTing /auth to get a token with empty creds:"
@@ -52,8 +54,8 @@ def test_004_get_api_token(pretty_print, cache, mist_core, email, password1):
 
 
 def test_005_confirm_api_token(pretty_print, cache, mist_core, email):
-    print "\n>>>  POSTing /ping again to see if my token is recognized:"
-    response = mist_core.ping(api_token=cache.get('api_token_test/api_token',
+    print "\n>>>  POSTing /check_token again to see if my token is recognized:"
+    response = mist_core.check_token(api_token=cache.get('api_token_test/api_token',
                                                   '')).post()
     assert_response_ok(response)
     assert_equal(email, response.json().get('hello', None), response.content)
@@ -104,8 +106,8 @@ def test_008_create_short_lived_api_token(pretty_print, cache, mist_core, email,
     assert_is_not_none(response.json().get('token', None))
     assert_is_not_none(response.json().get('id', None))
     assert_is_not_none(response.json().get('name', None))
-    print "\n>>>  POSTing /ping to see that new token works fine"
-    response = mist_core.ping(api_token=api_token).post()
+    print "\n>>>  POSTing /check_token to see that new token works fine"
+    response = mist_core.check_token(api_token=api_token).post()
     assert_response_ok(response)
     assert_equal(email, response.json().get('hello'))
     print "\n>>>  Sleeping for 10 secs"
@@ -113,8 +115,8 @@ def test_008_create_short_lived_api_token(pretty_print, cache, mist_core, email,
         sleep(1)
         sys.stdout.write('.')
         sys.stdout.flush()
-    print "\n>>>  POSTing /ping to see that new token is invalid"
-    response = mist_core.ping(api_token=api_token).post()
+    print "\n>>>  POSTing /check_token to see that new token is invalid"
+    response = mist_core.check_token(api_token=api_token).post()
     assert_response_unauthorized(response)
     print "\n>>>  DELETEing /tokens for second ApiToken i got"
     response = mist_core.revoke_token(
@@ -208,19 +210,6 @@ def test_014_revoke_api_token(pretty_print, cache, mist_core):
         api_token=cache.get('api_token_test/api_token', ''),
         api_token_id=cache.get('api_token_test/api_token_id', '')).delete()
     assert_response_ok(response)
-    print "Success!!!!"
-
-
-def test_015_fail_create_token_with_revoked_api_token(pretty_print,
-                                                      cache, mist_core, email,
-                                                      password1):
-    print "\n>>>  POSTing /tokens to make sure that token has been revoked"
-    response = mist_core.create_token(email=email,
-                                      password=password1,
-                                      api_token=cache.get(
-                                          'api_token_test/api_token', ''),
-                                      new_api_token_name='bla', ttl=0).post()
-    assert_response_unauthorized(response)
     print "Success!!!!"
 
 
