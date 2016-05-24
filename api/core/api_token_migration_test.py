@@ -1,5 +1,3 @@
-import requests
-
 from tests import config
 
 from tests.api.utils import *
