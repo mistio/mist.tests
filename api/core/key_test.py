@@ -21,7 +21,7 @@ def test_001_list_keys(pretty_print, mist_core, valid_api_token):
 def test_002_add_key_with_no_id_and_no_priv(pretty_print, mist_core,
                                             valid_api_token):
 
-    response = mist_core.add_key(id='', private='',
+    response = mist_core.add_key(name='', private='',
                                  api_token=valid_api_token).put()
     assert_response_bad_request(response)
     print "Success!!!"
@@ -33,8 +33,8 @@ def test_003_add_key_with_no_private(pretty_print, cache, mist_core,
     response = mist_core.list_keys(api_token=valid_api_token).get()
     assert_response_ok(response)
     keys_list = json.loads(response.content)
-    cache.set('keys_tests/key_id', get_random_key_id(keys_list))
-    response = mist_core.add_key(id=cache.get('keys_tests/key_id', ''),
+    cache.set('keys_tests/key_name', get_random_key_name(keys_list))
+    response = mist_core.add_key(name=cache.get('keys_tests/key_name', ''),
                                  private='',
                                  api_token=valid_api_token).put()
     assert_response_bad_request(response)
@@ -44,7 +44,7 @@ def test_003_add_key_with_no_private(pretty_print, cache, mist_core,
 def test_004_add_key_with_wrong_private(pretty_print, cache, mist_core,
                                         valid_api_token, private_key):
 
-    response = mist_core.add_key(id=cache.get('keys_tests/key_id', ''),
+    response = mist_core.add_key(name=cache.get('keys_tests/key_name', ''),
                                  private=private_key[:-40],
                                  api_token=valid_api_token).put()
     assert_response_bad_request(response)
@@ -61,7 +61,7 @@ def test_005_get_private_key_with_wrong_id(pretty_print, cache, mist_core,
 def test_006_get_private_key_with_wrong_id(pretty_print, cache, mist_core,
                                            valid_api_token):
     response = mist_core.get_private_key(
-        cache.get('keys_tests/key_id', '')[:-2],
+        cache.get('keys_tests/key_name', '')[:-2],
         api_token=valid_api_token).get()
     assert_response_not_found(response)
     print "Success!!!"
@@ -70,7 +70,7 @@ def test_006_get_private_key_with_wrong_id(pretty_print, cache, mist_core,
 def test_007_get_public_key_with_wrong_id(pretty_print, cache, mist_core,
                                           valid_api_token):
     response = mist_core.get_public_key(
-        cache.get('keys_tests/key_id', '')[:-2],
+        cache.get('keys_tests/key_name', '')[:-2],
         api_token=valid_api_token).get()
     assert_response_not_found(response)
     print "Success!!!"
@@ -129,25 +129,27 @@ class TestSimpleUserKeyCycle:
         response = mist_core.list_keys(api_token=valid_api_token).get()
         assert_response_ok(response)
         keys_list = json.loads(response.content)
-        cache.set('keys_tests/simple_key_id', get_random_key_id(keys_list))
+        cache.set('keys_tests/simple_key_name', get_random_key_name(keys_list))
         response = mist_core.add_key(
-            id=cache.get('keys_tests/simple_key_id', ''),
+            name=cache.get('keys_tests/simple_key_name', ''),
             private=private_key,
             api_token=valid_api_token).put()
         assert_response_ok(response)
         response = mist_core.list_keys(api_token=valid_api_token).get()
         assert_response_ok(response)
-        script = get_keys_with_id(cache.get('keys_tests/simple_key_id', ''),
+        script = get_keys_with_name(cache.get('keys_tests/simple_key_name', ''),
                                   json.loads(response.content))
         assert_list_not_empty(script,
                               "Key was added through the api but is not "
                               "visible in the list of keys")
+
+        cache.set('keys_tests/simple_key_id', script[0]['id'])
         print "Success!!!"
 
     def test_add_key_with_duplicate_id(self, pretty_print, cache, mist_core,
                                        valid_api_token, private_key):
         response = mist_core.add_key(
-            id=cache.get('keys_tests/simple_key_id', ''),
+            name=cache.get('keys_tests/simple_key_name', ''),
             private=private_key,
             api_token=valid_api_token).put()
         assert_response_conflict(response)
@@ -156,27 +158,27 @@ class TestSimpleUserKeyCycle:
     def test_edit_key(self, pretty_print, cache, mist_core, valid_api_token):
         response = mist_core.list_keys(api_token=valid_api_token).get()
         assert_response_ok(response)
-        new_key_id = get_random_key_id(json.loads(response.content))
+        new_key_name = get_random_key_name(json.loads(response.content))
         response = mist_core.edit_key(
             id=cache.get('keys_tests/simple_key_id', ''),
-            new_id=new_key_id,
+            new_name=new_key_name,
             api_token=valid_api_token).put()
         assert_response_ok(response)
         response = mist_core.list_keys(api_token=valid_api_token).get()
         assert_response_ok(response)
-        script = get_keys_with_id(new_key_id,
+        script = get_keys_with_name(new_key_name,
                                   json.loads(response.content))
         assert_list_not_empty(script,
                               "Key was added through the api but is not "
                               "visible in the list of keys")
-        cache.set('keys_tests/simple_key_id', new_key_id)
+        cache.set('keys_tests/simple_key_name', new_key_name)
         print "Success!!!"
 
     def test_edit_key_with_no_new_id(self, pretty_print, cache, mist_core,
                                      valid_api_token):
         response = mist_core.edit_key(
             id=cache.get('keys_tests/simple_key_id', ''),
-            new_id='',
+            new_name='',
             api_token=valid_api_token).put()
         assert_response_bad_request(response)
         print "Success!!!"
@@ -184,8 +186,9 @@ class TestSimpleUserKeyCycle:
     def test_edit_key_with_same_id(self, pretty_print, cache, mist_core,
                                    valid_api_token):
         key_id = cache.get('keys_tests/simple_key_id', '')
+        key_name = cache.get('keys_tests/simple_key_name', '')
         response = mist_core.edit_key(id=key_id,
-                                      new_id=key_id,
+                                      new_name=key_name,
                                       api_token=valid_api_token).put()
         assert_response_ok(response)
         print "Success!!!"
@@ -215,26 +218,29 @@ class TestSimpleUserKeyCycle:
         response = mist_core.list_keys(api_token=valid_api_token).get()
         assert_response_ok(response)
         keys_list = json.loads(response.content)
-        cache.set('keys_tests/other_key_id', get_random_key_id(keys_list))
+        cache.set('keys_tests/other_key_name', get_random_key_name(keys_list))
         response = mist_core.add_key(
-            id=cache.get('keys_tests/other_key_id', ''),
+            name=cache.get('keys_tests/other_key_name', ''),
             private=private_key,
             api_token=valid_api_token).put()
         assert_response_ok(response)
         response = mist_core.list_keys(api_token=valid_api_token).get()
         assert_response_ok(response)
-        script = get_keys_with_id(cache.get('keys_tests/other_key_id', ''),
+        script = get_keys_with_name(cache.get('keys_tests/other_key_name', ''),
                                   json.loads(response.content))
         assert_list_not_empty(script,
                               "Key was added through the api but is not "
                               "visible in the list of keys")
+
+        cache.set('keys_tests/other_key_id', script[0]['id'])
+        other_key_id = cache.get('keys_tests/other_key_id', '')
         response = mist_core.set_default_key(
-            key_id=cache.get('keys_tests/other_key_id', ''),
+            key_id=other_key_id,
             api_token=valid_api_token).post()
         assert_response_ok(response)
         response = mist_core.list_keys(api_token=valid_api_token).get()
         assert_response_ok(response)
-        script = get_keys_with_id(cache.get('keys_tests/other_key_id', ''),
+        script = get_keys_with_name(cache.get('keys_tests/other_key_name', ''),
                                   json.loads(response.content))
         assert_list_not_empty(script,
                               "Key was added through the api but is not "
@@ -268,13 +274,14 @@ class TestSimpleUserKeyCycle:
         for i in range(3):
             response = mist_core.list_keys(api_token=valid_api_token).get()
             assert_response_ok(response)
-            new_key_id = get_random_key_id(json.loads(response.content))
-            response = mist_core.add_key(id=new_key_id, private=private_key,
+            new_key_name = get_random_key_name(json.loads(response.content))
+            response = mist_core.add_key(name=new_key_name, private=private_key,
                                          api_token=valid_api_token).put()
             assert_response_ok(response)
             response = mist_core.list_keys(api_token=valid_api_token).get()
             assert_response_ok(response)
-            script = get_keys_with_id(new_key_id, json.loads(response.content))
+            script = get_keys_with_name(new_key_name, json.loads(response.content))
+            new_key_id = script[0]['id']
             assert_list_not_empty(script, "Key was added but is not visible in"
                                           " the list of keys")
             key_ids.append(new_key_id)

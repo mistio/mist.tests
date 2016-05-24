@@ -3,9 +3,7 @@ import pytest
 
 from pprint import pprint
 
-from mist.core.tests.api.helpers import *
-
-from mist.io.tests import config
+from tests.api.helpers import *
 
 
 ##############################################################################

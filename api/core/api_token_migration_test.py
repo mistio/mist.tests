@@ -1,13 +1,13 @@
 import requests
 
-from mist.io.tests import config
-from mist.core.auth.models import ApiToken
+from tests import config
 
-from mist.io.tests.api.utils import *
+from tests.api.utils import *
 
 
 def test_001_simple_api_token_test(pretty_print, mist_core,
                                    user_with_api_token):
+    from mist.core.auth.models import ApiToken
     mist_api_token_string = "mist_1 " + config.EMAIL + \
                             ":" + user_with_api_token.mist_api_token
     print "\n>>>  Pinging core with old api token"
@@ -24,6 +24,7 @@ def test_001_simple_api_token_test(pretty_print, mist_core,
 
 def test_002_short_api_token_test(pretty_print, mist_core,
                                   user_with_short_api_token):
+    from mist.core.auth.models import ApiToken
     mist_api_token_string = "mist_1 " + config.EMAIL + \
                             ":" + user_with_short_api_token.mist_api_token
     print "\n>>>  Pinging core with short old api token"

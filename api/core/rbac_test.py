@@ -1,7 +1,7 @@
 import sys
 from pprint import pprint
 
-from mist.core.tests.api.helpers import *
+from tests.api.helpers import *
 
 
 #############################################################################

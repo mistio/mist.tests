@@ -1,12 +1,7 @@
-from mist.io.tests.api.conftest import *
+from core import MistCoreApi
 
-from mist.core.tests.api.helpers import *
-from mist.core.helpers import user_from_email
-from mist.core.tests.api.core import MistCoreApi
-
-from mist.core.auth.models import get_secure_rand_token
-
-from mist.io.tests.api.utils import *
+from tests.api.helpers import *
+from tests.api.io.conftest import *
 
 
 @pytest.fixture
@@ -17,14 +12,16 @@ def mist_core():
 @pytest.fixture
 def fresh_api_token():
     print "\n>>> Producing new api token!"
+    from mist.core.auth.models import get_secure_rand_token
     return get_secure_rand_token()
 
 
 @pytest.fixture(scope='session')
 def user():
+    from mist.core.user.models import User
     _email = email()
     print "\n>>> Getting user with email %s from db" % _email
-    return user_from_email(_email)
+    return User.objects.get(email=_email)
 
 
 @pytest.fixture

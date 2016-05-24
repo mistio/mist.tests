@@ -1,7 +1,8 @@
 import json
+import string
+import random
 
-from mist.io.tests.api.utils import *
-from mist.io.tests.api.helpers import *
+from tests.api.utils import *
 
 bash_script_no_shebang = """
 touch ~/bla
@@ -83,3 +84,17 @@ def get_random_team_name(existing_teams):
         teams = get_teams_with_name(random_team_name, existing_teams)
         if len(teams) == 0:
             return random_team_name
+
+
+def get_keys_with_name(name, keys):
+    return filter(lambda x: x['name'] == name, keys)
+
+
+def get_random_key_name(existing_keys):
+     while True:
+        random_key_name = ''.join([random.choice(string.ascii_letters +
+                                                string.digits) for _ in
+                                  range(6)])
+        keys = get_keys_with_name(random_key_name, existing_keys)
+        if len(keys) == 0:
+            return random_key_name

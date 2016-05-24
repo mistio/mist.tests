@@ -5,7 +5,7 @@ import requests
 
 from time import sleep
 
-from mist.io.tests.api.utils import *
+from tests.api.utils import *
 
 
 def test_001_get_api_token_with_empty_fields(pretty_print, mist_core):

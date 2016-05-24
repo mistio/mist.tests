@@ -1,9 +1,10 @@
 import json
 import random
 
-from time import sleep, time
+from time import time
+from time import sleep
 
-from mist.io.tests.api.utils import *
+from tests.api.utils import *
 
 
 def test_machine_async_lifecycle_with_cronjob(pretty_print, mist_core,
