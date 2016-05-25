@@ -46,9 +46,10 @@ def get_new_token_value(context, token_name):
 
 @step(u'I test the api token "{token_value}". It should {work_or_fail}.')
 def test_api_token(context, token_value, work_or_fail):
+    from tests.api.core.core import MistCoreApi as mist_core
     if work_or_fail not in ['work', 'fail']:
         raise ValueError('Token can either work or fail.')
-    response = mist_core(context.mist_config['MIST_URL']).ping(api_token=context.mist_config[token_value]).post()
+    response = mist_core(context.mist_config['MIST_URL']).check_token(api_token=context.mist_config[token_value]).post()
     if work_or_fail == 'work':
         assert response.status_code == 200, "Api token with value %s did not " \
                                             "work" % context.mist_config[token_value]

@@ -44,8 +44,8 @@ class MistCoreApi(MistIoApi):
         req.put = req.unavailable_api_call
         return req
 
-    def create_token(self, email, password, api_token, ttl=None, org_id=None,
-                     new_api_token_name=None):
+    def create_token(self, email, password, api_token=None, ttl=None,
+                     org_id=None, new_api_token_name=None):
         data = {
             'email': email,
             'password': password,
@@ -76,8 +76,8 @@ class MistCoreApi(MistIoApi):
         req.put = req.unavailable_api_call
         return req
 
-    def ping(self, api_token):
-        req = MistRequests(uri=self.uri + '/ping', api_token=api_token)
+    def check_token(self, api_token):
+        req = MistRequests(uri=self.uri + '/check_token', api_token=api_token)
         req.put = req.unavailable_api_call
         req.delete = req.unavailable_api_call
         return req
