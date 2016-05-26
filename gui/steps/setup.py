@@ -13,6 +13,7 @@ def setup_user(context, user_email):
         except Owner.DoesNotExist:
             user = User()
             user.email = user_email
+            user.set_password(context.mist_config['PASSWORD1'])
             user.save()
 
 
