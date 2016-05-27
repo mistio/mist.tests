@@ -14,6 +14,9 @@ from buttons import click_button_from_collection
 from tags import check_the_tags
 
 from selenium.webdriver.common.by import By
+from selenium.webdriver.common.keys import Keys
+
+from selenium.webdriver import ActionChains
 
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.support.ui import WebDriverWait
@@ -42,6 +45,26 @@ machine_states_ordering = {
     'undefined': 1,
     'stopped': 0
 }
+
+
+@step(u'I expect for "{key}" key to appear within max {seconds} seconds')
+def key_appears(context, key, seconds):
+    if context.mist_config.get(key):
+        key_name = context.mist_config.get(key)
+    timeout = time() + int(seconds)
+    while time() < timeout:
+        try:
+            for key_in_list in context.browser.find_elements_by_class_name('small-list-item'):
+                if key_name == safe_get_element_text(key_in_list):
+                    actions = ActionChains(context.browser)
+                    actions.send_keys(Keys.ESCAPE)
+                    actions.perform()
+                    return True
+                else:
+                    pass
+        except:
+            sleep(1)
+    assert False, "Key %s did not appear after %s seconds" % (key,seconds)
 
 
 @step(u'I wait for max {seconds} seconds until tag with key "{key}" and value'

@@ -32,7 +32,7 @@ Feature: Machines
 
     When I visit the Images page after the counter has loaded
     Then there should be starred Images
-    When I search for the "ubuntu" Image
+    When I search for the "Ubuntu Server 14.04 LTS (PV)" Image
     Then the images list should be loaded within 60 seconds
     Then I scroll down until all starred images appear
     When I focus on the "Ubuntu Server 14.04 LTS (PV)" button
@@ -83,7 +83,7 @@ Feature: Machines
     Then I expect for "key-generate-loader" loader to finish within max 10 seconds
     When I click the "Add" button inside the "Add key" popup
     Then I expect for "key-add-popup" popup to disappear within max 4 seconds
-    And I type "touch ~/kati" in input with id "create-machine-script"
+
     And I click the button "Enable Monitoring"
     When I click the "Launch" button inside the "Create Machine" panel
     Then I expect for "create-machine" panel to disappear within max 4 seconds
@@ -112,6 +112,7 @@ Feature: Machines
     When I click the button "Tags"
     Then I expect for "machine-tags-popup-popup" popup to appear within max 10 seconds
     And I remove all the previous tags
+    Then I wait for 1 seconds
     When I name a "testKey" key and a "testValue" value for a tag
     And I click the button "Save tags"
     Then I expect for "machine-tags-popup-popup" popup to disappear within max 20 seconds
@@ -136,15 +137,22 @@ Feature: Machines
     And I wait for 1 seconds
     Then the "first" machine in the list should have a tag with key "testKey" and value "testValue"
 
-    When I choose the "first" machine
+    And I click the button "first"
+    Then I expect for "single-machine-page" page to appear within max 5 seconds
+    And I click the button "1 key"
+    Then I expect for "machine-keys-panel" panel to appear within max 4 seconds
+    When I click the button "Add Key"
+    Then I expect for "non-associated-keys-popup-popup" popup to appear within max 4 seconds
+    When I click the button "second_machine_key"
+    Then I expect for "second_machine_key" key to appear within max 30 seconds
+
     And I click the button "Actions"
     Then I expect for "machine-power-popup-popup" popup to appear within max 4 seconds
     When I click the "Destroy" button inside the "Actions" popup
     Then I expect for "dialog-popup" modal to appear within max 4 seconds
     When I click the button "Yes"
     Then I expect for "dialog-popup" modal to disappear within max 4 seconds
-    And I wait for 1 seconds
-    When I choose the "first" machine
+    Then I click the button "Machines"
 
     When I clear the machines search bar
     Then I search for the "second" Machine
