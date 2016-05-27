@@ -10,7 +10,6 @@ def setup_user(context, user_email):
             user_email = context.mist_config.get(user_email)
         try:
             user = Owner.objects.get(email=user_email)
-
         except Owner.DoesNotExist:
             user = User()
             user.email = user_email
