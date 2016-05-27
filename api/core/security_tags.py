@@ -3,8 +3,6 @@ from tests.api.utils import *
 
 
 # This test requires that the organization `MyOrg` has been created by the user
-# Also, make sure that a single docker cloud exists in the organization context
-# in order to avoid cross-context conflict
 
 def test_show_user_org_for_owner(pretty_print, mist_core, cache,
                                  org_name, owner_api_token):
@@ -92,6 +90,8 @@ def test_invite_member_to_team(pretty_print, mist_core, cache,
 
         response = mist_core.confirm_invitation(api_token=member1_api_token,
                                                 invitoken=token).get()
+
+        assert_response_ok(response)
 
     print "Success!!!!"
 
