@@ -148,9 +148,9 @@ def member2_api_token(request):
 
 def common_valid_api_token(request, email, password, org_id=None):
     _mist_core = mist_core()
-    response = _mist_core.check_auth(email=email,
-                                     password=password,
-                                     org_id=org_id).post()
+    response = _mist_core.create_token(email=email,
+                                       password=password,
+                                       org_id=org_id).post()
     assert_response_ok(response)
     assert_is_not_none(response.json().get('token'))
     assert_is_not_none(response.json().get('id'))
