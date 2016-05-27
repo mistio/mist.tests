@@ -1,15 +1,11 @@
-import pytest
-
-from mist.core.tests.api.helpers import *
-from mist.io.tests.api.utils import *
+from tests.api.helpers import *
+from tests.api.utils import *
 
 
 # This test requires that the organization `MyOrg` has been created by the user
 # Also, make sure that a single docker cloud exists in the organization context
 # in order to avoid cross-context conflict
 
-# @pytest.mark.incremental
-# class RBACSecureTags:
 def test_show_user_org_for_owner(pretty_print, mist_core, cache,
                                  org_name, owner_api_token):
     print "\n>>> GETing /orgs to get a list of all user orgs and the api" \
