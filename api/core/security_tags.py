@@ -186,7 +186,7 @@ def test_modify_security_tags(pretty_print, mist_core, cache,
                                               cloud_id=cloud_id,
                                               machine_id=machine_id,
                                               **tag).post()
-        assert_response_unauthorized(response)
+        assert_response_forbidden(response)
 
     tags = {'security': 'test', 'something': 'else'}
     response = mist_core.set_machine_tags(api_token=member1_api_token,
@@ -200,7 +200,7 @@ def test_modify_security_tags(pretty_print, mist_core, cache,
                                           cloud_id=cloud_id,
                                           machine_id=machine_id,
                                           **tags).post()
-    assert_response_unauthorized(response)
+    assert_response_forbidden(response)
 
     tags = {'security': 'test'}
     response = mist_core.set_machine_tags(api_token=member1_api_token,
