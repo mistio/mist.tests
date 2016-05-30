@@ -2,7 +2,7 @@ from tests import config
 
 
 def setup_user_if_not_exists(context, user_email):
-    if config['SETUP_ENVIRONMENT']:
+    if config.get('SETUP_ENVIRONMENT'):
         from mist.core.user.models import User
         from mist.core.user.models import Owner
         if context.mist_config.get(user_email):
@@ -19,7 +19,7 @@ def setup_user_if_not_exists(context, user_email):
 
 
 def remove_user(context, user_email):
-    if config['SETUP_ENVIRONMENT']:
+    if config.get('SETUP_ENVIRONMENT'):
         from mist.core.user.models import Owner
         if context.mist_config.get(user_email):
             user_email = context.mist_config.get(user_email)
@@ -32,7 +32,7 @@ def remove_user(context, user_email):
 def setup_org_if_not_exists(org_name, owner_email, clean_org=True):
     # If clean_org is set to True then all the teams of the organization
     # will be deleted and all the members except the owner.
-    if config['SETUP_ENVIRONMENT']:
+    if config.get('SETUP_ENVIRONMENT'):
         owner = setup_user_if_not_exists(owner_email)
         from mist.core.user.modes import Organization
         try:
@@ -55,8 +55,8 @@ def setup_org_if_not_exists(org_name, owner_email, clean_org=True):
         org.save()
 
 
-def setup_team(org_name, team_name, team_members=[], clean_policy=True)
-    if config['SETUP_ENVIRONMENT']:
+def setup_team(org_name, team_name, team_members=[], clean_policy=True):
+    if config.get('SETUP_ENVIRONMENT'):
         from mist.core.user.models import Team
         from mist.core.user.models import Organization
         org = Organization.objects(name=org_name).get()
@@ -80,8 +80,8 @@ def setup_team(org_name, team_name, team_members=[], clean_policy=True)
         org.save()
 
 
-def setup_team_members(org_name, team_name, team_members=[])
-    if config['SETUP_ENVIRONMENT']:
+def setup_team_members(org_name, team_name, team_members=[]):
+    if config.get('SETUP_ENVIRONMENT'):
         from mist.core.user.models import Team
         from mist.core.user.models import Organization
         org = Organization.objects(name=org_name).get()
