@@ -1,8 +1,10 @@
 from tests.api.helpers import *
 from tests.api.utils import *
 
+from tests import config
 
 # This test requires that the organization `MyOrg` has been created by the user
+
 
 def test_show_user_org_for_owner(pretty_print, mist_core, cache,
                                  org_name, owner_api_token):
@@ -154,8 +156,8 @@ def test_append_rules_to_policy(pretty_print, mist_core, cache,
     assert_response_ok(response)
 
 
-def test_tag_docker_dev(pretty_print, mist_core, cache, owner_api_token):
-    print'\n>>> Tagging docker-dev with the security tag: `security=test`\n'
+def test_tag_cloud(pretty_print, mist_core, cache, owner_api_token):
+    print'\n>>> Tagging %s with the security tag: `security=test`\n' % config.API_TESTING_CLOUD
 
     tags = {'security': 'test'}
 
@@ -165,7 +167,7 @@ def test_tag_docker_dev(pretty_print, mist_core, cache, owner_api_token):
     assert_list_not_empty(clouds)
     test_cloud = None
     for cloud in clouds:
-        if cloud['provider'] == 'docker':
+        if cloud['title'] == config.API_TESTING_CLOUD:
             test_cloud = cloud
             break
     assert_is_not_none(test_cloud)
@@ -177,7 +179,7 @@ def test_tag_docker_dev(pretty_print, mist_core, cache, owner_api_token):
     assert_list_not_empty(machines)
     test_machine = None
     for machine in machines:
-        if machine['name'] == 'mistio-mist-core':
+        if machine['name'] == config.API_TESTING_MACHINE_NAME:
             test_machine = machine
             break
     assert_is_not_none(test_machine)
