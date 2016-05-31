@@ -68,6 +68,10 @@ def setup_org_if_not_exists(org_name, owner_email, clean_org=True):
                 cloud.apikey = config.CREDENTIALS['EC2']['api_key']
                 cloud.apisecret = config.CREDENTIALS['EC2']['api_secret']
                 cloud.provider = 'ec2_ap_northeast'
+            elif config.API_TESTING_CLOUD_PROVIDER == 'DOCKER':
+                cloud.apiurl = config.CREDENTIALS['DOCKER']['host']
+                cloud.docker_port = config.CREDENTIALS['DOCKER']['port']
+                cloud.provider = 'docker'
 
             cloud.save()
 
