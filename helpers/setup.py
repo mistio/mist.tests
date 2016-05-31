@@ -15,7 +15,7 @@ def setup_user_if_not_exists(user_email):
         return user
 
 
-def remove_user(context, user_email):
+def remove_user_if_exists(context, user_email):
     if config.SETUP_ENVIRONMENT:
         from mist.core.user.models import Owner
         if context.mist_config.get(user_email):
