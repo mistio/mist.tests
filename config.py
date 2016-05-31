@@ -149,6 +149,8 @@ API_TESTING_MACHINE_NAME = test_settings.get("API_TESTING_MACHINE_NAME", '')
 
 API_TESTING_CLOUD = test_settings.get('API_TESTING_CLOUD', '')
 
+API_TESTING_CLOUD_PROVIDER = test_settings.get('API_TESTING_CLOUD_PROVIDER', '')
+
 ORG_NAME = test_settings.get('ORG_NAME', '')
 
 SETUP_ENVIRONMENT = test_settings.get("SETUP_ENVIRONMENT", False)
