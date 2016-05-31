@@ -21,27 +21,6 @@ from tests import config
 #     cache.set('rbac/member1_api_token', api_token)
 #
 #     print "Success!!!!"
-#
-#
-# def test_invite_member_to_team(pretty_print, mist_core, cache,
-#                                owner_api_token, org_name, member1_email):
-#     print "\n>>> POSTing / to invite member1 to a team\n"
-#     user = setup_user_if_not_exists(member1_email)
-#     org_id = cache.get('rbac/org_id', '')
-#
-#     # get a random new team name
-#     response = mist_core.list_teams(org_id=org_id,
-#                                     api_token=owner_api_token).get()
-#     assert_response_ok(response)
-#     team_name = get_random_team_name(json.loads(response.content))
-#     cache.set('rbac/member1_team_name', team_name)
-#
-#     org = setup_team(org_name, team_name, [user])
-#     for team in org.teams:
-#         if team.name == team_name:
-#             cache.set('rbac/member1_team_id', team.id)
-#
-#     print "Success!!!!"
 
 
 def test_tag_cloud(pretty_print, mist_core, cache, owner_api_token):
