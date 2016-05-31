@@ -11,4 +11,6 @@ def setup_user(context, user_email):
 
 @step(u'I make sure user with email "{user_email}" is absent')
 def remove_user(context, user_email):
+    if context.mist_config.get(user_email):
+        user_email = context.mist_config.get(user_email)
     remove_user_if_exists(user_email)
