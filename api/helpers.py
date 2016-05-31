@@ -75,6 +75,7 @@ def add_bash_script(mist_core, valid_api_token):
 def get_teams_with_name(name, teams):
     return filter(lambda x: x['name'] == name, teams)
 
+
 def get_random_str():
     return ''.join([random.choice(string.ascii_letters + string.digits) for _ in
                     range(6)])
@@ -88,13 +89,13 @@ def get_random_team_name(existing_teams):
             return random_team_name
 
 
-def get_keys_with_name(name, keys):
+def get_keys_with_id(name, keys):
     return filter(lambda x: x['name'] == name, keys)
 
 
-def get_random_key_name(existing_keys):
+def get_random_key_id(existing_keys):
      while True:
         random_key_name = get_random_str()
-        keys = get_keys_with_name(random_key_name, existing_keys)
+        keys = get_keys_with_id(random_key_name, existing_keys)
         if len(keys) == 0:
             return random_key_name
