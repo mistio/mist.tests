@@ -7,22 +7,6 @@ from tests.helpers.setup import setup_user_if_not_exists
 from tests import config
 
 
-# def test_create_token_for_member(pretty_print, mist_core, cache,
-#                                  member1_email, password1):
-#     print "\n>>> GETing / to get personal token of team member\n"
-#
-#     response = mist_core.create_token(email=member1_email,
-#                                       password=password1).post()
-#     assert_response_ok(response)
-#     api_token_id = response.json().get('id', None)
-#     api_token = response.json().get('token', None)
-#
-#     cache.set('rbac/member1_api_token_id', api_token_id)
-#     cache.set('rbac/member1_api_token', api_token)
-#
-#     print "Success!!!!"
-
-
 def test_tag_cloud(pretty_print, mist_core, cache, owner_api_token):
     setup_user_if_not_exists(config.MEMBER1_EMAIL, config.MEMBER1_PASSWORD)
     cache.set('rbac/member1_team_id', setup_team(config.ORG_NAME, 'cloud_tag_tests', [config.MEMBER1_EMAIL]))
@@ -91,7 +75,7 @@ def test_tag_cloud(pretty_print, mist_core, cache, owner_api_token):
                                                **allow_machine_edit_tags_2).post()
     assert_response_ok(response)
 
-    print'\n>>> GETing list of clouds\n' % config.API_TESTING_CLOUD
+    print'\n>>> GETing list of clouds\n'
 
     clouds = mist_core.list_clouds(api_token=owner_api_token).get()
     assert_response_ok(clouds)
@@ -105,7 +89,7 @@ def test_tag_cloud(pretty_print, mist_core, cache, owner_api_token):
     assert_is_not_none(test_cloud)
     cloud_id = test_cloud['id']
 
-    print'\n>>> GETing list of machines\n' % config.API_TESTING_MACHINE_NAME
+    print'\n>>> GETing list of machines\n'
 
     machines = mist_core.list_machines(cloud_id=cloud_id,
                                        api_token=owner_api_token).get()
@@ -131,54 +115,61 @@ def test_tag_cloud(pretty_print, mist_core, cache, owner_api_token):
                                           machine_id=machine_id,
                                           **tags).post()
     assert_response_ok(response)
+
+    print'\n>>> Creating api token for team member\n'
+
+    response = mist_core.create_token(email=config.MEMBER1_EMAIL,
+                                      password=config.MEMBER1_PASSWORD,
+                                      org_id=org_id).post()
+    assert_response_ok(response)
+
+    member1_api_token_id = response.json().get('id', None)
+    member1_api_token = response.json().get('token', None)
+
+    # The {'security': 'test'} tag added by the owner in the previous method
+    # exists also as part of team policies, thus it should be present in
+    # every set_machine_tags request by the team member in order for the
+    # action to be allowed. Also, the {'sec': 'tes'} tag is a security tag,
+    # but it is not present on any resource, therefore no team member is
+    # allowed to add it.
+
+    print'\n>>> Testing modification permissions of machine tags\n'
+
+    tags = [
+        {'sec': 'test'},
+        {'security': 't'},
+        {'security': 'test', 'sec': 'tes'}
+    ]
+    for tag in tags:
+        response = mist_core.set_machine_tags(api_token=member1_api_token,
+                                              cloud_id=cloud_id,
+                                              machine_id=machine_id,
+                                              **tag).post()
+        assert_response_forbidden(response)
+
+    tags = {'security': 'test', 'something': 'else'}
+    response = mist_core.set_machine_tags(api_token=member1_api_token,
+                                          cloud_id=cloud_id,
+                                          machine_id=machine_id,
+                                          **tags).post()
+    assert_response_ok(response)
+
+    tags = {'something': 'else'}
+    response = mist_core.set_machine_tags(api_token=member1_api_token,
+                                          cloud_id=cloud_id,
+                                          machine_id=machine_id,
+                                          **tags).post()
+    assert_response_forbidden(response)
+
+    tags = {'security': 'test'}
+    response = mist_core.set_machine_tags(api_token=member1_api_token,
+                                          cloud_id=cloud_id,
+                                          machine_id=machine_id,
+                                          **tags).post()
+    assert_response_ok(response)
+
+    print'\n>>> Revoking team member api token\n'
+    response = mist_core.revoke_token(member1_api_token, member1_api_token_id).delete()
+    assert_response_ok(response)
+
     print 'Success!!!!'
-
-
-# def test_modify_security_tags(pretty_print, mist_core, cache,
-#                               member1_api_token):
-#     print '\n>>> Regular team member attempting to modify security tags\n'
-#
-#     cloud_id = cache.get('rbac/cloud_id', '')
-#     machine_id = cache.get('rbac/machine_id', '')
-#
-#     # The {'security': 'test'} tag added by the owner in the previous method
-#     # exists also as part of team policies, thus it should be present in
-#     # every set_machine_tags request by the team member in order for the
-#     # action to be allowed. Also, the {'sec': 'tes'} tag is a security tag,
-#     # but it is not present on any resource, therefore no team member is
-#     # allowed to add it.
-#
-#     tags = [
-#         {'sec': 'test'},
-#         {'security': 't'},
-#         {'security': 'test', 'sec': 'tes'}
-#     ]
-#     for tag in tags:
-#         response = mist_core.set_machine_tags(api_token=member1_api_token,
-#                                               cloud_id=cloud_id,
-#                                               machine_id=machine_id,
-#                                               **tag).post()
-#         assert_response_forbidden(response)
-#
-#     tags = {'security': 'test', 'something': 'else'}
-#     response = mist_core.set_machine_tags(api_token=member1_api_token,
-#                                           cloud_id=cloud_id,
-#                                           machine_id=machine_id,
-#                                           **tags).post()
-#     assert_response_ok(response)
-#
-#     tags = {'something': 'else'}
-#     response = mist_core.set_machine_tags(api_token=member1_api_token,
-#                                           cloud_id=cloud_id,
-#                                           machine_id=machine_id,
-#                                           **tags).post()
-#     assert_response_forbidden(response)
-#
-#     tags = {'security': 'test'}
-#     response = mist_core.set_machine_tags(api_token=member1_api_token,
-#                                           cloud_id=cloud_id,
-#                                           machine_id=machine_id,
-#                                           **tags).post()
-#     assert_response_ok(response)
-#
-#     print 'Success!!!!'
