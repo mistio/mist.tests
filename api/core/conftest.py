@@ -8,6 +8,7 @@ from tests.helpers.setup import setup_user_if_not_exists
 
 from tests.api.helpers import get_keys_with_id
 
+
 @pytest.fixture
 def mist_core():
     return MistCoreApi(config.MIST_URL)
