@@ -1,14 +1,13 @@
-@production
+@mayday
 Feature: Production
 
   @graph
   Scenario: Production monitor and graph testing
     Given I am logged in to mist.core
     Then I wait for the links in homepage to appear
-    When I ensure "NephoScale" cloud is enabled
     When I visit the Machines page after the counter has loaded
-    Then I search for the "jenkinsmaster" Machine
-    When I click the button "jenkinsmaster"
+    Then I search for the "Mayday" Machine
+    When I click the button "Mayday"
     Then I expect for "single-machine-page" page to appear within max 10 seconds
     Then I wait for the graphs to appear
     When I focus on the "Add Graph" button
@@ -25,10 +24,9 @@ Feature: Production
   Scenario: Production rule and alert testing
     Given I am logged in to mist.core
     Then I wait for the links in homepage to appear
-    When I ensure "NephoScale" cloud is enabled
     When I visit the Machines page after the counter has loaded
-    Then I search for the "jenkinsmaster" Machine
-    When I click the button "jenkinsmaster"
+    Then I search for the "Mayday" Machine
+    When I click the button "Mayday"
     Then I expect for "single-machine-page" page to appear within max 10 seconds
     Then I wait for the graphs to appear
     When I remove previous rules
@@ -49,8 +47,8 @@ Feature: Production
     Then I wait for the links in homepage to appear
     When I ensure "NephoScale" cloud is enabled
     When I visit the Machines page after the counter has loaded
-    Then I search for the "jenkinsmaster" Machine
-    When I click the button "jenkinsmaster"
+    Then I search for the "Mayday" Machine
+    When I click the button "Mayday"
     Then I expect for "single-machine-page" page to appear within max 10 seconds
     Then I wait for the graphs to appear
     When I test the ssh connection 2 times for max 100 seconds each time
@@ -60,8 +58,8 @@ Feature: Production
     Given I am logged in to mist.core
     Then I wait for the links in homepage to appear
     When I visit the Machines page after the counter has loaded
-    Then I search for the "testingmachine" Machine
-    When I choose the "testingmachine" machine
+    Then I search for the "Mayday" Machine
+    When I choose the "Mayday" machine
     And I click the button "Actions"
     Then I expect for "machine-power-popup-popup" popup to appear within max 4 seconds
     When I click the "Reboot" button inside the "Actions" popup
