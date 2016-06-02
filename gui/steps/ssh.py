@@ -57,11 +57,11 @@ def check_ls_output(lines, filename=None):
     # find where the ls output starts and ends
     for i in range(len(lines)-1, 0, -1):
         if re.search("total\s\d+", lines[i]) and \
-                re.search(":.*\$.*.*ls.*", lines[i-1]) and \
+                re.search(":.*(\$|#).*.*ls.*", lines[i-1]) and \
                 command_output_start_line < i:
             command_output_start_line = i
             break
-        if re.search(":.*\$.*", lines[i]) and command_output_end_line > i:
+        if re.search(":.*(\$|#).*", lines[i]) and command_output_end_line > i:
             command_output_end_line = i - 1
     if command_output_start_line == 0:
         assert False, "Could not find the output of the ls command. Contents" \
@@ -97,7 +97,7 @@ def check_ssh_connection_with_timeout(context,
     while time() < connection_max_time:
         if update_lines(terminal, lines):
             assert is_ssh_connection_up(lines), "Error while using shell"
-            if re.search(":(.*)\$\s?$", lines[-1]):
+            if re.search(":(.*)(\$|#)\s?$", lines[-1]):
                 break
         assert time() + 1 < connection_max_time, "Shell hasn't connected after"\
                                                  " %s seconds. Aborting!"\
@@ -115,7 +115,7 @@ def check_ssh_connection_with_timeout(context,
         if update_lines(terminal, lines):
             assert is_ssh_connection_up(lines), "Connection is broken"
             # If it looks like the execution of the command has finished
-            if re.search(":(.*)\$\s?$", lines[-1]):
+            if re.search(":(.*)(\$|#)\s?$", lines[-1]):
                 try:
                     # look if the result has returned
                     check_ls_output(lines, filename)
