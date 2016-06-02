@@ -67,7 +67,7 @@ Feature: Production
     And I click the button "Yes"
     Then I expect for "dialog-popup" modal to disappear within max 4 seconds
     And I wait for 4 seconds
-    Then "testingmachine" machine state should be "running" within 200 seconds
+    Then "Mayday" machine state should be "running" within 200 seconds
 
   @google_sso_signin
   Scenario: Production sign in testing with google oauth2
