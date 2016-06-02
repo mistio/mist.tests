@@ -478,3 +478,17 @@ class MistCoreApi(MistIoApi):
     #     req.delete = req.unavailable_api_call
     #     req.get = req.unavailable_api_call
     #     return req
+
+    def set_machine_tags(self, api_token, cloud_id, machine_id, **tags):
+        data = {
+            'tags': tags
+        }
+        payload = json.dumps(data)
+        req = MistRequests(uri=self.uri + '/clouds/' + cloud_id +
+                           '/machines/' + machine_id + '/tags',
+                           data=payload, api_token=api_token)
+        req.get = req.unavailable_api_call
+        req.put = req.unavailable_api_call
+        req.delete = req.unavailable_api_call
+        return req
+

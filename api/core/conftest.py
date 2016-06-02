@@ -3,6 +3,11 @@ from core import MistCoreApi
 from tests.api.helpers import *
 from tests.api.io.conftest import *
 
+from tests.helpers.setup import setup_org_if_not_exists
+from tests.helpers.setup import setup_user_if_not_exists
+
+from tests.api.helpers import get_keys_with_id
+
 
 @pytest.fixture
 def mist_core():
@@ -76,11 +81,12 @@ def owner_api_token(request):
     _mist_core = mist_core()
     email = owner_email()
     password = owner_password()
+    setup_user_if_not_exists(email, password)
     personal_api_token = common_valid_api_token(request,
                                                 email=email,
                                                 password=password)
-
     _org_name = org_name()
+    setup_org_if_not_exists(_org_name, email)
     response = _mist_core.list_orgs(api_token=personal_api_token).get()
     assert_response_ok(response)
     org_id = None
@@ -148,9 +154,9 @@ def member2_api_token(request):
 
 def common_valid_api_token(request, email, password, org_id=None):
     _mist_core = mist_core()
-    response = _mist_core.check_auth(email=email,
-                                     password=password,
-                                     org_id=org_id).post()
+    response = _mist_core.create_token(email=email,
+                                       password=password,
+                                       org_id=org_id).post()
     assert_response_ok(response)
     assert_is_not_none(response.json().get('token'))
     assert_is_not_none(response.json().get('id'))

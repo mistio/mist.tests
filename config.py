@@ -18,6 +18,7 @@
 #     /**    /******** ********     /**     ********
 #     //     //////// ////////      //     ////////
 
+
 import os
 import sys
 import logging
@@ -148,6 +149,8 @@ API_TESTING_MACHINE_PUBLIC_KEY = test_settings.get(
 API_TESTING_MACHINE_NAME = test_settings.get("API_TESTING_MACHINE_NAME", '')
 
 API_TESTING_CLOUD = test_settings.get('API_TESTING_CLOUD', '')
+
+API_TESTING_CLOUD_PROVIDER = test_settings.get('API_TESTING_CLOUD_PROVIDER', '')
 
 ORG_NAME = test_settings.get('ORG_NAME', '')
 
