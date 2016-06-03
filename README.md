@@ -1,8 +1,8 @@
 ## About
 mist.tests is where the testing suite for the Mist.io code resides. Two types of tests are being performed:
 
-- API tests, that use py.test.
-- and GUI tests that use behave and selenium.
+- API tests, that use py.test
+- and GUI tests that use behave and selenium
 
 ### Installation
 
