@@ -6,6 +6,8 @@ from tests.helpers.setup import remove_user_if_exists
 
 @step(u'I setup user with email "{user_email}"')
 def setup_user(context, user_email):
+    if context.mist_config.get(user_email):
+        user_email = context.mist_config.get(user_email)
     setup_user_if_not_exists(user_email)
 
 
