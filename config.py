@@ -152,3 +152,6 @@ API_TESTING_CLOUD = test_settings.get('API_TESTING_CLOUD', '')
 ORG_NAME = test_settings.get('ORG_NAME', '')
 
 SETUP_ENVIRONMENT = test_settings.get("SETUP_ENVIRONMENT", False)
+
+WEBDRIVER_OPTIONS = test_settings.get('WEBDRIVER_OPTIONS',
+                                      ['--dns-prefetch-disable'])
