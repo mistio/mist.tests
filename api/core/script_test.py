@@ -160,7 +160,7 @@ def test_013_delete_script_with_wrong_api_token(pretty_print, cache, mist_core,
                                        script_id=cache.get(
                                            'script_tests/bash_script_id',
                                            '')).delete()
-    assert_response_unauthorized(response)
+    assert_response_not_found(response)
     print "Success!!!"
 
 
