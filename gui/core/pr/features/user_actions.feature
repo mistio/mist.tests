@@ -36,7 +36,7 @@ Feature: Login Scenarios
     Then I click the email button in the landing page popup
     And I enter my alt credentials for login
     And I click the sign in button in the landing page popup
-    Then I wait for some reaction for max 3 seconds
+    Then I expect some reaction within max 3 seconds
     Then there should be a message saying "Authentication failed!" for error in "authentication"
     Then I close the "Login" popup
     And I wait for 1 seconds

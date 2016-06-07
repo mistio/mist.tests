@@ -311,43 +311,43 @@ def already_registered(context):
         raise TimeoutException("'Already Registered!' message did not appear.")
 
 
-# @step(u'I wait for some reaction for max {seconds} seconds')
-# def wait_for_some_answer(context, seconds):
-#     timeout = time() + int(seconds)
-#     while time() < timeout:
-#         try:
-#             context.browser.find_element_by_id("splash")
-#             return
-#         except NoSuchElementException:
-#             pass
-#         try:
-#             context.browser.find_element_by_id("signin-email-error")
-#             return
-#         except NoSuchElementException:
-#             pass
-#         try:
-#             context.browser.find_element_by_id("signin-password-error")
-#             return
-#         except NoSuchElementException:
-#             pass
-#         try:
-#             context.browser.find_element_by_id("signup-email-error")
-#             return
-#         except NoSuchElementException:
-#             pass
-#         try:
-#             context.browser.find_element_by_id("signup-password-error")
-#             return
-#         except NoSuchElementException:
-#             pass
-#         try:
-#             context.browser.find_element_by_class_name("error-msg")
-#             return
-#         except NoSuchElementException:
-#             pass
-#         sleep(1)
-#     assert False, "Nothing has happened in the landing screen after %s seconds"\
-#                   % seconds
+@step(u'I expect some reaction within max {seconds} seconds')
+def wait_for_some_answer(context, seconds):
+    timeout = time() + int(seconds)
+    while time() < timeout:
+        try:
+            context.browser.find_element_by_id("splash")
+            return
+        except NoSuchElementException:
+            pass
+        try:
+            context.browser.find_element_by_id("signin-email-error")
+            return
+        except NoSuchElementException:
+            pass
+        try:
+            context.browser.find_element_by_id("signin-password-error")
+            return
+        except NoSuchElementException:
+            pass
+        try:
+            context.browser.find_element_by_id("signup-email-error")
+            return
+        except NoSuchElementException:
+            pass
+        try:
+            context.browser.find_element_by_id("signup-password-error")
+            return
+        except NoSuchElementException:
+            pass
+        try:
+            context.browser.find_element_by_class_name("error-msg")
+            return
+        except NoSuchElementException:
+            pass
+        sleep(1)
+    assert False, "Nothing has happened in the landing screen after %s seconds"\
+                  % seconds
 
 
 @step(u'I should see the landing page within {seconds} seconds')
