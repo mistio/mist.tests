@@ -150,7 +150,7 @@ def test_012_test_rename_script_with_no_name(pretty_print, cache, mist_core,
                                      script_id=cache.get(
                                          'script_tests/bash_script_id', ''),
                                      new_name='').put()
-    assert_response_bad_request(response)
+    assert_response_not_found(response)
     print "Success!!!"
 
 
