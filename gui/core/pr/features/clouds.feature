@@ -37,8 +37,8 @@ Feature: Add second-tier clouds
 
   @cloud-rename
   Scenario: Cloud Actions
-    Given "Rackspace" cloud has been added
-    When I click the button "Rackspace"
+    Given "DigitalOcean" cloud has been added
+    When I click the button "DigitalOcean"
     Then I expect for "cloud-edit-popup" popup to appear within max 4 seconds
     When I rename the cloud to "Renamed"
     And I click the "OK" button inside the "Edit cloud" popup
