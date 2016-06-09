@@ -23,7 +23,7 @@ Feature: Add second-tier clouds
 #    | Azure                 | AZURE        |
     | GCE                   | GCE          |
     | DigitalOcean          | DIGITALOCEAN |
-    | Rackspace             | RACKSPACE    |
+#    | Rackspace             | RACKSPACE    |
     | SoftLayer             | SOFTLAYER    |
     | NephoScale            | NEPHOSCALE   |
     | Linode                | LINODE       |
