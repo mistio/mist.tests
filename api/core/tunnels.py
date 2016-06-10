@@ -10,8 +10,8 @@ from tests.helpers.setup import setup_user_if_not_exists
 from tests import config
 
 
-def test_add_vpn_tunnel(pretty_print, mist_core, cache,
-                        valid_api_token, owner_api_token):
+def test_vpn_tunnels(pretty_print, mist_core, cache,
+                     valid_api_token, owner_api_token):
     print "\n>>> Initial attempt to create VPN Tunnel in personal context"
     tunnel_data_1 = {
         'client_addr': '172.17.17.100',
