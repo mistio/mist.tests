@@ -4,7 +4,7 @@ from behave import given
 from time import time
 from time import sleep
 
-from buttons import click_the_gravatar
+from buttons import click_the_gravatar, search_for_button
 
 from selenium.common.exceptions import TimeoutException
 from selenium.common.exceptions import NoSuchElementException
@@ -53,6 +53,14 @@ def standard_splash_waiting(context):
     Function that waits for the splash to load. The maximum time for the page
     to load is 60 seconds in this case
     """
+    try:
+
+        context.execute_steps(u'''
+            Then I click the button OK
+            And I wait for mist.io splash page to load
+        ''' )
+    except:
+        pass
     wait_for_splash_to_appear(context)
     wait_for_splash_to_load(context)
 
@@ -64,7 +72,11 @@ def wait_for_splash_to_appear(context, timeout=20):
             context.browser.find_element_by_id("splash")
             return
         except NoSuchElementException:
-            sleep(1)
+            try:
+                context.browser.find_element_by_id("edit-org-form")
+                return
+            except:
+                sleep(1)
     assert False, 'Splash did not appear after %s seconds' % timeout
 
 
@@ -73,9 +85,14 @@ def wait_for_splash_to_load(context, timeout=60):
     while time() < end:
         splash_page = context.browser.find_element_by_id("splash")
         display = splash_page.value_of_css_property("display")
-
-        if 'none' in display:
+        try:
+            context.browser.find_element_by_id("edit-org-form")
+            org_button = search_for_button(context, 'OK')
+            org_button.click()
             return
+        except:
+            if 'none' in display:
+                return
     assert False, 'Page took longer than %s seconds to load' % timeout
 
 
