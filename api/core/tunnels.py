@@ -10,9 +10,7 @@ from tests.helpers.setup import setup_user_if_not_exists
 from tests import config
 
 
-def test_vpn_tunnels(pretty_print, mist_core, cache,
-                     valid_api_token, owner_api_token):
-    print "\n>>> Initial attempt to create VPN Tunnel in personal context"
+def test_vpn_tunnels(pretty_print, mist_core, cache, owner_api_token):
     tunnel_data_1 = {
         'client_addr': '172.17.17.100',
         'cidrs': ['10.75.75.0/24'],
@@ -25,20 +23,18 @@ def test_vpn_tunnels(pretty_print, mist_core, cache,
         'name': 'SecondTestTunnel',
         'description': ''
     }
-    response = mist_core.add_vpn_tunnel(api_token=valid_api_token,
-                                        **tunnel_data_1).post()
-    assert_response_unauthorized(response)
 
     # setup org
     setup_org_if_not_exists(config.ORG_NAME, config.OWNER_EMAIL,
                             clean_org=False, add_cloud=False)
-    response = mist_core.show_user_org(api_token=owner_api_token).get()
+    response = mist_core.list_orgs(api_token=owner_api_token).get()
     assert_response_ok(response)
     org_id = None
     orgs = json.loads(response.content)
     for org in orgs:
         if org['name'] == config.ORG_NAME:
             org_id = org['id']
+            break
     assert_is_not_none(org_id)
 
     print "\n>>> POSTing in /org/tunnels for a new VPN Tunnel"
@@ -56,16 +52,16 @@ def test_vpn_tunnels(pretty_print, mist_core, cache,
                                           org_id=org_id).get()
     assert_response_ok(response)
 
-    tunnels = json.loads(response)
+    tunnels = json.loads(response.content)
     assert_list_not_empty(tunnels)
     for tunnel in tunnels:
         if tunnel['name'] == 'FirstTestTunnel':
             # object id
-            _id_1 = tunnel['id']
+            _id_1 = tunnel['_id']
             # id held by the OpenVPN server and used in every request
             tunnel_id_1 = tunnel['tunnel_id']
         if tunnel['name'] == 'SecondTestTunnel':
-            _id_2 = tunnel['id']
+            _id_2 = tunnel['_id']
             tunnel_id_2 = tunnel['tunnel_id']
 
     print "\n>>> POSTing in /org/tunnels with conflicting CIDRs"
@@ -132,7 +128,7 @@ def test_vpn_tunnels(pretty_print, mist_core, cache,
 
     response = mist_core.del_vpn_tunnels(api_token=member1_api_token,
                                          org_id=org_id,
-                                         tunnel_ids=[_id_1, _id_2])
+                                         tunnel_ids=[_id_1, _id_2]).delete()
     assert_response_unauthorized(response)
 
     # finally, revoke the token
@@ -142,7 +138,7 @@ def test_vpn_tunnels(pretty_print, mist_core, cache,
     print "\n>>> DELETEing all VPN Tunnels as owner"
     response = mist_core.del_vpn_tunnels(api_token=owner_api_token,
                                          org_id=org_id,
-                                         tunnel_ids=[_id_1, _id_2])
+                                         tunnel_ids=[_id_1, _id_2]).delete()
     assert_response_ok(response)
 
     print "Success!!!!"
