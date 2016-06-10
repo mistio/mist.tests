@@ -26,7 +26,7 @@ def remove_user_if_exists(user_email):
             pass
 
 
-def setup_org_if_not_exists(org_name, owner_email, clean_org=True):
+def setup_org_if_not_exists(org_name, owner_email, clean_org=True, add_cloud=True):
     # If clean_org is set to True then all the teams of the organization
     # will be deleted and all the members except the owner.
     if config.SETUP_ENVIRONMENT:
@@ -54,24 +54,25 @@ def setup_org_if_not_exists(org_name, owner_email, clean_org=True):
         org.add_member_to_team('Owners', owner)
         org.save()
 
-        try:
-            Cloud.objects.get(owner=org, title=config.API_TESTING_CLOUD)
-        except Cloud.DoesNotExist:
-            cloud = Cloud()
-            cloud.title = config.API_TESTING_CLOUD
-            cloud.enabled = True
-            cloud.owner = org
+        if add_cloud:
+            try:
+                Cloud.objects.get(owner=org, title=config.API_TESTING_CLOUD)
+            except Cloud.DoesNotExist:
+                cloud = Cloud()
+                cloud.title = config.API_TESTING_CLOUD
+                cloud.enabled = True
+                cloud.owner = org
 
-            if config.API_TESTING_CLOUD_PROVIDER == 'EC2':
-                cloud.apikey = config.CREDENTIALS['EC2']['api_key']
-                cloud.apisecret = config.CREDENTIALS['EC2']['api_secret']
-                cloud.provider = 'ec2_ap_northeast'
-            elif config.API_TESTING_CLOUD_PROVIDER == 'DOCKER':
-                cloud.apiurl = config.CREDENTIALS['DOCKER']['host']
-                cloud.docker_port = config.CREDENTIALS['DOCKER']['port']
-                cloud.provider = 'docker'
+                if config.API_TESTING_CLOUD_PROVIDER == 'EC2':
+                    cloud.apikey = config.CREDENTIALS['EC2']['api_key']
+                    cloud.apisecret = config.CREDENTIALS['EC2']['api_secret']
+                    cloud.provider = 'ec2_ap_northeast'
+                elif config.API_TESTING_CLOUD_PROVIDER == 'DOCKER':
+                    cloud.apiurl = config.CREDENTIALS['DOCKER']['host']
+                    cloud.docker_port = config.CREDENTIALS['DOCKER']['port']
+                    cloud.provider = 'docker'
 
-            cloud.save()
+                cloud.save()
 
         return org, owner
 
