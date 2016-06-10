@@ -53,14 +53,6 @@ def standard_splash_waiting(context):
     Function that waits for the splash to load. The maximum time for the page
     to load is 60 seconds in this case
     """
-    try:
-
-        context.execute_steps(u'''
-            Then I click the button OK
-            And I wait for mist.io splash page to load
-        ''' )
-    except:
-        pass
     wait_for_splash_to_appear(context)
     wait_for_splash_to_load(context)
 
