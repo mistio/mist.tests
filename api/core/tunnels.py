@@ -29,13 +29,17 @@ def test_add_vpn_tunnel(pretty_print, mist_core, cache,
                                         **tunnel_data_1).post()
     assert_response_unauthorized(response)
 
-    # get org
+    # setup org
+    setup_org_if_not_exists(config.ORG_NAME, config.OWNER_EMAIL,
+                            clean_org=False, add_cloud=False)
     response = mist_core.show_user_org(api_token=owner_api_token).get()
     assert_response_ok(response)
-    rjson = json.loads(response.content)
-    assert_is_not_none(rjson.get('id'), 'Did not get an any org id ')
-    cache.set('tunnels/org_id', rjson.get('id'))
-    org_id = cache.get('tunnels/org_id', '')
+    org_id = None
+    orgs = json.loads(response.content)
+    for org in orgs:
+        if org['name'] == config.ORG_NAME:
+            org_id = org['id']
+    assert_is_not_none(org_id)
 
     print "\n>>> POSTing in /org/tunnels for a new VPN Tunnel"
     response = mist_core.add_vpn_tunnel(api_token=owner_api_token,
@@ -50,6 +54,7 @@ def test_add_vpn_tunnel(pretty_print, mist_core, cache,
     print "\n>>> GETing /org/tunnels"
     response = mist_core.list_vpn_tunnels(api_token=owner_api_token,
                                           org_id=org_id).get()
+    assert_response_ok(response)
 
     tunnels = json.loads(response)
     assert_list_not_empty(tunnels)
