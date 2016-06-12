@@ -492,16 +492,14 @@ class MistCoreApi(MistIoApi):
         req.delete = req.unavailable_api_call
         return req
 
-    def list_vpn_tunnels(self, api_token, org_id):
-        req = MistRequests(uri=self.uri + '/org/' + org_id + '/tunnels',
-                           api_token=api_token)
+    def list_vpn_tunnels(self, api_token):
+        req = MistRequests(uri=self.uri + '/tunnels', api_token=api_token)
         req.post = req.unavailable_api_call
         req.delete = req.unavailable_api_call
         req.put = req.unavailable_api_call
         return req
 
-    def add_vpn_tunnel(self, api_token, org_id, client_addr, cidrs, name,
-                       description):
+    def add_vpn_tunnel(self, api_token, client_addr, cidrs, name, description):
         data = {
             'name': name,
             'cidrs': cidrs,
@@ -509,42 +507,38 @@ class MistCoreApi(MistIoApi):
             'description': description
         }
         payload = json.dumps(data)
-        req = MistRequests(uri=self.uri + '/org/' + org_id + '/tunnels',
-                           data=payload, api_token=api_token)
+        req = MistRequests(uri=self.uri + '/tunnels', data=payload, api_token=api_token)
         req.get = req.unavailable_api_call
         req.put = req.unavailable_api_call
         req.delete = req.unavailable_api_call
         return req
 
-    def del_vpn_tunnel(self, api_token, org_id, tunnel_id):
-        req = MistRequests(uri=self.uri + '/org/' + org_id + '/tunnel/' + tunnel_id,
-                           api_token=api_token)
+    def del_vpn_tunnel(self, api_token, tunnel_id):
+        req = MistRequests(uri=self.uri + '/tunnel/' + tunnel_id, api_token=api_token)
         req.post = req.unavailable_api_call
         req.put = req.unavailable_api_call
         req.get = req.unavailable_api_call
         return req
 
-    def del_vpn_tunnels(self, api_token, org_id, tunnel_ids):
+    def del_vpn_tunnels(self, api_token, tunnel_ids):
         data = {
             'tunnel_ids': tunnel_ids
         }
         payload = json.dumps(data)
-        req = MistRequests(uri=self.uri + '/org/' + org_id + '/tunnels',
-                           data=payload, api_token=api_token)
+        req = MistRequests(uri=self.uri + '/tunnels', data=payload, api_token=api_token)
         req.post = req.unavailable_api_call
         req.put = req.unavailable_api_call
         req.get = req.unavailable_api_call
         return req
 
-    def edit_vpn_tunnel(self, api_token, org_id, tunnel_id, cidrs, name,
-                        description):
+    def edit_vpn_tunnel(self, api_token, tunnel_id, cidrs, name, description):
         data = {
             'cidrs': cidrs,
             'name': name,
             'description': description
         }
         payload = json.dumps(data)
-        req = MistRequests(uri=self.uri + '/org/' + org_id + '/tunnel/' + tunnel_id,
+        req = MistRequests(uri=self.uri + '/tunnel/' + tunnel_id,
                            data=payload, api_token=api_token)
         req.get = req.unavailable_api_call
         req.post = req.unavailable_api_call

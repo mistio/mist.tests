@@ -79,8 +79,8 @@ def setup_org_if_not_exists(org_name, owner_email, clean_org=True, add_cloud=Tru
                     machine = Machine()
                     machine.cloud = cloud
                     machine.ssh_port = 22
-                    machine.public_ips = [config.CREDENTIALS['BARE_METAL']['public_machine_hostname']]
-                    machine.private_ips = [config.CREDENTIALS['BARE_METAL']['private_machine_hostname']]
+                    machine.public_ips = [config.CREDENTIALS['BARE_METAL']['public_ips']]
+                    machine.private_ips = [config.CREDENTIALS['BARE_METAL']['private_ips']]
                     machine.machine_id = config.API_TESTING_CLOUD.replace('.', '').replace(' ', '')
                     machine.name = config.API_TESTING_CLOUD
                     machine.os_type = 'unix'
