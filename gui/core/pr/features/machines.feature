@@ -112,7 +112,6 @@ Feature: Machines
     When I click the button "Tags"
     Then I expect for "machine-tags-popup-popup" popup to appear within max 10 seconds
     And I remove all the previous tags
-    Then I wait for 1 seconds
     When I name a "testKey" key and a "testValue" value for a tag
     And I click the button "Save tags"
     Then I expect for "machine-tags-popup-popup" popup to disappear within max 20 seconds
