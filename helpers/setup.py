@@ -26,11 +26,11 @@ def remove_user_if_exists(user_email):
             pass
 
 
-def setup_org_if_not_exists(org_name, owner_email, clean_org=True):
+def setup_org_if_not_exists(org_name, owner_email, clean_org=True, add_cloud=True):
     # If clean_org is set to True then all the teams of the organization
     # will be deleted and all the members except the owner.
     if config.SETUP_ENVIRONMENT:
-        from mist.core.cloud.models import Cloud
+        from mist.core.cloud.models import Cloud, Machine
 
         from mist.core.user.models import User
         from mist.core.user.models import Organization
@@ -54,24 +54,37 @@ def setup_org_if_not_exists(org_name, owner_email, clean_org=True):
         org.add_member_to_team('Owners', owner)
         org.save()
 
-        try:
-            Cloud.objects.get(owner=org, title=config.API_TESTING_CLOUD)
-        except Cloud.DoesNotExist:
-            cloud = Cloud()
-            cloud.title = config.API_TESTING_CLOUD
-            cloud.enabled = True
-            cloud.owner = org
+        if add_cloud:
+            try:
+                Cloud.objects.get(owner=org, title=config.API_TESTING_CLOUD)
+            except Cloud.DoesNotExist:
+                cloud = Cloud()
+                cloud.title = config.API_TESTING_CLOUD
+                cloud.enabled = True
+                cloud.owner = org
 
-            if config.API_TESTING_CLOUD_PROVIDER == 'EC2':
-                cloud.apikey = config.CREDENTIALS['EC2']['api_key']
-                cloud.apisecret = config.CREDENTIALS['EC2']['api_secret']
-                cloud.provider = 'ec2_ap_northeast'
-            elif config.API_TESTING_CLOUD_PROVIDER == 'DOCKER':
-                cloud.apiurl = config.CREDENTIALS['DOCKER']['host']
-                cloud.docker_port = config.CREDENTIALS['DOCKER']['port']
-                cloud.provider = 'docker'
-
-            cloud.save()
+                if config.API_TESTING_CLOUD_PROVIDER == 'EC2':
+                    cloud.apikey = config.CREDENTIALS['EC2']['api_key']
+                    cloud.apisecret = config.CREDENTIALS['EC2']['api_secret']
+                    cloud.provider = 'ec2_ap_northeast'
+                    cloud.save()
+                elif config.API_TESTING_CLOUD_PROVIDER == 'DOCKER':
+                    cloud.apiurl = config.CREDENTIALS['DOCKER']['host']
+                    cloud.docker_port = config.CREDENTIALS['DOCKER']['port']
+                    cloud.provider = 'docker'
+                    cloud.save()
+                elif config.API_TESTING_CLOUD_PROVIDER == 'BARE_METAL':
+                    cloud.provider = 'bare_metal'
+                    cloud.save()
+                    machine = Machine()
+                    machine.cloud = cloud
+                    machine.ssh_port = 22
+                    machine.public_ips = [config.CREDENTIALS['BARE_METAL']['public_ips']]
+                    machine.private_ips = [config.CREDENTIALS['BARE_METAL']['private_ips']]
+                    machine.machine_id = config.API_TESTING_CLOUD.replace('.', '').replace(' ', '')
+                    machine.name = config.API_TESTING_CLOUD
+                    machine.os_type = 'unix'
+                    machine.save()
 
         return org, owner
 
