@@ -1,9 +1,6 @@
 @images
 Feature: Actions for Images
 
-  Background:
-    When I setup user with email "EMAIL"
-
   Scenario: Star image from Advanced search
     Given I am logged in to mist.core
     Given "EC2" cloud has been added
