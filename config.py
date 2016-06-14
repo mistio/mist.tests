@@ -58,10 +58,6 @@ JS_CONSOLE_LOG = test_settings.get("JS_CONSOLE_LOG",
                                    os.path.join(BASE_DIR, LOG_DIR,
                                                 'js_console.log'))
 
-TEST_OUTPUT_LOG = test_settings.get("TEST_OUTPUT_LOG",
-                                    os.path.join(BASE_DIR, LOG_DIR,
-                                                 'chromedriver.log'))
-
 SCREENSHOT_PATH = test_settings.get("SCREENSHOT_PATH",
                                     os.path.join(BASE_DIR, 'error'))
 
@@ -155,3 +151,6 @@ API_TESTING_CLOUD_PROVIDER = test_settings.get('API_TESTING_CLOUD_PROVIDER', '')
 ORG_NAME = test_settings.get('ORG_NAME', '')
 
 SETUP_ENVIRONMENT = test_settings.get("SETUP_ENVIRONMENT", False)
+
+WEBDRIVER_OPTIONS = test_settings.get('WEBDRIVER_OPTIONS',
+                                      ['--dns-prefetch-disable'])

@@ -9,10 +9,10 @@ Feature: Actions for Images
     Given "EC2" cloud has been added
     When I visit the Images page after the counter has loaded
     Then there should be starred Images
-    When I search for the "bitnami" Image
+    When I search for the "docker" Image
     And I click the button "Load more"
     Then the images list should be loaded within 100 seconds
-    When I star an image that contains "bitnami"
+    When I star an image that contains "docker"
     And I clear the Images search bar
     Then the images list should be loaded within 100 seconds
     When I scroll down until all starred images appear

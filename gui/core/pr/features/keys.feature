@@ -8,7 +8,7 @@ Feature: Actions for Keys
 
   @key-addition
   Scenario: Add Key
-    When I visit the Keys page
+    When I visit the Keys page after the Images counter has loaded
     When I click the button "Add"
     Then I expect for "key-add-popup" popup to appear within max 4 seconds
     When I fill "FirstKey" as key name
