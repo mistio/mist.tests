@@ -36,8 +36,10 @@ def popup_waiting_with_timeout(context, popup_id, action, seconds):
                                % (popup_id, action, seconds))
 
 
-@step(u'I click the "{text}" button inside the popup with id "{popup_id}" ')
+@step(u'I click the "{text}" button inside the popup with id "{popup_id}"')
 def click_button_within_popup_with_id(context, text, popup_id):
+    if context.mist_config.get(text):
+        text = context.mist_config.get(text)
     popup = context.browser.find_element_by_id(popup_id)
     if "ui-popup-active" not in popup.get_attribute('class'):
         raise Exception("Popup with id %s is not open" % popup_id)
