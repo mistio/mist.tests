@@ -133,7 +133,7 @@ Feature: Machines
     Then I click the button "Machines"
     When I clear the machines search bar
     Then I search for the "first" Machine
-    And I wait for 1 seconds
+    And I wait for 5 seconds
     Then the "first" machine in the list should have a tag with key "testkey" and value "testvalue"
 
     And I click the button "first"
