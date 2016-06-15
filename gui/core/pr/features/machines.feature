@@ -141,8 +141,8 @@ Feature: Machines
     Then I expect for "machine-keys-panel" panel to appear within max 4 seconds
     When I click the button "Add Key"
     Then I expect for "non-associated-keys-popup-popup" popup to appear within max 4 seconds
-    When I click the button "second_machine_key"
-    Then I expect for "second_machine_key" key to appear within max 30 seconds
+    When I click the "second_machine_key" button inside the popup with id "non-associated-keys-popup-popup"
+    Then I expect for "second_machine_key" key to appear within max 60 seconds
 
     And I click the button "Actions"
     Then I expect for "machine-power-popup-popup" popup to appear within max 4 seconds
