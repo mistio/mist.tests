@@ -58,3 +58,18 @@ Feature: Login Scenarios
     Then there should be a message saying "Please enter your password" for error in "password"
     Then I close the "Login" popup
     And I wait for 1 seconds
+
+  @check-redirect
+  Scenario: Add EC2 cloud, go to Machines logout and check redirect
+    Given I am logged in to mist.core
+    Given "EC2" cloud has been added
+    Then I logout
+    And I visit the machines page with a url
+    When I wait for 2 seconds
+    Then I click the email button in the landing page popup
+    When I enter my standard credentials for login
+    And I click the sign in button in the landing page popup
+    Then I wait for the mist.io splash page to load
+    And I should be in the machines page
+    Then I logout
+    And I wait for 2 seconds
