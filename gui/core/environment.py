@@ -65,6 +65,11 @@ def before_all(context):
     log.info("Finished with before_all hook. Starting tests")
 
 
+def before_feature(context, feature):
+    if config.REGISTER_USER_BEFORE_FEATURE:
+        context.execute_steps(u'Given user with email "EMAIL" is registered')
+
+
 def after_scenario(context, scenario):
     if scenario.status == 'failed':
         if context.mist_config['NON_STOP']:
