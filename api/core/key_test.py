@@ -1,10 +1,7 @@
-import json
 import pytest
 import requests
 
-from mist.io.tests.api.utils import *
-
-from mist.io.tests.api.helpers import *
+from tests.api.helpers import *
 
 #############################################################################
 # Unit testing
