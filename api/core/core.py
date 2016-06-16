@@ -493,7 +493,7 @@ class MistCoreApi(MistIoApi):
         return req
 
     def list_vpn_tunnels(self, api_token):
-        req = MistRequests(uri=self.uri + '/tunnels', api_token=api_token)
+        req = MistRequests(uri=self.uri + '/api/v1/tunnels', api_token=api_token)
         req.post = req.unavailable_api_call
         req.delete = req.unavailable_api_call
         req.put = req.unavailable_api_call
@@ -507,14 +507,14 @@ class MistCoreApi(MistIoApi):
             'description': description
         }
         payload = json.dumps(data)
-        req = MistRequests(uri=self.uri + '/tunnels', data=payload, api_token=api_token)
+        req = MistRequests(uri=self.uri + '/api/v1/tunnels', data=payload, api_token=api_token)
         req.get = req.unavailable_api_call
         req.put = req.unavailable_api_call
         req.delete = req.unavailable_api_call
         return req
 
     def del_vpn_tunnel(self, api_token, tunnel_id):
-        req = MistRequests(uri=self.uri + '/tunnel/' + tunnel_id, api_token=api_token)
+        req = MistRequests(uri=self.uri + '/api/v1/tunnel/' + tunnel_id, api_token=api_token)
         req.post = req.unavailable_api_call
         req.put = req.unavailable_api_call
         req.get = req.unavailable_api_call
@@ -525,7 +525,7 @@ class MistCoreApi(MistIoApi):
             'tunnel_ids': tunnel_ids
         }
         payload = json.dumps(data)
-        req = MistRequests(uri=self.uri + '/tunnels', data=payload, api_token=api_token)
+        req = MistRequests(uri=self.uri + '/api/v1/tunnels', data=payload, api_token=api_token)
         req.post = req.unavailable_api_call
         req.put = req.unavailable_api_call
         req.get = req.unavailable_api_call
@@ -538,7 +538,7 @@ class MistCoreApi(MistIoApi):
             'description': description
         }
         payload = json.dumps(data)
-        req = MistRequests(uri=self.uri + '/tunnel/' + tunnel_id,
+        req = MistRequests(uri=self.uri + '/api/v1/tunnel/' + tunnel_id,
                            data=payload, api_token=api_token)
         req.get = req.unavailable_api_call
         req.post = req.unavailable_api_call
