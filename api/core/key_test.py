@@ -28,7 +28,7 @@ def test_003_add_key_with_no_private(pretty_print, cache, mist_core,
     response = mist_core.list_keys(api_token=valid_api_token).get()
     assert_response_ok(response)
     keys_list = json.loads(response.content)
-    cache.set('keys_tests/key_name', get_random_key_name(keys_list))
+    cache.set('keys_tests/key_name', get_random_key_id(keys_list))
     response = mist_core.add_key(name=cache.get('keys_tests/key_name', ''),
                                  private='',
                                  api_token=valid_api_token).put()
