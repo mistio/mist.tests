@@ -19,7 +19,7 @@ Feature: Add second-tier clouds
     
     Examples: Providers
     | provider              | credentials  |
-#    | Azure                 | AZURE        |
+    | Azure                 | AZURE        |
     | GCE                   | GCE          |
     | DigitalOcean          | DIGITALOCEAN |
     | Rackspace             | RACKSPACE    |
