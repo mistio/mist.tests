@@ -38,7 +38,7 @@ def password2():
 
 @pytest.fixture
 def mist_io():
-    return MistIoApi(config.MIST_URL)
+    return MistIoApi(config.MIST_URL + '/api/v1)
 
 
 @pytest.fixture

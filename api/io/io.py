@@ -180,7 +180,7 @@ class MistIoApi(object):
         return req
 
     def associate_key(self, api_token, cloud_id, machine_id, key_id):
-        uri = self.uri + '/api/v1/clouds/%s/machines/%s/keys/%s' \
+        uri = self.uri + '/clouds/%s/machines/%s/keys/%s' \
                          '' % (cloud_id, machine_id, key_id)
         req = MistRequests(uri=uri, api_token=api_token)
 
