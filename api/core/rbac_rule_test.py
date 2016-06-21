@@ -33,9 +33,6 @@ def test_rbac_policy_rule_validation(pretty_print, email):
     org.teams.append(team)
     org.save()
 
-    import ipdb
-    ipdb.set_trace()
-
     print "\n>>>  Test rule operator can only be ALLOW or DENY"
     rule_should_raise_exc(rule_dict={
         'operator': 'bla',
