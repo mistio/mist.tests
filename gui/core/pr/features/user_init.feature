@@ -52,21 +52,6 @@ Feature: Login Scenarios
     And I logout
     And I wait for 2 seconds
 
-  @check-redirect
-  Scenario: Add EC2 cloud, go to Machines logout and check redirect
-    Given I am logged in to mist.core
-    Given "EC2" cloud has been added
-    Then I logout
-    And I visit the machines page with a url
-    When I wait for 2 seconds
-    Then I click the email button in the landing page popup
-    When I enter my standard credentials for login
-    And I click the sign in button in the landing page popup
-    Then I wait for the mist.io splash page to load
-    And I should be in the machines page
-    Then I logout
-    And I wait for 2 seconds
-
   @req-demo
   Scenario: Request demo as an already registered member
     Given I am not logged in to mist.core
@@ -94,22 +79,22 @@ Feature: Login Scenarios
     Then I logout
     And I wait for 2 seconds
 
-#  @multiple-login
-#  Scenario: Launch two browsers and try to login from both
-#    Given I am logged in to mist.core
-#    When I launch a second browser
-#    And I switch browser
-#    When I visit mist.core
-#    Given I am logged in to mist.core
-#    When I visit the Account page
-#    Then I wait for the mist.io splash page to load
-#    When I focus on the "Create Token" button
-#    And I revoke all sessions
-#    Then I wait for 2 seconds
-#    When I switch browser
-#    And I refresh the current page
-#    Then I should see the landing page within 10 seconds
-#    Then I switch browser
-#    When I focus on the "Home" button
-#    Then I logout
-#    And I quit the second browser
+  @multiple-login
+  Scenario: Launch two browsers and try to login from both
+    Given I am logged in to mist.core
+    When I launch a second browser
+    And I switch browser
+    When I visit mist.core
+    Given I am logged in to mist.core
+    When I visit the Account page
+    Then I wait for the mist.io splash page to load
+    When I focus on the "Create Token" button
+    And I revoke all sessions
+    Then I wait for 2 seconds
+    When I switch browser
+    And I refresh the current page
+    Then I should see the landing page within 10 seconds
+    Then I switch browser
+    When I focus on the "Home" button
+    Then I logout
+    And I quit the second browser

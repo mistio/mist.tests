@@ -5,6 +5,19 @@ from time import sleep
 from utils import safe_get_element_text
 
 
+def get_tag_with_key(tags_list, key):
+    if not tags_list or len(tags_list) == 0:
+        return None
+    else:
+        key = key.lower()
+        for tag in tags_list:
+            tag_inputs = tag.find_elements_by_css_selector("input")
+            for tag_input in tag_inputs:
+                if tag_input.get_attribute('placeholder').lower() == 'key':
+                    if tag_input.get_attribute('value').lower() == key:
+                        return tag
+
+
 @step(u'I remove all the previous tags')
 def delete_previous_tags(context):
     tags_holder = context.browser.find_element_by_id("machine-tags-popup")
@@ -26,10 +39,14 @@ def delete_previous_tags(context):
 def fill_another_tag_name(context,key,value):
     tags_holder = context.browser.find_element_by_id("machine-tags-popup")
     tags = tags_holder.find_elements_by_css_selector(".tag-item")
-    tag = tags[-1]
+    tag = get_tag_with_key(tags, '')
+    if not tag:
+        context.execute_steps(u'When I click the button "Add Item"')
+        tags = tags_holder.find_elements_by_css_selector(".tag-item")
+        tag = get_tag_with_key(tags, '')
     tag_input = tag.find_elements_by_css_selector("input")
     textfield_key = tag_input[0]
-    textfield_value =tag_input[1]
+    textfield_value = tag_input[1]
     textfield_key.send_keys(key)
     textfield_value.send_keys(value)
 
@@ -45,17 +62,11 @@ def close_a_tag(context):
 @step(u'I close the tag with key "{key}"')
 def close_a_tag(context, key):
     tags = context.browser.find_elements_by_class_name("tag-item")
-    for tag in tags:
-        inputs = tag.find_elements_by_tag_name('input')
-        for input in inputs:
-            if input.get_attribute('placeholder').lower() == 'key':
-                if input.get_attribute('value').lower() == key.lower():
-                    close_button = tag.find_element_by_css_selector("a.ui-btn.icon-xx.ui-btn-icon-notext")
-                    close_button.click()
-                    sleep(1)
-                    return
-                else:
-                    break
+    tag = get_tag_with_key(tags, key)
+    if tag:
+        close_button = tag.find_element_by_css_selector("a.ui-btn.icon-xx.ui-btn-icon-notext")
+        close_button.click()
+        sleep(1)
 
 
 @step(u'I check if the "{my_key}" key and "{my_value}" value appear for the '

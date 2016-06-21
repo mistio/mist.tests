@@ -2,7 +2,6 @@
 Feature: Add second-tier clouds
 
   Background:
-    When I setup user with email "EMAIL"
     Given I am logged in to mist.core
 
   @cloud-add
@@ -20,7 +19,7 @@ Feature: Add second-tier clouds
     
     Examples: Providers
     | provider              | credentials  |
-#    | Azure                 | AZURE        |
+    | Azure                 | AZURE        |
     | GCE                   | GCE          |
     | DigitalOcean          | DIGITALOCEAN |
     | Rackspace             | RACKSPACE    |
@@ -28,7 +27,7 @@ Feature: Add second-tier clouds
     | NephoScale            | NEPHOSCALE   |
     | Linode                | LINODE       |
 #    | Packet.net            | PACKET       |
-#    | EC2                   | EC2          |
+    | EC2                   | EC2          |
 #    | VMware vCloud         | VMWARE       |
 #    | Indonesian Cloud      | INDONESIAN   |
 #    | KVM (via libvirt)     | LIBVIRT      |
@@ -37,8 +36,8 @@ Feature: Add second-tier clouds
 
   @cloud-rename
   Scenario: Cloud Actions
-    Given "Rackspace" cloud has been added
-    When I click the button "Rackspace"
+    Given "DigitalOcean" cloud has been added
+    When I click the button "DigitalOcean"
     Then I expect for "cloud-edit-popup" popup to appear within max 4 seconds
     When I rename the cloud to "Renamed"
     And I click the "OK" button inside the "Edit cloud" popup

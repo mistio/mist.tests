@@ -2,7 +2,6 @@
 Feature: Machines
 
   Background:
-    When I setup user with email "EMAIL"
     Given I am logged in to mist.core
     Given "EC2" cloud has been added
 
@@ -112,30 +111,29 @@ Feature: Machines
     When I click the button "Tags"
     Then I expect for "machine-tags-popup-popup" popup to appear within max 10 seconds
     And I remove all the previous tags
-    Then I wait for 1 seconds
-    When I name a "testKey" key and a "testValue" value for a tag
+    When I name a "testkey" key and a "testvalue" value for a tag
     And I click the button "Save tags"
     Then I expect for "machine-tags-popup-popup" popup to disappear within max 20 seconds
-    When I check if the "testKey" key and "testValue" value appear for the machine
+    When I check if the "testkey" key and "testvalue" value appear for the machine
     Then I wait for 1 seconds
     And I click the button "Tags"
     Then I expect for "machine-tags-popup-popup" popup to appear within max 10 seconds
     When I click the button "Add Item"
-    And I name a "secTestKey" key and a "secTestValue" value for a tag
+    And I name a "sectestkey" key and a "sectestvalue" value for a tag
     And I click the button "Save Tags"
     Then I expect for "machine-tags-popup-popup" popup to disappear within max 20 seconds
-    When I check if the "secTestKey" key and "secTestValue" value appear for the machine
+    When I check if the "sectestkey" key and "sectestvalue" value appear for the machine
     And I click the button "Tags"
     Then I expect for "machine-tags-popup-popup" popup to appear within max 10 seconds
-    And I close the tag with key "secTestKey"
+    And I close the tag with key "sectestkey"
     When I click the button "Save Tags"
     Then I expect for "machine-tags-popup-popup" popup to disappear within max 20 seconds
     When I focus on the "Machines" button
     Then I click the button "Machines"
     When I clear the machines search bar
     Then I search for the "first" Machine
-    And I wait for 1 seconds
-    Then the "first" machine in the list should have a tag with key "testKey" and value "testValue"
+    And I wait for 5 seconds
+    Then the "first" machine in the list should have a tag with key "testkey" and value "testvalue"
 
     And I click the button "first"
     Then I expect for "single-machine-page" page to appear within max 5 seconds
@@ -143,8 +141,8 @@ Feature: Machines
     Then I expect for "machine-keys-panel" panel to appear within max 4 seconds
     When I click the button "Add Key"
     Then I expect for "non-associated-keys-popup-popup" popup to appear within max 4 seconds
-    When I click the button "second_machine_key"
-    Then I expect for "second_machine_key" key to appear within max 30 seconds
+    When I click the "second_machine_key" button inside the popup with id "non-associated-keys-popup-popup"
+    Then I expect for "second_machine_key" key to appear within max 60 seconds
 
     And I click the button "Actions"
     Then I expect for "machine-power-popup-popup" popup to appear within max 4 seconds
