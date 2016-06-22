@@ -63,6 +63,9 @@ def before_all(context):
         # calling behaving to setup it's context variables.
         behaving_mail.before_all(context)
     log.info("Finished with before_all hook. Starting tests")
+    log.info("Webdriver path:" + config.WEBDRIVER_PATH)
+    log.info("Webdriver log:" + config.WEBDRIVER_LOG)
+    log.info("JS console log:" + config.JS_CONSOLE_LOG)
 
 
 def before_feature(context, feature):
