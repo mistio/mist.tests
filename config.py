@@ -155,4 +155,5 @@ SETUP_ENVIRONMENT = test_settings.get("SETUP_ENVIRONMENT", False)
 WEBDRIVER_OPTIONS = test_settings.get('WEBDRIVER_OPTIONS',
                                       ['--dns-prefetch-disable'])
 
-REGISTER_USER_BEFORE_FEATURE = test_settings.get('REGISTER_USER_BEFORE_FEATURE', False)
+REGISTER_USER_BEFORE_FEATURE = test_settings.get('REGISTER_USER_BEFORE_FEATURE',
+                                                 False)
