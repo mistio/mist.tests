@@ -84,6 +84,7 @@ CREDENTIALS = test_settings.get("CREDENTIALS", {})
 MIST_API_TOKEN = test_settings.get("MIST_API_TOKEN", "")
 
 MIST_URL = test_settings.get("MIST_URL", "http://localhost:8000")
+VPN_URL = test_settings.get("VPN_URL", "")
 
 NAME = test_settings.get("NAME", "Atheofovos Gkikas")
 
