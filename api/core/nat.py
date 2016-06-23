@@ -34,6 +34,8 @@ def test_nat(pretty_print, mist_core, cache, valid_api_token):
     print '(%s, %s) -> (%s, %s)' % ('10.10.10.5', 22, addr, port)
     assert addr == sanitized_url, addr
     assert port is not None, 'No port returned!'
+    addr, port = destination_nat(user, 'http://10.10.10.5', 80)
+    print '(%s, %s) -> (%s, %s)' % ('http://10.10.10.5', 80, addr, port)
     # providing only a single URI string to be translated
     # and returned in the same exact format
     addr = destination_nat(user, '10.10.10.5')
@@ -62,6 +64,11 @@ def test_nat(pretty_print, mist_core, cache, valid_api_token):
     addr, port = addr.split(':')[0], addr.split(':')[1]
     assert addr == sanitized_url, addr
     assert port is not None, 'No port returned!'
+    # bad request
+    try:
+        destination_nat(user, '10.10.10.5:5000', 80)
+    except Exception as exc:
+        assert str(exc).startswith('Bad Request'), 'Bad response!'
 
     print "\n>>> GETing /tunnels"
     response = mist_core.list_vpn_tunnels(api_token=valid_api_token).get()
