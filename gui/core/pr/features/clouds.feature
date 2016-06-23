@@ -23,7 +23,7 @@ Feature: Add second-tier clouds
     | SoftLayer             | SOFTLAYER    |
     | NephoScale            | NEPHOSCALE   |
     # These need fixing. Both have to do with certificates
-    #| Rackspace             | RACKSPACE    |
+    | Rackspace             | RACKSPACE    |
     #| Packet.net            | PACKET       |
 
     # Added by the Machines feature
@@ -35,11 +35,12 @@ Feature: Add second-tier clouds
     # Added by the user actions feature
     #| Linode                | LINODE       |
 
-#    | VMware vCloud         | VMWARE       |
-#    | Indonesian Cloud      | INDONESIAN   |
-#    | KVM (via libvirt)     | LIBVIRT      |
-#    | OpenStack             | OPENSTACK    |
-#    | Docker                | DOCKER       |
+    # Nope, not really
+    #| VMware vCloud         | VMWARE       |
+    #| Indonesian Cloud      | INDONESIAN   |
+    #| KVM (via libvirt)     | LIBVIRT      |
+    #| OpenStack             | OPENSTACK    |
+    #| Docker                | DOCKER       |
 
   @cloud-rename
   Scenario: Cloud Actions
