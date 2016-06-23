@@ -22,9 +22,8 @@ Feature: Add second-tier clouds
     | DigitalOcean          | DIGITALOCEAN |
     | SoftLayer             | SOFTLAYER    |
     | NephoScale            | NEPHOSCALE   |
-    # These need fixing. Both have to do with certificates
     | Rackspace             | RACKSPACE    |
-    #| Packet.net            | PACKET       |
+    | Packet.net            | PACKET       |
 
     # Added by the Machines feature
     #| EC2                   | EC2          |
