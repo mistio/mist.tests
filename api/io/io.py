@@ -6,7 +6,7 @@ from tests.api.mistrequests import MistRequests
 class MistIoApi(object):
 
     def __init__(self, uri):
-        self.uri = uri
+        self.uri = uri + '/api/v1'
 
     def supported_providers(self, api_token=None):
         req = MistRequests(uri=self.uri + '/providers', api_token=api_token)
