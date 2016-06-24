@@ -26,6 +26,13 @@ def register_user(context, user_email):
         user_email = context.mist_config.get(user_email)
 
     try:
+        # this means that we are currently logged in
+        context.browser.find_element_by_id("user-menu-popup")
+        return
+    except NoSuchElementException:
+        pass
+
+    try:
         context.execute_steps(u"When I visit mist.core")
         context.browser.find_element_by_id("top-signup-button")
         context.execute_steps(u'''

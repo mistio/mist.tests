@@ -18,6 +18,9 @@ def before_all(context):
     Load the configuration config and setup the context
     """
     log.info("Starting before all hook")
+    log.info("Webdriver path:" + config.WEBDRIVER_PATH)
+    log.info("Webdriver log:" + config.WEBDRIVER_LOG)
+    log.info("JS console log:" + config.JS_CONSOLE_LOG)
 
     context.mist_config = dict()
     context.mist_config['browser'] = choose_driver()
