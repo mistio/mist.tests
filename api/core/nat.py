@@ -26,23 +26,28 @@ def test_nat(pretty_print, mist_core, cache, valid_api_token):
     print '\n>>> GETing forwarding (addr, port) tuples from the OpenVPN server'
     from mist.core.vpn.methods import destination_nat
     # scenarios providing an (addr, port) tuple to be translated
-    addr, port = destination_nat(user, '10.10.10.5', 80)
-    print '(%s, %s) -> (%s, %s)' % ('10.10.10.5', 80, addr, port)
+    addr, port1 = destination_nat(user, '10.10.10.5', 80)
+    print '(%s, %s) -> (%s, %s)' % ('10.10.10.5', 80, addr, port1)
     assert addr == sanitized_url, addr
-    assert port is not None, 'No port returned!'
+    assert port1 is not None, 'No port returned!'
     addr, port = destination_nat(user, '10.10.10.5', 22)
     print '(%s, %s) -> (%s, %s)' % ('10.10.10.5', 22, addr, port)
     assert addr == sanitized_url, addr
     assert port is not None, 'No port returned!'
-    addr, port = destination_nat(user, 'http://10.10.10.5', 80)
-    print '(%s, %s) -> (%s, %s)' % ('http://10.10.10.5', 80, addr, port)
+    addr, port2 = destination_nat(user, 'http://10.10.10.5', 80)
+    print '(%s, %s) -> (%s, %s)' % ('http://10.10.10.5', 80, addr, port2)
+    assert addr == sanitized_url, addr
+    assert port2 is not None, 'No port returned!'
     # providing only a single URI string to be translated
     # and returned in the same exact format
     addr = destination_nat(user, '10.10.10.5')
     print '%s -> %s' % ('10.10.10.5', addr)
-    addr, port = addr.split(':')[0], addr.split(':')[1]
+    addr, port3 = addr.split(':')[0], addr.split(':')[1]
     assert addr == sanitized_url, addr
-    assert port is not None, 'No port returned!'
+    assert port3 is not None, 'No port returned!'
+    # forwarded ports: port1, port2, port3 should be equal, since they all
+    # point to the same dst port (80) via the same VPN tunnel
+    assert int(port1) == int(port2) == int(port3), 'Ports do not match!'
     addr = destination_nat(user, 'https://10.10.10.5')
     print '%s -> %s' % ('https://10.10.10.5', addr)
     assert addr.startswith('https://'), 'Prefix missing!'
