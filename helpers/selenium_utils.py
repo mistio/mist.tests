@@ -16,8 +16,7 @@ def choose_driver(flavor=None):
 
     flavor = flavor if flavor is not None else config.BROWSER_FLAVOR
 
-    log.info("Choosing driver")
-    log.info(config.WEBDRIVER_PATH + " , " + config.WEBDRIVER_LOG)
+    log.info("Initializing driver")
     if config.BROWSER_LOCAL:
         if flavor == "firefox":
             driver = webdriver.Firefox()

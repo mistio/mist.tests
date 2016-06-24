@@ -19,20 +19,27 @@ Feature: Add second-tier clouds
     
     Examples: Providers
     | provider              | credentials  |
-    | Azure                 | AZURE        |
-    | GCE                   | GCE          |
     | DigitalOcean          | DIGITALOCEAN |
-    | Rackspace             | RACKSPACE    |
     | SoftLayer             | SOFTLAYER    |
     | NephoScale            | NEPHOSCALE   |
-    | Linode                | LINODE       |
-#    | Packet.net            | PACKET       |
-    | EC2                   | EC2          |
-#    | VMware vCloud         | VMWARE       |
-#    | Indonesian Cloud      | INDONESIAN   |
-#    | KVM (via libvirt)     | LIBVIRT      |
-#    | OpenStack             | OPENSTACK    |
-#    | Docker                | DOCKER       |
+    | Rackspace             | RACKSPACE    |
+    | Packet.net            | PACKET       |
+
+    # Added by the Machines feature
+    #| EC2                   | EC2          |
+    # Added by the Keys feature
+    #| Azure                 | AZURE        |
+    # Added by the Scripts feature
+    #| GCE                   | GCE          |
+    # Added by the user actions feature
+    #| Linode                | LINODE       |
+
+    # Nope, not really
+    #| VMware vCloud         | VMWARE       |
+    #| Indonesian Cloud      | INDONESIAN   |
+    #| KVM (via libvirt)     | LIBVIRT      |
+    #| OpenStack             | OPENSTACK    |
+    #| Docker                | DOCKER       |
 
   @cloud-rename
   Scenario: Cloud Actions
@@ -47,8 +54,8 @@ Feature: Add second-tier clouds
 
   @cloud-delete
   Scenario: Cloud Actions
-    Given "GCE" cloud has been added
-    When I click the button "GCE"
+    Given "SoftLayer" cloud has been added
+    When I click the button "SoftLayer"
     Then I expect for "cloud-edit-popup" popup to appear within max 4 seconds
     When I click the "Delete" button inside the "Edit cloud" popup
     And I wait for 1 seconds

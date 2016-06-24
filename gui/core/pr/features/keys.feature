@@ -3,7 +3,7 @@ Feature: Actions for Keys
 
   Background:
     Given I am logged in to mist.core
-    Given "EC2" cloud has been added
+    Given "Azure" cloud has been added
 
   @key-addition
   Scenario: Add Key
