@@ -139,18 +139,17 @@ def test_011_test_rename_script_with_wrong_script_id(pretty_print, cache,
                                                      valid_api_token):
     response = mist_core.edit_script(api_token=valid_api_token,
                                      script_id='bla',
-                                     new_name='').put()
-    assert_response_bad_request(response)
+                                     new_name='bla').put()
+    assert_response_not_found(response)
     print "Success!!!"
 
 
 def test_012_test_rename_script_with_no_name(pretty_print, cache, mist_core,
                                              valid_api_token):
     response = mist_core.edit_script(api_token=valid_api_token,
-                                     script_id=cache.get(
-                                         'script_tests/bash_script_id', ''),
+                                     script_id='blablalba398438',
                                      new_name='').put()
-    assert_response_not_found(response)
+    assert_response_bad_request(response)
     print "Success!!!"
 
 
@@ -160,7 +159,7 @@ def test_013_delete_script_with_wrong_api_token(pretty_print, cache, mist_core,
                                        script_id=cache.get(
                                            'script_tests/bash_script_id',
                                            '')).delete()
-    assert_response_not_found(response)
+    assert_response_unauthorized(response)
     print "Success!!!"
 
 
@@ -270,7 +269,7 @@ class TestSimpleUserScript:
         assert_equal(script['script'], bash_script, script['script'])
         print "Success!!!"
 
-    def test_test_add_ansible_script(self, pretty_print, cache, mist_core,
+    def test_add_ansible_script(self, pretty_print, cache, mist_core,
                                      valid_api_token):
         response = mist_core.list_scripts(api_token=valid_api_token).get()
         assert_response_ok(response)
@@ -292,7 +291,7 @@ class TestSimpleUserScript:
         assert_list_not_empty(script, "Script was added but is not visible in "
                                       "the list of scripts")
         script = script[0]
-        cache.set('script_tests/ansible_script_id', script['script_id'])
+        cache.set('script_tests/ansible_script_id', script['id'])
         print "Success!!!"
 
     def test_rename_script(self, pretty_print, cache, mist_core,
@@ -357,7 +356,7 @@ class TestSimpleUserScript:
                                            json.loads(response.content))
             assert_list_not_empty(script, "Script was added but is not visible"
                                           " in the list of scripts")
-            script_ids.append(script[0]['script_id'])
+            script_ids.append(script[0]['id'])
 
         script_ids.append('bla')
         script_ids.append('bla2')
