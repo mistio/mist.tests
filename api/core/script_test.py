@@ -1,7 +1,5 @@
 import pytest
 
-from time import sleep
-
 from tests.api.helpers import *
 
 
@@ -157,11 +155,8 @@ def test_012_test_rename_script_with_no_name(pretty_print, cache, mist_core,
 
 def test_013_delete_script_with_wrong_api_token(pretty_print, cache, mist_core,
                                                 valid_api_token):
-    sleep(0.1)
     response = mist_core.delete_script(api_token='00' + valid_api_token[:-2],
-                                       script_id=cache.get(
-                                           'script_tests/bash_script_id',
-                                           '')).delete()
+                                       script_id='bla').delete()
     assert_response_unauthorized(response)
     print "Success!!!"
 
