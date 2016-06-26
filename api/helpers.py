@@ -69,7 +69,7 @@ def add_bash_script(mist_core, valid_api_token):
                                   " the list of scripts")
     script = script[0]
 
-    return script['script_id'], script_name
+    return script['id'], script_name
 
 
 def get_teams_with_name(name, teams):
