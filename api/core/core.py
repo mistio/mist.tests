@@ -30,7 +30,7 @@ class MistCoreApi(MistIoApi):
             data.update({'ttl': ttl})
         if org_id:
             data.update({'org_id': org_id})
-        req = MistRequests(uri=self.uri + '/auth', data=data,
+        req = MistRequests(uri=self.uri + '/api/v1/tokens', data=data,
                            api_token=api_token)
         req.get = req.unavailable_api_call
         req.delete = req.unavailable_api_call
@@ -38,7 +38,7 @@ class MistCoreApi(MistIoApi):
         return req
 
     def list_tokens(self, api_token):
-        req = MistRequests(uri=self.uri + '/tokens', api_token=api_token)
+        req = MistRequests(uri=self.uri + '/api/v1/tokens', api_token=api_token)
         req.post = req.unavailable_api_call
         req.delete = req.unavailable_api_call
         req.put = req.unavailable_api_call
@@ -54,7 +54,7 @@ class MistCoreApi(MistIoApi):
         }
         if new_api_token_name:
             data.update({'name': new_api_token_name})
-        req = MistRequests(uri=self.uri + '/tokens', data=data,
+        req = MistRequests(uri=self.uri + '/api/v1/tokens', data=data,
                            api_token=api_token)
         req.get = req.unavailable_api_call
         req.delete = req.unavailable_api_call
@@ -62,7 +62,7 @@ class MistCoreApi(MistIoApi):
         return req
 
     def revoke_token(self, api_token, api_token_id):
-        req = MistRequests(uri=self.uri + '/tokens',
+        req = MistRequests(uri=self.uri + '/api/v1/tokens',
                            params={'id': api_token_id},
                            api_token=api_token)
         req.get = req.unavailable_api_call
@@ -71,13 +71,13 @@ class MistCoreApi(MistIoApi):
         return req
 
     def tokens(self, api_token, **kwargs):
-        req = MistRequests(uri=self.uri + '/tokens', data=kwargs,
+        req = MistRequests(uri=self.uri + '/api/v1/tokens', data=kwargs,
                            api_token=api_token)
         req.put = req.unavailable_api_call
         return req
 
     def check_token(self, api_token):
-        req = MistRequests(uri=self.uri + '/check_token', api_token=api_token)
+        req = MistRequests(uri=self.uri + '/api/v1/ping', api_token=api_token)
         req.put = req.unavailable_api_call
         req.delete = req.unavailable_api_call
         return req
@@ -102,7 +102,7 @@ class MistCoreApi(MistIoApi):
             'cronjob_type': cronjob_type,
             'cronjob_entry': cronjob_entry
         }
-        req = MistRequests(uri=self.uri + '/cronjobs',
+        req = MistRequests(uri=self.uri + '/api/v1/cronjobs',
                            data=json.dumps(data), api_token=api_token)
         req.get = req.unavailable_api_call
         req.delete = req.unavailable_api_call
@@ -123,7 +123,7 @@ class MistCoreApi(MistIoApi):
             'cronjob_entry': cronjob_entry
         }
 
-        req = MistRequests(uri=self.uri + '/cronjobs/' + cronjob_id,
+        req = MistRequests(uri=self.uri + '/api/v1/cronjobs/' + cronjob_id,
                            data=json.dumps(data), api_token=api_token)
         req.get = req.unavailable_api_call
         req.delete = req.unavailable_api_call
@@ -131,14 +131,14 @@ class MistCoreApi(MistIoApi):
         return req
 
     def list_cronjobs_entries(self, api_token):
-        req = MistRequests(uri=self.uri + '/cronjobs', api_token=api_token)
+        req = MistRequests(uri=self.uri + '/api/v1/cronjobs', api_token=api_token)
         req.post = req.unavailable_api_call
         req.delete = req.unavailable_api_call
         req.put = req.unavailable_api_call
         return req
 
     def show_cronjobs_entry(self, cronjob_id, api_token):
-        req = MistRequests(uri=self.uri + '/cronjobs/' + cronjob_id,
+        req = MistRequests(uri=self.uri + '/api/v1/cronjobs/' + cronjob_id,
                            api_token=api_token)
         req.post = req.unavailable_api_call
         req.delete = req.unavailable_api_call
@@ -146,7 +146,7 @@ class MistCoreApi(MistIoApi):
         return req
 
     def delete_cronjob(self, cronjob_id, api_token):
-        req = MistRequests(uri=self.uri + '/cronjobs/' + cronjob_id,
+        req = MistRequests(uri=self.uri + '/api/v1/cronjobs/' + cronjob_id,
                            api_token=api_token)
         req.get = req.unavailable_api_call
         req.post = req.unavailable_api_call
@@ -174,7 +174,7 @@ class MistCoreApi(MistIoApi):
             data['entrypoint'] = entrypoint
         if description is not None:
             data['description'] = description
-        req = MistRequests(uri=self.uri + '/scripts', api_token=api_token,
+        req = MistRequests(uri=self.uri + '/api/v1/scripts', api_token=api_token,
                            data=data)
         req.get = req.unavailable_api_call
         req.delete = req.unavailable_api_call
@@ -182,7 +182,7 @@ class MistCoreApi(MistIoApi):
         return req
 
     def show_script(self, api_token, script_id):
-        req = MistRequests(uri=self.uri + '/scripts/%s' % script_id,
+        req = MistRequests(uri=self.uri + '/api/v1/scripts/%s' % script_id,
                            api_token=api_token)
         req.post = req.unavailable_api_call
         req.delete = req.unavailable_api_call
@@ -190,7 +190,7 @@ class MistCoreApi(MistIoApi):
         return req
 
     def list_scripts(self, api_token):
-        req = MistRequests(uri=self.uri + '/scripts', api_token=api_token)
+        req = MistRequests(uri=self.uri + '/api/v1/scripts', api_token=api_token)
         req.post = req.unavailable_api_call
         req.delete = req.unavailable_api_call
         req.put = req.unavailable_api_call
@@ -201,7 +201,7 @@ class MistCoreApi(MistIoApi):
         if new_description:
             data.update({'new_description': new_description})
 
-        req = MistRequests(uri=self.uri + '/scripts/%s' % script_id,
+        req = MistRequests(uri=self.uri + '/api/v1/scripts/%s' % script_id,
                            api_token=api_token, data=data)
         req.get = req.unavailable_api_call
         req.post = req.unavailable_api_call
@@ -213,7 +213,7 @@ class MistCoreApi(MistIoApi):
             'cloud_id': cloud_id,
             'machine_id': machine_id,
         }
-        req = MistRequests(uri=self.uri + '/script/%s' % script_id,
+        req = MistRequests(uri=self.uri + '/api/v1/script/%s' % script_id,
                            api_token=api_token, data=data)
         req.get = req.unavailable_api_call
         req.put = req.unavailable_api_call
@@ -221,7 +221,7 @@ class MistCoreApi(MistIoApi):
         return req
 
     def delete_script(self, api_token, script_id):
-        req = MistRequests(uri=self.uri + '/scripts/%s' % script_id,
+        req = MistRequests(uri=self.uri + '/api/v1/scripts/%s' % script_id,
                            api_token=api_token)
         req.get = req.unavailable_api_call
         req.post = req.unavailable_api_call
@@ -229,7 +229,7 @@ class MistCoreApi(MistIoApi):
         return req
 
     def delete_scripts(self, api_token, script_ids):
-        req = MistRequests(uri=self.uri + '/scripts',
+        req = MistRequests(uri=self.uri + '/api/v1/scripts',
                            json={'script_ids': script_ids},
                            api_token=api_token)
 
@@ -239,7 +239,7 @@ class MistCoreApi(MistIoApi):
         return req
 
     def create_org(self, api_token, name=''):
-        req = MistRequests(uri=self.uri + '/org',
+        req = MistRequests(uri=self.uri + '/api/v1/org',
                            json={'name': name},
                            api_token=api_token)
 
@@ -249,7 +249,7 @@ class MistCoreApi(MistIoApi):
         return req
 
     def show_org(self, api_token, org_id):
-        req = MistRequests(uri=self.uri + '/org/%s' % org_id,
+        req = MistRequests(uri=self.uri + '/api/v1/org/%s' % org_id,
                            api_token=api_token)
 
         req.post = req.unavailable_api_call
@@ -258,7 +258,7 @@ class MistCoreApi(MistIoApi):
         return req
 
     def show_user_org(self, api_token):
-        req = MistRequests(uri=self.uri + '/org',
+        req = MistRequests(uri=self.uri + '/api/v1/org',
                            api_token=api_token)
 
         req.post = req.unavailable_api_call
@@ -280,7 +280,7 @@ class MistCoreApi(MistIoApi):
                 }
         if description is not None:
             data.update({'description': description})
-        req = MistRequests(uri=self.uri + '/org/%s/teams' % org_id,
+        req = MistRequests(uri=self.uri + '/api/v1/org/%s/teams' % org_id,
                            api_token=api_token, data=data)
 
         req.get = req.unavailable_api_call
@@ -289,7 +289,7 @@ class MistCoreApi(MistIoApi):
         return req
 
     def list_teams(self, api_token, org_id):
-        req = MistRequests(uri=self.uri + '/org/%s/teams' % org_id,
+        req = MistRequests(uri=self.uri + '/api/v1/org/%s/teams' % org_id,
                            api_token=api_token)
 
         req.post = req.unavailable_api_call
@@ -298,7 +298,7 @@ class MistCoreApi(MistIoApi):
         return req
 
     def show_team(self, api_token, org_id, team_id):
-        req = MistRequests(uri=self.uri + '/org/%s/teams/%s'
+        req = MistRequests(uri=self.uri + '/api/v1/org/%s/teams/%s'
                                           % (org_id, team_id),
                            api_token=api_token)
 
@@ -313,7 +313,7 @@ class MistCoreApi(MistIoApi):
 
         if description is not None:
             data.update({'new_description': description})
-        req = MistRequests(uri=self.uri + '/org/%s/teams/%s'
+        req = MistRequests(uri=self.uri + '/api/v1/org/%s/teams/%s'
                                           % (org_id, team_id), data=data,
                            api_token=api_token)
 
@@ -323,7 +323,7 @@ class MistCoreApi(MistIoApi):
         return req
 
     def delete_team(self, api_token, org_id, team_id):
-        req = MistRequests(uri=self.uri + '/org/%s/teams/%s'
+        req = MistRequests(uri=self.uri + '/api/v1/org/%s/teams/%s'
                                           % (org_id, team_id),
                            api_token=api_token)
         req.get = req.unavailable_api_call
@@ -333,7 +333,7 @@ class MistCoreApi(MistIoApi):
 
     def invite_member_to_team(self, api_token, org_id, team_id, email):
         data = {'email': email}
-        req = MistRequests(uri=self.uri + '/org/%s/teams/%s/members' %
+        req = MistRequests(uri=self.uri + '/api/v1/org/%s/teams/%s/members' %
                                           (org_id, team_id),
                            api_token=api_token, data=data)
 
@@ -343,7 +343,7 @@ class MistCoreApi(MistIoApi):
         return req
 
     def delete_member_from_team(self, api_token, org_id, team_id, user_id):
-        req = MistRequests(uri=self.uri + '/org/%s/teams/%s/members/%s'
+        req = MistRequests(uri=self.uri + '/api/v1/org/%s/teams/%s/members/%s'
                                           % (org_id, team_id, user_id),
                            api_token=api_token)
         req.get = req.unavailable_api_call
@@ -352,7 +352,7 @@ class MistCoreApi(MistIoApi):
         return req
 
     def list_team_policy(self, api_token, org_id, team_id):
-        req = MistRequests(uri=self.uri + '/org/%s/teams/%s/policy'
+        req = MistRequests(uri=self.uri + '/api/v1/org/%s/teams/%s/policy'
                                           % (org_id, team_id),
                            api_token=api_token)
 
@@ -365,7 +365,7 @@ class MistCoreApi(MistIoApi):
                                   policy_operator):
         data = {'policy_operator': policy_operator,
                 }
-        req = MistRequests(uri=self.uri + '/org/%s/teams/%s/policy'
+        req = MistRequests(uri=self.uri + '/api/v1/org/%s/teams/%s/policy'
                                           % (org_id, team_id), data=data,
                            api_token=api_token)
 
@@ -384,7 +384,7 @@ class MistCoreApi(MistIoApi):
                 'rid': rid,
                 'rtags': rtags
                 }
-        req = MistRequests(uri=self.uri + '/org/%s/teams/%s/policy/rules'
+        req = MistRequests(uri=self.uri + '/api/v1/org/%s/teams/%s/policy/rules'
                                           '' % (org_id, team_id),
                            data=data,
                            api_token=api_token)
@@ -402,7 +402,7 @@ class MistCoreApi(MistIoApi):
                 'rid': rid,
                 'rtags': rtags
                 }
-        req = MistRequests(uri=self.uri + '/org/%s/teams/%s/policy/rules/%s'
+        req = MistRequests(uri=self.uri + '/api/v1/org/%s/teams/%s/policy/rules/%s'
                                           % (org_id, team_id, index_id),
                            data=data,
                            api_token=api_token)
@@ -421,7 +421,7 @@ class MistCoreApi(MistIoApi):
                 'rid': rid,
                 'rtags': rtags
                 }
-        req = MistRequests(uri=self.uri + '/org/%s/teams/%s/policy/rules/%s'
+        req = MistRequests(uri=self.uri + '/api/v1/org/%s/teams/%s/policy/rules/%s'
                                           % (org_id, team_id, index_id),
                            data=data,
                            api_token=api_token)
@@ -432,7 +432,7 @@ class MistCoreApi(MistIoApi):
         return req
 
     def delete_rule_from_policy(self, api_token, org_id, team_id, index_id):
-        req = MistRequests(uri=self.uri + '/org/%s/teams/%s/policy/rules/%s'
+        req = MistRequests(uri=self.uri + '/api/v1/org/%s/teams/%s/policy/rules/%s'
                                           % (org_id, team_id, index_id),
                            api_token=api_token)
         req.get = req.unavailable_api_call
@@ -443,7 +443,7 @@ class MistCoreApi(MistIoApi):
     def edit_team_policy(self, api_token, org_id, team_id, policy):
         data = {'policy': policy}
 
-        req = MistRequests(uri=self.uri + '/org/%s/teams/%s/policy'
+        req = MistRequests(uri=self.uri + '/api/v1/org/%s/teams/%s/policy'
                                           % (org_id, team_id),
                            data=json.dumps(data),
                            api_token=api_token)
@@ -454,7 +454,7 @@ class MistCoreApi(MistIoApi):
         return req
 
     def list_orgs(self, api_token):
-        req = MistRequests(uri=self.uri + '/orgs', api_token=api_token)
+        req = MistRequests(uri=self.uri + '/api/v1/orgs', api_token=api_token)
         req.post = req.unavailable_api_call
         req.put = req.unavailable_api_call
         req.delete = req.unavailable_api_call
@@ -484,7 +484,7 @@ class MistCoreApi(MistIoApi):
             'tags': tags
         }
         payload = json.dumps(data)
-        req = MistRequests(uri=self.uri + '/clouds/' + cloud_id +
+        req = MistRequests(uri=self.uri + '/api/v1/clouds/' + cloud_id +
                            '/machines/' + machine_id + '/tags',
                            data=payload, api_token=api_token)
         req.get = req.unavailable_api_call

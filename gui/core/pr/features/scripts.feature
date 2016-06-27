@@ -3,7 +3,7 @@ Feature: Scripts
 
   Background:
     Given I am logged in to mist.core
-    Given "EC2" cloud has been added
+    Given "GCE" cloud has been added
     When I visit the Scripts page after the Images counter has loaded
 
   @create-script
