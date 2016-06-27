@@ -14,8 +14,8 @@ def test_nat(pretty_print, mist_core, cache, valid_api_token):
     print '\n>>> POSTing in /tunnels for a new VPN Tunnel'
     # request a dummy tunnel
     tunnel_data = {
-        'client_addr': '',
         'cidrs': ['10.10.10.0/24'],
+        'excluded_cidrs': [],
         'name': 'DummyTestTunnel',
         'description': 'Testing DNAT'
     }

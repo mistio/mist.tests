@@ -10,14 +10,14 @@ from tests import config
 
 def test_vpn_tunnels(pretty_print, mist_core, cache, owner_api_token):
     tunnel_data_1 = {
-        'client_addr': '172.17.17.100',
         'cidrs': ['10.75.75.0/24'],
+        'excluded_cidrs': ['172.17.10.0/24', '172.17.20.0/24'],
         'name': 'FirstTestTunnel',
         'description': ''
     }
     tunnel_data_2 = {
-        'client_addr': '172.17.17.200',
         'cidrs': ['192.168.2.0/24'],
+        'excluded_cidrs': [],
         'name': 'SecondTestTunnel',
         'description': ''
     }
@@ -65,8 +65,8 @@ def test_vpn_tunnels(pretty_print, mist_core, cache, owner_api_token):
     # this should fail, as the network 10.75.75.0/30 is a subnet of
     # 10.75.75.0/24, which is already accessible via tunnel FirstTestTunnel
     tunnel_data = {
-        'client_addr': '172.17.17.100',
         'cidrs': ['10.75.75.0/30'],
+        'excluded_cidrs': [],
         'name': 'InvalidTunnel',
         'description': ''
     }
@@ -78,8 +78,8 @@ def test_vpn_tunnels(pretty_print, mist_core, cache, owner_api_token):
     # Tunnel points to a network that tends to include the already existing
     # 10.75.75.0/24
     tunnel_data = {
-        'client_addr': '172.17.17.100',
         'cidrs': ['10.75.75.0/16'],
+        'excluded_cidrs': [],
         'name': 'InvalidTunnel',
         'description': ''
     }
@@ -105,8 +105,6 @@ def test_vpn_tunnels(pretty_print, mist_core, cache, owner_api_token):
     response = mist_core.edit_vpn_tunnel(api_token=owner_api_token,
                                          tunnel_id=_id_2, **tunnel_data_2).put()
     assert_response_ok(response)
-
-    # TODO add cloud
 
     print "\n>>> DELETEing all VPN Tunnels as regular member"
     # setting up an additional user
