@@ -47,6 +47,21 @@ def visit(context):
     assert False, "Splash page did not load after waiting for 4 seconds"
 
 
+@step(u'I am in the new UI')
+def am_in_new_UI(context):
+    """
+    Function that waits for the new UI to load. The maximum time for the page
+    to load is 60 seconds in this case
+    """
+    try:
+        context.browser.find_element_by_tag_name("app-main")
+        return
+    except:
+        context.execute_steps(u'''
+            When I click the gravatar
+            When I click the button "BETA UI"
+        ''')
+
 @step(u'I wait for the mist.io splash page to load')
 def standard_splash_waiting(context):
     """
@@ -203,6 +218,12 @@ def visit_machines_url(context):
 
 @given(u'I am logged in to mist.core')
 def given_logged_in(context):
+    try:
+        context.browser.find_element_by_tag_name("app-main")
+        #we're on the new UI
+        return
+    except:
+        pass
     if not i_am_in_homepage(context):
         context.execute_steps(u'When I visit mist.core')
 
