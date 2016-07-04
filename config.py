@@ -38,12 +38,14 @@ def get_value_of(name_of_variable, default_value):
     Check in environment if the variable is set and return it's value
     otherwise check if it is available in the test_settings. Finally, use the
     default value if it's not available anywhere else.
-    :param name_of_variable:
-    :param default_value:
+    :param name_of_variable: the name of the variable to be searched in env or test_settings
+    :param default_value: the default value if no other value is found
     :return:
     """
     env_var = os.environ.get(name_of_variable)
     if env_var is not None:
+        log.info("Retrieved value from env for variable with name %s: %s" %
+                 (name_of_variable, env_var))
         return env_var
     return test_settings.get(name_of_variable, default_value)
 
