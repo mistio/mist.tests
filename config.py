@@ -46,7 +46,11 @@ def get_value_of(name_of_variable, default_value):
     """
     env_var = os.environ.get(name_of_variable)
     if env_var is not None:
-        env_var = json.loads(env_var)
+        try:
+            env_var = json.loads(env_var)
+        except ValueError as e:
+            log.error("Could not decode value of variable %s" % name_of_variable)
+            raise e
         log.info("Retrieved value from env for variable with name %s: %s" %
                  (name_of_variable, env_var))
         return env_var
