@@ -21,6 +21,7 @@
 
 import os
 import sys
+import json
 import logging
 
 log = logging.getLogger(__name__)
@@ -45,11 +46,11 @@ def get_value_of(name_of_variable, default_value):
     """
     env_var = os.environ.get(name_of_variable)
     if env_var is not None:
-        log.info("Retrieved value from env for variable with name %s: %s(%s)" %
-                 (name_of_variable, env_var, repr(type(env_var))))
+        env_var = json.loads(env_var)
+        log.info("Retrieved value from env for variable with name %s: %s" %
+                 (name_of_variable, env_var))
         return env_var
     return test_settings.get(name_of_variable, default_value)
-
 
 LOCAL = get_value_of("LOCAL", True)
 
