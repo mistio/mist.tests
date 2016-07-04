@@ -9,7 +9,7 @@ from tests.helpers.selenium_utils import dump_js_console_log
 
 log = logging.getLogger(__name__)
 
-logging.basicConfig(level=config.logging.INFO)
+logging.basicConfig(level=logging.INFO)
 
 
 def before_all(context):

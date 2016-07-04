@@ -24,6 +24,7 @@ import sys
 import logging
 
 log = logging.getLogger(__name__)
+logging.basicConfig(level=logging.INFO)
 test_settings = {}
 try:
     execfile("test_settings.py", test_settings)
@@ -49,6 +50,7 @@ def get_value_of(name_of_variable, default_value):
         return env_var
     return test_settings.get(name_of_variable, default_value)
 
+
 LOCAL = get_value_of("LOCAL", True)
 
 BROWSER_LOCAL = get_value_of("BROWSER_LOCAL", True)
@@ -57,26 +59,23 @@ DEBUG = get_value_of("DEBUG", False)
 
 BROWSER_FLAVOR = get_value_of("BROWSER_FLAVOR", "chrome")
 
-# If LOCAL == False, you have to provide the selenium-hub
-selenium_hub = get_value_of("selenium_hub", "")
-
 # Directories and paths used for the tests
 BASE_DIR = get_value_of("BASE_DIR", os.getcwd())
 
 LOG_DIR = get_value_of("LOG_DIR", 'var/log/')
 
 TEST_DIR = get_value_of("TEST_DIR",
-                             os.path.join(BASE_DIR, 'src/mist/io/tests'))
+                        os.path.join(BASE_DIR, 'src/mist/io/tests'))
 
 MAIL_PATH = get_value_of("MAIL_PATH",
-                              os.path.join(BASE_DIR, 'var/mail/'))
+                         os.path.join(BASE_DIR, 'var/mail/'))
 
 JS_CONSOLE_LOG = get_value_of("JS_CONSOLE_LOG",
-                                   os.path.join(BASE_DIR, LOG_DIR,
-                                                'js_console.log'))
+                              os.path.join(BASE_DIR, LOG_DIR,
+                                           'js_console.log'))
 
 SCREENSHOT_PATH = get_value_of("SCREENSHOT_PATH",
-                                    os.path.join(BASE_DIR, 'error'))
+                               os.path.join(BASE_DIR, 'error'))
 
 # This is the path to the json file used for the multi-provisioning tests
 MP_DB_DIR = get_value_of("MP_DB_DIR", os.path.join(BASE_DIR, 'mp_db.json'))
@@ -92,8 +91,8 @@ elif BROWSER_FLAVOR == 'phantomjs':
     WEBDRIVER_PATH = os.path.join(BASE_DIR, 'parts/envuiphantomjs')
 
 WEBDRIVER_LOG = get_value_of("WEBDRIVER_LOG",
-                                  os.path.join(BASE_DIR, LOG_DIR,
-                                               'chromedriver.log'))
+                             os.path.join(BASE_DIR, LOG_DIR,
+                                          'chromedriver.log'))
 
 # ----------CREDENTIALS-----------
 CREDENTIALS = get_value_of("CREDENTIALS", {})
@@ -112,11 +111,12 @@ PASSWORD2 = get_value_of("PASSWORD2", "")
 DEMO_EMAIL = get_value_of("DEMO_EMAIL", "")
 DEMO_PASSWORD = get_value_of("DEMO_PASSWORD", "")
 
-MIST_DEMO_REQUEST_EMAIL = get_value_of("MIST_DEMO_REQUEST_EMAIL", "demo@mist.io")
+MIST_DEMO_REQUEST_EMAIL = get_value_of("MIST_DEMO_REQUEST_EMAIL",
+                                       "demo@mist.io")
 
 # CREDENTIALS FOR TESTING RBAC
 RBAC_OWNER_EMAIL = get_value_of("RBAC_OWNER_EMAIL", "owner@dr.dr")
-RBAC_OWNER_PASSWORD  = get_value_of("RBAC_OWNER_PASSWORD ", "dr")
+RBAC_OWNER_PASSWORD = get_value_of("RBAC_OWNER_PASSWORD ", "dr")
 
 RBAC_MEMBER_EMAIL = get_value_of("RBAC_MEMBER_EMAIL", "user@dr.dr")
 RBAC_MEMBER_PASSWORD = get_value_of("RBAC_MEMBER_PASSWORD", "dr")
@@ -170,7 +170,7 @@ ORG_NAME = get_value_of('ORG_NAME', '')
 SETUP_ENVIRONMENT = get_value_of("SETUP_ENVIRONMENT", False)
 
 WEBDRIVER_OPTIONS = get_value_of('WEBDRIVER_OPTIONS',
-                                      ['--dns-prefetch-disable'])
+                                 ['--dns-prefetch-disable'])
 
 REGISTER_USER_BEFORE_FEATURE = get_value_of('REGISTER_USER_BEFORE_FEATURE',
-                                                 False)
+                                            False)
