@@ -49,7 +49,8 @@ def get_value_of(name_of_variable, default_value):
         try:
             env_var = json.loads(env_var)
         except ValueError as e:
-            log.error("Could not decode value of variable %s" % name_of_variable)
+            log.error("Could not decode value of variable %s(%s)" %
+                      (name_of_variable, env_var))
             raise e
         log.info("Retrieved value from env for variable with name %s: %s" %
                  (name_of_variable, env_var))
