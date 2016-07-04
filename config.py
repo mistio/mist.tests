@@ -45,7 +45,7 @@ def get_value_of(name_of_variable, default_value):
     env_var = os.environ.get(name_of_variable)
     if env_var is not None:
         return env_var
-    return test_settings.get(name_of_variable, default=default_value)
+    return test_settings.get(name_of_variable, default_value)
 
 LOCAL = get_value_of("LOCAL", True)
 
