@@ -1,11 +1,15 @@
-import os
 import sys
+import types
+import logging
 import argparse
 
 import tests.config as config
 
+log = logging.getLogger(__name__)
+logging.basicConfig(level=logging.INFO)
 
-def argument_cleanup_list(parser, arg_list, arg_name, *args, **kwargs):
+
+def prepare_arg_parser(parser, arg_list, arg_name, *args, **kwargs):
     parser.add_argument(arg_name, *args, **kwargs)
     arg_list.append(arg_name)
 
@@ -20,6 +24,11 @@ def arg_index(arg_list, arg):
 def arg_to_snake(s):
     return reduce(lambda y, z: y + '_' + z,
                   filter(lambda x: x != '', s.split('-')))
+
+
+def snake_to_arg(s):
+    return '--' + reduce(lambda y, z: y + '-' + z,
+                         filter(lambda x: x != '', s.lower().split('_')))
 
 
 def strtobool(s):
@@ -60,40 +69,43 @@ def clean_args(arg_list, args_to_be_removed):
 
 if __name__ == '__main__':
 
-    parser = argparse.ArgumentParser(description='Will execute behavioral '
-                                                 'tests and can also override '
-                                                 'some of the test user data')
+    parser = argparse.ArgumentParser(description='Will execute behavioral'
+                                                 '(default) or api tests and '
+                                                 'can also override some of the'
+                                                 ' test user data')
+
     cleanup_list = []
-    argument_cleanup_list(parser, cleanup_list, '--email', default=None)
-    argument_cleanup_list(parser, cleanup_list, '--name', default=None)
-    argument_cleanup_list(parser, cleanup_list, '--password1', default=None)
-    argument_cleanup_list(parser, cleanup_list, '--password2', default=None)
-    argument_cleanup_list(parser, cleanup_list, '--mist-url', default=None)
-    argument_cleanup_list(parser, cleanup_list, '--js-console-log', default=None)
-    argument_cleanup_list(parser, cleanup_list, '--webdriver-log', default=None)
-    argument_cleanup_list(parser, cleanup_list, '--test-output-log', default=None)
-    argument_cleanup_list(parser, cleanup_list, '--screenshot-path', default=None)
-    argument_cleanup_list(parser, cleanup_list, '--browser-flavor', default=None)
-    argument_cleanup_list(parser, cleanup_list, '--local', default=None)
-    argument_cleanup_list(parser, cleanup_list, '--mist-dir', default=None)
-    argument_cleanup_list(parser, cleanup_list, '--xvfb-display', default=None)
-    argument_cleanup_list(parser, cleanup_list, '--webdriver-path', default=None)
-    argument_cleanup_list(parser, cleanup_list, '--setup-environment', default=None)
-    argument_cleanup_list(parser, cleanup_list, '--register_user_before_feature', default=None)
+    for attr in dir(config):
+        if not isinstance(attr, types.FunctionType):
+            if isinstance(attr, basestring):
+                if attr.startswith('__') or attr.islower():
+                    continue
+
+            arg = snake_to_arg(attr)
+            # log.info("Adding variable %s(%s, %s) from config to list of
+            # params" % (attr, arg, type(arg)))
+            prepare_arg_parser(parser, cleanup_list, arg, default=None)
+
+    prepare_arg_parser(parser, cleanup_list, '--gui', action='store_true')
+    prepare_arg_parser(parser, cleanup_list, '--api', action='store_true')
 
     args = parser.parse_known_args()[0]
-    # print "Args submitted: " + str(args)
+
+    if args.gui and args.api:
+        raise Exception("You must either provide the gui or the api flag but "
+                        "not both. If you provide no flag then the behave will"
+                        " be invoked")
+
     update_test_settings(args, cleanup_list)
 
-    if args.xvfb_display:
-        print("Exporting DISPLAY variable(%s)" % args.xvfb_display)
-        os.environ['DISPLAY'] = ':%s.0' % args.xvfb_display
-
-    # Make sure to remove my args before handing over to the behave main
+    # Make sure to remove any args before handing over to the behave or the
+    # py.test main to prevent errors
     args_to_be_cleaned = sys.argv[1:]
     clean_args(args_to_be_cleaned, cleanup_list)
-    # print "Args to be passed on to behave:" + str(args_to_be_cleaned)
 
-    import behave.__main__
-    sys.exit(behave.__main__.main(args_to_be_cleaned))
-
+    if args.gui or not args.api:
+        import behave.__main__
+        sys.exit(behave.__main__.main(args_to_be_cleaned))
+    else:
+        import pytest
+        sys.exit(pytest.main(args_to_be_cleaned))
