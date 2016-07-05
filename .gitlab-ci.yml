@@ -9,7 +9,7 @@ run_mayday_test:
         - triggers
     before_script:
         # export all the necessary env variables
-        - export PATH=/builds/mistio/mist.core/parts/chromedriver/:$PATH
+        - export PATH=/builds/mistio/tests/parts/chromedriver/:$PATH
         # initialize directories
         - mkdir -p /builds/mistio/mist.core/parts/chromedriver
         - mkdir -p /builds/mistio/mist.core/var/mail
