@@ -1,8 +1,12 @@
+import json
+
 from tests import config
 
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.common.desired_capabilities import DesiredCapabilities
+
+from selenium.webdriver.remote.errorhandler import NoSuchWindowException
 
 import logging
 
@@ -39,3 +43,24 @@ def choose_driver(flavor=None):
                                   desired_capabilities=DesiredCapabilities.FIREFOX)
 
     return driver
+
+
+def get_screenshot(context):
+    if context.mist_config['NON_STOP']:
+        num = context.mist_config['ERROR_NUM'] = context.mist_config['ERROR_NUM'] + 1
+        path = context.mist_config['SCREENSHOT_PATH'] + '.{0}.png'.format(str(num))
+    else:
+        path = context.mist_config['SCREENSHOT_PATH'] + '.png'
+    try:
+        context.browser.get_screenshot_as_file(path)
+    except NoSuchWindowException:
+        pass
+
+
+def dump_js_console_log(context):
+    if context.mist_config['BROWSER_FLAVOR'] == 'chrome':
+        js_console_logs = context.mist_config['browser'].get_log('browser')
+        formatted_js_console_logs = json.dumps(js_console_logs, indent=5)
+        fp = open(context.mist_config['JS_CONSOLE_LOG'], 'w')
+        fp.write(formatted_js_console_logs)
+        fp.close()
