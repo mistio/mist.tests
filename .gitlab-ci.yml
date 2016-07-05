@@ -11,8 +11,8 @@ run_mayday_test:
         # export all the necessary env variables
         - export PATH=/builds/mistio/tests/parts/chromedriver/:$PATH
         # initialize directories
-        - mkdir -p /builds/mistio/mist.core/parts/chromedriver
-        - mkdir -p /builds/mistio/mist.core/var/mail
+        - mkdir -p /builds/mistio/mist.tests/parts/chromedriver
+        - mkdir -p /builds/mistio/mist.tests/var/mail
         # cp chromedriver and script
         - cp /tests2/chromedriver /builds/mistio/mist.core/parts/chromedriver/chromedriver
         - cp /tests2/run_test_or_commit.sh /builds/mistio/mist.core/run_test_or_commit.sh
