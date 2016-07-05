@@ -5,8 +5,7 @@ from email.mime.text import MIMEText
 
 
 gl_url = "https://gitlab.ops.mist.io/api/v3/projects/7/builds"
-TOKEN = '******'
-headers = {"PRIVATE-TOKEN": TOKEN}
+headers = {"PRIVATE-TOKEN": $PRIVATE_TOKEN}
 
 gmail_pwd = '******'
 FROM = 'tester.mist.io@gmail.com'
@@ -19,7 +18,11 @@ TEXT = ''
 request = requests.get(gl_url, headers=headers)
 data = request.json()
 
+echo $PRIVATE_TOKEN
+
 if data[0]['status'] == 'failed' and data[1]['status'] == 'failed':
+
+    print 'Both last tests failed, raising mayday'
 
     # Prepare actual message
     message = """From: %s\nTo: %s\nSubject: %s\n\n%s
@@ -30,5 +33,5 @@ if data[0]['status'] == 'failed' and data[1]['status'] == 'failed':
     server.starttls()
     server.login(FROM,gmail_pwd)
 
-    server.sendmail(FROM, TO, message)
+#    server.sendmail(FROM, TO, message)
     server.quit()
