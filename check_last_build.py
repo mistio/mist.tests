@@ -1,11 +1,12 @@
 import requests
 import smtplib
+import os
 
 from email.mime.text import MIMEText
 
-
+PRIVATE_TOKEN = os.environ.get(PRIVATE_TOKEN)
 gl_url = "https://gitlab.ops.mist.io/api/v3/projects/7/builds"
-headers = {"PRIVATE-TOKEN": $PRIVATE_TOKEN}
+headers = {"PRIVATE-TOKEN": PRIVATE_TOKEN}
 
 gmail_pwd = '******'
 FROM = 'tester.mist.io@gmail.com'
@@ -18,7 +19,7 @@ TEXT = ''
 request = requests.get(gl_url, headers=headers)
 data = request.json()
 
-echo $PRIVATE_TOKEN
+echo PRIVATE_TOKEN
 
 if data[0]['status'] == 'failed' and data[1]['status'] == 'failed':
 
