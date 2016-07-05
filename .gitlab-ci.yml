@@ -29,4 +29,5 @@ raise_mayday:
     stage: build
     when: on_failure
     script:
-        - /core.env/bin/ipython /mist.tests/check_last_build.py
+        - ls
+        - /core.env/bin/ipython mayday_test/check_last_build.py
