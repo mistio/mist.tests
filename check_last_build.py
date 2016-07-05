@@ -19,7 +19,7 @@ TEXT = ''
 request = requests.get(gl_url, headers=headers)
 data = request.json()
 
-echo PRIVATE_TOKEN
+print PRIVATE_TOKEN
 
 if data[0]['status'] == 'failed' and data[1]['status'] == 'failed':
 
