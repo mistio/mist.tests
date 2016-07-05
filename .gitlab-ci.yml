@@ -1,0 +1,21 @@
+stages:
+    - mayday
+
+run_mayday_test:
+    image: gcr.io/mist-ops/fulltest2:2.10
+    stage: mayday
+    only:
+        - triggers
+    # export all the necessary env variables
+    - export PATH=/builds/mistio/mist.core/parts/chromedriver/:$PATH
+    # initialize directories
+    - mkdir -p /builds/mistio/mist.core/parts/chromedriver
+    # cp chromedriver and script
+    - cp /tests2/chromedriver /builds/mistio/mist.core/parts/chromedriver/chromedriver
+    - cp /tests2/run_test_or_commit.sh /builds/mistio/mist.core/run_test_or_commit.sh
+    # fix permissions for copied files
+    - chmod 744 /builds/mistio/mist.core/parts/chromedriver/chromedriver
+    - chmod 744 /builds/mistio/mist.core/run_test_or_commit.sh
+    - export DISPLAY=:1.0
+    - Xvfb :1 -screen 0 1024x768x24 > /dev/null 2>&1 &
+    - ./run_test_or_commit.sh /core.env/bin/ipython tests/prepare_env.py -- --register_user_before_feature false -k --tags=alert,graph,ssh,celery,google_sso_signin,github_sso_signin mist.tests/gui/core/mayday/features
