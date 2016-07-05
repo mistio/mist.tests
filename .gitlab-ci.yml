@@ -12,6 +12,7 @@ run_mayday_test:
         - export PATH=/builds/mistio/mist.core/parts/chromedriver/:$PATH
         # initialize directories
         - mkdir -p /builds/mistio/mist.core/parts/chromedriver
+        - mkdir -p /builds/mistio/mist.core/var/mail
         # cp chromedriver and script
         - cp /tests2/chromedriver /builds/mistio/mist.core/parts/chromedriver/chromedriver
         - cp /tests2/run_test_or_commit.sh /builds/mistio/mist.core/run_test_or_commit.sh
@@ -21,7 +22,12 @@ run_mayday_test:
         - export DISPLAY=:1.0
         - Xvfb :1 -screen 0 1024x768x24 > /dev/null 2>&1 &
     script:
-        - /core.env/bin/ipython /mist.core/tests/prepare_env.py -- --register_user_before_feature false -k --tags=alert,graph,ssh,celery,google_sso_signin,github_sso_signin mist.tests/gui/core/mayday/features
+        - cd ..
+        - ls
+        - mv mist.tests tests
+        - ls
+#        - /core.env/bin/ipython /mist.core/tests/prepare_env.py -- --register_user_before_feature false -k --tags=alert,graph,ssh,celery,google_sso_signin,github_sso_signin mist.tests/gui/core/mayday/features
+        - /core.env/bin/ipython tests/prepare_env.py -- -k --tags=google_sso_signin tests/gui/core/mayday/features
 
 
 raise_mayday:
