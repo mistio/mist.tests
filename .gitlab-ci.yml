@@ -14,8 +14,7 @@ run_mayday_test:
         - mkdir -p /builds/mistio/mist.tests/parts/chromedriver
         - mkdir -p /builds/mistio/mist.tests/var/mail
         # cp chromedriver and script
-        - cp /tests2/chromedriver /builds/mistio/mist.core/parts/chromedriver/chromedriver
-        - cp /tests2/run_test_or_commit.sh /builds/mistio/mist.core/run_test_or_commit.sh
+        - cp /tests2/chromedriver /builds/mistio/mist.tests/parts/chromedriver/chromedriver
         # fix permissions for copied files
         - chmod 744 /builds/mistio/mist.tests/parts/chromedriver/chromedriver
         - export DISPLAY=:1.0
