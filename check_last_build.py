@@ -4,7 +4,7 @@ import os
 
 from email.mime.text import MIMEText
 
-PRIVATE_TOKEN = os.environ.get(PRIVATE_TOKEN)
+PRIVATE_TOKEN = os.environ.get('PRIVATE_TOKEN')
 gl_url = "https://gitlab.ops.mist.io/api/v3/projects/7/builds"
 headers = {"PRIVATE-TOKEN": PRIVATE_TOKEN}
 
