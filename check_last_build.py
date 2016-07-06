@@ -8,8 +8,8 @@ PRIVATE_TOKEN = os.environ.get('PRIVATE_TOKEN')
 gl_url = "https://gitlab.ops.mist.io/api/v3/projects/7/builds"
 headers = {"PRIVATE-TOKEN": PRIVATE_TOKEN}
 
-gmail_pwd = '******'
-FROM = 'tester.mist.io@gmail.com'
+gmail_pwd = os.environ.get('PASSWORD')
+FROM = os.environ.get('EMAIL')
 TO = 'mayday@mistio.pagerduty.com'
 SUBJECT = 'Mayday build failed twice'
 
