@@ -60,4 +60,5 @@ assumed. The --email value will replace the value of EMAIL variable. If we provi
 The value of a variable is set always overriden by the prepare_env.py script. If the script is not involved
 the environment is checked and if nothing is found then the code will check if there is a test_settings.py
 module. Finally, if still nothing is found the default value will be used.
+
 ...
