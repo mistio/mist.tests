@@ -19,8 +19,6 @@ TEXT = ''
 request = requests.get(gl_url, headers=headers)
 data = request.json()
 
-print PRIVATE_TOKEN
-
 if data[0]['status'] == 'failed' and data[1]['status'] == 'failed':
 
     print 'Both last tests failed, raising mayday'
