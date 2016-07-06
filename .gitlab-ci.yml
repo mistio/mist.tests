@@ -9,7 +9,7 @@ run_mayday_test:
         - triggers
     before_script:
         # export all the necessary env variables
-        - export PATH=/builds/mistio/tests/parts/chromedriver/:$PATH
+        - export PATH=/builds/mistio/mist.tests/parts/chromedriver/:$PATH
         # initialize directories
         - mkdir -p /builds/mistio/mist.tests/parts/chromedriver
         - mkdir -p /builds/mistio/mist.tests/var/mail
@@ -26,8 +26,6 @@ run_mayday_test:
         - mkdir /builds/mistio/mist.tests/tests
         - cp -r /builds/mistio/tests_tmp/* /builds/mistio/mist.tests/tests
         - cp -r /builds/mistio/tests_tmp/* /builds/mistio/mist.tests 
-        - ls /builds/mistio/mist.tests
-        - ls /builds/mistio/mist.tests/tests
 #        - /core.env/bin/ipython /mist.core/tests/prepare_env.py -- --register_user_before_feature false -k --tags=alert,graph,ssh,celery,google_sso_signin,github_sso_signin mist.tests/gui/core/mayday/features
         - /core.env/bin/ipython /builds/mistio/mist.tests/prepare_env.py -- -k --tags=google_sso_signin /builds/mistio/mist.tests/gui/core/mayday/features
 
