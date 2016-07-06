@@ -20,12 +20,8 @@ run_mayday_test:
         - export DISPLAY=:1.0
         - Xvfb :1 -screen 0 1024x768x24 > /dev/null 2>&1 &
     script:
-        - rm -rf /builds/mistio/tests_tmp
-        - mv /builds/mistio/mist.tests /builds/mistio/tests_tmp
-        - mkdir /builds/mistio/mist.tests
-        - mkdir /builds/mistio/mist.tests/tests
-        - cp -r /builds/mistio/tests_tmp/* /builds/mistio/mist.tests/tests
-        - cp -r /builds/mistio/tests_tmp/* /builds/mistio/mist.tests 
+        - rm -rf /builds/mistio/mist.tests/tests
+        - ln -s /builds/mistio/mist.tests /builds/mistio/mist.tests/tests
 #        - /core.env/bin/ipython /mist.core/tests/prepare_env.py -- --register_user_before_feature false -k --tags=alert,graph,ssh,celery,google_sso_signin,github_sso_signin mist.tests/gui/core/mayday/features
         - /core.env/bin/ipython /builds/mistio/mist.tests/prepare_env.py -- -k --tags=google_sso_signin /builds/mistio/mist.tests/gui/core/mayday/features
 
