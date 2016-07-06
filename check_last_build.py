@@ -6,7 +6,7 @@ from email.mime.text import MIMEText
 from config import get_value_of
 
 PRIVATE_TOKEN = os.environ.get('PRIVATE_TOKEN')
-gl_url = "https://gitlab.ops.mist.io/api/v3/projects/7/builds"
+gl_url = "https://gitlab.ops.mist.io/api/v3/projects/2/builds"
 headers = {"PRIVATE-TOKEN": PRIVATE_TOKEN}
 
 gmail_pwd = get_value_of('PASSWORD', '')
@@ -19,9 +19,14 @@ TEXT = ''
 
 request = requests.get(gl_url, headers=headers)
 data = request.json()
+print data[0]
+print "\n"
+print data[1]
+print "\n"
+print data[2]
+print "\n"
+print data[3]
 
-print data[-1] + "\n" + "\n"
-print data[-2]
 
 if data[0]['status'] == 'failed' and data[1]['status'] == 'failed':
 
