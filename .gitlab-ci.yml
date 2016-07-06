@@ -20,7 +20,9 @@ run_mayday_test:
         - export DISPLAY=:1.0
         - Xvfb :1 -screen 0 1024x768x24 > /dev/null 2>&1 &
     script:
+        - ls /builds/mistio/mist.tests
         - mv /builds/mistio/mist.tests /builds/mistio/tmp
+        - ls /builds/mistio/tmp
         - mkdir /builds/mistio/mist.tests
         - mkdir /builds/mistio/mist.tests/tests
         - cp -r /builds/mistio/tmp /builds/mistio/mist.tests/tests
