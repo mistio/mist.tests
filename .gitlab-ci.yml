@@ -25,6 +25,7 @@ run_mayday_test:
     script:
 #        - /core.env/bin/ipython /mist.core/tests/prepare_env.py -- --register_user_before_feature false -k --tags=alert,graph,ssh,celery,google_sso_signin,github_sso_signin mist.tests/gui/core/mayday/features
         - /core.env/bin/ipython /builds/mistio/mist.tests/prepare_env.py -- -k --tags=google_sso_signin /builds/mistio/mist.tests/gui/core/mayday/features
+        - tail /builds/mistio/mist.tests/var/log/chromedriver.log
 
 
 raise_mayday:
@@ -32,5 +33,4 @@ raise_mayday:
     stage: build
     when: on_failure
     script:
-        - tail /builds/mistio/mist.tests/var/log/chromedriver.log
         - /core.env/bin/ipython check_last_build.py
