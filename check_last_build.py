@@ -6,7 +6,7 @@ from email.mime.text import MIMEText
 from config import get_value_of
 
 PRIVATE_TOKEN = os.environ.get('PRIVATE_TOKEN')
-TRIGGER_MAYDAY_ON_FAILURES = os.environ.get('TRIGGER_MAYDAY_ON_FAILURES') or 2
+TRIGGER_MAYDAY_ON_FAILURES = int(os.environ.get('TRIGGER_MAYDAY_ON_FAILURES')) or 2
 gl_url = "https://gitlab.ops.mist.io/api/v3/projects/2/builds"
 headers = {"PRIVATE-TOKEN": PRIVATE_TOKEN}
 
