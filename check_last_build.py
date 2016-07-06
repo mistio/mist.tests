@@ -3,13 +3,14 @@ import smtplib
 import os
 
 from email.mime.text import MIMEText
+from config import get_value_of
 
 PRIVATE_TOKEN = os.environ.get('PRIVATE_TOKEN')
 gl_url = "https://gitlab.ops.mist.io/api/v3/projects/7/builds"
 headers = {"PRIVATE-TOKEN": PRIVATE_TOKEN}
 
-gmail_pwd = os.environ.get('PASSWORD')
-FROM = os.environ.get('EMAIL')
+gmail_pwd = get_value_of('PASSWORD', '')
+FROM = get_value_of('EMAIL', '')
 TO = 'mayday@mistio.pagerduty.com'
 SUBJECT = 'Mayday build failed twice'
 
