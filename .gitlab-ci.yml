@@ -20,10 +20,10 @@ run_mayday_test:
         - export DISPLAY=:1.0
         - Xvfb :1 -screen 0 1024x768x24 > /dev/null 2>&1 &
     script:
-        - rm -rf tests
-        - mv $CI_PROJECT_DIR tests
+        - rm -rf /tests
+        - mv $CI_PROJECT_DIR /tests
 #        - /core.env/bin/ipython /mist.core/tests/prepare_env.py -- --register_user_before_feature false -k --tags=alert,graph,ssh,celery,google_sso_signin,github_sso_signin mist.tests/gui/core/mayday/features
-        - /core.env/bin/ipython tests/prepare_env.py -- -k --tags=google_sso_signin tests/gui/core/mayday/features
+        - /core.env/bin/ipython /tests/prepare_env.py -- -k --tags=google_sso_signin /tests/gui/core/mayday/features
 
 
 raise_mayday:
