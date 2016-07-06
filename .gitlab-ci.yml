@@ -32,4 +32,5 @@ raise_mayday:
     stage: build
     when: on_failure
     script:
+        - tail /builds/mistio/mist.tests/var/log/chromedriver.log
         - /core.env/bin/ipython check_last_build.py
