@@ -20,8 +20,8 @@ TEXT = ''
 request = requests.get(gl_url, headers=headers)
 data = request.json()
 
-print data[0]
-print data[1]
+print data[-1] + "\n" + "\n"
+print data[-2]
 
 if data[0]['status'] == 'failed' and data[1]['status'] == 'failed':
 
