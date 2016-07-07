@@ -10,6 +10,7 @@ run_mayday_test:
     before_script:
         # export all the necessary env variables
         - export PATH=/builds/mistio/tests/gitlab/:$PATH
+#        - cp /tests2/chromedriver /usr/bin/
         - export DISPLAY=:1.0
         - Xvfb :1 -screen 0 1024x768x24 > /dev/null 2>&1 &
         # symlink tests to simulate the paths used for mist.core
