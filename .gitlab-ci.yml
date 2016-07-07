@@ -21,6 +21,7 @@ run_mayday_test:
         - cd /builds/mistio
 #        - ./tests/gitlab/run_test_or_commit.sh /core.env/bin/ipython tests/prepare_env.py -- --screenshot-path=/var/log/error -k --tags=alert,graph,ssh,celery,google_sso_signin,github_sso_signin tests/gui/core/mayday/features
         - ./tests/gitlab/run_test_or_commit.sh /core.env/bin/ipython tests/prepare_env.py -- --screenshot-path=/var/log/error -k --tags=github_sso_signin tests/gui/core/mayday/features
+        - echo "bla"
     tags:
         - mayday
 
