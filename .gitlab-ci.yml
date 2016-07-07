@@ -11,7 +11,7 @@ run_mayday_test:
         - export PATH=/builds/mistio/tests/gitlab:$PATH
         - export MIST_TEST_LOG_DIR="mayday/$CI_BUILD_ID"
         - export DISPLAY=:1.0
-        - echo $GITLAB_ID_RSA > /gitlab.id_rsa
+        - echo $GITLAB_ID_RSA > /gitlab_id_rsa
         - Xvfb :1 -screen 0 1024x768x24 > /dev/null 2>&1 &
         - rm -rf /builds/mistio/tests
         - mv /builds/mistio/mist.tests /builds/mistio/tests
