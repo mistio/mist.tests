@@ -14,7 +14,8 @@ run_mayday_test:
         - export DISPLAY=:1.0
         - Xvfb :1 -screen 0 1024x768x24 > /dev/null 2>&1 &
         - rm -rf /builds/mistio/tests
-        - cp /builds/mistio/mist.tests /builds/mistio/tests
+        - mkdir /builds/mistio/tests
+        - cp -r -t /builds/mistio/tests /builds/mistio/mist.tests/*
         - chmod 744 /builds/mistio/tests/gitlab/chromedriver
         - chmod 744 /builds/mistio/tests/gitlab/run_test_or_commit.sh
     script:
