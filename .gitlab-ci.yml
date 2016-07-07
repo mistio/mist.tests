@@ -8,6 +8,7 @@ run_mayday_test:
     only:
         - triggers
     before_script:
+        - chromium-browser -version
         # export all the necessary env variables
         - chmod 744 /builds/mistio/mist.tests/gitlab/chromedriver
         - export PATH=/builds/mistio/mist.tests/gitlab/:$PATH
