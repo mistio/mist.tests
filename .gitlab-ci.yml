@@ -21,7 +21,7 @@ run_mayday_test:
         - chmod 744 /builds/mistio/tests/gitlab/run_test_or_commit.sh
     script:
         - cd /builds/mistio
-        - ./tests/gitlab/run_test_or_commit.sh /core.env/bin/ipython tests/prepare_env.py -- -k --tags=alert,graph tests/gui/core/mayday/features
+        - ./tests/gitlab/run_test_or_commit.sh /core.env/bin/ipython tests/prepare_env.py -- -k --tags=alert,graph,ssh,celery,google_sso_signin,github_sso_signin tests/gui/core/mayday/features
 
 
 raise_mayday:
