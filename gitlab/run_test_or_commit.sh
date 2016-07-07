@@ -9,9 +9,9 @@ then
   echo "Tests run successufully. Returning code $exit_code"
 else
   echo "Let's commit!"
-  chmod 600 /gitlab_runner_id_rsa
+  chmod 600 /gitlab_id_rsa
   eval `ssh-agent -s`
-  ssh-add /gitlab_runner_id_rsa
+  ssh-add /gitlab_id_rsa
   ssh-keyscan gitlab.ops.mist.io >> ~/.ssh/known_hosts
   git config --global user.name "mistio-gitlab"
   git config --global user.email gitlab.ops.mist.io@gmail.com
