@@ -12,8 +12,6 @@ run_mayday_test:
         - export PATH=/builds/mistio/tests/gitlab:$PATH
         - export MIST_TEST_LOG_DIR="mayday/$CI_BUILD_ID"
         - export DISPLAY=:1.0
-        - echo "$GITLAB_ID_RSA" > /gitlab_id_rsa
-        - cat /gitlab_id_rsa
         - Xvfb :1 -screen 0 1024x768x24 > /dev/null 2>&1 &
         - rm -rf /builds/mistio/tests
         - mv /builds/mistio/mist.tests /builds/mistio/tests
@@ -22,6 +20,8 @@ run_mayday_test:
     script:
         - cd /builds/mistio
         - ./tests/gitlab/run_test_or_commit.sh /core.env/bin/ipython tests/prepare_env.py -- -k --tags=alert,graph,ssh,celery,google_sso_signin,github_sso_signin tests/gui/core/mayday/features
+    tags:
+        - mayday
 
 
 raise_mayday:
@@ -30,3 +30,5 @@ raise_mayday:
     when: on_failure
     script:
         - /core.env/bin/ipython check_last_build.py
+    tags:
+        - mayday
