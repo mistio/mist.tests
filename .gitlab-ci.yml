@@ -9,14 +9,7 @@ run_mayday_test:
         - triggers
     before_script:
         # export all the necessary env variables
-        - export PATH=/builds/mistio/mist.tests/parts/chromedriver/:$PATH
-        # initialize directories
-        - mkdir -p /builds/mistio/mist.tests/parts/chromedriver
-        - mkdir -p /builds/mistio/mist.tests/var/mail
-        # cp chromedriver and script
-        - cp /tests2/chromedriver /builds/mistio/mist.tests/parts/chromedriver/chromedriver
-        # fix permissions for copied files
-        - chmod 744 /builds/mistio/mist.tests/parts/chromedriver/chromedriver
+        - export PATH=/builds/mistio/mist.tests/gitlab/chromedriver/:$PATH
         - export DISPLAY=:1.0
         - Xvfb :1 -screen 0 1024x768x24 > /dev/null 2>&1 &
         # symlink tests to simulate the paths used for mist.core
