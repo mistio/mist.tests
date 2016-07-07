@@ -28,4 +28,4 @@ else
   git push origin master
   echo "Pushed logs and other stuff to https://gitlab.ops.mist.io/mistio/mist.test.logs/tree/master/$MIST_TEST_LOG_DIR"
 fi
-exit $exit_code
+return $exit_code
