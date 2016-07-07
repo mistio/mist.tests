@@ -18,6 +18,8 @@ run_mayday_test:
         - mv /builds/mistio/mist.tests /builds/mistio/tests
     script:
         - cd /builds/mistio
+        - ls -l
+        - ls -l tests
 #        - /core.env/bin/behave -k -tags=google_sso_signin tests/gui/core/mayday/features
 #        - /core.env/bin/ipython /mist.core/tests/prepare_env.py -- --register_user_before_feature false -k --tags=alert,graph,ssh,celery,google_sso_signin,github_sso_signin mist.tests/gui/core/mayday/features
         - /core.env/bin/ipython /builds/mistio/tests/prepare_env.py -- -k --tags=google_sso_signin tests/gui/core/mayday/features
