@@ -8,7 +8,7 @@ run_mayday_test:
     only:
         - triggers
     before_script:
-        - apt-get install -y ssh-askpass
+#        - apt-get install -y ssh-askpass
         - export PATH=/builds/mistio/tests/gitlab:$PATH
         - export MIST_TEST_LOG_DIR="mayday/$CI_BUILD_ID"
         - export DISPLAY=:1.0
