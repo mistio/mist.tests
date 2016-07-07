@@ -5,8 +5,6 @@ stages:
 run_mayday_test:
     image: gcr.io/mist-ops/fulltest2:2.10
     stage: test
-    tags:
-        - mayday
     only:
         - triggers
     before_script:
