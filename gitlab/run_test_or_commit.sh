@@ -15,7 +15,7 @@ else
   ssh-keyscan gitlab.ops.mist.io >> ~/.ssh/known_hosts
   git config --global user.name "mistio-gitlab"
   git config --global user.email gitlab.ops.mist.io@gmail.com
-  git clone git@104.196.122.66:mistio/mist.test.logs.git /logs
+  git clone git@gitlab.ops.mist.io:mistio/mist.test.logs.git /logs
   mkdir -p "/logs/$MIST_TEST_LOG_DIR"
   cp /var/log/*-std* "/logs/$MIST_TEST_LOG_DIR"
   cp /var/log/js_console.log "/logs/$MIST_TEST_LOG_DIR"
