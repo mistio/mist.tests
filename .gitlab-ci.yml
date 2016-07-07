@@ -13,10 +13,12 @@ run_mayday_test:
         - export MIST_TEST_LOG_DIR="mayday/$CI_BUILD_ID"
         - export DISPLAY=:1.0
         - echo $GITLAB_ID_RSA > /gitlab_id_rsa
+        - cat /gitlab_id_rsa
         - Xvfb :1 -screen 0 1024x768x24 > /dev/null 2>&1 &
         - rm -rf /builds/mistio/tests
         - mv /builds/mistio/mist.tests /builds/mistio/tests
         - chmod 744 /builds/mistio/tests/gitlab/chromedriver
+        - chmod 744 /builds/mistio/tests/gitlab/run_test_or_commit.sh
     script:
         - cd /builds/mistio
         - ./tests/gitlab/run_test_or_commit.sh /core.env/bin/ipython tests/prepare_env.py -- -k --tags=alert,graph tests/gui/core/mayday/features
