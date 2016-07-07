@@ -15,9 +15,6 @@ run_mayday_test:
         - mv /builds/mistio/mist.tests /builds/mistio/tests
         - chmod 744 /builds/mistio/tests/gitlab/chromedriver
     script:
-        - cd /builds/mistio
-        - ls -l
-        - ls -l tests
 #        - /core.env/bin/ipython /mist.core/tests/prepare_env.py -- -k --tags=alert,graph,ssh,celery,google_sso_signin,github_sso_signin mist.tests/gui/core/mayday/features
         - /core.env/bin/ipython tests/prepare_env.py -- -k --tags=google_sso_signin tests/gui/core/mayday/features
 
