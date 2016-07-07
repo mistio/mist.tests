@@ -11,7 +11,7 @@ run_mayday_test:
         - chromium-browser -version
         # export all the necessary env variables
         - chmod 744 /builds/mistio/mist.tests/gitlab/chromedriver
-        - export PATH=/builds/mistio/mist.tests/gitlab/:$PATH
+        - export PATH=/builds/mistio/tests/gitlab/:$PATH
         - export DISPLAY=:1.0
         - Xvfb :1 -screen 0 1024x768x24 > /dev/null 2>&1 &
         # symlink tests to simulate the paths used for mist.core
