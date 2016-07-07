@@ -98,8 +98,8 @@ elif BROWSER_FLAVOR == 'phantomjs':
     WEBDRIVER_PATH = os.path.join(BASE_DIR, 'parts/envuiphantomjs')
 
 # If path is set in project env vars, override it
-if os.environ.get(WEBDRIVER_PATH):
-    WEBDRIVER_PATH = os.environ.get(WEBDRIVER_PATH)
+if os.environ.get("WEBDRIVER_PATH"):
+    WEBDRIVER_PATH = get_value_of("WEBDRIVER_PATH",'parts/chromedriver/chromedriver')
 
 WEBDRIVER_LOG = get_value_of("WEBDRIVER_LOG",
                              os.path.join(BASE_DIR, LOG_DIR,
