@@ -18,7 +18,6 @@ run_mayday_test:
         - chmod 744 /builds/mistio/tests/gitlab/chromedriver
         - chmod 744 /builds/mistio/tests/gitlab/run_test_or_commit.sh
     script:
-        - export MIST_URL=\'\"bla\"\'
         - cd /builds/mistio
         - ./tests/gitlab/run_test_or_commit.sh /core.env/bin/ipython tests/prepare_env.py -- --screenshot-path=/var/log/error -k --tags=alert,graph,ssh,celery,google_sso_signin,github_sso_signin tests/gui/core/mayday/features
     tags:
