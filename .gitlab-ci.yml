@@ -9,6 +9,7 @@ run_mayday_test:
         - triggers
     before_script:
         - apt-get install -y ssh-askpass
+        - echo "$GITLAB_ID_RSA" > /gitlab_id_rsa
         - export PATH=/builds/mistio/tests/gitlab:$PATH
         - export MIST_TEST_LOG_DIR="mayday/$CI_BUILD_ID"
         - export DISPLAY=:1.0
