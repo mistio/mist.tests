@@ -59,7 +59,7 @@ if failures >= TRIGGER_MAYDAY_ON_FAILURES:
     server.ehlo()
     server.starttls()
     server.login(FROM,gmail_pwd)
-#    server.sendmail(FROM, TO, message)
+    server.sendmail(FROM, TO, message)
     server.quit()
 
 else:
