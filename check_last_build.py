@@ -6,6 +6,7 @@ from email.mime.text import MIMEText
 from config import get_value_of
 
 PRIVATE_TOKEN = os.environ.get('PRIVATE_TOKEN')
+MIST_TEST_LOG_DIR = os.environ.get('MIST_TEST_LOG_DIR')
 if os.environ.get('TRIGGER_MAYDAY_ON_FAILURES')is not None:
     TRIGGER_MAYDAY_ON_FAILURES = int(os.environ.get('TRIGGER_MAYDAY_ON_FAILURES'))
 else:
@@ -17,10 +18,11 @@ headers = {"PRIVATE-TOKEN": PRIVATE_TOKEN}
 gmail_pwd = get_value_of('GOOGLE_TEST_PASSWORD', '')
 FROM = get_value_of('GOOGLE_TEST_EMAIL', '')
 TO = 'mayday@mistio.pagerduty.com'
-SUBJECT = 'Mayday build failed twice'
+SUBJECT = 'Production mayday alert'
 
-TEXT = ''
+TEXT = 'Build has failed, check the logs at https://gitlab.ops.mist.io/mistio/mist.test.logs/tree/master/' + MIST_TEST_LOG_DIR
 
+print MIST_TEST_LOG_DIR
 
 request = requests.get(gl_url, headers=headers)
 data = request.json()
@@ -47,7 +49,7 @@ if failures >= TRIGGER_MAYDAY_ON_FAILURES:
     server.ehlo()
     server.starttls()
     server.login(FROM,gmail_pwd)
-    server.sendmail(FROM, TO, message)
+#    server.sendmail(FROM, TO, message)
     server.quit()
 
 else:
