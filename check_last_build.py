@@ -6,7 +6,17 @@ from email.mime.text import MIMEText
 from config import get_value_of
 
 PRIVATE_TOKEN = os.environ.get('PRIVATE_TOKEN')
-MIST_TEST_LOG_DIR = os.environ.get('MIST_TEST_LOG_DIR')
+
+if os.environ.get('CI_BUILD_ID') is not None:
+    CI_BUILD_ID = os.environ.get('CI_BUILD_ID')
+else:
+    CI_BUILD_ID = ''
+
+if os.environ.get('MIST_TEST_LOG_DIR') is not None:
+    MIST_TEST_LOG_DIR = os.environ.get('MIST_TEST_LOG_DIR')
+else:
+    MIST_TEST_LOG_DIR = 'mayday/' + CI_BUILD_ID
+
 if os.environ.get('TRIGGER_MAYDAY_ON_FAILURES')is not None:
     TRIGGER_MAYDAY_ON_FAILURES = int(os.environ.get('TRIGGER_MAYDAY_ON_FAILURES'))
 else:
