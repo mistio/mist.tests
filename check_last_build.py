@@ -6,7 +6,11 @@ from email.mime.text import MIMEText
 from config import get_value_of
 
 PRIVATE_TOKEN = os.environ.get('PRIVATE_TOKEN')
-TRIGGER_MAYDAY_ON_FAILURES = int(os.environ.get('TRIGGER_MAYDAY_ON_FAILURES')) or 2
+if os.environ.get('TRIGGER_MAYDAY_ON_FAILURES')is not None:
+    TRIGGER_MAYDAY_ON_FAILURES = int(os.environ.get('TRIGGER_MAYDAY_ON_FAILURES'))
+else:
+    TRIGGER_MAYDAY_ON_FAILURES = 2
+
 gl_url = "https://gitlab.ops.mist.io/api/v3/projects/2/builds"
 headers = {"PRIVATE-TOKEN": PRIVATE_TOKEN}
 
@@ -22,9 +26,15 @@ request = requests.get(gl_url, headers=headers)
 data = request.json()
 
 failures = 0
+test_results = []
+
 #Checking twice the logs as we have two stages
 for i in range(TRIGGER_MAYDAY_ON_FAILURES * 2):
-    if data[i]['name'] == 'run_mayday_test' and data[i]['status'] == 'failed':
+    if data[i]['name'] == 'run_mayday_test':
+        test_results.append(data[i]['status'])
+#checking only the last mayday tests for consecutive failures
+for j in range(TRIGGER_MAYDAY_ON_FAILURES):
+    if test_results[j] == 'failed':
         failures +=1
 
 if failures >= TRIGGER_MAYDAY_ON_FAILURES:
