@@ -64,8 +64,6 @@ BROWSER_LOCAL = get_value_of("BROWSER_LOCAL", True)
 
 DEBUG = get_value_of("DEBUG", False)
 
-BROWSER_FLAVOR = get_value_of("BROWSER_FLAVOR", "chrome")
-
 # Directories and paths used for the tests
 BASE_DIR = get_value_of("BASE_DIR", os.getcwd())
 
@@ -87,15 +85,19 @@ SCREENSHOT_PATH = get_value_of("SCREENSHOT_PATH",
 # This is the path to the json file used for the multi-provisioning tests
 MP_DB_DIR = get_value_of("MP_DB_DIR", os.path.join(BASE_DIR, 'mp_db.json'))
 
+BROWSER_FLAVOR = get_value_of("BROWSER_FLAVOR", "chrome")
+
+default_browser_path = BASE_DIR
 if BROWSER_FLAVOR == 'chrome':
+    default_browser_path = os.path.join(default_browser_path,
+                                        'parts/chromedriver/chromedriver')
     if 'darwin' in sys.platform:
-        WEBDRIVER_PATH = os.path.join(BASE_DIR,
-                                      'parts/chromedriver-mac/chromedriver-mac')
-    else:
-        WEBDRIVER_PATH = os.path.join(BASE_DIR,
-                                      'parts/chromedriver/chromedriver')
+        default_browser_path += '-mac'
+
 elif BROWSER_FLAVOR == 'phantomjs':
-    WEBDRIVER_PATH = os.path.join(BASE_DIR, 'parts/envuiphantomjs')
+    default_browser_path = os.path.join(default_browser_path, 'parts/envuiphantomjs')
+
+WEBDRIVER_PATH = get_value_of("WEBDRIVER_PATH", default_browser_path)
 
 WEBDRIVER_LOG = get_value_of("WEBDRIVER_LOG",
                              os.path.join(BASE_DIR, LOG_DIR,
