@@ -15,7 +15,7 @@ else:
 if os.environ.get('MIST_TEST_LOG_DIR') is not None:
     MIST_TEST_LOG_DIR = os.environ.get('MIST_TEST_LOG_DIR')
 else:
-    MIST_TEST_LOG_DIR = 'mayday/' + CI_BUILD_ID
+    MIST_TEST_LOG_DIR = 'mayday/' + str(CI_BUILD_ID)
 
 if os.environ.get('TRIGGER_MAYDAY_ON_FAILURES')is not None:
     TRIGGER_MAYDAY_ON_FAILURES = int(os.environ.get('TRIGGER_MAYDAY_ON_FAILURES'))
@@ -32,7 +32,7 @@ SUBJECT = 'Production mayday alert'
 
 TEXT = 'Build has failed, check the logs at https://gitlab.ops.mist.io/mistio/mist.test.logs/tree/master/' + MIST_TEST_LOG_DIR
 
-print MIST_TEST_LOG_DIR
+print 'https://gitlab.ops.mist.io/mistio/mist.test.logs/tree/master/' + MIST_TEST_LOG_DIRMIST_TEST_LOG_DIR
 
 request = requests.get(gl_url, headers=headers)
 data = request.json()
