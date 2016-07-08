@@ -14,8 +14,8 @@ else:
 gl_url = "https://gitlab.ops.mist.io/api/v3/projects/2/builds"
 headers = {"PRIVATE-TOKEN": PRIVATE_TOKEN}
 
-gmail_pwd = get_value_of('PASSWORD', '')
-FROM = get_value_of('EMAIL', '')
+gmail_pwd = get_value_of('GOOGLE_TEST_PASSWORD', '')
+FROM = get_value_of('GOOGLE_TEST_EMAIL', '')
 TO = 'mayday@mistio.pagerduty.com'
 SUBJECT = 'Mayday build failed twice'
 
