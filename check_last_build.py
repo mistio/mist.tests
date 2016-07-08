@@ -8,7 +8,7 @@ from config import get_value_of
 PRIVATE_TOKEN = os.environ.get('PRIVATE_TOKEN')
 
 if os.environ.get('CI_BUILD_ID') is not None:
-    CI_BUILD_ID = os.environ.get('CI_BUILD_ID')
+    CI_BUILD_ID = int(os.environ.get('CI_BUILD_ID')) -1
 else:
     CI_BUILD_ID = ''
 
