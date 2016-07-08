@@ -32,7 +32,7 @@ SUBJECT = 'Production mayday alert'
 
 TEXT = 'Build has failed, check the logs at https://gitlab.ops.mist.io/mistio/mist.test.logs/tree/master/' + MIST_TEST_LOG_DIR
 
-print 'https://gitlab.ops.mist.io/mistio/mist.test.logs/tree/master/' + MIST_TEST_LOG_DIRMIST_TEST_LOG_DIR
+print 'https://gitlab.ops.mist.io/mistio/mist.test.logs/tree/master/' + MIST_TEST_LOG_DIR
 
 request = requests.get(gl_url, headers=headers)
 data = request.json()
