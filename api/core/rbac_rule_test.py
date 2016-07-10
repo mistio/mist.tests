@@ -80,15 +80,6 @@ def test_rbac_policy_rule_validation(pretty_print, email):
         'rtags': ''
     }, org=org, team=team)
 
-    print "\n>>>  Test rule allows only read and edit for all rtypes"
-    rule_should_raise_exc(rule_dict={
-        'operator': 'ALLOW',
-        'action': 'remove',
-        'rtype': '',
-        'rid': '',
-        'rtags': ''
-    }, org=org, team=team)
-
     print "\n>>>  Test rule allows only the specific actions for a resource"
     rule_should_raise_exc(rule_dict={
         'operator': 'ALLOW',
