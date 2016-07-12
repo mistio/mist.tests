@@ -43,10 +43,11 @@ else
     echo "Retrying to push logs and screenshots"
   done
   if [[ $MAYDAY -eq 1 ]]; then
-    echo "1"
+    pwd
     /core.env/bin/ipython tests/gitlab/mayday/trigger_mayday.py
-    echo "2"
-     /core.env/bin/ipython gitlab/mayday/trigger_mayday.py
+    /core.env/bin/ipython gitlab/mayday/trigger_mayday.py
+    /core.env/bin/ipython mayday/trigger_mayday.py
+    /core.env/bin/ipython /builds/mistio/tests/gitlab/mayday/trigger_mayday.py
   fi
 fi
 exit $exit_code
