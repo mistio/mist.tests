@@ -44,9 +44,7 @@ else
   done
   if [[ $MAYDAY -eq 1 ]]; then
     pwd
-    /core.env/bin/ipython tests/gitlab/mayday/trigger_mayday.py
-    /core.env/bin/ipython gitlab/mayday/trigger_mayday.py
-    /core.env/bin/ipython mayday/trigger_mayday.py
+#    /core.env/bin/ipython mayday/trigger_mayday.py
     /core.env/bin/ipython /builds/mistio/tests/gitlab/mayday/trigger_mayday.py
   fi
 fi
