@@ -17,7 +17,7 @@ if os.environ.get('MIST_TEST_LOG_DIR') is not None:
 else:
     MIST_TEST_LOG_DIR = 'mayday/' + str(CI_BUILD_ID)
 
-if os.environ.get('TRIGGER_MAYDAY_ON_FAILURES')is not None:
+if os.environ.get('TRIGGER_MAYDAY_ON_FAILURES') is not None:
     TRIGGER_MAYDAY_ON_FAILURES = int(os.environ.get('TRIGGER_MAYDAY_ON_FAILURES'))
 else:
     TRIGGER_MAYDAY_ON_FAILURES = 2
