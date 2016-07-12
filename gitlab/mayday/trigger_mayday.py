@@ -58,7 +58,7 @@ if failures >= TRIGGER_MAYDAY_ON_FAILURES:
     server = smtplib.SMTP('smtp.gmail.com:587')
     server.ehlo()
     server.starttls()
-    server.login(FROM,gmail_pwd)
+    server.login(FROM, gmail_pwd)
     server.sendmail(FROM, TO, message)
     server.quit()
 
