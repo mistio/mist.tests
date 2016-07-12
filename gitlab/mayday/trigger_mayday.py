@@ -2,7 +2,11 @@ import requests
 import smtplib
 import os
 
-from email.mime.text import MIMEText
+import logging
+
+log = logging.getLogger(__name__)
+logging.basicConfig(level=logging.INFO)
+
 from tests.config import get_value_of
 
 PRIVATE_TOKEN = os.environ.get('PRIVATE_TOKEN')
@@ -36,6 +40,7 @@ print 'https://gitlab.ops.mist.io/mistio/mist.test.logs/tree/master/' + MIST_TES
 
 request = requests.get(gl_url, headers=headers)
 data = request.json()
+log.info("Data returned is: %s" % data)
 
 failures = 0
 test_results = []
@@ -48,7 +53,7 @@ for i in range(TRIGGER_MAYDAY_ON_FAILURES * 2):
 for j in range(TRIGGER_MAYDAY_ON_FAILURES):
     if test_results[j] == 'failed':
         failures += 1
-        print "Found another failure. Failures so far %s" % failures
+        log.info("Found another failure. Failures so far %s" % failures)
 
 if failures >= TRIGGER_MAYDAY_ON_FAILURES:
 
