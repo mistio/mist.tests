@@ -28,9 +28,10 @@ else
   count=1
   while [ count -neq 10 ]; do
     push_result=$(git push origin master 2>&1)
-    if [[ ! push_result =~ "*rejected*" ]]; then
+    if [[ ! "$push_result" =~ "[rejected]" ]]; then
      break
     fi
+    git pull
     let count++
   done
   if [ count -eq 10 ]; then
