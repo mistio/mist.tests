@@ -22,6 +22,6 @@ run_mayday_test:
         - chmod 744 tests/gitlab/run_test_or_commit.sh
         - export "PATH=$(pwd)/tests/gitlab:$PATH"
     script:
-        - ./tests/gitlab/run_test_or_commit.sh /core.env/bin/ipython tests/prepare_env.py -- --screenshot-path=/var/log/error -k --tags=alert,graph,ssh,celery,github_sso_signin tests/gui/core/mayday/
+        - ./tests/gitlab/run_test_or_commit.sh /core.env/bin/ipython tests/prepare_env.py -- --screenshot-path=/var/log/error -k --tags=alert,graph,ssh,celery,github_sso_signin tests/gui/core/mayday/features
     tags:
         - mayday
