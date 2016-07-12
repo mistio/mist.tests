@@ -39,7 +39,7 @@ else
     fi
     git pull
     let count++
-    echo "Retrying to push logs and screenshots for "
+    echo "Retrying to push logs and screenshots"
   done
   if [[ $MAYDAY -eq 1 ]]; then
     /core.env/bin/ipython tests/gitlab/mayday/check_last_build.py
