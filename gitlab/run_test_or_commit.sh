@@ -37,6 +37,7 @@ else
     fi
     git pull
     let count++
+    echo "Retrying to push logs and screenshots"
   done
   echo "Pushed logs and other stuff to https://gitlab.ops.mist.io/mistio/mist.test.logs/tree/master/$MIST_TEST_LOG_DIR"
   if [[ $MAYDAY -eq 1 ]]; then
