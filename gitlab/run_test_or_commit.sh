@@ -6,7 +6,7 @@ exit_code=$?
 
 if [ $exit_code -eq 0 ]
 then
-  echo "Tests run successufully. Returning code $exit_code"
+  echo "Tests run successfully. Returning code $exit_code"
 else
   echo "Let's commit!"
   chmod 600 /gitlab_id_rsa
