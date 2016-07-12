@@ -30,16 +30,17 @@ else
   do
     push_result=$(git push origin master 2>&1)
     if [[ ! "$push_result" =~ "[rejected]" ]]; then
-     break
+        echo "Pushed logs and other stuff to https://gitlab.ops.mist.io/mistio/mist.test.logs/tree/master/$MIST_TEST_LOG_DIR"
+        break
     fi
     if [[ count -eq 10 ]]; then
         echo "Failed to push logs and other stuff to mist.test.logs repo"
+        break
     fi
     git pull
     let count++
-    echo "Retrying to push logs and screenshots"
+    echo "Retrying to push logs and screenshots for "
   done
-  echo "Pushed logs and other stuff to https://gitlab.ops.mist.io/mistio/mist.test.logs/tree/master/$MIST_TEST_LOG_DIR"
   if [[ $MAYDAY -eq 1 ]]; then
     /core.env/bin/ipython tests/gitlab/mayday/check_last_build.py
   fi
