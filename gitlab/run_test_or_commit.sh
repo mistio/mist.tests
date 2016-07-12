@@ -22,6 +22,7 @@ else
   cp /var/log/rabbitmq/* "/logs/$MIST_TEST_LOG_DIR"
   cp /var/log/supervisord.log "/logs/$MIST_TEST_LOG_DIR"
   cp /var/log/error* "/logs/$MIST_TEST_LOG_DIR"
+  cp /var/log/mongodb\.log.* "/logs/$MIST_TEST_LOG_DIR"
   cd /logs
   git add "$MIST_TEST_LOG_DIR"
   git commit -m "Logs for build $CI_BUILD_ID"
