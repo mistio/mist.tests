@@ -44,6 +44,8 @@ else
   done
   if [[ $MAYDAY -eq 1 ]]; then
     echo "$(pwd)"
+    cd /builds/mistio
+    echo "$(pwd)"
     /core.env/bin/ipython tests/gitlab/mayday/trigger_mayday.py
   fi
 fi
