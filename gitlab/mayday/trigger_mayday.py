@@ -42,18 +42,21 @@ request = requests.get(gl_url, headers=headers)
 data = request.json()
 log.info("Data returned is: %s" % data)
 
-failures = 0
+# this start as one because the first failed build is the current one
+failures = 1
 test_results = []
 
-#Checking twice the logs as we have two stages
-for i in range(TRIGGER_MAYDAY_ON_FAILURES * 2):
-    if data[i]['name'] == 'run_mayday_test':
-        test_results.append(data[i]['status'])
-#checking only the last mayday tests for consecutive failures
-for j in range(TRIGGER_MAYDAY_ON_FAILURES):
-    if test_results[j] == 'failed':
+# Checking twice the logs as we have two stages
+for i, data_dict in enumerate(data):
+    if i == 0:
+        continue
+    log.info("looking at result %s" % data_dict)
+    if data[i]['status'] == 'failed':
         failures += 1
         log.info("Found another failure. Failures so far %s" % failures)
+    else:
+        break
+
 
 if failures >= TRIGGER_MAYDAY_ON_FAILURES:
 
