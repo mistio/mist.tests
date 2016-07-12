@@ -109,6 +109,7 @@ CREDENTIALS = get_value_of("CREDENTIALS", {})
 MIST_API_TOKEN = get_value_of("MIST_API_TOKEN", "")
 
 MIST_URL = get_value_of("MIST_URL", "http://localhost:8000")
+VPN_URL = get_value_of("VPN_URL", "")
 
 NAME = get_value_of("NAME", "Atheofovos Gkikas")
 
