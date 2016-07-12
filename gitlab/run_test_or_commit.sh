@@ -26,7 +26,8 @@ else
   git add "$MIST_TEST_LOG_DIR"
   git commit -m "Logs for build $CI_BUILD_ID"
   count=1
-  while [[ count -neq 10 ]]; do
+  while :
+  do
     push_result=$(git push origin master 2>&1)
     if [[ ! "$push_result" =~ "[rejected]" ]]; then
      break
