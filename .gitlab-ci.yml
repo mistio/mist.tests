@@ -3,7 +3,7 @@ stages:
     - build
 
 run_mayday_test:
-    image: gcr.io/mist-ops/fulltest2:2.10
+    image: gcr.io/mist-ops/fullstack:latest
     stage: test
     only:
         - triggers
