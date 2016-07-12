@@ -28,7 +28,7 @@ else
   git push origin master
   echo "Pushed logs and other stuff to https://gitlab.ops.mist.io/mistio/mist.test.logs/tree/master/$MIST_TEST_LOG_DIR"
   if [ $MAYDAY -eq 1 ]; then
-    /core.env/bin/ipython /tests/check_last_build.py
+    /core.env/bin/ipython tests/check_last_build.py
   fi
 fi
 exit $exit_code
