@@ -48,6 +48,7 @@ for i in range(TRIGGER_MAYDAY_ON_FAILURES * 2):
 for j in range(TRIGGER_MAYDAY_ON_FAILURES):
     if test_results[j] == 'failed':
         failures += 1
+        print "Found another failure. Failures so far %s" % failures
 
 if failures >= TRIGGER_MAYDAY_ON_FAILURES:
 
