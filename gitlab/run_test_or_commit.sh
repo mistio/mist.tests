@@ -43,7 +43,7 @@ else
     echo "Retrying to push logs and screenshots"
   done
   if [[ $MAYDAY -eq 1 ]]; then
-#    /core.env/bin/ipython mayday/trigger_mayday.py
+    cd /builds/mistio/
     /core.env/bin/ipython /builds/mistio/tests/gitlab/mayday/trigger_mayday.py
   fi
 fi
