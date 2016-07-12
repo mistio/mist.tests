@@ -40,7 +40,7 @@ print 'https://gitlab.ops.mist.io/mistio/mist.test.logs/tree/master/' + MIST_TES
 
 request = requests.get(gl_url, headers=headers)
 data = request.json()
-log.info("Data returned is: %s" % data)
+# log.info("Data returned is: %s" % data)
 
 # this start as one because the first failed build is the current one
 failures = 1
