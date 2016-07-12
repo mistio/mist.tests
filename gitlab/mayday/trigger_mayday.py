@@ -47,7 +47,7 @@ for i in range(TRIGGER_MAYDAY_ON_FAILURES * 2):
 #checking only the last mayday tests for consecutive failures
 for j in range(TRIGGER_MAYDAY_ON_FAILURES):
     if test_results[j] == 'failed':
-        failures +=1
+        failures += 1
 
 if failures >= TRIGGER_MAYDAY_ON_FAILURES:
 
