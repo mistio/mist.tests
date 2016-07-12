@@ -3,7 +3,7 @@ import smtplib
 import os
 
 from email.mime.text import MIMEText
-from config import get_value_of
+from tests.config import get_value_of
 
 PRIVATE_TOKEN = os.environ.get('PRIVATE_TOKEN')
 
