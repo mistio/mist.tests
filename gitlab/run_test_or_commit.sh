@@ -26,20 +26,19 @@ else
   git add "$MIST_TEST_LOG_DIR"
   git commit -m "Logs for build $CI_BUILD_ID"
   count=1
-  while [ count -neq 10 ]; do
+  while [[ count -neq 10 ]]; do
     push_result=$(git push origin master 2>&1)
     if [[ ! "$push_result" =~ "[rejected]" ]]; then
      break
     fi
+    if [[ count -eq 10 ]]; then
+        echo "Failed to push logs and other stuff to mist.test.logs repo"
+    fi
     git pull
     let count++
   done
-  if [ count -eq 10 ]; then
-    echo "Failed to push logs and other stuff to mist.test.logs repo"
-  else
-    echo "Pushed logs and other stuff to https://gitlab.ops.mist.io/mistio/mist.test.logs/tree/master/$MIST_TEST_LOG_DIR"
-  fi
-  if [ $MAYDAY -eq 1 ]; then
+  echo "Pushed logs and other stuff to https://gitlab.ops.mist.io/mistio/mist.test.logs/tree/master/$MIST_TEST_LOG_DIR"
+  if [[ $MAYDAY -eq 1 ]]; then
     /core.env/bin/ipython tests/gitlab/mayday/check_last_build.py
   fi
 fi
