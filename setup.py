@@ -8,8 +8,6 @@ setup(name='mist.tests',
       author='mist.io',
       packages=find_packages('.'),
       package_dir={'': '.'},
-      namespace_packages=['tests'],
       include_package_data=True,
       zip_safe=False,
-      install_requires=[],
       )
