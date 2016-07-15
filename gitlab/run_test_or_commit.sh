@@ -11,6 +11,8 @@ else
   echo "Let's commit!"
   chmod 600 /gitlab_id_rsa
   eval `ssh-agent -s`
+  mkdir ~/.ssh
+  touch ~/.ssh/known_hosts
   ssh-add /gitlab_id_rsa
   ssh-keyscan gitlab.ops.mist.io >> ~/.ssh/known_hosts
   git config --global user.name "mistio-gitlab"
