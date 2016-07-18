@@ -4,13 +4,14 @@ Feature: Add second-tier clouds in Polymist
   Background:
     Given I am logged in to mist.core
     And I am in the new UI
-    Given the Images counter has loaded
+    Then I wait for the links in homepage to appear
+    Given Images counter should be greater than 0 within 60 seconds
 
   @cloud-add
   Scenario Outline:
     When I click the button by "addBtn" id_name
     Then I expect for "cloud-add" element to be visible within max 10 seconds
-    And I open the Provider drop down
+    And I open the "Choose Provider" drop down
     And I wait for 1 seconds
     When I click the provider button <provider>
     Then I expect for "Title *" label to be visible within max 4 seconds
