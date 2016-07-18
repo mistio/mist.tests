@@ -92,19 +92,14 @@ def assert_title_contains(context, text):
 
 @step(u'I wait for the links in homepage to appear')
 def wait_for_buttons_to_appear(context):
-    from .buttons import search_for_button
-    end_time = time() + 100
+    end_time = time() + 10
     while time() < end_time:
         try:
-            images_button = search_for_button(context, 'Images')
-            counter_span = images_button.find_element_by_class_name("ui-li-count")
-
-            counter_span_text = safe_get_element_text(counter_span)
-
-            int(counter_span_text)
+            images_button = context.browser.find_element_by_id('images')
+            counter_span = images_button.find_element_by_class_name('count')
+            int(safe_get_element_text(counter_span))
             break
-        except (NoSuchElementException, StaleElementReferenceException,
-                ValueError, AttributeError) as e:
+        except (NoSuchElementException, ValueError, AttributeError):
             assert time() + 1 < end_time, "Links in the home page have not" \
                                           " appeared after 10 seconds"
             sleep(1)
@@ -113,14 +108,17 @@ def wait_for_buttons_to_appear(context):
 @step(u'{counter_title} counter should be greater than {counter_number} within '
       u'{seconds} seconds')
 def some_counter_loaded(context, counter_title, counter_number, seconds):
-    from .buttons import search_for_button
-    counter_found = search_for_button(context, counter_title)
-    assert counter_found, "Counter with name %s has not been found" % counter_title
+    try:
+        counter = context.browser.find_element_by_id(counter_title.lower())
+    except NoSuchElementException:
+        raise NoSuchElementException("Counter with name %s has not been found"
+                                     % counter_title)
 
     end_time = time() + int(seconds)
     while time() < end_time:
-        counter_span = counter_found.find_element_by_class_name("ui-li-count")
+        counter_span = counter.find_element_by_class_name("count")
         counter_span_text = safe_get_element_text(counter_span)
+        counter_span_text = "0" if not counter_span_text else counter_span_text
         counter = int(counter_span_text)
 
         if counter > int(counter_number):
