@@ -80,11 +80,6 @@ def wait(context, seconds):
     sleep(int(seconds))
 
 
-@step(u'I refresh the current page')
-def refresh_the_page(context):
-    context.browser.refresh()
-
-
 @step(u'the title should be "{text}"')
 def assert_title_is(context, text):
     assert text == context.browser.title
@@ -152,10 +147,22 @@ def see_header_with_title(context, text):
       u'seconds')
 def become_visible_waiting_with_timeout(context, element_id, seconds):
     try:
-        WebDriverWait(context.browser, int(seconds)).until(EC.visibility_of_element_located((By.ID, element_id)))
+        WebDriverWait(context.browser, int(seconds)).until(
+            EC.visibility_of_element_located((By.ID, element_id)))
     except TimeoutException:
         raise TimeoutException("element with id %s did not become visible "
                                "after %s seconds" % (element_id, seconds))
+
+
+@step(u'I expect for "{element_name}" element to be visible within max '
+      u'{seconds} seconds')
+def element_become_visible_waiting_with_timeout(context, element_name, seconds):
+    try:
+        WebDriverWait(context.browser, int(seconds)).until(
+            EC.visibility_of_element_located((By.TAG_NAME, element_name)))
+    except TimeoutException:
+        raise TimeoutException("element %s did not become visible "
+                               "after %s seconds" % (element_name, seconds))
 
 
 @step(u'I expect for "{page_title}" page to appear within max {seconds} seconds')
@@ -202,11 +209,6 @@ def loader_name_waiting_with_timeout(context, loader_name, seconds):
             return
     assert False, 'Loader %s did not finish after %s seconds' % (loader_name,
                                                                  seconds)
-
-
-@step(u'I refresh the browser')
-def refresh(context):
-    context.browser.refresh()
 
 
 @step(u'I should be in the machines page')
