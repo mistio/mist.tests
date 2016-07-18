@@ -62,6 +62,7 @@ def am_in_new_UI(context):
             When I click the button "BETA UI"
         ''')
 
+
 @step(u'I wait for the mist.io splash page to load')
 def standard_splash_waiting(context):
     """
