@@ -62,7 +62,7 @@ def given_cloud(context, cloud):
     ''' % (cloud, creds, cloud))
 
 
-@step(u'I use my "{cloud}" credentials')
+@step(u'I use my provider "{cloud}" credentials')
 def cloud_creds(context, cloud):
     if "AZURE" in cloud:
         subscription_id = None
@@ -126,24 +126,10 @@ def cloud_creds(context, cloud):
         username.send_keys(context.mist_config['CREDENTIALS']['RACKSPACE']['username'])
         api_key = context.browser.find_element_by_id("api_key")
         api_key.send_keys(context.mist_config['CREDENTIALS']['RACKSPACE']['api_key'])
-    elif "HP" in cloud:
-        context.execute_steps(u'''
-        When I click the button "Select Region"
-        And I click the button "%s"''' % context.mist_config['CREDENTIALS']['HP']['region'])
-        title = context.browser.find_element_by_id("title")
-        for i in range(20):
-            title.send_keys(u'\ue003')
-        title.send_keys("HP Helion Cloud")
-        username = context.browser.find_element_by_id("username")
-        username.send_keys(context.mist_config['CREDENTIALS']['HP']['username'])
-        password = context.browser.find_element_by_id("password")
-        password.send_keys(context.mist_config['CREDENTIALS']['HP']['password'])
-        tenant_name = context.browser.find_element_by_id("tenant_name")
-        tenant_name.send_keys(context.mist_config['CREDENTIALS']['HP']['tenant_name'])
     elif "SOFTLAYER" in cloud:
-        username = context.browser.find_element_by_id("username")
+        username = context.browser.find_element_by_xpath("//label[contains(text(), 'Username')]").find_element_by_xpath("..").find_element_by_tag_name("input")
         username.send_keys(context.mist_config['CREDENTIALS']['SOFTLAYER']['username'])
-        api_key = context.browser.find_element_by_id("api_key")
+        api_key = context.browser.find_element_by_xpath("//label[contains(text(), 'API Key')]").find_element_by_xpath("..").find_element_by_tag_name("input")
         api_key.send_keys(context.mist_config['CREDENTIALS']['SOFTLAYER']['api_key'])
     elif "EC2" in cloud:
         context.execute_steps(u'''
@@ -158,13 +144,9 @@ def cloud_creds(context, cloud):
         api_secret = context.browser.find_element_by_id("api_secret")
         api_secret.send_keys(context.mist_config['CREDENTIALS']['EC2']['api_secret'])
     elif "NEPHOSCALE" in cloud:
-        title = context.browser.find_element_by_id("title")
-        for i in range(20):
-            title.send_keys(u'\ue003')
-        title.send_keys("NephoScale")
-        username = context.browser.find_element_by_id("username")
+        username = context.browser.find_element_by_xpath("//label[contains(text(), 'Username')]").find_element_by_xpath("..").find_element_by_tag_name("input")
         username.send_keys(context.mist_config['CREDENTIALS']['NEPHOSCALE']['username'])
-        password = context.browser.find_element_by_id("password")
+        password =  context.browser.find_element_by_xpath("//label[contains(text(), 'Password')]").find_element_by_xpath("..").find_element_by_tag_name("input")
         password.send_keys(context.mist_config['CREDENTIALS']['NEPHOSCALE']['password'])
     elif "LINODE" in cloud:
         api_key = context.browser.find_element_by_id("api_key")
@@ -215,7 +197,7 @@ def cloud_creds(context, cloud):
             password = context.browser.find_element_by_id("auth_password")
             password.send_keys(context.mist_config['CREDENTIALS']['DOCKER']['password'])
     elif "DIGITALOCEAN" in cloud:
-        token_input = context.browser.find_element_by_id("token")
+        token_input = context.browser.find_element_by_xpath("//label[contains(text(), 'Token')]").find_element_by_xpath("..").find_element_by_tag_name("input")
         token_input.send_keys(context.mist_config['CREDENTIALS']['DIGITALOCEAN']['token'])
     elif "VMWARE VCLOUD" in cloud:
         username = context.browser.find_element_by_id("username")
@@ -257,9 +239,7 @@ def cloud_creds(context, cloud):
             Then I expect for "key-add-popup" popup to disappear within max 4 seconds
         ''')
     elif "PACKET" in cloud:
-        api_key = context.browser.find_element_by_id("api_key")
-        for i in range(20):
-            api_key.send_keys(u'\ue003')
+        api_key = context.browser.find_element_by_xpath("//label[contains(text(), 'API Key')]").find_element_by_xpath("..").find_element_by_tag_name("input")
         api_key.send_keys(context.mist_config['CREDENTIALS']['PACKET']['api_key'])
 
 
@@ -275,16 +255,19 @@ def rename_cloud(context, new_name):
         sleep(0.7)
 
 
-@step(u'the "{cloud}" cloud should be added within {seconds} seconds')
+@step(u'the "{cloud}" provider should be added within {seconds} seconds')
 def cloud_added(context, cloud, seconds):
     end_time = time() + int(seconds)
     while time() < end_time:
-        button = search_for_button(context, cloud, btn_cls='cloud-btn')
-        if button:
+        try:
+            context.browser.find_element_by_xpath('//h1[contains(text(), "%s")]'
+                                                  % str(cloud))
             return
+        except NoSuchElementException:
+            pass
         sleep(2)
 
-    assert False, u'%s is not added within %s seconds' %(cloud, seconds)
+    assert False, u'%s is not added within %s seconds' % (cloud, seconds)
 
 
 @step(u'the "{cloud}" cloud should be deleted')
