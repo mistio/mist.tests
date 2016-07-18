@@ -1,0 +1,27 @@
+stages:
+    - test
+    - build
+
+run_mayday_test:
+    image: gcr.io/mist-ops/fullstack:latest
+    stage: test
+    only:
+        - triggers
+    before_script:
+        - echo "$GITLAB_ID_RSA" > /gitlab_id_rsa
+        - export MAYDAY=1
+        - export MIST_TEST_LOG_DIR="mayday/$CI_BUILD_ID"
+        - export DISPLAY=:1.0
+        - Xvfb :1 -screen 0 1024x768x24 > /dev/null 2>&1 &
+        - cd ..
+        - rm -rf tests
+        - mkdir tests
+        - cp -r -t tests mist.tests/*
+        - cp /chromedriver tests/gitlab/chromedriver
+        - chmod 744 tests/gitlab/chromedriver
+        - chmod 744 tests/gitlab/run_test_or_commit.sh
+        - export "PATH=$(pwd)/tests/gitlab:$PATH"
+    script:
+        - ./tests/gitlab/run_test_or_commit.sh /core.env/bin/ipython tests/prepare_env.py -- --screenshot-path=/var/log/error -k --tags=alert,graph,ssh,celery,github_sso_signin tests/gui/core/mayday/features
+    tags:
+        - mayday

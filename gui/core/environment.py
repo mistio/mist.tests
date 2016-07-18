@@ -1,16 +1,15 @@
 import sys
-import json
 import logging
 
 from tests import config
 
 from tests.helpers.selenium_utils import choose_driver
-
-from selenium.webdriver.remote.errorhandler import NoSuchWindowException
+from tests.helpers.selenium_utils import get_screenshot
+from tests.helpers.selenium_utils import dump_js_console_log
 
 log = logging.getLogger(__name__)
 
-logging.basicConfig(level=config.logging.INFO)
+logging.basicConfig(level=logging.INFO)
 
 
 def before_all(context):
@@ -70,31 +69,21 @@ def before_all(context):
 
 def before_feature(context, feature):
     if config.REGISTER_USER_BEFORE_FEATURE:
-        context.execute_steps(u'Given user with email "EMAIL" is registered')
+        try:
+            context.execute_steps(u'Given user with email "EMAIL" is registered')
+        except Exception as e:
+            get_screenshot(context)
+            dump_js_console_log(context)
+            raise e
 
 
 def after_scenario(context, scenario):
     if scenario.status == 'failed':
-        if context.mist_config['NON_STOP']:
-            num = context.mist_config['ERROR_NUM'] = context.mist_config['ERROR_NUM'] + 1
-            try:
-                context.browser.get_screenshot_as_file(context.mist_config['SCREENSHOT_PATH'] + '.{0}.png'.format(str(num)))
-            except NoSuchWindowException:
-                pass
-        else:
-            try:
-                context.browser.get_screenshot_as_file(context.mist_config['SCREENSHOT_PATH'] + '.png')
-            except NoSuchWindowException:
-                pass
+        get_screenshot(context)
 
 
 def after_all(context):
-    if context.mist_config['BROWSER_FLAVOR'] == 'chrome':
-        js_console_logs = context.mist_config['browser'].get_log('browser')
-        formatted_js_console_logs = json.dumps(js_console_logs, indent=5)
-        fp = open(context.mist_config['JS_CONSOLE_LOG'], 'w')
-        fp.write(formatted_js_console_logs)
-        fp.close()
+    dump_js_console_log(context)
     context.mist_config['browser'].quit()
     if context.mist_config.get('browser2'):
         context.mist_config['browser2'].quit()

@@ -21,9 +21,11 @@
 
 import os
 import sys
+import json
 import logging
 
 log = logging.getLogger(__name__)
+logging.basicConfig(level=logging.INFO)
 test_settings = {}
 try:
     execfile("test_settings.py", test_settings)
@@ -32,128 +34,153 @@ except IOError:
 except Exception as exc:
     log.error("Error parsing test_settings py: %r", exc)
 
-LOCAL = test_settings.get("LOCAL", True)
 
-BROWSER_LOCAL = test_settings.get("BROWSER_LOCAL", True)
+def get_value_of(name_of_variable, default_value):
+    """
+    Check in environment if the variable is set and return it's value
+    otherwise check if it is available in the test_settings. Finally, use the
+    default value if it's not available anywhere else.
+    :param name_of_variable: the name of the variable to be searched in env or test_settings
+    :param default_value: the default value if no other value is found
+    :return:
+    """
+    env_var = os.environ.get(name_of_variable)
+    if env_var is not None:
+        env_var = env_var.replace("\'", '').decode('string_escape')
+        try:
+            env_var = json.loads(env_var)
+        except ValueError as e:
+            log.error("Could not decode value of variable %s(%s)" %
+                      (name_of_variable, env_var))
+            raise e
+        log.info("Retrieved value from env for variable with name %s: %s" %
+                 (name_of_variable, env_var))
+        return env_var
+    return test_settings.get(name_of_variable, default_value)
 
-DEBUG = test_settings.get("DEBUG", False)
+LOCAL = get_value_of("LOCAL", True)
 
-BROWSER_FLAVOR = test_settings.get("BROWSER_FLAVOR", "chrome")
+BROWSER_LOCAL = get_value_of("BROWSER_LOCAL", True)
 
-# If LOCAL == False, you have to provide the selenium-hub
-selenium_hub = test_settings.get("selenium_hub", "")
+DEBUG = get_value_of("DEBUG", False)
 
 # Directories and paths used for the tests
-BASE_DIR = test_settings.get("BASE_DIR", os.getcwd())
+BASE_DIR = get_value_of("BASE_DIR", os.getcwd())
 
-LOG_DIR = test_settings.get("LOG_DIR", 'var/log/')
+LOG_DIR = get_value_of("LOG_DIR", 'var/log/')
 
-TEST_DIR = test_settings.get("TEST_DIR",
-                             os.path.join(BASE_DIR, 'src/mist/io/tests'))
+TEST_DIR = get_value_of("TEST_DIR",
+                        os.path.join(BASE_DIR, 'src/mist/io/tests'))
 
-MAIL_PATH = test_settings.get("MAIL_PATH",
-                              os.path.join(BASE_DIR, 'var/mail/'))
+MAIL_PATH = get_value_of("MAIL_PATH",
+                         os.path.join(BASE_DIR, 'var/mail/'))
 
-JS_CONSOLE_LOG = test_settings.get("JS_CONSOLE_LOG",
-                                   os.path.join(BASE_DIR, LOG_DIR,
-                                                'js_console.log'))
+JS_CONSOLE_LOG = get_value_of("JS_CONSOLE_LOG",
+                              os.path.join(BASE_DIR, LOG_DIR,
+                                           'js_console.log'))
 
-SCREENSHOT_PATH = test_settings.get("SCREENSHOT_PATH",
-                                    os.path.join(BASE_DIR, 'error'))
+SCREENSHOT_PATH = get_value_of("SCREENSHOT_PATH",
+                               os.path.join(BASE_DIR, 'error'))
 
 # This is the path to the json file used for the multi-provisioning tests
-MP_DB_DIR = test_settings.get("MP_DB_DIR", os.path.join(BASE_DIR, 'mp_db.json'))
+MP_DB_DIR = get_value_of("MP_DB_DIR", os.path.join(BASE_DIR, 'mp_db.json'))
 
+BROWSER_FLAVOR = get_value_of("BROWSER_FLAVOR", "chrome")
+
+default_browser_path = BASE_DIR
 if BROWSER_FLAVOR == 'chrome':
+    default_browser_path = os.path.join(default_browser_path,
+                                        'parts/chromedriver/chromedriver')
     if 'darwin' in sys.platform:
-        WEBDRIVER_PATH = os.path.join(BASE_DIR,
-                                      'parts/chromedriver-mac/chromedriver-mac')
-    else:
-        WEBDRIVER_PATH = os.path.join(BASE_DIR,
-                                      'parts/chromedriver/chromedriver')
-elif BROWSER_FLAVOR == 'phantomjs':
-    WEBDRIVER_PATH = os.path.join(BASE_DIR, 'parts/envuiphantomjs')
+        default_browser_path += '-mac'
 
-WEBDRIVER_LOG = test_settings.get("WEBDRIVER_LOG",
-                                  os.path.join(BASE_DIR, LOG_DIR,
-                                               'chromedriver.log'))
+elif BROWSER_FLAVOR == 'phantomjs':
+    default_browser_path = os.path.join(default_browser_path, 'parts/envuiphantomjs')
+
+WEBDRIVER_PATH = get_value_of("WEBDRIVER_PATH", default_browser_path)
+
+WEBDRIVER_LOG = get_value_of("WEBDRIVER_LOG",
+                             os.path.join(BASE_DIR, LOG_DIR,
+                                          'chromedriver.log'))
 
 # ----------CREDENTIALS-----------
-CREDENTIALS = test_settings.get("CREDENTIALS", {})
+CREDENTIALS = get_value_of("CREDENTIALS", {})
 
-MIST_API_TOKEN = test_settings.get("MIST_API_TOKEN", "")
+MIST_API_TOKEN = get_value_of("MIST_API_TOKEN", "")
 
-MIST_URL = test_settings.get("MIST_URL", "http://localhost:8000")
+MIST_URL = get_value_of("MIST_URL", "http://localhost:8000")
+VPN_URL = get_value_of("VPN_URL", "")
 
-NAME = test_settings.get("NAME", "Atheofovos Gkikas")
+NAME = get_value_of("NAME", "Atheofovos Gkikas")
 
 # DEFAULT CREDENTIALS FOR ACCESSING MIST.CORE
-EMAIL = test_settings.get("EMAIL", "")
-PASSWORD1 = test_settings.get("PASSWORD1", "")
-PASSWORD2 = test_settings.get("PASSWORD2", "")
+EMAIL = get_value_of("EMAIL", "")
+PASSWORD1 = get_value_of("PASSWORD1", "")
+PASSWORD2 = get_value_of("PASSWORD2", "")
 
-DEMO_EMAIL = test_settings.get("DEMO_EMAIL", "")
-DEMO_PASSWORD = test_settings.get("DEMO_PASSWORD", "")
+DEMO_EMAIL = get_value_of("DEMO_EMAIL", "")
+DEMO_PASSWORD = get_value_of("DEMO_PASSWORD", "")
 
-MIST_DEMO_REQUEST_EMAIL = test_settings.get("MIST_DEMO_REQUEST_EMAIL", "demo@mist.io")
+MIST_DEMO_REQUEST_EMAIL = get_value_of("MIST_DEMO_REQUEST_EMAIL",
+                                       "demo@mist.io")
 
 # CREDENTIALS FOR TESTING RBAC
-RBAC_OWNER_EMAIL = test_settings.get("RBAC_OWNER_EMAIL", "owner@dr.dr")
-RBAC_OWNER_PASSWORD  = test_settings.get("RBAC_OWNER_PASSWORD ", "dr")
+RBAC_OWNER_EMAIL = get_value_of("RBAC_OWNER_EMAIL", "owner@dr.dr")
+RBAC_OWNER_PASSWORD = get_value_of("RBAC_OWNER_PASSWORD ", "dr")
 
-RBAC_MEMBER_EMAIL = test_settings.get("RBAC_MEMBER_EMAIL", "user@dr.dr")
-RBAC_MEMBER_PASSWORD = test_settings.get("RBAC_MEMBER_PASSWORD", "dr")
+RBAC_MEMBER_EMAIL = get_value_of("RBAC_MEMBER_EMAIL", "user@dr.dr")
+RBAC_MEMBER_PASSWORD = get_value_of("RBAC_MEMBER_PASSWORD", "dr")
 
 # CREDENTIALS FOR GOOGLE SSO
-GOOGLE_TEST_EMAIL = test_settings.get("GOOGLE_TEST_EMAIL", "")
-GOOGLE_TEST_PASSWORD = test_settings.get("GOOGLE_TEST_PASSWORD", "")
+GOOGLE_TEST_EMAIL = get_value_of("GOOGLE_TEST_EMAIL", "")
+GOOGLE_TEST_PASSWORD = get_value_of("GOOGLE_TEST_PASSWORD", "")
 
 # CREDENTIALS FOR GITHUB SSO
-GITHUB_TEST_EMAIL = test_settings.get("GITHUB_TEST_EMAIL", "")
-GITHUB_TEST_PASSWORD = test_settings.get("GITHUB_TEST_PASSWORD", "")
+GITHUB_TEST_EMAIL = get_value_of("GITHUB_TEST_EMAIL", "")
+GITHUB_TEST_PASSWORD = get_value_of("GITHUB_TEST_PASSWORD", "")
 
 # CREDENTIALS FOR TESTING REGISTRATION THROUGH SSO
-GOOGLE_REGISTRATION_TEST_EMAIL = test_settings.get(
+GOOGLE_REGISTRATION_TEST_EMAIL = get_value_of(
     "GOOGLE_REGISTRATION_TEST_EMAIL", "")
-GOOGLE_REGISTRATION_TEST_PASSWORD = test_settings.get(
+GOOGLE_REGISTRATION_TEST_PASSWORD = get_value_of(
     "GOOGLE_REGISTRATION_TEST_PASSWORD", "")
 
-GITHUB_REGISTRATION_TEST_EMAIL = test_settings.get(
+GITHUB_REGISTRATION_TEST_EMAIL = get_value_of(
     "GITHUB_REGISTRATION_TEST_EMAIL", "")
-GITHUB_REGISTRATION_TEST_PASSWORD = test_settings.get(
+GITHUB_REGISTRATION_TEST_PASSWORD = get_value_of(
     "GITHUB_REGISTRATION_TEST_PASSWORD", "")
 
-OWNER_EMAIL = test_settings.get("OWNER_EMAIL", "")
-OWNER_PASSWORD = test_settings.get("OWNER_PASSWORD", "")
+OWNER_EMAIL = get_value_of("OWNER_EMAIL", "")
+OWNER_PASSWORD = get_value_of("OWNER_PASSWORD", "")
 
-MEMBER1_EMAIL = test_settings.get("MEMBER1_EMAIL", "")
-MEMBER1_PASSWORD = test_settings.get("MEMBER1_PASSWORD", "")
+MEMBER1_EMAIL = get_value_of("MEMBER1_EMAIL", "")
+MEMBER1_PASSWORD = get_value_of("MEMBER1_PASSWORD", "")
 
-MEMBER2_EMAIL = test_settings.get("MEMBER2_EMAIL", "")
-MEMBER2_PASSWORD = test_settings.get("MEMBER2_PASSWORD", "")
+MEMBER2_EMAIL = get_value_of("MEMBER2_EMAIL", "")
+MEMBER2_PASSWORD = get_value_of("MEMBER2_PASSWORD", "")
 
-API_TESTS_PRIVATE_KEY = test_settings.get("API_TESTS_PRIVATE_KEY", '')
+API_TESTS_PRIVATE_KEY = get_value_of("API_TESTS_PRIVATE_KEY", '')
 
-API_TESTS_PUBLIC_KEY = test_settings.get("API_TESTS_PUBLIC_KEY", '')
+API_TESTS_PUBLIC_KEY = get_value_of("API_TESTS_PUBLIC_KEY", '')
 
-API_TESTING_MACHINE_PRIVATE_KEY = test_settings.get(
+API_TESTING_MACHINE_PRIVATE_KEY = get_value_of(
     "API_TESTING_MACHINE_PRIVATE_KEY", '')
 
-API_TESTING_MACHINE_PUBLIC_KEY = test_settings.get(
+API_TESTING_MACHINE_PUBLIC_KEY = get_value_of(
     "API_TESTING_MACHINE_PUBLIC_KEY", '')
 
-API_TESTING_MACHINE_NAME = test_settings.get("API_TESTING_MACHINE_NAME", '')
+API_TESTING_MACHINE_NAME = get_value_of("API_TESTING_MACHINE_NAME", '')
 
-API_TESTING_CLOUD = test_settings.get('API_TESTING_CLOUD', '')
+API_TESTING_CLOUD = get_value_of('API_TESTING_CLOUD', '')
 
-API_TESTING_CLOUD_PROVIDER = test_settings.get('API_TESTING_CLOUD_PROVIDER', '')
+API_TESTING_CLOUD_PROVIDER = get_value_of('API_TESTING_CLOUD_PROVIDER', '')
 
-ORG_NAME = test_settings.get('ORG_NAME', '')
+ORG_NAME = get_value_of('ORG_NAME', '')
 
-SETUP_ENVIRONMENT = test_settings.get("SETUP_ENVIRONMENT", False)
+SETUP_ENVIRONMENT = get_value_of("SETUP_ENVIRONMENT", False)
 
-WEBDRIVER_OPTIONS = test_settings.get('WEBDRIVER_OPTIONS',
-                                      ['--dns-prefetch-disable'])
+WEBDRIVER_OPTIONS = get_value_of('WEBDRIVER_OPTIONS',
+                                 ['--dns-prefetch-disable'])
 
-REGISTER_USER_BEFORE_FEATURE = test_settings.get('REGISTER_USER_BEFORE_FEATURE',
-                                                 False)
+REGISTER_USER_BEFORE_FEATURE = get_value_of('REGISTER_USER_BEFORE_FEATURE',
+                                            False)
