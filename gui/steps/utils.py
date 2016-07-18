@@ -3,6 +3,8 @@ from behave import step
 from time import time
 from time import sleep
 
+from selenium.webdriver import ActionChains
+
 from selenium.common.exceptions import TimeoutException
 from selenium.common.exceptions import NoSuchElementException
 from selenium.common.exceptions import StaleElementReferenceException
@@ -119,9 +121,7 @@ def some_counter_loaded(context, counter_title, counter_number, seconds):
         counter_span = counter.find_element_by_class_name("count")
         counter_span_text = safe_get_element_text(counter_span)
         counter_span_text = "0" if not counter_span_text else counter_span_text
-        counter = int(counter_span_text)
-
-        if counter > int(counter_number):
+        if int(counter_span_text) > int(counter_number):
             return
         else:
             sleep(2)
@@ -237,3 +237,14 @@ def check_input_for_text(context, something, input_id):
     assert input, 'Could not find element with id %s' % input_id
     assert input.get_attribute('value').lower() == something.lower(), \
         "Input text did not match what was expected"
+
+
+@step(u'I open the "{dropdown_text}" drop down')
+def open_provider_drop_down(context, dropdown_text):
+    dropdown = filter(lambda d: safe_get_element_text(d).strip().lower() == dropdown_text.lower(),
+                      context.browser.find_elements_by_class_name('paper-dropdown-menu'))
+    if not dropdown:
+        raise NoSuchElementException('There is no dropdown with test %s'
+                                     % dropdown_text)
+    button = context.browser.find_element_by_xpath("//*[contains(text(), 'Choose Provider')]")
+    ActionChains(context.browser).move_to_element(button).click().perform()

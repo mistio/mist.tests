@@ -13,16 +13,13 @@ from selenium.webdriver import ActionChains
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.common.by import By
 
+
 @step(u'I click the Add provider button')
 def click_polymer_button(context):
+    import ipdb
+    ipdb.set_trace()
     container = context.browser.find_element_by_xpath("//div[contains(@class, 'cloud-add')]")
     button = container.find_element_by_tag_name('paper-button')
-    ActionChains(context.browser).move_to_element(button).click().perform()
-
-
-@step(u'I open the Provider drop down')
-def open_provider_drop_down(context):
-    button = context.browser.find_element_by_xpath("//*[contains(text(), 'Choose Provider')]")
     ActionChains(context.browser).move_to_element(button).click().perform()
 
 
