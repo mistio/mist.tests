@@ -13,11 +13,11 @@ Feature: Add second-tier clouds in Polymist
     Then I expect for "cloud-add" element to be visible within max 10 seconds
     And I open the "Choose Provider" drop down
     And I wait for 1 seconds
-    When I click the button "<provider>"
+    When I click the button "<provider>" in the "Choose Provider" dropdown
     Then I expect for "Title *" label to be visible within max 4 seconds
     When I use my provider "<credentials>" credentials
     And I click the button "Add Cloud"
-    And I wait for 2 seconds
+    And I click the mist.io button
     Then the "<provider>" provider should be added within 120 seconds
 
     Examples: Providers
