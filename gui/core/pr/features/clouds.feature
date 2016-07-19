@@ -22,10 +22,10 @@ Feature: Add second-tier clouds in Polymist
 
     Examples: Providers
     | provider              | credentials  |
-#    | Digital Ocean         | DIGITALOCEAN |
-#    | SoftLayer             | SOFTLAYER    |
-#    | NephoScale            | NEPHOSCALE   |
-#    | Rackspace             | RACKSPACE    |
+    | Digital Ocean         | DIGITALOCEAN |
+    | SoftLayer             | SOFTLAYER    |
+    | NephoScale            | NEPHOSCALE   |
+    | Rackspace             | RACKSPACE    |
     | Packet                | PACKET       |
 
     # Added by the Machines feature
