@@ -163,6 +163,22 @@ def element_become_visible_waiting_with_timeout(context, element_name, seconds):
                                "after %s seconds" % (element_name, seconds))
 
 
+@step(u'I expect for "{element_text}" label to be visible within max {seconds} '
+      u'seconds')
+def element_label_become_visible_waiting_with_timeout(context, element_text, seconds):
+    timeout = time() + int(seconds)
+    while time() < timeout:
+        try:
+            context.browser.find_element_by_xpath('//label[contains(text(), "%s")]' %str(element_text))
+            return
+        except:
+            pass
+        assert time() + 1 < timeout, "label %s did not " \
+                                     "become visible after %s seconds" % \
+                                     (element_text, seconds)
+        sleep(1)
+
+
 @step(u'I expect for "{page_title}" page to appear within max {seconds} seconds')
 def page_waiting_with_timeout(context, page_title, seconds):
     """
