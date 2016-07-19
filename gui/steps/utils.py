@@ -152,8 +152,8 @@ def become_visible_waiting_with_timeout(context, element_id, seconds):
                                "after %s seconds" % (element_id, seconds))
 
 
-@step(u'I expect for "{element_name}" element to be visible within max '
-      u'{seconds} seconds')
+@step(u'I expect for element with tag "{element_name}" element to be visible '
+      u'within max {seconds} seconds')
 def element_become_visible_waiting_with_timeout(context, element_name, seconds):
     try:
         WebDriverWait(context.browser, int(seconds)).until(
@@ -163,13 +163,13 @@ def element_become_visible_waiting_with_timeout(context, element_name, seconds):
                                "after %s seconds" % (element_name, seconds))
 
 
-@step(u'I expect for "{element_text}" label to be visible within max {seconds} '
+@step(u'I expect the label "{element_text}" to be visible within max {seconds} '
       u'seconds')
 def element_label_become_visible_waiting_with_timeout(context, element_text, seconds):
     timeout = time() + int(seconds)
     while time() < timeout:
         try:
-            context.browser.find_element_by_xpath('//label[contains(text(), "%s")]' %str(element_text))
+            context.browser.find_element_by_xpath('//label[contains(text(), "%s")]' % str(element_text))
             return
         except:
             pass
@@ -177,6 +177,13 @@ def element_label_become_visible_waiting_with_timeout(context, element_text, sec
                                      "become visible after %s seconds" % \
                                      (element_text, seconds)
         sleep(1)
+
+
+@step(u'I expect the page {page} to be visible within max {seconds} seconds')
+def check_page_is_visible(context, page, seconds):
+    if page.lower() == 'clouds':
+        element = 'cloud-add'
+    element_become_visible_waiting_with_timeout(context, element, seconds)
 
 
 @step(u'I expect for "{page_title}" page to appear within max {seconds} seconds')
