@@ -10,11 +10,11 @@ Feature: Add second-tier clouds in Polymist
   @cloud-add
   Scenario Outline:
     When I click the button by "addBtn" id_name
-    Then I expect for "cloud-add" element to be visible within max 10 seconds
+    Then I expect the page Clouds to be visible within max 10 seconds
     And I open the "Choose Provider" drop down
     And I wait for 1 seconds
     When I click the button "<provider>" in the "Choose Provider" dropdown
-    Then I expect for "Title *" label to be visible within max 4 seconds
+    Then I expect the label "Title *" to be visible within max 4 seconds
     When I use my provider "<credentials>" credentials
     And I click the button "Add Cloud"
     And I click the mist.io button
@@ -26,7 +26,7 @@ Feature: Add second-tier clouds in Polymist
     | SoftLayer             | SOFTLAYER    |
     | NephoScale            | NEPHOSCALE   |
     | Rackspace             | RACKSPACE    |
-    | Packet.net            | PACKET       |
+    | Packet                | PACKET       |
 
     # Added by the Machines feature
     #| EC2                   | EC2          |
