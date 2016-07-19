@@ -5,6 +5,7 @@ from time import time
 
 from .utils import safe_get_element_text
 from .utils import focus_on_element
+from .utils import find_dropdown
 
 from selenium.webdriver import ActionChains
 from selenium.webdriver.common.by import By
@@ -24,6 +25,13 @@ def become_visible_waiting_with_timeout(context, element_id, seconds):
     except TimeoutException:
         raise TimeoutException("element with id %s did not become clickable "
                                "after %s seconds" % (element_id, seconds))
+
+
+@step(u'I click the button "{button}" in the "{name}" dropdown')
+def click_button_in_dropdown(context, button, name):
+    dropdown = find_dropdown(context, name.lower())
+    buttons = dropdown.find_elements_by_tag_name('paper-item')
+    click_button_from_collection(context, button.lower(), buttons)
 
 
 def click_button_from_collection(context, text, button_collection=None,
@@ -137,6 +145,11 @@ def click_button(context, text):
     click_button_from_collection(context, text.lower(),
                                  error_message='Could not find button that '
                                                'contains %s' % text)
+
+
+@step(u'I click the mist.io button')
+def click_mist_io(context):
+    clicketi_click(context, context.browser.find_element_by_id('logo-link'))
 
 
 @step(u'I click the Gravatar')
