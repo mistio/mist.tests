@@ -3,8 +3,6 @@ from behave import step
 from time import time
 from time import sleep
 
-from selenium.webdriver import ActionChains
-
 from selenium.common.exceptions import TimeoutException
 from selenium.common.exceptions import NoSuchElementException
 from selenium.common.exceptions import StaleElementReferenceException
@@ -286,3 +284,13 @@ def open_drop_down(context, dropdown_text):
     from .buttons import clicketi_click
     dropdown = find_dropdown(context, dropdown_text.lower())
     clicketi_click(context, dropdown)
+
+
+def wait_until_visible(element, seconds):
+    timeout = time() + seconds
+    while time() < timeout:
+        if element.is_displayed():
+            return True
+        sleep(1)
+    raise TimeoutException("Element has not become visible after %s seconds"
+                           % seconds)

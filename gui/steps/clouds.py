@@ -9,6 +9,7 @@ from selenium.common.exceptions import NoSuchElementException
 
 from .buttons import search_for_button
 from .utils import safe_get_element_text
+from .utils import wait_until_visible
 
 
 cloud_creds_dict = {
@@ -244,6 +245,7 @@ def cloud_creds(context, cloud):
     elif "PACKET" in cloud:
         cloud_add = context.browser.find_element_by_class_name("cloud-add")
         api_key = cloud_add.find_element_by_id("api_key").find_element_by_id("input")
+        wait_until_visible(api_key, 4)
         api_key.send_keys(context.mist_config['CREDENTIALS']['PACKET']['api_key'])
 
 
