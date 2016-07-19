@@ -13,6 +13,7 @@ from selenium.webdriver.support import expected_conditions as EC
 
 from selenium.common.exceptions import WebDriverException
 from selenium.common.exceptions import TimeoutException
+from selenium.common.exceptions import NoSuchElementException
 
 
 @step(u'I expect for "{element_id}" to be clickable within max {seconds} '
@@ -27,7 +28,7 @@ def become_visible_waiting_with_timeout(context, element_id, seconds):
 
 def click_button_from_collection(context, text, button_collection=None,
                                  error_message="Could not find button"):
-    button = search_for_button(context, text, button_collection)
+    button = search_for_button(context, text.lower(), button_collection)
     assert button, error_message
     for i in range(0, 2):
         try:
@@ -39,20 +40,23 @@ def click_button_from_collection(context, text, button_collection=None,
                       (safe_get_element_text(button), text)
 
 
-def search_for_button(context, text, button_collection=None, btn_cls='ui-btn'):
+def search_for_button(context, text, button_collection=None):
     if not button_collection:
-        button_collection = context.browser.find_elements_by_class_name(btn_cls)
+        try:
+            context.browser.find_element_by_id('app')
+            button_collection = context.browser.find_elements_by_tag_name('paper-button')
+        except NoSuchElementException:
+            button_collection = context.browser.find_elements_by_class_name('ui-btn')
+
     # search for button with exactly the same text. sometimes the driver returns
     # the same element more than once and that's why we return the first
     # element of the list
     # also doing some cleaning if the text attribute also sends back texts
     # of sub elements
-    text = text.lower()
+    button = filter(lambda el: safe_get_element_text(el).strip().lower() == text,
+                    button_collection)
 
-    button = filter(
-        lambda b: safe_get_element_text(b).rstrip().lstrip().split('\n')[0].lower() == text,
-        button_collection)
-    if len(button) > 0:
+    if button:
         return button[0]
 
     # if we haven't found the exact text then we search for something that
@@ -130,7 +134,7 @@ def click_button(context, text):
     """
     if context.mist_config.get(text):
         text = context.mist_config[text]
-    click_button_from_collection(context, text,
+    click_button_from_collection(context, text.lower(),
                                  error_message='Could not find button that '
                                                'contains %s' % text)
 
