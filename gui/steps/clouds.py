@@ -116,15 +116,18 @@ def cloud_creds(context, cloud):
         tenant_name.send_keys(context.mist_config['CREDENTIALS']['OPENSTACK']['tenant_name'])
     elif "RACKSPACE" in cloud:
         context.execute_steps(u'''
-        When I click the button "Select Region"
-        And I click the button "%s"''' % context.mist_config['CREDENTIALS']['RACKSPACE']['region'])
-        title = context.browser.find_element_by_id("title")
+            Then I open the "Region *" drop down
+            And I wait for 1 seconds
+            When I click the button "%s" in the "Region *" dropdown
+        ''' % context.mist_config['CREDENTIALS']['RACKSPACE']['region'])
+        cloud_add = context.browser.find_element_by_class_name("cloud-add")
+        title = cloud_add.find_element_by_id("title").find_element_by_id('input')
         for i in range(20):
             title.send_keys(u'\ue003')
         title.send_keys("Rackspace")
-        username = context.browser.find_element_by_id("username")
+        username = cloud_add.find_element_by_id("username").find_element_by_id('input')
         username.send_keys(context.mist_config['CREDENTIALS']['RACKSPACE']['username'])
-        api_key = context.browser.find_element_by_id("api_key")
+        api_key = cloud_add.find_element_by_id("api_key").find_element_by_id('input')
         api_key.send_keys(context.mist_config['CREDENTIALS']['RACKSPACE']['api_key'])
     elif "SOFTLAYER" in cloud:
         username = context.browser.find_element_by_xpath("//label[contains(text(), 'Username')]").find_element_by_xpath("..").find_element_by_tag_name("input")
@@ -239,7 +242,8 @@ def cloud_creds(context, cloud):
             Then I expect for "key-add-popup" popup to disappear within max 4 seconds
         ''')
     elif "PACKET" in cloud:
-        api_key = context.browser.find_element_by_xpath("//label[contains(text(), 'API Key')]").find_element_by_xpath("..").find_element_by_tag_name("input")
+        cloud_add = context.browser.find_element_by_class_name("cloud-add")
+        api_key = cloud_add.find_element_by_id("api_key").find_element_by_id("input")
         api_key.send_keys(context.mist_config['CREDENTIALS']['PACKET']['api_key'])
 
 
