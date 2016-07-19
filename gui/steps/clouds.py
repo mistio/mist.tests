@@ -8,6 +8,7 @@ from time import sleep
 from selenium.common.exceptions import NoSuchElementException
 
 from .buttons import search_for_button
+from .landing import clear_input_and_send_keys
 from .utils import safe_get_element_text
 from .utils import wait_until_visible
 
@@ -243,10 +244,13 @@ def cloud_creds(context, cloud):
             Then I expect for "key-add-popup" popup to disappear within max 4 seconds
         ''')
     elif "PACKET" in cloud:
-        cloud_add = context.browser.find_element_by_class_name("cloud-add")
-        api_key = cloud_add.find_element_by_id("api_key").find_element_by_id("input")
+        # cloud_add = context.browser.find_element_by_class_name("cloud-add")
+        cloud_add = context.browser.find_element_by_css_selector("#content.cloud-add")
+        api_key = filter(lambda el: el.is_displayed(),
+                         cloud_add.find_elements_by_id("api_key"))[0].find_element_by_id("input")
         wait_until_visible(api_key, 4)
-        api_key.send_keys(context.mist_config['CREDENTIALS']['PACKET']['api_key'])
+        clear_input_and_send_keys(api_key,
+                                  context.mist_config['CREDENTIALS']['PACKET']['api_key'])
 
 
 @step(u'I rename the cloud to "{new_name}"')
