@@ -239,12 +239,27 @@ def check_input_for_text(context, something, input_id):
         "Input text did not match what was expected"
 
 
-@step(u'I open the "{dropdown_text}" drop down')
-def open_provider_drop_down(context, dropdown_text):
-    dropdown = filter(lambda d: safe_get_element_text(d).strip().lower() == dropdown_text.lower(),
-                      context.browser.find_elements_by_class_name('paper-dropdown-menu'))
+def get_text_of_dropdown(el):
+    try:
+        return safe_get_element_text(el.find_element_by_class_name('paper-input')).strip().lower()
+    except NoSuchElementException:
+        return ''
+
+
+def find_dropdown(context, dropdown_text):
+    # get all the paper materials
+    all_dropdowns = context.browser.find_elements_by_tag_name('paper-dropdown-menu')
+    # find the drop down with the text
+    dropdown = filter(lambda el: get_text_of_dropdown(el) == dropdown_text,
+                      all_dropdowns)
     if not dropdown:
-        raise NoSuchElementException('There is no dropdown with test %s'
+        raise NoSuchElementException('There is no dropdown with text %s'
                                      % dropdown_text)
-    button = context.browser.find_element_by_xpath("//*[contains(text(), 'Choose Provider')]")
-    ActionChains(context.browser).move_to_element(button).click().perform()
+    return dropdown.pop()
+
+
+@step(u'I open the "{dropdown_text}" drop down')
+def open_drop_down(context, dropdown_text):
+    from .buttons import clicketi_click
+    dropdown = find_dropdown(context, dropdown_text.lower())
+    clicketi_click(context, dropdown)
