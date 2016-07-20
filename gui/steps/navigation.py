@@ -4,7 +4,10 @@ from behave import given
 from time import time
 from time import sleep
 
-from buttons import click_the_gravatar, search_for_button
+from .buttons import search_for_button
+from .buttons import click_the_gravatar
+
+from .utils import safe_get_element_text
 
 from selenium.common.exceptions import TimeoutException
 from selenium.common.exceptions import NoSuchElementException
@@ -104,9 +107,37 @@ def wait_for_splash_to_load(context, timeout=60):
     assert False, 'Page took longer than %s seconds to load' % timeout
 
 
+@step(u'I wait for the links in homepage to appear')
+def wait_for_buttons_to_appear(context):
+    end_time = time() + 10
+    while time() < end_time:
+        try:
+            images_button = context.browser.find_element_by_id('images')
+            counter_span = images_button.find_element_by_class_name('count')
+            int(safe_get_element_text(counter_span))
+            break
+        except (NoSuchElementException, ValueError, AttributeError):
+            assert time() + 1 < end_time, "Links in the home page have not" \
+                                          " appeared after 10 seconds"
+            sleep(1)
+
+
 @step("I wait for the dashboard to load")
 def wait_for_dashboard(context):
-    main-section
+    context.execute_steps(u'Then I wait for the links in homepage to appear')
+    add_cloud_button = filter(lambda el: safe_get_element_text(el).strip().lower() == 'add your clouds',
+                              context.browser.find_elements_by_tag_name('paper-button'))
+    if add_cloud_button:
+        return True
+    timeout = 20
+    try:
+        WebDriverWait(context.browser, timeout).until(
+            EC.visibility_of_element_located((By.CLASS_NAME, "main-section")))
+    except TimeoutException:
+        raise TimeoutException("Dashboard did not load after %s seconds"
+                               % timeout)
+    context.execute_steps(u'Then I expect for "addBtn" to be clickable within '
+                          u'max 20 seconds')
 
 
 @step(u'I visit the {title} page after the counter has loaded')
