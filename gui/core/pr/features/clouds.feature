@@ -4,8 +4,7 @@ Feature: Add second-tier clouds in Polymist
   Background:
     Given I am logged in to mist.core
     And I am in the new UI
-    Then I wait for the links in homepage to appear
-    Then I expect for "addBtn" to be clickable within max 20 seconds
+    When I wait for the dashboard to load
 
   @cloud-add
   Scenario Outline:
