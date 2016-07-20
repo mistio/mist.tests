@@ -44,9 +44,5 @@ else
     let count++
     echo "Retrying to push logs and screenshots"
   done
-  if [[ $MAYDAY -eq 1 ]]; then
-    cd /builds/mistio
-    /core.env/bin/ipython tests/gitlab/mayday/trigger_mayday.py
-  fi
 fi
 exit $exit_code
