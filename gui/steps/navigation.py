@@ -104,6 +104,11 @@ def wait_for_splash_to_load(context, timeout=60):
     assert False, 'Page took longer than %s seconds to load' % timeout
 
 
+@step("I wait for the dashboard to load")
+def wait_for_dashboard(context):
+    main-section
+
+
 @step(u'I visit the {title} page after the counter has loaded')
 def go_to_some_page_after_loading(context, title):
     """
@@ -211,10 +216,8 @@ def visit_machines_url(context):
     machines_url = context.mist_config['MIST_URL']
     if not machines_url.endswith('/'):
         machines_url += '/'
-    machines_url += '#/machines'
+    machines_url += 'machines'
     context.browser.get(machines_url)
-    context.browser.refresh()
-    context.browser.refresh()
 
 
 @given(u'I am logged in to mist.core')
