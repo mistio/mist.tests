@@ -46,14 +46,9 @@ Feature: Add second-tier clouds in Polymist
 
   @cloud-rename
   Scenario: Cloud Actions
-    Given "DigitalOcean" cloud has been added
-    When I click the button "DigitalOcean"
-    Then I expect for "cloud-edit-popup" popup to appear within max 4 seconds
-    When I rename the cloud to "Renamed"
-    And I click the "OK" button inside the "Edit cloud" popup
-    When I click the "_x_" button inside the "Edit cloud" popup
-    Then I expect for "cloud-edit-popup" popup to disappear within max 4 seconds
-    And the "Renamed" cloud should be added within 4 seconds
+    Given "Digital Ocean" cloud has been added
+    When I rename the cloud "Digital Ocean" to "Renamed"
+    Then the "Renamed" provider should be added within 4 seconds
 
   @cloud-delete
   Scenario: Cloud Actions

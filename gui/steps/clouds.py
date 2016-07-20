@@ -7,10 +7,12 @@ from time import sleep
 
 from selenium.common.exceptions import NoSuchElementException
 
-from .buttons import search_for_button
-from .landing import clear_input_and_send_keys
-from .utils import safe_get_element_text
 from .utils import wait_until_visible
+from .utils import safe_get_element_text
+from .utils import clear_input_and_send_keys
+
+from .buttons import clicketi_click
+from .buttons import click_button_from_collection
 
 
 cloud_creds_dict = {
@@ -23,45 +25,15 @@ cloud_creds_dict = {
     "nepho": "NEPHOSCALE",
     "linode": "LINODE",
     "docker": "DOCKER",
-    "digitalocean": "DIGITALOCEAN",
+    "digital ocean": "DIGITALOCEAN",
     "indonesian": "INDONESIAN",
     "kvm (via libvirt)": "KVM (via libvirt)",
-    "packet.net": "PACKET",
+    "packet": "PACKET",
     "gce": "GCE",
     "nephoscale": "NEPHOSCALE",
     "vmware vcloud": "VMWARE VCLOUD",
     "vsphere": "VMWARE VSPHERE"
 }
-
-
-@given(u'"{cloud}" cloud has been added')
-def given_cloud(context, cloud):
-    end_time = time() + 5
-    while time() < end_time:
-        try:
-            clouds = context.browser.find_element_by_id("cloud-buttons")
-            cloud_buttons = clouds.find_elements_by_class_name("ui-btn")
-            for button in cloud_buttons:
-                if cloud.lower() in safe_get_element_text(button).lower():
-                    return
-        except:
-            pass
-
-        sleep(2)
-
-    creds = cloud_creds_dict.get(cloud.lower())
-    assert creds, u'Could not find credentials for %s' % cloud
-
-    context.execute_steps(u'''
-        When I click the button "Add cloud"
-        Then I expect for "new-cloud-provider" panel to appear within max 4 seconds
-        And I click the button "%s"
-        And I expect for "new-cloud-provider" panel to disappear within max 4 seconds
-        Then I expect for "cloud-add-fields" to be visible within max 4 seconds
-        When I use my "%s" credentials
-        And I click the button "Add"
-        Then the "%s" cloud should be added within 60 seconds
-    ''' % (cloud, creds, cloud))
 
 
 @step(u'I use my provider "{cloud}" credentials')
@@ -253,64 +225,122 @@ def cloud_creds(context, cloud):
                                   context.mist_config['CREDENTIALS']['PACKET']['api_key'])
 
 
-@step(u'I rename the cloud to "{new_name}"')
-def rename_cloud(context, new_name):
-    popup = context.browser.find_element_by_id("cloud-edit")
-    textfield = popup.find_element_by_class_name("ui-input-text").find_element_by_tag_name("input")
-    for i in range(20):
-        textfield.send_keys(u'\ue003')
+def find_cloud(context, cloud_title):
+    clouds = context.browser.find_elements_by_tag_name('cloud-chip')
+    clouds = filter(lambda el: el.is_displayed(), clouds)
+    for c in clouds:
+        try:
+            title = c.find_element_by_class_name('cloud-title')
+            if safe_get_element_text(title).lower().strip() == cloud_title:
+                return c
+        except NoSuchElementException:
+            pass
+    return None
 
-    for letter in new_name:
-        textfield.send_keys(letter)
-        sleep(0.7)
+
+def find_cloud_info(context, cloud_title):
+    clouds = context.browser.find_elements_by_tag_name('cloud-info')
+    clouds = filter(lambda el: el.is_displayed(), clouds)
+    for c in clouds:
+        try:
+            input_containers = c.find_elements_by_id('labelAndInputContainer')
+            for container in input_containers:
+                text = safe_get_element_text(container.find_element_by_tag_name('label')).lower().strip()
+                if text == 'title':
+                    text = container.find_element_by_tag_name('input').\
+                            get_attribute('value').lower().strip()
+                    if text == cloud_title:
+                        return c
+        except NoSuchElementException:
+            pass
+    return None
+
+
+@step(u'"{cloud}" cloud has been added')
+def given_cloud(context, cloud):
+    if find_cloud(context, cloud.lower()):
+        return True
+
+    creds = cloud_creds_dict.get(cloud.lower())
+    assert creds, u'Could not find credentials for %s' % cloud
+
+    context.execute_steps(u'''
+        When I click the mist.io button
+        When I click the button by "addBtn" id_name
+        Then I expect the page Clouds to be visible within max 10 seconds
+        And I open the "Choose Provider" drop down
+        And I wait for 1 seconds
+        When I click the button "%s" in the "Choose Provider" dropdown
+        Then I expect the label "Title *" to be visible within max 4 seconds
+        When I use my provider "%s" credentials
+        And I click the button "Add Cloud"
+        And I click the mist.io button
+        Then the "%s" provider should be added within 120 seconds
+    ''' % (cloud, creds, cloud))
+
+
+@step(u'I {action} the cloud menu for "{provider}"')
+def open_cloud_menu(context, action, provider):
+    action = action.lower()
+    if action not in ['open', 'close']:
+        raise Exception('Unrecognized action')
+    if action == 'open':
+        cloud = find_cloud(context, provider.lower())
+        assert cloud, "Provider %s is not available" % provider
+        clicketi_click(context, cloud)
+    cloud_info = find_cloud_info(context, provider.lower())
+    if action == 'close':
+        close_button = cloud_info.find_element_by_id('close-btn')
+        clicketi_click(context, close_button)
+    seconds = 4
+    end_time = time() + seconds
+    while time() < end_time:
+        cloud_menu = find_cloud_info(context, provider.lower())
+        if action == 'open' and cloud_menu:
+            return True
+        if action == 'close' and not cloud_menu:
+            return True
+        sleep(1)
+    assert False, u'%s menu did not %s after %s seconds' \
+                  % (provider, action, seconds)
+
+
+@step(u'I rename the cloud "{cloud}" to "{new_name}"')
+def rename_cloud(context, cloud, new_name):
+    open_cloud_menu(context, 'open', cloud)
+    cloud_info = find_cloud_info(context, cloud.lower())
+    assert cloud_info, "Cloud menu has not been found"
+    input_containers = cloud_info.find_elements_by_id('labelAndInputContainer')
+    for container in input_containers:
+        text = safe_get_element_text(container.find_element_by_tag_name('label')).lower().strip()
+        if text == 'title':
+            input = container.find_element_by_tag_name('input')
+            clear_input_and_send_keys(input, new_name)
+            buttons = cloud_info.find_elements_by_tag_name('paper-button')
+            click_button_from_collection(context, 'save', buttons)
+            open_cloud_menu(context, 'close', new_name)
+            return True
+    return False
 
 
 @step(u'the "{cloud}" provider should be added within {seconds} seconds')
 def cloud_added(context, cloud, seconds):
     end_time = time() + int(seconds)
     while time() < end_time:
-        try:
-            context.browser.find_element_by_xpath('//h1[contains(text(), "%s")]'
-                                                  % str(cloud))
-            return
-        except NoSuchElementException:
-            pass
+        if find_cloud(context, cloud.lower()):
+            return True
         sleep(2)
-
     assert False, u'%s is not added within %s seconds' % (cloud, seconds)
 
 
 @step(u'the "{cloud}" cloud should be deleted')
 def cloud_deleted(context, cloud):
-    button = search_for_button(context, cloud, btn_cls='cloud-btn')
-    assert not button, ""
+    if find_cloud(context, cloud.lower()):
+        return False
 
 
 @step(u'I ensure "{title}" cloud is enabled')
 def ensure_cloud_enabled(context, title):
-    flag = False
-    clouds = context.browser.find_element_by_id("cloud-buttons")
-    cloud_buttons = clouds.find_elements_by_class_name("ui-btn")
-
-    for button in cloud_buttons:
-        button_text = safe_get_element_text(button)
-        if title.lower() == button_text.lower():
-            flag = True
-            break
-
-    assert flag, "Cloud %s has not been added" % title
-    icon = button.find_element_by_class_name("ui-btn-icon-left")
-    classes = icon.get_attribute("class")
-
-    if "offline" in classes:
-        button.click()
-        sleep(1)
-        popup = context.browser.find_element_by_id("cloud-edit")
-        sleep(1)
-        slider = popup.find_element_by_class_name("ui-slider-handle")
-        sleep(1)
-        slider.click()
-        sleep(1)
-        back_button = popup.find_element_by_class_name("close")
-        back_button.click()
-        sleep(5)
+    cloud = find_cloud(context, title.lower())
+    assert cloud, "Cloud %s has not been added" % title
+    return 'offline' in cloud.get_attibute('class')
