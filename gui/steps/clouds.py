@@ -6,6 +6,7 @@ from time import time
 from time import sleep
 
 from selenium.common.exceptions import NoSuchElementException
+from selenium.common.exceptions import StaleElementReferenceException
 
 from .utils import wait_until_visible
 from .utils import safe_get_element_text
@@ -233,7 +234,7 @@ def find_cloud(context, cloud_title):
             title = c.find_element_by_class_name('cloud-title')
             if safe_get_element_text(title).lower().strip() == cloud_title:
                 return c
-        except NoSuchElementException:
+        except NoSuchElementException, StaleElementReferenceException:
             pass
     return None
 
@@ -307,7 +308,6 @@ def open_cloud_menu(context, action, provider):
 
 @step(u'I rename the cloud "{cloud}" to "{new_name}"')
 def rename_cloud(context, cloud, new_name):
-    open_cloud_menu(context, 'open', cloud)
     cloud_info = find_cloud_info(context, cloud.lower())
     assert cloud_info, "Cloud menu has not been found"
     input_containers = cloud_info.find_elements_by_id('labelAndInputContainer')
@@ -318,9 +318,26 @@ def rename_cloud(context, cloud, new_name):
             clear_input_and_send_keys(input, new_name)
             buttons = cloud_info.find_elements_by_tag_name('paper-button')
             click_button_from_collection(context, 'save', buttons)
-            open_cloud_menu(context, 'close', new_name)
             return True
     return False
+
+
+@step(u'I delete the "{provider}" cloud')
+def delete_cloud(context, provider):
+    cloud_info = find_cloud_info(context, provider.lower())
+    assert cloud_info, "Cloud menu has not been found"
+    cloud_menu_buttons = cloud_info.find_elements_by_tag_name('paper-button')
+    click_button_from_collection(context, 'Delete Cloud', cloud_menu_buttons)
+    seconds = 4
+    end_time = time() + seconds
+    while time() < end_time:
+        cloud = find_cloud(context, provider.lower())
+        cloud_menu = find_cloud_info(context, provider.lower())
+        if not cloud and not cloud_menu:
+            return True
+        sleep(1)
+    assert False, u'%s cloud had not been deleted after %s seconds' \
+                  % (provider, seconds)
 
 
 @step(u'the "{cloud}" provider should be added within {seconds} seconds')
