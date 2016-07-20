@@ -3,9 +3,10 @@ from behave import step
 from time import time
 from time import sleep
 
-from buttons import click_button_from_collection
+from .buttons import click_button_from_collection
 
-from utils import safe_get_element_text
+from .utils import safe_get_element_text
+from .utils import clear_input_and_send_keys
 
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
@@ -267,21 +268,6 @@ def enter_creds(context, kind, action):
             clear_input_and_send_keys(email_input, context.mist_config['DEMO_EMAIL'])
         name_input = context.browser.find_element_by_id("demo-name")
         clear_input_and_send_keys(name_input, context.mist_config['NAME'])
-
-
-def clear_input_and_send_keys(input_field, text):
-    end_time = time() + 5
-    while time() < end_time:
-        while input_field.get_attribute('value') != '':
-            input_field.send_keys(u'\ue003')
-        if text == '':
-            break
-        input_field.send_keys(text)
-        if input_field.get_attribute('value') != text:
-            assert time() + 1 > end_time, "Could not input value %s" % text
-            sleep(1)
-        else:
-            break
 
 
 @step(u'there should be a message saying "{error_message}" for error in '
