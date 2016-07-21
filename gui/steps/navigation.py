@@ -28,42 +28,53 @@ def i_am_in_homepage(context):
     return context.browser.current_url in possible_urls
 
 
-@step(u'I visit mist.io')
+def wait_for_log_in_page_to_load(context):
+    time_left = time()
+    timeout = 120 if context.mist_config['LOCAL'] else 160
+    try:
+        WebDriverWait(context.browser, timeout).until(
+            EC.visibility_of_element_located((By.ID, "top-signup-button")))
+    except TimeoutException:
+        raise TimeoutException("Signup button did not appear %s "
+                               "seconds" % timeout)
+
+    time_left -= time()
+    try:
+        WebDriverWait(context.browser, time_left).until(
+            EC.element_to_be_clickable((By.ID, "top-signup-button")))
+    except TimeoutException:
+        raise TimeoutException("Signup button did not become clickable after "
+                               "%s seconds" % time_left)
+
+
+@step(u'I visit mist.core')
 def visit(context):
     """
-    This method will visit the mist.io instance specified by MIST_URL in the
-    config file and if it lands on the sign in page then it will wait for
+    This method will visit the mist.core instance specified by MIST_URL in the
+    settings file and if it lands on the sign in page then it will wait for
     the page to load, otherwise if it lands in the splash page then it will
     sleep for one second and then proceed. If you wish to wait for the splash
     page to load then you should use the "Then I wait for the mist.io splash
     page to load" rule.
     """
-    context.browser.get(context.mist_config['MIST_URL'])
-    end_time = time() + 4
-    while time() < end_time:
+    if not i_am_in_homepage(context):
+        context.browser.get(context.mist_config['MIST_URL'])
+
+    timeout = time() + 4
+    while time() < timeout:
         try:
-            context.browser.find_element_by_id("splash")
+            context.browser.find_element_by_id("top-signup-button")
+            wait_for_log_in_page_to_load(context)
             return
         except NoSuchElementException:
-            sleep(1)
-
-    assert False, "Splash page did not load after waiting for 4 seconds"
-
-
-@step(u'I am in the new UI')
-def am_in_new_UI(context):
-    """
-    Function that waits for the new UI to load. The maximum time for the page
-    to load is 60 seconds in this case
-    """
-    try:
-        context.browser.find_element_by_tag_name("app-main")
-        return
-    except:
-        context.execute_steps(u'''
-            When I click the gravatar
-            When I click the button "BETA UI"
-        ''')
+            try:
+                context.browser.find_element_by_id("splash")
+                wait_for_splash_to_load(context)
+                return
+            except NoSuchElementException:
+                pass
+        sleep(1)
+    assert False, "Do not know if I am at the landing page or the home page"
 
 
 @step(u'I wait for the mist.io splash page to load')
@@ -107,6 +118,22 @@ def wait_for_splash_to_load(context, timeout=60):
     assert False, 'Page took longer than %s seconds to load' % timeout
 
 
+@step(u'I am in the new UI')
+def am_in_new_UI(context):
+    """
+    Function that waits for the new UI to load. The maximum time for the page
+    to load is 60 seconds in this case
+    """
+    try:
+        context.browser.find_element_by_tag_name("app-main")
+        return
+    except:
+        context.execute_steps(u'''
+            When I click the gravatar
+            When I click the button "BETA UI"
+        ''')
+
+
 @step(u'I wait for the links in homepage to appear')
 def wait_for_buttons_to_appear(context):
     end_time = time() + 10
@@ -140,36 +167,6 @@ def wait_for_dashboard(context):
                           u'max 20 seconds')
 
 
-@step(u'I visit the {title} page after the counter has loaded')
-def go_to_some_page_after_loading(context, title):
-    """
-    WIll visit one of the basic pages(Machines, Images, Keys, Scripts ,Teams) and has
-    the choice of waiting for the counter to load.
-    For now the code will not be very accurate for keys page
-    """
-    context.execute_steps(u'When I visit the %s page after the %s counter has'
-                          u' loaded' % (title, title))
-
-
-@step(u'I visit the {title} page after the {counter_title} counter has loaded')
-def go_to_some_page_after_counter_loading(context, title, counter_title):
-    """
-    WIll visit one of the basic pages(Machines, Images, Keys, Scripts) and has
-    the choice of waiting for some of the counters to load
-    For now the code will not be very accurate for keys page
-    """
-    if title not in ['Machines', 'Images', 'Keys', 'Networks', 'Scripts', 'Teams']:
-        raise ValueError('The page given is unknown')
-    if counter_title not in ['Machines', 'Images', 'Keys', 'Networks', 'Scripts', 'Teams']:
-        raise ValueError('The page given is unknown')
-    context.execute_steps(u'''
-        Then I wait for the links in homepage to appear
-        Then %s counter should be greater than 0 within 80 seconds
-        When I click the button "%s"
-        And I wait for "%s" list page to load
-    ''' % (counter_title, title, title))
-
-
 @step(u'I visit the {title} page')
 def go_to_some_page_without_waiting(context, title):
     """
@@ -195,53 +192,38 @@ def go_to_some_page_without_waiting(context, title):
     clicketi_click(context, button)
 
 
-@step(u'I visit mist.core')
-def visit(context):
+@step(u'I visit the {title} page after the counter has loaded')
+def go_to_some_page_after_loading(context, title):
     """
-    This method will visit the mist.core instance specified by MIST_URL in the
-    settings file and if it lands on the sign in page then it will wait for
-    the page to load, otherwise if it lands in the splash page then it will
-    sleep for one second and then proceed. If you wish to wait for the splash
-    page to load then you should use the "Then I wait for the mist.io splash
-    page to load" rule.
+    WIll visit one of the basic pages(Machines, Images, Keys, Scripts ,Teams) and has
+    the choice of waiting for the counter to load.
+    For now the code will not be very accurate for keys page
     """
-    if not i_am_in_homepage(context):
-        context.browser.get(context.mist_config['MIST_URL'])
-
-    timeout = time() + 4
-    while time() < timeout:
-        try:
-            context.browser.find_element_by_id("top-signup-button")
-            wait_for_log_in_page_to_load(context)
-            return
-        except NoSuchElementException:
-            try:
-                context.browser.find_element_by_id("splash")
-                wait_for_splash_to_load(context)
-                return
-            except NoSuchElementException:
-                pass
-        sleep(1)
-    assert False, "Do not know if I am at the landing page or the home page"
+    context.execute_steps(u'When I visit the %s page after the %s counter has'
+                          u' loaded' % (title, title))
 
 
-def wait_for_log_in_page_to_load(context):
-    time_left = time()
-    timeout = 120 if context.mist_config['LOCAL'] else 160
-    try:
-        WebDriverWait(context.browser, timeout).until(
-            EC.visibility_of_element_located((By.ID, "top-signup-button")))
-    except TimeoutException:
-        raise TimeoutException("Signup button did not appear %s "
-                               "seconds" % timeout)
-
-    time_left -= time()
-    try:
-        WebDriverWait(context.browser, time_left).until(
-            EC.element_to_be_clickable((By.ID, "top-signup-button")))
-    except TimeoutException:
-        raise TimeoutException("Signup button did not become clickable after "
-                               "%s seconds" % time_left)
+@step(u'I visit the {title} page after the {counter_title} counter has loaded')
+def go_to_some_page_after_counter_loading(context, title, counter_title):
+    """
+    WIll visit one of the basic pages(Machines, Images, Keys, Scripts) and has
+    the choice of waiting for some of the counters to load
+    For now the code will not be very accurate for keys page
+    """
+    if title not in ['machines', 'images', 'keys', 'networks', 'tunnels',
+                     'scripts', 'templates', 'stacks', 'teams', 'account',
+                     'home']:
+        raise ValueError('The page given is unknown')
+    if counter_title not in ['machines', 'images', 'keys', 'networks',
+                             'tunnels', 'scripts', 'templates', 'stacks',
+                             'teams']:
+        raise ValueError('The counter given is unknown')
+    context.execute_steps(u'''
+        Then I wait for the links in homepage to appear
+        Then %s counter should be greater than 0 within 80 seconds
+        When I click the button "%s"
+        And I wait for "%s" list page to load
+    ''' % (counter_title, title, title))
 
 
 @step(u'I visit the machines page with a url')
