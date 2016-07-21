@@ -213,6 +213,7 @@ def set_value_to_field(context, value, name, title):
       u'clickable within {seconds} seconds')
 def check_button_in_form_is_clickable(context, button_name, title, seconds):
     title = title.lower()
+    button_name = button_name.lower()
     if title not in ['cloud', 'machine', 'image', 'key', 'network',
                      'tunnel', 'script', 'template', 'stack', 'team']:
         raise ValueError('The title given is unknown')
@@ -226,8 +227,6 @@ def check_button_in_form_is_clickable(context, button_name, title, seconds):
             button = b
             break
     assert button, "Could not find button %s" % button_name
-    import ipdb
-    ipdb.set_trace()
     timeout = time() + int(seconds)
     while time() < timeout:
         if button.is_enabled():
