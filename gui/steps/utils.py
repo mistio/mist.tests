@@ -191,6 +191,7 @@ def check_that_field_is_visible(context, field_name, title, seconds):
 @step(u'I set the value "{value}" to field "{name}" in "{title}" add form')
 def set_value_to_field(context, value, name, title):
     title = title.lower()
+    name = name.lower()
     if context.mist_config.get(value):
         value = context.mist_config.get(value)
     if title not in ['cloud', 'machine', 'image', 'key', 'network',
