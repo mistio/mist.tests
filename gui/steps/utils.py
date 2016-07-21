@@ -100,63 +100,65 @@ def see_header_with_title(context, text):
     assert False, u'Could not find title with text %s in the page' % text
 
 
+def wait_for_element_to_be_visible(context, search_tuple, seconds, error_message):
+    try:
+        WebDriverWait(context.browser, int(seconds)).until(
+            EC.visibility_of_element_located(search_tuple))
+    except TimeoutException:
+        raise TimeoutException(error_message)
+
+
 @step(u'I expect for "{element_id}" to be visible within max {seconds} '
       u'seconds')
 def become_visible_waiting_with_timeout(context, element_id, seconds):
-    try:
-        WebDriverWait(context.browser, int(seconds)).until(
-            EC.visibility_of_element_located((By.ID, element_id)))
-    except TimeoutException:
-        raise TimeoutException("element with id %s did not become visible "
-                               "after %s seconds" % (element_id, seconds))
+    msg = "element with id %s did not become visible after %s seconds"\
+          % (element_id, seconds)
+    wait_for_element_to_be_visible(context, (By.ID, element_id),
+                                   int(seconds), msg)
 
 
 @step(u'I expect for element with tag "{element_name}" element to be visible '
       u'within max {seconds} seconds')
 def element_become_visible_waiting_with_timeout(context, element_name, seconds):
-    try:
-        WebDriverWait(context.browser, int(seconds)).until(
-            EC.visibility_of_element_located((By.TAG_NAME, element_name)))
-    except TimeoutException:
-        raise TimeoutException("element %s did not become visible "
-                               "after %s seconds" % (element_name, seconds))
+    msg = "element %s did not become visible after %s seconds" % (element_name,
+                                                                  seconds)
+    wait_for_element_to_be_visible(context, (By.TAG_NAME, element_name),
+                                   int(seconds), msg)
 
 
 @step(u'I expect the label "{element_text}" to be visible within max {seconds} '
       u'seconds')
 def element_label_become_visible_waiting_with_timeout(context, element_text, seconds):
-    timeout = time() + int(seconds)
-    while time() < timeout:
-        try:
-            context.browser.find_element_by_xpath('//label[contains(text(),'
-                                                  ' "%s")]' % str(element_text))
-            return
-        except:
-            pass
-        assert time() + 1 < timeout, "label %s did not " \
-                                     "become visible after %s seconds" % \
-                                     (element_text, seconds)
-        sleep(1)
-
-
-@step(u'I expect the page {page} to be visible within max {seconds} seconds')
-def check_page_is_visible(context, page, seconds):
-    if page.lower() == 'clouds':
-        element = 'cloud-add'
-    element_become_visible_waiting_with_timeout(context, element, seconds)
+    msg = "Label %s did not become visible after %s seconds" % (element_text,
+                                                                seconds)
+    wait_for_element_to_be_visible(context,
+                                   (By.XPATH,
+                                    '//label[contains(text(), "%s")]' % str(element_text)),
+                                   int(seconds), msg)
 
 
 @step(u'I expect for "{page_title}" page to appear within max {seconds} seconds')
-def page_waiting_with_timeout(context, page_title, seconds):
-    """
-    Function that wait for page to appear but for a maximum amount of time
-    """
-    try:
-        WebDriverWait(context.browser, int(seconds)).until(
-            EC.presence_of_element_located((By.ID, page_title)))
-    except TimeoutException:
-        raise TimeoutException("Page %s did not appear after %s seconds"
-                               % (page_title, seconds))
+def check_page_is_visible(context, page_title, seconds):
+    page = page_title.lower()
+    if page not in ['machines', 'images', 'keys', 'networks', 'tunnels',
+                    'scripts', 'templates', 'stacks', 'teams']:
+        raise ValueError('The page given is unknown')
+    element = 'page-items.%s div#content.page-items' % page
+    msg = "%s page is not visible after %s seconds" % (page, seconds)
+    wait_for_element_to_be_visible(context, (By.CSS_SELECTOR, element),
+                                   int(seconds), msg)
+
+
+@step(u'I expect the {page} add form to be visible within max {seconds} seconds')
+def check_add_form_is_visible(context, page, seconds):
+    page = page.lower()
+    if page not in ['cloud', 'machine', 'image', 'key', 'network',
+                    'tunnel', 'script', 'template', 'stack', 'team']:
+        raise ValueError('The page given is unknown')
+    element = 'div#content.%s-add' % page
+    msg = "%s add form is not visible after %s seconds" % (page, seconds)
+    wait_for_element_to_be_visible(context, (By.CSS_SELECTOR, element),
+                                   int(seconds), msg)
 
 
 @step(u'I expect for "{loader_name}" loader to finish within max {seconds} '

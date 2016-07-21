@@ -267,7 +267,7 @@ def given_cloud(context, cloud):
     context.execute_steps(u'''
         When I click the mist.io button
         When I click the button by "addBtn" id_name
-        Then I expect the page Clouds to be visible within max 10 seconds
+        Then I expect the Cloud add form to be visible within max 10 seconds
         And I open the "Choose Provider" drop down
         And I wait for 1 seconds
         When I click the button "%s" in the "Choose Provider" dropdown

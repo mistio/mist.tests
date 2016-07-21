@@ -190,6 +190,8 @@ def go_to_some_page_without_waiting(context, title):
         return
     button = context.browser.find_element_by_id('sidebar').find_element_by_id(title)
     clicketi_click(context, button)
+    context.execute_steps(u'Then I expect for "%s" page to appear within '
+                          u'max 10 seconds' % title)
 
 
 @step(u'I visit the {title} page after the counter has loaded')
