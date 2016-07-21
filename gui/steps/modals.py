@@ -2,10 +2,10 @@ from time import sleep
 
 from behave import step
 
-from buttons import clicketi_click
-from buttons import click_button_from_collection
+from .buttons import clicketi_click
+from .buttons import click_button_from_collection
 
-from utils import safe_get_element_text
+from .utils import safe_get_element_text
 
 from selenium.common.exceptions import TimeoutException
 from selenium.common.exceptions import WebDriverException

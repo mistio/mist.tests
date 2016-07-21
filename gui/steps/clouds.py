@@ -6,7 +6,6 @@ from time import time
 from time import sleep
 
 from selenium.common.exceptions import NoSuchElementException
-from selenium.common.exceptions import StaleElementReferenceException
 
 from .utils import wait_until_visible
 from .utils import safe_get_element_text

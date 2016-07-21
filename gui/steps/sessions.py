@@ -1,8 +1,8 @@
 from behave import step
 
-from utils import focus_on_element
+from .utils import focus_on_element
 
-from buttons import clicketi_click
+from .buttons import clicketi_click
 
 from selenium.common.exceptions import NoSuchElementException
 

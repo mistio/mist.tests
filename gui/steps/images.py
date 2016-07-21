@@ -3,7 +3,7 @@ from behave import step
 from time import time
 from time import sleep
 
-from tests.gui.steps.utils import safe_get_element_text
+from .utils import safe_get_element_text
 
 
 @step(u'the images list should be loaded within {seconds} seconds')

@@ -6,12 +6,12 @@ from time import sleep
 
 from random import randrange
 
-from utils import safe_get_element_text
+from .utils import safe_get_element_text
 
-from buttons import clicketi_click
-from buttons import click_button_from_collection
+from .buttons import clicketi_click
+from .buttons import click_button_from_collection
 
-from tags import check_the_tags
+from .tags import check_the_tags
 
 from selenium.webdriver.common.by import By
 from selenium.webdriver.common.keys import Keys
