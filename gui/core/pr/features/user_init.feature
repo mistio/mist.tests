@@ -69,6 +69,7 @@ Feature: Login Scenarios
     When I open the signup popup
     And I click the request demo button in the landing page popup
     And I enter my alt credentials for demo request
+    And I wait for 1 seconds
     And I click the request demo button in the landing page popup
     Then I should receive an email at the address "MIST_DEMO_REQUEST_EMAIL" with subject "Demo request" within 10 seconds
     Then I should receive an email at the address "DEMO_EMAIL" with subject "[mist.io] Confirm your registration" within 10 seconds
