@@ -14,9 +14,9 @@ from selenium.common.exceptions import StaleElementReferenceException
 def wait_for_item_show(context, expected_name, resource_type, seconds):
     resource_type = resource_type.lower()
     expected_name = expected_name.lower()
-    if resource_type not in ['machines', 'images', 'keys', 'networks',
-                             'tunnels', 'scripts', 'templates', 'stacks',
-                             'teams']:
+    if resource_type not in ['machine', 'image', 'key', 'network',
+                             'tunnel', 'script', 'template', 'stack',
+                             'team']:
         raise ValueError('The resource type given is unknown')
     selector = 'page-items.%s' % resource_type
     timeout = time() + int(seconds)
