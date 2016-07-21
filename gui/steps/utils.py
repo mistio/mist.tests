@@ -12,36 +12,6 @@ from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 
 
-@step(u'I wait for "{title}" list page to load')
-def wait_for_some_list_page_to_load(context, title):
-    if title not in ['Machines', 'Images', 'Keys', 'Networks', 'Scripts',
-                     'Account', 'Teams']:
-        raise ValueError('The page given is unknown')
-    # Wait for the list page to appear
-    end_time = time() + 5
-    while time() < end_time:
-        try:
-            context.browser.find_element_by_id('%s-list-page' % title.lower().rpartition(title[-1])[0])
-            break
-        except NoSuchElementException:
-            assert time() + 1 < end_time, "%s list page has not appeared " \
-                                          "after 5 seconds" % title.lower()
-            sleep(1)
-
-    # this code will stop waiting after 5 seconds if nothing appears otherwise
-    # it will stop as soon as a list is loaded
-    end_time = time() + 5
-    while time() < end_time:
-        try:
-            list_of_things = context.browser.find_element_by_id('%s-list' % title.lower().rpartition(title[-1])[0])
-            lis = list_of_things.find_elements_by_tag_name('li')
-            if len(lis) > 0:
-                break
-        except NoSuchElementException:
-            pass
-        sleep(1)
-
-
 def safe_get_element_text(check_element):
     try:
         return check_element.text
