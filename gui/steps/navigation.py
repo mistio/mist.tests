@@ -1,10 +1,10 @@
 from behave import step
-from behave import given
 
 from time import time
 from time import sleep
 
 from .buttons import search_for_button
+from .buttons import clicketi_click
 from .buttons import click_the_gravatar
 
 from .utils import safe_get_element_text
@@ -177,20 +177,22 @@ def go_to_some_page_without_waiting(context, title):
     waiting for the counter or the list on the page to load.
     For now the code will not be very accurate for keys page
     """
-    if title not in ['Machines', 'Images', 'Keys', 'Networks', 'Scripts',
-                     'Account']:
+    title = title.lower()
+    if title not in ['machines', 'images', 'keys', 'networks', 'tunnels',
+                     'scripts', 'templates', 'stacks', 'teams', 'account',
+                     'home']:
         raise ValueError('The page given is unknown')
     if title == 'Account':
         context.browser.get(context.mist_config['MIST_URL'] + '/account')
         return
-    if not i_am_in_homepage(context):
-        if not str(context.browser.current_url).endswith(title.lower()):
-            context.execute_steps(u'When I click the button "Home"')
-    context.execute_steps(u'''
-        Then I wait for the links in homepage to appear
-        When I click the button "%s"
-        And I wait for "%s" list page to load
-    ''' % (title, title))
+    context.execute_steps(u'Then I wait for the links in homepage to appear')
+    if title.lower() == 'home':
+        context.execute_steps(u'When I click the mist.io button')
+    if title.lower() == 'account':
+        # TODO implement account page visit
+        return
+    button = context.browser.find_element_by_id('sidebar').find_element_by_id(title)
+    clicketi_click(context, button)
 
 
 @step(u'I visit mist.core')
@@ -251,7 +253,7 @@ def visit_machines_url(context):
     context.browser.get(machines_url)
 
 
-@given(u'I am logged in to mist.core')
+@step(u'I am logged in to mist.core')
 def given_logged_in(context):
     try:
         context.browser.find_element_by_tag_name("app-main")
@@ -280,7 +282,7 @@ def given_logged_in(context):
     context.execute_steps(u'Then I wait for the mist.io splash page to load')
 
 
-@given(u'I am logged in to mist.core as {kind}')
+@step(u'I am logged in to mist.core as {kind}')
 def given_logged_in(context, kind):
     if not i_am_in_homepage(context):
         context.execute_steps(u'When I visit mist.core')
@@ -318,7 +320,7 @@ def given_logged_in(context, kind):
     context.execute_steps(u'Then I wait for the mist.io splash page to load')
 
 
-@given(u'I am not logged in to mist.core')
+@step(u'I am not logged in to mist.core')
 def given_not_logged_in(context):
     if not i_am_in_homepage(context):
         context.execute_steps(u'When I visit mist.core')
@@ -350,3 +352,34 @@ def logout(context):
         return
     except TimeoutException:
         raise TimeoutException("Landing page has not appeared after 10 seconds")
+
+
+@step(u'I wait for "{title}" list page to load')
+def wait_for_some_list_page_to_load(context, title):
+    if title not in ['Machines', 'Images', 'Keys', 'Networks', 'Scripts',
+                     'Account', 'Teams']:
+        raise ValueError('The page given is unknown')
+    # Wait for the list page to appear
+    page = filter(lambda el: title in el.get_attribute('class'), context.browser.find_elements_by_tag_name('page-items'))[0]
+    end_time = time() + 5
+    while time() < end_time:
+        try:
+            context.browser.find_element_by_id('%s-list-page' % title.lower().rpartition(title[-1])[0])
+            break
+        except NoSuchElementException:
+            assert time() + 1 < end_time, "%s list page has not appeared " \
+                                          "after 5 seconds" % title.lower()
+            sleep(1)
+
+    # this code will stop waiting after 5 seconds if nothing appears otherwise
+    # it will stop as soon as a list is loaded
+    end_time = time() + 5
+    while time() < end_time:
+        try:
+            list_of_things = context.browser.find_element_by_id('%s-list' % title.lower().rpartition(title[-1])[0])
+            lis = list_of_things.find_elements_by_tag_name('li')
+            if len(lis) > 0:
+                break
+        except NoSuchElementException:
+            pass
+        sleep(1)
