@@ -66,6 +66,21 @@ def wait_for_graph_to_appear(context, graph_title, seconds):
                   % (graph_title, seconds)
 
 
+def check_graph_tooltip_value(graph, operator, wanted_value, tries=3):
+    for i in range(3):
+        child = 2 + i
+        check_point = graph.find_element_by_css_selector(".c3-event-rects .c3-event-rect:nth-last-child(%s)" % child)
+        check_point.click()
+        tooltip = graph.find_element_by_css_selector(".c3-tooltip-container td.value")
+        tooltip_text = safe_get_element_text(tooltip)
+        tooltip_value = tooltip_text.strip()
+        if tooltip_value:
+            if '%' == tooltip_value[-1]:
+                tooltip_value = tooltip_value[:-1]
+            if comparisons[operator](tooltip_value, wanted_value):
+                return True
+    return False
+
 @step(u'"{graph_title}" graph should have value {operator} {target_value} '
       u'within {seconds} seconds')
 def watch_graph_value(context, graph_title, operator, target_value, seconds):
@@ -90,16 +105,8 @@ def watch_graph_value(context, graph_title, operator, target_value, seconds):
     target_value = float(target_value)
     while time() < timeout:
         try:
-            check_point = graph_to_watch.find_element_by_css_selector(".c3-event-rects .c3-event-rect:nth-last-child(2)")
-            check_point.click()
-            tooltip = graph_to_watch.find_element_by_css_selector(".c3-tooltip-container td.value")
-            tooltip_text = safe_get_element_text(tooltip)
-            tooltip_value = tooltip_text.strip()
-            if tooltip_value:
-                if '%' == tooltip_value[-1]:
-                    tooltip_value = tooltip_value[:-1]
-                if comparisons[operator](tooltip_value, target_value):
-                    return
+            if check_graph_tooltip_value(graph_to_watch, operator, target_value)
+                return True
         except NoSuchElementException:
             pass
         sleep(1)
