@@ -11,7 +11,7 @@ Feature: Actions for Keys
   Scenario: Add Key
     When I visit the Keys page after the Images counter has loaded
     When I click the button "+"
-    Then I expect the "Keys" add form to be visible within max 10 seconds
+    Then I expect the "Key" add form to be visible within max 10 seconds
     When I set the value "FirstKey" to field "Name" in "key" add form
     Then I click the button "Generate" in "key" add form
     And I wait for the button "Add" in "key" add form to be clickable within 9 seconds
