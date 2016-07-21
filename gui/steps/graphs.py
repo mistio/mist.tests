@@ -105,7 +105,7 @@ def watch_graph_value(context, graph_title, operator, target_value, seconds):
     target_value = float(target_value)
     while time() < timeout:
         try:
-            if check_graph_tooltip_value(graph_to_watch, operator, target_value)
+            if check_graph_tooltip_value(graph_to_watch, operator, target_value):
                 return True
         except NoSuchElementException:
             pass
