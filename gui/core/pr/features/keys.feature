@@ -16,7 +16,7 @@ Feature: Actions for Keys
     Then I click the button "Generate" in "key" add form
     And I expect for the button "Add" in "key" add form to be clickable within 9 seconds
     When I visit the Keys page after the counter has loaded
-    Then "FirstKey" key should be  within 15 seconds
+    Then "FirstKey" key should be present within 15 seconds
     Then I visit the Home page
     When I wait for the dashboard to load
 
