@@ -69,17 +69,21 @@ def wait_for_graph_to_appear(context, graph_title, seconds):
 def check_graph_tooltip_value(graph, operator, wanted_value, tries=3):
     for i in range(3):
         child = 2 + i
-        check_point = graph.find_element_by_css_selector(".c3-event-rects .c3-event-rect:nth-last-child(%s)" % child)
-        check_point.click()
-        tooltip = graph.find_element_by_css_selector(".c3-tooltip-container td.value")
-        tooltip_text = safe_get_element_text(tooltip)
-        tooltip_value = tooltip_text.strip()
-        if tooltip_value:
-            if '%' == tooltip_value[-1]:
-                tooltip_value = tooltip_value[:-1]
-            if comparisons[operator](tooltip_value, wanted_value):
-                return True
+        try:
+            check_point = graph.find_element_by_css_selector(".c3-event-rects .c3-event-rect:nth-last-child(%s)" % child)
+            check_point.click()
+            tooltip = graph.find_element_by_css_selector(".c3-tooltip-container td.value")
+            tooltip_text = safe_get_element_text(tooltip)
+            tooltip_value = tooltip_text.strip()
+            if tooltip_value:
+                if '%' == tooltip_value[-1]:
+                    tooltip_value = tooltip_value[:-1]
+                if comparisons[operator](tooltip_value, wanted_value):
+                    return True
+        except:
+            pass
     return False
+
 
 @step(u'"{graph_title}" graph should have value {operator} {target_value} '
       u'within {seconds} seconds')
