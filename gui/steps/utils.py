@@ -63,15 +63,21 @@ def assert_title_contains(context, text):
 @step(u'{counter_title} counter should be greater than {counter_number} within '
       u'{seconds} seconds')
 def some_counter_loaded(context, counter_title, counter_number, seconds):
+    counter_title = counter_title.lower()
+    if counter_title not in ['machines', 'images', 'keys', 'networks',
+                             'tunnels', 'scripts', 'templates', 'stacks',
+                             'teams']:
+        raise ValueError('The counter given is unknown')
     try:
-        counter = context.browser.find_element_by_id(counter_title.lower())
+        counter = context.browser.find_element_by_css_selector('a#%s.app-sidebar'
+                                                               % counter_title)
     except NoSuchElementException:
         raise NoSuchElementException("Counter with name %s has not been found"
                                      % counter_title)
 
     end_time = time() + int(seconds)
     while time() < end_time:
-        counter_span = counter.find_element_by_class_name("count")
+        counter_span = counter.find_element_by_css_selector("span.count")
         counter_span_text = safe_get_element_text(counter_span)
         counter_span_text = "0" if not counter_span_text else counter_span_text
         if int(counter_span_text) > int(counter_number):
@@ -122,7 +128,8 @@ def element_label_become_visible_waiting_with_timeout(context, element_text, sec
     timeout = time() + int(seconds)
     while time() < timeout:
         try:
-            context.browser.find_element_by_xpath('//label[contains(text(), "%s")]' % str(element_text))
+            context.browser.find_element_by_xpath('//label[contains(text(),'
+                                                  ' "%s")]' % str(element_text))
             return
         except:
             pass
