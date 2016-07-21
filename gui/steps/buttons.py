@@ -142,6 +142,13 @@ def click_button(context, text):
     """
     if context.mist_config.get(text):
         text = context.mist_config[text]
+    if text == '+':
+        plus_button = filter(
+            lambda el: el.is_displayed() and el.get_attribute('icon') == 'add',
+            context.browser.find_elements_by_tag_name('paper-fab'))
+        assert plus_button, 'Could not find + button'
+        clicketi_click(context, plus_button[0])
+        return True
     click_button_from_collection(context, text.lower(),
                                  error_message='Could not find button that '
                                                'contains %s' % text)

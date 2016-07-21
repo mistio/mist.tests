@@ -212,6 +212,8 @@ def go_to_some_page_after_counter_loading(context, title, counter_title):
     the choice of waiting for some of the counters to load
     For now the code will not be very accurate for keys page
     """
+    title = title.lower()
+    counter_title = counter_title.lower()
     if title not in ['machines', 'images', 'keys', 'networks', 'tunnels',
                      'scripts', 'templates', 'stacks', 'teams', 'account',
                      'home']:
@@ -223,9 +225,8 @@ def go_to_some_page_after_counter_loading(context, title, counter_title):
     context.execute_steps(u'''
         Then I wait for the links in homepage to appear
         Then %s counter should be greater than 0 within 80 seconds
-        When I click the button "%s"
-        And I wait for "%s" list page to load
-    ''' % (counter_title, title, title))
+        When I visit the %s page
+    ''' % (counter_title, title))
 
 
 @step(u'I visit the machines page with a url')

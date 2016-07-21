@@ -149,16 +149,104 @@ def check_page_is_visible(context, page_title, seconds):
                                    int(seconds), msg)
 
 
-@step(u'I expect the {page} add form to be visible within max {seconds} seconds')
+@step(u'I expect the "{page}" add form to be visible within max {seconds}'
+      u' seconds')
 def check_add_form_is_visible(context, page, seconds):
     page = page.lower()
     if page not in ['cloud', 'machine', 'image', 'key', 'network',
                     'tunnel', 'script', 'template', 'stack', 'team']:
-        raise ValueError('The page given is unknown')
+        raise ValueError('The title given is unknown')
     element = 'div#content.%s-add' % page
     msg = "%s add form is not visible after %s seconds" % (page, seconds)
     wait_for_element_to_be_visible(context, (By.CSS_SELECTOR, element),
                                    int(seconds), msg)
+
+
+@step(u'I expect the field "{field_name}" in the {title} add form to be visible'
+      u' within max {seconds} seconds')
+def check_that_field_is_visible(context, field_name, title, seconds):
+    field_name = field_name.lower()
+    title = title.lower()
+    if title not in ['cloud', 'machine', 'image', 'key', 'network',
+                     'tunnel', 'script', 'template', 'stack', 'team']:
+        raise ValueError('The title given is unknown')
+    add_form_selector = 'div#content.%s-add' % title
+    add_form = context.browser.find_element_by_css_selector(add_form_selector)
+    input = None
+    timeout = time() + int(seconds)
+    while time() < timeout:
+        input_containers = add_form.find_elements_by_id('labelAndInputContainer')
+        for container in input_containers:
+            text = safe_get_element_text(container.find_element_by_tag_name('label')).lower().strip()
+            if text == field_name:
+                input = container
+                if input.is_displayed():
+                    return True
+            sleep(1)
+    assert input, "Could not find field %s after %s seconds" % field_name
+    assert False, "Field %s did not become visible after %s seconds" \
+                  % (field_name, seconds)
+
+
+@step(u'I set the value "{value}" to field "{name}" in "{title}" add form')
+def set_value_to_field(context, value, name, title):
+    title = title.lower()
+    if context.mist_config.get(value):
+        value = context.mist_config.get(value)
+    if title not in ['cloud', 'machine', 'image', 'key', 'network',
+                     'tunnel', 'script', 'template', 'stack', 'team']:
+        raise ValueError('The title given is unknown')
+    add_form_selector = 'div#content.%s-add' % title
+    add_form = context.browser.find_element_by_css_selector(add_form_selector)
+    input_containers = add_form.find_elements_by_id('labelAndInputContainer')
+    for container in input_containers:
+        text = safe_get_element_text(container.find_element_by_tag_name('label')).lower().strip()
+        if text == name:
+            input = container.find_element_by_tag_name('input')
+            clear_input_and_send_keys(input, value)
+            return True
+    assert False, "Could not set value to field %s" % name
+
+
+@step(u'I expect for the button "{button_name}" in "{title}" add form to be '
+      u'clickable within {seconds} seconds')
+def check_button_in_form_is_clickable(context, button_name, title, seconds):
+    title = title.lower()
+    if title not in ['cloud', 'machine', 'image', 'key', 'network',
+                     'tunnel', 'script', 'template', 'stack', 'team']:
+        raise ValueError('The title given is unknown')
+    add_form_selector = 'div#content.%s-add' % title
+    add_form = context.browser.find_element_by_css_selector(add_form_selector)
+    buttons = add_form.find_elements_by_tag_name('paper-button')
+    assert buttons, "Could not find any buttons in the form"
+    button = None
+    for b in buttons:
+        if safe_get_element_text(b).lower().strip() == button_name:
+            button = b
+            break
+    assert button, "Could not find button %s" % button_name
+    import ipdb
+    ipdb.set_trace()
+    timeout = time() + int(seconds)
+    while time() < timeout:
+        if button.is_enabled():
+            return True
+        sleep(1)
+    assert False, "Button %s did not become clickable" % button_name
+
+
+@step(u'I click the button "{button_name}" in "{title}" add form')
+def click_button_in_form(context, button_name, title):
+    title = title.lower()
+    if title not in ['cloud', 'machine', 'image', 'key', 'network',
+                     'tunnel', 'script', 'template', 'stack', 'team']:
+        raise ValueError('The title given is unknown')
+    add_form_selector = 'div#content.%s-add' % title
+    add_form = context.browser.find_element_by_css_selector(add_form_selector)
+    buttons = add_form.find_elements_by_tag_name('paper-button')
+    assert buttons, "Could not find any buttons in the form"
+    from .buttons import click_button_from_collection
+    click_button_from_collection(context, button_name, buttons)
 
 
 @step(u'I expect for "{loader_name}" loader to finish within max {seconds} '

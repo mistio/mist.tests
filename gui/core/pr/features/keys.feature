@@ -5,24 +5,25 @@ Feature: Actions for Keys
     Given I am logged in to mist.core
     And I am in the new UI
     When I wait for the dashboard to load
-    Given "Azure" cloud has been added
+#    Given "Azure" cloud has been added
 
   @key-addition
   Scenario: Add Key
     When I visit the Keys page after the Images counter has loaded
-    When I click the button "Add"
-    Then I expect for "key-add-popup" popup to appear within max 4 seconds
-    When I fill "FirstKey" as key name
-    And I click the "Generate" button inside the "Add key" popup
-    Then I expect for "key-generate-loader" loader to finish within max 9 seconds
+    When I click the button "+"
+    Then I expect the "Keys" add form to be visible within max 10 seconds
+    When I set the value "FirstKey" to field "Name" in "key" add form
+    Then I click the button "Generate" in "key" add form
+    And I wait for the button "Add" in "key" add form to be clickable within 9 seconds
     When I click the "Add" button inside the "Add key" popup
-    Then I expect for "key-add-popup" popup to disappear within max 4 seconds
-    And I click the button "Home"
-    And I expect for "home-page" page to appear within max 4 seconds
-    When I visit the Keys page after the counter has loaded
-    Then "FirstKey" key should be added within 15 seconds
-    Then I click the button "Home"
-    And I wait for 1 seconds
+#
+#    Then I expect for "key-add-popup" popup to disappear within max 4 seconds
+#    And I click the button "Home"
+#    And I expect for "home-page" page to appear within max 4 seconds
+#    When I visit the Keys page after the counter has loaded
+#    Then "FirstKey" key should be added within 15 seconds
+#    Then I click the button "Home"
+#    And I wait for 1 seconds
 
   @key-renaming
   Scenario: Rename Key

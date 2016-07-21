@@ -6,28 +6,6 @@ from time import sleep
 from .utils import safe_get_element_text
 
 
-@step(u'I fill "{text}" as key name')
-def fill_key_name(context, text):
-    if context.mist_config.get(text):
-        text = context.mist_config.get(text)
-
-    textfield = context.browser.find_element_by_id("key-add-id")
-    textfield.send_keys(text)
-
-
-@step(u'I fill "{text}" as new key name')
-def fill_key_name(context, text):
-    if context.mist_config.get(text):
-        text = context.mist_config.get(text)
-
-    textfield = context.browser.find_element_by_id("new-key-name")
-    for i in range(20):
-        textfield.send_keys(u'\ue003')
-
-    for letter in text:
-        textfield.send_keys(letter)
-
-
 @step(u'"{text}" key should be added within {seconds} seconds')
 def key_added(context, text, seconds):
     if context.mist_config.get(text):
