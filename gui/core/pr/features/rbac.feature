@@ -150,7 +150,7 @@ Feature: RBAC
     Then I logout
     # login in back as owner to verify invitation status
     Given I am not logged in to mist.core
-    And I refresh the current page
+    And I refresh the page
     Given I am logged in to mist.core as rbac_owner
     When I visit the Teams page after the Teams counter has loaded
     # verify that all pending statuses are gone
