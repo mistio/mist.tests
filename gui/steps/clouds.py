@@ -49,16 +49,8 @@ def cloud_creds(context, cloud):
                     raise e
                 sleep(1)
         subscription_id.send_keys(context.mist_config['CREDENTIALS']['AZURE']['subscription_id'])
-        context.execute_steps(u'''
-        When I click the "Add Certificate" button inside the "Add Cloud" panel
-        Then I expect for "file-upload-popup" popup to appear within max 4 seconds
-        ''')
-        upload_area = context.browser.find_element_by_id("upload-area")
-        upload_area.send_keys(context.mist_config['CREDENTIALS']['AZURE']['certificate'])
-        context.execute_steps(u'''
-        When I click the "Done" button inside the "Upload" popup
-        Then I expect for "file-upload-popup" popup to disappear within max 4 seconds
-        ''')
+        certificate = context.browser.find_element_by_id("certificate")
+        certificate.send_keys(context.mist_config['CREDENTIALS']['AZURE']['certificate'])
     elif "GCE" in cloud:
         title = context.browser.find_element_by_id("title")
         for i in range(1, 6):
