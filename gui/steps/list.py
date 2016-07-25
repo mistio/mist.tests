@@ -18,13 +18,15 @@ def wait_for_item_show(context, expected_name, resource_type, seconds):
                              'tunnel', 'script', 'template', 'stack',
                              'team']:
         raise ValueError('The resource type given is unknown')
-    selector = 'page-items.%s' % resource_type
+    import ipdb
+    ipdb.set_trace()
+    selector = 'page-items.%ss' % resource_type
     timeout = time() + int(seconds)
     while time() < timeout:
         try:
             list_of_items = context.browser.find_element_by_css_selector(selector)
             if list_of_items.is_displayed():
-                items = list_of_items.find_element_by_tag_name('list-item')
+                items = list_of_items.find_elements_by_tag_name('list-item')
                 for item in items:
                     name = safe_get_element_text(item.find_element_by_css_selector('div.name')).strip().lower()
                     if expected_name == name:
