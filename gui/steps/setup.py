@@ -45,7 +45,7 @@ def register_user(context, user_email):
             And I wait for 3 seconds
         ''')
         context.browser.find_element_by_id("splash")
-        context.execute_steps(u'And I wait for the mist.io splash page to load')
+        context.execute_steps(u'Then I wait for the mist.io splash page to load')
         # if we reach this line successfully it means that the user is already
         # registered
         return

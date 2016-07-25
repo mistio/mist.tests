@@ -149,12 +149,25 @@ def wait_for_buttons_to_appear(context):
             sleep(1)
 
 
+def filter_buttons(context, text):
+    return filter(lambda el: safe_get_element_text(el).strip().lower() == text,
+                              context.browser.find_elements_by_tag_name('paper-button'))
+
+
 @step("I wait for the dashboard to load")
 def wait_for_dashboard(context):
     context.execute_steps(u'Then I wait for the links in homepage to appear')
-    add_cloud_button = filter(lambda el: safe_get_element_text(el).strip().lower() == 'add your clouds',
-                              context.browser.find_elements_by_tag_name('paper-button'))
+    add_cloud_button = filter_buttons(context, 'add your clouds')
     if add_cloud_button:
+        return True
+    save_org = filter_buttons(context, 'save organisation')
+    if save_org:
+        # first save the name of the organizational context for future use then
+        # press the button to save the name and finally return successfully
+        org_form = context.browser.find_element_by_id('orginput')
+        org_input = org_form.find_element_by_id('input')
+        context.organizational_context = org_input.get_attribute('value').strip().lower()
+        clicketi_click(context, save_org[0])
         return True
     timeout = 20
     try:
