@@ -162,27 +162,45 @@ def check_add_form_is_visible(context, page, seconds):
                                    int(seconds), msg)
 
 
-@step(u'I expect the field "{field_name}" in the {title} add form to be visible'
-      u' within max {seconds} seconds')
-def check_that_field_is_visible(context, field_name, title, seconds):
-    field_name = field_name.lower()
+def get_form(context, title):
     title = title.lower()
     if title not in ['cloud', 'machine', 'image', 'key', 'network',
                      'tunnel', 'script', 'template', 'stack', 'team']:
         raise ValueError('The title given is unknown')
     add_form_selector = 'div#content.%s-add' % title
-    add_form = context.browser.find_element_by_css_selector(add_form_selector)
+    return context.browser.find_element_by_css_selector(add_form_selector)
+
+
+def get_input_from_form(form, input_name):
+    input_containers = form.find_elements_by_id('labelAndInputContainer')
+    for container in input_containers:
+        text = safe_get_element_text(container.find_element_by_tag_name('label')).lower().strip()
+        if text == input_name:
+            return container.find_element_by_id('input')
+
+
+def get_button_from_form(form, button_name):
+    buttons = form.find_elements_by_tag_name('paper-button')
+    assert buttons, "Could not find any buttons in the form"
+    button = None
+    for b in buttons:
+        if safe_get_element_text(b).lower().strip() == button_name:
+            return b
+    assert button, "Could not find button %s" % button_name
+
+
+@step(u'I expect the field "{field_name}" in the {title} add form to be visible'
+      u' within max {seconds} seconds')
+def check_that_field_is_visible(context, field_name, title, seconds):
+    field_name = field_name.lower()
+    add_form = get_form(context, title.lower())
     input = None
     timeout = time() + int(seconds)
     while time() < timeout:
-        input_containers = add_form.find_elements_by_id('labelAndInputContainer')
-        for container in input_containers:
-            text = safe_get_element_text(container.find_element_by_tag_name('label')).lower().strip()
-            if text == field_name:
-                input = container
-                if input.is_displayed():
-                    return True
-            sleep(1)
+        input = get_input_from_form(add_form, field_name)
+        if input.is_displayed():
+            return True
+        sleep(1)
     assert input, "Could not find field %s after %s seconds" % field_name
     assert False, "Field %s did not become visible after %s seconds" \
                   % (field_name, seconds)
@@ -190,49 +208,34 @@ def check_that_field_is_visible(context, field_name, title, seconds):
 
 @step(u'I set the value "{value}" to field "{name}" in "{title}" add form')
 def set_value_to_field(context, value, name, title):
-    title = title.lower()
-    name = name.lower()
     if context.mist_config.get(value):
         value = context.mist_config.get(value)
-    if title not in ['cloud', 'machine', 'image', 'key', 'network',
-                     'tunnel', 'script', 'template', 'stack', 'team']:
-        raise ValueError('The title given is unknown')
-    add_form_selector = 'div#content.%s-add' % title
-    add_form = context.browser.find_element_by_css_selector(add_form_selector)
-    input_containers = add_form.find_elements_by_id('labelAndInputContainer')
-    for container in input_containers:
-        text = safe_get_element_text(container.find_element_by_tag_name('label')).lower().strip()
-        if text == name:
-            input = container.find_element_by_tag_name('input')
-            clear_input_and_send_keys(input, value)
-            return True
-    assert False, "Could not set value to field %s" % name
+    add_form = get_form(context, title.lower())
+    input = get_input_from_form(add_form, name.lower())
+    if input:
+        clear_input_and_send_keys(input, value)
+    else:
+        assert False, "Could not set value to field %s" % name
 
 
 @step(u'I expect for the button "{button_name}" in "{title}" add form to be '
       u'clickable within {seconds} seconds')
 def check_button_in_form_is_clickable(context, button_name, title, seconds):
-    title = title.lower()
-    button_name = button_name.lower()
-    if title not in ['cloud', 'machine', 'image', 'key', 'network',
-                     'tunnel', 'script', 'template', 'stack', 'team']:
-        raise ValueError('The title given is unknown')
-    add_form_selector = 'div#content.%s-add' % title
-    add_form = context.browser.find_element_by_css_selector(add_form_selector)
-    buttons = add_form.find_elements_by_tag_name('paper-button')
-    assert buttons, "Could not find any buttons in the form"
-    button = None
-    for b in buttons:
-        if safe_get_element_text(b).lower().strip() == button_name:
-            button = b
-            break
-    assert button, "Could not find button %s" % button_name
+    add_form = get_form(context, title.lower())
     timeout = time() + int(seconds)
     while time() < timeout:
+        button = get_button_from_form(add_form, button_name.lower())
         if button.is_enabled():
             return True
         sleep(1)
     assert False, "Button %s did not become clickable" % button_name
+
+
+@step(u'I focus on the button "{button_name}" in "{title}" add form')
+def focus_on_form_button(context, button_name, title):
+    form = get_form(context, title.lower())
+    button = get_button_from_form(form, button_name.lower())
+    focus_on_element(context, button)
 
 
 @step(u'I click the button "{button_name}" in "{title}" add form')
@@ -243,10 +246,9 @@ def click_button_in_form(context, button_name, title):
         raise ValueError('The title given is unknown')
     add_form_selector = 'div#content.%s-add' % title
     add_form = context.browser.find_element_by_css_selector(add_form_selector)
-    buttons = add_form.find_elements_by_tag_name('paper-button')
-    assert buttons, "Could not find any buttons in the form"
-    from .buttons import click_button_from_collection
-    click_button_from_collection(context, button_name, buttons)
+    button = get_button_from_form(add_form, button_name.lower())
+    from .buttons import clicketi_click
+    clicketi_click(context, button)
 
 
 @step(u'I expect for "{loader_name}" loader to finish within max {seconds} '
