@@ -18,8 +18,6 @@ def wait_for_item_show(context, expected_name, resource_type, seconds):
                              'tunnel', 'script', 'template', 'stack',
                              'team']:
         raise ValueError('The resource type given is unknown')
-    import ipdb
-    ipdb.set_trace()
     selector = 'page-items.%ss' % resource_type
     timeout = time() + int(seconds)
     while time() < timeout:
