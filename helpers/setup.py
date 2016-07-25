@@ -30,7 +30,7 @@ def setup_org_if_not_exists(org_name, owner_email, clean_org=True, add_cloud=Tru
     # If clean_org is set to True then all the teams of the organization
     # will be deleted and all the members except the owner.
     if config.SETUP_ENVIRONMENT:
-        from mist.io.clouds.models import Cloud, Machine
+        from mist.core.cloud.models import Cloud, Machine
 
         from mist.core.user.models import User
         from mist.core.user.models import Organization
