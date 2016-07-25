@@ -6,17 +6,18 @@ import mongoengine as me
 
 from mist.core import config
 
-from mist.io.clouds.models import Cloud, Machine
-
-from mist.core.user.models import User, Rule
+from mist.core.user.models import User
 from mist.core.user.models import Owner
 from mist.core.user.models import Organization
 
 from mist.core.keypair.models import Keypair
+
+from mist.core.cloud.models import Cloud
+from mist.core.cloud.models import Machine
+
 from mist.core.tag.models import Tag
+from mist.core.rule.models import Rule
 from mist.core.script.models import Script
-
-
 
 
 log = logging.getLogger(__name__)
