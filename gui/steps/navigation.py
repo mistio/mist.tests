@@ -382,22 +382,3 @@ def wait_for_some_list_page_to_load(context, title):
         except NoSuchElementException:
             pass
         sleep(1)
-
-
-@step(u'I expect the {type_of_page} page to become visible for {seconds}'
-      u' seconds')
-def wait_for_single_page(context, type_of_page, seconds):
-    type_of_page = type_of_page.lower()
-    if type_of_page not in ['machine', 'image', 'key', 'network', 'script']:
-        raise ValueError('The page given is unknown')
-    timeout = time() + int(seconds)
-    while time() < timeout:
-        try:
-            page = context.browser.find_element_by_tag_name('%s-page' % type_of_page)
-            if page.is_displayed():
-                return True
-        except:
-            pass
-        sleep(1)
-    assert False, "%s page is not visible after %s seconds" \
-                  % (type_of_page, seconds)

@@ -5,7 +5,8 @@ from time import time
 
 from .utils import safe_get_element_text
 from .utils import focus_on_element
-from .utils import find_dropdown
+
+from .forms import find_dropdown
 
 from selenium.webdriver import ActionChains
 from selenium.webdriver.common.by import By

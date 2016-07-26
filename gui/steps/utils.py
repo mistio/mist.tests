@@ -149,108 +149,6 @@ def check_page_is_visible(context, page_title, seconds):
                                    int(seconds), msg)
 
 
-@step(u'I expect the "{page}" add form to be visible within max {seconds}'
-      u' seconds')
-def check_add_form_is_visible(context, page, seconds):
-    page = page.lower()
-    if page not in ['cloud', 'machine', 'image', 'key', 'network',
-                    'tunnel', 'script', 'template', 'stack', 'team']:
-        raise ValueError('The title given is unknown')
-    element = 'div#content.%s-add' % page
-    msg = "%s add form is not visible after %s seconds" % (page, seconds)
-    wait_for_element_to_be_visible(context, (By.CSS_SELECTOR, element),
-                                   int(seconds), msg)
-
-
-def get_form(context, title):
-    title = title.lower()
-    if title not in ['cloud', 'machine', 'image', 'key', 'network',
-                     'tunnel', 'script', 'template', 'stack', 'team']:
-        raise ValueError('The title given is unknown')
-    add_form_selector = 'div#content.%s-add' % title
-    return context.browser.find_element_by_css_selector(add_form_selector)
-
-
-def get_input_from_form(form, input_name):
-    input_containers = form.find_elements_by_id('labelAndInputContainer')
-    for container in input_containers:
-        text = safe_get_element_text(container.find_element_by_tag_name('label')).lower().strip()
-        if text == input_name:
-            return container.find_element_by_id('input')
-
-
-def get_button_from_form(form, button_name):
-    buttons = form.find_elements_by_tag_name('paper-button')
-    assert buttons, "Could not find any buttons in the form"
-    button = None
-    for b in buttons:
-        if safe_get_element_text(b).lower().strip() == button_name:
-            return b
-    assert button, "Could not find button %s" % button_name
-
-
-@step(u'I expect the field "{field_name}" in the {title} add form to be visible'
-      u' within max {seconds} seconds')
-def check_that_field_is_visible(context, field_name, title, seconds):
-    field_name = field_name.lower()
-    add_form = get_form(context, title.lower())
-    input = None
-    timeout = time() + int(seconds)
-    while time() < timeout:
-        input = get_input_from_form(add_form, field_name)
-        if input.is_displayed():
-            return True
-        sleep(1)
-    assert input, "Could not find field %s after %s seconds" % field_name
-    assert False, "Field %s did not become visible after %s seconds" \
-                  % (field_name, seconds)
-
-
-@step(u'I set the value "{value}" to field "{name}" in "{title}" add form')
-def set_value_to_field(context, value, name, title):
-    if context.mist_config.get(value):
-        value = context.mist_config.get(value)
-    add_form = get_form(context, title.lower())
-    input = get_input_from_form(add_form, name.lower())
-    if input:
-        clear_input_and_send_keys(input, value)
-    else:
-        assert False, "Could not set value to field %s" % name
-
-
-@step(u'I expect for the button "{button_name}" in "{title}" add form to be '
-      u'clickable within {seconds} seconds')
-def check_button_in_form_is_clickable(context, button_name, title, seconds):
-    add_form = get_form(context, title.lower())
-    timeout = time() + int(seconds)
-    while time() < timeout:
-        button = get_button_from_form(add_form, button_name.lower())
-        if button.is_enabled():
-            return True
-        sleep(1)
-    assert False, "Button %s did not become clickable" % button_name
-
-
-@step(u'I focus on the button "{button_name}" in "{title}" add form')
-def focus_on_form_button(context, button_name, title):
-    form = get_form(context, title.lower())
-    button = get_button_from_form(form, button_name.lower())
-    focus_on_element(context, button)
-
-
-@step(u'I click the button "{button_name}" in "{title}" add form')
-def click_button_in_form(context, button_name, title):
-    title = title.lower()
-    if title not in ['cloud', 'machine', 'image', 'key', 'network',
-                     'tunnel', 'script', 'template', 'stack', 'team']:
-        raise ValueError('The title given is unknown')
-    add_form_selector = 'div#content.%s-add' % title
-    add_form = context.browser.find_element_by_css_selector(add_form_selector)
-    button = get_button_from_form(add_form, button_name.lower())
-    from .buttons import clicketi_click
-    clicketi_click(context, button)
-
-
 # @step(u'I expect for "{loader_name}" loader to finish within max {seconds} '
 #       u'seconds')
 # def loader_name_waiting_with_timeout(context, loader_name, seconds):
@@ -282,8 +180,8 @@ def click_button_in_form(context, button_name, title):
 #             return
 #     assert False, 'Loader %s did not finish after %s seconds' % (loader_name,
 #                                                                  seconds)
-
-
+#
+#
 # @step(u'I should be in the machines page')
 # def check_if_its_machines_page(context):
 #     try:
@@ -314,32 +212,6 @@ def check_input_for_text(context, something, input_id):
         "Input text did not match what was expected"
 
 
-def get_text_of_dropdown(el):
-    try:
-        return safe_get_element_text(el.find_element_by_class_name('paper-input')).strip().lower()
-    except NoSuchElementException:
-        return ''
-
-
-def find_dropdown(context, dropdown_text):
-    # get all the paper materials
-    all_dropdowns = context.browser.find_elements_by_tag_name('paper-dropdown-menu')
-    # find the drop down with the text
-    dropdown = filter(lambda el: get_text_of_dropdown(el) == dropdown_text,
-                      all_dropdowns)
-    if not dropdown:
-        raise NoSuchElementException('There is no dropdown with text %s'
-                                     % dropdown_text)
-    return dropdown.pop()
-
-
-@step(u'I open the "{dropdown_text}" drop down')
-def open_drop_down(context, dropdown_text):
-    from .buttons import clicketi_click
-    dropdown = find_dropdown(context, dropdown_text.lower())
-    clicketi_click(context, dropdown)
-
-
 def wait_until_visible(element, seconds):
     timeout = time() + seconds
     while time() < timeout:
@@ -348,18 +220,3 @@ def wait_until_visible(element, seconds):
         sleep(1)
     raise TimeoutException("Element has not become visible after %s seconds"
                            % seconds)
-
-
-def clear_input_and_send_keys(input_field, text):
-    end_time = time() + 5
-    while time() < end_time:
-        while input_field.get_attribute('value') != '':
-            input_field.send_keys(u'\ue003')
-        if text == '':
-            break
-        input_field.send_keys(text)
-        if input_field.get_attribute('value') != text:
-            assert time() + 1 > end_time, "Could not input value %s" % text
-            sleep(1)
-        else:
-            break

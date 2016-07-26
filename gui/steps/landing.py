@@ -6,7 +6,8 @@ from time import sleep
 from .buttons import click_button_from_collection
 
 from .utils import safe_get_element_text
-from .utils import clear_input_and_send_keys
+
+from .forms import clear_input_and_send_keys
 
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait

@@ -1,6 +1,6 @@
 import json
 
-from behave import *
+from behave import step
 
 from time import time
 from time import sleep
@@ -9,7 +9,8 @@ from selenium.common.exceptions import NoSuchElementException
 
 from .utils import wait_until_visible
 from .utils import safe_get_element_text
-from .utils import clear_input_and_send_keys
+
+from .forms import clear_input_and_send_keys
 
 from .buttons import clicketi_click
 from .buttons import click_button_from_collection

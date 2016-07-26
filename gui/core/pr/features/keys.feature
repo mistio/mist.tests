@@ -11,7 +11,7 @@ Feature: Actions for Keys
   @key-add
   Scenario: Add Key
     When I click the button "+"
-    Then I expect the "Key" add form to be visible within max 10 seconds
+    Then I expect the Key add form to be visible within max 10 seconds
     When I set the value "FirstKey" to field "Name" in "key" add form
     Then I click the button "Generate" in "key" add form
     And I expect for the button "Add" in "key" add form to be clickable within 9 seconds
@@ -62,7 +62,7 @@ Feature: Actions for Keys
   @key-tags
   Scenario: Add tags to key
     When I click the "FirstKey" "key"
-    And I expect the key page to become visible for 5 seconds
+    And I expect the "key" edit form to be visible within max 5 seconds
 
   @key-delete
   Scenario: Delete Key
