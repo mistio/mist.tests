@@ -59,6 +59,11 @@ Feature: Actions for Keys
 #    Then I click the button "Home"
 #    And I wait for 1 seconds
 
+  @key-tags
+  Scenario: Add tags to key
+    When I click the "FirstKey" "key"
+    And I expect the key page to become visible for 5 seconds
+
   @key-delete
   Scenario: Delete Key
     Then I click the button "Delete" from the menu of the "FirstKey" key
