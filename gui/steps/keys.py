@@ -1,36 +1,6 @@
 from behave import step
 
-from time import time
-from time import sleep
-
 from .utils import safe_get_element_text
-
-
-@step(u'"{text}" key should be added within {seconds} seconds')
-def key_added(context, text, seconds):
-    if context.mist_config.get(text):
-        text = context.mist_config.get(text)
-
-    end_time = time() + int(seconds)
-    while time() < end_time:
-        keys = context.browser.find_elements_by_css_selector(".ui-listview li")
-        for key in keys:
-            if text in safe_get_element_text(key):
-                return
-        sleep(2)
-
-    assert False, u'%s Key is not found added within %s seconds' % (text, seconds)
-
-
-@step(u'"{text}" key should be deleted')
-def key_deleted(context, text):
-    if context.mist_config.get(text):
-        text = context.mist_config.get(text)
-
-    keys = context.browser.find_elements_by_css_selector(".ui-listview li")
-    for key in keys:
-        if text in safe_get_element_text(key):
-            assert False, u'%s Key is not deleted'
 
 
 @step(u'key "{key_name}" should be default key')
