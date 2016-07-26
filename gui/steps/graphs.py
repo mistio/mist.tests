@@ -67,10 +67,11 @@ def wait_for_graph_to_appear(context, graph_title, seconds):
 
 
 def check_graph_tooltip_value(graph, operator, wanted_value, tries=3):
-    for i in range(3):
-        child = 2 + i
+    graph_rects = graph.find_elements_by_css_selector(".c3-event-rects .c3-event-rect")
+    for i in range(1, len(graph_rects)/2):
+        rect_selector = ".c3-event-rects .c3-event-rect:nth-last-child(%s)" % i
         try:
-            check_point = graph.find_element_by_css_selector(".c3-event-rects .c3-event-rect:nth-last-child(%s)" % child)
+            check_point = graph.find_element_by_css_selector(rect_selector)
             check_point.click()
             tooltip = graph.find_element_by_css_selector(".c3-tooltip-container td.value")
             tooltip_text = safe_get_element_text(tooltip)
