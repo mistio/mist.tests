@@ -154,6 +154,24 @@ def click_button(context, text):
                                                'contains %s' % text)
 
 
+@step(u'I click the "{text}" "{type_of_item}"')
+def click_item(context, text, type_of_item):
+    type_of_item = type_of_item.lower()
+    if type_of_item not in ['machine', 'key', 'script', 'network', 'team']:
+        raise Exception('Unknown type of button')
+    if context.mist_config.get(text):
+        text = context.mist_config[text]
+    text = text.lower()
+    item_selector = 'page-items.%ss iron-list div.row' % type_of_item
+    items = context.browser.find_elements_by_css_selector(item_selector)
+    for item in items:
+        name = safe_get_element_text(item.find_element_by_css_selector('div.name')).strip().lower()
+        if text == name:
+            clicketi_click(context, item)
+            return True
+    assert False, "Could not click item %s" % text
+
+
 @step(u'I click the mist.io button')
 def click_mist_io(context):
     clicketi_click(context, context.browser.find_element_by_id('logo-link'))
