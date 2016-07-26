@@ -185,47 +185,47 @@ def assert_machine_added(context, name, seconds):
     assert False, u'%s is not added' % name
 
 
-@step(u'"{name}" machine state should be "{state}" within {seconds} seconds')
-def assert_machine_state(context, name, state, seconds):
-    if context.mist_config.get(name):
-        name = context.mist_config.get(name)
-
-    end_time = time() + int(seconds)
-    while time() < end_time:
-        machine = get_machine(context, name)
-        if machine:
-            try:
-                if state in safe_get_element_text(machine):
-                    return
-            except NoSuchElementException:
-                pass
-            except StaleElementReferenceException:
-                pass
-        sleep(2)
-
-    assert False, u'%s state is not "%s"' % (name, state)
-
-
-@step(u'"{name}" machine should be probed within {seconds} seconds')
-def assert_machine_probed(context, name, seconds):
-    if context.mist_config.get(name):
-        name = context.mist_config.get(name)
-
-    end_time = time() + int(seconds)
-    while time() < end_time:
-        machine = get_machine(context, name)
-        if machine:
-            try:
-                machine.find_element_by_class_name("probed")
-                return
-            except NoSuchElementException:
-                pass
-            except StaleElementReferenceException:
-                pass
-            sleep(3)
-
-    assert False, u'%s machine is not probed within %s seconds' % (
-                    name, seconds)
+# @step(u'"{name}" machine state should be "{state}" within {seconds} seconds')
+# def assert_machine_state(context, name, state, seconds):
+#     if context.mist_config.get(name):
+#         name = context.mist_config.get(name)
+#
+#     end_time = time() + int(seconds)
+#     while time() < end_time:
+#         machine = get_machine(context, name)
+#         if machine:
+#             try:
+#                 if state in safe_get_element_text(machine):
+#                     return
+#             except NoSuchElementException:
+#                 pass
+#             except StaleElementReferenceException:
+#                 pass
+#         sleep(2)
+#
+#     assert False, u'%s state is not "%s"' % (name, state)
+#
+#
+# @step(u'"{name}" machine should be probed within {seconds} seconds')
+# def assert_machine_probed(context, name, seconds):
+#     if context.mist_config.get(name):
+#         name = context.mist_config.get(name)
+#
+#     end_time = time() + int(seconds)
+#     while time() < end_time:
+#         machine = get_machine(context, name)
+#         if machine:
+#             try:
+#                 machine.find_element_by_class_name("probed")
+#                 return
+#             except NoSuchElementException:
+#                 pass
+#             except StaleElementReferenceException:
+#                 pass
+#             sleep(3)
+#
+#     assert False, u'%s machine is not probed within %s seconds' % (
+#                     name, seconds)
 
 
 def get_machine(context, name):

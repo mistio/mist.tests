@@ -50,20 +50,20 @@ def wait_metric_buttons(context, seconds):
                   "seconds" % seconds
 
 
-@step(u'"{graph_title}" graph should be added within {seconds} seconds')
-def wait_for_graph_to_appear(context, graph_title, seconds):
-    timeout = time() + int(seconds)
-    graph_title = graph_title.lower()
-    while time() < timeout:
-        graphs = context.browser.find_elements_by_class_name('graph')
-        for graph in graphs:
-            graph = graph.find_element_by_class_name('title')
-            graph_text = safe_get_element_text(graph)
-            if graph_title in graph_text.lower():
-                return
-        sleep(1)
-    assert False, "Graph with title %s has not appeared after %s seconds"\
-                  % (graph_title, seconds)
+# @step(u'"{graph_title}" graph should be added within {seconds} seconds')
+# def wait_for_graph_to_appear(context, graph_title, seconds):
+#     timeout = time() + int(seconds)
+#     graph_title = graph_title.lower()
+#     while time() < timeout:
+#         graphs = context.browser.find_elements_by_class_name('graph')
+#         for graph in graphs:
+#             graph = graph.find_element_by_class_name('title')
+#             graph_text = safe_get_element_text(graph)
+#             if graph_title in graph_text.lower():
+#                 return
+#         sleep(1)
+#     assert False, "Graph with title %s has not appeared after %s seconds"\
+#                   % (graph_title, seconds)
 
 
 @step(u'"{graph_title}" graph should have value {operator} {target_value} '
