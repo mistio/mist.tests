@@ -19,12 +19,12 @@ def safe_get_element_text(check_element):
         return ""
 
 
-@step(u'I type "{some_text}" in input with id "{element_id}"')
-def give_some_input(context, some_text, element_id):
-    input_element = context.browser.find_element_by_id(element_id)
-    if context.mist_config.get(some_text):
-        some_text = context.mist_config[some_text]
-    input_element.send_keys(some_text)
+# @step(u'I type "{some_text}" in input with id "{element_id}"')
+# def give_some_input(context, some_text, element_id):
+#     input_element = context.browser.find_element_by_id(element_id)
+#     if context.mist_config.get(some_text):
+#         some_text = context.mist_config[some_text]
+#     input_element.send_keys(some_text)
 
 
 def focus_on_element(context, element):
@@ -117,24 +117,24 @@ def become_visible_waiting_with_timeout(context, element_id, seconds):
                                    int(seconds), msg)
 
 
-@step(u'I expect for element with tag "{element_name}" element to be visible '
-      u'within max {seconds} seconds')
-def element_become_visible_waiting_with_timeout(context, element_name, seconds):
-    msg = "element %s did not become visible after %s seconds" % (element_name,
-                                                                  seconds)
-    wait_for_element_to_be_visible(context, (By.TAG_NAME, element_name),
-                                   int(seconds), msg)
-
-
-@step(u'I expect the label "{element_text}" to be visible within max {seconds} '
-      u'seconds')
-def element_label_become_visible_waiting_with_timeout(context, element_text, seconds):
-    msg = "Label %s did not become visible after %s seconds" % (element_text,
-                                                                seconds)
-    wait_for_element_to_be_visible(context,
-                                   (By.XPATH,
-                                    '//label[contains(text(), "%s")]' % str(element_text)),
-                                   int(seconds), msg)
+# @step(u'I expect for element with tag "{element_name}" element to be visible '
+#       u'within max {seconds} seconds')
+# def element_become_visible_waiting_with_timeout(context, element_name, seconds):
+#     msg = "element %s did not become visible after %s seconds" % (element_name,
+#                                                                   seconds)
+#     wait_for_element_to_be_visible(context, (By.TAG_NAME, element_name),
+#                                    int(seconds), msg)
+#
+#
+# @step(u'I expect the label "{element_text}" to be visible within max {seconds} '
+#       u'seconds')
+# def element_label_become_visible_waiting_with_timeout(context, element_text, seconds):
+#     msg = "Label %s did not become visible after %s seconds" % (element_text,
+#                                                                 seconds)
+#     wait_for_element_to_be_visible(context,
+#                                    (By.XPATH,
+#                                     '//label[contains(text(), "%s")]' % str(element_text)),
+#                                    int(seconds), msg)
 
 
 @step(u'I expect for "{page_title}" page to appear within max {seconds} seconds')
