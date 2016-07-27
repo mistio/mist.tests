@@ -6,6 +6,7 @@ from time import time
 from time import sleep
 
 from selenium.common.exceptions import NoSuchElementException
+from selenium.common.exceptions import StaleElementReferenceException
 
 from .utils import wait_until_visible
 from .utils import safe_get_element_text
@@ -208,14 +209,20 @@ def cloud_creds(context, cloud):
 
 
 def find_cloud(context, cloud_title):
-    clouds = context.browser.find_elements_by_tag_name('cloud-chip')
-    clouds = filter(lambda el: el.is_displayed(), clouds)
+    cloud_chips = context.browser.find_elements_by_tag_name('cloud-chip')
+    clouds = []
+    for cloud in cloud_chips:
+        try:
+            if cloud.is_displayed:
+                clouds.append(cloud)
+        except StaleElementReferenceException:
+            pass
     for c in clouds:
         try:
             title = c.find_element_by_class_name('cloud-title')
             if safe_get_element_text(title).lower().strip() == cloud_title:
                 return c
-        except NoSuchElementException, StaleElementReferenceException:
+        except (NoSuchElementException, StaleElementReferenceException):
             pass
     return None
 
