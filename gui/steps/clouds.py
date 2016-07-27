@@ -49,25 +49,13 @@ def cloud_creds(context, cloud):
         from .forms import set_value_to_field
         set_value_to_field(context, certificate, 'certificate', 'cloud', 'add')
     elif "GCE" in cloud:
-        title = context.browser.find_element_by_id("title")
-        for i in range(1, 6):
-            title.send_keys(u'\ue003')
-        title.send_keys("GCE")
-        project_id = context.browser.find_element_by_id("project_id")
-        project_id.send_keys(context.mist_config['CREDENTIALS']['GCE']['project_id'])
+        project_id = context.mist_config['CREDENTIALS']['GCE']['project_id']
+        private_key = context.mist_config['CREDENTIALS']['GCE']['private_key']
         context.execute_steps(u'''
-        When I click the "Add JSON Key" button inside the "Add Cloud" panel
-        Then I expect for "file-upload-popup" popup to appear within max 4 seconds
-        ''')
-        # file_input = context.browser.find_element_by_id("file-upload-input")
-        # file_input.send_keys(context.mist_config['CREDENTIALS']['GCE']['private_key'])
-        json_input = context.browser.find_element_by_id("upload-area")
-        json_input.send_keys(json.dumps(context.mist_config['CREDENTIALS']['GCE']['private_key']))
-        context.execute_steps(u'''
-            Then I expect for "file-upload-ok" to be clickable within max 4 seconds
-            When I click the "Done" button inside the "Upload" popup
-            Then I expect for "file-upload-popup" popup to disappear within max 4 seconds
-        ''')
+            Then I set the value "%s" to field "Title" in "cloud" add form
+            Then I set the value "%s" to field "Project ID" in "cloud" add form
+            Then I set the value "%s" to field "Private Key" in "cloud" add form
+        ''' % ('GCE', project_id, json.dumps(private_key)))
     elif "OPENSTACK" in cloud:
         username = context.browser.find_element_by_id("username")
         username.send_keys(context.mist_config['CREDENTIALS']['OPENSTACK']['username'])
@@ -116,8 +104,8 @@ def cloud_creds(context, cloud):
         password =  context.browser.find_element_by_xpath("//label[contains(text(), 'Password')]").find_element_by_xpath("..").find_element_by_tag_name("input")
         password.send_keys(context.mist_config['CREDENTIALS']['NEPHOSCALE']['password'])
     elif "LINODE" in cloud:
-        api_key = context.browser.find_element_by_id("api_key")
-        api_key.send_keys(context.mist_config['CREDENTIALS']['LINODE']['api_key'])
+        api_key = context.mist_config['CREDENTIALS']['LINODE']['api_key']
+        context.execute_steps(u'Then I set the value "%s" to field "API Key" in "cloud" add form' % api_key)
     elif "DOCKER" in cloud:
         host = context.browser.find_element_by_id("docker_host")
         host.send_keys(context.mist_config['CREDENTIALS']['DOCKER']['host'])
