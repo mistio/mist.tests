@@ -47,6 +47,8 @@ Feature: Actions for Keys
     Then "FirstKey" key should be absent within 15 seconds
     When I clear the search bar
     Then "FirstKey" key should be present within 15 seconds
+    Then I visit the Home page
+    When I wait for the dashboard to load
 
 #  @key-rename
 #  Scenario: Rename Key
