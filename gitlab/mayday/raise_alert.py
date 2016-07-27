@@ -49,6 +49,9 @@ last_succesful_test = date.today() - timedelta(days=1)
 
 #Check for the time of the last succesful test
 for i in range(0,len(data) -1):
+    #we only care about the tests on the master branch
+    if not str(data[i]['ref']) == 'master':
+        continue
     if data[i]['status'] == 'success':
         last_succesful_test = datetime.strptime(str(data[i]['finished_at']), "%Y-%m-%dT%H:%M:%S.%fZ")
         break
@@ -59,9 +62,12 @@ if last_succesful_test < datetime.now() - timedelta(minutes=30):
 
 # Checking the logs for failures if we find success first, everything is ok
 for i, data_dict in enumerate(data):
+    #we only care about the tests on the master branch
+    if not str(data[i]['ref']) == 'master':
+        continue
     log.info("looking at result %s" % data_dict)
     if data[i]['status'] == 'pending' or data[i]['status'] == 'canceled' or data[i]['status'] == 'running':
-        pass
+        continue
     elif data[i]['status'] == 'failed':
         failures += 1
         log.info("Found another failure. Failures so far %s" % failures)
