@@ -29,13 +29,13 @@ Feature: Add second-tier clouds in Polymist
     | Packet                | PACKET       |
 
     # Added by the Machines feature
-    | AWS                   | AWS          |
+    #| AWS                   | AWS          |
     # Added by the Keys feature
-    | Azure                 | AZURE        |
+    #| Azure                 | AZURE        |
     # Added by the Scripts feature
-    | GCE                   | GCE          |
+    #| GCE                   | GCE          |
     # Added by the user actions feature
-    | Linode                | LINODE       |
+    #| Linode                | LINODE       |
 
     # Nope, not really
     #| VMware vCloud         | VMWARE       |

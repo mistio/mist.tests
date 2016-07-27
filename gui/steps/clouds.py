@@ -247,15 +247,15 @@ def given_cloud(context, cloud):
     assert creds, u'Could not find credentials for %s' % cloud
 
     context.execute_steps(u'''
-        When I click the mist.io button
-        When I click the button by "addBtn" id_name
+        When I click the new cloud button
         Then I expect the "Cloud" add form to be visible within max 10 seconds
         And I open the "Choose Provider" drop down
         And I wait for 1 seconds
         When I click the button "%s" in the "Choose Provider" dropdown
-        Then I expect the field "Title *" in the cloud add form to be visible within max 4 seconds
+        Then I expect the field "Title" in the cloud add form to be visible within max 4 seconds
         When I use my provider "%s" credentials
-        And I click the button "Add Cloud"
+        And I focus on the button "Add Cloud" in "cloud" add form
+        Then I click the button "Add Cloud"
         And I click the mist.io button
         Then the "%s" provider should be added within 120 seconds
     ''' % (cloud, creds, cloud))
