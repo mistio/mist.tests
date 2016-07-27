@@ -22,20 +22,20 @@ Feature: Add second-tier clouds in Polymist
 
     Examples: Providers
     | provider              | credentials  |
-#    | Digital Ocean         | DIGITALOCEAN |
-#    | SoftLayer             | SOFTLAYER    |
-#    | NephoScale            | NEPHOSCALE   |
-#    | Rackspace             | RACKSPACE    |
-#    | Packet                | PACKET       |
+    | Digital Ocean         | DIGITALOCEAN |
+    | SoftLayer             | SOFTLAYER    |
+    | NephoScale            | NEPHOSCALE   |
+    | Rackspace             | RACKSPACE    |
+    | Packet                | PACKET       |
 
     # Added by the Machines feature
-    #| AWS                   | AWS          |
+    | AWS                   | AWS          |
     # Added by the Keys feature
-    #| Azure                 | AZURE        |
+    | Azure                 | AZURE        |
     # Added by the Scripts feature
     | GCE                   | GCE          |
     # Added by the user actions feature
-    #| Linode                | LINODE       |
+    | Linode                | LINODE       |
 
     # Nope, not really
     #| VMware vCloud         | VMWARE       |

@@ -56,35 +56,25 @@ def cloud_creds(context, cloud):
             Then I set the value "%s" to field "Project ID" in "cloud" add form
             Then I set the value "%s" to field "Private Key" in "cloud" add form
         ''' % ('GCE', project_id, json.dumps(private_key)))
-    elif "OPENSTACK" in cloud:
-        username = context.browser.find_element_by_id("username")
-        username.send_keys(context.mist_config['CREDENTIALS']['OPENSTACK']['username'])
-        password = context.browser.find_element_by_id("password")
-        password.send_keys(context.mist_config['CREDENTIALS']['OPENSTACK']['password'])
-        auth_url = context.browser.find_element_by_id("auth_url")
-        auth_url.send_keys(context.mist_config['CREDENTIALS']['OPENSTACK']['auth_url'])
-        tenant_name = context.browser.find_element_by_id("tenant_name")
-        tenant_name.send_keys(context.mist_config['CREDENTIALS']['OPENSTACK']['tenant_name'])
     elif "RACKSPACE" in cloud:
+        region = context.mist_config['CREDENTIALS']['RACKSPACE']['region']
+        username = context.mist_config['CREDENTIALS']['RACKSPACE']['username']
+        api_key = context.mist_config['CREDENTIALS']['RACKSPACE']['api_key']
         context.execute_steps(u'''
+            Then I set the value "%s" to field "Title" in "cloud" add form
             Then I open the "Region *" drop down
             And I wait for 1 seconds
             When I click the button "%s" in the "Region *" dropdown
-        ''' % context.mist_config['CREDENTIALS']['RACKSPACE']['region'])
-        cloud_add = context.browser.find_element_by_class_name("cloud-add")
-        title = cloud_add.find_element_by_id("title").find_element_by_id('input')
-        for i in range(20):
-            title.send_keys(u'\ue003')
-        title.send_keys("Rackspace")
-        username = cloud_add.find_element_by_id("username").find_element_by_id('input')
-        username.send_keys(context.mist_config['CREDENTIALS']['RACKSPACE']['username'])
-        api_key = cloud_add.find_element_by_id("api_key").find_element_by_id('input')
-        api_key.send_keys(context.mist_config['CREDENTIALS']['RACKSPACE']['api_key'])
+            Then I set the value "%s" to field "Username" in "cloud" add form
+            Then I set the value "%s" to field "API Key" in "cloud" add form
+        ''' % ('Rackspace', region, username, api_key))
     elif "SOFTLAYER" in cloud:
-        username = context.browser.find_element_by_xpath("//label[contains(text(), 'Username')]").find_element_by_xpath("..").find_element_by_tag_name("input")
-        username.send_keys(context.mist_config['CREDENTIALS']['SOFTLAYER']['username'])
-        api_key = context.browser.find_element_by_xpath("//label[contains(text(), 'API Key')]").find_element_by_xpath("..").find_element_by_tag_name("input")
-        api_key.send_keys(context.mist_config['CREDENTIALS']['SOFTLAYER']['api_key'])
+        username = context.mist_config['CREDENTIALS']['SOFTLAYER']['username']
+        api_key = context.mist_config['CREDENTIALS']['SOFTLAYER']['api_key']
+        context.execute_steps(u'''
+            Then I set the value "%s" to field "Username" in "cloud" add form
+            Then I set the value "%s" to field "API Key" in "cloud" add form
+        ''' % (username, api_key))
     elif "AWS" in cloud:
         api_key = context.mist_config['CREDENTIALS']['AWS']['api_key']
         api_secret = context.mist_config['CREDENTIALS']['AWS']['api_secret']
@@ -99,13 +89,41 @@ def cloud_creds(context, cloud):
             And I set the value "%s" to field "API Secret" in "cloud" add form
         ''' % (region, api_key, api_secret))
     elif "NEPHOSCALE" in cloud:
-        username = context.browser.find_element_by_xpath("//label[contains(text(), 'Username')]").find_element_by_xpath("..").find_element_by_tag_name("input")
-        username.send_keys(context.mist_config['CREDENTIALS']['NEPHOSCALE']['username'])
-        password =  context.browser.find_element_by_xpath("//label[contains(text(), 'Password')]").find_element_by_xpath("..").find_element_by_tag_name("input")
-        password.send_keys(context.mist_config['CREDENTIALS']['NEPHOSCALE']['password'])
+        username = context.mist_config['CREDENTIALS']['NEPHOSCALE']['username']
+        password =  context.mist_config['CREDENTIALS']['NEPHOSCALE']['password']
+        context.execute_steps(u'''
+            Then I set the value "%s" to field "Username" in "cloud" add form
+            Then I set the value "%s" to field "Password" in "cloud" add form
+        ''' % (username, password))
     elif "LINODE" in cloud:
         api_key = context.mist_config['CREDENTIALS']['LINODE']['api_key']
         context.execute_steps(u'Then I set the value "%s" to field "API Key" in "cloud" add form' % api_key)
+    elif "DIGITALOCEAN" in cloud:
+        token = context.mist_config['CREDENTIALS']['DIGITALOCEAN']['token']
+        context.execute_steps(u'''
+            Then I set the value "%s" to field "Token" in "cloud" add form
+        ''' % token)
+    elif "PACKET" in cloud:
+        api_key = context.mist_config['CREDENTIALS']['PACKET']['api_key']
+        context.execute_steps(u'''
+            Then I set the value "%s" to field "API Key" in "cloud" add form
+        ''' % api_key)
+    elif "VMWARE VCLOUD" in cloud:
+        username = context.browser.find_element_by_id("username")
+        username.send_keys(context.mist_config['CREDENTIALS']['VMWARE VCLOUD']['username'])
+        password = context.browser.find_element_by_id("password")
+        password.send_keys(context.mist_config['CREDENTIALS']['VMWARE VCLOUD']['password'])
+        organization = context.browser.find_element_by_id("organization")
+        organization.send_keys(context.mist_config['CREDENTIALS']['VMWARE VCLOUD']['organization'])
+        host = context.browser.find_element_by_id("host")
+        host.send_keys(context.mist_config['CREDENTIALS']['VMWARE VCLOUD']['host'])
+    elif "INDONESIAN" in cloud:
+        username = context.browser.find_element_by_id("username")
+        username.send_keys(context.mist_config['CREDENTIALS']['INDONESIAN']['username'])
+        password = context.browser.find_element_by_id("password")
+        password.send_keys(context.mist_config['CREDENTIALS']['INDONESIAN']['password'])
+        organization = context.browser.find_element_by_id("organization")
+        organization.send_keys(context.mist_config['CREDENTIALS']['INDONESIAN']['organization'])
     elif "DOCKER" in cloud:
         host = context.browser.find_element_by_id("docker_host")
         host.send_keys(context.mist_config['CREDENTIALS']['DOCKER']['host'])
@@ -151,25 +169,6 @@ def cloud_creds(context, cloud):
             username.send_keys(context.mist_config['CREDENTIALS']['DOCKER']['username'])
             password = context.browser.find_element_by_id("auth_password")
             password.send_keys(context.mist_config['CREDENTIALS']['DOCKER']['password'])
-    elif "DIGITALOCEAN" in cloud:
-        token_input = context.browser.find_element_by_xpath("//label[contains(text(), 'Token')]").find_element_by_xpath("..").find_element_by_tag_name("input")
-        token_input.send_keys(context.mist_config['CREDENTIALS']['DIGITALOCEAN']['token'])
-    elif "VMWARE VCLOUD" in cloud:
-        username = context.browser.find_element_by_id("username")
-        username.send_keys(context.mist_config['CREDENTIALS']['VMWARE VCLOUD']['username'])
-        password = context.browser.find_element_by_id("password")
-        password.send_keys(context.mist_config['CREDENTIALS']['VMWARE VCLOUD']['password'])
-        organization = context.browser.find_element_by_id("organization")
-        organization.send_keys(context.mist_config['CREDENTIALS']['VMWARE VCLOUD']['organization'])
-        host = context.browser.find_element_by_id("host")
-        host.send_keys(context.mist_config['CREDENTIALS']['VMWARE VCLOUD']['host'])
-    elif "INDONESIAN" in cloud:
-        username = context.browser.find_element_by_id("username")
-        username.send_keys(context.mist_config['CREDENTIALS']['INDONESIAN']['username'])
-        password = context.browser.find_element_by_id("password")
-        password.send_keys(context.mist_config['CREDENTIALS']['INDONESIAN']['password'])
-        organization = context.browser.find_element_by_id("organization")
-        organization.send_keys(context.mist_config['CREDENTIALS']['INDONESIAN']['organization'])
     elif "KVM (via libvirt)" in cloud:
         title = context.browser.find_element_by_id("title")
         for i in range(20):
@@ -193,14 +192,19 @@ def cloud_creds(context, cloud):
             When I click the "Add" button inside the "Add key" popup
             Then I expect for "key-add-popup" popup to disappear within max 4 seconds
         ''')
-    elif "PACKET" in cloud:
-        # cloud_add = context.browser.find_element_by_class_name("cloud-add")
-        cloud_add = context.browser.find_element_by_css_selector("#content.cloud-add")
-        api_key = filter(lambda el: el.is_displayed(),
-                         cloud_add.find_elements_by_id("api_key"))[0].find_element_by_id("input")
-        wait_until_visible(api_key, 4)
-        clear_input_and_send_keys(api_key,
-                                  context.mist_config['CREDENTIALS']['PACKET']['api_key'])
+    elif "OPENSTACK" in cloud:
+        username = context.browser.find_element_by_id("username")
+        username.send_keys(
+            context.mist_config['CREDENTIALS']['OPENSTACK']['username'])
+        password = context.browser.find_element_by_id("password")
+        password.send_keys(
+            context.mist_config['CREDENTIALS']['OPENSTACK']['password'])
+        auth_url = context.browser.find_element_by_id("auth_url")
+        auth_url.send_keys(
+            context.mist_config['CREDENTIALS']['OPENSTACK']['auth_url'])
+        tenant_name = context.browser.find_element_by_id("tenant_name")
+        tenant_name.send_keys(
+            context.mist_config['CREDENTIALS']['OPENSTACK']['tenant_name'])
 
 
 def find_cloud(context, cloud_title):

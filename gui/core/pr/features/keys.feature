@@ -5,7 +5,7 @@ Feature: Actions for Keys
     Given I am logged in to mist.core
     And I am in the new UI
     When I wait for the dashboard to load
-#    Given "Azure" cloud has been added
+    Given "Azure" cloud has been added
     When I visit the Keys page after the Images counter has loaded
 
   @key-add
