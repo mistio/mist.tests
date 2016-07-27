@@ -41,6 +41,13 @@ Feature: Actions for Keys
     Then I visit the Home page
     When I wait for the dashboard to load
 
+ @key-search
+  Scenario: Filter a key
+    When I search for "SecondKey"
+    Then "FirstKey" key should be absent within 15 seconds
+    When I clear the search bar
+    Then "FirstKey" key should be present within 15 seconds
+
 #  @key-rename
 #  Scenario: Rename Key
 #    When I visit the Keys page after the counter has loaded
