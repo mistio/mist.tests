@@ -72,8 +72,13 @@ def get_input_from_form(form, input_name):
     for container in input_containers:
         text = safe_get_element_text(
             container.find_element_by_tag_name('label')).lower().strip()
+        if text.endswith(' *'):
+            text = text[:-2]
         if text == input_name:
-            return container.find_element_by_id('input')
+            input = container.find_element_by_id('input')
+            if 'textarea' in input.get_attribute('class'):
+                input = container.find_element_by_id('textarea')
+            return input
 
 
 def get_button_from_form(form, button_name):

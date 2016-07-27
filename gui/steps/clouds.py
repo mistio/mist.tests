@@ -40,18 +40,27 @@ cloud_creds_dict = {
 @step(u'I use my provider "{cloud}" credentials')
 def cloud_creds(context, cloud):
     if "AZURE" in cloud:
-        subscription_id = None
-        for i in range(0, 2):
-            try:
-                subscription_id = context.browser.find_element_by_id("subscription_id")
-                break
-            except NoSuchElementException as e:
-                if i == 2:
-                    raise e
-                sleep(1)
-        subscription_id.send_keys(context.mist_config['CREDENTIALS']['AZURE']['subscription_id'])
-        certificate = context.browser.find_element_by_id("certificate")
-        certificate.send_keys(context.mist_config['CREDENTIALS']['AZURE']['certificate'])
+        subscription_id = context.mist_config['CREDENTIALS']['AZURE']['subscription_id']
+        certificate = context.mist_config['CREDENTIALS']['AZURE']['certificate']
+        context.execute_steps(u'''
+            Then I set the value "Azure" to field "Title" in "cloud" add form
+            And I set the value "%s" to field "Subscription ID" in "cloud" add form
+            ''' % subscription_id
+        )
+        from .forms import set_value_to_field
+        set_value_to_field(context, certificate, 'certificate', 'cloud', 'add')
+        # subscription_id = None
+        # for i in range(0, 2):
+        #     try:
+        #         subscription_id = context.browser.find_element_by_id("subscription_id")
+        #         break
+        #     except NoSuchElementException as e:
+        #         if i == 2:
+        #             raise e
+        #         sleep(1)
+        # subscription_id.send_keys()
+        # certificate = context.browser.find_element_by_id("certificate")
+        # certificate.send_keys(context.mist_config['CREDENTIALS']['AZURE']['certificate'])
     elif "GCE" in cloud:
         title = context.browser.find_element_by_id("title")
         for i in range(1, 6):
@@ -101,18 +110,18 @@ def cloud_creds(context, cloud):
         username.send_keys(context.mist_config['CREDENTIALS']['SOFTLAYER']['username'])
         api_key = context.browser.find_element_by_xpath("//label[contains(text(), 'API Key')]").find_element_by_xpath("..").find_element_by_tag_name("input")
         api_key.send_keys(context.mist_config['CREDENTIALS']['SOFTLAYER']['api_key'])
-    elif "EC2" in cloud:
+    elif "AWS" in cloud:
         context.execute_steps(u'''
         When I click the button "Select Region"
         And I click the button "%s"''' % context.mist_config['CREDENTIALS']['EC2']['region'])
         title = context.browser.find_element_by_id("title")
         for i in range(20):
             title.send_keys(u'\ue003')
-        title.send_keys("EC2")
+        title.send_keys("AWS")
         api_key = context.browser.find_element_by_id("api_key")
-        api_key.send_keys(context.mist_config['CREDENTIALS']['EC2']['api_key'])
+        api_key.send_keys(context.mist_config['CREDENTIALS']['AWS']['api_key'])
         api_secret = context.browser.find_element_by_id("api_secret")
-        api_secret.send_keys(context.mist_config['CREDENTIALS']['EC2']['api_secret'])
+        api_secret.send_keys(context.mist_config['CREDENTIALS']['AWS']['api_secret'])
     elif "NEPHOSCALE" in cloud:
         username = context.browser.find_element_by_xpath("//label[contains(text(), 'Username')]").find_element_by_xpath("..").find_element_by_tag_name("input")
         username.send_keys(context.mist_config['CREDENTIALS']['NEPHOSCALE']['username'])

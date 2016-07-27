@@ -8,15 +8,15 @@ Feature: Add second-tier clouds in Polymist
 
   @cloud-add
   Scenario Outline:
-#    When I click the button by "addBtn" id_name
-    When I click the button "+"
+    When I click the new cloud button
     Then I expect the "Cloud" add form to be visible within max 10 seconds
     And I open the "Choose Provider" drop down
     And I wait for 1 seconds
     When I click the button "<provider>" in the "Choose Provider" dropdown
-    Then I expect the field "Title *" in the cloud add form to be visible within max 4 seconds
+    Then I expect the field "Title" in the cloud add form to be visible within max 4 seconds
     When I use my provider "<credentials>" credentials
-    And I click the button "Add Cloud"
+    And I focus on the button "Add Cloud" in "cloud" add form
+    Then I click the button "Add Cloud"
     And I click the mist.io button
     Then the "<provider>" provider should be added within 120 seconds
 
@@ -29,7 +29,7 @@ Feature: Add second-tier clouds in Polymist
     | Packet                | PACKET       |
 
     # Added by the Machines feature
-    #| EC2                   | EC2          |
+#    | AWS                   | AWS          |
     # Added by the Keys feature
     #| Azure                 | AZURE        |
     # Added by the Scripts feature

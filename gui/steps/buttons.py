@@ -185,6 +185,13 @@ def click_mist_io(context):
     clicketi_click(context, context.browser.find_element_by_id('logo-link'))
 
 
+@step(u'I click the new cloud button')
+def add_cloud_button(context):
+    cloud_button = context.browser.find_element_by_id('addBtn')
+    assert cloud_button.is_displayed(), "Add cloud button is not displayed"
+    clicketi_click(context, cloud_button)
+
+
 @step(u'I click the Gravatar')
 def click_the_gravatar(context):
     """
