@@ -35,6 +35,13 @@ def click_button_in_dropdown(context, button, name):
     click_button_from_collection(context, button.lower(), buttons)
 
 
+@step(u'I click the button "{button}" in the tag menu')
+def click_button_in_tag_model(context, button):
+    from .tags import get_tag_modal
+    buttons = get_tag_modal(context).find_elements_by_tag_name('paper-button')
+    click_button_from_collection(context, button, buttons)
+
+
 def click_button_from_collection(context, text, button_collection=None,
                                  error_message="Could not find button"):
     button = search_for_button(context, text.lower(), button_collection)

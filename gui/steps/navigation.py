@@ -154,7 +154,7 @@ def filter_buttons(context, text):
                               context.browser.find_elements_by_tag_name('paper-button'))
 
 
-@step("I wait for the dashboard to load")
+@step(u'I wait for the dashboard to load')
 def wait_for_dashboard(context):
     context.execute_steps(u'Then I wait for the links in homepage to appear')
     add_cloud_button = filter_buttons(context, 'add your clouds')

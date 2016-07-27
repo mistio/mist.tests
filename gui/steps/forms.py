@@ -57,9 +57,9 @@ def check_form_is_visible(context, page, form_type, seconds):
     timeout = time() + int(seconds)
     while time() < timeout:
         try:
-            page = get_add_form(context, page) if form_type == 'add' else \
+            form = get_add_form(context, page) if form_type == 'add' else \
                 get_edit_form(context, page)
-            if page.is_displayed():
+            if form.is_displayed():
                 return True
         except NoSuchElementException:
             pass
@@ -160,7 +160,8 @@ def get_text_of_dropdown(el):
 
 def find_dropdown(context, dropdown_text):
     # get all the paper materials
-    all_dropdowns = context.browser.find_elements_by_tag_name('paper-dropdown-menu')
+    all_dropdowns = context.browser.find_elements_by_tag_name(
+        'paper-dropdown-menu')
     # find the drop down with the text
     dropdown = filter(lambda el: get_text_of_dropdown(el) == dropdown_text,
                       all_dropdowns)
