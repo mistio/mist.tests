@@ -36,7 +36,7 @@ Feature: Production
     Then I expect for "basic-condition" to be visible within max 20 seconds
     And I expect for buttons inside "basic-condition" to be clickable within max 20 seconds
     And I click the button "Load"
-    And I click the button "pi"
+    And I click the button "RAM"
     When I fill "0" as rule value
     Then I should receive an email within 200 seconds
     When I remove previous rules
