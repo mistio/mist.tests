@@ -43,13 +43,13 @@ Feature: Add second-tier clouds in Polymist
     #| OpenStack             | OPENSTACK    |
     #| Docker                | DOCKER       |
 
-#  @cloud-rename
-#  Scenario: Cloud Actions
-#    Given "Digital Ocean" cloud has been added
-#    Then I open the cloud menu for "Digital Ocean"
-#    When I rename the cloud "Digital Ocean" to "Renamed"
-#    Then I close the cloud menu for "Renamed"
-#    And the "Renamed" provider should be added within 4 seconds
+  @cloud-rename
+  Scenario: Cloud Actions
+    Given "Azure" cloud has been added
+    Then I open the cloud menu for "Azure"
+    When I rename the cloud "Azure" to "Renamed"
+    And the "Renamed" provider should be added within 4 seconds
+    Then I close the cloud menu for "Renamed"
 
   @cloud-delete
   Scenario: Cloud Actions
