@@ -45,7 +45,7 @@ def raise_mayday():
     server.quit()
 
 #Initialize the last succesful test date to 1 day ago
-last_succesful_test = date.today() - timedelta(days=1)
+last_succesful_test = datetime.now() - timedelta(days=1)
 
 #Check for the time of the last succesful test
 for i in range(0,len(data) -1):
