@@ -5,7 +5,6 @@ Feature: Scripts
     Given I am logged in to mist.core
     And I am in the new UI
     When I wait for the dashboard to load
-#    Given "GCE" cloud has been added
     When I visit the Scripts page after the Images counter has loaded
 
   @script-add

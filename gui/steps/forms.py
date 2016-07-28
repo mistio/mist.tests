@@ -117,10 +117,8 @@ def set_value_to_field(context, value, name, title, form_type):
     form = get_add_form(context, title) if form_type == 'add' else \
         get_edit_form(context, title)
     input = get_input_from_form(form, name.lower())
-    if input:
-        clear_input_and_send_keys(input, value)
-    else:
-        assert False, "Could not set value to field %s" % name
+    assert input, "Could not set value to field %s" % name
+    clear_input_and_send_keys(input, value)
 
 
 @step(u'I expect for the button "{button_name}" in "{title}" {form_type} form'

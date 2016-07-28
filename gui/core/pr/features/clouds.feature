@@ -27,13 +27,12 @@ Feature: Add second-tier clouds in Polymist
     | NephoScale            | NEPHOSCALE   |
     | Rackspace             | RACKSPACE    |
     | Packet                | PACKET       |
+    | Azure                 | AZURE        |
+    | GCE                   | GCE          |
+
 
     # Added by the Machines feature
     #| AWS                   | AWS          |
-    # Added by the Keys feature
-    #| Azure                 | AZURE        |
-    # Added by the Scripts feature
-    #| GCE                   | GCE          |
     # Added by the user actions feature
     #| Linode                | LINODE       |
 

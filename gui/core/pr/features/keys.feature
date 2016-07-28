@@ -5,7 +5,6 @@ Feature: Actions for Keys
     Given I am logged in to mist.core
     And I am in the new UI
     When I wait for the dashboard to load
-    Given "Azure" cloud has been added
     When I visit the Keys page after the Images counter has loaded
 
   @key-add
@@ -50,8 +49,17 @@ Feature: Actions for Keys
     Then I visit the Home page
     When I wait for the dashboard to load
 
-#  @key-rename
-#  Scenario: Rename Key
+  @key-rename
+  Scenario: Rename Key
+    When I click the "SecondKey" "key"
+    And I expect the "key" edit form to be visible within max 5 seconds
+    Then I click the button "Rename Key" in "key" edit form
+    And I expect the dialog "Rename Key" is open within 4 seconds
+    When I set the value "Second" to field "Name" in "Rename Key" dialog
+    And I click the "Submit" button in the dialog "Rename Key"
+    Then I visit the Keys page
+    And "SecondKey" key should be absent within 5 seconds
+    And "Second" key should be present within 5 seconds
 
   @key-tags
   Scenario: Add tags to key
@@ -84,12 +92,12 @@ Feature: Actions for Keys
     And I click the "Proceed" button in the dialog "Delete Key"
     And I expect the dialog "Delete Key" is closed within 4 seconds
     Then "FirstKey" key should be absent within 15 seconds
-    When I click the "SecondKey" "key"
+    When I click the "Second" "key"
     And I expect the "key" edit form to be visible within max 5 seconds
     Then I click the button "Delete" in "key" edit form
     And I expect the dialog "Delete Key" is open within 4 seconds
     And I click the "Delete" button in the dialog "Delete Key"
     And I expect the dialog "Delete Key" is closed within 4 seconds
-    Then "SecondKey" key should be absent within 15 seconds
+    Then "Second" key should be absent within 15 seconds
     Then I visit the Home page
     When I wait for the dashboard to load
