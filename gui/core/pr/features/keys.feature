@@ -60,6 +60,8 @@ Feature: Actions for Keys
     Then I visit the Keys page
     And "SecondKey" key should be absent within 5 seconds
     And "Second" key should be present within 5 seconds
+    Then I visit the Home page
+    When I wait for the dashboard to load
 
   @key-tags
   Scenario: Add tags to key
