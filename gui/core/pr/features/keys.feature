@@ -52,21 +52,6 @@ Feature: Actions for Keys
 
 #  @key-rename
 #  Scenario: Rename Key
-#    When I visit the Keys page after the counter has loaded
-#    And I click the button "FirstKey"
-#    And I click the button "Rename"
-#    Then I expect for "rename-key-popup-popup" popup to appear within max 4 seconds
-#    When I fill "RenamedFirstKey" as new key name
-#    And I click the "Save" button inside the "Rename key" popup
-#    Then I expect for "rename-key-popup-popup" popup to disappear within max 4 seconds
-#    And I click the button "Keys"
-#    And I expect for "key-list-page" page to appear within max 4 seconds
-#    And I click the button "Home"
-#    And I expect for "home-page" page to appear within max 4 seconds
-#    When I visit the Keys page after the counter has loaded
-#    Then "RenamedFirstKey" key should be added within 5 seconds
-#    Then I click the button "Home"
-#    And I wait for 1 seconds
 
   @key-tags
   Scenario: Add tags to key
@@ -99,9 +84,11 @@ Feature: Actions for Keys
     And I click the "Proceed" button in the dialog "Delete Key"
     And I expect the dialog "Delete Key" is closed within 4 seconds
     Then "FirstKey" key should be absent within 15 seconds
-    Then I click the button "Delete" from the menu of the "SecondKey" key
+    When I click the "SecondKey" "key"
+    And I expect the "key" edit form to be visible within max 5 seconds
+    Then I click the button "Delete" in "key" edit form
     And I expect the dialog "Delete Key" is open within 4 seconds
-    And I click the "Proceed" button in the dialog "Delete Key"
+    And I click the "Delete" button in the dialog "Delete Key"
     And I expect the dialog "Delete Key" is closed within 4 seconds
     Then "SecondKey" key should be absent within 15 seconds
     Then I visit the Home page
