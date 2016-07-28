@@ -62,6 +62,8 @@ Feature: Scripts
     Then I visit the scripts page
     And "Script2" script should be absent within 5 seconds
     And "Second" script should be present within 5 seconds
+    Then I visit the Home page
+    When I wait for the dashboard to load
 
   @script-tags
   Scenario: Add tags to script
