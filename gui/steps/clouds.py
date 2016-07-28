@@ -63,9 +63,9 @@ def cloud_creds(context, cloud):
         api_key = context.mist_config['CREDENTIALS']['RACKSPACE']['api_key']
         context.execute_steps(u'''
             Then I set the value "%s" to field "Title" in "cloud" add form
-            Then I open the "Region *" drop down
+            Then I open the "Region" drop down
             And I wait for 1 seconds
-            When I click the button "%s" in the "Region *" dropdown
+            When I click the button "%s" in the "Region" dropdown
             Then I set the value "%s" to field "Username" in "cloud" add form
             Then I set the value "%s" to field "API Key" in "cloud" add form
         ''' % ('Rackspace', region, username, api_key))
@@ -81,9 +81,9 @@ def cloud_creds(context, cloud):
         api_secret = context.mist_config['CREDENTIALS']['AWS']['api_secret']
         region = context.mist_config['CREDENTIALS']['AWS']['region']
         context.execute_steps(u'''
-            Then I open the "Region *" drop down
+            Then I open the "Region" drop down
             And I wait for 1 seconds
-            When I click the button "%s" in the "Region *" dropdown
+            When I click the button "%s" in the "Region" dropdown
             And I wait for 1 seconds
             Then I set the value "AWS" to field "Title" in "cloud" add form
             And I set the value "%s" to field "API Key" in "cloud" add form

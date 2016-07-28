@@ -24,7 +24,7 @@ def get_list_item(context, resource_type, name):
             name = safe_get_element_text(item.find_element_by_css_selector('div.name')).strip().lower()
             if item_name == name:
                 return item
-    except NoSuchElementException, StaleElementReferenceException:
+    except (NoSuchElementException, StaleElementReferenceException):
         pass
     return None
 

@@ -163,15 +163,18 @@ def get_text_of_dropdown(el):
 
 def find_dropdown(context, dropdown_text):
     # get all the paper materials
-    all_dropdowns = context.browser.find_elements_by_tag_name(
-        'paper-dropdown-menu')
+    dropdown_text = dropdown_text.lower()
+    if dropdown_text.endswith(' *'):
+        dropdown_text = dropdown_text[:-2]
+    all_dropdowns = context.browser.find_elements_by_tag_name('paper-dropdown-menu')
+    all_dropdowns = filter(lambda t: t[0],
+                           map(lambda el: (get_text_of_dropdown(el).strip().lower(), el),
+                               all_dropdowns))
     # find the drop down with the text
-    dropdown = filter(lambda el: get_text_of_dropdown(el) == dropdown_text,
+    dropdown = filter(lambda t: t[0] == dropdown_text or t[0][:-2] == dropdown_text,
                       all_dropdowns)
-    if not dropdown:
-        raise NoSuchElementException('There is no dropdown with text %s'
-                                     % dropdown_text)
-    return dropdown.pop()
+    assert dropdown, 'There is no dropdown with text %s' % dropdown_text
+    return dropdown.pop()[1]
 
 
 @step(u'I open the "{dropdown_text}" drop down')
@@ -179,3 +182,30 @@ def open_drop_down(context, dropdown_text):
     from .buttons import clicketi_click
     dropdown = find_dropdown(context, dropdown_text.lower())
     clicketi_click(context, dropdown)
+
+
+@step(u'I click the button "{button_name}" from the menu of the "{title}" '
+      u'{form_type} form')
+def click_menu_button_from_more_menu(context, button_name, title, form_type):
+    from .buttons import clicketi_click
+    from .buttons import click_button_from_collection
+    form_type = form_type.lower()
+    form = get_add_form(context, form_type) if form_type == 'add' else \
+        get_edit_form(context, title)
+    more_dropdown = form.find_element_by_tag_name('paper-menu-button')
+    assert more_dropdown, "Could not find more button"
+    clicketi_click(context, more_dropdown)
+    more_dropdown_buttons = more_dropdown.find_elements_by_tag_name('paper-button')
+    assert more_dropdown_buttons, "There are no buttons within the more dropdown"
+    timeout = time() + 5
+    while time() < timeout:
+        displayed_buttons = 0
+        for button in more_dropdown_buttons:
+            if button.is_displayed():
+                displayed_buttons += 1
+        if displayed_buttons == len(more_dropdown_buttons):
+            break
+        sleep(1)
+    else:
+        assert False, "More dropdown buttons are not visible after 5 seconds"
+    click_button_from_collection(context, button_name, more_dropdown_buttons)
