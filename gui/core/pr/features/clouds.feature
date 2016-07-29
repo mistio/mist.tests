@@ -17,17 +17,18 @@ Feature: Add second-tier clouds in Polymist
     When I use my provider "<credentials>" credentials
     And I focus on the button "Add Cloud" in "cloud" add form
     Then I click the button "Add Cloud"
-    And I click the mist.io button
+    And I visit the Home page
+    And I scroll the clouds list into view
     Then the "<provider>" provider should be added within 120 seconds
 
     Examples: Providers
     | provider              | credentials  |
+    | Azure                 | AZURE        |
     | Digital Ocean         | DIGITALOCEAN |
     | SoftLayer             | SOFTLAYER    |
     | NephoScale            | NEPHOSCALE   |
     | Rackspace             | RACKSPACE    |
     | Packet                | PACKET       |
-    | Azure                 | AZURE        |
     | GCE                   | GCE          |
 
 
@@ -48,8 +49,10 @@ Feature: Add second-tier clouds in Polymist
     Given "Azure" cloud has been added
     Then I open the cloud menu for "Azure"
     When I rename the cloud "Azure" to "Renamed"
-    And the "Renamed" provider should be added within 4 seconds
     Then I close the cloud menu for "Renamed"
+    And I refresh the page
+    Then I wait for the dashboard to load
+    And the "Renamed" provider should be added within 4 seconds
 
   @cloud-delete
   Scenario: Cloud Actions
