@@ -17,7 +17,8 @@ Feature: Actions for Keys
     When I focus on the button "Add" in "key" add form
     Then I wait for 5 seconds
     And I click the button "Add" in "key" add form
-    When I visit the Keys page after the counter has loaded
+    Then I expect the "key" edit form to be visible within max 5 seconds
+    When I visit the Keys page
     Then "Key1" key should be present within 15 seconds
     Then I visit the Home page
     When I wait for the dashboard to load
@@ -32,6 +33,7 @@ Feature: Actions for Keys
     When I focus on the button "Add" in "key" add form
     Then I wait for 5 seconds
     And I click the button "Add" in "key" add form
+    Then I expect the "key" edit form to be visible within max 5 seconds
     When I visit the Keys page
     Then "Key2" key should be present within 15 seconds
     And I click the button "Make Default" from the menu of the "Key2" key

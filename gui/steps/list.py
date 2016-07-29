@@ -57,6 +57,7 @@ def click_menu_button_of_list_item(context, button_name, item_name,
         more_button = item.find_element_by_css_selector('paper-button.more')
         from .buttons import clicketi_click
         clicketi_click(context, more_button)
+        sleep(1)
         more_buttons = more_dialog.find_elements_by_tag_name('paper-button')
         click_button_from_collection(context, button_name, more_buttons)
         return True
