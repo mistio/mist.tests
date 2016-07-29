@@ -45,7 +45,6 @@ Feature: Production
   Scenario: Production ssh testing
     Given I am logged in to mist.core
     Then I wait for the links in homepage to appear
-    When I ensure "NephoScale" cloud is enabled
     When I visit the Machines page after the counter has loaded
     Then I search for the "Mayday" Machine
     When I click the button "Mayday"
