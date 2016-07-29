@@ -30,12 +30,10 @@ Feature: Add second-tier clouds in Polymist
     | Rackspace             | RACKSPACE    |
     | Packet                | PACKET       |
     | GCE                   | GCE          |
-
+    | Linode                | LINODE       |
 
     # Added by the Machines feature
     #| AWS                   | AWS          |
-    # Added by the user actions feature
-    #| Linode                | LINODE       |
 
     # Nope, not really
     #| VMware vCloud         | VMWARE       |
