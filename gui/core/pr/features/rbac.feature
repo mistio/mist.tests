@@ -3,7 +3,7 @@ Feature: RBAC
 
   @owner-signup
   Scenario: Organization Owner signs up
-    Given I am not logged in to mist.core
+    When I visit mist.core
     When I open the signup popup
     Then I click the sign up button in the landing page popup
     Then I click the email button in the landing page popup
@@ -14,10 +14,11 @@ Feature: RBAC
     Then I enter my rbac_owner credentials for signup_password_set
     And I click the submit button in the landing page popup
     And I wait for the mist.io splash page to load
+    Then I logout
 
   @member1-signup
   Scenario: Member1 of organization signs up
-    Given I am not logged in to mist.core
+    When I visit mist.core
     When I open the signup popup
     Then I click the sign up button in the landing page popup
     Then I click the email button in the landing page popup
@@ -28,13 +29,15 @@ Feature: RBAC
     Then I enter my rbac_member1 credentials for signup_password_set
     And I click the submit button in the landing page popup
     And I wait for the mist.io splash page to load
+    Then I logout
 
   @create-org
   Scenario: Owner creates a new organization
-    Given I am logged in to mist.core
+    Given I am logged in to mist.core as rbac_owner
     And I am in the new UI
     When I wait for the dashboard to load
     When I click the gravatar
+    And I wait for 1 seconds
     Then I click the button "Add Organisation" in the user menu
     And I expect the dialog "Add Organisation" is open within 4 seconds
     When I set the value "Rbac_Test" to field "Name" in "Add Organisation" dialog
@@ -43,18 +46,19 @@ Feature: RBAC
     And I click the "Switch" button in the dialog "Add Organisation"
     Then I expect the dialog "Add Organisation" is closed within 4 seconds
     When I wait for the dashboard to load
+    When I click the gravatar
+    And I wait for 1 seconds
+    Then I click the button "Logout" in the user menu
 
-  @add-org-cloud
-  Scenario: Add cloud in organization context
-    Given I am logged in to mist.core as rbac_owner
-    And I switch to the ORG organization
-    Given "EC2" cloud has been added
-    Then I logout
+#  @add-org-cloud
+#  Scenario: Add cloud in organization context
+#    Given I am logged in to mist.core as rbac_owner
+#    And I switch to the ORG organization
+#    Given "EC2" cloud has been added
+#    Then I logout
 
   @manage-team
   Scenario: Manage member and team from single team page
-    Given I am logged in to mist.core as rbac_owner
-    And I switch to personal context
     Given I am logged in to mist.core as rbac_owner
     And I switch to the ORG organization
     When I visit the Teams page after the Teams counter has loaded

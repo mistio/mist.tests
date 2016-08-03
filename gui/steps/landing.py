@@ -227,15 +227,13 @@ def enter_creds(context, kind, action):
         pass_input = context.browser.find_element_by_id('reset_password')
         pass_confirm_input = context.browser.find_element_by_id('reset_confirm_password')
         if kind == 'alt':
-            clear_input_and_send_keys(pass_input,
-                                      context.mist_config['PASSWORD2'])
-            clear_input_and_send_keys(pass_confirm_input,
-                                      context.mist_config['PASSWORD2'])
+            password_to_use = context.mist_config['PASSWORD2']
+        elif kind == 'standard':
+            password_to_use = context.mist_config['PASSWORD1']
         else:
-            clear_input_and_send_keys(pass_input,
-                                      context.mist_config['PASSWORD1'])
-            clear_input_and_send_keys(pass_confirm_input,
-                                      context.mist_config['PASSWORD1'])
+            raise Exception('No such type of creds')
+        clear_input_and_send_keys(pass_input, password_to_use)
+        clear_input_and_send_keys(pass_confirm_input, password_to_use)
     elif action == 'signup_password_set':
         try:
             WebDriverWait(context.browser, 4).until(
@@ -246,15 +244,17 @@ def enter_creds(context, kind, action):
         first_textfield = context.browser.find_element_by_id("password")
         second_textfield = context.browser.find_element_by_id("confirm_password")
         if kind == 'alt':
-            clear_input_and_send_keys(first_textfield,
-                                      context.mist_config['PASSWORD2'])
-            clear_input_and_send_keys(second_textfield,
-                                      context.mist_config['PASSWORD2'])
+            password_to_use = context.mist_config['PASSWORD2']
+        elif kind == 'standard':
+            password_to_use = context.mist_config['PASSWORD1']
+        elif kind == 'rbac_owner':
+            password_to_use = context.mist_config['OWNER_PASSWORD']
+        elif kind == 'rbac_member1':
+            password_to_use = context.mist_config['MEMBER1_PASSWORD']
         else:
-            clear_input_and_send_keys(first_textfield,
-                                      context.mist_config['PASSWORD1'])
-            clear_input_and_send_keys(second_textfield,
-                                      context.mist_config['PASSWORD1'])
+            raise Exception('No such type of creds')
+        clear_input_and_send_keys(first_textfield, password_to_use)
+        clear_input_and_send_keys(second_textfield, password_to_use)
     elif action == 'demo request':
         try:
             WebDriverWait(context.browser, 4).until(

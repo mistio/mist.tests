@@ -288,20 +288,13 @@ def given_logged_in(context, kind):
 
     try:
         context.browser.find_element_by_id("top-signup-button")
-        if kind == 'rbac_owner':
+        if kind == 'rbac_owner' or kind == 'rbac_member1':
             context.execute_steps(u"""
                 When I open the login popup
                 Then I click the email button in the landing page popup
-                And I enter my rbac_owner credentials for login
+                And I enter my %s credentials for login
                 And I click the sign in button in the landing page popup
-            """)
-        elif kind == 'rbac_member':
-            context.execute_steps(u"""
-                When I open the login popup
-                Then I click the email button in the landing page popup
-                And I enter my rbac_member credentials for login
-                And I click the sign in button in the landing page popup
-            """)
+            """ % kind)
         elif kind == 'reg_member':
             context.execute_steps(u"""
                 When I open the login popup
