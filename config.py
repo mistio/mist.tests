@@ -125,14 +125,14 @@ MIST_DEMO_REQUEST_EMAIL = get_value_of("MIST_DEMO_REQUEST_EMAIL",
                                        "demo@mist.io")
 
 # CREDENTIALS FOR TESTING RBAC
-OWNER_EMAIL = get_value_of("OWNER_EMAIL", "owner@mist.io")
-OWNER_PASSWORD = get_value_of("OWNER_PASSWORD ", "owner")
+OWNER_EMAIL = get_value_of("OWNER_EMAIL", "")
+OWNER_PASSWORD = get_value_of("OWNER_PASSWORD", "")
 
-MEMBER1_EMAIL = get_value_of("RBAC_MEMBER_EMAIL", "member1@mist.io")
-MEMBER1_PASSWORD = get_value_of("RBAC_MEMBER_PASSWORD", "member1")
+MEMBER1_EMAIL = get_value_of("MEMBER1_EMAIL", "")
+MEMBER1_PASSWORD = get_value_of("MEMBER1_PASSWORD", "")
 
-MEMBER2_EMAIL = get_value_of("RBAC_MEMBER_EMAIL", "member2@mist.io")
-MEMBER2_PASSWORD = get_value_of("RBAC_MEMBER_PASSWORD", "member2")
+MEMBER2_EMAIL = get_value_of("MEMBER2_EMAIL", "")
+MEMBER2_PASSWORD = get_value_of("MEMBER2_PASSWORD", "")
 
 # CREDENTIALS FOR GOOGLE SSO
 GOOGLE_TEST_EMAIL = get_value_of("GOOGLE_TEST_EMAIL", "")
