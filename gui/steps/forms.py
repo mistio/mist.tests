@@ -161,6 +161,15 @@ def get_text_of_dropdown(el):
         return ''
 
 
+def get_current_value_of_dropdown(el):
+    try:
+        return el.find_element_by_id('labelAndInputContainer').\
+            find_element_by_tag_name('input').\
+            get_attribute('value').strip().lower()
+    except:
+        return ''
+
+
 def find_dropdown(context, dropdown_text):
     # get all the paper materials
     dropdown_text = dropdown_text.lower()

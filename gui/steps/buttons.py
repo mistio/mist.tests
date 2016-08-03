@@ -7,6 +7,7 @@ from .utils import safe_get_element_text
 from .utils import focus_on_element
 
 from .forms import find_dropdown
+from .forms import get_current_value_of_dropdown
 
 from selenium.webdriver import ActionChains
 from selenium.webdriver.common.by import By
@@ -30,7 +31,10 @@ def become_visible_waiting_with_timeout(context, element_id, seconds):
 
 @step(u'I click the button "{button}" in the "{name}" dropdown')
 def click_button_in_dropdown(context, button, name):
+    button = button.strip().lower()
     dropdown = find_dropdown(context, name.lower())
+    if button == get_current_value_of_dropdown(dropdown):
+        return True
     buttons = dropdown.find_elements_by_tag_name('paper-item')
     click_button_from_collection(context, button.lower(), buttons)
 
