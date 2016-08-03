@@ -160,7 +160,7 @@ def enter_creds(context, kind, action):
                       'password_reset_request', 'password_reset',
                       'demo request']:
         raise ValueError("Cannot input %s credentials" % action)
-    if kind not in ['standard', 'alt', 'rbac_owner', 'rbac_member'] and not kind.startswith('invalid'):
+    if kind not in ['standard', 'alt', 'rbac_owner', 'rbac_member1'] and not kind.startswith('invalid'):
         raise ValueError("No idea what %s credentials are" % kind)
     if action == 'login':
         try:
@@ -173,10 +173,10 @@ def enter_creds(context, kind, action):
             clear_input_and_send_keys(email_input, 'tester')
         elif kind == 'rbac_owner':
             clear_input_and_send_keys(email_input,
-                                      context.mist_config['RBAC_OWNER_EMAIL'])
-        elif kind == 'rbac_member':
+                                      context.mist_config['OWNER_EMAIL'])
+        elif kind == 'rbac_member1':
             clear_input_and_send_keys(email_input,
-                                      context.mist_config['RBAC_MEMBER_EMAIL'])
+                                      context.mist_config['MEMBER1_EMAIL'])
         else:
             clear_input_and_send_keys(email_input, context.mist_config['EMAIL'])
         password_input = context.browser.find_element_by_id("signin-password")
@@ -185,10 +185,10 @@ def enter_creds(context, kind, action):
                                       context.mist_config['PASSWORD2'])
         elif kind == 'rbac_owner':
             clear_input_and_send_keys(password_input,
-                                      context.mist_config['RBAC_OWNER_PASSWORD'])
-        elif kind == 'rbac_member':
+                                      context.mist_config['OWNER_PASSWORD'])
+        elif kind == 'rbac_member1':
             clear_input_and_send_keys(password_input,
-                                      context.mist_config['RBAC_MEMBER_PASSWORD'])
+                                      context.mist_config['MEMBER1_PASSWORD'])
         elif kind == 'invalid_no_password':
             clear_input_and_send_keys(password_input, '')
         else:
@@ -202,12 +202,11 @@ def enter_creds(context, kind, action):
             raise TimeoutException("Email input did not appear after 4 seconds")
         email_input = context.browser.find_element_by_id("signup-email")
         if kind == 'rbac_owner':
-            clear_input_and_send_keys(email_input, context.mist_config['RBAC_OWNER_EMAIL'])
-        elif kind == 'rbac_member':
-            clear_input_and_send_keys(email_input, context.mist_config['RBAC_MEMBER_EMAIL'])
+            clear_input_and_send_keys(email_input, context.mist_config['OWNER_EMAIL'])
+        elif kind == 'rbac_member1':
+            clear_input_and_send_keys(email_input, context.mist_config['MEMBER1_EMAIL'])
         else:
             clear_input_and_send_keys(email_input, context.mist_config['EMAIL'])
-        clear_input_and_send_keys(email_input, context.mist_config['EMAIL'])
         name_input = context.browser.find_element_by_id("signup-name")
         clear_input_and_send_keys(name_input, context.mist_config['NAME'])
     elif action == 'password_reset_request':

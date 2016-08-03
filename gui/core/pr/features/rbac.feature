@@ -1,60 +1,48 @@
 @rbac
 Feature: RBAC
 
-  # owner signs up
   @owner-signup
-  Scenario: Owner sign-up process
+  Scenario: Organization Owner signs up
     Given I am not logged in to mist.core
     When I open the signup popup
     Then I click the sign up button in the landing page popup
     Then I click the email button in the landing page popup
     And I enter my rbac_owner credentials for signup
     And I click the sign up button in the landing page popup
-    Then I should receive an email at the address "RBAC_OWNER_EMAIL" with subject "[mist.io] Confirm your registration" within 10 seconds
-    And I follow the link contained in the email sent at the address "RBAC_OWNER_EMAIL" with subject "[mist.io] Confirm your registration"
+    Then I should receive an email at the address "OWNER_EMAIL" with subject "[mist.io] Confirm your registration" within 10 seconds
+    And I follow the link contained in the email sent at the address "OWNER_EMAIL" with subject "[mist.io] Confirm your registration"
     Then I enter my rbac_owner credentials for signup_password_set
     And I click the submit button in the landing page popup
     And I wait for the mist.io splash page to load
 
-  # user (with no owner privileges) signs up
-  @user-signup
-  Scenario: User sign-up process
+  @member1-signup
+  Scenario: Member1 of organization signs up
     Given I am not logged in to mist.core
     When I open the signup popup
     Then I click the sign up button in the landing page popup
     Then I click the email button in the landing page popup
-    And I enter my rbac_member credentials for signup
+    And I enter my rbac_member1 credentials for signup
     And I click the sign up button in the landing page popup
-    Then I should receive an email at the address "RBAC_MEMBER_EMAIL" with subject "[mist.io] Confirm your registration" within 10 seconds
-    And I follow the link contained in the email sent at the address "RBAC_MEMBER_EMAIL" with subject "[mist.io] Confirm your registration"
-    Then I enter my rbac_member credentials for signup_password_set
+    Then I should receive an email at the address "MEMBER1_EMAIL" with subject "[mist.io] Confirm your registration" within 10 seconds
+    And I follow the link contained in the email sent at the address "MEMBER1_EMAIL" with subject "[mist.io] Confirm your registration"
+    Then I enter my rbac_member1 credentials for signup_password_set
     And I click the submit button in the landing page popup
     And I wait for the mist.io splash page to load
 
-  # owner creates an organization
   @create-org
-  Scenario: Organization creation
-    Given I am logged in to mist.core as rbac_owner
+  Scenario: Owner creates a new organization
+    Given I am logged in to mist.core
+    And I am in the new UI
+    When I wait for the dashboard to load
     When I click the gravatar
-    Then I click the button "ADD ORGANIZATION"
-    And I expect for "organization-add-popup" popup to appear within max 3 seconds
-    Then I give the organization name
-    And I click the button "ADD"
-    And I expect for "dialog-popup" modal to appear within max 3 seconds
-    And I click the button "OK"
-    And I wait for the mist.io splash page to load
-    # we've landed at the newly created organization page
-    # now let's switch back to personal context
-    And I switch to personal context
-    # let's try to create the same organization again
-    # expecting an error
-    Given I am logged in to mist.core as rbac_owner
-    When I click the gravatar
-    Then I click the button "ADD ORGANIZATION"
-    And I expect for "organization-add-popup" popup to appear within max 3 seconds
-    Then I give the organization name
-    And I click the button "ADD"
-    Then I should get an Organization Name Exists error
+    Then I click the button "Add Organisation" in the user menu
+    And I expect the dialog "Add Organisation" is open within 4 seconds
+    When I set the value "Rbac_Test" to field "Name" in "Add Organisation" dialog
+    And I click the "Add" button in the dialog "Add Organisation"
+    And I wait for 1 seconds
+    And I click the "Switch" button in the dialog "Add Organisation"
+    Then I expect the dialog "Add Organisation" is closed within 4 seconds
+    When I wait for the dashboard to load
 
   @add-org-cloud
   Scenario: Add cloud in organization context

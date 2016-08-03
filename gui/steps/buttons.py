@@ -203,6 +203,22 @@ def click_the_gravatar(context):
     of code because there is a ridiculous amount of errors happening during
     this simple task. It tries to print the reasons why it didn't work
     """
+    try:
+        gravatar = context.browser.find_element_by_css_selector('paper-icon-button.gravatar')
+    except NoSuchElementException:
+        get_old_gravatar(context)
+        return
+    clicketi_click(context, gravatar)
+
+
+@step(u'I click the button "{button}" in the user menu')
+def click_the_user_menu_button(context, button):
+    dropdown = context.browser.find_element_by_id('dropdown')
+    buttons = dropdown.find_elements_by_tag_name('paper-item')
+    click_button_from_collection(context, button, buttons)
+
+
+def get_old_gravatar(context):
     from .popups import popup_waiting_with_timeout
     msg = ""
     gravatar = context.browser.find_element_by_class_name("gravatar-image")
