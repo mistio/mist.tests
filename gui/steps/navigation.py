@@ -6,6 +6,7 @@ from time import sleep
 from .buttons import search_for_button
 from .buttons import clicketi_click
 from .buttons import click_the_gravatar
+from .buttons import click_button_from_collection
 
 from .utils import safe_get_element_text
 
@@ -352,7 +353,6 @@ def wait_for_some_list_page_to_load(context, title):
                      'Account', 'Teams']:
         raise ValueError('The page given is unknown')
     # Wait for the list page to appear
-    page = filter(lambda el: title in el.get_attribute('class'), context.browser.find_elements_by_tag_name('page-items'))[0]
     end_time = time() + 5
     while time() < end_time:
         try:
@@ -375,3 +375,36 @@ def wait_for_some_list_page_to_load(context, title):
         except NoSuchElementException:
             pass
         sleep(1)
+
+
+def get_gravatar(context):
+    return context.browser.find_element_by_css_selector(
+        'paper-icon-button.gravatar')
+
+
+def get_current_context(context):
+    return safe_get_element_text(context.browser.find_element_by_css_selector(
+            'div.current.context').find_element_by_tag_name('h4')).strip().lower()
+
+
+@step(u'I ensure that I am in the "{organization}" organization context')
+def ensure_organizational_context(context, organization):
+    context.execute_steps(u'''
+        Then I click the Gravatar
+        And I wait for 1 seconds
+    ''')
+    organization = organization.strip().lower()
+    if get_current_context(context) == organization:
+        return True
+    else:
+        buttons = context.browser.find_element_by_id('topBar'). \
+            find_element_by_id('dropdown').\
+            find_elements_by_tag_name('paper-item')
+        click_button_from_collection(context, organization, buttons)
+        context.execute_steps(u'''
+            Then I wait for the dashboard to load
+            And I click the Gravatar
+            And I wait for 1 seconds
+        ''')
+    assert get_current_context(context) == organization, \
+        "Organizational context has not been changed"
