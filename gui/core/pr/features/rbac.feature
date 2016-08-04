@@ -51,8 +51,8 @@ Feature: RBAC
     And I wait for 1 seconds
     Then I click the button "Logout" in the user menu
 
-  @delete-org
-  Scenario: Owner manages the teams of the organization
+  @manage-team
+  Scenario: Owner creates/renames/deletes a team
     Given I am logged in to mist.core as rbac_owner
     And I am in the new UI
     When I wait for the dashboard to load
@@ -60,25 +60,36 @@ Feature: RBAC
     When I visit the Teams page
     When I click the button "+"
     And I expect the dialog "Add Team" is open within 4 seconds
-    When I set the value "Test team" to field "Name" in "Add Team" dialog
+    When I set the value "Test Team" to field "Name" in "Add Team" dialog
     And I click the "Add" button in the dialog "Add Team"
     When I visit the Teams page
-    And "Test team" team should be present within 5 seconds
+    And "Test Team" team should be present within 5 seconds
+    When I click the "Test team" "team"
+    And I expect the "team" edit form to be visible within max 5 seconds
+    Then I click the button "Edit Team" from the menu of the "team" edit form
+    And I expect the dialog "Rename Team" is open within 4 seconds
+    Then I expect the field "Name" in the dialog with title "Rename Team" to be visible within max 2 seconds
+    When I set the value "Rbac Test Team" to field "Name" in "Rename Team" dialog
+    And I click the "Submit" button in the dialog "Rename Team"
+    And I expect the dialog "Rename Team" is closed within 4 seconds
+    Then I visit the Teams page
+    And "Test Team" key should be absent within 5 seconds
+    And "Rbac Test Team" team should be present within 5 seconds
+    When I click the "Rbac Test Team" "team"
+    And I expect the "team" edit form to be visible within max 5 seconds
+    Then I click the button "Delete Team" from the menu of the "team" edit form
+    And I expect the dialog "Delete Team" is open within 4 seconds
+    And I click the "Delete" button in the dialog "Delete Team"
+    Then I expect the dialog "Delete Team" is closed within 4 seconds
+    And I visit the Teams page
+    And "Rbac Test Team" team should be absent within 5 seconds
     Then I wait for 2 seconds
+    Then I visit the Home page
+    When I wait for the dashboard to load
+    When I click the Gravatar
+    And I wait for 1 seconds
+    Then I click the button "Logout" in the user menu
 
-#  @manage-team
-#  Scenario: Manage member and team from single team page
-#    Given I am logged in to mist.core as rbac_owner
-#    And I switch to the ORG organization
-#    When I visit the Teams page after the Teams counter has loaded
-#    When I click the button "Create team"
-#    Then I expect for "add-team" collapsible to appear within max 5 seconds
-#    Then I give a random team name for new team
-#    Then I click the button "Add"
-#    Then I expect for "add-team" collapsible to disappear within max 5 seconds
-#    Then I search for the random team name i gave before
-#    Then I should see the team added within 5 seconds
-#    Then I choose the randomly created team
 #    And I click the button "Invite Member"
 #    Then I give the rbac_member1 email
 #    And I click the button "Send"
