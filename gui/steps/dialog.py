@@ -43,6 +43,23 @@ def wait_for_dialog(context, dialog_title, state, seconds):
                   % (dialog_title, state, seconds)
 
 
+@step(u'I expect the field "{field_name}" in the dialog with title '
+      u'"{dialog_title}" to be visible within max {seconds} seconds')
+def check_that_field_is_visible(context, field_name, dialog_title, seconds):
+    field_name = field_name.lower()
+    dialog = get_dialog(context, dialog_title)
+    input = None
+    timeout = time() + int(seconds)
+    while time() < timeout:
+        input = get_input_from_form(dialog, field_name)
+        if input.is_displayed():
+            return True
+        sleep(1)
+    assert input, "Could not find field %s after %s seconds" % field_name
+    assert False, "Field %s did not become visible after %s seconds" \
+                  % (field_name, seconds)
+
+
 @step(u'I click the "{button_name}" button in the dialog "{dialog_title}"')
 def click_button_in_dialog(context, button_name, dialog_title):
     dialog = get_dialog(context, dialog_title)
