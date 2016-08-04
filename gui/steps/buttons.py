@@ -184,8 +184,6 @@ def click_the_user_menu_button(context, button):
 
 @step(u'I click the "{text}" "{type_of_item}"')
 def click_item(context, text, type_of_item):
-    import ipdb
-    ipdb.set_trace()
     type_of_item = type_of_item.lower()
     if type_of_item not in ['machine', 'key', 'script', 'network', 'team']:
         raise Exception('Unknown type of button')
