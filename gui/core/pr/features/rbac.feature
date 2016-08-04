@@ -51,14 +51,20 @@ Feature: RBAC
     And I wait for 1 seconds
     Then I click the button "Logout" in the user menu
 
-  @manage-teams
+  @delete-org
   Scenario: Owner manages the teams of the organization
     Given I am logged in to mist.core as rbac_owner
     And I am in the new UI
     When I wait for the dashboard to load
     Then I ensure that I am in the "Rbac_Test" organization context
-    And I wait for 3 seconds
-
+    When I visit the Teams page
+    When I click the button "+"
+    And I expect the dialog "Add Team" is open within 4 seconds
+    When I set the value "Test team" to field "Name" in "Add Team" dialog
+    And I click the "Add" button in the dialog "Add Team"
+    When I visit the Teams page
+    And "Test team" team should be present within 5 seconds
+    Then I wait for 2 seconds
 
 #  @manage-team
 #  Scenario: Manage member and team from single team page

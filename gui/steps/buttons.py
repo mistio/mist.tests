@@ -81,6 +81,18 @@ def clicketi_click(context, button):
         action_chain.perform()
 
 
+def clicketi_click_list_row(context, item):
+    """
+    This is a special clicketi click for list items that might not be clickable
+    in the middle.
+    """
+    action_chain = ActionChains(context.browser)
+    action_chain.move_to_element_with_offset(item, item.size['width'] / 4,
+                                             item.size['height'] / 2)
+    action_chain.click()
+    action_chain.perform()
+
+
 def click_button_from_collection(context, text, button_collection=None,
                                  error_message="Could not find button"):
     button = search_for_button(context, text.lower(), button_collection)
@@ -172,6 +184,8 @@ def click_the_user_menu_button(context, button):
 
 @step(u'I click the "{text}" "{type_of_item}"')
 def click_item(context, text, type_of_item):
+    import ipdb
+    ipdb.set_trace()
     type_of_item = type_of_item.lower()
     if type_of_item not in ['machine', 'key', 'script', 'network', 'team']:
         raise Exception('Unknown type of button')
@@ -183,7 +197,7 @@ def click_item(context, text, type_of_item):
     for item in items:
         name = safe_get_element_text(item.find_element_by_css_selector('div.name')).strip().lower()
         if text == name:
-            clicketi_click(context, item)
+            clicketi_click_list_row(context, item)
             return True
     assert False, "Could not click item %s" % text
 
