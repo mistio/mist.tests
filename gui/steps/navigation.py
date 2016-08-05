@@ -290,7 +290,7 @@ def given_logged_in(context, kind):
 
     try:
         context.browser.find_element_by_id("top-signup-button")
-        if kind == 'rbac_owner' or kind == 'rbac_member1':
+        if kind in ['rbac_owner', 'rbac_member1', 'rbac_member2']:
             context.execute_steps(u"""
                 When I open the login popup
                 Then I click the email button in the landing page popup
@@ -305,13 +305,20 @@ def given_logged_in(context, kind):
                 And I click the sign in button in the landing page popup
             """)
     except NoSuchElementException:
-        try:
-            context.browser.find_element_by_id("splash")
-        except NoSuchElementException:
-            raise NoSuchElementException("I am not in the landing page or the"
-                                         " home page")
-
-    context.execute_steps(u'Then I wait for the mist.io splash page to load')
+        pass
+    try:
+        context.browser.find_element_by_tag_name("app-main")
+        context.execute_steps(u'Then I wait for the dashboard to load')
+        return
+    except NoSuchElementException:
+        pass
+    try:
+        context.browser.find_element_by_id("splash")
+        context.execute_steps(
+            u'Then I wait for the mist.io splash page to load')
+    except NoSuchElementException:
+        raise NoSuchElementException("I am not in the landing page or the"
+                                     " home page")
 
 
 @step(u'I am not logged in to mist.core')
