@@ -165,6 +165,9 @@ Feature: RBAC
     And I expect the "team" edit form to be visible within max 5 seconds
     Then user with email "MEMBER2_EMAIL" should be confirmed
     When I delete user "MEMBER2_EMAIL" from team
+    And I expect the dialog "Delete Member from Team" is open within 4 seconds
+    And I click the "Delete" button in the dialog "Delete Member from Team"
+    And I expect the dialog "Delete Member from Team" is closed within 4 seconds
     When I click the Gravatar
     And I wait for 1 seconds
     Then I click the button "Logout" in the user menu
