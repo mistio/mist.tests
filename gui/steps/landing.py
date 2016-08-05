@@ -160,7 +160,8 @@ def enter_creds(context, kind, action):
                       'password_reset_request', 'password_reset',
                       'demo request']:
         raise ValueError("Cannot input %s credentials" % action)
-    if kind not in ['standard', 'alt', 'rbac_owner', 'rbac_member1'] and not kind.startswith('invalid'):
+    if kind not in ['standard', 'alt', 'rbac_owner', 'rbac_member1',
+                    'rbac_member2'] and not kind.startswith('invalid'):
         raise ValueError("No idea what %s credentials are" % kind)
     if action == 'login':
         try:
