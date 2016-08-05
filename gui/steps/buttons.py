@@ -19,14 +19,14 @@ from selenium.common.exceptions import TimeoutException
 from selenium.common.exceptions import NoSuchElementException
 
 
-# @step(u'I expect for "{element_id}" to be clickable within max {seconds} '
-#       u'seconds')
-# def become_visible_waiting_with_timeout(context, element_id, seconds):
-#     try:
-#         WebDriverWait(context.browser, int(seconds)).until(EC.element_to_be_clickable((By.ID, element_id)))
-#     except TimeoutException:
-#         raise TimeoutException("element with id %s did not become clickable "
-#                                "after %s seconds" % (element_id, seconds))
+@step(u'I expect for "{element_id}" to be clickable within max {seconds} '
+      u'seconds')
+def become_visible_waiting_with_timeout(context, element_id, seconds):
+    try:
+        WebDriverWait(context.browser, int(seconds)).until(EC.element_to_be_clickable((By.ID, element_id)))
+    except TimeoutException:
+        raise TimeoutException("element with id %s did not become clickable "
+                               "after %s seconds" % (element_id, seconds))
 # @step(u'I expect for buttons inside "{element_id}" to be '
 #       u'clickable within max {seconds} seconds')
 # def become_clickable_waiting_with_timeout(context, element_id, seconds):
@@ -36,7 +36,7 @@ from selenium.common.exceptions import NoSuchElementException
 #     except TimeoutException:
 #         raise TimeoutException("element with id %s did not become visible "
 #                                "after %s seconds" % (element_id, seconds))
-#
+# #
 #
 # @step(u'I click button "{button_text}" inside "{element_id}" when '
 #       u'it is clickable within max {seconds} seconds')
