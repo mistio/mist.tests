@@ -171,7 +171,10 @@ Feature: RBAC
     When I click the Gravatar
     And I wait for 1 seconds
     Then I click the button "Logout" in the user menu
-    And I wait for 2 seconds
+    Given I am logged in to mist.core as rbac_member2
+    And I am in the new UI
+    When I wait for the dashboard to load
+    Then I should see the form to set name for new organization
 
 #  @manage-rules
 #  Scenario: Manage team rules
