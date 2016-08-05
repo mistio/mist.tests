@@ -284,19 +284,26 @@ def given_logged_in(context):
 
 
 def found_one(context):
-    timeout = time() + 5
+    success = 0
+    timeout = time() + 10
     while time() < timeout:
         try:
             context.browser.find_element_by_id("top-signup-button")
-            return True
+            success += 1
+            if success == 2:
+                return True
         except NoSuchElementException:
             try:
                 context.browser.find_element_by_id("app")
-                return True
+                success += 1
+                if success == 2:
+                    return True
             except NoSuchElementException:
                 try:
                     context.browser.find_element_by_id("splash")
-                    return True
+                    success += 1
+                    if success == 2:
+                        return True
                 except NoSuchElementException:
                     pass
         sleep(1)
@@ -337,8 +344,8 @@ def given_logged_in(context, kind):
         context.execute_steps(
             u'Then I wait for the mist.io splash page to load')
     except NoSuchElementException:
-        raise NoSuchElementException("I am not in the landing page or the"
-                                     " home page")
+        raise NoSuchElementException("I am not in the landing page or the "
+                                     "home page")
 
 
 @step(u'I am not logged in to mist.core')
