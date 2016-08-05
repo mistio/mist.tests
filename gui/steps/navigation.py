@@ -125,8 +125,9 @@ def am_in_new_UI(context):
     Function that waits for the new UI to load. The maximum time for the page
     to load is 60 seconds in this case
     """
+    assert found_one(context), "I have no idea where I am"
     try:
-        context.browser.find_element_by_tag_name("app-main")
+        context.browser.find_element_by_id("app")
         return
     except:
         context.execute_steps(u'''

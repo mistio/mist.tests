@@ -3,6 +3,7 @@ from behave import step
 from .utils import safe_get_element_text
 from .navigation import get_gravatar
 
+
 def get_current_context(context):
     return safe_get_element_text(context.browser.find_element_by_css_selector(
             'div.current.context').find_element_by_tag_name('h4')).strip().lower()
