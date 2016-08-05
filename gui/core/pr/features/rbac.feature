@@ -147,7 +147,6 @@ Feature: RBAC
     Then I click the button "Logout" in the user menu
     Then I should receive an email at the address "MEMBER2_EMAIL" with subject "[mist.io] Confirm your invitation" within 10 seconds
     And I follow the link contained in the email sent at the address "MEMBER2_EMAIL" with subject "[mist.io] Confirm your invitation"
-    Then I click the email button in the landing page popup
     Then I enter my rbac_member2 credentials for signup_password_set
     And I click the submit button in the landing page popup
     And I am in the new UI
