@@ -251,6 +251,8 @@ def enter_creds(context, kind, action):
             password_to_use = context.mist_config['OWNER_PASSWORD']
         elif kind == 'rbac_member1':
             password_to_use = context.mist_config['MEMBER1_PASSWORD']
+        elif kind == 'rbac_member2':
+            password_to_use = context.mist_config['MEMBER2_PASSWORD']
         else:
             raise Exception('No such type of creds')
         clear_input_and_send_keys(first_textfield, password_to_use)
