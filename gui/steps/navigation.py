@@ -130,6 +130,7 @@ def am_in_new_UI(context):
         return
     except:
         context.execute_steps(u'''
+            Then I wait for the mist.io splash page to load
             When I click the gravatar
             When I click the button "BETA UI"
         ''')
