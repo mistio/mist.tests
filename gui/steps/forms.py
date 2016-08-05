@@ -27,7 +27,7 @@ def clear_input_and_send_keys(input_field, text):
 def get_add_form(context, title):
     title = title.lower()
     if title not in ['cloud', 'machine', 'image', 'key', 'network', 'tunnel',
-                     'script', 'template', 'stack', 'team']:
+                     'script', 'template', 'stack', 'team', 'members']:
         raise ValueError('The title given is unknown')
     add_form_selector = 'div#content.%s-add' % title
     return context.browser.find_element_by_css_selector(add_form_selector)
