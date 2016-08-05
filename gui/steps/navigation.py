@@ -283,11 +283,31 @@ def given_logged_in(context):
     context.execute_steps(u'Then I wait for the mist.io splash page to load')
 
 
+def found_one(context):
+    timeout = time() + 5
+    while time() < timeout:
+        try:
+            context.browser.find_element_by_id("top-signup-button")
+            return True
+        except NoSuchElementException:
+            try:
+                context.browser.find_element_by_id("app")
+                return True
+            except NoSuchElementException:
+                try:
+                    context.browser.find_element_by_id("splash")
+                    return True
+                except NoSuchElementException:
+                    pass
+        sleep(1)
+    return False
+
+
 @step(u'I am logged in to mist.core as {kind}')
 def given_logged_in(context, kind):
     if not i_am_in_homepage(context):
         context.execute_steps(u'When I visit mist.core')
-
+    assert found_one(context), "No idea where I am now"
     try:
         context.browser.find_element_by_id("top-signup-button")
         if kind in ['rbac_owner', 'rbac_member1', 'rbac_member2']:
@@ -307,7 +327,7 @@ def given_logged_in(context, kind):
     except NoSuchElementException:
         pass
     try:
-        context.browser.find_element_by_tag_name("app-main")
+        context.browser.find_element_by_id("app")
         context.execute_steps(u'Then I wait for the dashboard to load')
         return
     except NoSuchElementException:
