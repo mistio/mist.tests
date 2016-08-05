@@ -47,7 +47,8 @@ def check_user_state(context, email, user_state):
 
 @step(u'I delete user "{email}" from team')
 def delete_member_from_team(context, email):
-    members = get_member_list(context)
+    member_list = get_member_list(context)
+    members = member_list.find_elements_by_tag_name('paper-item')
     if email in context.mist_config:
         email = context.mist_config[email]
     email = email.strip().lower()
