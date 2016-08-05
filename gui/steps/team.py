@@ -41,7 +41,7 @@ def check_user_state(context, email, user_state):
                 return True
             elif user_state == 'confirmed' and 'pending' != spans[1]:
                 return True
-        assert False, "User's state is not %s" % user_state
+            assert False, "User's(%s) state is not %s" % (spans[-1], user_state)
     assert False, "User is not among the team members"
 
 
