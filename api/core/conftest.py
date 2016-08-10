@@ -207,7 +207,7 @@ def random_ssh_key(request):
 @pytest.fixture(scope='module')
 def random_bash_script(request):
     _mist_core = mist_core()
-    _valid_api_token = valid_api_token(request)
+    _valid_api_token = owner_api_token(request)
     response = _mist_core.list_scripts(api_token=_valid_api_token).get()
     assert_response_ok(response)
     script_list = json.loads(response.content)
@@ -231,7 +231,7 @@ def random_bash_script(request):
         def fin():
             _response = _mist_core.delete_script(api_token=_valid_api_token,
                                                  script_id=script[0][
-                                                     'script_id']).delete()
+                                                     'id']).delete()
             assert_response_ok(_response)
 
         request.addfinalizer(fin)
@@ -243,7 +243,7 @@ def random_bash_script(request):
 @pytest.fixture(scope='module')
 def machines_per_cloud(request):
     _mist_core = mist_core()
-    _valid_api_token = valid_api_token(request)
+    _valid_api_token = owner_api_token(request)
     response = _mist_core.list_clouds(api_token=_valid_api_token).get()
     assert_response_ok(response)
     clouds = json.loads(response.content)
