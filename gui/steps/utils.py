@@ -29,7 +29,14 @@ def safe_get_element_text(check_element):
 
 def focus_on_element(context, element):
     position = element.location
-    context.browser.execute_script("window.scrollTo(0, %s)" % position['y'])
+    from navigation import found_one
+    assert found_one(context), "I have no idea where I am"
+    try:
+        context.browser.find_element_by_id("app")
+        js = "document.querySelector('paper-header-panel').scroller.scrollTop = %s" % position['y']
+        context.browser.execute_script(js)
+    except:
+        context.browser.execute_script("window.scrollTo(0, %s)" % position['y'])
 
 
 @step(u'I focus on the "{name}" button')
