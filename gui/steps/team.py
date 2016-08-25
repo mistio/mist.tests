@@ -4,6 +4,8 @@ from .buttons import clicketi_click
 
 from .utils import safe_get_element_text
 
+from time import sleep
+
 
 def get_team_lists(context):
     return context.browser.find_elements_by_css_selector(

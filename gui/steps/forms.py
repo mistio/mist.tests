@@ -38,9 +38,11 @@ def get_edit_form(context, title):
     if title == 'cloud':
         raise Exception
     if title not in ['machine', 'image', 'key', 'network', 'tunnel', 'script',
-                     'template', 'stack', 'team']:
+                     'template', 'stack', 'team', 'policy']:
         raise Exception('The title given is unknown')
     try:
+        if title == 'policy':
+            return context.browser.find_element_by_tag_name('team-policy')
         return context.browser.find_element_by_tag_name('%s-page' % title)
     except:
         return None
@@ -59,7 +61,7 @@ def check_form_is_visible(context, page, form_type, seconds):
         try:
             form = get_add_form(context, page) if form_type == 'add' else \
                 get_edit_form(context, page)
-            if form.is_displayed():
+            if form and form.is_displayed():
                 return True
         except NoSuchElementException:
             pass
@@ -82,6 +84,8 @@ def get_input_from_form(form, input_name):
 
 
 def get_button_from_form(form, button_name):
+    if button_name == 'add a new rule':
+        return form.find_element_by_css_selector('div.rules span.team-policy')
     buttons = form.find_elements_by_tag_name('paper-button')
     assert buttons, "Could not find any buttons in the form"
     button = None

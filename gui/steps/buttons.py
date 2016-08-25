@@ -66,6 +66,7 @@ def become_visible_waiting_with_timeout(context, element_id, seconds):
 #     my_element = context.browser.find_element_by_id(id_name)
 #     clicketi_click(context, my_element)
 
+
 def clicketi_click(context, button):
     """
     trying two different ways of clicking a button because sometimes the
@@ -87,8 +88,7 @@ def clicketi_click_list_row(context, item):
     in the middle.
     """
     action_chain = ActionChains(context.browser)
-    action_chain.move_to_element_with_offset(item, item.size['width'] / 4,
-                                             item.size['height'] / 2)
+    action_chain.move_to_element_with_offset(item, item.size['width'] / 4, item.size['height'] / 2)
     action_chain.click()
     action_chain.perform()
 

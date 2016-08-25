@@ -175,28 +175,56 @@ Feature: RBAC
     And I am in the new UI
     When I wait for the dashboard to load
     Then I should see the form to set name for new organization
+    When I click the Gravatar
+    And I wait for 1 seconds
+    Then I click the button "Logout" in the user menu
 
-#  @manage-rules
-#  Scenario: Manage team rules
-#    Given I am logged in to mist.core as rbac_owner
-#    When I visit the Teams page after the Teams counter has loaded
-#    When I click the button "Create team"
-#    Then I expect for "add-team" collapsible to appear within max 5 seconds
-#    Then I give a random team name for new team
-#    Then I click the button "Add"
-#    Then I expect for "add-team" collapsible to disappear within max 5 seconds
-#    Then I choose the random team
-#    Then I click the button "Add Rule"
-#    Then I click the button "Deny"
-#    Then I expect for "policy-rule-operator-popup" popup to appear within max 5 seconds
-#    Then I click the button "Allow"
-#    Then I expect for "policy-rule-operator-popup" popup to disappear within max 5 seconds
-#    Then I click the button "All"
-#    Then I expect for "policy-rule-resource-popup" popup to appear within max 5 seconds
-#    Then I click the button "Cloud"
-#    Then I expect for "policy-rule-resource-popup" popup to disappear within max 5 seconds
-#    Then I click the button "Save rules"
-#    And I click the button "Delete"
-#    And I expect for "dialog-popup" modal to appear within max 4 seconds
-#    And I click the button "Yes"
-#    Then I wait for 2 seconds
+  @manage-rules
+  Scenario: Manage team rules
+    Given I am logged in to mist.core as rbac_owner
+    And I am in the new UI
+    When I wait for the dashboard to load
+    Then I ensure that I am in the "Rbac_Test" organization context
+    When I visit the Keys page
+    When I click the button "+"
+    Then I expect the "Key" add form to be visible within max 10 seconds
+    When I set the value "PolicyKey" to field "Name" in "key" add form
+    Then I click the button "Generate" in "key" add form
+    And I expect for the button "Add" in "key" add form to be clickable within 9 seconds
+    And I wait for 2 seconds
+    When I focus on the button "Add" in "key" add form
+    And I click the button "Add" in "key" add form
+    Then I expect the "key" edit form to be visible within max 5 seconds
+    When I visit the Keys page
+    Then "PolicyKey" key should be present within 15 seconds
+    Then I visit the Home page
+    When I wait for the dashboard to load
+    When I visit the Teams page
+    When I click the button "+"
+    And I expect the dialog "Add Team" is open within 4 seconds
+    When I set the value "Policy Test Team" to field "Name" in "Add Team" dialog
+    And I click the "Add" button in the dialog "Add Team"
+    When I visit the Teams page
+    And "Policy Test Team" team should be present within 5 seconds
+    When I click the "Policy Test Team" "team"
+    And I expect the "policy" edit form to be visible within max 5 seconds
+    When I focus on the button "Add a new rule" in "policy" edit form
+    Then I click the button "Add a new rule" in "policy" edit form
+    And I wait for 1 seconds
+    Then I add the rule "ALLOW" "machine" "all" where tags = "bla=bla"
+    When I focus on the button "Add a new rule" in "policy" edit form
+    Then I click the button "Add a new rule" in "policy" edit form
+    And I wait for 1 seconds
+    Then I add the rule always "ALLOW" "cloud" "all"
+    When I focus on the button "Add a new rule" in "policy" edit form
+    Then I click the button "Add a new rule" in "policy" edit form
+    And I wait for 1 seconds
+    Then I add the rule "DENY" "key" "edit" where id = "PolicyKey"
+    And I click the button "Save Policy" in "policy" edit form
+    Then I wait for 3 seconds
+    Given rule "0" is "ALLOW" "machine" "all" where tags = "bla=bla"
+    Given rule "1" is "ALLOW" "cloud" "all" always
+    Given rule "2" is "DENY" "key" "edit" where id = "PolicyKey"
+    When I click the Gravatar
+    And I wait for 1 seconds
+    Then I click the button "Logout" in the user menu
