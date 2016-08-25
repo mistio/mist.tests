@@ -147,7 +147,8 @@ def check_rule_exists(context, rule_number, operator, rtype, raction, rid, rtags
         assert rtags == rule_tags, "Rule tag is not %s" % rtags
 
 
-@step(u'rule "{rule_number}" is "{operator}" "{rtype}" "{raction}" where tags = "{rtags}"')
+@step(u'rule "{rule_number}" is "{operator}" "{rtype}" "{raction}" where tags'
+      u' = "{rtags}"')
 def check_rule_with_rtags(context, rule_number, operator, rtype, raction, rtags):
     check_rule_exists(context, rule_number, operator, rtype, raction, '', rtags)
 
