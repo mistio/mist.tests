@@ -5,11 +5,11 @@ from time import time
 from time import sleep
 from behave import step
 
-from landing import clear_input_and_send_keys
-from search import search_for_something
-from utils import safe_get_element_text
-from buttons import search_for_button
-from navigation import click_the_gravatar
+from .landing import clear_input_and_send_keys
+from .search import search_for_something
+from .utils import safe_get_element_text
+from .buttons import search_for_button
+from .navigation import click_the_gravatar
 
 from selenium.common.exceptions import NoSuchElementException
 from selenium.common.exceptions import StaleElementReferenceException

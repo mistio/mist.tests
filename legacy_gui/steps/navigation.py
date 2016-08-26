@@ -4,7 +4,7 @@ from behave import given
 from time import time
 from time import sleep
 
-from buttons import click_the_gravatar, search_for_button
+from .buttons import click_the_gravatar, search_for_button
 
 from selenium.common.exceptions import TimeoutException
 from selenium.common.exceptions import NoSuchElementException

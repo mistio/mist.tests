@@ -1,6 +1,6 @@
 from behave import step
 
-from utils import safe_get_element_text
+from .utils import safe_get_element_text
 
 
 @step(u'I rename my script with "{name}" name')

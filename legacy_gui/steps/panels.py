@@ -1,8 +1,8 @@
 from behave import step
 
-from utils import safe_get_element_text
+from .utils import safe_get_element_text
 
-from buttons import click_button_from_collection
+from .buttons import click_button_from_collection
 
 from selenium.common.exceptions import TimeoutException
 

@@ -1,3 +1,3 @@
-from tests.gui.steps.api_tokens import *
-from tests.gui.steps.modals import *
-from tests.gui.steps.navigation import *
+from tests.legacy_gui.steps.api_tokens import *
+from tests.legacy_gui.steps.modals import *
+from tests.legacy_gui.steps.navigation import *

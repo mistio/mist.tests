@@ -2,7 +2,7 @@ from behave import step
 
 from time import sleep
 
-from utils import safe_get_element_text
+from .utils import safe_get_element_text
 
 
 def get_tag_with_key(tags_list, key):
