@@ -5,23 +5,21 @@ from time import sleep
 
 from .utils import safe_get_element_text
 
-
-@step(u'the images list should be loaded within {seconds} seconds')
-def images_loaded(context, seconds):
-    end_time = time() + int(seconds)
-    while time() < end_time:
-        images = context.browser.find_elements_by_class_name("checkbox-link")
-        if len(images) > 0:
-            return
-        sleep(2)
-
-    assert False, "Images haven't loaded within %s seconds" % seconds
+from .list import get_list
 
 
-@step(u'there should be starred images')
-def starred_images_loaded(context):
-    starred_images = context.browser.find_elements_by_class_name("staron")
-    assert len(starred_images) > 0, u'No starred images found'
+@step(u'there should be ticked Images in the list')
+def ticked_images_loaded(context):
+    import ipdb
+    ipdb.set_trace()
+    images = get_list(context, 'image')
+    for image in images:
+        if image.find_element_by_css_selector('iron-icon[icon="check"]').\
+                is_displayed():
+            break
+    else:
+        raise Exception('No ticked images available')
+    # name = safe_get_element_text(image.find_element_by_css_selector('div.name'))
 
 
 @step(u'an image that contains "{text}" should be starred')
