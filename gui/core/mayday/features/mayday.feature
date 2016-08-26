@@ -36,7 +36,7 @@ Feature: Production
     Then I expect for "basic-condition" to be visible within max 20 seconds
     And I expect for buttons inside "basic-condition" to be clickable within max 20 seconds
     And I click the button "Load"
-    And I click the button "pi"
+    And I click the button "RAM"
     When I fill "0" as rule value
     Then I should receive an email within 200 seconds
     When I remove previous rules
@@ -45,7 +45,6 @@ Feature: Production
   Scenario: Production ssh testing
     Given I am logged in to mist.core
     Then I wait for the links in homepage to appear
-    When I ensure "NephoScale" cloud is enabled
     When I visit the Machines page after the counter has loaded
     Then I search for the "Mayday" Machine
     When I click the button "Mayday"
