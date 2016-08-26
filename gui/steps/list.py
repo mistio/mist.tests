@@ -11,6 +11,10 @@ from selenium.common.exceptions import NoSuchElementException
 from selenium.common.exceptions import StaleElementReferenceException
 
 
+def get_list(context, resource_type):
+    return context.browser.find_elements_by_css_selector('page-items.%ss iron-list div.row' % resource_type)
+
+
 def get_list_item(context, resource_type, name):
     resource_type = resource_type.lower()
     item_name = name.lower()
@@ -19,7 +23,7 @@ def get_list_item(context, resource_type, name):
                              'team']:
         raise ValueError('The resource type given is unknown')
     try:
-        items = context.browser.find_elements_by_css_selector('page-items.%ss iron-list div.row' % resource_type)
+        items = get_list(context, resource_type)
         for item in items:
             name = safe_get_element_text(item.find_element_by_css_selector('div.name')).strip().lower()
             if item_name == name:
