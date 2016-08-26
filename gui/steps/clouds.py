@@ -24,6 +24,7 @@ cloud_creds_dict = {
     "softlayer": "SOFTLAYER",
     "hp": "HP",
     "ec2": "EC2",
+    "aws": "AWS",
     "nepho": "NEPHOSCALE",
     "linode": "LINODE",
     "docker": "DOCKER",
