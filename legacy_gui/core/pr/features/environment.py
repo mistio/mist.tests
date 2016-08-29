@@ -1,1 +1,1 @@
-from tests.gui.core.environment import *
+from tests.legacy_gui.core.environment import *

@@ -3,7 +3,7 @@ import json
 import random
 
 from behave import *
-from mist.io.tests.gui.features.steps.general import safe_get_element_text
+from tests.legacy_gui.steps.utils import safe_get_element_text
 
 providers_to_check = ["Azure",
                       "DigitalOcean",
