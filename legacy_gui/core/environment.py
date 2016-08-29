@@ -32,10 +32,10 @@ def before_all(context):
     context.mist_config['DEMO_EMAIL'] = config.DEMO_EMAIL
     context.mist_config['DEMO_PASSWORD'] = config.DEMO_PASSWORD
     context.mist_config['MIST_DEMO_REQUEST_EMAIL'] = config.MIST_DEMO_REQUEST_EMAIL
-    context.mist_config['RBAC_OWNER_EMAIL'] = config.RBAC_OWNER_EMAIL
-    context.mist_config['RBAC_OWNER_PASSWORD'] = config.RBAC_OWNER_PASSWORD
-    context.mist_config['RBAC_MEMBER_EMAIL'] = config.RBAC_MEMBER_EMAIL
-    context.mist_config['RBAC_MEMBER_PASSWORD'] = config.RBAC_MEMBER_PASSWORD
+    context.mist_config['OWNER_EMAIL'] = config.OWNER_EMAIL
+    context.mist_config['OWNER_PASSWORD'] = config.OWNER_PASSWORD
+    context.mist_config['MEMBER1_EMAIL'] = config.MEMBER1_EMAIL
+    context.mist_config['MEMBER1_PASSWORD'] = config.MEMBER1_PASSWORD
     context.mist_config['LOCAL'] = config.LOCAL
     context.mist_config['DEBUG'] = config.DEBUG
     context.mist_config['ORG_NAME'] = config.ORG_NAME
