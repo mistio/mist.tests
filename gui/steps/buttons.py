@@ -6,6 +6,9 @@ from time import time
 from .utils import safe_get_element_text
 from .utils import focus_on_element
 
+from .forms import find_dropdown
+from .forms import get_current_value_of_dropdown
+
 from selenium.webdriver import ActionChains
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
@@ -13,6 +16,7 @@ from selenium.webdriver.support import expected_conditions as EC
 
 from selenium.common.exceptions import WebDriverException
 from selenium.common.exceptions import TimeoutException
+from selenium.common.exceptions import NoSuchElementException
 
 
 @step(u'I expect for "{element_id}" to be clickable within max {seconds} '
@@ -23,46 +27,44 @@ def become_visible_waiting_with_timeout(context, element_id, seconds):
     except TimeoutException:
         raise TimeoutException("element with id %s did not become clickable "
                                "after %s seconds" % (element_id, seconds))
-
-
-def click_button_from_collection(context, text, button_collection=None,
-                                 error_message="Could not find button"):
-    button = search_for_button(context, text, button_collection)
-    assert button, error_message
-    for i in range(0, 2):
-        try:
-            clicketi_click(context, button)
-            return
-        except WebDriverException:
-            sleep(1)
-        assert False, 'Could not click button that says %s(%s)' % \
-                      (safe_get_element_text(button), text)
-
-
-def search_for_button(context, text, button_collection=None, btn_cls='ui-btn'):
-    if not button_collection:
-        button_collection = context.browser.find_elements_by_class_name(btn_cls)
-    # search for button with exactly the same text. sometimes the driver returns
-    # the same element more than once and that's why we return the first
-    # element of the list
-    # also doing some cleaning if the text attribute also sends back texts
-    # of sub elements
-    text = text.lower()
-
-    button = filter(
-        lambda b: safe_get_element_text(b).rstrip().lstrip().split('\n')[0].lower() == text,
-        button_collection)
-    if len(button) > 0:
-        return button[0]
-
-    # if we haven't found the exact text then we search for something that
-    # looks like it
-    for button in button_collection:
-        button_text = safe_get_element_text(button).split('\n')
-        if len(filter(lambda b: text in b.lower(), button_text)) > 0:
-            return button
-
-    return None
+# @step(u'I expect for buttons inside "{element_id}" to be '
+#       u'clickable within max {seconds} seconds')
+# def become_clickable_waiting_with_timeout(context, element_id, seconds):
+#     try:
+#         wrapper = context.browser.find_element_by_id(element_id)
+#         WebDriverWait(wrapper, int(seconds)).until(EC.element_to_be_clickable((By.CLASS_NAME, 'ui-btn')))
+#     except TimeoutException:
+#         raise TimeoutException("element with id %s did not become visible "
+#                                "after %s seconds" % (element_id, seconds))
+# #
+#
+# @step(u'I click button "{button_text}" inside "{element_id}" when '
+#       u'it is clickable within max {seconds} seconds')
+# def button_become_clickable_waiting_with_timeout(context, button_text,
+#                                                  element_id, seconds):
+#     timeout = time() + int(seconds)
+#     wrapper = context.browser.find_element_by_id(element_id)
+#     button = search_for_button(context, button_text, wrapper.find_elements_by_class_name('ui-btn'))
+#     while time() < timeout:
+#         try:
+#             button.click()
+#             return
+#         except:
+#             pass
+#         assert time() + 1 < timeout, "Button %s inside element %s did not " \
+#                                      "become clickable after %s seconds" % \
+#                                      (button_text, element_id, seconds)
+#         sleep(1)
+#
+#
+# @step(u'I click the button by "{id_name}" id_name')
+# def click_button_id(context, id_name):
+#     """
+#     This function will try to click a button by id name.
+#     And use the function clicketi_click
+#     """
+#     my_element = context.browser.find_element_by_id(id_name)
+#     clicketi_click(context, my_element)
 
 
 def clicketi_click(context, button):
@@ -80,44 +82,58 @@ def clicketi_click(context, button):
         action_chain.perform()
 
 
-@step(u'I expect for buttons inside "{element_id}" to be '
-      u'clickable within max {seconds} seconds')
-def become_clickable_waiting_with_timeout(context, element_id, seconds):
-    try:
-        wrapper = context.browser.find_element_by_id(element_id)
-        WebDriverWait(wrapper, int(seconds)).until(EC.element_to_be_clickable((By.CLASS_NAME, 'ui-btn')))
-    except TimeoutException:
-        raise TimeoutException("element with id %s did not become visible "
-                               "after %s seconds" % (element_id, seconds))
+def clicketi_click_list_row(context, item):
+    """
+    This is a special clicketi click for list items that might not be clickable
+    in the middle.
+    """
+    action_chain = ActionChains(context.browser)
+    action_chain.move_to_element_with_offset(item, item.size['width'] / 4, item.size['height'] / 2)
+    action_chain.click()
+    action_chain.perform()
 
 
-@step(u'I click button "{button_text}" inside "{element_id}" when '
-      u'it is clickable within max {seconds} seconds')
-def button_become_clickable_waiting_with_timeout(context, button_text,
-                                                 element_id, seconds):
-    timeout = time() + int(seconds)
-    wrapper = context.browser.find_element_by_id(element_id)
-    button = search_for_button(context, button_text, wrapper.find_elements_by_class_name('ui-btn'))
-    while time() < timeout:
+def click_button_from_collection(context, text, button_collection=None,
+                                 error_message="Could not find button"):
+    button = search_for_button(context, text.lower(), button_collection)
+    assert button, error_message
+    for i in range(0, 2):
         try:
-            button.click()
+            clicketi_click(context, button)
             return
-        except:
-            pass
-        assert time() + 1 < timeout, "Button %s inside element %s did not " \
-                                     "become clickable after %s seconds" % \
-                                     (button_text, element_id, seconds)
-        sleep(1)
+        except WebDriverException:
+            sleep(1)
+        assert False, 'Could not click button that says %s(%s)' % \
+                      (safe_get_element_text(button), text)
 
 
-@step(u'I click the button by "{id_name}" id_name')
-def click_button_id(context, id_name):
-    """
-    This function will try to click a button by id name.
-    And use the function clicketi_click
-    """
-    my_element = context.browser.find_element_by_id(id_name)
-    clicketi_click(context, my_element)
+def search_for_button(context, text, button_collection=None):
+    if not button_collection:
+        try:
+            context.browser.find_element_by_id('app')
+            button_collection = context.browser.find_elements_by_tag_name('paper-button')
+        except NoSuchElementException:
+            button_collection = context.browser.find_elements_by_class_name('ui-btn')
+
+    # search for button with exactly the same text. sometimes the driver returns
+    # the same element more than once and that's why we return the first
+    # element of the list
+    # also doing some cleaning if the text attribute also sends back texts
+    # of sub elements
+    button = filter(lambda el: safe_get_element_text(el).strip().lower() == text,
+                    button_collection)
+
+    if button:
+        return button[0]
+
+    # if we haven't found the exact text then we search for something that
+    # looks like it
+    for button in button_collection:
+        button_text = safe_get_element_text(button).split('\n')
+        if len(filter(lambda b: text in b.lower(), button_text)) > 0:
+            return button
+
+    return None
 
 
 @step(u'I click the button "{text}"')
@@ -130,9 +146,70 @@ def click_button(context, text):
     """
     if context.mist_config.get(text):
         text = context.mist_config[text]
-    click_button_from_collection(context, text,
+    if text == '+':
+        plus_button = filter(
+            lambda el: el.is_displayed() and el.get_attribute('icon') == 'add',
+            context.browser.find_elements_by_tag_name('paper-fab'))
+        assert plus_button, 'Could not find + button'
+        clicketi_click(context, plus_button[0])
+        return True
+    click_button_from_collection(context, text.lower(),
                                  error_message='Could not find button that '
                                                'contains %s' % text)
+
+
+@step(u'I click the button "{button}" in the "{name}" dropdown')
+def click_button_in_dropdown(context, button, name):
+    button = button.strip().lower()
+    dropdown = find_dropdown(context, name.lower())
+    if button == get_current_value_of_dropdown(dropdown):
+        return True
+    buttons = dropdown.find_elements_by_tag_name('paper-item')
+    click_button_from_collection(context, button.lower(), buttons)
+
+
+@step(u'I click the button "{button}" in the tag menu')
+def click_button_in_tag_model(context, button):
+    from .tags import get_tag_modal
+    buttons = get_tag_modal(context).find_elements_by_tag_name('paper-button')
+    click_button_from_collection(context, button, buttons)
+
+
+@step(u'I click the button "{button}" in the user menu')
+def click_the_user_menu_button(context, button):
+    dropdown = context.browser.find_element_by_id('dropdown')
+    buttons = dropdown.find_elements_by_tag_name('paper-item')
+    click_button_from_collection(context, button, buttons)
+
+
+@step(u'I click the "{text}" "{type_of_item}"')
+def click_item(context, text, type_of_item):
+    type_of_item = type_of_item.lower()
+    if type_of_item not in ['machine', 'key', 'script', 'network', 'team']:
+        raise Exception('Unknown type of button')
+    if context.mist_config.get(text):
+        text = context.mist_config[text]
+    text = text.lower()
+    item_selector = 'page-items.%ss iron-list div.row' % type_of_item
+    items = context.browser.find_elements_by_css_selector(item_selector)
+    for item in items:
+        name = safe_get_element_text(item.find_element_by_css_selector('div.name')).strip().lower()
+        if text == name:
+            clicketi_click_list_row(context, item)
+            return True
+    assert False, "Could not click item %s" % text
+
+
+@step(u'I click the mist.io button')
+def click_mist_io(context):
+    clicketi_click(context, context.browser.find_element_by_id('logo-link'))
+
+
+@step(u'I click the new cloud button')
+def add_cloud_button(context):
+    cloud_button = context.browser.find_element_by_id('addBtn')
+    assert cloud_button.is_displayed(), "Add cloud button is not displayed"
+    clicketi_click(context, cloud_button)
 
 
 @step(u'I click the Gravatar')
@@ -142,6 +219,15 @@ def click_the_gravatar(context):
     of code because there is a ridiculous amount of errors happening during
     this simple task. It tries to print the reasons why it didn't work
     """
+    try:
+        gravatar = context.browser.find_element_by_css_selector('paper-icon-button.gravatar')
+    except NoSuchElementException:
+        get_old_gravatar(context)
+        return
+    clicketi_click(context, gravatar)
+
+
+def get_old_gravatar(context):
     from .popups import popup_waiting_with_timeout
     msg = ""
     gravatar = context.browser.find_element_by_class_name("gravatar-image")

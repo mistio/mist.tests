@@ -12,7 +12,7 @@ Feature: Login Scenarios
     And I click the sign up button in the landing page popup
     Then I should receive an email at the address "EMAIL" with subject "[mist.io] Confirm your registration" within 10 seconds
     Then I save the confirmation link and delete the email
-    Then I refresh the browser
+    Then I refresh the page
     Given I am not logged in to mist.core
     When I open the signup popup
     Then I click the sign up button in the landing page popup
@@ -93,7 +93,7 @@ Feature: Login Scenarios
     And I revoke all sessions
     Then I wait for 2 seconds
     When I switch browser
-    And I refresh the current page
+    And I refresh the page
     Then I should see the landing page within 10 seconds
     Then I switch browser
     When I focus on the "Home" button

@@ -1,58 +1,14 @@
-from behave import *
+from behave import step
 
-from time import time
-from time import sleep
-
-from tests.gui.steps.utils import safe_get_element_text
+from .utils import safe_get_element_text
 
 
-@step(u'I fill "{text}" as key name')
-def fill_key_name(context, text):
-    if context.mist_config.get(text):
-        text = context.mist_config.get(text)
-
-    textfield = context.browser.find_element_by_id("key-add-id")
-    textfield.send_keys(text)
-
-
-@step(u'I fill "{text}" as new key name')
-def fill_key_name(context, text):
-    if context.mist_config.get(text):
-        text = context.mist_config.get(text)
-
-    textfield = context.browser.find_element_by_id("new-key-name")
-    for i in range(20):
-        textfield.send_keys(u'\ue003')
-
-    for letter in text:
-        textfield.send_keys(letter)
-
-
-@step(u'"{text}" key should be added within {seconds} seconds')
-def key_added(context, text, seconds):
-    if context.mist_config.get(text):
-        text = context.mist_config.get(text)
-
-    end_time = time() + int(seconds)
-    while time() < end_time:
-        keys = context.browser.find_elements_by_css_selector(".ui-listview li")
-        for key in keys:
-            if text in safe_get_element_text(key):
-                return
-        sleep(2)
-
-    assert False, u'%s Key is not found added within %s seconds' % (text, seconds)
-
-
-@step(u'"{text}" key should be deleted')
-def key_deleted(context, text):
-    if context.mist_config.get(text):
-        text = context.mist_config.get(text)
-
-    keys = context.browser.find_elements_by_css_selector(".ui-listview li")
-    for key in keys:
-        if text in safe_get_element_text(key):
-            assert False, u'%s Key is not deleted'
+@step(u'key "{key_name}" should be default key')
+def check_if_default_key(context, key_name):
+    from .list import get_list_item
+    item = get_list_item(context, 'key', key_name)
+    assert safe_get_element_text(item.find_element_by_css_selector('div.default')).strip().lower() == 'default', \
+        "Key %s is not default key" % key_name
 
 
 @step(u'I add new machine key with name "{key_name}" or I select it')

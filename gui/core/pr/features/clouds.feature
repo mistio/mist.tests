@@ -1,38 +1,37 @@
 @clouds
-Feature: Add second-tier clouds
+Feature: Add second-tier clouds in Polymist
 
   Background:
     Given I am logged in to mist.core
+    And I am in the new UI
+    When I wait for the dashboard to load
 
   @cloud-add
   Scenario Outline:
-    When I click the button "Add cloud"
-    Then I expect for "new-cloud-provider" panel to appear within max 4 seconds
-    And I click the button "<provider>"
-    And I expect for "new-cloud-provider" panel to disappear within max 4 seconds
-    Then I expect for "cloud-add-fields" to be visible within max 4 seconds
+    When I click the new cloud button
+    Then I expect the "Cloud" add form to be visible within max 5 seconds
+    And I open the "Choose Provider" drop down
     And I wait for 1 seconds
-    When I use my "<credentials>" credentials
-    And I click the button "Add"
-    Then the "<provider>" cloud should be added within 120 seconds
+    When I click the button "<provider>" in the "Choose Provider" dropdown
+    Then I expect the field "Title" in the cloud add form to be visible within max 4 seconds
+    When I use my provider "<credentials>" credentials
+    And I focus on the button "Add Cloud" in "cloud" add form
+    Then I click the button "Add Cloud"
+    And I visit the Home page
+    And I scroll the clouds list into view
+    Then the "<provider>" provider should be added within 120 seconds
 
-    
     Examples: Providers
     | provider              | credentials  |
-    | DigitalOcean          | DIGITALOCEAN |
+    | Azure                 | AZURE        |
+    | Digital Ocean         | DIGITALOCEAN |
     | SoftLayer             | SOFTLAYER    |
     | NephoScale            | NEPHOSCALE   |
     | Rackspace             | RACKSPACE    |
-    | Packet.net            | PACKET       |
-
-    # Added by the Machines feature
-    #| EC2                   | EC2          |
-    # Added by the Keys feature
-    #| Azure                 | AZURE        |
-    # Added by the Scripts feature
-    #| GCE                   | GCE          |
-    # Added by the user actions feature
-    #| Linode                | LINODE       |
+    | Packet                | PACKET       |
+    | GCE                   | GCE          |
+    | Linode                | LINODE       |
+    | AWS                   | AWS          |
 
     # Nope, not really
     #| VMware vCloud         | VMWARE       |
@@ -43,22 +42,18 @@ Feature: Add second-tier clouds
 
   @cloud-rename
   Scenario: Cloud Actions
-    Given "DigitalOcean" cloud has been added
-    When I click the button "DigitalOcean"
-    Then I expect for "cloud-edit-popup" popup to appear within max 4 seconds
-    When I rename the cloud to "Renamed"
-    And I click the "OK" button inside the "Edit cloud" popup
-    When I click the "_x_" button inside the "Edit cloud" popup
-    Then I expect for "cloud-edit-popup" popup to disappear within max 4 seconds
-    And the "Renamed" cloud should be added within 4 seconds
+    Given "Azure" cloud has been added
+    Then I open the cloud menu for "Azure"
+    When I rename the cloud "Azure" to "Renamed"
+    Then I close the cloud menu for "Renamed"
+    And I refresh the page
+    Then I wait for the dashboard to load
+    And the "Renamed" provider should be added within 4 seconds
 
   @cloud-delete
   Scenario: Cloud Actions
     Given "SoftLayer" cloud has been added
-    When I click the button "SoftLayer"
-    Then I expect for "cloud-edit-popup" popup to appear within max 4 seconds
-    When I click the "Delete" button inside the "Edit cloud" popup
-    And I wait for 1 seconds
-    And I click the "Yes" button inside the "Edit cloud" popup
-    Then I expect for "cloud-edit-popup" popup to disappear within max 8 seconds
-    Then the "GCE" cloud should be deleted
+    Then I open the cloud menu for "SoftLayer"
+    When I delete the "Softlayer" cloud
+    And I wait for 4 seconds
+    Then the "Softlayer" cloud should be deleted
