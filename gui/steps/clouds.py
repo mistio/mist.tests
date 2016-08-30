@@ -50,6 +50,7 @@ def cloud_creds(context, cloud):
             ''' % subscription_id)
         from .forms import set_value_to_field
         set_value_to_field(context, certificate, 'certificate', 'cloud', 'add')
+        sleep(3)
     elif "GCE" in cloud:
         project_id = context.mist_config['CREDENTIALS']['GCE']['project_id']
         private_key = context.mist_config['CREDENTIALS']['GCE']['private_key']
