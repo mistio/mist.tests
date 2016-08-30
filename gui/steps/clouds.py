@@ -349,7 +349,9 @@ def cloud_deleted(context, cloud):
 @step(u'the "{cloud}" cloud should be deleted within "{seconds}" seconds')
 def cloud_deleted(context, cloud, seconds):
     timeout = time() + int(seconds)
-    while time() < timeout and find_cloud(context, cloud.lower()):
+    while time() < timeout:
+        if not find_cloud(context, cloud.lower()):
+            return True
         sleep(1)
     assert False, "Cloud has not been deleted after %s seconds" % seconds
 
