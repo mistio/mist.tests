@@ -346,6 +346,16 @@ def cloud_deleted(context, cloud):
         return False
 
 
+@step(u'the "{cloud}" cloud should be deleted within "{seconds}" seconds')
+def cloud_deleted(context, cloud, seconds):
+    timeout = time() + int(seconds)
+    while time() < timeout:
+        if find_cloud(context, cloud.lower()):
+            return True
+        sleep(1)
+    assert False, "Cloud has not been deleted after %s seconds" % seconds
+
+
 @step(u'I ensure "{title}" cloud is enabled')
 def ensure_cloud_enabled(context, title):
     cloud = find_cloud(context, title.lower())
