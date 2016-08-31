@@ -59,6 +59,7 @@ Feature: Actions for Keys
     And I expect the dialog "Rename Key" is open within 4 seconds
     When I set the value "Second" to field "Name" in "Rename Key" dialog
     And I click the "Submit" button in the dialog "Rename Key"
+    And I expect the dialog "Rename Key" is closed within 4 seconds
     Then I visit the Keys page
     And "Key2" key should be absent within 5 seconds
     And "Second" key should be present within 5 seconds
