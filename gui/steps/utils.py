@@ -12,36 +12,6 @@ from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 
 
-@step(u'I wait for "{title}" list page to load')
-def wait_for_some_list_page_to_load(context, title):
-    if title not in ['Machines', 'Images', 'Keys', 'Networks', 'Scripts',
-                     'Account', 'Teams']:
-        raise ValueError('The page given is unknown')
-    # Wait for the list page to appear
-    end_time = time() + 5
-    while time() < end_time:
-        try:
-            context.browser.find_element_by_id('%s-list-page' % title.lower().rpartition(title[-1])[0])
-            break
-        except NoSuchElementException:
-            assert time() + 1 < end_time, "%s list page has not appeared " \
-                                          "after 5 seconds" % title.lower()
-            sleep(1)
-
-    # this code will stop waiting after 5 seconds if nothing appears otherwise
-    # it will stop as soon as a list is loaded
-    end_time = time() + 5
-    while time() < end_time:
-        try:
-            list_of_things = context.browser.find_element_by_id('%s-list' % title.lower().rpartition(title[-1])[0])
-            lis = list_of_things.find_elements_by_tag_name('li')
-            if len(lis) > 0:
-                break
-        except NoSuchElementException:
-            pass
-        sleep(1)
-
-
 def safe_get_element_text(check_element):
     try:
         return check_element.text
@@ -49,17 +19,24 @@ def safe_get_element_text(check_element):
         return ""
 
 
-@step(u'I type "{some_text}" in input with id "{element_id}"')
-def give_some_input(context, some_text, element_id):
-    input_element = context.browser.find_element_by_id(element_id)
-    if context.mist_config.get(some_text):
-        some_text = context.mist_config[some_text]
-    input_element.send_keys(some_text)
+# @step(u'I type "{some_text}" in input with id "{element_id}"')
+# def give_some_input(context, some_text, element_id):
+#     input_element = context.browser.find_element_by_id(element_id)
+#     if context.mist_config.get(some_text):
+#         some_text = context.mist_config[some_text]
+#     input_element.send_keys(some_text)
 
 
 def focus_on_element(context, element):
     position = element.location
-    context.browser.execute_script("window.scrollTo(0, %s)" % position['y'])
+    from navigation import found_one
+    assert found_one(context), "I have no idea where I am"
+    try:
+        context.browser.find_element_by_id("app")
+        js = "document.querySelector('paper-header-panel').scroller.scrollTop = %s" % position['y']
+        context.browser.execute_script(js)
+    except:
+        context.browser.execute_script("window.scrollTo(0, %s)" % position['y'])
 
 
 @step(u'I focus on the "{name}" button')
@@ -80,11 +57,6 @@ def wait(context, seconds):
     sleep(int(seconds))
 
 
-@step(u'I refresh the current page')
-def refresh_the_page(context):
-    context.browser.refresh()
-
-
 @step(u'the title should be "{text}"')
 def assert_title_is(context, text):
     assert text == context.browser.title
@@ -95,40 +67,27 @@ def assert_title_contains(context, text):
     assert text in context.browser.title
 
 
-@step(u'I wait for the links in homepage to appear')
-def wait_for_buttons_to_appear(context):
-    from .buttons import search_for_button
-    end_time = time() + 100
-    while time() < end_time:
-        try:
-            images_button = search_for_button(context, 'Images')
-            counter_span = images_button.find_element_by_class_name("ui-li-count")
-
-            counter_span_text = safe_get_element_text(counter_span)
-
-            int(counter_span_text)
-            break
-        except (NoSuchElementException, StaleElementReferenceException,
-                ValueError, AttributeError) as e:
-            assert time() + 1 < end_time, "Links in the home page have not" \
-                                          " appeared after 10 seconds"
-            sleep(1)
-
-
 @step(u'{counter_title} counter should be greater than {counter_number} within '
       u'{seconds} seconds')
 def some_counter_loaded(context, counter_title, counter_number, seconds):
-    from .buttons import search_for_button
-    counter_found = search_for_button(context, counter_title)
-    assert counter_found, "Counter with name %s has not been found" % counter_title
+    counter_title = counter_title.lower()
+    if counter_title not in ['machines', 'images', 'keys', 'networks',
+                             'tunnels', 'scripts', 'templates', 'stacks',
+                             'teams']:
+        raise ValueError('The counter given is unknown')
+    try:
+        counter = context.browser.find_element_by_css_selector('a#%s.app-sidebar'
+                                                               % counter_title)
+    except NoSuchElementException:
+        raise NoSuchElementException("Counter with name %s has not been found"
+                                     % counter_title)
 
     end_time = time() + int(seconds)
     while time() < end_time:
-        counter_span = counter_found.find_element_by_class_name("ui-li-count")
+        counter_span = counter.find_element_by_css_selector("span.count")
         counter_span_text = safe_get_element_text(counter_span)
-        counter = int(counter_span_text)
-
-        if counter > int(counter_number):
+        counter_span_text = "0" if not counter_span_text else counter_span_text
+        if int(counter_span_text) > int(counter_number):
             return
         else:
             sleep(2)
@@ -148,74 +107,95 @@ def see_header_with_title(context, text):
     assert False, u'Could not find title with text %s in the page' % text
 
 
+def wait_for_element_to_be_visible(context, search_tuple, seconds, error_message):
+    try:
+        WebDriverWait(context.browser, int(seconds)).until(
+            EC.visibility_of_element_located(search_tuple))
+    except TimeoutException:
+        raise TimeoutException(error_message)
+
+
 @step(u'I expect for "{element_id}" to be visible within max {seconds} '
       u'seconds')
 def become_visible_waiting_with_timeout(context, element_id, seconds):
-    try:
-        WebDriverWait(context.browser, int(seconds)).until(EC.visibility_of_element_located((By.ID, element_id)))
-    except TimeoutException:
-        raise TimeoutException("element with id %s did not become visible "
-                               "after %s seconds" % (element_id, seconds))
+    msg = "element with id %s did not become visible after %s seconds"\
+          % (element_id, seconds)
+    wait_for_element_to_be_visible(context, (By.ID, element_id),
+                                   int(seconds), msg)
+
+
+# @step(u'I expect for element with tag "{element_name}" element to be visible '
+#       u'within max {seconds} seconds')
+# def element_become_visible_waiting_with_timeout(context, element_name, seconds):
+#     msg = "element %s did not become visible after %s seconds" % (element_name,
+#                                                                   seconds)
+#     wait_for_element_to_be_visible(context, (By.TAG_NAME, element_name),
+#                                    int(seconds), msg)
+#
+#
+# @step(u'I expect the label "{element_text}" to be visible within max {seconds} '
+#       u'seconds')
+# def element_label_become_visible_waiting_with_timeout(context, element_text, seconds):
+#     msg = "Label %s did not become visible after %s seconds" % (element_text,
+#                                                                 seconds)
+#     wait_for_element_to_be_visible(context,
+#                                    (By.XPATH,
+#                                     '//label[contains(text(), "%s")]' % str(element_text)),
+#                                    int(seconds), msg)
 
 
 @step(u'I expect for "{page_title}" page to appear within max {seconds} seconds')
-def page_waiting_with_timeout(context, page_title, seconds):
-    """
-    Function that wait for page to appear but for a maximum amount of time
-    """
-    try:
-        WebDriverWait(context.browser, int(seconds)).until(
-            EC.presence_of_element_located((By.ID, page_title)))
-    except TimeoutException:
-        raise TimeoutException("Page %s did not appear after %s seconds"
-                               % (page_title, seconds))
+def check_page_is_visible(context, page_title, seconds):
+    page = page_title.lower()
+    if page not in ['machines', 'images', 'keys', 'networks', 'tunnels',
+                    'scripts', 'templates', 'stacks', 'teams']:
+        raise ValueError('The page given is unknown')
+    element = 'page-items.%s div#content.page-items' % page
+    msg = "%s page is not visible after %s seconds" % (page, seconds)
+    wait_for_element_to_be_visible(context, (By.CSS_SELECTOR, element),
+                                   int(seconds), msg)
 
 
-@step(u'I expect for "{loader_name}" loader to finish within max {seconds} '
-      u'seconds')
-def loader_name_waiting_with_timeout(context, loader_name, seconds):
-    """
-    Function that wait for loader_name to finish for a maximum amount of time.
-    First it will wait for up to 2 seconds for loader to appear and then will
-    wait for {seconds} seconds for the loader to disappear.
-    If the loader name is key-generate-loader then as an extra precaution
-    it will check if the loader has already finished by checking the parent
-    container.
-    """
-    if loader_name == 'key-generate-loader':
-        container = context.browser.find_element_by_id("key-add-private-container")
-        if 'filled' in container.get_attribute('class'):
-            return
-
-    try:
-        WebDriverWait(context.browser, 2).until(EC.presence_of_element_located((By.ID, loader_name)))
-    except TimeoutException:
-        raise TimeoutException("loader %s did not appear after 2 seconds"
-                               % loader_name)
-
-    end = time() + int(seconds)
-    while time() < end:
-        try:
-            context.browser.find_element_by_id(loader_name)
-            sleep(1)
-        except NoSuchElementException:
-            return
-    assert False, 'Loader %s did not finish after %s seconds' % (loader_name,
-                                                                 seconds)
-
-
-@step(u'I refresh the browser')
-def refresh(context):
-    context.browser.refresh()
-
-
-@step(u'I should be in the machines page')
-def check_if_its_machines_page(context):
-    try:
-        context.browser.find_element_by_id('machine-list')
-        return True
-    except NoSuchElementException:
-        assert False, ''
+# @step(u'I expect for "{loader_name}" loader to finish within max {seconds} '
+#       u'seconds')
+# def loader_name_waiting_with_timeout(context, loader_name, seconds):
+#     """
+#     Function that wait for loader_name to finish for a maximum amount of time.
+#     First it will wait for up to 2 seconds for loader to appear and then will
+#     wait for {seconds} seconds for the loader to disappear.
+#     If the loader name is key-generate-loader then as an extra precaution
+#     it will check if the loader has already finished by checking the parent
+#     container.
+#     """
+#     if loader_name == 'key-generate-loader':
+#         container = context.browser.find_element_by_id("key-add-private-container")
+#         if 'filled' in container.get_attribute('class'):
+#             return
+#
+#     try:
+#         WebDriverWait(context.browser, 2).until(EC.presence_of_element_located((By.ID, loader_name)))
+#     except TimeoutException:
+#         raise TimeoutException("loader %s did not appear after 2 seconds"
+#                                % loader_name)
+#
+#     end = time() + int(seconds)
+#     while time() < end:
+#         try:
+#             context.browser.find_element_by_id(loader_name)
+#             sleep(1)
+#         except NoSuchElementException:
+#             return
+#     assert False, 'Loader %s did not finish after %s seconds' % (loader_name,
+#                                                                  seconds)
+#
+#
+# @step(u'I should be in the machines page')
+# def check_if_its_machines_page(context):
+#     try:
+#         context.browser.find_element_by_id('machine-list')
+#         return True
+#     except NoSuchElementException:
+#         assert False, ''
 
 
 @step(u'my name should be "{my_name}"')
@@ -237,3 +217,13 @@ def check_input_for_text(context, something, input_id):
     assert input, 'Could not find element with id %s' % input_id
     assert input.get_attribute('value').lower() == something.lower(), \
         "Input text did not match what was expected"
+
+
+def wait_until_visible(element, seconds):
+    timeout = time() + seconds
+    while time() < timeout:
+        if element.is_displayed():
+            return True
+        sleep(1)
+    raise TimeoutException("Element has not become visible after %s seconds"
+                           % seconds)

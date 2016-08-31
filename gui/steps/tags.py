@@ -1,102 +1,104 @@
 from behave import step
 
+from time import time
 from time import sleep
 
-from utils import safe_get_element_text
+from .utils import safe_get_element_text
+
+from .buttons import clicketi_click
+
+from .forms import clear_input_and_send_keys
 
 
-def get_tag_with_key(tags_list, key):
-    if not tags_list or len(tags_list) == 0:
-        return None
-    else:
-        key = key.lower()
-        for tag in tags_list:
-            tag_inputs = tag.find_elements_by_css_selector("input")
-            for tag_input in tag_inputs:
-                if tag_input.get_attribute('placeholder').lower() == 'key':
-                    if tag_input.get_attribute('value').lower() == key:
-                        return tag
+def get_tag_modal(context):
+    return context.browser.find_element_by_css_selector('paper-dialog#tagsModal')
+
+
+def get_tags_list(tag_modal):
+    return tag_modal.find_elements_by_tag_name('tag-item')
+
+
+def get_empty_tag(tag_modal):
+    tags = get_tags_list(tag_modal)
+    for tag in tags:
+        inputs = tag.find_elements_by_id('input')
+        if not inputs[0].get_attribute('value').strip():
+            return tag
+    return None
+
+
+def get_tag_with_key(tag_modal, key):
+    key = key.lower()
+    tags = get_tags_list(tag_modal)
+    for tag in tags:
+        inputs = tag.find_elements_by_id('input')
+        if inputs[0].get_attribute('value').strip().lower() == key:
+            return tag
+    return None
+
+
+def set_key_and_value(tag, key, value):
+    inputs = tag.find_elements_by_id('input')
+    clear_input_and_send_keys(inputs[0], key)
+    clear_input_and_send_keys(inputs[1], value)
+
+
+def close_tag(context, tag):
+    clicketi_click(context, tag.find_element_by_tag_name('paper-icon-button'))
 
 
 @step(u'I remove all the previous tags')
 def delete_previous_tags(context):
-    tags_holder = context.browser.find_element_by_id("machine-tags-popup")
-    tags = tags_holder.find_elements_by_css_selector(".tag-item")
-    for tag in tags:
-        tag_input = tag.find_elements_by_css_selector("input")
-        textfield_key = tag_input[0]
-        textfield_value = tag_input[1]
-        textfield_key_text = safe_get_element_text(textfield_key)
-        textfield_value_text = safe_get_element_text(textfield_value)
-        if textfield_key_text != " " and textfield_value_text != " ":
-            textfield_value.clear()
-            textfield_key.clear()
-        else:
-            pass
+    for tag in get_tags_list(get_tag_modal(context)):
+        close_tag(context, tag)
 
 
-@step(u'I name a "{key}" key and a "{value}" value for a tag')
-def fill_another_tag_name(context,key,value):
-    tags_holder = context.browser.find_element_by_id("machine-tags-popup")
-    tags = tags_holder.find_elements_by_css_selector(".tag-item")
-    tag = get_tag_with_key(tags, '')
+@step(u'I add a tag with key "{key}" and value "{value}"')
+def add_a_new_tag(context, key, value):
+    tag_modal = get_tag_modal(context)
+    tag = get_empty_tag(tag_modal)
     if not tag:
-        context.execute_steps(u'When I click the button "Add Item"')
-        tags = tags_holder.find_elements_by_css_selector(".tag-item")
-        tag = get_tag_with_key(tags, '')
-    tag_input = tag.find_elements_by_css_selector("input")
-    textfield_key = tag_input[0]
-    textfield_value = tag_input[1]
-    textfield_key.send_keys(key)
-    textfield_value.send_keys(value)
+        context.execute_steps(u'When I click the button "Add Tag" in the tag menu')
+        tag = get_empty_tag(tag_modal)
+    set_key_and_value(tag, key, value)
 
 
-@step(u'I close one of my tags')
-def close_a_tag(context):
-    close_tag = context.browser.find_element_by_css_selector(".tag-item "
-                                                            "a.ui-btn.icon-xx.ui-btn-icon-notext")
-    close_tag.click()
-    sleep(1)
+@step(u'I remove the tag with key "{key}"')
+def close_some_tag(context, key):
+    tag_modal = get_tag_modal(context)
+    tag = get_tag_with_key(tag_modal, key)
+    close_tag(context, tag)
 
 
-@step(u'I close the tag with key "{key}"')
-def close_a_tag(context, key):
-    tags = context.browser.find_elements_by_class_name("tag-item")
-    tag = get_tag_with_key(tags, key)
-    if tag:
-        close_button = tag.find_element_by_css_selector("a.ui-btn.icon-xx.ui-btn-icon-notext")
-        close_button.click()
+@step(u'I expect for the tag popup to {action} within {seconds} seconds')
+def wait_for_tag_dialog(context, action, seconds):
+    action = action.lower()
+    if action not in ['open', 'close']:
+        raise Exception('Unknown action')
+    timeout = time() + int(seconds)
+    while time() < timeout:
+        tag_modal = get_tag_modal(context)
+        if action == 'open' and tag_modal.is_displayed():
+            return True
+        if action == 'close' and not tag_modal.is_displayed():
+            return True
         sleep(1)
+    assert False, "Tag menu did not become %s after %s seconds" \
+                  % (action, seconds)
 
 
-@step(u'I check if the "{my_key}" key and "{my_value}" value appear for the '
-      u'machine')
-def check_the_tags(context, my_key, my_value):
-    check_tags = context.browser.find_elements_by_css_selector("#single-machine-info div.tag.pairs")
-    words = []
-    for tag in check_tags:
-        tag_text = safe_get_element_text(tag)
-        tag_lst = tag_text.split("=")
-        words.append(tag_lst)
-    if [my_key,my_value] in words:
-        pass
-    else:
-        assert False, u'tag is not pair of %s key and %s value' % (my_key,
-                                                                   my_value)
+@step(u'I ensure that the "{type_of_item}" has the tags "{tags}"')
+def ensure_tags_are_present(context, type_of_item, tags):
+    from .forms import get_edit_form
+    form = get_edit_form(context, type_of_item)
+    existing_tags = form.find_elements_by_class_name('tag')
+    expected_tags = dict(map(lambda t: (t.split(':')[0], t.split(':')[1]), tags.strip().lower().split(',')))
+    for existing_tag in existing_tags:
+        key = safe_get_element_text(existing_tag).lower().strip().split('=')[0]
+        if key.endswith('\n'):
+            key = key[:-1]
+        if key in expected_tags:
+            del expected_tags[key]
+    assert len(expected_tags) == 0, "These keys are not available: %s" % expected_tags.keys()
 
 
-@step(u'the "{name}" machine in the list should have a tag with key "{key}"'
-      u' and value "{value}"')
-def check_machine_tags(context, name, key, value):
-    machines = context.browser.find_elements_by_class_name('checkbox-link')
-    tag_text = "%s=%s" % (key.lower(), value.lower())
-    if context.mist_config.get(name):
-        name = context.mist_config[name]
-    for machine in machines:
-        machine_name = machine.find_element_by_class_name('machine-name')
-        if safe_get_element_text(machine_name).lower() == name.lower():
-            tag = machine.find_element_by_css_selector('.pairs')
-            if safe_get_element_text(tag).lower() == tag_text:
-                return
-            assert False, "Machine %s has no tag %s=%s" % (name, key, value)
-    assert False, "Machine %s is not in the list" % name

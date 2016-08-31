@@ -3,9 +3,11 @@ from behave import step
 from time import time
 from time import sleep
 
-from buttons import click_button_from_collection
+from .buttons import click_button_from_collection
 
-from utils import safe_get_element_text
+from .utils import safe_get_element_text
+
+from .forms import clear_input_and_send_keys
 
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
@@ -158,7 +160,8 @@ def enter_creds(context, kind, action):
                       'password_reset_request', 'password_reset',
                       'demo request']:
         raise ValueError("Cannot input %s credentials" % action)
-    if kind not in ['standard', 'alt', 'rbac_owner', 'rbac_member'] and not kind.startswith('invalid'):
+    if kind not in ['standard', 'alt', 'rbac_owner', 'rbac_member1',
+                    'rbac_member2'] and not kind.startswith('invalid'):
         raise ValueError("No idea what %s credentials are" % kind)
     if action == 'login':
         try:
@@ -171,10 +174,10 @@ def enter_creds(context, kind, action):
             clear_input_and_send_keys(email_input, 'tester')
         elif kind == 'rbac_owner':
             clear_input_and_send_keys(email_input,
-                                      context.mist_config['RBAC_OWNER_EMAIL'])
-        elif kind == 'rbac_member':
+                                      context.mist_config['OWNER_EMAIL'])
+        elif kind == 'rbac_member1':
             clear_input_and_send_keys(email_input,
-                                      context.mist_config['RBAC_MEMBER_EMAIL'])
+                                      context.mist_config['MEMBER1_EMAIL'])
         else:
             clear_input_and_send_keys(email_input, context.mist_config['EMAIL'])
         password_input = context.browser.find_element_by_id("signin-password")
@@ -183,10 +186,10 @@ def enter_creds(context, kind, action):
                                       context.mist_config['PASSWORD2'])
         elif kind == 'rbac_owner':
             clear_input_and_send_keys(password_input,
-                                      context.mist_config['RBAC_OWNER_PASSWORD'])
-        elif kind == 'rbac_member':
+                                      context.mist_config['OWNER_PASSWORD'])
+        elif kind == 'rbac_member1':
             clear_input_and_send_keys(password_input,
-                                      context.mist_config['RBAC_MEMBER_PASSWORD'])
+                                      context.mist_config['MEMBER1_PASSWORD'])
         elif kind == 'invalid_no_password':
             clear_input_and_send_keys(password_input, '')
         else:
@@ -200,12 +203,11 @@ def enter_creds(context, kind, action):
             raise TimeoutException("Email input did not appear after 4 seconds")
         email_input = context.browser.find_element_by_id("signup-email")
         if kind == 'rbac_owner':
-            clear_input_and_send_keys(email_input, context.mist_config['RBAC_OWNER_EMAIL'])
-        elif kind == 'rbac_member':
-            clear_input_and_send_keys(email_input, context.mist_config['RBAC_MEMBER_EMAIL'])
+            clear_input_and_send_keys(email_input, context.mist_config['OWNER_EMAIL'])
+        elif kind == 'rbac_member1':
+            clear_input_and_send_keys(email_input, context.mist_config['MEMBER1_EMAIL'])
         else:
             clear_input_and_send_keys(email_input, context.mist_config['EMAIL'])
-        clear_input_and_send_keys(email_input, context.mist_config['EMAIL'])
         name_input = context.browser.find_element_by_id("signup-name")
         clear_input_and_send_keys(name_input, context.mist_config['NAME'])
     elif action == 'password_reset_request':
@@ -226,15 +228,13 @@ def enter_creds(context, kind, action):
         pass_input = context.browser.find_element_by_id('reset_password')
         pass_confirm_input = context.browser.find_element_by_id('reset_confirm_password')
         if kind == 'alt':
-            clear_input_and_send_keys(pass_input,
-                                      context.mist_config['PASSWORD2'])
-            clear_input_and_send_keys(pass_confirm_input,
-                                      context.mist_config['PASSWORD2'])
+            password_to_use = context.mist_config['PASSWORD2']
+        elif kind == 'standard':
+            password_to_use = context.mist_config['PASSWORD1']
         else:
-            clear_input_and_send_keys(pass_input,
-                                      context.mist_config['PASSWORD1'])
-            clear_input_and_send_keys(pass_confirm_input,
-                                      context.mist_config['PASSWORD1'])
+            raise Exception('No such type of creds')
+        clear_input_and_send_keys(pass_input, password_to_use)
+        clear_input_and_send_keys(pass_confirm_input, password_to_use)
     elif action == 'signup_password_set':
         try:
             WebDriverWait(context.browser, 4).until(
@@ -245,15 +245,19 @@ def enter_creds(context, kind, action):
         first_textfield = context.browser.find_element_by_id("password")
         second_textfield = context.browser.find_element_by_id("confirm_password")
         if kind == 'alt':
-            clear_input_and_send_keys(first_textfield,
-                                      context.mist_config['PASSWORD2'])
-            clear_input_and_send_keys(second_textfield,
-                                      context.mist_config['PASSWORD2'])
+            password_to_use = context.mist_config['PASSWORD2']
+        elif kind == 'standard':
+            password_to_use = context.mist_config['PASSWORD1']
+        elif kind == 'rbac_owner':
+            password_to_use = context.mist_config['OWNER_PASSWORD']
+        elif kind == 'rbac_member1':
+            password_to_use = context.mist_config['MEMBER1_PASSWORD']
+        elif kind == 'rbac_member2':
+            password_to_use = context.mist_config['MEMBER2_PASSWORD']
         else:
-            clear_input_and_send_keys(first_textfield,
-                                      context.mist_config['PASSWORD1'])
-            clear_input_and_send_keys(second_textfield,
-                                      context.mist_config['PASSWORD1'])
+            raise Exception('No such type of creds')
+        clear_input_and_send_keys(first_textfield, password_to_use)
+        clear_input_and_send_keys(second_textfield, password_to_use)
     elif action == 'demo request':
         try:
             WebDriverWait(context.browser, 4).until(
@@ -267,21 +271,6 @@ def enter_creds(context, kind, action):
             clear_input_and_send_keys(email_input, context.mist_config['DEMO_EMAIL'])
         name_input = context.browser.find_element_by_id("demo-name")
         clear_input_and_send_keys(name_input, context.mist_config['NAME'])
-
-
-def clear_input_and_send_keys(input_field, text):
-    end_time = time() + 5
-    while time() < end_time:
-        while input_field.get_attribute('value') != '':
-            input_field.send_keys(u'\ue003')
-        if text == '':
-            break
-        input_field.send_keys(text)
-        if input_field.get_attribute('value') != text:
-            assert time() + 1 > end_time, "Could not input value %s" % text
-            sleep(1)
-        else:
-            break
 
 
 @step(u'there should be a message saying "{error_message}" for error in '

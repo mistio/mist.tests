@@ -1,11 +1,10 @@
 from behave import step
-from behave import given
 
 from tests import config
 
 from selenium.common.exceptions import TimeoutException
 
-from navigation import i_am_in_homepage
+from .navigation import i_am_in_homepage
 
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
@@ -112,7 +111,7 @@ def do_github_login(context):
         ''')
 
 
-@given(u'special {service} account for registration testing')
+@step(u'special {service} account for registration testing')
 def override_sso_creds(context, service):
     if service == 'Google':
         context.mist_config['GOOGLE_TEST_EMAIL'] = \

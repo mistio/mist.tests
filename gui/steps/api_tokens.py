@@ -5,8 +5,6 @@ from .utils import safe_get_element_text
 
 from .buttons import clicketi_click
 
-# from tests.api.core import MistCoreApi as mist_core
-
 
 @step(u'I revoke all api tokens')
 def revoke_all_api_tokens(context):

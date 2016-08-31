@@ -24,3 +24,8 @@ def switch_active_browser(context):
     context.mist_config['browser2'] = context.mist_config['browser']
     context.mist_config['browser'] = browser2
     context.browser = context.mist_config['browser']
+
+
+@step(u'I refresh the page')
+def refresh_the_page(context):
+    context.browser.refresh()

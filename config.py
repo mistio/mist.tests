@@ -125,11 +125,14 @@ MIST_DEMO_REQUEST_EMAIL = get_value_of("MIST_DEMO_REQUEST_EMAIL",
                                        "demo@mist.io")
 
 # CREDENTIALS FOR TESTING RBAC
-RBAC_OWNER_EMAIL = get_value_of("RBAC_OWNER_EMAIL", "owner@dr.dr")
-RBAC_OWNER_PASSWORD = get_value_of("RBAC_OWNER_PASSWORD ", "dr")
+OWNER_EMAIL = get_value_of("OWNER_EMAIL", "")
+OWNER_PASSWORD = get_value_of("OWNER_PASSWORD", "")
 
-RBAC_MEMBER_EMAIL = get_value_of("RBAC_MEMBER_EMAIL", "user@dr.dr")
-RBAC_MEMBER_PASSWORD = get_value_of("RBAC_MEMBER_PASSWORD", "dr")
+MEMBER1_EMAIL = get_value_of("MEMBER1_EMAIL", "")
+MEMBER1_PASSWORD = get_value_of("MEMBER1_PASSWORD", "")
+
+MEMBER2_EMAIL = get_value_of("MEMBER2_EMAIL", "")
+MEMBER2_PASSWORD = get_value_of("MEMBER2_PASSWORD", "")
 
 # CREDENTIALS FOR GOOGLE SSO
 GOOGLE_TEST_EMAIL = get_value_of("GOOGLE_TEST_EMAIL", "")
@@ -149,15 +152,6 @@ GITHUB_REGISTRATION_TEST_EMAIL = get_value_of(
     "GITHUB_REGISTRATION_TEST_EMAIL", "")
 GITHUB_REGISTRATION_TEST_PASSWORD = get_value_of(
     "GITHUB_REGISTRATION_TEST_PASSWORD", "")
-
-OWNER_EMAIL = get_value_of("OWNER_EMAIL", "")
-OWNER_PASSWORD = get_value_of("OWNER_PASSWORD", "")
-
-MEMBER1_EMAIL = get_value_of("MEMBER1_EMAIL", "")
-MEMBER1_PASSWORD = get_value_of("MEMBER1_PASSWORD", "")
-
-MEMBER2_EMAIL = get_value_of("MEMBER2_EMAIL", "")
-MEMBER2_PASSWORD = get_value_of("MEMBER2_PASSWORD", "")
 
 API_TESTS_PRIVATE_KEY = get_value_of("API_TESTS_PRIVATE_KEY", '')
 
