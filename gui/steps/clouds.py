@@ -50,6 +50,7 @@ def cloud_creds(context, cloud):
             ''' % subscription_id)
         from .forms import set_value_to_field
         set_value_to_field(context, certificate, 'certificate', 'cloud', 'add')
+        sleep(3)
     elif "GCE" in cloud:
         project_id = context.mist_config['CREDENTIALS']['GCE']['project_id']
         private_key = context.mist_config['CREDENTIALS']['GCE']['private_key']
@@ -343,6 +344,16 @@ def cloud_added(context, cloud, seconds):
 def cloud_deleted(context, cloud):
     if find_cloud(context, cloud.lower()):
         return False
+
+
+@step(u'the "{cloud}" cloud should be deleted within "{seconds}" seconds')
+def cloud_deleted(context, cloud, seconds):
+    timeout = time() + int(seconds)
+    while time() < timeout:
+        if not find_cloud(context, cloud.lower()):
+            return True
+        sleep(1)
+    assert False, "Cloud has not been deleted after %s seconds" % seconds
 
 
 @step(u'I ensure "{title}" cloud is enabled')

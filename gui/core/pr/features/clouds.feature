@@ -55,5 +55,4 @@ Feature: Add second-tier clouds in Polymist
     Given "SoftLayer" cloud has been added
     Then I open the cloud menu for "SoftLayer"
     When I delete the "Softlayer" cloud
-    And I wait for 4 seconds
-    Then the "Softlayer" cloud should be deleted
+    Then the "Softlayer" cloud should be deleted within "8" seconds
