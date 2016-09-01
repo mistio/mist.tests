@@ -66,7 +66,7 @@ Feature: RBAC
     And "Test Team" team should be present within 5 seconds
     When I click the "Test team" "team"
     And I expect the "team" edit form to be visible within max 5 seconds
-    Then I click the button "Edit Team" from the menu of the "team" edit form
+    Then I click the button "Edit Team" in "team" edit form
     And I expect the dialog "Rename Team" is open within 4 seconds
     Then I expect the field "Name" in the dialog with title "Rename Team" to be visible within max 2 seconds
     When I set the value "Rbac Test Team" to field "Name" in "Rename Team" dialog
