@@ -59,6 +59,7 @@ Feature: Scripts
     And I expect the dialog "Edit Script" is open within 4 seconds
     When I set the value "Second" to field "Name" in "Edit Script" dialog
     And I click the "Submit" button in the dialog "Edit Script"
+    And I expect the dialog "Edit Script" is closed within 4 seconds
     Then I visit the scripts page
     And "Script2" script should be absent within 5 seconds
     And "Second" script should be present within 5 seconds
