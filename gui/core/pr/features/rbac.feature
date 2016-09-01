@@ -67,11 +67,11 @@ Feature: RBAC
     When I click the "Test team" "team"
     And I expect the "team" edit form to be visible within max 5 seconds
     Then I click the button "Edit Team" in "team" edit form
-    And I expect the dialog "Rename Team" is open within 4 seconds
-    Then I expect the field "Name" in the dialog with title "Rename Team" to be visible within max 2 seconds
-    When I set the value "Rbac Test Team" to field "Name" in "Rename Team" dialog
-    And I click the "Submit" button in the dialog "Rename Team"
-    And I expect the dialog "Rename Team" is closed within 4 seconds
+    And I expect the dialog "Edit Team" is open within 4 seconds
+    Then I expect the field "Name" in the dialog with title "Edit Team" to be visible within max 2 seconds
+    When I set the value "Rbac Test Team" to field "Name" in "Edit Team" dialog
+    And I click the "Submit" button in the dialog "Edit Team"
+    And I expect the dialog "Edit Team" is closed within 4 seconds
     Then I visit the Teams page
     And "Test Team" key should be absent within 5 seconds
     And "Rbac Test Team" team should be present within 5 seconds
