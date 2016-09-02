@@ -369,7 +369,7 @@ def given_not_logged_in(context):
 def logout(context):
     click_the_gravatar(context)
     context.execute_steps(u'''
-        Then I wait for 2 seconds
+        Then I wait for 3 seconds
     ''')
 
     container = context.browser.find_element_by_id("user-menu-popup")

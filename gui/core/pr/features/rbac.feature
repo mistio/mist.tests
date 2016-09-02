@@ -86,9 +86,7 @@ Feature: RBAC
     Then I wait for 2 seconds
     Then I visit the Home page
     When I wait for the dashboard to load
-    When I click the Gravatar
-    And I wait for 1 seconds
-    Then I click the button "Logout" in the user menu
+    Then I logout
 
   @manage-members
   Scenario: Owner invites and deletes a team member
@@ -175,9 +173,7 @@ Feature: RBAC
     And I am in the new UI
     When I wait for the dashboard to load
     Then I should see the form to set name for new organization
-    When I click the Gravatar
-    And I wait for 1 seconds
-    Then I click the button "Logout" in the user menu
+    Then I logout
 
   @manage-rules
   Scenario: Manage team rules
@@ -225,6 +221,4 @@ Feature: RBAC
     Given rule "0" is "ALLOW" "machine" "all" where tags = "bla=bla"
     Given rule "1" is "ALLOW" "cloud" "all" always
     Given rule "2" is "DENY" "key" "edit" where id = "PolicyKey"
-    When I click the Gravatar
-    And I wait for 1 seconds
-    Then I click the button "Logout" in the user menu
+    Then I logout
