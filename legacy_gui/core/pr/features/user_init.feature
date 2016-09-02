@@ -60,6 +60,7 @@ Feature: Login Scenarios
     And I enter my standard credentials for demo request
     And I click the request demo button in the landing page popup
     Then I should receive an email at the address "MIST_DEMO_REQUEST_EMAIL" with subject "Demo request" within 10 seconds
+    When I wait for 2 seconds
     Then I close the "Success" popup
 
   @req-demo-register
