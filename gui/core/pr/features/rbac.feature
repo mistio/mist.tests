@@ -47,9 +47,7 @@ Feature: RBAC
     And I click the "Switch" button in the dialog "Add Organization"
     Then I expect the dialog "Add Organization" is closed within 4 seconds
     When I wait for the dashboard to load
-    When I click the Gravatar
-    And I wait for 1 seconds
-    Then I click the button "Logout" in the user menu
+    Then I logout
 
   @manage-team
   Scenario: Owner creates/renames/deletes a team
