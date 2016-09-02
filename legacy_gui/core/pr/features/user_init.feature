@@ -67,6 +67,7 @@ Feature: Login Scenarios
     When I make sure user with email "DEMO_EMAIL" is absent
     Given I am not logged in to mist.core
     When I open the signup popup
+    And I wait for 3 seconds
     And I click the request demo button in the landing page popup
     And I enter my alt credentials for demo request
     And I wait for 1 seconds
