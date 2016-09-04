@@ -365,22 +365,44 @@ def given_not_logged_in(context):
         pass
 
 
+def get_user_menu(context):
+    return context.browser.find_element_by_tag_name('app-user-menu').\
+        find_element_by_tag_name('iron-dropdown')
+
+
 @step(u'I logout')
 def logout(context):
     click_the_gravatar(context)
-    context.execute_steps(u'''
-        Then I wait for 3 seconds
-    ''')
 
-    container = context.browser.find_element_by_id("user-menu-popup")
-    container.find_element_by_class_name('icon-x').click()
+    # container = context.browser.find_element_by_id("user-menu-popup")
+    # container.find_element_by_class_name('icon-x').click()
+    #
+    # try:
+    #     WebDriverWait(context.browser, 10).until(
+    #         EC.element_to_be_clickable((By.ID, "top-signup-button")))
+    #     return
+    # except TimeoutException:
+    #     raise TimeoutException("Landing page has not appeared after 10 seconds")
 
-    try:
-        WebDriverWait(context.browser, 10).until(
-            EC.element_to_be_clickable((By.ID, "top-signup-button")))
-        return
-    except TimeoutException:
-        raise TimeoutException("Landing page has not appeared after 10 seconds")
+    timeout = time() + 5
+    dimensions = None
+    while time() < timeout:
+        try:
+            user_menu = get_user_menu(context)
+            if dimensions is None:
+                dimensions = user_menu.size
+            elif dimensions['width'] == user_menu.size['width'] and \
+                    dimensions['height'] == user_menu.size['height']:
+                click_button_from_collection(context, 'Logout',
+                                             user_menu.find_elements_by_tag_name('paper-item'))
+                return True
+            else:
+                dimensions = user_menu.size
+        except NoSuchElementException:
+            pass
+        sleep(1)
+
+    assert False, "User menu has not appeared yet"
 
 
 @step(u'I wait for "{title}" list page to load')

@@ -21,7 +21,7 @@ from selenium.common.exceptions import NoSuchElementException
 def open_login_popup(context, kind):
     kind = kind.lower()
     modals = {'login': 'modalLogin', 'signup': 'modalRegister'}
-    if kind.lower() not in models.keys():
+    if kind.lower() not in modals.keys():
         raise ValueError('No such popup in the landing page')
     popup_id = modals[kind]
     # first press the buttons
@@ -55,7 +55,8 @@ def open_login_popup(context, kind):
             popup = context.browser.find_element_by_id(popup_id)
             if dimensions is None:
                 dimensions = popup.size
-            elif dimensions['width'] == popup.size['width'] and dimensions['height'] == popup.size['height']:
+            elif dimensions['width'] == popup.size['width'] and \
+                    dimensions['height'] == popup.size['height']:
                 return True
             else:
                 dimensions = popup.size

@@ -170,8 +170,9 @@ def click_button_in_dropdown(context, button, name):
 
 @step(u'I click the button "{button}" in the tag menu')
 def click_button_in_tag_model(context, button):
-    from .tags import get_tag_modal
-    buttons = get_tag_modal(context).find_elements_by_tag_name('paper-button')
+    from .tags import get_open_tag_modal
+    buttons = get_open_tag_modal(context, False).\
+        find_elements_by_tag_name('paper-button')
     click_button_from_collection(context, button, buttons)
 
 
