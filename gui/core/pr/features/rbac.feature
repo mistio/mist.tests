@@ -190,6 +190,7 @@ Feature: RBAC
     And I click the "Add" button in the dialog "Add Team"
     When I visit the Teams page
     And "Policy Test Team" team should be present within 5 seconds
+    Then I wait for 2 seconds
     When I click the "Policy Test Team" "team"
     And I expect the "policy" edit form to be visible within max 5 seconds
     When I focus on the button "Add a new rule" in "policy" edit form
