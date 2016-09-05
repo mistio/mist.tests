@@ -80,23 +80,23 @@ Feature: Login Scenarios
     And I wait for the mist.io splash page to load
     Then I logout of legacy gui
     And I wait for 2 seconds
-
-  @multiple-login
-  Scenario: Launch two browsers and try to login from both
-    Given I am logged in to mist.core
-    When I launch a second browser
-    And I switch browser
-    When I visit mist.core
-    Given I am logged in to mist.core
-    When I visit the Account page
-    Then I wait for the mist.io splash page to load
-    When I focus on the "Create Token" button
-    And I revoke all sessions
-    Then I wait for 2 seconds
-    When I switch browser
-    And I refresh the page
-    Then I should see the landing page within 10 seconds
-    Then I switch browser
-    When I focus on the "Home" button
-    Then I logout of legacy gui
-    And I quit the second browser
+#
+#  @multiple-login
+#  Scenario: Launch two browsers and try to login from both
+#    Given I am logged in to mist.core
+#    When I launch a second browser
+#    And I switch browser
+#    When I visit mist.core
+#    Given I am logged in to mist.core
+#    When I visit the Account page
+#    Then I wait for the mist.io splash page to load
+#    When I focus on the "Create Token" button
+#    And I revoke all sessions
+#    Then I wait for 2 seconds
+#    When I switch browser
+#    And I refresh the page
+#    Then I should see the landing page within 10 seconds
+#    Then I switch browser
+#    When I focus on the "Home" button
+#    Then I logout of legacy gui
+#    And I quit the second browser
