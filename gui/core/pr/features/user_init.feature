@@ -25,7 +25,7 @@ Feature: Login Scenarios
     Then I enter my standard credentials for signup_password_set
     And I click the submit button in the landing page popup
     And I wait for the mist.io splash page to load
-    Then I logout
+    Then I logout of legacy gui
     Given I am not logged in to mist.core
     When I open the signup popup
     Then I click the sign up button in the landing page popup
@@ -49,7 +49,7 @@ Feature: Login Scenarios
     And I enter my standard credentials for password_reset
     Then I click the reset_pass_submit button in the landing page popup
     And I wait for the mist.io splash page to load
-    And I logout
+    Then I logout of legacy gui
     And I wait for 2 seconds
 
   @req-demo
@@ -78,7 +78,7 @@ Feature: Login Scenarios
     Then I enter my standard credentials for signup_password_set
     And I click the submit button in the landing page popup
     And I wait for the mist.io splash page to load
-    Then I logout
+    Then I logout of legacy gui
     And I wait for 2 seconds
 
   @multiple-login
@@ -98,5 +98,5 @@ Feature: Login Scenarios
     Then I should see the landing page within 10 seconds
     Then I switch browser
     When I focus on the "Home" button
-    Then I logout
+    Then I logout of legacy gui
     And I quit the second browser
