@@ -373,17 +373,6 @@ def get_user_menu(context):
 @step(u'I logout')
 def logout(context):
     click_the_gravatar(context)
-
-    # container = context.browser.find_element_by_id("user-menu-popup")
-    # container.find_element_by_class_name('icon-x').click()
-    #
-    # try:
-    #     WebDriverWait(context.browser, 10).until(
-    #         EC.element_to_be_clickable((By.ID, "top-signup-button")))
-    #     return
-    # except TimeoutException:
-    #     raise TimeoutException("Landing page has not appeared after 10 seconds")
-
     timeout = time() + 5
     dimensions = None
     while time() < timeout:
@@ -403,6 +392,12 @@ def logout(context):
         sleep(1)
 
     assert False, "User menu has not appeared yet"
+
+
+@step(u'I logout of legacy gui')
+def logout_of_legacy(context):
+    import tests.legacy_gui.steps.navigation
+    tests.legacy_gui.steps.navigation.logout(context)
 
 
 @step(u'I wait for "{title}" list page to load')
