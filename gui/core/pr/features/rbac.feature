@@ -14,7 +14,7 @@ Feature: RBAC
     Then I enter my rbac_owner credentials for signup_password_set
     And I click the submit button in the landing page popup
     And I wait for the mist.io splash page to load
-    Then I logout
+    Then I logout of legacy gui
 
   @member1-signup
   Scenario: Member1 of organization signs up
@@ -29,7 +29,7 @@ Feature: RBAC
     Then I enter my rbac_member1 credentials for signup_password_set
     And I click the submit button in the landing page popup
     And I wait for the mist.io splash page to load
-    Then I logout
+    Then I logout of legacy gui
 
   @create-org
   Scenario: Owner creates a new organization
