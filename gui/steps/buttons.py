@@ -27,44 +27,6 @@ def become_visible_waiting_with_timeout(context, element_id, seconds):
     except TimeoutException:
         raise TimeoutException("element with id %s did not become clickable "
                                "after %s seconds" % (element_id, seconds))
-# @step(u'I expect for buttons inside "{element_id}" to be '
-#       u'clickable within max {seconds} seconds')
-# def become_clickable_waiting_with_timeout(context, element_id, seconds):
-#     try:
-#         wrapper = context.browser.find_element_by_id(element_id)
-#         WebDriverWait(wrapper, int(seconds)).until(EC.element_to_be_clickable((By.CLASS_NAME, 'ui-btn')))
-#     except TimeoutException:
-#         raise TimeoutException("element with id %s did not become visible "
-#                                "after %s seconds" % (element_id, seconds))
-# #
-#
-# @step(u'I click button "{button_text}" inside "{element_id}" when '
-#       u'it is clickable within max {seconds} seconds')
-# def button_become_clickable_waiting_with_timeout(context, button_text,
-#                                                  element_id, seconds):
-#     timeout = time() + int(seconds)
-#     wrapper = context.browser.find_element_by_id(element_id)
-#     button = search_for_button(context, button_text, wrapper.find_elements_by_class_name('ui-btn'))
-#     while time() < timeout:
-#         try:
-#             button.click()
-#             return
-#         except:
-#             pass
-#         assert time() + 1 < timeout, "Button %s inside element %s did not " \
-#                                      "become clickable after %s seconds" % \
-#                                      (button_text, element_id, seconds)
-#         sleep(1)
-#
-#
-# @step(u'I click the button by "{id_name}" id_name')
-# def click_button_id(context, id_name):
-#     """
-#     This function will try to click a button by id name.
-#     And use the function clicketi_click
-#     """
-#     my_element = context.browser.find_element_by_id(id_name)
-#     clicketi_click(context, my_element)
 
 
 def clicketi_click(context, button):
