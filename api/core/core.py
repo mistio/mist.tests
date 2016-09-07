@@ -154,7 +154,7 @@ class MistCoreApi(MistIoApi):
         return req
 
     def show_job(self, api_token, job_id):
-        req = MistRequests(uri=self.uri + '/jobs/%s' % job_id,
+        req = MistRequests(uri=self.uri + '/api/v1/jobs/%s' % job_id,
                            api_token=api_token)
         req.post = req.unavailable_api_call
         req.delete = req.unavailable_api_call
