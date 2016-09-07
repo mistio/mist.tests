@@ -178,3 +178,5 @@ WEBDRIVER_OPTIONS = get_value_of('WEBDRIVER_OPTIONS',
 
 REGISTER_USER_BEFORE_FEATURE = get_value_of('REGISTER_USER_BEFORE_FEATURE',
                                             False)
+
+KEY_ID = 'e007d0b31ad74e9aad7c58a6b3072fb3'
