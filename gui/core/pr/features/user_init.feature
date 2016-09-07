@@ -25,7 +25,7 @@ Feature: Login Scenarios
     Then I enter my standard credentials for signup_password_set
     And I click the submit button in the landing page popup
     And I wait for the mist.io splash page to load
-    Then I logout
+    Then I logout of legacy gui
     Given I am not logged in to mist.core
     When I open the signup popup
     Then I click the sign up button in the landing page popup
@@ -49,7 +49,7 @@ Feature: Login Scenarios
     And I enter my standard credentials for password_reset
     Then I click the reset_pass_submit button in the landing page popup
     And I wait for the mist.io splash page to load
-    And I logout
+    Then I logout of legacy gui
     And I wait for 2 seconds
 
   @req-demo
@@ -60,6 +60,7 @@ Feature: Login Scenarios
     And I enter my standard credentials for demo request
     And I click the request demo button in the landing page popup
     Then I should receive an email at the address "MIST_DEMO_REQUEST_EMAIL" with subject "Demo request" within 10 seconds
+    When I wait for 2 seconds
     Then I close the "Success" popup
 
   @req-demo-register
@@ -77,25 +78,25 @@ Feature: Login Scenarios
     Then I enter my standard credentials for signup_password_set
     And I click the submit button in the landing page popup
     And I wait for the mist.io splash page to load
-    Then I logout
+    Then I logout of legacy gui
     And I wait for 2 seconds
-
-  @multiple-login
-  Scenario: Launch two browsers and try to login from both
-    Given I am logged in to mist.core
-    When I launch a second browser
-    And I switch browser
-    When I visit mist.core
-    Given I am logged in to mist.core
-    When I visit the Account page
-    Then I wait for the mist.io splash page to load
-    When I focus on the "Create Token" button
-    And I revoke all sessions
-    Then I wait for 2 seconds
-    When I switch browser
-    And I refresh the page
-    Then I should see the landing page within 10 seconds
-    Then I switch browser
-    When I focus on the "Home" button
-    Then I logout
-    And I quit the second browser
+#
+#  @multiple-login
+#  Scenario: Launch two browsers and try to login from both
+#    Given I am logged in to mist.core
+#    When I launch a second browser
+#    And I switch browser
+#    When I visit mist.core
+#    Given I am logged in to mist.core
+#    When I visit the Account page
+#    Then I wait for the mist.io splash page to load
+#    When I focus on the "Create Token" button
+#    And I revoke all sessions
+#    Then I wait for 2 seconds
+#    When I switch browser
+#    And I refresh the page
+#    Then I should see the landing page within 10 seconds
+#    Then I switch browser
+#    When I focus on the "Home" button
+#    Then I logout of legacy gui
+#    And I quit the second browser
