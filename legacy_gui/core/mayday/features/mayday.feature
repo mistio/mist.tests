@@ -38,7 +38,7 @@ Feature: Production
     And I click the button "Load"
     And I click the button "RAM"
     When I fill "0" as rule value
-    Then I should receive an email within 200 seconds
+    Then I should receive an email within 300 seconds
     When I remove previous rules
 
   @ssh

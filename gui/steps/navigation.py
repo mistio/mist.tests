@@ -365,22 +365,79 @@ def given_not_logged_in(context):
         pass
 
 
+def get_user_menu(context):
+    return context.browser.find_element_by_tag_name('app-user-menu').\
+        find_element_by_tag_name('iron-dropdown')
+
+
 @step(u'I logout')
 def logout(context):
     click_the_gravatar(context)
-    context.execute_steps(u'''
-        Then I wait for 2 seconds
-    ''')
+    timeout = time() + 5
+    dimensions = None
+    while time() < timeout:
+        try:
+            user_menu = get_user_menu(context)
+            if dimensions is None:
+                dimensions = user_menu.size
+            elif dimensions['width'] == user_menu.size['width'] and \
+                    dimensions['height'] == user_menu.size['height']:
+                click_button_from_collection(context, 'Logout',
+                                             user_menu.find_elements_by_tag_name('paper-item'))
+                return True
+            else:
+                dimensions = user_menu.size
+        except NoSuchElementException:
+            pass
+        sleep(1)
 
-    container = context.browser.find_element_by_id("user-menu-popup")
-    container.find_element_by_class_name('icon-x').click()
+    assert False, "User menu has not appeared yet"
 
-    try:
-        WebDriverWait(context.browser, 10).until(
-            EC.element_to_be_clickable((By.ID, "top-signup-button")))
-        return
-    except TimeoutException:
-        raise TimeoutException("Landing page has not appeared after 10 seconds")
+
+@step(u'I logout of legacy gui')
+def logout_of_legacy(context):
+    from .popups import popup_waiting_with_timeout
+    msg = ""
+    me_button = context.browser.find_element_by_id('me-btn')
+    position = me_button.location
+    context.browser.execute_script("window.scrollTo(0, %s)" % position['y'])
+    clicketi_click(context, me_button)
+
+    for _ in range(2):
+        try:
+            try:
+                WebDriverWait(context.browser, int(4)).until(
+                    EC.visibility_of_element_located((By.ID,
+                                                      'user-menu-popup-screen')))
+                try:
+                    popup_waiting_with_timeout(context, 'user-menu-popup-popup',
+                                               'appear', 4)
+                    sleep(2)
+
+                    container = context.browser.find_element_by_id(
+                        "user-menu-popup")
+                    clicketi_click(context, container.find_element_by_class_name('icon-x'))
+
+                    try:
+                        WebDriverWait(context.browser, 10).until(
+                            EC.element_to_be_clickable(
+                                (By.ID, "top-signup-button")))
+                        return
+                    except TimeoutException:
+                        raise TimeoutException(
+                            "Landing page has not appeared after 10 seconds")
+                except Exception as e:
+                    msg = "After clicking the gravatar the grey background " \
+                          "appeared but not the popup.(%s)" % type(e)
+            except Exception as e:
+                msg = "Grey background did not appear after 2 seconds." \
+                      "(%s)" % type(e)
+        except Exception as e:
+            msg = "There was an exception(%s) when trying to click the Gravatar" \
+                  " image" % type(e)
+        sleep(1)
+    assert False, "I tried clicking the Gravatar but it did not work :(." \
+                  "\n%s" % msg
 
 
 @step(u'I wait for "{title}" list page to load')

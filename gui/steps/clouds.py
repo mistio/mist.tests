@@ -318,16 +318,6 @@ def delete_cloud(context, provider):
     assert cloud_info, "Cloud menu has not been found"
     cloud_menu_buttons = cloud_info.find_elements_by_tag_name('paper-button')
     click_button_from_collection(context, 'Delete Cloud', cloud_menu_buttons)
-    seconds = 4
-    end_time = time() + seconds
-    while time() < end_time:
-        cloud = find_cloud(context, provider.lower())
-        cloud_menu = find_cloud_info(context, provider.lower())
-        if not cloud and not cloud_menu:
-            return True
-        sleep(1)
-    assert False, u'%s cloud had not been deleted after %s seconds' \
-                  % (provider, seconds)
 
 
 @step(u'the "{cloud}" provider should be added within {seconds} seconds')
