@@ -10,13 +10,13 @@ from time import sleep
 
 
 def clear_input_and_send_keys(input_field, text):
-    end_time = time() + 5
+    while input_field.get_attribute('value') != '':
+        input_field.send_keys(u'\ue003')
+    if text == '':
+        return
+    end_time = time() + 10
+    input_field.send_keys(text)
     while time() < end_time:
-        while input_field.get_attribute('value') != '':
-            input_field.send_keys(u'\ue003')
-        if text == '':
-            break
-        input_field.send_keys(text)
         if input_field.get_attribute('value') != text:
             assert time() + 1 > end_time, "Could not input value %s" % text
             sleep(1)
