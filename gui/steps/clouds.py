@@ -64,13 +64,13 @@ def cloud_creds(context, cloud):
         username = context.mist_config['CREDENTIALS']['RACKSPACE']['username']
         api_key = context.mist_config['CREDENTIALS']['RACKSPACE']['api_key']
         context.execute_steps(u'''
-            Then I set the value "%s" to field "Title" in "cloud" add form
             Then I open the "Region" drop down
             And I wait for 1 seconds
             When I click the button "%s" in the "Region" dropdown
+            Then I set the value "Rackspace" to field "Title" in "cloud" add form
             Then I set the value "%s" to field "Username" in "cloud" add form
             Then I set the value "%s" to field "API Key" in "cloud" add form
-        ''' % ('Rackspace', region, username, api_key))
+        ''' % (region, username, api_key))
     elif "SOFTLAYER" in cloud:
         username = context.mist_config['CREDENTIALS']['SOFTLAYER']['username']
         api_key = context.mist_config['CREDENTIALS']['SOFTLAYER']['api_key']
