@@ -155,7 +155,7 @@ def cloud_creds(context, cloud):
         title.send_keys("EC2")
         api_key = context.browser.find_element_by_id("apikey")
         api_key.send_keys(context.mist_config['CREDENTIALS']['EC2']['api_key'])
-        api_secret = context.browser.find_element_by_id("api_secret")
+        api_secret = context.browser.find_element_by_id("apisecret")
         api_secret.send_keys(context.mist_config['CREDENTIALS']['EC2']['api_secret'])
     elif "NEPHOSCALE" in cloud:
         title = context.browser.find_element_by_id("title")
