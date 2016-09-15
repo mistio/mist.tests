@@ -32,7 +32,7 @@ def focus_on_element(context, element):
     from navigation import found_one
     assert found_one(context), "I have no idea where I am"
     try:
-        context.browser.find_element_by_id("app")
+        context.browser.find_element_by_tag_name("mist-app")
         js = "document.querySelector('paper-header-panel').scroller.scrollTop = %s" % position['y']
         context.browser.execute_script(js)
     except:

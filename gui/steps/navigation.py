@@ -298,7 +298,7 @@ def found_one(context):
                 return True
         except NoSuchElementException:
             try:
-                context.browser.find_element_by_id("app")
+                context.browser.find_element_by_tag_name("mist-app")
                 success += 1
                 if success == 2:
                     return True
