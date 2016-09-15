@@ -119,12 +119,12 @@ def cloud_creds(context, cloud):
         When I click the button "Select Region"
         And I click the button "%s"''' % context.mist_config['CREDENTIALS']['RACKSPACE']['region'])
         title = context.browser.find_element_by_id("title")
-        for i in range(20):
+        for _ in range(20):
             title.send_keys(u'\ue003')
         title.send_keys("Rackspace")
         username = context.browser.find_element_by_id("username")
         username.send_keys(context.mist_config['CREDENTIALS']['RACKSPACE']['username'])
-        api_key = context.browser.find_element_by_id("api_key")
+        api_key = context.browser.find_element_by_id("apikey")
         api_key.send_keys(context.mist_config['CREDENTIALS']['RACKSPACE']['api_key'])
     elif "HP" in cloud:
         context.execute_steps(u'''
@@ -143,14 +143,14 @@ def cloud_creds(context, cloud):
     elif "SOFTLAYER" in cloud:
         username = context.browser.find_element_by_id("username")
         username.send_keys(context.mist_config['CREDENTIALS']['SOFTLAYER']['username'])
-        api_key = context.browser.find_element_by_id("api_key")
+        api_key = context.browser.find_element_by_id("apikey")
         api_key.send_keys(context.mist_config['CREDENTIALS']['SOFTLAYER']['api_key'])
     elif "EC2" in cloud:
         context.execute_steps(u'''
         When I click the button "Select Region"
         And I click the button "%s"''' % context.mist_config['CREDENTIALS']['EC2']['region'])
         title = context.browser.find_element_by_id("title")
-        for i in range(20):
+        for _ in range(20):
             title.send_keys(u'\ue003')
         title.send_keys("EC2")
         api_key = context.browser.find_element_by_id("api_key")
@@ -257,7 +257,7 @@ def cloud_creds(context, cloud):
             Then I expect for "key-add-popup" popup to disappear within max 4 seconds
         ''')
     elif "PACKET" in cloud:
-        api_key = context.browser.find_element_by_id("api_key")
+        api_key = context.browser.find_element_by_id("apikey")
         for i in range(20):
             api_key.send_keys(u'\ue003')
         api_key.send_keys(context.mist_config['CREDENTIALS']['PACKET']['api_key'])
