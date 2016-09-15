@@ -12,16 +12,21 @@ from time import sleep
 def clear_input_and_send_keys(input_field, text):
     while input_field.get_attribute('value') != '':
         input_field.send_keys(u'\ue003')
-    if text == '':
-        return
-    end_time = time() + 10
-    input_field.send_keys(text)
-    while time() < end_time:
-        if input_field.get_attribute('value') != text:
-            assert time() + 1 > end_time, "Could not input value %s" % text
-            sleep(1)
+    end_time = time() + 50
+    current_expected_value = ''
+    chunks = [text[i:i+10] for i in xrange(0, len(text), 10)]
+    for chunk in chunks:
+        assert time() < end_time, "Could not send keys to form in reasonable " \
+                                  "amount of time"
+        current_expected_value += chunk
+        input_field.send_keys(chunk)
+        for _ in range(2):
+            if input_field.get_attribute('value') != current_expected_value:
+                sleep(1)
+            else:
+                break
         else:
-            break
+            raise Exception('Sending keys to form unsuccessful')
 
 
 def get_add_form(context, title):
