@@ -12,7 +12,7 @@ from time import sleep
 def clear_input_and_send_keys(input_field, text):
     while input_field.get_attribute('value') != '':
         input_field.send_keys(u'\ue003')
-    end_time = time() + 50
+    end_time = time() + 100
     current_expected_value = ''
     n = 20
     chunks = [text[i:i+n] for i in xrange(0, len(text), n)]
