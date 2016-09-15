@@ -153,7 +153,7 @@ def cloud_creds(context, cloud):
         for _ in range(20):
             title.send_keys(u'\ue003')
         title.send_keys("EC2")
-        api_key = context.browser.find_element_by_id("api_key")
+        api_key = context.browser.find_element_by_id("apikey")
         api_key.send_keys(context.mist_config['CREDENTIALS']['EC2']['api_key'])
         api_secret = context.browser.find_element_by_id("api_secret")
         api_secret.send_keys(context.mist_config['CREDENTIALS']['EC2']['api_secret'])
