@@ -159,20 +159,9 @@ def filter_buttons(context, text):
 
 @step(u'I wait for the dashboard to load')
 def wait_for_dashboard(context):
+    # wait first until the sidebar is open
     context.execute_steps(u'Then I wait for the links in homepage to appear')
-    add_cloud_button = filter_buttons(context, 'add your clouds')
-    if add_cloud_button:
-        return True
-    save_org = filter_buttons(context, 'save organisation')
-    if save_org:
-        # first save the name of the organizational context for future use then
-        # press the button to save the name and finally return successfully
-        org_form = context.browser.find_element_by_id('orginput')
-        org_input = org_form.find_element_by_id('input')
-        context.organizational_context = org_input.get_attribute(
-            'value').strip().lower()
-        clicketi_click(context, save_org[0])
-        return True
+    # wait until the panel in the middle is visible
     timeout = 20
     try:
         WebDriverWait(context.browser, timeout).until(
@@ -182,8 +171,18 @@ def wait_for_dashboard(context):
     except TimeoutException:
         raise TimeoutException("Dashboard did not load after %s seconds"
                                % timeout)
+    # wait until the add clouds button is clickable
     context.execute_steps(u'Then I expect for "addBtn" to be clickable within '
                           u'max 20 seconds')
+    save_org = filter_buttons(context, 'save organisation')
+    if save_org:
+        # first save the name of the organizational context for future use then
+        # press the button to save the name and finally return successfully
+        org_form = context.browser.find_element_by_id('orginput')
+        org_input = org_form.find_element_by_id('input')
+        context.organizational_context = org_input.get_attribute('value').strip().lower()
+        clicketi_click(context, save_org[0])
+        return True
 
 
 @step(u'I visit the {title} page')
