@@ -167,7 +167,7 @@ def cloud_creds(context, cloud):
         password = context.browser.find_element_by_id("password")
         password.send_keys(context.mist_config['CREDENTIALS']['NEPHOSCALE']['password'])
     elif "LINODE" in cloud:
-        api_key = context.browser.find_element_by_id("api_key")
+        api_key = context.browser.find_element_by_id("apikey")
         api_key.send_keys(context.mist_config['CREDENTIALS']['LINODE']['api_key'])
     elif "DOCKER" in cloud:
         host = context.browser.find_element_by_id("docker_host")
