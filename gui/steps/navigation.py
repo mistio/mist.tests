@@ -372,18 +372,31 @@ def get_user_menu(context):
         find_element_by_tag_name('iron-dropdown')
 
 
+def click_and_wait_for_gravatar(context):
+    """press the gravatar and wait until the user menu starts opening"""
+    for _ in range(2):
+        click_the_gravatar(context)
+        user_menu = get_user_menu(context)
+        timeout = time() + 2
+        while time() < timeout:
+            if user_menu.size['width'] > 0 and user_menu.size['height'] > 0:
+                return
+            sleep(1)
+
+    assert False, "Width or height or both of user menu are 0 after 2 clicks"
+
+
 @step(u'I logout')
 def logout(context):
-    click_the_gravatar(context)
+    click_and_wait_for_gravatar(context)
+    user_menu = get_user_menu(context)
     timeout = time() + 5
     dimensions = None
-    user_menu = get_user_menu(context)
     while time() < timeout:
         try:
             if dimensions is None:
                 dimensions = user_menu.size
-            elif dimensions['width'] > 0 and dimensions['height'] > 0 and \
-                            dimensions['width'] == user_menu.size['width'] and \
+            elif dimensions['width'] == user_menu.size['width'] and \
                             dimensions['height'] == user_menu.size['height']:
                 sleep(1)
                 click_button_from_collection(context, 'Logout',
@@ -396,9 +409,6 @@ def logout(context):
             pass
         sleep(1)
 
-    assert dimensions, "Could not get dimensions of user menu"
-    assert dimensions['width'] <= 0 or dimensions['height'] > 0, \
-        "Width or height or both of user menu are 0"
     assert False, "User menu has not appeared yet"
 
 
