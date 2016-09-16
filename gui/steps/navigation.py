@@ -375,13 +375,14 @@ def logout(context):
     click_the_gravatar(context)
     timeout = time() + 5
     dimensions = None
+    user_menu = get_user_menu(context)
     while time() < timeout:
         try:
-            user_menu = get_user_menu(context)
             if dimensions is None:
                 dimensions = user_menu.size
             elif dimensions['width'] == user_menu.size['width'] and \
                     dimensions['height'] == user_menu.size['height']:
+                sleep(1)
                 click_button_from_collection(context, 'Logout',
                                              user_menu.find_elements_by_tag_name('paper-item'))
                 return True
