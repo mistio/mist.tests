@@ -57,6 +57,7 @@ def open_login_popup(context, kind):
                 dimensions = popup.size
             elif dimensions['width'] == popup.size['width'] and \
                     dimensions['height'] == popup.size['height']:
+                sleep(1)
                 return True
             else:
                 dimensions = popup.size
