@@ -154,7 +154,7 @@ def wait_for_buttons_to_appear(context):
 
 def filter_buttons(context, text):
     return filter(lambda el: safe_get_element_text(el).strip().lower() == text,
-                              context.browser.find_elements_by_tag_name('paper-button'))
+                  context.browser.find_elements_by_tag_name('paper-button'))
 
 
 @step(u'I wait for the dashboard to load')
@@ -169,7 +169,8 @@ def wait_for_dashboard(context):
         # press the button to save the name and finally return successfully
         org_form = context.browser.find_element_by_id('orginput')
         org_input = org_form.find_element_by_id('input')
-        context.organizational_context = org_input.get_attribute('value').strip().lower()
+        context.organizational_context = org_input.get_attribute(
+            'value').strip().lower()
         clicketi_click(context, save_org[0])
         return True
     timeout = 20
@@ -205,7 +206,8 @@ def go_to_some_page_without_waiting(context, title):
         # TODO implement account page visit
         return
     else:
-        button = context.browser.find_element_by_id('sidebar').find_element_by_id(title)
+        button = context.browser.find_element_by_id(
+            'sidebar').find_element_by_id(title)
         clicketi_click(context, button)
         context.execute_steps(u'Then I expect for "%s" page to appear within '
                               u'max 10 seconds' % title)
@@ -259,7 +261,7 @@ def visit_machines_url(context):
 def given_logged_in(context):
     try:
         context.browser.find_element_by_tag_name("app-main")
-        #we're on the new UI
+        # we're on the new UI
         return
     except:
         pass
@@ -366,7 +368,7 @@ def given_not_logged_in(context):
 
 
 def get_user_menu(context):
-    return context.browser.find_element_by_tag_name('app-user-menu').\
+    return context.browser.find_element_by_tag_name('app-user-menu'). \
         find_element_by_tag_name('iron-dropdown')
 
 
@@ -380,11 +382,13 @@ def logout(context):
         try:
             if dimensions is None:
                 dimensions = user_menu.size
-            elif dimensions['width'] == user_menu.size['width'] and \
-                    dimensions['height'] == user_menu.size['height']:
+            elif dimensions['width'] > 0 and dimensions['height'] > 0 and \
+                            dimensions['width'] == user_menu.size['width'] and \
+                            dimensions['height'] == user_menu.size['height']:
                 sleep(1)
                 click_button_from_collection(context, 'Logout',
-                                             user_menu.find_elements_by_tag_name('paper-item'))
+                                             user_menu.find_elements_by_tag_name(
+                                                 'paper-item'))
                 return True
             else:
                 dimensions = user_menu.size
@@ -392,6 +396,9 @@ def logout(context):
             pass
         sleep(1)
 
+    assert dimensions, "Could not get dimensions of user menu"
+    assert dimensions['width'] <= 0 or dimensions['height'] > 0, \
+        "Width or height or both of user menu are 0"
     assert False, "User menu has not appeared yet"
 
 
@@ -417,7 +424,9 @@ def logout_of_legacy(context):
 
                     container = context.browser.find_element_by_id(
                         "user-menu-popup")
-                    clicketi_click(context, container.find_element_by_class_name('icon-x'))
+                    clicketi_click(context,
+                                   container.find_element_by_class_name(
+                                       'icon-x'))
 
                     try:
                         WebDriverWait(context.browser, 10).until(
@@ -450,7 +459,8 @@ def wait_for_some_list_page_to_load(context, title):
     end_time = time() + 5
     while time() < end_time:
         try:
-            context.browser.find_element_by_id('%s-list-page' % title.lower().rpartition(title[-1])[0])
+            context.browser.find_element_by_id(
+                '%s-list-page' % title.lower().rpartition(title[-1])[0])
             break
         except NoSuchElementException:
             assert time() + 1 < end_time, "%s list page has not appeared " \
@@ -462,7 +472,8 @@ def wait_for_some_list_page_to_load(context, title):
     end_time = time() + 5
     while time() < end_time:
         try:
-            list_of_things = context.browser.find_element_by_id('%s-list' % title.lower().rpartition(title[-1])[0])
+            list_of_things = context.browser.find_element_by_id(
+                '%s-list' % title.lower().rpartition(title[-1])[0])
             lis = list_of_things.find_elements_by_tag_name('li')
             if len(lis) > 0:
                 break
