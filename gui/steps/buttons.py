@@ -184,10 +184,9 @@ def click_the_gravatar(context):
     """
     try:
         gravatar = context.browser.find_element_by_css_selector('paper-icon-button.gravatar')
+        clicketi_click(context, gravatar)
     except NoSuchElementException:
         get_old_gravatar(context)
-        return
-    clicketi_click(context, gravatar)
 
 
 def get_old_gravatar(context):
