@@ -42,7 +42,7 @@ def register_user(context, user_email):
             Then I click the email button in the landing page popup
             And I enter my standard credentials for login
             Then I click the sign in button in the landing page popup
-            Given that I am redirected within 5 seconds
+            And I expect some reaction within max 5 seconds
         ''')
         context.browser.find_element_by_id("splash")
         context.execute_steps(u'Then I wait for the mist.io splash page to load')
