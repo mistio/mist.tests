@@ -150,7 +150,7 @@ def check_page_is_visible(context, page_title, seconds):
     if page not in ['machines', 'images', 'keys', 'networks', 'tunnels',
                     'scripts', 'templates', 'stacks', 'teams']:
         raise ValueError('The page given is unknown')
-    element = 'page-items.%s div#content.page-items' % page
+    element = 'page-%s > div#content.page-items' % page
     msg = "%s page is not visible after %s seconds" % (page, seconds)
     wait_for_element_to_be_visible(context, (By.CSS_SELECTOR, element),
                                    int(seconds), msg)
