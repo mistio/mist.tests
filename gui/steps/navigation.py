@@ -176,7 +176,7 @@ def wait_for_dashboard(context):
     timeout = 20
     try:
         WebDriverWait(context.browser, timeout).until(
-            EC.visibility_of_element_located((By.CLASS_NAME, "main-section")))
+            EC.visibility_of_element_located((By.CSS_PATH, "page-dashboard > div#content")))
     except TimeoutException:
         raise TimeoutException("Dashboard did not load after %s seconds"
                                % timeout)
