@@ -123,11 +123,6 @@ Feature: Machines
     And I click the button "Save Tags"
     Then I expect for "machine-tags-popup-popup" popup to disappear within max 20 seconds
     When I check if the "sectestkey" key and "sectestvalue" value appear for the machine
-    And I click the button "Tags"
-    Then I expect for "machine-tags-popup-popup" popup to appear within max 10 seconds
-    And I close the tag with key "sectestkey"
-    When I click the button "Save Tags"
-    Then I expect for "machine-tags-popup-popup" popup to disappear within max 20 seconds
     When I focus on the "Machines" button
     Then I click the button "Machines"
     When I clear the machines search bar

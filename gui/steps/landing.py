@@ -57,6 +57,7 @@ def open_login_popup(context, kind):
                 dimensions = popup.size
             elif dimensions['width'] == popup.size['width'] and \
                     dimensions['height'] == popup.size['height']:
+                sleep(1)
                 return True
             else:
                 dimensions = popup.size
@@ -323,3 +324,16 @@ def wait_for_landing_page(context, seconds):
     except TimeoutException:
         raise TimeoutException("Landing page has not appeared after %s seconds"
                                % seconds)
+
+
+@step(u'that I am redirected within {seconds} seconds')
+def ensure_redirection(context, seconds):
+    timeout = time() + int(seconds)
+    while time() < timeout:
+        try:
+            context.browser.find_element_by_id("top-signup-button")
+            sleep(1)
+        except NoSuchElementException:
+            return True
+    assert False, "I wasn't redirected to the app after waiting for %s seconds"\
+                  % seconds
