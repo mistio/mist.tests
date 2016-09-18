@@ -8,9 +8,14 @@ run_mayday_test:
   only:
     - triggers
   before_script:
+    # hack to keep logs in subdir of build dir, required for artifacts to work
+    - mkdir -p var/log
+    - cp -a /var/log/* var/log/
+    - rm -rf /var/log
+    - ln -s $CI_PROJECT_DIR/var/log /var/log
+    # end logs hack
     - echo "$GITLAB_ID_RSA" > /gitlab_id_rsa
     - export MAYDAY=1
-    - export MIST_TEST_LOG_DIR="mayday/$CI_BUILD_ID"
     - export DISPLAY=:1.0
     - Xvfb :1 -screen 0 1024x768x24 > /dev/null 2>&1 &
     - cd ..
@@ -19,10 +24,23 @@ run_mayday_test:
     - cp -r -t tests mist.tests/*
     - cp /chromedriver tests/gitlab/chromedriver
     - chmod 744 tests/gitlab/chromedriver
-    - chmod 744 tests/gitlab/run_test_or_commit.sh
     - export "PATH=$(pwd)/tests/gitlab:$PATH"
     - /core.env/bin/pip install -e tests
   script:
-     - ./tests/gitlab/run_test_or_commit.sh /core.env/bin/ipython tests/prepare_env.py -- --screenshot-path=/var/log/error -k --tags=alert,graph,ssh,celery,google_sso_signin,github_sso_signin tests/legacy_gui/core/mayday/features
+    - >
+        /core.env/bin/ipython tests/prepare_env.py --
+        --screenshot-path=/var/log/error -k
+        --tags=alert,graph,ssh,celery,google_sso_signin,github_sso_signin
+        tests/legacy_gui/core/mayday/features
   tags:
      - mayday
+  artifacts:
+    paths:
+      - var/log/*-std*
+      - var/log/js_console.log
+      - var/log/rabbitmq/*
+      - var/log/supervisord.log
+      - var/log/error*
+      - var/log/mongodb.log.*
+    expire_in: 7 days
+    when: on_failure
