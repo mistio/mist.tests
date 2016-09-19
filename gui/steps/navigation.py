@@ -127,7 +127,7 @@ def am_in_new_UI(context):
     """
     assert found_one(context), "I have no idea where I am"
     try:
-        context.browser.find_element_by_id("app")
+        context.browser.find_element_by_tag_name("mist-app")
         return
     except:
         context.execute_steps(u'''
