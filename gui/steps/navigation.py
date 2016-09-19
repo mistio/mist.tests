@@ -260,7 +260,7 @@ def visit_machines_url(context):
 @step(u'I am logged in to mist.core')
 def given_logged_in(context):
     try:
-        context.browser.find_element_by_tag_name("app-main")
+        context.browser.find_element_by_tag_name("mist-app")
         # we're on the new UI
         return
     except:
