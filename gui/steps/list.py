@@ -12,7 +12,7 @@ from selenium.common.exceptions import StaleElementReferenceException
 
 
 def get_list(context, resource_type):
-    return context.browser.find_elements_by_css_selector('page-items.%ss iron-list div.row' % resource_type)
+    return context.browser.find_elements_by_css_selector('page-%ss iron-list div.row' % resource_type)
 
 
 def get_list_item(context, resource_type, name):
