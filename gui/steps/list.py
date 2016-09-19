@@ -57,7 +57,7 @@ def click_menu_button_of_list_item(context, button_name, item_name,
                                    resource_type):
     item = get_list_item(context, resource_type, item_name)
     if item:
-        more_dialog = context.browser.find_element_by_css_selector('page-items.%ss item-list paper-dialog#select-action' % resource_type)
+        more_dialog = context.browser.find_element_by_css_selector('page-%ss item-list paper-dialog#select-action' % resource_type)
         more_button = item.find_element_by_css_selector('paper-button.more')
         from .buttons import clicketi_click
         clicketi_click(context, more_button)
