@@ -17,7 +17,7 @@ Feature: Add second-tier clouds in Polymist
     When I use my provider "<credentials>" credentials
     And I focus on the button "Add Cloud" in "cloud" add form
     Then I click the button "Add Cloud" in "cloud" add form
-    And I visit the Home page
+    When I wait for the dashboard to load
     And I scroll the clouds list into view
     Then the "<provider>" provider should be added within 120 seconds
 
