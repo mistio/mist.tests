@@ -48,7 +48,8 @@ Feature: Machines
     Then I expect for "key-add-popup" popup to appear within max 4 seconds
     When I fill "second_machine_key" as key name
     And I click the "Generate" button inside the "Add key" popup
-    Then I expect for "key-generate-loader" loader to finish within max 10 seconds
+    Then I wait until the private key is generated
+#    Then I expect for "key-generate-loader" loader to finish within max 10 seconds
     When I click the "Add" button inside the "Add key" popup
     Then I expect for "key-add-popup" popup to disappear within max 4 seconds
     And I click the button "Enable Monitoring"
@@ -79,7 +80,8 @@ Feature: Machines
     Then I expect for "key-add-popup" popup to appear within max 4 seconds
     When I fill "first_machine_key" as key name
     And I click the "Generate" button inside the "Add key" popup
-    Then I expect for "key-generate-loader" loader to finish within max 10 seconds
+    Then I wait until the private key is generated
+#    Then I expect for "key-generate-loader" loader to finish within max 10 seconds
     When I click the "Add" button inside the "Add key" popup
     Then I expect for "key-add-popup" popup to disappear within max 4 seconds
 
