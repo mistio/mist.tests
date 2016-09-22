@@ -32,13 +32,7 @@ Feature: Add second-tier clouds in Polymist
     | GCE                   | GCE          |
     | Linode                | LINODE       |
     | AWS                   | AWS          |
-
-    # Nope, not really
-    #| VMware vCloud         | VMWARE       |
-    #| Indonesian Cloud      | INDONESIAN   |
-    #| KVM (via libvirt)     | LIBVIRT      |
-    #| OpenStack             | OPENSTACK    |
-    #| Docker                | DOCKER       |
+    | Docker                | DOCKER       |
 
   @cloud-rename
   Scenario: Cloud Actions
