@@ -62,6 +62,6 @@ def register_user(context, user_email):
             And I follow the link contained in the email sent at the address "EMAIL" with subject "[mist.io] Confirm your registration"
             Then I enter my standard credentials for signup_password_set
             And I click the submit button in the landing page popup
-            Given that I am redirected within 5 seconds
+            Given that I am redirected within 10 seconds
             And I wait for the mist.io splash page to load
         ''')
