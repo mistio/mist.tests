@@ -41,6 +41,7 @@ cloud_creds_dict = {
 
 @step(u'I use my provider "{cloud}" credentials')
 def cloud_creds(context, cloud):
+    from .forms import set_value_to_field
     if "AZURE" in cloud:
         subscription_id = context.mist_config['CREDENTIALS']['AZURE']['subscription_id']
         certificate = context.mist_config['CREDENTIALS']['AZURE']['certificate']
@@ -48,7 +49,6 @@ def cloud_creds(context, cloud):
             Then I set the value "Azure" to field "Title" in "cloud" add form
             And I set the value "%s" to field "Subscription ID" in "cloud" add form
             ''' % subscription_id)
-        from .forms import set_value_to_field
         set_value_to_field(context, certificate, 'certificate', 'cloud', 'add')
         sleep(3)
     elif "GCE" in cloud:
@@ -111,103 +111,26 @@ def cloud_creds(context, cloud):
         context.execute_steps(u'''
             Then I set the value "%s" to field "API Key" in "cloud" add form
         ''' % api_key)
-    elif "VMWARE VCLOUD" in cloud:
-        username = context.browser.find_element_by_id("username")
-        username.send_keys(context.mist_config['CREDENTIALS']['VMWARE VCLOUD']['username'])
-        password = context.browser.find_element_by_id("password")
-        password.send_keys(context.mist_config['CREDENTIALS']['VMWARE VCLOUD']['password'])
-        organization = context.browser.find_element_by_id("organization")
-        organization.send_keys(context.mist_config['CREDENTIALS']['VMWARE VCLOUD']['organization'])
-        host = context.browser.find_element_by_id("host")
-        host.send_keys(context.mist_config['CREDENTIALS']['VMWARE VCLOUD']['host'])
-    elif "INDONESIAN" in cloud:
-        username = context.browser.find_element_by_id("username")
-        username.send_keys(context.mist_config['CREDENTIALS']['INDONESIAN']['username'])
-        password = context.browser.find_element_by_id("password")
-        password.send_keys(context.mist_config['CREDENTIALS']['INDONESIAN']['password'])
-        organization = context.browser.find_element_by_id("organization")
-        organization.send_keys(context.mist_config['CREDENTIALS']['INDONESIAN']['organization'])
     elif "DOCKER" in cloud:
-        host = context.browser.find_element_by_id("docker_host")
-        host.send_keys(context.mist_config['CREDENTIALS']['DOCKER']['host'])
-        port = context.browser.find_element_by_id("docker_port")
-        for i in range(6):
-            port.send_keys(u'\ue003')
-        port.send_keys(context.mist_config['CREDENTIALS']['DOCKER']['port'])
-        if context.mist_config['CREDENTIALS']['DOCKER']['key_pem'] or \
-           context.mist_config['CREDENTIALS']['DOCKER']['cert_pem']:
-            advanced_button = context.browser.find_element_by_class_name("ui-slider-handle")
-            advanced_button.click()
-            sleep(1)
-            key_file = context.browser.find_element_by_id("key_file")
-            key_file.click()
-            key_upload = context.browser.find_element_by_id("upload-area")
-            key_upload.send_keys(context.mist_config['CREDENTIALS']['DOCKER']['key_pem'])
-            sleep(1)
-            if context.mist_config['CREDENTIALS']['DOCKER']['key_pem']:
-                file_upload_ok = context.browser.find_element_by_id("file-upload-ok")
-                file_upload_ok.click()
-                sleep(2)
-            else:
-                cancel = context.browser.find_element_by_class("close")
-                cancel.click()
-                sleep(1)
-            cert_file = context.browser.find_element_by_id("cert_file")
-            cert_file.click()
-            cert_upload = context.browser.find_element_by_id("upload-area")
-            cert_upload.send_keys(context.mist_config['CREDENTIALS']['DOCKER']['cert_pem'])
-            sleep(1)
-            if context.mist_config['CREDENTIALS']['DOCKER']['cert_pem']:
-                file_upload_ok = context.browser.find_element_by_id("file-upload-ok")
-                file_upload_ok.click()
-                sleep(2)
-            else:
-                cancel = context.browser.find_element_by_class("close")
-                cancel.click()
-                sleep(1)
-        else:
-            # in case key/cert are missing
-            # and basic authentication is to be configured
-            username = context.browser.find_element_by_id("auth_user")
-            username.send_keys(context.mist_config['CREDENTIALS']['DOCKER']['username'])
-            password = context.browser.find_element_by_id("auth_password")
-            password.send_keys(context.mist_config['CREDENTIALS']['DOCKER']['password'])
-    elif "KVM (via libvirt)" in cloud:
-        title = context.browser.find_element_by_id("title")
-        for i in range(20):
-            title.send_keys(u'\ue003')
-        title.send_keys("KVM (via libvirt)")
-        hostname = context.browser.find_element_by_id("machine_hostname")
-        hostname.send_keys(context.mist_config['CREDENTIALS']['KVM']['hostname'])
-
+        host = context.mist_config['CREDENTIALS']['DOCKER']['host']
+        authentication = context.mist_config['CREDENTIALS']['DOCKER']['authentication']
+        port = context.mist_config['CREDENTIALS']['DOCKER']['port']
         context.execute_steps(u'''
-            When I click the "Select SSH Key" button inside the "Add Cloud" panel
-            When I click the "Add Key" button inside the "Add Cloud" panel
-            Then I expect for "key-add-popup" popup to appear within max 4 seconds
-            When I fill "KVM Key" as key name
-        ''')
+            Then I set the value "Docker" to field "Title" in "cloud" add form
+            Then I set the value "%s" to field "Host" in "cloud" add form
+            Then I set the value "%s" to field "Port" in "cloud" add form
+            Then I open the "Authentication" drop down
+            And I wait for 1 seconds
+            When I click the button "%s" in the "Authentication" dropdown
+        ''' % (host, port, authentication))
 
-        upload = context.browser.find_element_by_id("key-add-upload")
-        upload.send_keys(context.mist_config['CREDENTIALS']['KVM']['key_path'])
-        sleep(1)
+        certificate = context.mist_config['CREDENTIALS']['DOCKER']['cert']
+        key = context.mist_config['CREDENTIALS']['DOCKER']['key']
+        ca = context.mist_config['CREDENTIALS']['DOCKER']['ca']
 
-        context.execute_steps(u'''
-            When I click the "Add" button inside the "Add key" popup
-            Then I expect for "key-add-popup" popup to disappear within max 4 seconds
-        ''')
-    elif "OPENSTACK" in cloud:
-        username = context.browser.find_element_by_id("username")
-        username.send_keys(
-            context.mist_config['CREDENTIALS']['OPENSTACK']['username'])
-        password = context.browser.find_element_by_id("password")
-        password.send_keys(
-            context.mist_config['CREDENTIALS']['OPENSTACK']['password'])
-        auth_url = context.browser.find_element_by_id("auth_url")
-        auth_url.send_keys(
-            context.mist_config['CREDENTIALS']['OPENSTACK']['auth_url'])
-        tenant_name = context.browser.find_element_by_id("tenant_name")
-        tenant_name.send_keys(
-            context.mist_config['CREDENTIALS']['OPENSTACK']['tenant_name'])
+        set_value_to_field(context, key, 'key', 'cloud', 'add')
+        set_value_to_field(context, certificate, 'certificate', 'cloud', 'add')
+        set_value_to_field(context, ca, 'ca certificate', 'cloud', 'add')
 
 
 def find_cloud(context, cloud_title):
