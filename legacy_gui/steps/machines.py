@@ -1,3 +1,5 @@
+import re
+
 from behave import step
 from behave import given
 
@@ -471,7 +473,7 @@ def remove_previous_rules(context):
 
 @step(u'I wait for max {seconds} seconds for "{name}" machine from "{provider}"'
       u' to disappear')
-def check_machine_deletion(context, name, provider, seconds):
+def check_machine_deletion(context, seconds, name, provider):
     if provider == "EC2":
         context.execute_steps(u'Then %s machine state should be "terminated"'
                               u' within %s seconds' % (name, seconds))
@@ -482,3 +484,15 @@ def check_machine_deletion(context, name, provider, seconds):
         while time() < end_time:
             if name not in machines_names_list:
                 break
+
+
+@step(u'I wait until the private key is generated')
+def wait_for_key_generation(context):
+    key_private = context.browser.find_element_by_id('key-add-private')
+    regex = "-----BEGIN RSA PRIVATE KEY-----[a-zA-Z0-9=+\/\n]+-----END RSA PRIVATE KEY-----"
+    timeout = time() + 20
+    while time() < timeout:
+        if re.search(regex, key_private.get_attribute('value')):
+            return True
+        sleep(1)
+    assert False, "Private key was not generated within 20 seconds"
