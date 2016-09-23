@@ -20,12 +20,14 @@
 
 
 import os
+import ast
 import sys
 import json
 import logging
 
 log = logging.getLogger(__name__)
 logging.basicConfig(level=logging.INFO)
+
 test_settings = {}
 try:
     execfile("test_settings.py", test_settings)
@@ -58,9 +60,18 @@ def get_value_of(name_of_variable, default_value):
         return env_var
     return test_settings.get(name_of_variable, default_value)
 
-LOCAL = get_value_of("LOCAL", True)
 
-DEBUG = get_value_of("DEBUG", False)
+def get_bool_value(name_of_variable, default_value):
+    val = get_value_of(name_of_variable, default_value)
+    if not isinstance(val, bool):
+        return ast.literal_eval(val)
+    return val
+
+LOCAL = get_bool_value("LOCAL", True)
+
+DEBUG = get_bool_value("DEBUG", False)
+
+RECORD_SELENIUM = get_bool_value("DEBUG", False)
 
 # Directories and paths used for the tests
 BASE_DIR = get_value_of("BASE_DIR", os.getcwd())
@@ -171,10 +182,10 @@ API_TESTING_CLOUD_PROVIDER = get_value_of('API_TESTING_CLOUD_PROVIDER', '')
 
 ORG_NAME = get_value_of('ORG_NAME', '')
 
-SETUP_ENVIRONMENT = get_value_of("SETUP_ENVIRONMENT", False)
+SETUP_ENVIRONMENT = get_bool_value("SETUP_ENVIRONMENT", False)
 
 WEBDRIVER_OPTIONS = get_value_of('WEBDRIVER_OPTIONS',
                                  ['--dns-prefetch-disable'])
 
-REGISTER_USER_BEFORE_FEATURE = get_value_of('REGISTER_USER_BEFORE_FEATURE',
-                                            False)
+REGISTER_USER_BEFORE_FEATURE = get_bool_value('REGISTER_USER_BEFORE_FEATURE',
+                                              False)
