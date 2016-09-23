@@ -195,11 +195,21 @@ def test_machine_provisioning_test(mist_core, api_token, mp_json):
             break
         sleep(5)
 
-    assert time() < timeout, "Waited for too long for post deployment steps " \
-                             "to finish"
+    try:
+        assert time() < timeout
+    except AssertionError as e:
+        print "Waited for too long for post deployment steps to finish"
+        destroy_machine(log, mist_core, api_token, cloud_id, machine_id)
+        raise e
+
     print "\nPost deployment steps have finished after %s seconds. Destroying" \
           " the machine\n" % (time() - timeout + 200)
 
+    destroy_machine(log, mist_core, api_token=api_token,
+                                     cloud_id=cloud_id,
+                                     machine_id=machine_id).post()
+
+def destroy_machine(log, mist_core, api_token, cloud_id, machine_id):
     response = mist_core.destroy_machine(api_token=api_token,
                                          cloud_id=cloud_id,
                                          machine_id=machine_id).post()
