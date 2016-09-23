@@ -13,25 +13,25 @@ from tests.api.helpers import *
 # been added to the test account should be equal to these.
 
 provider_data = {
-    "Azure": {
-        "credentials": "AZURE",
-        "size": "ExtraSmall",
-        "name_prefix": "mpazure_",
-        "location": "West Europe"
-    },
-    # "DigitalOcean": {
-    #     "credentials": "DIGITALOCEAN",
-    #     "size": "512mb",
-    #     "name_prefix": "mpdo",
-    #     "location": "ams2"
-    # },
+    #"Azure": {
+    #    "credentials": "AZURE",
+    #    "size": "ExtraSmall",
+    #    "name_prefix": "mpazure_",
+    #    "location": "West Europe"
+    #},
+     "Digital Ocean": {
+         "credentials": "DIGITALOCEAN",
+         "size": "512mb",
+         "name_prefix": "mpdo",
+         "location": "ams2"
+     },
     # "Linode": {
     #     "credentials": "LINODE",
     #     "size": "Linode 1024",
     #     "name_prefix": "mpLinode_",
     #     "location": "Dallas"
     # },
-    # "NephoScale": {
+    # "Nephoscale": {
     #     "credentials": "NEPHOSCALE",
     #     "size": "CS05",
     #     "name_prefix": "mpNephoscale_",
@@ -44,12 +44,12 @@ provider_data = {
     #     "location": "Amsterdam"
     # },
     # works
-    # "EC2": {
-    #     "credentials": "EC2",
-    #     "size": "t2.small",
-    #     "name_prefix": "mpec2",
-    #     "location": "ap-northeast-1a"
-    # },
+     "EC2": {
+         "credentials": "EC2",
+         "size": "m1.small",
+         "name_prefix": "mpec2",
+         "location": "ap-northeast-1a"
+     },
     # inactive billing
     # "GCE": {
     #     "credentials": "GCE",
@@ -92,6 +92,7 @@ def test_machine_provisioning_test(mist_core, api_token, mp_json):
     # List clouds and choose which provider will be tested next
     available_providers = mist_core.list_clouds(api_token=api_token).get()
     list_of_providers = list()
+
     for provider in available_providers.json():
         if provider['provider'] == 'bare_metal' or \
                         provider['title'] not in provider_data:
@@ -205,17 +206,4 @@ def test_machine_provisioning_test(mist_core, api_token, mp_json):
     print "\nPost deployment steps have finished after %s seconds. Destroying" \
           " the machine\n" % (time() - timeout + 200)
 
-    destroy_machine(log, mist_core, api_token=api_token,
-                                     cloud_id=cloud_id,
-                                     machine_id=machine_id).post()
-
-def destroy_machine(log, mist_core, api_token, cloud_id, machine_id):
-    response = mist_core.destroy_machine(api_token=api_token,
-                                         cloud_id=cloud_id,
-                                         machine_id=machine_id).post()
-    try:
-        assert_response_ok(response)
-        log.info("Machine destruction command has been submitted successfully!")
-    except AssertionError as e:
-        log.error("Machine destruction was not successful!")
-        raise e
+    destroy_machine(log, mist_core, api_token, cloud_id, machine_id)

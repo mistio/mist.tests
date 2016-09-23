@@ -99,3 +99,14 @@ def get_random_key_id(existing_keys):
         keys = get_keys_with_id(random_key_name, existing_keys)
         if len(keys) == 0:
             return random_key_name
+
+def destroy_machine(log, mist_core, api_token, cloud_id, machine_id):
+    response = mist_core.destroy_machine(api_token=api_token,
+                                         cloud_id=cloud_id,
+                                         machine_id=machine_id).post()
+    try:
+        assert_response_ok(response)
+        log.info("Machine destruction command has been submitted successfully!")
+    except AssertionError as e:
+        log.error("Machine destruction was not successful!")
+        raise e
