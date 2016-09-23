@@ -14,7 +14,7 @@ def get_current_context(context):
 def ensure_organizational_context(context, organization):
     context.execute_steps(u'''
         Then I click the Gravatar
-        And I wait for 1 seconds
+        And I wait for 3 seconds
     ''')
     organization = organization.strip().lower()
     if get_current_context(context) == organization:
