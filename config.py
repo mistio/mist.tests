@@ -60,8 +60,6 @@ def get_value_of(name_of_variable, default_value):
 
 LOCAL = get_value_of("LOCAL", True)
 
-BROWSER_LOCAL = get_value_of("BROWSER_LOCAL", True)
-
 DEBUG = get_value_of("DEBUG", False)
 
 # Directories and paths used for the tests
