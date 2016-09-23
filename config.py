@@ -71,7 +71,7 @@ LOCAL = get_bool_value("LOCAL", True)
 
 DEBUG = get_bool_value("DEBUG", False)
 
-RECORD_SELENIUM = get_bool_value("DEBUG", False)
+RECORD_SELENIUM = get_bool_value("RECORD_SELENIUM", False)
 
 # Directories and paths used for the tests
 BASE_DIR = get_value_of("BASE_DIR", os.getcwd())
