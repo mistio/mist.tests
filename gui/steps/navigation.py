@@ -338,7 +338,7 @@ def given_logged_in(context, kind):
     except NoSuchElementException:
         pass
     try:
-        context.browser.find_element_by_tag("mist-app")
+        context.browser.find_element_by_tag_name("mist-app")
         context.execute_steps(u'Then I wait for the dashboard to load')
         return
     except NoSuchElementException:
