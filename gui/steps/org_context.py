@@ -13,6 +13,7 @@ def get_current_context(context):
 @step(u'I ensure that I am in the "{organization}" organization context')
 def ensure_organizational_context(context, organization):
     context.execute_steps(u'''
+        And I wait for 5 seconds
         Then I click the Gravatar
         And I wait for 3 seconds
     ''')
