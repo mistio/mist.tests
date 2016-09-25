@@ -409,7 +409,7 @@ def logout(context):
                 click_button_from_collection(context, 'Logout',
                                              user_menu.find_elements_by_tag_name(
                                                  'paper-item'))
-                sleep(2)
+                # sleep(2)
                 return True
             else:
                 dimensions = user_menu.size
