@@ -1,11 +1,5 @@
-import os
 import sys
 import logging
-
-from shlex import split
-
-from time import time
-from time import sleep
 
 from tests import config
 
