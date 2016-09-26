@@ -1,5 +1,11 @@
+import os
 import sys
 import logging
+
+from shlex import split
+
+from time import time
+from time import sleep
 
 from tests import config
 
@@ -64,6 +70,10 @@ def before_all(context):
         context.mail_path = config.MAIL_PATH
         # calling behaving to setup it's context variables.
         behaving_mail.before_all(context)
+
+    if config.RECORD_SELENIUM:
+        context.mist_config['recording_proc'] = start_recording()
+
     log.info("Finished with before_all hook. Starting tests")
 
 
@@ -77,13 +87,10 @@ def before_feature(context, feature):
             raise e
 
 
-def after_scenario(context, scenario):
-    if scenario.status == 'failed':
-        get_screenshot(context)
-
-
 def after_all(context):
     dump_js_console_log(context)
     context.mist_config['browser'].quit()
     if context.mist_config.get('browser2'):
         context.mist_config['browser2'].quit()
+    if context.mist_config.get('recording_proc'):
+        stop_recording(context.mist_config['recording_proc'])
