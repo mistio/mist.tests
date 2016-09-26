@@ -15,6 +15,7 @@ logging.basicConfig(level=logging.INFO)
 
 def start_recording(output='test.mp4', dimension='1024x768',
                     display_num='1'):
+    log.info("Starting recording of the session")
     if os.path.isfile(output):
         os.remove(output)
     command = 'ffmpeg -f x11grab -video_size {0} ' \
@@ -26,6 +27,7 @@ def start_recording(output='test.mp4', dimension='1024x768',
 
 
 def stop_recording(recording_process):
+    log.info("Stopping recording of the session")
     return_code = recording_process.poll()
     if not return_code:
         recording_process.communicate('q\n')
