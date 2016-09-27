@@ -1,4 +1,5 @@
 from tests import config
+import mist.io.clouds.models as clouds_models
 
 
 def setup_user_if_not_exists(user_email, password=None):
@@ -58,35 +59,40 @@ def setup_org_if_not_exists(org_name, owner_email, clean_org=True, add_cloud=Tru
             try:
                 Cloud.objects.get(owner=org, title=config.API_TESTING_CLOUD)
             except Cloud.DoesNotExist:
-                cloud = Cloud()
-                cloud.title = config.API_TESTING_CLOUD
-                cloud.enabled = True
-                cloud.owner = org
+                kwargs = {'owner': org, 'title': config.API_TESTING_CLOUD}
 
                 if config.API_TESTING_CLOUD_PROVIDER == 'EC2':
-                    cloud.apikey = config.CREDENTIALS['EC2']['api_key']
-                    cloud.apisecret = config.CREDENTIALS['EC2']['api_secret']
-                    cloud.provider = 'ec2_ap_northeast'
-                    cloud.save()
+                    apikey = config.CREDENTIALS['EC2']['api_key']
+                    apisecret = config.CREDENTIALS['EC2']['api_secret']
+                    region = 'ec2_ap_northeast'
+                    clouds_models.AmazonCloud(apikey=apikey,
+                                              apisecret=apisecret,
+                                              region=region, **kwargs).save()
                 elif config.API_TESTING_CLOUD_PROVIDER == 'DOCKER':
-                    cloud.apiurl = config.CREDENTIALS['DOCKER']['host']
-                    cloud.docker_port = config.CREDENTIALS['DOCKER']['port']
-                    cloud.provider = 'docker'
-                    cloud.save()
+                    host = config.CREDENTIALS['DOCKER']['host']
+                    port = config.CREDENTIALS['DOCKER']['port']
+                    clouds_models.DockerCloud(host=host, port=port,
+                                              **kwargs).save()
                 elif config.API_TESTING_CLOUD_PROVIDER == 'BARE_METAL':
-                    cloud.provider = 'bare_metal'
+                    host = [config.CREDENTIALS['BARE_METAL']['public_ips']]
+                    cloud = clouds_models.OtherCloud(host=host, rdp_port=3389,
+                                                     ssh_user='root',
+                                                     ssh_port=22,
+                                                     **kwargs)
                     cloud.save()
                     machine = Machine()
                     machine.cloud = cloud
                     machine.ssh_port = 22
-                    machine.public_ips = [config.CREDENTIALS['BARE_METAL']['public_ips']]
-                    machine.private_ips = [config.CREDENTIALS['BARE_METAL']['private_ips']]
-                    machine.machine_id = config.API_TESTING_CLOUD.replace('.', '').replace(' ', '')
+                    machine.public_ips = [
+                        config.CREDENTIALS['BARE_METAL']['public_ips']]
+                    machine.private_ips = [
+                        config.CREDENTIALS['BARE_METAL']['private_ips']]
+                    machine.machine_id = config.API_TESTING_CLOUD.replace('.',
+                                                                          '').replace(
+                        ' ', '')
                     machine.name = config.API_TESTING_CLOUD
                     machine.os_type = 'unix'
                     machine.save()
-
-        return org, owner
 
 
 def setup_team(org_name, team_name, team_members=[], clean_policy=True):
