@@ -70,7 +70,8 @@ def before_all(context):
         behaving_mail.before_all(context)
 
     if config.RECORD_SELENIUM:
-        context.mist_config['recording_proc'] = start_recording()
+        start_recording()
+        context.mist_config['recording_session'] = True
 
     log.info("Finished with before_all hook. Starting tests")
 
@@ -90,5 +91,5 @@ def after_all(context):
     context.mist_config['browser'].quit()
     if context.mist_config.get('browser2'):
         context.mist_config['browser2'].quit()
-    if context.mist_config.get('recording_proc'):
-        stop_recording(context.mist_config['recording_proc'])
+    if context.mist_config.get('recording_session'):
+        stop_recording()
