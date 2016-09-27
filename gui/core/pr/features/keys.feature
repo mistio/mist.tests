@@ -94,7 +94,7 @@ Feature: Actions for Keys
   Scenario: Delete Key
     Then I click the button "Delete" from the menu of the "Key1" key
     And I expect the dialog "Delete Key" is open within 4 seconds
-    And I click the "Proceed" button in the dialog "Delete Key"
+    And I click the "Delete" button in the dialog "Delete Key"
     And I expect the dialog "Delete Key" is closed within 4 seconds
     Then "Key1" key should be absent within 15 seconds
     When I click the "Second" "key"
