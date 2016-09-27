@@ -95,7 +95,7 @@ Feature: Scripts
   Scenario: Delete script
     Then I click the button "Delete" from the menu of the "Script1" script
     And I expect the dialog "Delete Script" is open within 4 seconds
-    And I click the "Proceed" button in the dialog "Delete Script"
+    And I click the "Delete" button in the dialog "Delete Script"
     And I expect the dialog "Delete Script" is closed within 4 seconds
     Then "Script1" script should be absent within 15 seconds
     When I click the "Second" "script"
