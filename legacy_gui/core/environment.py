@@ -4,7 +4,6 @@ import logging
 from tests import config
 
 from tests.helpers.selenium_utils import choose_driver
-from tests.helpers.selenium_utils import get_screenshot
 from tests.helpers.selenium_utils import dump_js_console_log
 
 from tests.helpers.recording import start_recording
@@ -80,12 +79,15 @@ def before_feature(context, feature):
         try:
             context.execute_steps(u'Given user with email "EMAIL" is registered')
         except Exception as e:
-            get_screenshot(context)
-            dump_js_console_log(context)
+            finish_and_cleanup(context)
             raise e
 
 
 def after_all(context):
+    finish_and_cleanup(context)
+
+
+def finish_and_cleanup(context):
     dump_js_console_log(context)
     context.mist_config['browser'].quit()
     if context.mist_config.get('browser2'):
