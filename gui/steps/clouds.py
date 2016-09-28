@@ -100,7 +100,8 @@ def cloud_creds(context, cloud):
         ''' % (username, password))
     elif "LINODE" in cloud:
         api_key = context.mist_config['CREDENTIALS']['LINODE']['api_key']
-        context.execute_steps(u'Then I set the value "%s" to field "API Key" in "cloud" add form' % api_key)
+        context.execute_steps(u'Then I set the value "%s" to field "API Key" in'
+                              u' "cloud" add form' % api_key)
     elif "DIGITALOCEAN" in cloud:
         token = context.mist_config['CREDENTIALS']['DIGITALOCEAN']['token']
         context.execute_steps(u'''
