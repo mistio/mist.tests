@@ -13,24 +13,25 @@ from tests.api.helpers import *
 # been added to the test account should be equal to these.
 
 provider_data = {
-    #"Azure": {
-    #    "credentials": "AZURE",
-    #    "size": "ExtraSmall",
-    #    "name_prefix": "mpazure_",
-    #    "location": "West Europe"
-    #},
+    "Azure": {
+        "credentials": "AZURE",
+        "size": "ExtraSmall",
+        "name_prefix": "mpazure_",
+        "location": "West Europe"
+    },
      "Digital Ocean": {
          "credentials": "DIGITALOCEAN",
          "size": "512mb",
          "name_prefix": "mpdo",
          "location": "ams2"
      },
-    # "Linode": {
-    #     "credentials": "LINODE",
-    #     "size": "Linode 1024",
-    #     "name_prefix": "mpLinode_",
-    #     "location": "Dallas"
-    # },
+     "Linode": {
+         "credentials": "LINODE",
+         "size": "1",
+         "name_prefix": "mpLinode_",
+         "location": "10",
+         "disk":24576
+     },
     # "Nephoscale": {
     #     "credentials": "NEPHOSCALE",
     #     "size": "CS05",
@@ -130,6 +131,9 @@ def test_machine_provisioning_test(mist_core, api_token, mp_json):
     location_name = provider_data[provider_to_test['title']]['location']
     size = provider_data[provider_to_test['title']]['size']
     provider = provider_to_test['provider']
+    disk = provider_data[provider_to_test['title']]['disk'] or ''
+    image_extra = provider_to_test['images_left_to_test'][0]['extra']
+
 
     response = mist_core.create_machine(api_token=api_token,
                                         cloud_id=cloud_id,
@@ -137,6 +141,8 @@ def test_machine_provisioning_test(mist_core, api_token, mp_json):
                                         provider=provider,
                                         image=image_id,
                                         size=size,
+                                        disk=disk,
+                                        image_extra=image_extra,
                                         key_id=config.KEY_ID,
                                         location=location_name,
                                         async=True,
@@ -184,7 +190,7 @@ def test_machine_provisioning_test(mist_core, api_token, mp_json):
                 provider_to_test['images_left_to_test'][0]['name'])
 
     # waiting for the machine post deployment steps to finish
-    timeout = time() + 240
+    timeout = time() + 480
     while time() < timeout:
         response = mist_core.show_job(job_id=job_id,
                                       api_token=api_token).get()
