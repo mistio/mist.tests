@@ -1,5 +1,4 @@
 from tests import config
-import mist.io.clouds.models as clouds_models
 
 
 def setup_user_if_not_exists(user_email, password=None):
@@ -59,6 +58,7 @@ def setup_org_if_not_exists(org_name, owner_email, clean_org=True, add_cloud=Tru
             try:
                 Cloud.objects.get(owner=org, title=config.API_TESTING_CLOUD)
             except Cloud.DoesNotExist:
+                import mist.io.clouds.models as clouds_models
                 kwargs = {'owner': org, 'title': config.API_TESTING_CLOUD}
 
                 if config.API_TESTING_CLOUD_PROVIDER == 'EC2':
