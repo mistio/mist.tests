@@ -54,7 +54,6 @@ Feature: RBAC
     Given I am logged in to mist.core as rbac_owner
     And I am in the new UI
     When I wait for the dashboard to load
-    Then I wait for 5 seconds
     Then I ensure that I am in the "Rbac_Test" organization context
     When I visit the Teams page
     When I click the button "+"

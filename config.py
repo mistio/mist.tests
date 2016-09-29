@@ -20,12 +20,14 @@
 
 
 import os
+import ast
 import sys
 import json
 import logging
 
 log = logging.getLogger(__name__)
 logging.basicConfig(level=logging.INFO)
+
 test_settings = {}
 try:
     execfile("test_settings.py", test_settings)
@@ -58,11 +60,18 @@ def get_value_of(name_of_variable, default_value):
         return env_var
     return test_settings.get(name_of_variable, default_value)
 
-LOCAL = get_value_of("LOCAL", True)
 
-BROWSER_LOCAL = get_value_of("BROWSER_LOCAL", True)
+def get_bool_value(name_of_variable, default_value):
+    val = get_value_of(name_of_variable, default_value)
+    if not isinstance(val, bool):
+        return ast.literal_eval(val)
+    return val
 
-DEBUG = get_value_of("DEBUG", False)
+LOCAL = get_bool_value("LOCAL", True)
+
+DEBUG = get_bool_value("DEBUG", False)
+
+RECORD_SELENIUM = get_bool_value("RECORD_SELENIUM", False)
 
 # Directories and paths used for the tests
 BASE_DIR = get_value_of("BASE_DIR", os.getcwd())
@@ -81,6 +90,8 @@ JS_CONSOLE_LOG = get_value_of("JS_CONSOLE_LOG",
 
 SCREENSHOT_PATH = get_value_of("SCREENSHOT_PATH",
                                os.path.join(BASE_DIR, 'error'))
+
+DISPLAY_NUM = get_value_of("DISPLAY_NUM", "1")
 
 # This is the path to the json file used for the multi-provisioning tests
 MP_DB_DIR = get_value_of("MP_DB_DIR", os.path.join(BASE_DIR, 'mp_db.json'))
@@ -171,10 +182,10 @@ API_TESTING_CLOUD_PROVIDER = get_value_of('API_TESTING_CLOUD_PROVIDER', '')
 
 ORG_NAME = get_value_of('ORG_NAME', '')
 
-SETUP_ENVIRONMENT = get_value_of("SETUP_ENVIRONMENT", False)
+SETUP_ENVIRONMENT = get_bool_value("SETUP_ENVIRONMENT", False)
 
 WEBDRIVER_OPTIONS = get_value_of('WEBDRIVER_OPTIONS',
                                  ['--dns-prefetch-disable'])
 
-REGISTER_USER_BEFORE_FEATURE = get_value_of('REGISTER_USER_BEFORE_FEATURE',
-                                            False)
+REGISTER_USER_BEFORE_FEATURE = get_bool_value('REGISTER_USER_BEFORE_FEATURE',
+                                              False)
