@@ -8,6 +8,8 @@ from selenium.common.exceptions import NoSuchElementException
 from time import time
 from time import sleep
 
+from random import randrange
+
 
 def clear_input_and_send_keys(input_field, text):
     while input_field.get_attribute('value') != '':
@@ -121,6 +123,10 @@ def check_that_field_is_visible(context, field_name, title, form_type, seconds):
 def set_value_to_field(context, value, name, title, form_type):
     if context.mist_config.get(value):
         value = context.mist_config.get(value)
+    elif "random" in value:
+        value_key = value
+        value = value.replace("random", str(randrange(1000)))
+        context.mist_config[value_key] = value
     form = get_add_form(context, title) if form_type == 'add' else \
         get_edit_form(context, title)
     input = get_input_from_form(form, name.lower())
