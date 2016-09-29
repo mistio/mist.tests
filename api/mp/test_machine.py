@@ -32,39 +32,39 @@ provider_data = {
     #     "location": "10",
     #     "disk":24576
     # },
-     "Nephoscale": {
-         "credentials": "NEPHOSCALE",
-         "size": "219",
-         "name_prefix": "mpnephoscale",
-         "location": "87729",
-         "disk":25
-     },
+    # "Nephoscale": {
+    #     "credentials": "NEPHOSCALE",
+    #     "size": "219",
+    #     "name_prefix": "mpnephoscale",
+    #     "location": "87729",
+    #     "disk": 25
+    # },
     # "SoftLayer": {
     #     "credentials": "SOFTLAYER",
-    #     "size": "ram:1024",
-    #     "name_prefix": "mpSoftLayer_",
-    #     "location": "Amsterdam"
+    #     "size": "0",
+    #     "name_prefix": "mpSoftLayer",
+    #     "location": "ams01",
+    #     "disk": 25
     # },
-    # works
     # "EC2": {
     #     "credentials": "EC2",
     #     "size": "m1.small",
     #     "name_prefix": "mpec2",
     #     "location": "ap-northeast-1a"
     # },
-    # inactive billing
     # "GCE": {
     #     "credentials": "GCE",
-    #     "size": "f1-micro",
+    #     "size": "1000",
     #     "name_prefix": "mpgce",
-    #     "location": "europe-west1-b"
+    #     "location": "2101",
+    #     "location_name":"europe-west1-b"
     # },
-    # "Rackspace": {
-    #     "credentials": "RACKSPACE",
-    #     "size": "512MB",
-    #     "name_prefix": "mpRackspace_",
-    #     "location": "Default"
-    # }
+     "Rackspace": {
+         "credentials": "RACKSPACE",
+         "size": "2",
+         "name_prefix": "mpRackspace_",
+         "location": "0"
+     }
 }
 
 
@@ -129,7 +129,7 @@ def test_machine_provisioning_test(mist_core, api_token, mp_json):
     machine_name = provider_data[provider_to_test['title']]['name_prefix'] + \
                    str(random.randint(1, 10000))
     image_id = provider_to_test['images_left_to_test'][0]['id']
-    location_name = provider_data[provider_to_test['title']]['location']
+    location = provider_data[provider_to_test['title']]['location']
     size = provider_data[provider_to_test['title']]['size']
     provider = provider_to_test['provider']
     try:
@@ -137,6 +137,10 @@ def test_machine_provisioning_test(mist_core, api_token, mp_json):
     except:
         disk = ''
     image_extra = provider_to_test['images_left_to_test'][0]['extra']
+    try:
+        location_name = provider_data[provider_to_test['title']]['location_name']
+    except:
+        location_name = ''
 
 
     response = mist_core.create_machine(api_token=api_token,
@@ -148,7 +152,8 @@ def test_machine_provisioning_test(mist_core, api_token, mp_json):
                                         disk=disk,
                                         image_extra=image_extra,
                                         key_id=config.KEY_ID,
-                                        location=location_name,
+                                        location=location,
+                                        location_name=location_name,
                                         async=True,
                                         cron_enable=False,
                                         monitoring=False).post()
@@ -166,7 +171,7 @@ def test_machine_provisioning_test(mist_core, api_token, mp_json):
 
     # waiting for the creation of the machine to finish
     machine_id = None
-    timeout = time() + 200
+    timeout = time() + 240
     while time() < timeout:
         response = mist_core.show_job(job_id=job_id,
                                       api_token=api_token).get()
