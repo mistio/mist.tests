@@ -36,6 +36,8 @@ def get_list_item(context, resource_type, name):
 @step(u'"{expected_name}" {resource_type} should be {state} within {seconds}'
       u' seconds')
 def wait_for_item_show(context, expected_name, resource_type, state, seconds):
+    expected_name = expected_name.strip().lower()
+    expected_name = context.mist_config.get(expected_name, expected_name)
     state = state.lower()
     if state not in ['present', 'absent']:
         raise Exception('Unknown state %s' % state)
@@ -47,8 +49,8 @@ def wait_for_item_show(context, expected_name, resource_type, state, seconds):
         if state == 'absent' and not item:
             return True
         sleep(1)
-    assert False, 'Item is not %s in the list after %s seconds' \
-                  % (state, seconds)
+    assert False, 'Item %s is not %s in the list after %s seconds' \
+                  % (expected_name, state, seconds)
 
 
 @step(u'I click the button "{button_name}" from the menu of the "{item_name}"'
