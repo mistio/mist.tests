@@ -13,31 +13,32 @@ from tests.api.helpers import *
 # been added to the test account should be equal to these.
 
 provider_data = {
-    "Azure": {
-        "credentials": "AZURE",
-        "size": "ExtraSmall",
-        "name_prefix": "mpazure_",
-        "location": "West Europe"
-    },
-     "Digital Ocean": {
-         "credentials": "DIGITALOCEAN",
-         "size": "512mb",
-         "name_prefix": "mpdo",
-         "location": "ams2"
-     },
-     "Linode": {
-         "credentials": "LINODE",
-         "size": "1",
-         "name_prefix": "mpLinode_",
-         "location": "10",
-         "disk":24576
-     },
-    # "Nephoscale": {
-    #     "credentials": "NEPHOSCALE",
-    #     "size": "CS05",
-    #     "name_prefix": "mpNephoscale_",
-    #     "location": "SJC-1"
+    #"Azure": {
+    #    "credentials": "AZURE",
+    #    "size": "ExtraSmall",
+    #    "name_prefix": "mpazure_",
+    #    "location": "West Europe"
+    #},
+    # "Digital Ocean": {
+    #     "credentials": "DIGITALOCEAN",
+    #     "size": "512mb",
+    #     "name_prefix": "mpdo",
+    #     "location": "ams2"
     # },
+    # "Linode": {
+    #     "credentials": "LINODE",
+    #     "size": "1",
+    #     "name_prefix": "mpLinode_",
+    #     "location": "10",
+    #     "disk":24576
+    # },
+     "Nephoscale": {
+         "credentials": "NEPHOSCALE",
+         "size": "219",
+         "name_prefix": "mpnephoscale",
+         "location": "87729",
+         "disk":25
+     },
     # "SoftLayer": {
     #     "credentials": "SOFTLAYER",
     #     "size": "ram:1024",
@@ -45,12 +46,12 @@ provider_data = {
     #     "location": "Amsterdam"
     # },
     # works
-     "EC2": {
-         "credentials": "EC2",
-         "size": "m1.small",
-         "name_prefix": "mpec2",
-         "location": "ap-northeast-1a"
-     },
+    # "EC2": {
+    #     "credentials": "EC2",
+    #     "size": "m1.small",
+    #     "name_prefix": "mpec2",
+    #     "location": "ap-northeast-1a"
+    # },
     # inactive billing
     # "GCE": {
     #     "credentials": "GCE",
@@ -131,7 +132,10 @@ def test_machine_provisioning_test(mist_core, api_token, mp_json):
     location_name = provider_data[provider_to_test['title']]['location']
     size = provider_data[provider_to_test['title']]['size']
     provider = provider_to_test['provider']
-    disk = provider_data[provider_to_test['title']]['disk'] or ''
+    try:
+        disk = provider_data[provider_to_test['title']]['disk']
+    except:
+        disk = ''
     image_extra = provider_to_test['images_left_to_test'][0]['extra']
 
 
