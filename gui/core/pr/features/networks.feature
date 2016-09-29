@@ -37,5 +37,6 @@ Feature: Actions for Keys
     And I click the "Delete" button in the dialog "Delete Network"
     And I expect the dialog "Delete Network" is closed within 4 seconds
     Then "network_random" network should be absent within 30 seconds
+    Then I wait for 3 seconds
     Then I visit the Home page
-    When I wait for the dashboard to load
+    And I wait for the dashboard to load
