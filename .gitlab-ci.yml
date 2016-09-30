@@ -29,18 +29,15 @@ run_mayday_test:
   script:
     - >
         /core.env/bin/ipython tests/prepare_env.py --
-        --screenshot-path=/builds/mistio/mist.tests/var/log/error -k
-        --tags=alert,graph,ssh,celery,google_sso_signin,github_sso_signin
+        --screenshot-path=/builds/mistio/mist.tests/var/log/error
+        --webdriver-path=/builds/mistio/mist.tests/var/log/chromedriver.log
+        -k --tags=alert,graph,ssh,celery,google_sso_signin,github_sso_signin
         tests/legacy_gui/core/mayday/features
   tags:
      - mayday
   artifacts:
     paths:
-      - var/log/*-std*
-      - var/log/js_console.log
-      - var/log/rabbitmq/*
-      - var/log/supervisord.log
-      - var/log/mongodb.log.*
+      - var/log/chromedriver.log
       - var/log/error.*
       - test.mp4
     expire_in: 7 days
