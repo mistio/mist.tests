@@ -118,7 +118,7 @@ def destroy_machine(log, mist_core, api_token, cloud_id, machine_id):
 def mp_fail_notify(error, provider, image_name, stage):
     gmail_pwd = get_value_of('GOOGLE_TEST_PASSWORD', '')
     FROM = get_value_of('GOOGLE_TEST_EMAIL', '')
-    TO = ''
+    TO = get_value_of('MP_NOTIFY_EMAIL', '')
     if stage == 'provision':
         SUBJECT = '[Multiprovision-tests] Provisioning failed for ' + provider + ' and image ' + image_name
     else:
