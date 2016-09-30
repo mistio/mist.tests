@@ -32,7 +32,7 @@ def focus_on_element(context, element):
     from navigation import found_one
     assert found_one(context), "I have no idea where I am"
     try:
-        context.browser.find_element_by_id("app")
+        context.browser.find_element_by_tag_name("mist-app")
         js = "document.querySelector('paper-header-panel').scroller.scrollTop = %s" % position['y']
         context.browser.execute_script(js)
     except:
@@ -150,7 +150,7 @@ def check_page_is_visible(context, page_title, seconds):
     if page not in ['machines', 'images', 'keys', 'networks', 'tunnels',
                     'scripts', 'templates', 'stacks', 'teams']:
         raise ValueError('The page given is unknown')
-    element = 'page-items.%s div#content.page-items' % page
+    element = 'page-%s > page-items > div#content.page-items' % page
     msg = "%s page is not visible after %s seconds" % (page, seconds)
     wait_for_element_to_be_visible(context, (By.CSS_SELECTOR, element),
                                    int(seconds), msg)

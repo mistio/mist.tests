@@ -127,7 +127,7 @@ def am_in_new_UI(context):
     """
     assert found_one(context), "I have no idea where I am"
     try:
-        context.browser.find_element_by_id("app")
+        context.browser.find_element_by_tag_name("mist-app")
         return
     except:
         context.execute_steps(u'''
@@ -159,29 +159,30 @@ def filter_buttons(context, text):
 
 @step(u'I wait for the dashboard to load')
 def wait_for_dashboard(context):
+    # wait first until the sidebar is open
     context.execute_steps(u'Then I wait for the links in homepage to appear')
-    add_cloud_button = filter_buttons(context, 'add your clouds')
-    if add_cloud_button:
-        return True
+    # wait until the panel in the middle is visible
+    timeout = 20
+    try:
+        WebDriverWait(context.browser, timeout).until(
+            EC.visibility_of_element_located((By.CSS_SELECTOR,
+                                              "mist-app div#mainPanel "
+                                              "div#mainContainer div#content")))
+    except TimeoutException:
+        raise TimeoutException("Dashboard did not load after %s seconds"
+                               % timeout)
+    # wait until the add clouds button is clickable
+    context.execute_steps(u'Then I expect for "addBtn" to be clickable within '
+                          u'max 20 seconds')
     save_org = filter_buttons(context, 'save organisation')
     if save_org:
         # first save the name of the organizational context for future use then
         # press the button to save the name and finally return successfully
         org_form = context.browser.find_element_by_id('orginput')
         org_input = org_form.find_element_by_id('input')
-        context.organizational_context = org_input.get_attribute(
-            'value').strip().lower()
+        context.organizational_context = org_input.get_attribute('value').strip().lower()
         clicketi_click(context, save_org[0])
         return True
-    timeout = 20
-    try:
-        WebDriverWait(context.browser, timeout).until(
-            EC.visibility_of_element_located((By.CLASS_NAME, "main-section")))
-    except TimeoutException:
-        raise TimeoutException("Dashboard did not load after %s seconds"
-                               % timeout)
-    context.execute_steps(u'Then I expect for "addBtn" to be clickable within '
-                          u'max 20 seconds')
 
 
 @step(u'I visit the {title} page')
@@ -260,7 +261,7 @@ def visit_machines_url(context):
 @step(u'I am logged in to mist.core')
 def given_logged_in(context):
     try:
-        context.browser.find_element_by_tag_name("app-main")
+        context.browser.find_element_by_tag_name("mist-app")
         # we're on the new UI
         return
     except:
@@ -297,7 +298,7 @@ def found_one(context):
                 return True
         except NoSuchElementException:
             try:
-                context.browser.find_element_by_id("app")
+                context.browser.find_element_by_tag_name("mist-app")
                 success += 1
                 if success == 2:
                     return True
@@ -334,6 +335,12 @@ def given_logged_in(context, kind):
                 And I enter my standard credentials for login
                 And I click the sign in button in the landing page popup
             """)
+    except NoSuchElementException:
+        pass
+    try:
+        context.browser.find_element_by_tag_name("mist-app")
+        context.execute_steps(u'Then I wait for the dashboard to load')
+        return
     except NoSuchElementException:
         pass
     try:
@@ -402,6 +409,7 @@ def logout(context):
                 click_button_from_collection(context, 'Logout',
                                              user_menu.find_elements_by_tag_name(
                                                  'paper-item'))
+                # sleep(2)
                 return True
             else:
                 dimensions = user_menu.size
