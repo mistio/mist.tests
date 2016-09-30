@@ -89,6 +89,11 @@ def after_all(context):
 
 def finish_and_cleanup(context):
     dump_js_console_log(context)
+    try:
+        get_screenshot(context)
+    except Exception as e:
+        log.error("Could not get screen shot: %s" % repr(e))
+        pass
     context.mist_config['browser'].quit()
     if context.mist_config.get('browser2'):
         context.mist_config['browser2'].quit()
