@@ -29,7 +29,7 @@ run_mayday_test:
   script:
     - >
         /core.env/bin/ipython tests/prepare_env.py --
-        --screenshot-path=/var/log/error -k
+        --screenshot-path=/builds/mistio/mist.tests/var/log/error -k
         --tags=alert,graph,ssh,celery,google_sso_signin,github_sso_signin
         tests/legacy_gui/core/mayday/features
   tags:
@@ -40,7 +40,8 @@ run_mayday_test:
       - var/log/js_console.log
       - var/log/rabbitmq/*
       - var/log/supervisord.log
-      - var/log/error*
       - var/log/mongodb.log.*
+      - var/log/mongodb.log.*
+      - test.mp4
     expire_in: 7 days
     when: on_failure
