@@ -58,16 +58,17 @@ class MistIoApi(object):
 
     def list_images(self, cloud_id, search_term=None, cookie=None,
                     csrf_token=None, api_token=None):
-        uri = self.uri + '/clouds/' + cloud_id + '/api/v1/images',
-        if not search_term:
-            req = MistRequests(uri=uri, cookie=cookie, csrf_token=csrf_token,
-                               api_token=api_token)
-            req.get = req.unavailable_api_call
-        else:
-            req = MistRequests(uri=uri, data={'search_term': search_term},
-                               cookie=cookie, csrf_token=csrf_token)
-            req.post = req.unavailable_api_call
+        kwargs = {
+            'uri': self.uri + '/api/v1/clouds/' + cloud_id + '/images',
+            'cookie': cookie,
+            'csrf_token': csrf_token,
+            'api_token': api_token
+        }
 
+        if search_term:
+            kwargs.update({'data': {'search_term': search_term}})
+
+        req = MistRequests(**kwargs)
         req.put = req.unavailable_api_call
         req.delete = req.unavailable_api_call
         return req
@@ -104,10 +105,11 @@ class MistIoApi(object):
         return req
 
     def create_machine(self, cloud_id, key_id, name, provider, location, image, size,
-                       script=None, disk=None, image_extra=None, cookie=None,
+                       script="", disk=None, image_extra=None, cookie=None,
                        csrf_token=None, api_token=None, cron_enable=False,
                        cron_type=None, cron_entry=None, cron_script=None,
-                       cron_name=None, async=False):
+                       cron_name=None, async=False, monitoring=False,
+                       cloud_init="", location_name=''):
         # ! disk and image_extra are required only for Linode
         # ! cronjobs' variables are required only if we want to set a scheduler
         # ! this way cronjob vars pass empty in create machine params
@@ -117,6 +119,7 @@ class MistIoApi(object):
             'name': name,
             'provider': provider,
             'location': location,
+            'location_name': location_name,
             'image': image,
             'size': size,
             'script': script,
@@ -127,7 +130,9 @@ class MistIoApi(object):
             'cronjob_entry': cron_entry,
             'cronjob_script_id': cron_script,
             'cronjob_name': cron_name,
-            'async': async
+            'async': async,
+            'monitoring': monitoring,
+            'cloud_init': cloud_init
         }
         req = MistRequests(uri=self.uri + '/api/v1/clouds/' + cloud_id + '/machines',
                            cookie=cookie, data=json.dumps(payload), timeout=600,

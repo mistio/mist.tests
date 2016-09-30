@@ -1,8 +1,12 @@
 import json
 import string
 import random
+import smtplib
+import requests
 
 from tests.api.utils import *
+
+from tests.config import get_value_of
 
 bash_script_no_shebang = """
 touch ~/bla
@@ -99,3 +103,41 @@ def get_random_key_id(existing_keys):
         keys = get_keys_with_id(random_key_name, existing_keys)
         if len(keys) == 0:
             return random_key_name
+
+def destroy_machine(log, mist_core, api_token, cloud_id, machine_id):
+    response = mist_core.destroy_machine(api_token=api_token,
+                                         cloud_id=cloud_id,
+                                         machine_id=machine_id).post()
+    try:
+        assert_response_ok(response)
+        log.info("Machine destruction command has been submitted successfully!")
+    except AssertionError as e:
+        log.error("Machine destruction was not successful!")
+        raise e
+
+def mp_fail_notify(error, provider, image_name, stage):
+    gmail_pwd = get_value_of('GOOGLE_TEST_PASSWORD', '')
+    FROM = get_value_of('GOOGLE_TEST_EMAIL', '')
+    TO = get_value_of('MP_NOTIFY_EMAIL', '')
+    if stage == 'provision':
+        SUBJECT = '[Multiprovision-tests] Provisioning failed for ' + provider + ' and image ' + image_name
+    else:
+        SUBJECT = '[Multiprovision-tests] Deployment failed for ' + provider + ' and image ' + image_name
+    error_json = json.loads(str(error.message.split('\n')[1]))
+    TEXT = error_json['error']
+
+    message = """From: %s\nTo: %s\nSubject: %s\n\n%s
+    """ % (FROM, TO, SUBJECT, TEXT)
+
+    #send an email
+    server = smtplib.SMTP('smtp.gmail.com:587')
+    server.ehlo()
+    server.starttls()
+    server.login(FROM, gmail_pwd)
+    server.sendmail(FROM, TO, message)
+    server.quit()
+
+    #post to Slack
+    headers = {"Content-type": "application/json"}
+    payload = {"text": SUBJECT}
+    #response = requests.post('https://hooks.slack.com/services/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', json=payload)

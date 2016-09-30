@@ -187,5 +187,7 @@ SETUP_ENVIRONMENT = get_bool_value("SETUP_ENVIRONMENT", False)
 WEBDRIVER_OPTIONS = get_value_of('WEBDRIVER_OPTIONS',
                                  ['--dns-prefetch-disable'])
 
-REGISTER_USER_BEFORE_FEATURE = get_bool_value('REGISTER_USER_BEFORE_FEATURE',
-                                              False)
+REGISTER_USER_BEFORE_FEATURE = get_value_of('REGISTER_USER_BEFORE_FEATURE',
+                                            False)
+
+KEY_ID = get_value_of('KEY_ID', '')
