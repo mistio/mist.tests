@@ -19,52 +19,52 @@ provider_data = {
         "name_prefix": "mpazure_",
         "location": "West Europe"
     },
-    # "Digital Ocean": {
-    #     "credentials": "DIGITALOCEAN",
-    #     "size": "512mb",
-    #     "name_prefix": "mpdo",
-    #     "location": "ams2"
-    # },
-    # "Linode": {
-    #     "credentials": "LINODE",
-    #     "size": "1",
-    #     "name_prefix": "mpLinode_",
-    #     "location": "10",
-    #     "disk":24576
-    # },
-    # "Nephoscale": {
-    #     "credentials": "NEPHOSCALE",
-    #     "size": "3",
-    #     "name_prefix": "mpnephoscale",
-    #     "location": "87729",
-    #     "disk": 50
-    # },
-    # "SoftLayer": {
-    #     "credentials": "SOFTLAYER",
-    #     "size": "0",
-    #     "name_prefix": "mpSoftLayer",
-    #     "location": "ams01",
-    #     "disk": 25
-    # },
-    # "EC2": {
-    #     "credentials": "EC2",
-    #     "size": "m1.small",
-    #     "name_prefix": "mpec2",
-    #     "location": "ap-northeast-1a"
-    # },
-    # "GCE": {
-    #     "credentials": "GCE",
-    #     "size": "1000",
-    #     "name_prefix": "mpgce",
-    #     "location": "2101",
-    #     "location_name":"europe-west1-b"
-    # },
-    # "Rackspace": {
-    #     "credentials": "RACKSPACE",
-    #     "size": "2",
-    #     "name_prefix": "mpRackspace_",
-    #     "location": "0"
-    # }
+     "Digital Ocean": {
+         "credentials": "DIGITALOCEAN",
+         "size": "512mb",
+         "name_prefix": "mpdo",
+         "location": "ams2"
+     },
+     "Linode": {
+         "credentials": "LINODE",
+         "size": "1",
+         "name_prefix": "mpLinode_",
+         "location": "10",
+         "disk":24576
+     },
+     "Nephoscale": {
+         "credentials": "NEPHOSCALE",
+         "size": "3",
+         "name_prefix": "mpnephoscale",
+         "location": "87729",
+         "disk": 50
+     },
+     "SoftLayer": {
+         "credentials": "SOFTLAYER",
+         "size": "0",
+         "name_prefix": "mpSoftLayer",
+         "location": "ams01",
+         "disk": 25
+     },
+     "EC2": {
+         "credentials": "EC2",
+         "size": "m1.small",
+         "name_prefix": "mpec2",
+         "location": "ap-northeast-1a"
+     },
+     "GCE": {
+         "credentials": "GCE",
+         "size": "1000",
+         "name_prefix": "mpgce",
+         "location": "2101",
+         "location_name":"europe-west1-b"
+     },
+     "Rackspace": {
+         "credentials": "RACKSPACE",
+         "size": "2",
+         "name_prefix": "mpRackspace_",
+         "location": "0"
+     }
 }
 
 
