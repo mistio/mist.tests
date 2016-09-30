@@ -22,9 +22,9 @@ run_mayday_test:
   script:
     - >
         /core.env/bin/ipython tests/prepare_env.py --
-        --screenshot-path=$CI_PROJECT_DIR/var/log/error
-        --webdriver-log=$CI_PROJECT_DIR/var/log/chromedriver.log
-        --js_console_log=$CI_PROJECT_DIR/var/log/js_console.log
+        --screenshot-path=$(pwd)/var/log/error
+        --webdriver-log=$(pwd)/var/log/chromedriver.log
+        --js_console_log=$(pwd)/var/log/js_console.log
         -k --tags=alert,graph,ssh,celery,google_sso_signin,github_sso_signin
         tests/legacy_gui/core/mayday/features
   tags:
