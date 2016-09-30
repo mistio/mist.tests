@@ -41,7 +41,7 @@ run_mayday_test:
       - var/log/rabbitmq/*
       - var/log/supervisord.log
       - var/log/mongodb.log.*
-      - var/log/mongodb.log.*
+      - var/log/error.*
       - test.mp4
     expire_in: 7 days
     when: on_failure
