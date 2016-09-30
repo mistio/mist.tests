@@ -4,6 +4,7 @@ import logging
 from tests import config
 
 from tests.helpers.selenium_utils import choose_driver
+from tests.helpers.selenium_utils import get_screenshot
 from tests.helpers.selenium_utils import dump_js_console_log
 
 from tests.helpers.recording import start_recording
