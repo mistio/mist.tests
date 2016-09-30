@@ -13,12 +13,12 @@ from tests.api.helpers import *
 # been added to the test account should be equal to these.
 
 provider_data = {
-    #"Azure": {
-    #    "credentials": "AZURE",
-    #    "size": "ExtraSmall",
-    #    "name_prefix": "mpazure_",
-    #    "location": "West Europe"
-    #},
+    "Azure": {
+        "credentials": "AZURE",
+        "size": "ExtraSmall",
+        "name_prefix": "mpazure_",
+        "location": "West Europe"
+    },
     # "Digital Ocean": {
     #     "credentials": "DIGITALOCEAN",
     #     "size": "512mb",
@@ -34,10 +34,10 @@ provider_data = {
     # },
     # "Nephoscale": {
     #     "credentials": "NEPHOSCALE",
-    #     "size": "219",
+    #     "size": "3",
     #     "name_prefix": "mpnephoscale",
     #     "location": "87729",
-    #     "disk": 25
+    #     "disk": 50
     # },
     # "SoftLayer": {
     #     "credentials": "SOFTLAYER",
@@ -59,12 +59,12 @@ provider_data = {
     #     "location": "2101",
     #     "location_name":"europe-west1-b"
     # },
-     "Rackspace": {
-         "credentials": "RACKSPACE",
-         "size": "2",
-         "name_prefix": "mpRackspace_",
-         "location": "0"
-     }
+    # "Rackspace": {
+    #     "credentials": "RACKSPACE",
+    #     "size": "2",
+    #     "name_prefix": "mpRackspace_",
+    #     "location": "0"
+    # }
 }
 
 
@@ -187,6 +187,7 @@ def test_machine_provisioning_test(mist_core, api_token, mp_json):
                 update_json(mp_json, provider_to_test['title'], image_id,
                             provider_to_test['images_left_to_test'][0]['name'],
                             False)
+                mp_fail_notify(e, provider, provider_to_test['images_left_to_test'][0]['name'], 'provision')
                 raise e
             machine_id = machine_logs[0]['machine_id']
             break
@@ -215,6 +216,7 @@ def test_machine_provisioning_test(mist_core, api_token, mp_json):
         assert time() < timeout
     except AssertionError as e:
         print "Waited for too long for post deployment steps to finish"
+        mp_fail_notify(e, provider, provider_to_test['images_left_to_test'][0]['name'], 'deploy')
         destroy_machine(log, mist_core, api_token, cloud_id, machine_id)
         raise e
 
