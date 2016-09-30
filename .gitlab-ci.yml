@@ -8,9 +8,6 @@ run_mayday_test:
   only:
     - triggers
   before_script:
-    # hack to keep logs in subdir of build dir, required for artifacts to work
-    - mkdir -p var/log
-    # end logs hack
     - export DISPLAY=:1.0
     - Xvfb :1 -screen 0 1024x768x24 > /dev/null 2>&1 &
     - cd ..
@@ -21,6 +18,7 @@ run_mayday_test:
     - chmod 744 tests/gitlab/chromedriver
     - export "PATH=$(pwd)/tests/gitlab:$PATH"
     - /core.env/bin/pip install -e tests
+    - mkdir -p var/log
   script:
     - >
         /core.env/bin/ipython tests/prepare_env.py --
