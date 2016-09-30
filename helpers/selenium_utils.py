@@ -21,26 +21,22 @@ def choose_driver(flavor=None):
     flavor = flavor if flavor is not None else config.BROWSER_FLAVOR
 
     log.info("Initializing driver")
-    if config.BROWSER_LOCAL:
-        if flavor == "firefox":
-            driver = webdriver.Firefox()
-        elif flavor == "chrome":
-            service_args = ['--verbose']
-            chrome_options = Options()
-            for opt in config.WEBDRIVER_OPTIONS:
-                chrome_options.add_argument(opt)
-            driver = webdriver.Chrome(service_args=service_args,
-                                      chrome_options=chrome_options,
-                                      executable_path=config.WEBDRIVER_PATH,
-                                      service_log_path=config.WEBDRIVER_LOG)
+    if flavor == "firefox":
+        driver = webdriver.Firefox()
+    elif flavor == "chrome":
+        service_args = ['--verbose']
+        chrome_options = Options()
+        for opt in config.WEBDRIVER_OPTIONS:
+            chrome_options.add_argument(opt)
+        driver = webdriver.Chrome(service_args=service_args,
+                                  chrome_options=chrome_options,
+                                  executable_path=config.WEBDRIVER_PATH,
+                                  service_log_path=config.WEBDRIVER_LOG)
 
-        elif flavor == "phantomjs":
-            driver = webdriver.PhantomJS(executable_path=config.WEBDRIVER_PATH)
-        else:
-            raise Exception("%s is not supported!" % flavor)
+    elif flavor == "phantomjs":
+        driver = webdriver.PhantomJS(executable_path=config.WEBDRIVER_PATH)
     else:
-        driver = webdriver.Remote(command_executor=config.selenium_hub,
-                                  desired_capabilities=DesiredCapabilities.FIREFOX)
+        raise Exception("%s is not supported!" % flavor)
 
     return driver
 
