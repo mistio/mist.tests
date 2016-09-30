@@ -25,7 +25,7 @@ run_mayday_test:
     - >
         /core.env/bin/ipython tests/prepare_env.py --
         --screenshot-path=$CI_PROJECT_DIR/var/log/error
-        --webdriver-path=$CI_PROJECT_DIR/var/log/chromedriver.log
+        --webdriver-log=$CI_PROJECT_DIR/var/log/chromedriver.log
         -k --tags=alert,graph,ssh,celery,google_sso_signin,github_sso_signin
         tests/legacy_gui/core/mayday/features
   tags:
