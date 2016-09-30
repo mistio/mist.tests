@@ -10,12 +10,7 @@ run_mayday_test:
   before_script:
     # hack to keep logs in subdir of build dir, required for artifacts to work
     - mkdir -p var/log
-    - cp -a /var/log/* var/log/
-    - rm -rf /var/log
-    - ln -s $CI_PROJECT_DIR/var/log /var/log
     # end logs hack
-    - echo "$GITLAB_ID_RSA" > /gitlab_id_rsa
-    - export MAYDAY=1
     - export DISPLAY=:1.0
     - Xvfb :1 -screen 0 1024x768x24 > /dev/null 2>&1 &
     - cd ..
@@ -29,18 +24,16 @@ run_mayday_test:
   script:
     - >
         /core.env/bin/ipython tests/prepare_env.py --
-        --screenshot-path=/var/log/error -k
-        --tags=alert,graph,ssh,celery,google_sso_signin,github_sso_signin
+        --screenshot-path=$CI_PROJECT_DIR/var/log/error
+        --webdriver-path=$CI_PROJECT_DIR/var/log/chromedriver.log
+        -k --tags=alert,graph,ssh,celery,google_sso_signin,github_sso_signin
         tests/legacy_gui/core/mayday/features
   tags:
      - mayday
   artifacts:
     paths:
-      - var/log/*-std*
-      - var/log/js_console.log
-      - var/log/rabbitmq/*
-      - var/log/supervisord.log
-      - var/log/error*
-      - var/log/mongodb.log.*
+      - var/log/chromedriver.log
+      - var/log/error.*
+      - test.mp4
     expire_in: 7 days
     when: on_failure
