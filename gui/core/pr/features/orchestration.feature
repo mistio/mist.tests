@@ -76,3 +76,14 @@ Feature: Tests for orchestration feature
     And "Renamed Template" template should be present within 5 seconds
     Then I visit the Home page
     When I wait for the dashboard to load
+
+
+  @template-delete
+  Scenario: Delete a template
+    Then I click the button "Delete" from the menu of the "Simple Python Template" template
+    And I expect the dialog "Delete Template" is open within 4 seconds
+    And I click the "Delete" button in the dialog "Delete Template"
+    And I expect the dialog "Delete Template" is closed within 4 seconds
+    Then "Simple Python Template" template should be absent within 15 seconds
+    Then I visit the Home page
+    When I wait for the dashboard to load
