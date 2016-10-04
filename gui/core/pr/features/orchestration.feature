@@ -60,3 +60,19 @@ Feature: Tests for orchestration feature
     And I ensure that the "key" has the tags "second:tag"
     Then I visit the Home page
     When I wait for the dashboard to load
+
+
+  @template-rename
+    Scenario: Rename a template
+    When I click the "Simple Python Template" "template"
+    And I expect the "template" edit form to be visible within max 5 seconds
+    Then I click the button "Edit Template" from the menu of the "template" edit form
+    And I expect the dialog "Edit Template" is open within 4 seconds
+    When I set the value "Renamed Template" to field "Name" in "Edit Template" dialog
+    And I click the "Submit" button in the dialog "Edit Template"
+    And I expect the dialog "Edit Template" is closed within 4 seconds
+    Then I visit the templates page
+    And "Simple Python Template" template should be absent within 5 seconds
+    And "Renamed Template" template should be present within 5 seconds
+    Then I visit the Home page
+    When I wait for the dashboard to load
