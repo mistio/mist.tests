@@ -1,7 +1,7 @@
 import sys
 import logging
 
-from .requirements import setup as requirements_setup
+from .requirements import chrome_driver_setup
 
 from tests import config
 
@@ -20,7 +20,7 @@ def before_all(context):
     """
     Load the configuration config and setup the context
     """
-    requirements_setup()
+    chrome_driver_setup()
     log.info("Starting before all hook")
     log.info("Webdriver path:" + config.WEBDRIVER_PATH)
     log.info("Webdriver log:" + config.WEBDRIVER_LOG)

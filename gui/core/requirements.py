@@ -1,23 +1,19 @@
 import logging
 
+from config import LOG_DIR, MAIL_DIR
+
 log = logging.getLogger(__name__)
 
 logging.basicConfig(level=logging.INFO)
 
 CHROMEDRIVER = "chromedriver"
 CHROMEDRIVER_PATH = "parts/chromedriver/"
-CHROMEDRIVER_MAIL_PATH = "var/mail/"
-CHROMEDRIVER_LOG_PATH = "var/log/"
 
 
-def setup():
+def chrome_driver_setup():
     import os
 
-    log.info("Fetching requirements...")
-    os.system("bin/pip install -e tests")
-
     log.info("Checking for chromedriver")
-    # chromedriver = which(CHROMEDRIVER)
     make_dir_if_no_exist(CHROMEDRIVER_PATH)
 
     if (os.path.isfile(CHROMEDRIVER_PATH + CHROMEDRIVER)):
@@ -37,8 +33,8 @@ def setup():
     # export path
     os.system("export PATH = " + os.path.join(os.getcwd(), CHROMEDRIVER_PATH) + ":$PATH")
 
-    make_dir_if_no_exist(CHROMEDRIVER_MAIL_PATH)
-    make_dir_if_no_exist(CHROMEDRIVER_LOG_PATH)
+    make_dir_if_no_exist(MAIL_DIR)
+    make_dir_if_no_exist(LOG_DIR)
 
 
 def make_dir_if_no_exist(dir):
@@ -48,17 +44,3 @@ def make_dir_if_no_exist(dir):
         os.makedirs(dir)
     else:
         log.info(dir + " exists")
-
-
-def which(program):
-    import os
-    def is_exe(fpath):
-        return os.path.isfile(fpath) #and os.access(fpath, os.X_OK)
-
-    for path in os.environ["PATH"].split(os.pathsep):
-        path = path.strip('"')
-        exe_file = os.path.join(path, program)
-        if is_exe(exe_file):
-            return exe_file
-
-    return None

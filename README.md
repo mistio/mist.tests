@@ -10,7 +10,9 @@ No installation is required. mist.tests should already be in your core's tests/ 
 
 ### Setting up the environment
 
-TODO
+In order to fetch all the requirements needed for the tests, you need to run
+
+bin/pip install -e tests
 
 ### Running the tests
 
