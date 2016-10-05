@@ -24,7 +24,6 @@ Feature: Tests for orchestration feature
     Then "Simple Python Template" template should be present within 10 seconds
     Then I visit the Home page
     When I wait for the dashboard to load
-   # Then I visit the Stacks page
 
  @template-search
  Scenario: Filter a template
@@ -80,7 +79,9 @@ Feature: Tests for orchestration feature
 
   @template-delete
   Scenario: Delete a template
-    Then I click the button "Delete" from the menu of the "Simple Python Template" template
+    When I click the "Simple Python Template" "template"
+    And I expect the "template" edit form to be visible within max 5 seconds
+    Then I click the button "Delete Template" from the menu of the "template" edit form
     And I expect the dialog "Delete Template" is open within 4 seconds
     And I click the "Delete" button in the dialog "Delete Template"
     And I expect the dialog "Delete Template" is closed within 4 seconds
