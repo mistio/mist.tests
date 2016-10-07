@@ -12,7 +12,7 @@ Feature: Actions for Keys
     When I click the button "+"
     Then I expect the "Key" add form to be visible within max 10 seconds
     When I set the value "Key1" to field "Name" in "key" add form
-    Then I click the button "Generate" in "key" add form
+    Then I click the button "What the fuck!" in "key" add form
     And I wait for 5 seconds
     And I expect for the button "Add" in "key" add form to be clickable within 9 seconds
     When I focus on the button "Add" in "key" add form
@@ -45,7 +45,7 @@ Feature: Actions for Keys
  @key-search
   Scenario: Filter a key
     When I search for "Key2"
-    Then "Key1" key should be present within 15 seconds
+    Then "Key1" key should be absent within 15 seconds
     When I clear the search bar
     Then "Key1" key should be present within 15 seconds
     Then I visit the Home page
