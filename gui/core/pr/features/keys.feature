@@ -45,7 +45,7 @@ Feature: Actions for Keys
  @key-search
   Scenario: Filter a key
     When I search for "Key2"
-    Then "Key1" key should be absent within 15 seconds
+    Then "Key1" key should be present within 15 seconds
     When I clear the search bar
     Then "Key1" key should be present within 15 seconds
     Then I visit the Home page
