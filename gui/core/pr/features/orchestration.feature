@@ -110,4 +110,16 @@ Feature: Tests for orchestration feature
     When I focus on the button "Create Stack" in "stack" add form
     And I click the button "Create Stack" in "stack" add form
     Then I expect the "stack" edit form to be visible within max 30 seconds
-    
+
+
+  @stack-search
+  Scenario: Filter a stack
+    When I visit the Stacks page
+    When I search for "TestStack"
+    Then "TestStack" stack should be present within 15 seconds
+    When I clear the search bar
+    Then "TestStack" stack should be present within 15 seconds
+    When I search for "Non-existing Stack"
+    Then "TestStack" stack should be absent within 15 seconds
+    Then I visit the Home page
+    When I wait for the dashboard to load
