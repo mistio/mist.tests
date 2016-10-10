@@ -6,7 +6,7 @@ Feature: Tests for orchestration feature
     When I wait for the dashboard to load
 
   @template-add
-  Scenario: First add the template that will later be used
+  Scenario: Add a template
     When I visit the Templates page
     When I click the button "+"
     Then I expect the "Template" add form to be visible within max 10 seconds
@@ -58,7 +58,7 @@ Feature: Tests for orchestration feature
     And I wait for 1 seconds
     And I click the button "Save Tags" in the tag menu
     Then I expect for the tag popup to close within 4 seconds
-    And I ensure that the "key" has the tags "second:tag"
+    And I ensure that the "template" has the tags "second:tag"
     Then I visit the Home page
     When I wait for the dashboard to load
 
@@ -151,6 +151,6 @@ Feature: Tests for orchestration feature
     And I wait for 1 seconds
     And I click the button "Save Tags" in the tag menu
     Then I expect for the tag popup to close within 4 seconds
-    And I ensure that the "TestStack" has the tags "second:tag"
+    And I ensure that the "stack" has the tags "second:tag"
     Then I visit the Home page
     When I wait for the dashboard to load
