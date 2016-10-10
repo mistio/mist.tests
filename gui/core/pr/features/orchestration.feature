@@ -19,14 +19,14 @@ Feature: Tests for orchestration feature
     And I expect for the button "Add" in "template" add form to be clickable within 9 seconds
     When I focus on the button "Add" in "template" add form
     And I click the button "Add" in "template" add form
-    Then I expect the "template" edit form to be visible within max 10 seconds
+    Then I expect the "template" edit form to be visible within max 20 seconds
     When I visit the Templates page
     Then "Simple Python Template" template should be present within 10 seconds
     Then I visit the Home page
     When I wait for the dashboard to load
 
- @template-search
- Scenario: Filter a template
+  @template-search
+  Scenario: Filter a template
     When I search for "Simple Python Template"
     Then "Simple Python Template" template should be present within 15 seconds
     When I clear the search bar
@@ -37,7 +37,7 @@ Feature: Tests for orchestration feature
     When I wait for the dashboard to load
 
   @template-tags
-    Scenario: Add tags to template
+  Scenario: Add tags to template
     When I click the "Simple Python Template" "template"
     And I expect the "template" edit form to be visible within max 5 seconds
     Then I click the button "Tags" in "template" edit form
@@ -62,7 +62,7 @@ Feature: Tests for orchestration feature
 
 
   @template-rename
-    Scenario: Rename a template
+  Scenario: Rename a template
     When I click the "Simple Python Template" "template"
     And I expect the "template" edit form to be visible within max 5 seconds
     Then I click the button "Edit Template" from the menu of the "template" edit form
@@ -88,3 +88,26 @@ Feature: Tests for orchestration feature
     Then "Simple Python Template" template should be absent within 15 seconds
     Then I visit the Home page
     When I wait for the dashboard to load
+
+  @stack-add
+  Scenario: First add the template that will later be used in order to create a stack
+    When I click the button "+"
+    Then I expect the "Template" add form to be visible within max 10 seconds
+    And I open the "Catalogue Templates" drop down
+    And I wait for 1 seconds
+    When I click the button "Kubernetes Blueprint" in the "Catalogue Templates" dropdown
+    When I set the value "Simple Python Template" to field "Template Name" in "template" add form
+    Then I set the value "https://github.com/mistio/simple-python-webserver-blueprint" to field "Github Repo" in "template" add form
+    When I set the value "blueprint.yaml" to field "Entry Point" in "template" add form
+    And I expect for the button "Add" in "template" add form to be clickable within 9 seconds
+    When I focus on the button "Add" in "template" add form
+    And I click the button "Add" in "template" add form
+    Then I expect the "template" edit form to be visible within max 20 seconds
+    When I click the button "Create Stack" in "template" edit form
+    And I expect the "stack" add form to be visible within max 20 seconds
+    When I set the value "TestStack" to field "Stack Name" in "stack" add form
+    And I expect for the button "Create Stack" in "stack" add form to be clickable within 9 seconds
+    When I focus on the button "Create Stack" in "stack" add form
+    And I click the button "Create Stack" in "stack" add form
+    Then I expect the "stack" edit form to be visible within max 30 seconds
+    

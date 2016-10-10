@@ -34,7 +34,10 @@ def get_add_form(context, title):
     if title not in ['cloud', 'machine', 'image', 'key', 'network', 'tunnel',
                      'script', 'template', 'stack', 'team', 'members']:
         raise ValueError('The title given is unknown')
-    add_form_selector = 'div#content.%s-add' % title
+    if title == 'stack':
+        add_form_selector = 'div#content.%s-create' % title
+    else:
+        add_form_selector = 'div#content.%s-add' % title
     return context.browser.find_element_by_css_selector(add_form_selector)
 
 
@@ -57,6 +60,8 @@ def get_edit_form(context, title):
       u'{seconds} seconds')
 def check_form_is_visible(context, page, form_type, seconds):
     form_type = form_type.lower()
+    # import ipdb
+    # ipdb.set_trace()
     if form_type not in ['add', 'edit']:
         raise Exception('Unknown type of form')
     msg = "%s %s form is not visible after %s seconds" \
@@ -211,6 +216,8 @@ def open_drop_down(context, dropdown_text):
 def click_menu_button_from_more_menu(context, button_name, title, form_type):
     from .buttons import clicketi_click
     from .buttons import click_button_from_collection
+    import ipdb
+    ipdb.set_trace()
     form_type = form_type.lower()
     form = get_add_form(context, form_type) if form_type == 'add' else \
         get_edit_form(context, title)
