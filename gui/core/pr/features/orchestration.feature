@@ -93,7 +93,6 @@ Feature: Tests for orchestration feature
     When I wait for the dashboard to load
 
   @stack-add
-    @test-local
   Scenario: First add the template that will later be used in order to create a stack
     When I visit the Templates page
     When I click the button "+"
@@ -120,7 +119,6 @@ Feature: Tests for orchestration feature
 
 
   @stack-search
-    @test-local
   Scenario: Filter a stack
     When I visit the Stacks page
     When I search for "TestStack"
@@ -133,7 +131,6 @@ Feature: Tests for orchestration feature
     When I wait for the dashboard to load
 
   @stack-tags
-    @test-local
   Scenario: Add tags to stack
     When I visit the Stacks page
     When I click the "TestStack" "stack"
@@ -154,6 +151,6 @@ Feature: Tests for orchestration feature
     And I wait for 1 seconds
     And I click the button "Save Tags" in the tag menu
     Then I expect for the tag popup to close within 4 seconds
-    And I ensure that the "key" has the tags "second:tag"
+    And I ensure that the "TestStack" has the tags "second:tag"
     Then I visit the Home page
     When I wait for the dashboard to load
