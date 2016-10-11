@@ -55,8 +55,6 @@ def get_value_of(name_of_variable, default_value):
             log.error("Could not decode value of variable %s(%s)" %
                       (name_of_variable, env_var))
             raise e
-        log.info("Retrieved value from env for variable with name %s: %s" %
-                 (name_of_variable, env_var))
         return env_var
     return test_settings.get(name_of_variable, default_value)
 
