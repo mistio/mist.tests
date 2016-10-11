@@ -31,7 +31,7 @@ def chrome_driver_setup():
     os.chmod("parts/chromedriver/chromedriver", 0744)
 
     # export path
-    os.system("export PATH = " + os.path.join(os.getcwd(), CHROMEDRIVER_PATH) + ":$PATH")
+    os.system("export PATH=" + os.path.join(os.getcwd(), CHROMEDRIVER_PATH) + ":$PATH")
 
     make_dir_if_no_exist(MAIL_DIR)
     make_dir_if_no_exist(LOG_DIR)
