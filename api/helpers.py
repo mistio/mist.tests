@@ -122,8 +122,10 @@ def mp_fail_notify(error, provider, image_name, stage):
     #TO = get_value_of('MP_NOTIFY_EMAIL', '')
     if stage == 'provision':
         SUBJECT = '[Multiprovision-tests] Provisioning failed for ' + provider + ' and image ' + image_name
-    else:
+    elif stage == 'deploy':
         SUBJECT = '[Multiprovision-tests] Deployment failed for ' + provider + ' and image ' + image_name
+    elif stage == 'destroy':
+        SUBJECT = '[Multiprovision-tests] Failed to destroy machine for ' + provider + ' and image ' + image_name
     #TEXT = error_json['error']
 
     #message = """From: %s\nTo: %s\nSubject: %s\n\n%s
