@@ -139,8 +139,9 @@ def mp_fail_notify(error, provider, image_name, stage):
     #server.quit()
 
     #post to Slack
+    attachments = [ { 'color':'danger', 'title': 'Error Message', 'text' : error_json['error'] } ]
     headers = {"Content-type": "application/json"}
-    payload = {"text": SUBJECT}
+    payload = {"text": SUBJECT, "attachments": attachments}
     response = requests.post(slack_hook, json=payload)
 
 def mp_success_notify(provider, image_name):
