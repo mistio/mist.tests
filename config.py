@@ -76,6 +76,8 @@ BASE_DIR = get_value_of("BASE_DIR", os.getcwd())
 
 LOG_DIR = get_value_of("LOG_DIR", 'var/log/')
 
+MAIL_DIR = get_value_of("MAIL_DIR", 'var/mail/')
+
 TEST_DIR = get_value_of("TEST_DIR",
                         os.path.join(BASE_DIR, 'src/mist/io/tests'))
 

@@ -1,6 +1,8 @@
 import sys
 import logging
 
+from .requirements import chrome_driver_setup
+
 from tests import config
 
 from tests.helpers.selenium_utils import choose_driver
@@ -19,6 +21,7 @@ def before_all(context):
     """
     Load the configuration config and setup the context
     """
+    chrome_driver_setup()
     log.info("Starting before all hook")
     log.info("Webdriver path:" + config.WEBDRIVER_PATH)
     log.info("Webdriver log:" + config.WEBDRIVER_LOG)
