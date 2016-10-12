@@ -116,9 +116,9 @@ def destroy_machine(log, mist_core, api_token, cloud_id, machine_id):
         raise e
 
 def mp_fail_notify(error, provider, image_name, stage):
-    gmail_pwd = get_value_of('GOOGLE_TEST_PASSWORD', '')
-    FROM = get_value_of('GOOGLE_TEST_EMAIL', '')
-    TO = get_value_of('MP_NOTIFY_EMAIL', '')
+    #gmail_pwd = get_value_of('GOOGLE_TEST_PASSWORD', '')
+    #FROM = get_value_of('GOOGLE_TEST_EMAIL', '')
+    #TO = get_value_of('MP_NOTIFY_EMAIL', '')
     if stage == 'provision':
         SUBJECT = '[Multiprovision-tests] Provisioning failed for ' + provider + ' and image ' + image_name
     else:
@@ -130,14 +130,14 @@ def mp_fail_notify(error, provider, image_name, stage):
     """ % (FROM, TO, SUBJECT, TEXT)
 
     #send an email
-    server = smtplib.SMTP('smtp.gmail.com:587')
-    server.ehlo()
-    server.starttls()
-    server.login(FROM, gmail_pwd)
-    server.sendmail(FROM, TO, message)
-    server.quit()
+    #server = smtplib.SMTP('smtp.gmail.com:587')
+    #server.ehlo()
+    #server.starttls()
+    #server.login(FROM, gmail_pwd)
+    #server.sendmail(FROM, TO, message)
+    #server.quit()
 
     #post to Slack
     headers = {"Content-type": "application/json"}
     payload = {"text": SUBJECT}
-    #response = requests.post('https://hooks.slack.com/services/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', json=payload)
+    response = requests.post('https://hooks.slack.com/services/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', json=payload)
