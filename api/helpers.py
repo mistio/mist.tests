@@ -116,6 +116,7 @@ def destroy_machine(log, mist_core, api_token, cloud_id, machine_id):
         raise e
 
 def mp_fail_notify(error, provider, image_name, stage):
+    slack_hook = get_value_of('SLACK_HOOK', '')
     #gmail_pwd = get_value_of('GOOGLE_TEST_PASSWORD', '')
     #FROM = get_value_of('GOOGLE_TEST_EMAIL', '')
     #TO = get_value_of('MP_NOTIFY_EMAIL', '')
@@ -140,4 +141,13 @@ def mp_fail_notify(error, provider, image_name, stage):
     #post to Slack
     headers = {"Content-type": "application/json"}
     payload = {"text": SUBJECT}
-    response = requests.post('https://hooks.slack.com/services/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', json=payload)
+    response = requests.post(slack_hook, json=payload)
+
+def mp_success_notify(provider, image_name):
+    slack_hook = get_value_of('SLACK_HOOK', '')
+    SUBJECT = '[Multiprovision-tests] Provisioning worked for ' + provider + ' and image ' + image_name
+
+    #post to Slack
+    headers = {"Content-type": "application/json"}
+    payload = {"text": SUBJECT}
+    response = requests.post(slack_hook, json=payload)

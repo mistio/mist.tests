@@ -224,3 +224,4 @@ def test_machine_provisioning_test(mist_core, api_token, mp_json):
           " the machine\n" % (time() - timeout + 200)
     sleep(20)
     destroy_machine(log, mist_core, api_token, cloud_id, machine_id)
+    mp_success_notify(provider, provider_to_test['images_left_to_test'][0]['name'])
