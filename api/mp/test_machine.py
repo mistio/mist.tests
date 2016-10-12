@@ -221,6 +221,7 @@ def test_machine_provisioning_test(mist_core, api_token, mp_json):
             destroy_machine(log, mist_core, api_token, cloud_id, machine_id)
         except AssertionError as e:
             mp_fail_notify(e, provider, provider_to_test['images_left_to_test'][0]['name'], 'deploy')
+            raise e
         raise e
 
     print "\nPost deployment steps have finished after %s seconds. Destroying" \
@@ -230,4 +231,5 @@ def test_machine_provisioning_test(mist_core, api_token, mp_json):
         destroy_machine(log, mist_core, api_token, cloud_id, machine_id)
     except AssertionError as e:
         mp_fail_notify(e, provider, provider_to_test['images_left_to_test'][0]['name'], 'deploy')
+        raise e
     mp_success_notify(provider, provider_to_test['images_left_to_test'][0]['name'])

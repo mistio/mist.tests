@@ -124,8 +124,6 @@ def mp_fail_notify(error, provider, image_name, stage):
         SUBJECT = '[Multiprovision-tests] Provisioning failed for ' + provider + ' and image ' + image_name
     else:
         SUBJECT = '[Multiprovision-tests] Deployment failed for ' + provider + ' and image ' + image_name
-    print error.message
-    error_json = json.loads(str(error.message.split('\n')[1]))
     #TEXT = error_json['error']
 
     #message = """From: %s\nTo: %s\nSubject: %s\n\n%s
@@ -140,16 +138,16 @@ def mp_fail_notify(error, provider, image_name, stage):
     #server.quit()
 
     #post to Slack
-    attachments = [ { 'color':'danger', 'title': 'Error Message', 'text' : error_json['error'] } ]
+    attachments = [ { 'color':'danger', 'title': 'Error Message', 'text' : str(error.message) } ]
     headers = {"Content-type": "application/json"}
     payload = {"text": SUBJECT, "attachments": attachments}
     response = requests.post(slack_hook, json=payload)
 
 def mp_success_notify(provider, image_name):
     slack_hook = get_value_of('SLACK_HOOK', '')
-    SUBJECT = '[Multiprovision-tests] Provisioning worked for ' + provider + ' and image ' + image_name
-
+    SUBJECT = 'Provisioning worked for ' + provider + ' and image ' + image_name
+    attachments = [ { 'color':'good', 'title': 'Test: ', 'text' : SUBJECT } ]
     #post to Slack
     headers = {"Content-type": "application/json"}
-    payload = {"text": SUBJECT}
+    payload = {"text": '[Multiprovision-tests] Test successful', "attachments": attachments}
     response = requests.post(slack_hook, json=payload)
