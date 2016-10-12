@@ -219,7 +219,7 @@ def test_machine_provisioning_test(mist_core, api_token, mp_json):
         mp_fail_notify(e, provider, provider_to_test['images_left_to_test'][0]['name'], 'deploy')
         try:
             destroy_machine(log, mist_core, api_token, cloud_id, machine_id)
-        except:
+        except AssertionError as e:
             mp_fail_notify(e, provider, provider_to_test['images_left_to_test'][0]['name'], 'deploy')
         raise e
 
@@ -228,6 +228,6 @@ def test_machine_provisioning_test(mist_core, api_token, mp_json):
     sleep(20)
     try:
         destroy_machine(log, mist_core, api_token, cloud_id, machine_id)
-    except:
+    except AssertionError as e:
         mp_fail_notify(e, provider, provider_to_test['images_left_to_test'][0]['name'], 'deploy')
     mp_success_notify(provider, provider_to_test['images_left_to_test'][0]['name'])
