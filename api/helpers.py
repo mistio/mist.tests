@@ -125,10 +125,10 @@ def mp_fail_notify(error, provider, image_name, stage):
     else:
         SUBJECT = '[Multiprovision-tests] Deployment failed for ' + provider + ' and image ' + image_name
     error_json = json.loads(str(error.message.split('\n')[1]))
-    TEXT = error_json['error']
+    #TEXT = error_json['error']
 
-    message = """From: %s\nTo: %s\nSubject: %s\n\n%s
-    """ % (FROM, TO, SUBJECT, TEXT)
+    #message = """From: %s\nTo: %s\nSubject: %s\n\n%s
+    #""" % (FROM, TO, SUBJECT, TEXT)
 
     #send an email
     #server = smtplib.SMTP('smtp.gmail.com:587')
