@@ -124,6 +124,7 @@ def mp_fail_notify(error, provider, image_name, stage):
         SUBJECT = '[Multiprovision-tests] Provisioning failed for ' + provider + ' and image ' + image_name
     else:
         SUBJECT = '[Multiprovision-tests] Deployment failed for ' + provider + ' and image ' + image_name
+    print error.message
     error_json = json.loads(str(error.message.split('\n')[1]))
     #TEXT = error_json['error']
 
