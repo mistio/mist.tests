@@ -101,7 +101,8 @@ def test_machine_provisioning_test(mist_core, api_token, mp_json):
             continue
         # filter out all the provider images that are starred and they have
         # not been tested before
-        provider_images = filter(lambda el: el['star'] and el['id'] not in mp_json.get(provider['title'], {}),
+
+        provider_images = filter(lambda el: el['star'] and 'HVM' not in el['name'] and el['id'] not in mp_json.get(provider['title'], {}),
                                  mist_core.list_images(cloud_id=provider['id'],
                                                        api_token=api_token).get().json())
         if not provider_images:
