@@ -36,7 +36,7 @@ provider_data = {
          "credentials": "NEPHOSCALE",
          "size": "3",
          "name_prefix": "mpnephoscale",
-         "location": "87729",
+         "location": "76383",
          "disk": 50
      },
      "SoftLayer": {
