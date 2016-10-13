@@ -226,7 +226,7 @@ def test_machine_provisioning_test(mist_core, api_token, mp_json):
 
     print "\nPost deployment steps have finished after %s seconds. Destroying" \
           " the machine\n" % (time() - timeout + 200)
-    sleep(20)
+
     try:
         destroy_machine(log, mist_core, api_token, cloud_id, machine_id)
     except AssertionError as e:

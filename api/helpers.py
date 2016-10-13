@@ -105,6 +105,7 @@ def get_random_key_id(existing_keys):
             return random_key_name
 
 def destroy_machine(log, mist_core, api_token, cloud_id, machine_id):
+    mist_core.list_machines(cloud_id=cloud_id, api_token=api_token).get()
     response = mist_core.destroy_machine(api_token=api_token,
                                          cloud_id=cloud_id,
                                          machine_id=machine_id).post()
