@@ -260,7 +260,7 @@ def machines_per_cloud(request):
     machines = json.loads(response.content)
     assert_list_not_empty(machines)
     machines_per_cloud = []
-    machine_num = 1
+    machine_num = 2
     while len(machines) > 0 and machine_num != 0:
         machine = machines.pop()
         machines_per_cloud.append([cloud_id, machine['id']])
