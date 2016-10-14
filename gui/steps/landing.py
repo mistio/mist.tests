@@ -19,12 +19,12 @@ from selenium.common.exceptions import NoSuchElementException
 
 @step(u'I open the {kind} popup')
 def open_login_popup(context, kind):
-    if kind.lower() not in ['login', 'signup']:
+    kind = kind.lower()
+    modals = {'login': 'modalLogin', 'signup': 'modalRegister'}
+    if kind.lower() not in modals.keys():
         raise ValueError('No such popup in the landing page')
-    if kind.lower() == 'login':
-        popup_id = 'modalLogin'
-    else:
-        popup_id = 'modalRegister'
+    popup_id = modals[kind]
+    # first press the buttons
     if kind == 'login':
         button_collapse = context.browser.find_element_by_class_name('button-collapse')
         if button_collapse.is_displayed():
@@ -42,53 +42,30 @@ def open_login_popup(context, kind):
         click_button_from_collection(context, "sign in", button_collection,
                                      error_message="Could not find sign in "
                                                    "button in the landing page")
-
-        try:
-            WebDriverWait(context.browser, 10).until(
-                EC.visibility_of_element_located((By.ID, popup_id)))
-        except TimeoutException:
-            raise TimeoutException("Sign in popup did not appear after 10 seconds")
-
-        try:
-            WebDriverWait(context.browser, 4).until(
-                EC.visibility_of_element_located((By.CSS_SELECTOR,
-                                                  "#%s .email-btn" % popup_id)))
-        except TimeoutException:
-            raise TimeoutException("Email button did not appear after 4 seconds")
-
-        try:
-            WebDriverWait(context.browser, 4).until(
-                EC.element_to_be_clickable((By.CSS_SELECTOR, "#%s .email-btn" % popup_id)))
-        except TimeoutException:
-            raise TimeoutException("Email button did not become clickable "
-                                   "after 4 seconds")
     else:
         button_collection = context.browser.find_elements_by_class_name("btn-large")
         click_button_from_collection(context, "get started", button_collection,
                                      error_message="Could not find get started "
                                                    "button in the landing page")
-
+    # then wait until the modal is displayed
+    timeout = time() + 10
+    dimensions = None
+    while time() < timeout:
         try:
-            WebDriverWait(context.browser, 10).until(
-                EC.visibility_of_element_located((By.ID, popup_id)))
-        except TimeoutException:
-            raise TimeoutException("Sign up popup did not appear after 10"
-                                   " seconds")
+            popup = context.browser.find_element_by_id(popup_id)
+            if dimensions is None:
+                dimensions = popup.size
+            elif dimensions['width'] == popup.size['width'] and \
+                    dimensions['height'] == popup.size['height']:
+                sleep(1)
+                return True
+            else:
+                dimensions = popup.size
+        except NoSuchElementException:
+            pass
+        sleep(1)
 
-        try:
-            WebDriverWait(context.browser, 4).until(
-                EC.visibility_of_element_located((By.LINK_TEXT, "SIGN UP")))
-        except TimeoutException:
-            raise TimeoutException("Signup button did not appear after 4"
-                                   " seconds")
-
-        try:
-            WebDriverWait(context.browser, 4).until(
-                EC.element_to_be_clickable((By.LINK_TEXT, "SIGN UP")))
-        except TimeoutException:
-            raise TimeoutException("Signup button did not become clickable"
-                                   " after 4 seconds")
-    sleep(1)
+    assert False, "Modal has not appeared yet on screen"
 
 
 @step("I click the {text} button in the landing page popup")
@@ -347,3 +324,16 @@ def wait_for_landing_page(context, seconds):
     except TimeoutException:
         raise TimeoutException("Landing page has not appeared after %s seconds"
                                % seconds)
+
+
+@step(u'that I am redirected within {seconds} seconds')
+def ensure_redirection(context, seconds):
+    timeout = time() + int(seconds)
+    while time() < timeout:
+        try:
+            context.browser.find_element_by_id("top-signup-button")
+            sleep(1)
+        except NoSuchElementException:
+            return True
+    assert False, "I wasn't redirected to the app after waiting for %s seconds"\
+                  % seconds

@@ -14,31 +14,26 @@ Feature: Add second-tier clouds in Polymist
     And I wait for 1 seconds
     When I click the button "<provider>" in the "Choose Provider" dropdown
     Then I expect the field "Title" in the cloud add form to be visible within max 4 seconds
-    When I use my provider "<credentials>" credentials
+    When I use my "<provider>" credentials
     And I focus on the button "Add Cloud" in "cloud" add form
-    Then I click the button "Add Cloud"
-    And I visit the Home page
+    Then I click the button "Add Cloud" in "cloud" add form
+    When I wait for the dashboard to load
     And I scroll the clouds list into view
     Then the "<provider>" provider should be added within 120 seconds
 
     Examples: Providers
-    | provider              | credentials  |
-    | Azure                 | AZURE        |
-    | Digital Ocean         | DIGITALOCEAN |
-    | SoftLayer             | SOFTLAYER    |
-    | NephoScale            | NEPHOSCALE   |
-    | Rackspace             | RACKSPACE    |
-    | Packet                | PACKET       |
-    | GCE                   | GCE          |
-    | Linode                | LINODE       |
-    | AWS                   | AWS          |
-
-    # Nope, not really
-    #| VMware vCloud         | VMWARE       |
-    #| Indonesian Cloud      | INDONESIAN   |
-    #| KVM (via libvirt)     | LIBVIRT      |
-    #| OpenStack             | OPENSTACK    |
-    #| Docker                | DOCKER       |
+    | provider       |
+    | Azure          |
+    | Digital Ocean  |
+    | SoftLayer      |
+    | NephoScale     |
+    | Rackspace      |
+    | Packet         |
+    | GCE            |
+    | Linode         |
+    | AWS            |
+    | Docker         |
+    | Openstack      |
 
   @cloud-rename
   Scenario: Cloud Actions

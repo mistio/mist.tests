@@ -1,11 +1,16 @@
 import sys
 import logging
 
+from .requirements import chrome_driver_setup
+
 from tests import config
 
 from tests.helpers.selenium_utils import choose_driver
 from tests.helpers.selenium_utils import get_screenshot
 from tests.helpers.selenium_utils import dump_js_console_log
+
+from tests.helpers.recording import start_recording
+from tests.helpers.recording import stop_recording
 
 log = logging.getLogger(__name__)
 
@@ -16,6 +21,7 @@ def before_all(context):
     """
     Load the configuration config and setup the context
     """
+    chrome_driver_setup()
     log.info("Starting before all hook")
     log.info("Webdriver path:" + config.WEBDRIVER_PATH)
     log.info("Webdriver log:" + config.WEBDRIVER_LOG)
@@ -66,6 +72,11 @@ def before_all(context):
         context.mail_path = config.MAIL_PATH
         # calling behaving to setup it's context variables.
         behaving_mail.before_all(context)
+
+    if config.RECORD_SELENIUM:
+        start_recording()
+
+    context.mist_config['recording_session'] = config.RECORD_SELENIUM
     log.info("Finished with before_all hook. Starting tests")
 
 
@@ -74,18 +85,23 @@ def before_feature(context, feature):
         try:
             context.execute_steps(u'Given user with email "EMAIL" is registered')
         except Exception as e:
-            get_screenshot(context)
-            dump_js_console_log(context)
+            finish_and_cleanup(context)
             raise e
 
 
-def after_scenario(context, scenario):
-    if scenario.status == 'failed':
-        get_screenshot(context)
-
-
 def after_all(context):
+    finish_and_cleanup(context)
+
+
+def finish_and_cleanup(context):
     dump_js_console_log(context)
+    try:
+        get_screenshot(context)
+    except Exception as e:
+        log.error("Could not get screen shot: %s" % repr(e))
+        pass
     context.mist_config['browser'].quit()
     if context.mist_config.get('browser2'):
         context.mist_config['browser2'].quit()
+    if context.mist_config.get('recording_session', False):
+        stop_recording()

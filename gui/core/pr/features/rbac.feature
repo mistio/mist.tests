@@ -14,7 +14,7 @@ Feature: RBAC
     Then I enter my rbac_owner credentials for signup_password_set
     And I click the submit button in the landing page popup
     And I wait for the mist.io splash page to load
-    Then I logout
+    Then I logout of legacy gui
 
   @member1-signup
   Scenario: Member1 of organization signs up
@@ -29,7 +29,7 @@ Feature: RBAC
     Then I enter my rbac_member1 credentials for signup_password_set
     And I click the submit button in the landing page popup
     And I wait for the mist.io splash page to load
-    Then I logout
+    Then I logout of legacy gui
 
   @create-org
   Scenario: Owner creates a new organization
@@ -47,9 +47,7 @@ Feature: RBAC
     And I click the "Switch" button in the dialog "Add Organization"
     Then I expect the dialog "Add Organization" is closed within 4 seconds
     When I wait for the dashboard to load
-    When I click the Gravatar
-    And I wait for 1 seconds
-    Then I click the button "Logout" in the user menu
+    Then I logout
 
   @manage-team
   Scenario: Owner creates/renames/deletes a team
@@ -64,14 +62,16 @@ Feature: RBAC
     And I click the "Add" button in the dialog "Add Team"
     When I visit the Teams page
     And "Test Team" team should be present within 5 seconds
+    Then I wait for 1 seconds
     When I click the "Test team" "team"
     And I expect the "team" edit form to be visible within max 5 seconds
-    Then I click the button "Edit Team" from the menu of the "team" edit form
-    And I expect the dialog "Rename Team" is open within 4 seconds
-    Then I expect the field "Name" in the dialog with title "Rename Team" to be visible within max 2 seconds
-    When I set the value "Rbac Test Team" to field "Name" in "Rename Team" dialog
-    And I click the "Submit" button in the dialog "Rename Team"
-    And I expect the dialog "Rename Team" is closed within 4 seconds
+    Then I click the button "Edit Team" in "team" edit form
+    And I expect the dialog "Edit Team" is open within 4 seconds
+    Then I expect the field "Name" in the dialog with title "Edit Team" to be visible within max 2 seconds
+    When I set the value "Rbac Test Team" to field "Name" in "Edit Team" dialog
+    And I wait for 1 seconds
+    And I click the "Submit" button in the dialog "Edit Team"
+    And I expect the dialog "Edit Team" is closed within 4 seconds
     Then I visit the Teams page
     And "Test Team" key should be absent within 5 seconds
     And "Rbac Test Team" team should be present within 5 seconds
@@ -86,9 +86,7 @@ Feature: RBAC
     Then I wait for 2 seconds
     Then I visit the Home page
     When I wait for the dashboard to load
-    When I click the Gravatar
-    And I wait for 1 seconds
-    Then I click the button "Logout" in the user menu
+    Then I logout
 
   @manage-members
   Scenario: Owner invites and deletes a team member
@@ -112,22 +110,19 @@ Feature: RBAC
     And I click the button "Add" in "members" add form
     And I expect the "team" edit form to be visible within max 5 seconds
     Then user with email "MEMBER1_EMAIL" should be pending
-    When I click the Gravatar
-    And I wait for 1 seconds
-    Then I click the button "Logout" in the user menu
+    Then I logout
     Then I should receive an email at the address "MEMBER1_EMAIL" with subject "[mist.io] Confirm your invitation" within 10 seconds
     And I follow the link contained in the email sent at the address "MEMBER1_EMAIL" with subject "[mist.io] Confirm your invitation"
     Then I click the email button in the landing page popup
     Then I enter my rbac_member1 credentials for login
     And I click the sign in button in the landing page popup
+    Given that I am redirected within 5 seconds
     And I am in the new UI
     When I wait for the dashboard to load
     Then I ensure that I am in the "Rbac_Test" organization context
     When I visit the Teams page
     And "Test Team" team should be present within 5 seconds
-    When I click the Gravatar
-    And I wait for 1 seconds
-    Then I click the button "Logout" in the user menu
+    Then I logout
     Given I am logged in to mist.core as rbac_owner
     And I am in the new UI
     When I wait for the dashboard to load
@@ -142,9 +137,7 @@ Feature: RBAC
     And I expect the "team" edit form to be visible within max 5 seconds
     Then user with email "MEMBER2_EMAIL" should be pending
     And user with email "MEMBER1_EMAIL" should be confirmed
-    When I click the Gravatar
-    And I wait for 1 seconds
-    Then I click the button "Logout" in the user menu
+    Then I logout
     Then I should receive an email at the address "MEMBER2_EMAIL" with subject "[mist.io] Confirm your invitation" within 10 seconds
     And I follow the link contained in the email sent at the address "MEMBER2_EMAIL" with subject "[mist.io] Confirm your invitation"
     Then I enter my rbac_member2 credentials for signup_password_set
@@ -154,9 +147,7 @@ Feature: RBAC
     Then I ensure that I am in the "Rbac_Test" organization context
     When I visit the Teams page
     And "Test Team" team should be present within 5 seconds
-    When I click the Gravatar
-    And I wait for 1 seconds
-    Then I click the button "Logout" in the user menu
+    Then I logout
     Given I am logged in to mist.core as rbac_owner
     And I am in the new UI
     When I wait for the dashboard to load
@@ -168,16 +159,12 @@ Feature: RBAC
     And I expect the dialog "Delete Member from Team" is open within 4 seconds
     And I click the "Delete" button in the dialog "Delete Member from Team"
     And I expect the dialog "Delete Member from Team" is closed within 4 seconds
-    When I click the Gravatar
-    And I wait for 1 seconds
-    Then I click the button "Logout" in the user menu
+    Then I logout
     Given I am logged in to mist.core as rbac_member2
     And I am in the new UI
     When I wait for the dashboard to load
     Then I should see the form to set name for new organization
-    When I click the Gravatar
-    And I wait for 1 seconds
-    Then I click the button "Logout" in the user menu
+    Then I logout
 
   @manage-rules
   Scenario: Manage team rules
@@ -190,8 +177,8 @@ Feature: RBAC
     Then I expect the "Key" add form to be visible within max 10 seconds
     When I set the value "PolicyKey" to field "Name" in "key" add form
     Then I click the button "Generate" in "key" add form
+    And I wait for 5 seconds
     And I expect for the button "Add" in "key" add form to be clickable within 9 seconds
-    And I wait for 2 seconds
     When I focus on the button "Add" in "key" add form
     And I click the button "Add" in "key" add form
     Then I expect the "key" edit form to be visible within max 5 seconds
@@ -206,6 +193,7 @@ Feature: RBAC
     And I click the "Add" button in the dialog "Add Team"
     When I visit the Teams page
     And "Policy Test Team" team should be present within 5 seconds
+    Then I wait for 2 seconds
     When I click the "Policy Test Team" "team"
     And I expect the "policy" edit form to be visible within max 5 seconds
     When I focus on the button "Add a new rule" in "policy" edit form
@@ -225,6 +213,4 @@ Feature: RBAC
     Given rule "0" is "ALLOW" "machine" "all" where tags = "bla=bla"
     Given rule "1" is "ALLOW" "cloud" "all" always
     Given rule "2" is "DENY" "key" "edit" where id = "PolicyKey"
-    When I click the Gravatar
-    And I wait for 1 seconds
-    Then I click the button "Logout" in the user menu
+    Then I logout

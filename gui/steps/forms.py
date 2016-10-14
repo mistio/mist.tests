@@ -8,20 +8,25 @@ from selenium.common.exceptions import NoSuchElementException
 from time import time
 from time import sleep
 
+from random import randrange
+
 
 def clear_input_and_send_keys(input_field, text):
-    end_time = time() + 5
-    while time() < end_time:
-        while input_field.get_attribute('value') != '':
-            input_field.send_keys(u'\ue003')
-        if text == '':
-            break
-        input_field.send_keys(text)
-        if input_field.get_attribute('value') != text:
-            assert time() + 1 > end_time, "Could not input value %s" % text
-            sleep(1)
+    while input_field.get_attribute('value') != '':
+        input_field.send_keys(u'\ue003')
+    current_expected_value = ''
+    n = 20
+    chunks = [text[i:i+n] for i in xrange(0, len(text), n)]
+    for chunk in chunks:
+        current_expected_value += chunk
+        input_field.send_keys(chunk)
+        for _ in range(2):
+            if input_field.get_attribute('value') != current_expected_value:
+                sleep(1)
+            else:
+                break
         else:
-            break
+            raise Exception('Sending keys to form unsuccessful')
 
 
 def get_add_form(context, title):
@@ -118,6 +123,10 @@ def check_that_field_is_visible(context, field_name, title, form_type, seconds):
 def set_value_to_field(context, value, name, title, form_type):
     if context.mist_config.get(value):
         value = context.mist_config.get(value)
+    elif "random" in value:
+        value_key = value
+        value = value.replace("random", str(randrange(1000)))
+        context.mist_config[value_key] = value
     form = get_add_form(context, title) if form_type == 'add' else \
         get_edit_form(context, title)
     input = get_input_from_form(form, name.lower())

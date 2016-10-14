@@ -1,4 +1,4 @@
-from core import MistCoreApi
+from .core import MistCoreApi
 
 from tests.api.helpers import *
 from tests.api.io.conftest import *

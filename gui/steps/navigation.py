@@ -127,7 +127,7 @@ def am_in_new_UI(context):
     """
     assert found_one(context), "I have no idea where I am"
     try:
-        context.browser.find_element_by_id("app")
+        context.browser.find_element_by_tag_name("mist-app")
         return
     except:
         context.execute_steps(u'''
@@ -154,15 +154,26 @@ def wait_for_buttons_to_appear(context):
 
 def filter_buttons(context, text):
     return filter(lambda el: safe_get_element_text(el).strip().lower() == text,
-                              context.browser.find_elements_by_tag_name('paper-button'))
+                  context.browser.find_elements_by_tag_name('paper-button'))
 
 
 @step(u'I wait for the dashboard to load')
 def wait_for_dashboard(context):
+    # wait first until the sidebar is open
     context.execute_steps(u'Then I wait for the links in homepage to appear')
-    add_cloud_button = filter_buttons(context, 'add your clouds')
-    if add_cloud_button:
-        return True
+    # wait until the panel in the middle is visible
+    timeout = 20
+    try:
+        WebDriverWait(context.browser, timeout).until(
+            EC.visibility_of_element_located((By.CSS_SELECTOR,
+                                              "mist-app div#mainPanel "
+                                              "div#mainContainer div#content")))
+    except TimeoutException:
+        raise TimeoutException("Dashboard did not load after %s seconds"
+                               % timeout)
+    # wait until the add clouds button is clickable
+    context.execute_steps(u'Then I expect for "addBtn" to be clickable within '
+                          u'max 20 seconds')
     save_org = filter_buttons(context, 'save organisation')
     if save_org:
         # first save the name of the organizational context for future use then
@@ -172,15 +183,6 @@ def wait_for_dashboard(context):
         context.organizational_context = org_input.get_attribute('value').strip().lower()
         clicketi_click(context, save_org[0])
         return True
-    timeout = 20
-    try:
-        WebDriverWait(context.browser, timeout).until(
-            EC.visibility_of_element_located((By.CLASS_NAME, "main-section")))
-    except TimeoutException:
-        raise TimeoutException("Dashboard did not load after %s seconds"
-                               % timeout)
-    context.execute_steps(u'Then I expect for "addBtn" to be clickable within '
-                          u'max 20 seconds')
 
 
 @step(u'I visit the {title} page')
@@ -205,7 +207,8 @@ def go_to_some_page_without_waiting(context, title):
         # TODO implement account page visit
         return
     else:
-        button = context.browser.find_element_by_id('sidebar').find_element_by_id(title)
+        button = context.browser.find_element_by_id(
+            'sidebar').find_element_by_id(title)
         clicketi_click(context, button)
         context.execute_steps(u'Then I expect for "%s" page to appear within '
                               u'max 10 seconds' % title)
@@ -258,8 +261,8 @@ def visit_machines_url(context):
 @step(u'I am logged in to mist.core')
 def given_logged_in(context):
     try:
-        context.browser.find_element_by_tag_name("app-main")
-        #we're on the new UI
+        context.browser.find_element_by_tag_name("mist-app")
+        # we're on the new UI
         return
     except:
         pass
@@ -295,7 +298,7 @@ def found_one(context):
                 return True
         except NoSuchElementException:
             try:
-                context.browser.find_element_by_id("app")
+                context.browser.find_element_by_tag_name("mist-app")
                 success += 1
                 if success == 2:
                     return True
@@ -335,6 +338,12 @@ def given_logged_in(context, kind):
     except NoSuchElementException:
         pass
     try:
+        context.browser.find_element_by_tag_name("mist-app")
+        context.execute_steps(u'Then I wait for the dashboard to load')
+        return
+    except NoSuchElementException:
+        pass
+    try:
         context.browser.find_element_by_id("app")
         context.execute_steps(u'Then I wait for the dashboard to load')
         return
@@ -365,22 +374,98 @@ def given_not_logged_in(context):
         pass
 
 
+def get_user_menu(context):
+    return context.browser.find_element_by_tag_name('app-user-menu'). \
+        find_element_by_tag_name('iron-dropdown')
+
+
+def click_and_wait_for_gravatar(context):
+    """press the gravatar and wait until the user menu starts opening"""
+    for _ in range(2):
+        click_the_gravatar(context)
+        user_menu = get_user_menu(context)
+        timeout = time() + 2
+        while time() < timeout:
+            if user_menu.size['width'] > 0 and user_menu.size['height'] > 0:
+                return
+            sleep(1)
+
+    assert False, "Width or height or both of user menu are 0 after 2 clicks"
+
+
 @step(u'I logout')
 def logout(context):
-    click_the_gravatar(context)
-    context.execute_steps(u'''
-        Then I wait for 2 seconds
-    ''')
+    click_and_wait_for_gravatar(context)
+    user_menu = get_user_menu(context)
+    timeout = time() + 5
+    dimensions = None
+    while time() < timeout:
+        try:
+            if dimensions is None:
+                dimensions = user_menu.size
+            elif dimensions['width'] == user_menu.size['width'] and \
+                            dimensions['height'] == user_menu.size['height']:
+                sleep(1)
+                click_button_from_collection(context, 'Logout',
+                                             user_menu.find_elements_by_tag_name(
+                                                 'paper-item'))
+                # sleep(2)
+                return True
+            else:
+                dimensions = user_menu.size
+        except NoSuchElementException:
+            pass
+        sleep(1)
 
-    container = context.browser.find_element_by_id("user-menu-popup")
-    container.find_element_by_class_name('icon-x').click()
+    assert False, "User menu has not appeared yet"
 
-    try:
-        WebDriverWait(context.browser, 10).until(
-            EC.element_to_be_clickable((By.ID, "top-signup-button")))
-        return
-    except TimeoutException:
-        raise TimeoutException("Landing page has not appeared after 10 seconds")
+
+@step(u'I logout of legacy gui')
+def logout_of_legacy(context):
+    from .popups import popup_waiting_with_timeout
+    msg = ""
+    me_button = context.browser.find_element_by_id('me-btn')
+    position = me_button.location
+    context.browser.execute_script("window.scrollTo(0, %s)" % position['y'])
+    clicketi_click(context, me_button)
+
+    for _ in range(2):
+        try:
+            try:
+                WebDriverWait(context.browser, int(4)).until(
+                    EC.visibility_of_element_located((By.ID,
+                                                      'user-menu-popup-screen')))
+                try:
+                    popup_waiting_with_timeout(context, 'user-menu-popup-popup',
+                                               'appear', 4)
+                    sleep(2)
+
+                    container = context.browser.find_element_by_id(
+                        "user-menu-popup")
+                    clicketi_click(context,
+                                   container.find_element_by_class_name(
+                                       'icon-x'))
+
+                    try:
+                        WebDriverWait(context.browser, 10).until(
+                            EC.element_to_be_clickable(
+                                (By.ID, "top-signup-button")))
+                        return
+                    except TimeoutException:
+                        raise TimeoutException(
+                            "Landing page has not appeared after 10 seconds")
+                except Exception as e:
+                    msg = "After clicking the gravatar the grey background " \
+                          "appeared but not the popup.(%s)" % type(e)
+            except Exception as e:
+                msg = "Grey background did not appear after 2 seconds." \
+                      "(%s)" % type(e)
+        except Exception as e:
+            msg = "There was an exception(%s) when trying to click the Gravatar" \
+                  " image" % type(e)
+        sleep(1)
+    assert False, "I tried clicking the Gravatar but it did not work :(." \
+                  "\n%s" % msg
 
 
 @step(u'I wait for "{title}" list page to load')
@@ -392,7 +477,8 @@ def wait_for_some_list_page_to_load(context, title):
     end_time = time() + 5
     while time() < end_time:
         try:
-            context.browser.find_element_by_id('%s-list-page' % title.lower().rpartition(title[-1])[0])
+            context.browser.find_element_by_id(
+                '%s-list-page' % title.lower().rpartition(title[-1])[0])
             break
         except NoSuchElementException:
             assert time() + 1 < end_time, "%s list page has not appeared " \
@@ -404,7 +490,8 @@ def wait_for_some_list_page_to_load(context, title):
     end_time = time() + 5
     while time() < end_time:
         try:
-            list_of_things = context.browser.find_element_by_id('%s-list' % title.lower().rpartition(title[-1])[0])
+            list_of_things = context.browser.find_element_by_id(
+                '%s-list' % title.lower().rpartition(title[-1])[0])
             lis = list_of_things.find_elements_by_tag_name('li')
             if len(lis) > 0:
                 break
