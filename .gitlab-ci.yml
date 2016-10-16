@@ -22,21 +22,21 @@ run_mayday_test:
   script:
     - >
         /core.env/bin/ipython tests/prepare_env.py --
-        --screenshot-path=$(pwd)/var/log/error
-        --webdriver-log=$(pwd)/var/log/chromedriver.log
+        --screenshot-path=/var/log/error
+        --webdriver-log=/var/log/chromedriver.log
         --webdriver-path=$(pwd)/tests/gitlab/chromedriver
-        --js-console-log=$(pwd)/var/log/js_console.log
+        --js-console-log=/var/log/js_console.log
         -k --tags=alert,graph,ssh,celery,google_sso_signin,github_sso_signin
         tests/legacy_gui/core/mayday/features
   after_script:
-    - find / -type d
+    - find /var/log/.
   tags:
      - mayday
   artifacts:
     paths:
-      - $(pwd)/var/log/chromedriver.log
-      - $(pwd)/var/log/js_console.log
-      - $(pwd)/var/log/error.*
-      - $(pwd)/test.mp4
+      - /var/log/chromedriver.log
+      - /var/log/js_console.log
+      - /var/log/error.*
+      - /test.mp4
     expire_in: 7 days
     when: on_failure
