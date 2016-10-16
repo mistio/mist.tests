@@ -29,7 +29,7 @@ run_mayday_test:
         -k --tags=alert,graph,ssh,celery,google_sso_signin,github_sso_signin
         tests/legacy_gui/core/mayday/features
   after_script:
-    - find /var/log/.
+    - find /var/log
   tags:
      - mayday
   artifacts:
