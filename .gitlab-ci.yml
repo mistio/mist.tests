@@ -18,25 +18,25 @@ run_mayday_test:
     - chmod 744 tests/gitlab/chromedriver
     - export "PATH=$(pwd)/tests/gitlab:$PATH"
     - /core.env/bin/pip install -e tests
-    - mkdir -p var/log
+    - mkdir -p $(pwd)/var/log
   script:
     - >
         /core.env/bin/ipython tests/prepare_env.py --
-        --screenshot-path=/var/log/error
-        --webdriver-log=/var/log/chromedriver.log
+        --screenshot-path=$(pwd)/var/log/error
+        --webdriver-log=$(pwd)/var/log/chromedriver.log
         --webdriver-path=$(pwd)/tests/gitlab/chromedriver
-        --js-console-log=/var/log/js_console.log
+        --js-console-log=$(pwd)/var/log/js_console.log
         -k --tags=alert,graph,ssh,celery,google_sso_signin,github_sso_signin
         tests/legacy_gui/core/mayday/features
   after_script:
-    - find /var/log
+    - find $(pwd)/var/log
   tags:
      - mayday
   artifacts:
     paths:
-      - /var/log/chromedriver.log
-      - /var/log/js_console.log
-      - /var/log/error.*
-      - /test.mp4
+      - $(pwd)/var/log/chromedriver.log
+      - $(pwd)/var/log/js_console.log
+      - $(pwd)/var/log/error.*
+      - $(pwd)/test.mp4
     expire_in: 7 days
     when: on_failure
