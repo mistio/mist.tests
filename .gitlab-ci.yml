@@ -13,7 +13,7 @@ run_mayday_test:
     - cd ..
     - rm -rf tests
     - mkdir tests
-    - cp -r -t tests mist.tests/*
+    - cp -r -t tests mist.mayday.staging/*
     - cp /chromedriver tests/gitlab/chromedriver
     - chmod 744 tests/gitlab/chromedriver
     - export "PATH=$(pwd)/tests/gitlab:$PATH"
