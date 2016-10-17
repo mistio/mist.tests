@@ -19,13 +19,13 @@ run_mayday_test:
     - export "PATH=$(pwd)/tests/gitlab:$PATH"
     - /core.env/bin/pip install -e tests
     - mkdir -p /builds/mistio/mist.tests/var/log
-    - cp -a /var/log/* var/log
+    - cp -a /var/log/* var/log/
     - rm -rf /var/log
     - ln -s /builds/mistio/mist.tests/var/log /var/log
   script:
     - >
         /core.env/bin/ipython tests/prepare_env.py --
-        --screenshot-path=$(pwd)/var/log/error
+        --screenshot-path= /var/log/error -k
         --webdriver-log=$(pwd)/var/log/chromedriver.log
         --webdriver-path=$(pwd)/tests/gitlab/chromedriver
         --js-console-log=$(pwd)/var/log/js_console.log
