@@ -21,7 +21,7 @@ run_mayday_test:
     - mkdir -p var/log
     - cp -a /var/log/* var/log/
     - rm -rf /var/log
-    - ln -s $CI_PROJECT_DIR/var/log /var/log
+    - ln -s /builds/mistio/mist.mayday.staging/var/log /var/log
   script:
     - >
         /core.env/bin/ipython tests/prepare_env.py --
