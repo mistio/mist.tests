@@ -18,12 +18,11 @@ run_mayday_test:
     - chmod 744 tests/gitlab/chromedriver
     - export "PATH=$(pwd)/tests/gitlab:$PATH"
     - /core.env/bin/pip install -e tests
-    - find $(pwd)
     - mkdir -p /builds/mistio/mist.mayday.staging/var/log
   script:
     - >
         /core.env/bin/ipython tests/prepare_env.py --
-        --screenshot-path= /var/log/error -k
+        --screenshot-path= /builds/mistio/mist.mayday.staging/var/log -k
         --webdriver-log=$(pwd)/var/log/chromedriver.log
         --webdriver-path=$(pwd)/tests/gitlab/chromedriver
         --js-console-log=$(pwd)/var/log/js_console.log
