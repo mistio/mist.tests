@@ -36,7 +36,7 @@ run_mayday_test:
     paths:
       - $(pwd)/var/log/chromedriver.log
       - $(pwd)/var/log/js_console.log
-      - var/log/error.*
+      - $(pwd)/var/log/error.*
       - $(pwd)/test.mp4
     expire_in: 7 days
     when: on_failure

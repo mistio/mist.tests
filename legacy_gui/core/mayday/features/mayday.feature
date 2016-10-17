@@ -10,7 +10,7 @@ Feature: Production
     When I click the button "stagingmayday"
     Then I expect for "single-machine-page" page to appear within max 10 seconds
     Then I wait for the graphs to appear
-    When I focus on the "Add Graph" button
+    When I focus on the "Add Graph Does Not Exist" button
     And I click the button "Add Graph"
     Then I expect for "metric-add-popup" popup to appear within max 30 seconds
     And I expect the metric buttons to appear within 30 seconds
