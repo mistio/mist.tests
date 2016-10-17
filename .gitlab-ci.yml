@@ -22,7 +22,7 @@ run_mayday_test:
   script:
     - >
         /core.env/bin/ipython tests/prepare_env.py --
-        --screenshot-path=$(pwd)/var/log/error
+        --screenshot-path= /var/log/error -k
         --webdriver-log=$(pwd)/var/log/chromedriver.log
         --webdriver-path=$(pwd)/tests/gitlab/chromedriver
         --js-console-log=$(pwd)/var/log/js_console.log
@@ -36,7 +36,7 @@ run_mayday_test:
     paths:
       - $(pwd)/var/log/chromedriver.log
       - $(pwd)/var/log/js_console.log
-      - $(pwd)/var/log/error.*
+      - var/log/error.*
       - $(pwd)/test.mp4
     expire_in: 7 days
     when: on_failure
