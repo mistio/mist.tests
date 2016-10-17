@@ -18,6 +18,7 @@ run_mayday_test:
     - chmod 744 tests/gitlab/chromedriver
     - export "PATH=$(pwd)/tests/gitlab:$PATH"
     - /core.env/bin/pip install -e tests
+    - find $(pwd)
     - mkdir -p $(pwd)/var/log
   script:
     - >
