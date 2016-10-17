@@ -18,7 +18,11 @@ run_mayday_test:
     - chmod 744 tests/gitlab/chromedriver
     - export "PATH=$(pwd)/tests/gitlab:$PATH"
     - /core.env/bin/pip install -e tests
-    - mkdir -p $(pwd)/var/log
+    - mkdir -p var/log
+    - cp -a /var/log/* var/log/
+    - rm -rf /var/log
+    - ln -s $CI_PROJECT_DIR/var/log /var/log
+    
   script:
     - >
         /core.env/bin/ipython tests/prepare_env.py --
