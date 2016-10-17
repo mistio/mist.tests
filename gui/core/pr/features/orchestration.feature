@@ -3,6 +3,7 @@ Feature: Tests for orchestration feature
   Background:
     Given I am logged in to mist.core
     And I am in the new UI
+    Then I visit the Home page
     When I wait for the dashboard to load
 
   @template-add
@@ -20,10 +21,10 @@ Feature: Tests for orchestration feature
     When I focus on the button "Add" in "template" add form
     And I click the button "Add" in "template" add form
     Then I expect the "template" edit form to be visible within max 20 seconds
-    When I visit the Templates page
-    Then "Simple Python Template" template should be present within 10 seconds
-    Then I visit the Home page
+    When I visit the Home page
     When I wait for the dashboard to load
+    When I visit the Templates page
+    Then "Simple Python Template" template should be present within 30 seconds
 
   @template-search
   Scenario: Filter a template
@@ -34,12 +35,12 @@ Feature: Tests for orchestration feature
     Then "Simple Python Template" template should be present within 15 seconds
     When I search for "Non-existing Template"
     Then "Simple Python Template" template should be absent within 15 seconds
-    Then I visit the Home page
-    When I wait for the dashboard to load
+    When I clear the search bar
 
   @template-tags
   Scenario: Add tags to template
     When I visit the Templates page
+    And I wait for 2 seconds
     When I click the "Simple Python Template" "template"
     And I expect the "template" edit form to be visible within max 5 seconds
     Then I click the button "Tags" in "template" edit form
@@ -50,7 +51,7 @@ Feature: Tests for orchestration feature
     And I click the button "Save Tags" in the tag menu
     Then I expect for the tag popup to close within 4 seconds
     And I wait for 2 seconds
-    Then I ensure that the "Simple Python Template" has the tags "first:tag,second:tag"
+    Then I ensure that the "template" has the tags "first:tag,second:tag"
     Then I click the button "Tags" in "template" edit form
     And I expect for the tag popup to open within 4 seconds
     And I wait for 1 seconds
@@ -59,25 +60,21 @@ Feature: Tests for orchestration feature
     And I click the button "Save Tags" in the tag menu
     Then I expect for the tag popup to close within 4 seconds
     And I ensure that the "template" has the tags "second:tag"
-    Then I visit the Home page
-    When I wait for the dashboard to load
 
-  @template-rename
-  Scenario: Rename a template
-    When I visit the Templates page
-    When I click the "Simple Python Template" "template"
-    And I expect the "template" edit form to be visible within max 5 seconds
-    Then I click the button "Edit Template" from the menu of the "template" edit form
-    And I expect the dialog "Edit Template" is open within 4 seconds
-    When I set the value "Renamed Template" to field "Name" in "Edit Template" dialog
-    And I click the "Submit" button in the dialog "Edit Template"
-    And I expect the dialog "Edit Template" is closed within 4 seconds
-    Then I visit the templates page
-    And "Simple Python Template" template should be absent within 5 seconds
-    And "Renamed Template" template should be present within 5 seconds
-    Then I visit the Home page
-    When I wait for the dashboard to load
-
+#  @template-rename
+#  Scenario: Rename a template
+#    When I visit the Templates page
+#    And I wait for 2 seconds
+#    When I click the "Simple Python Template" "template"
+#    And I expect the "template" edit form to be visible within max 5 seconds
+#    Then I click the button "Edit Template" from the menu of the "template" edit form
+#    And I expect the dialog "Edit Template" is open within 4 seconds
+#    When I set the value "Renamed Template" to field "Name" in "Edit Template" dialog
+#    And I click the "Submit" button in the dialog "Edit Template"
+#    And I expect the dialog "Edit Template" is closed within 4 seconds
+#    Then I visit the templates page
+#    And "Simple Python Template" template should be absent within 5 seconds
+#    And "Renamed Template" template should be present within 5 seconds
 
   @template-delete
   Scenario: Delete a template
@@ -89,8 +86,6 @@ Feature: Tests for orchestration feature
     And I click the "Delete" button in the dialog "Delete Template"
     And I expect the dialog "Delete Template" is closed within 4 seconds
     Then "Simple Python Template" template should be absent within 15 seconds
-    Then I visit the Home page
-    When I wait for the dashboard to load
 
   @stack-add
   Scenario: First add the template that will later be used in order to create a stack
@@ -114,8 +109,6 @@ Feature: Tests for orchestration feature
     When I focus on the button "Create Stack" in "stack" add form
     And I click the button "Create Stack" in "stack" add form
     Then I expect the "stack" edit form to be visible within max 30 seconds
-    Then I visit the Home page
-    When I wait for the dashboard to load
 
 
   @stack-search
@@ -127,12 +120,12 @@ Feature: Tests for orchestration feature
     Then "TestStack" stack should be present within 15 seconds
     When I search for "Non-existing Stack"
     Then "TestStack" stack should be absent within 15 seconds
-    Then I visit the Home page
-    When I wait for the dashboard to load
+    When I clear the search bar
 
   @stack-tags
   Scenario: Add tags to stack
     When I visit the Stacks page
+    And I wait for 1 seconds
     When I click the "TestStack" "stack"
     And I expect the "stack" edit form to be visible within max 5 seconds
     Then I click the button "Tags" in "stack" edit form
@@ -143,7 +136,7 @@ Feature: Tests for orchestration feature
     And I click the button "Save Tags" in the tag menu
     Then I expect for the tag popup to close within 4 seconds
     And I wait for 2 seconds
-    Then I ensure that the "TestStack" has the tags "first:tag,second:tag"
+    Then I ensure that the "stack" has the tags "first:tag,second:tag"
     Then I click the button "Tags" in "stack" edit form
     And I expect for the tag popup to open within 4 seconds
     And I wait for 1 seconds
@@ -152,5 +145,3 @@ Feature: Tests for orchestration feature
     And I click the button "Save Tags" in the tag menu
     Then I expect for the tag popup to close within 4 seconds
     And I ensure that the "stack" has the tags "second:tag"
-    Then I visit the Home page
-    When I wait for the dashboard to load
