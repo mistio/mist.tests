@@ -18,11 +18,7 @@ run_mayday_test:
     - chmod 744 tests/gitlab/chromedriver
     - export "PATH=$(pwd)/tests/gitlab:$PATH"
     - /core.env/bin/pip install -e tests
-    - mkdir -p var/log
-    - cp -a /var/log/* var/log/
-    - rm -rf /var/log
-    - ln -s $(pwd)/var/log /var/log
-
+    - mkdir -p $(pwd)/var/log
   script:
     - >
         /core.env/bin/ipython tests/prepare_env.py --
@@ -38,9 +34,9 @@ run_mayday_test:
      - mayday
   artifacts:
     paths:
-      - /var/log/chromedriver.log
-      - /var/log/js_console.log
-      - /var/log/error.*
-      - /test.mp4
+      - $(pwd)/var/log/chromedriver.log
+      - $(pwd)/var/log/js_console.log
+      - $(pwd)/var/log/error.*
+      - $(pwd)/test.mp4
     expire_in: 7 days
     when: on_failure
