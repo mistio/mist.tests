@@ -19,7 +19,7 @@ run_mayday_test:
     - export "PATH=$(pwd)/tests/gitlab:$PATH"
     - /core.env/bin/pip install -e tests
     - find $(pwd)
-    - mkdir -p $(pwd)/var/log
+    - mkdir -p /builds/mistio/mist.mayday.staging/var/log
   script:
     - >
         /core.env/bin/ipython tests/prepare_env.py --
