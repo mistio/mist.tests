@@ -7,6 +7,7 @@ Feature: Tests for orchestration feature
     When I wait for the dashboard to load
 
   @template-add
+    @template
   Scenario: Add a template
     When I visit the Templates page
     When I click the button "+"
@@ -27,6 +28,7 @@ Feature: Tests for orchestration feature
     Then "Simple Python Template" template should be present within 30 seconds
 
   @template-search
+    @template
   Scenario: Filter a template
     When I visit the Templates page
     When I search for "Simple Python Template"
@@ -38,6 +40,7 @@ Feature: Tests for orchestration feature
     When I clear the search bar
 
   @template-tags
+    @template
   Scenario: Add tags to template
     When I visit the Templates page
     And I wait for 2 seconds
@@ -62,6 +65,7 @@ Feature: Tests for orchestration feature
     And I ensure that the "template" has the tags "second:tag"
 
   @template-rename
+    @template
   Scenario: Rename a template
     When I visit the Templates page
     And I wait for 2 seconds
@@ -77,6 +81,7 @@ Feature: Tests for orchestration feature
     And "Renamed Template" template should be present within 5 seconds
 
   @template-delete
+    @template
   Scenario: Delete a template
     When I visit the Templates page
     When I click the "Simple Python Template" "template"
