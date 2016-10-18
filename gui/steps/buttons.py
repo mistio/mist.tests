@@ -148,7 +148,7 @@ def click_the_user_menu_button(context, button):
 @step(u'I click the "{text}" "{type_of_item}"')
 def click_item(context, text, type_of_item):
     type_of_item = type_of_item.lower()
-    if type_of_item not in ['machine', 'key', 'script', 'network', 'team', 'template']:
+    if type_of_item not in ['machine', 'key', 'script', 'network', 'team', 'template', 'stack']:
         raise Exception('Unknown type of button')
     if context.mist_config.get(text):
         text = context.mist_config[text]
