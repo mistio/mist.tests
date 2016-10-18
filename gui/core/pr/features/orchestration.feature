@@ -66,20 +66,11 @@ Feature: Tests for orchestration feature
 
 
   @stack-add
-  Scenario: First add the template that will later be used in order to create a stack
+  Scenario: Create a stack from the template added above
     When I visit the Templates page
-    When I click the button "+"
-    Then I expect the "Template" add form to be visible within max 10 seconds
-    And I open the "Catalogue Templates" drop down
-    And I wait for 1 seconds
-    When I click the button "Kubernetes Blueprint" in the "Catalogue Templates" dropdown
-    When I set the value "Simple Python Template" to field "Template Name" in "template" add form
-    Then I set the value "https://github.com/mistio/simple-python-webserver-blueprint" to field "Github Repo" in "template" add form
-    When I set the value "blueprint.yaml" to field "Entry Point" in "template" add form
-    And I expect for the button "Add" in "template" add form to be clickable within 9 seconds
-    When I focus on the button "Add" in "template" add form
-    And I click the button "Add" in "template" add form
-    Then I expect the "template" edit form to be visible within max 20 seconds
+    And I wait for 2 seconds
+    When I click the "Simple Python Template" "template"
+    And I expect the "template" edit form to be visible within max 5 seconds
     When I click the button "Create Stack" in "template" edit form
     And I expect the "stack" add form to be visible within max 20 seconds
     When I set the value "TestStack" to field "Stack Name" in "stack" add form
