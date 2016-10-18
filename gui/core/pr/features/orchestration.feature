@@ -91,29 +91,29 @@ Feature: Tests for orchestration feature
     Then "TestStack" stack should be absent within 15 seconds
     When I clear the search bar
 
-#  @stack-tags
-#  Scenario: Add tags to stack
-#    When I visit the Stacks page
-#    And I wait for 1 seconds
-#    When I click the "TestStack" "stack"
-#    And I expect the "stack" edit form to be visible within max 5 seconds
-#    Then I click the button "Tags" in "stack" edit form
-#    And I expect for the tag popup to open within 4 seconds
-#    When I remove all the previous tags
-#    Then I add a tag with key "first" and value "tag"
-#    Then I add a tag with key "second" and value "tag"
-#    And I click the button "Save Tags" in the tag menu
-#    Then I expect for the tag popup to close within 4 seconds
-#    And I wait for 2 seconds
-#    Then I ensure that the "stack" has the tags "first:tag,second:tag"
-#    Then I click the button "Tags" in "stack" edit form
-#    And I expect for the tag popup to open within 4 seconds
-#    And I wait for 1 seconds
-#    When I remove the tag with key "first"
-#    And I wait for 1 seconds
-#    And I click the button "Save Tags" in the tag menu
-#    Then I expect for the tag popup to close within 4 seconds
-#    And I ensure that the "stack" has the tags "second:tag"
+  @stack-tags
+  Scenario: Add tags to stack
+    When I visit the Stacks page
+    And I wait for 1 seconds
+    When I click the "TestStack" "stack"
+    And I expect the "stack" edit form to be visible within max 5 seconds
+    Then I click the button "Tags" in "stack" edit form
+    And I expect for the tag popup to open within 4 seconds
+    When I remove all the previous tags
+    Then I add a tag with key "first" and value "tag"
+    Then I add a tag with key "second" and value "tag"
+    And I click the button "Save Tags" in the tag menu
+    Then I expect for the tag popup to close within 4 seconds
+    And I wait for 2 seconds
+    Then I ensure that the "stack" has the tags "first:tag,second:tag"
+    Then I click the button "Tags" in "stack" edit form
+    And I expect for the tag popup to open within 4 seconds
+    And I wait for 1 seconds
+    When I remove the tag with key "first"
+    And I wait for 1 seconds
+    And I click the button "Save Tags" in the tag menu
+    Then I expect for the tag popup to close within 4 seconds
+    And I ensure that the "stack" has the tags "second:tag"
 
   @template-rename
     @template
