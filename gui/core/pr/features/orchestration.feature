@@ -137,6 +137,7 @@ Feature: Tests for orchestration feature
     When I set the value "Renamed Template" to field "Name" in "Edit Template" dialog
     And I click the "Submit" button in the dialog "Edit Template"
     And I expect the dialog "Edit Template" is closed within 4 seconds
+    Then I visit the Home page
     Then I visit the templates page
     And "Simple Python Template" template should be absent within 5 seconds
     And "Renamed Template" template should be present within 5 seconds
