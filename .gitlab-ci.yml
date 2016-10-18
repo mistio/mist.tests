@@ -8,6 +8,7 @@ run_mayday_test:
   only:
     - triggers
   before_script:
+    - export RECORD_SELENIUM='"True"'
     - export DISPLAY=:1.0
     - Xvfb :1 -screen 0 1024x768x24 > /dev/null 2>&1 &
     - cd ..
@@ -43,4 +44,3 @@ run_mayday_test:
       - var/log/test.mp4
     expire_in: 7 days
     when: on_failure
-    
