@@ -115,6 +115,16 @@ Feature: Tests for orchestration feature
     Then I expect for the tag popup to close within 4 seconds
     And I ensure that the "stack" has the tags "second:tag"
 
+  @stack-delete
+  Scenario: Delete a stack
+    When I visit the Stacks page
+    And I wait for 1 seconds
+    When I click the button "Delete" from the menu of the "TestStack" stack
+    And I expect the dialog "Delete Stack" is open within 4 seconds
+    When I click the "Delete" button in the dialog "Delete Stack"
+    Then I expect the dialog "Delete Stack" is closed within 4 seconds
+    And "TestStack" stack should be absent within 5 seconds
+
   @template-rename
     @template
   Scenario: Rename a template
