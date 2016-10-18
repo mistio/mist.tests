@@ -61,20 +61,20 @@ Feature: Tests for orchestration feature
     Then I expect for the tag popup to close within 4 seconds
     And I ensure that the "template" has the tags "second:tag"
 
-#  @template-rename
-#  Scenario: Rename a template
-#    When I visit the Templates page
-#    And I wait for 2 seconds
-#    When I click the "Simple Python Template" "template"
-#    And I expect the "template" edit form to be visible within max 5 seconds
-#    Then I click the button "Edit Template" from the menu of the "template" edit form
-#    And I expect the dialog "Edit Template" is open within 4 seconds
-#    When I set the value "Renamed Template" to field "Name" in "Edit Template" dialog
-#    And I click the "Submit" button in the dialog "Edit Template"
-#    And I expect the dialog "Edit Template" is closed within 4 seconds
-#    Then I visit the templates page
-#    And "Simple Python Template" template should be absent within 5 seconds
-#    And "Renamed Template" template should be present within 5 seconds
+  @template-rename
+  Scenario: Rename a template
+    When I visit the Templates page
+    And I wait for 2 seconds
+    When I click the "Simple Python Template" "template"
+    And I expect the "template" edit form to be visible within max 5 seconds
+    Then I click the button "Edit Template" from the menu of the "template" edit form
+    And I expect the dialog "Edit Template" is open within 4 seconds
+    When I set the value "Renamed Template" to field "Name" in "Edit Template" dialog
+    And I click the "Submit" button in the dialog "Edit Template"
+    And I expect the dialog "Edit Template" is closed within 4 seconds
+    Then I visit the templates page
+    And "Simple Python Template" template should be absent within 5 seconds
+    And "Renamed Template" template should be present within 5 seconds
 
   @template-delete
   Scenario: Delete a template
