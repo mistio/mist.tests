@@ -2,24 +2,9 @@
 Feature: RBAC
 
 # there are some tests also mentioned here: https://gitlab.ops.mist.io/mistio/mist.tests/issues/30
-# most of the above are implemented, what could also be done as well, is to test more specific rules
+# most of the above are implemented, what could also be done is to test more specific rules
 # eg. member tries to run a script but has no permissions, and he cannot
-# then owner changes permission, and member can successfully run the script
-
-  @owner-signup
-  Scenario: Organization Owner signs up
-    When I visit mist.core
-    When I open the signup popup
-    Then I click the sign up button in the landing page popup
-    Then I click the email button in the landing page popup
-    And I enter my rbac_owner credentials for signup
-    And I click the sign up button in the landing page popup
-    Then I should receive an email at the address "OWNER_EMAIL" with subject "[mist.io] Confirm your registration" within 10 seconds
-    And I follow the link contained in the email sent at the address "OWNER_EMAIL" with subject "[mist.io] Confirm your registration"
-    Then I enter my rbac_owner credentials for signup_password_set
-    And I click the submit button in the landing page popup
-    And I wait for the mist.io splash page to load
-    Then I logout of legacy gui
+# then owner changes permissions, and member can successfully run the script
 
   @member-signup
   Scenario: Member1 of organization signs up
@@ -36,11 +21,28 @@ Feature: RBAC
     And I wait for the mist.io splash page to load
     Then I logout of legacy gui
 
+  @owner-signup
+  Scenario: Organization Owner signs up
+    When I visit mist.core
+    When I open the signup popup
+    Then I click the sign up button in the landing page popup
+    Then I click the email button in the landing page popup
+    And I enter my rbac_owner credentials for signup
+    And I click the sign up button in the landing page popup
+    Then I should receive an email at the address "OWNER_EMAIL" with subject "[mist.io] Confirm your registration" within 10 seconds
+    And I follow the link contained in the email sent at the address "OWNER_EMAIL" with subject "[mist.io] Confirm your registration"
+    Then I enter my rbac_owner credentials for signup_password_set
+    And I click the submit button in the landing page popup
+    And I wait for the mist.io splash page to load
+    #Then I logout of legacy gui
+
   @create-org
   Scenario: Owner creates a new organization
-    Given I am logged in to mist.core as rbac_owner
-    And I am in the new UI
-    When I wait for the dashboard to load
+#    Given I am logged in to mist.core as rbac_owner
+#    And I am in the new UI
+#    When I wait for the dashboard to load
+    Given I am in the new UI
+    And  I wait for the dashboard to load
     When I click the Gravatar
     And I wait for 1 seconds
     Then I click the button "Add Organisation" in the user menu
