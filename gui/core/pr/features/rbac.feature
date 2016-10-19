@@ -16,7 +16,7 @@ Feature: RBAC
     And I wait for the mist.io splash page to load
     Then I logout of legacy gui
 
-  @member1-signup
+  @member-signup
   Scenario: Member1 of organization signs up
     When I visit mist.core
     When I open the signup popup
@@ -43,7 +43,7 @@ Feature: RBAC
     And I wait for 1 seconds
     When I set the value "Rbac_Test" to field "Name" in "Add Organization" dialog
     And I click the "Add" button in the dialog "Add Organization"
-    And I wait for 1 seconds
+    And I wait for 2 seconds
     And I click the "Switch" button in the dialog "Add Organization"
     Then I expect the dialog "Add Organization" is closed within 4 seconds
     When I wait for the dashboard to load
