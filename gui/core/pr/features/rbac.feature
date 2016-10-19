@@ -44,7 +44,7 @@ Feature: RBAC
     Then I click the button "Add Organisation" in the user menu
     And I expect the dialog "Add Organization" is open within 4 seconds
     And I wait for 1 seconds
-    When I set the value "Rbac_Test0000111" to field "Name" in "Add Organization" dialog
+    When I set the value "Rbac_Test" to field "Name" in "Add Organization" dialog
     And I click the "Add" button in the dialog "Add Organization"
     And I wait for 2 seconds
     And I click the "Switch" button in the dialog "Add Organization"
@@ -81,7 +81,7 @@ Feature: RBAC
     Given that I am redirected within 5 seconds
     And I am in the new UI
     When I wait for the dashboard to load
-    Then I ensure that I am in the "Rbac_Test0000111" organization context
+    Then I ensure that I am in the "Rbac_Test" organization context
     When I visit the Teams page
     And "Test Team" team should be present within 5 seconds
     Then I logout
@@ -106,7 +106,7 @@ Feature: RBAC
     And I click the submit button in the landing page popup
     And I am in the new UI
     When I wait for the dashboard to load
-    Then I ensure that I am in the "Rbac_Test0000111" organization context
+    Then I ensure that I am in the "Rbac_Test" organization context
     When I visit the Teams page
     And "Test Team" team should be present within 5 seconds
     Then I logout
@@ -190,6 +190,7 @@ Feature: RBAC
     Then I logout
 
 # below two are commented coz there are some issues @polymer
+# will be checked again when the issues are resolved
 
 #  @tag-team
 #  Scenario: Owner tags a team
@@ -208,10 +209,6 @@ Feature: RBAC
 #
 #  @delete-team
 #  Scenario: Owner deletes a team
-#    Given I am logged in to mist.core as rbac_owner
-#    And I am in the new UI
-#    When I wait for the dashboard to load
-#    And I visit the Teams page
 #    When I click the "Rbac Test Team" "team"
 #    And I expect the "team" edit form to be visible within max 5 seconds
 #    Then I click the button "Delete Team" from the menu of the "team" edit form
