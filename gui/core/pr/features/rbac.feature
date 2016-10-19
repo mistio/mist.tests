@@ -173,7 +173,7 @@ Feature: RBAC
     Then I expect for the tag popup to close within 4 seconds
     And I wait for 2 seconds
     Then I ensure that the "team" has the tags "team:ops"
-    
+
   @delete-team
   @completed
   Scenario: Owner deletes a team
@@ -191,12 +191,12 @@ Feature: RBAC
     Then I logout
 
 
-  @manage-rules
-  Scenario: Manage team rules
+  @key-add
+  Scenario: Owner adds key in order to use it below for a rule
     Given I am logged in to mist.core as rbac_owner
     And I am in the new UI
     When I wait for the dashboard to load
-    Then I ensure that I am in the "Rbac_Test" organization context
+    Then I ensure that I am in the "Rbac_Test343434" organization context
     When I visit the Keys page
     When I click the button "+"
     Then I expect the "Key" add form to be visible within max 10 seconds
@@ -211,6 +211,11 @@ Feature: RBAC
     Then "PolicyKey" key should be present within 15 seconds
     Then I visit the Home page
     When I wait for the dashboard to load
+
+
+  @manage-rules
+  Scenario: Manage team rules
+    
     When I visit the Teams page
     When I click the button "+"
     And I expect the dialog "Add Team" is open within 4 seconds
