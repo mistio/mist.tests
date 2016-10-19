@@ -158,6 +158,30 @@ Feature: RBAC
     Then I visit the Teams page
     And "Test Team" key should be absent within 5 seconds
     And "Rbac Test Team" team should be present within 5 seconds
+    
+  @manage-rules
+  Scenario: Manage team rules
+    When I click the "Rbac Test Team" "team"
+    And I expect the "policy" edit form to be visible within max 5 seconds
+    When I focus on the button "Add a new rule" in "policy" edit form
+    Then I click the button "Add a new rule" in "policy" edit form
+    And I wait for 1 seconds
+    Then I add the rule "ALLOW" "machine" "all" where tags = "bla=bla"
+    When I focus on the button "Add a new rule" in "policy" edit form
+    Then I click the button "Add a new rule" in "policy" edit form
+    And I wait for 1 seconds
+    Then I add the rule always "ALLOW" "cloud" "all"
+    When I focus on the button "Add a new rule" in "policy" edit form
+    Then I click the button "Add a new rule" in "policy" edit form
+    And I wait for 1 seconds
+    Then I add the rule "DENY" "key" "edit" where id = "PolicyKey"
+    And I click the button "Save Policy" in "policy" edit form
+    Then I wait for 3 seconds
+    Given rule "0" is "ALLOW" "machine" "all" where tags = "bla=bla"
+    Given rule "1" is "ALLOW" "cloud" "all" always
+    Given rule "2" is "DENY" "key" "edit" where id = "PolicyKey"
+    Then I logout
+
 
   @tag-team
   Scenario: Owner tags a team
@@ -215,15 +239,15 @@ Feature: RBAC
 
   @manage-rules
   Scenario: Manage team rules
-    
-    When I visit the Teams page
-    When I click the button "+"
-    And I expect the dialog "Add Team" is open within 4 seconds
-    When I set the value "Policy Test Team" to field "Name" in "Add Team" dialog
-    And I click the "Add" button in the dialog "Add Team"
-    When I visit the Teams page
-    And "Policy Test Team" team should be present within 5 seconds
-    Then I wait for 2 seconds
+
+#    When I visit the Teams page
+#    When I click the button "+"
+#    And I expect the dialog "Add Team" is open within 4 seconds
+#    When I set the value "Policy Test Team" to field "Name" in "Add Team" dialog
+#    And I click the "Add" button in the dialog "Add Team"
+#    When I visit the Teams page
+#    And "Policy Test Team" team should be present within 5 seconds
+#    Then I wait for 2 seconds
     When I click the "Policy Test Team" "team"
     And I expect the "policy" edit form to be visible within max 5 seconds
     When I focus on the button "Add a new rule" in "policy" edit form
