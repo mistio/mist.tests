@@ -44,7 +44,7 @@ Feature: RBAC
     Then I click the button "Add Organisation" in the user menu
     And I expect the dialog "Add Organization" is open within 4 seconds
     And I wait for 1 seconds
-    When I set the value "Rbac_Test0" to field "Name" in "Add Organization" dialog
+    When I set the value "Rbac_Test0000" to field "Name" in "Add Organization" dialog
     And I click the "Add" button in the dialog "Add Organization"
     And I wait for 2 seconds
     And I click the "Switch" button in the dialog "Add Organization"
@@ -58,7 +58,7 @@ Feature: RBAC
     Given I am logged in to mist.core as rbac_owner
     And I am in the new UI
     When I wait for the dashboard to load
-    Then I ensure that I am in the "Rbac_Test0" organization context
+    Then I ensure that I am in the "Rbac_Test0000" organization context
     When I visit the Teams page
     When I click the button "+"
     And I expect the dialog "Add Team" is open within 4 seconds
@@ -88,7 +88,7 @@ Feature: RBAC
     Given that I am redirected within 5 seconds
     And I am in the new UI
     When I wait for the dashboard to load
-    Then I ensure that I am in the "Rbac_Test0" organization context
+    Then I ensure that I am in the "Rbac_Test0000" organization context
     When I visit the Teams page
     And "Test Team" team should be present within 5 seconds
     Then I logout
@@ -113,7 +113,7 @@ Feature: RBAC
     And I click the submit button in the landing page popup
     And I am in the new UI
     When I wait for the dashboard to load
-    Then I ensure that I am in the "Rbac_Test0" organization context
+    Then I ensure that I am in the "Rbac_Test0000" organization context
     When I visit the Teams page
     And "Test Team" team should be present within 5 seconds
     Then I logout
@@ -174,12 +174,11 @@ Feature: RBAC
     Then I expect the "key" edit form to be visible within max 5 seconds
     When I visit the Keys page
     Then "PolicyKey" key should be present within 15 seconds
-    Then I visit the Home page
-    When I wait for the dashboard to load
 
   @manage-rules
   @completed
   Scenario: Manage team rules
+    When I visit the teams page
     When I click the "Rbac Test Team" "team"
     And I expect the "policy" edit form to be visible within max 5 seconds
     When I focus on the button "Add a new rule" in "policy" edit form
