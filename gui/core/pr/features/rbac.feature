@@ -1,6 +1,11 @@
 @rbac
 Feature: RBAC
 
+# there are some tests also mentioned here: https://gitlab.ops.mist.io/mistio/mist.tests/issues/30
+# most of the above are implemented, what could also be done as well, is to test more specific rules
+# eg. member tries to run a script but has no permissions, and he cannot
+# then owner changes permission, and member can successfully run the script
+
   @owner-signup
   Scenario: Organization Owner signs up
     When I visit mist.core
@@ -190,6 +195,8 @@ Feature: RBAC
     Given rule "1" is "ALLOW" "cloud" "all" always
     Given rule "2" is "DENY" "key" "edit" where id = "PolicyKey"
     Then I logout
+
+# below two are commented coz there are some issues @polymer
 
 #  @tag-team
 #  Scenario: Owner tags a team
