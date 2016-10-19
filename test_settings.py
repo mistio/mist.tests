@@ -1,0 +1,9 @@
+EMAIL = "spiros17324@gmail.com"
+PASSWORD1 = "stzav12!@"
+OWNER_EMAIL = '"owner13425@mist.io"'
+OWNER_PASSWORD = '"owner1!"'
+MEMBER1_EMAIL = '"member14354354@mist.io"'
+MEMBER1_PASSWORD = '"member1!"'
+MEMBER2_EMAIL = '"member2@mist.io"'
+MEMBER2_PASSWORD = '"member2!"'
+MIST_URL = '"https://mist.io/"'
