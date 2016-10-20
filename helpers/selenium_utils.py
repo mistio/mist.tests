@@ -43,7 +43,6 @@ def choose_driver(flavor=None):
 
 def get_screenshot(context):
     log.info("Getting screenshot")
-    log.info(context.mist_config['NON_STOP'])
     if context.mist_config['NON_STOP']:
         num = context.mist_config['ERROR_NUM'] = context.mist_config['ERROR_NUM'] + 1
         path = context.mist_config['SCREENSHOT_PATH'] + '.{0}.png'.format(str(num))

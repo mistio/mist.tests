@@ -7,7 +7,7 @@ Feature: Production
     Then I wait for the links in homepage to appear
     When I visit the Machines page after the counter has loaded
     Then I search for the "stagingmayday" Machine
-    When I click the button "no---stagingmayday"
+    When I click the button "stagingmayday"
     Then I expect for "single-machine-page" page to appear within max 10 seconds
     Then I wait for the graphs to appear
     When I focus on the "Add Graph" button
