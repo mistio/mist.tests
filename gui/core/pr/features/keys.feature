@@ -20,7 +20,6 @@ Feature: Actions for Keys
     Then I expect the "key" edit form to be visible within max 5 seconds
     When I visit the Keys page
     Then "Key1" key should be present within 15 seconds
-    ##
     Then I visit the Home page
     When I wait for the dashboard to load
 
