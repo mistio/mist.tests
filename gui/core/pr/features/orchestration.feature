@@ -64,7 +64,6 @@ Feature: Tests for orchestration feature
     Then I expect for the tag popup to close within 4 seconds
     And I ensure that the "template" has the tags "second:tag"
 
-
   @stack-add
   Scenario: Create a stack from the template added above
     When I visit the Templates page
@@ -80,8 +79,7 @@ Feature: Tests for orchestration feature
     Then I expect the "stack" edit form to be visible within max 30 seconds
     When I wait for 10 seconds
     And I visit the Stacks page
-    
-
+    Then "TestStack" stack should be present within 30 seconds
 
   @stack-search
   Scenario: Filter a stack
