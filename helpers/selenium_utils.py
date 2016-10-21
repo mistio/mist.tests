@@ -42,11 +42,12 @@ def choose_driver(flavor=None):
 
 
 def get_screenshot(context):
+    log.info('After failure trying to get screenshot')
     if context.mist_config['NON_STOP']:
         num = context.mist_config['ERROR_NUM'] = context.mist_config['ERROR_NUM'] + 1
-        path = context.mist_config['SCREENSHOT_PATH'] + '.{0}.png'.format(str(num))
+        path = context.mist_config['SCREENSHOT_PATH'] + '25.png'.format(str(num))
     else:
-        path = context.mist_config['SCREENSHOT_PATH'] + '.png'
+        path = context.mist_config['SCREENSHOT_PATH'] + '25.png'
     try:
         context.browser.get_screenshot_as_file(path)
     except NoSuchWindowException:
