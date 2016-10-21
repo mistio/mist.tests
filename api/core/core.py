@@ -89,14 +89,14 @@ class MistCoreApi(MistIoApi):
         req.put = req.unavailable_api_call
         return req
 
-    def add_cronjob_entry(self, name, machines_per_cloud, enabled,
+    def add_cronjob_entry(self, name, scheduled_machines, enabled,
                           cronjob_type, cronjob_entry, api_token,
                           expires='', script_id='', action=''):
         data = {
             'name': name,
             'script_id': script_id,
             'action': action,
-            'machines_per_cloud': machines_per_cloud,
+            'scheduled_machines': scheduled_machines,
             'enabled': enabled,
             'expires': expires,
             'cronjob_type': cronjob_type,
@@ -109,14 +109,14 @@ class MistCoreApi(MistIoApi):
         req.put = req.unavailable_api_call
         return req
 
-    def edit_cronjob_entry(self, name, machines_per_cloud, enabled,
+    def edit_cronjob_entry(self, name, scheduled_machines, enabled,
                            cronjob_type, cronjob_entry, cronjob_id, api_token,
                            expires='', script_id='', action=''):
         data = {
             'name': name,
             'script_id': script_id,
             'action': action,
-            'machines_per_cloud': machines_per_cloud,
+            'scheduled_machines': scheduled_machines,
             'enabled': enabled,
             'expires': expires,
             'cronjob_type': cronjob_type,

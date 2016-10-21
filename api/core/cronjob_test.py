@@ -28,7 +28,7 @@ def test_003_check_add_cronjob_entry_no_name(pretty_print,
                                              mist_core,
                                              random_bash_script,
                                              expires,
-                                             machines_per_cloud,
+                                             scheduled_machines,
                                              owner_api_token):
     print "\n>>> POSTing /cronjobs to add a cronjob without name"
     entry = {"every": 5, "period": "minutes"}
@@ -36,7 +36,7 @@ def test_003_check_add_cronjob_entry_no_name(pretty_print,
     response = mist_core.add_cronjob_entry(name='',
                                            script_id=random_bash_script[
                                                'id'],
-                                           machines_per_cloud=machines_per_cloud,
+                                           scheduled_machines=scheduled_machines,
                                            enabled=True,
                                            expires=expires,
                                            cronjob_type='interval',
@@ -50,7 +50,7 @@ def test_004_check_add_cronjob_entry_no_cronjob_type(pretty_print,
                                                      mist_core,
                                                      random_bash_script,
                                                      expires,
-                                                     machines_per_cloud,
+                                                     scheduled_machines,
                                                      owner_api_token):
     print "\n>>> POSTing /cronjobs to add a cronjob without cronjob_type"
     entry = {"every": 5, "period": "minutes"}
@@ -58,7 +58,7 @@ def test_004_check_add_cronjob_entry_no_cronjob_type(pretty_print,
     response = mist_core.add_cronjob_entry(name='check_failure',
                                            script_id=random_bash_script[
                                                'id'],
-                                           machines_per_cloud=machines_per_cloud,
+                                           scheduled_machines=scheduled_machines,
                                            enabled=True,
                                            expires=expires,
                                            cronjob_type='',
@@ -72,7 +72,7 @@ def test_005_check_add_cronjob_entry_with_expired_date(pretty_print,
                                                        mist_core,
                                                        random_bash_script,
                                                        expired,
-                                                       machines_per_cloud,
+                                                       scheduled_machines,
                                                        owner_api_token):
     print "\n>>> POSTing /cronjobs to add a cronjob with expired expiration" \
           " date"
@@ -80,7 +80,7 @@ def test_005_check_add_cronjob_entry_with_expired_date(pretty_print,
     response = mist_core.add_cronjob_entry(name='check_failure',
                                            script_id=random_bash_script[
                                                'id'],
-                                           machines_per_cloud=machines_per_cloud,
+                                           scheduled_machines=scheduled_machines,
                                            enabled=True,
                                            cronjob_type='one_off',
                                            cronjob_entry=expired,
@@ -93,14 +93,14 @@ def test_006_check_add_cronjob_entry_wrong_cronjob_entry(pretty_print,
                                                          mist_core,
                                                          random_bash_script,
                                                          expired,
-                                                         machines_per_cloud,
+                                                         scheduled_machines,
                                                          owner_api_token):
     print "\n>>> POSTing /cronjobs to add a cronjob with wrong cronjob entry"
 
     response = mist_core.add_cronjob_entry(name='check_failure',
                                            script_id=random_bash_script[
                                                'id'],
-                                           machines_per_cloud=machines_per_cloud,
+                                           scheduled_machines=scheduled_machines,
                                            enabled=True,
                                            cronjob_type='one_off',
                                            cronjob_entry='bla',
@@ -113,14 +113,14 @@ def test_007_check_add_cronjob_entry_wrong_script_id(pretty_print,
                                                      mist_core,
                                                      random_bash_script,
                                                      expired,
-                                                     machines_per_cloud,
+                                                     scheduled_machines,
                                                      owner_api_token):
     print "\n>>> POSTing /cronjobs to add a cronjob with wrong script_id"
 
     response = mist_core.add_cronjob_entry(name='check_failure',
                                            script_id=random_bash_script[
                                                          'id'],
-                                           machines_per_cloud=machines_per_cloud,
+                                           scheduled_machines=scheduled_machines,
                                            enabled=True,
                                            cronjob_type='one_off',
                                            cronjob_entry='bla',
@@ -133,14 +133,14 @@ def test_008_check_add_cronjob_entry_with_wrong_api_token(pretty_print,
                                                           mist_core,
                                                           random_bash_script,
                                                           expired,
-                                                          machines_per_cloud,
+                                                          scheduled_machines,
                                                           owner_api_token):
     print "\n>>> POSTing /cronjobs to add a cronjob with wrong script_id"
 
     response = mist_core.add_cronjob_entry(name='check_failure',
                                            script_id=random_bash_script[
                                                          'id'],
-                                           machines_per_cloud=machines_per_cloud,
+                                           scheduled_machines=scheduled_machines,
                                            enabled=True,
                                            cronjob_type='one_off',
                                            cronjob_entry='bla',
@@ -176,7 +176,7 @@ class TestSimpleUserCronjobCycle:
                                         mist_core,
                                         random_bash_script,
                                         expires,
-                                        machines_per_cloud,
+                                        scheduled_machines,
                                         owner_api_token):
         print "\n>>> POSTing /cronjobs to add a cronjob with correct params, " \
               "type interval"
@@ -185,7 +185,7 @@ class TestSimpleUserCronjobCycle:
         response = mist_core.add_cronjob_entry(name='check_add_interval',
                                                script_id=random_bash_script[
                                                    'id'],
-                                               machines_per_cloud=machines_per_cloud,
+                                               scheduled_machines=scheduled_machines,
                                                enabled=True,
                                                expires=expires,
                                                cronjob_type='interval',
@@ -202,7 +202,7 @@ class TestSimpleUserCronjobCycle:
                                        mist_core,
                                        random_bash_script,
                                        expires,
-                                       machines_per_cloud,
+                                       scheduled_machines,
                                        owner_api_token):
         print "\n>>> POSTing /cronjobs to add a cronjob with correct params, " \
               "type crontab"
@@ -211,7 +211,7 @@ class TestSimpleUserCronjobCycle:
         response = mist_core.add_cronjob_entry(name='check_add_cron',
                                                script_id=random_bash_script[
                                                    'id'],
-                                               machines_per_cloud=machines_per_cloud,
+                                               scheduled_machines=scheduled_machines,
                                                enabled=True,
                                                expires=expires,
                                                cronjob_type='crontab',
@@ -228,14 +228,14 @@ class TestSimpleUserCronjobCycle:
                                        mist_core,
                                        random_bash_script,
                                        expires,
-                                       machines_per_cloud,
+                                       scheduled_machines,
                                        owner_api_token):
         print "\n>>> POSTing /cronjobs to add a cronjob with correct params, " \
               "type one-off"
         response = mist_core.add_cronjob_entry(name='check_add_one_off',
                                                script_id=random_bash_script[
                                                    'id'],
-                                               machines_per_cloud=machines_per_cloud,
+                                               scheduled_machines=scheduled_machines,
                                                enabled=True,
                                                expires=expires,
                                                cronjob_type='one_off',
@@ -252,13 +252,13 @@ class TestSimpleUserCronjobCycle:
                                       mist_core,
                                       random_bash_script,
                                       expires,
-                                      machines_per_cloud,
+                                      scheduled_machines,
                                       owner_api_token):
         print "\n>>> POSTing /cronjobs to add a cronjob with correct params, " \
               "for an action"
         response = mist_core.add_cronjob_entry(name='check_add_action',
                                                action='reboot',
-                                               machines_per_cloud=machines_per_cloud,
+                                               scheduled_machines=scheduled_machines,
                                                enabled=True,
                                                cronjob_type='one_off',
                                                cronjob_entry=expires,
@@ -272,7 +272,7 @@ class TestSimpleUserCronjobCycle:
 
     def test_edit_cronjob_entry_crontab_expired_date(self, pretty_print,
                                                      mist_core,
-                                                     machines_per_cloud,
+                                                     scheduled_machines,
                                                      random_bash_script,
                                                      cache,
                                                      expired,
@@ -286,7 +286,7 @@ class TestSimpleUserCronjobCycle:
         response = mist_core.edit_cronjob_entry(name='check_edit_to cron',
                                                 script_id=random_bash_script[
                                                     'id'],
-                                                machines_per_cloud=machines_per_cloud,
+                                                scheduled_machines=scheduled_machines,
                                                 enabled=True,
                                                 expires=expired,
                                                 cronjob_type='crontab',
@@ -298,7 +298,7 @@ class TestSimpleUserCronjobCycle:
 
     def test_edit_cronjob_entry_crontab_wrong_script_id(self, pretty_print,
                                                         mist_core,
-                                                        machines_per_cloud,
+                                                        scheduled_machines,
                                                         random_bash_script,
                                                         cache,
                                                         expired,
@@ -312,7 +312,7 @@ class TestSimpleUserCronjobCycle:
         response = mist_core.edit_cronjob_entry(name='check_edit_to cron',
                                                 script_id=random_bash_script[
                                                               'id'][:-1],
-                                                machines_per_cloud=machines_per_cloud,
+                                                scheduled_machines=scheduled_machines,
                                                 enabled=True,
                                                 expires=expired,
                                                 cronjob_type='crontab',
@@ -323,7 +323,7 @@ class TestSimpleUserCronjobCycle:
         print "Success!!!"
 
     def test_edit_cronjob_entry_wrong_cronjob(self, pretty_print, mist_core,
-                                              machines_per_cloud,
+                                              scheduled_machines,
                                               random_bash_script,
                                               cache,
                                               expired,
@@ -337,7 +337,7 @@ class TestSimpleUserCronjobCycle:
         response = mist_core.edit_cronjob_entry(name='check_edit_to cron',
                                                 script_id=random_bash_script[
                                                     'id'],
-                                                machines_per_cloud=machines_per_cloud,
+                                                scheduled_machines=scheduled_machines,
                                                 enabled=True,
                                                 expires=expired,
                                                 cronjob_type='crontab',
@@ -349,7 +349,7 @@ class TestSimpleUserCronjobCycle:
 
     def test_edit_cronjob_entry_interval_to_crontab(self, pretty_print,
                                                     mist_core,
-                                                    machines_per_cloud,
+                                                    scheduled_machines,
                                                     random_bash_script,
                                                     cache,
                                                     expires,
@@ -362,7 +362,7 @@ class TestSimpleUserCronjobCycle:
         response = mist_core.edit_cronjob_entry(name='check_edit_to cron',
                                                 script_id=random_bash_script[
                                                     'id'],
-                                                machines_per_cloud=machines_per_cloud,
+                                                scheduled_machines=scheduled_machines,
                                                 enabled=True,
                                                 expires=expires,
                                                 cronjob_type='crontab',
@@ -377,14 +377,14 @@ class TestSimpleUserCronjobCycle:
                                                    random_bash_script, cache,
                                                    expires,
                                                    owner_api_token,
-                                                   machines_per_cloud):
+                                                   scheduled_machines):
 
         print "\n>>>  PUTing /cronjobs to edit a cronjob, crontab--> one_off"
         cronjob_id = cache.get('cronjob/cronjob_id_crontab', '')
         response = mist_core.edit_cronjob_entry(name='check_edit_one_off',
                                                 script_id=random_bash_script[
                                                     'id'],
-                                                machines_per_cloud=machines_per_cloud,
+                                                scheduled_machines=scheduled_machines,
                                                 enabled=True,
                                                 cronjob_type='one_off',
                                                 cronjob_entry=expires,
@@ -394,7 +394,7 @@ class TestSimpleUserCronjobCycle:
         print "Success!!!"
 
     def test_018_check_edit_cronjob_entry(self, pretty_print, mist_core,
-                                          machines_per_cloud,
+                                          scheduled_machines,
                                           random_bash_script,
                                           expires, cache,
                                           owner_api_token):
@@ -403,8 +403,8 @@ class TestSimpleUserCronjobCycle:
         response = mist_core.edit_cronjob_entry(name='check_edit_script',
                                                 script_id=random_bash_script[
                                                     'id'],
-                                                machines_per_cloud=
-                                                machines_per_cloud,
+                                                scheduled_machines=
+                                                scheduled_machines,
                                                 enabled=True,
                                                 cronjob_type='one_off',
                                                 cronjob_entry=expires,
