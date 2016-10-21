@@ -23,9 +23,6 @@ run_mayday_test:
     - cp -a /var/log/* var/log/
     - rm -rf /var/log
     - ln -s /builds/mistio/mist.mayday.staging/var/log /var/log
-
-graph_test:
-  <<: *base_test_job
   script:
     - >
         /core.env/bin/ipython tests/prepare_env.py --
@@ -33,21 +30,8 @@ graph_test:
         --webdriver-log= /var/log/chromedriver.log
         --webdriver-path=$(pwd)/tests/gitlab/chromedriver
         --js-console-log= /var/log/js_console.log
-        -k --tags=graph
+        -k --tags=alert,graph,ssh
         tests/legacy_gui/core/mayday/features
-
-alert_test:
-  <<: *base_test_job
-  script:
-    - >
-        /core.env/bin/ipython tests/prepare_env.py --
-        --screenshot-path= /var/log/error -k
-        --webdriver-log= /var/log/chromedriver.log
-        --webdriver-path=$(pwd)/tests/gitlab/chromedriver
-        --js-console-log= /var/log/js_console.log
-        -k --tags=alert
-        tests/legacy_gui/core/mayday/features
-
   after_script:
     - find $(pwd)/var/log
   tags:
