@@ -18,14 +18,18 @@ run_mayday_test:
     - chmod 744 tests/gitlab/chromedriver
     - export "PATH=$(pwd)/tests/gitlab:$PATH"
     - /core.env/bin/pip install -e tests
-    - mkdir -p var/log
+    - mkdir -p /builds/mistio/mist.tests/var/log
+    - cp -a /var/log/* var/log/
+    - rm -rf /var/log
+    - ln -s /builds/mistio/mist.tests/var/log /var/log
   script:
     - >
         /core.env/bin/ipython tests/prepare_env.py --
-        --screenshot-path=$(pwd)/var/log/error
-        --webdriver-log=$(pwd)/var/log/chromedriver.log
+        --screenshot-path= /var/log/error -k
+        --webdriver-log= /var/log/chromedriver.log
         --webdriver-path=$(pwd)/tests/gitlab/chromedriver
-        --js-console-log=$(pwd)/var/log/js_console.log
+        --js-console-log= /var/log/js_console.log
+        -D BEHAVE_DEBUG_ON_ERROR
         -k --tags=alert,graph,ssh,celery,google_sso_signin,github_sso_signin
         tests/legacy_gui/core/mayday/features
   tags:

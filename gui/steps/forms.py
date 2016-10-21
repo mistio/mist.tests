@@ -34,7 +34,10 @@ def get_add_form(context, title):
     if title not in ['cloud', 'machine', 'image', 'key', 'network', 'tunnel',
                      'script', 'template', 'stack', 'team', 'members']:
         raise ValueError('The title given is unknown')
-    add_form_selector = 'div#content.%s-add' % title
+    if title == 'stack':
+        add_form_selector = 'div#content.%s-create' % title
+    else:
+        add_form_selector = 'div#content.%s-add' % title
     return context.browser.find_element_by_css_selector(add_form_selector)
 
 

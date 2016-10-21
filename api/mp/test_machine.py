@@ -36,7 +36,7 @@ provider_data = {
          "credentials": "NEPHOSCALE",
          "size": "3",
          "name_prefix": "mpnephoscale",
-         "location": "87729",
+         "location": "76383",
          "disk": 50
      },
      "SoftLayer": {
@@ -101,7 +101,8 @@ def test_machine_provisioning_test(mist_core, api_token, mp_json):
             continue
         # filter out all the provider images that are starred and they have
         # not been tested before
-        provider_images = filter(lambda el: el['star'] and el['id'] not in mp_json.get(provider['title'], {}),
+
+        provider_images = filter(lambda el: el['star'] and 'Metal' not in el['name'] and 'HVM' not in el['name'] and el['id'] not in mp_json.get(provider['title'], {}),
                                  mist_core.list_images(cloud_id=provider['id'],
                                                        api_token=api_token).get().json())
         if not provider_images:
@@ -217,10 +218,19 @@ def test_machine_provisioning_test(mist_core, api_token, mp_json):
     except AssertionError as e:
         print "Waited for too long for post deployment steps to finish"
         mp_fail_notify(e, provider, provider_to_test['images_left_to_test'][0]['name'], 'deploy')
-        destroy_machine(log, mist_core, api_token, cloud_id, machine_id)
+        try:
+            destroy_machine(log, mist_core, api_token, cloud_id, machine_id)
+        except AssertionError as e:
+            mp_fail_notify(e, provider, provider_to_test['images_left_to_test'][0]['name'], 'destroy')
+            raise e
         raise e
 
     print "\nPost deployment steps have finished after %s seconds. Destroying" \
           " the machine\n" % (time() - timeout + 200)
 
-    destroy_machine(log, mist_core, api_token, cloud_id, machine_id)
+    try:
+        destroy_machine(log, mist_core, api_token, cloud_id, machine_id)
+    except AssertionError as e:
+        mp_fail_notify(e, provider, provider_to_test['images_left_to_test'][0]['name'], 'destroy')
+        raise e
+    mp_success_notify(provider, provider_to_test['images_left_to_test'][0]['name'])
