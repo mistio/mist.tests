@@ -27,7 +27,7 @@ def before_all(context):
     log.info("Webdriver log:" + config.WEBDRIVER_LOG)
     log.info("JS console log:" + config.JS_CONSOLE_LOG)
     setup_debug_on_error(context.config.userdata)
-    log.info(BEHAVE_DEBUG_ON_ERROR)
+    log.info("BEHAVE_DEBUG_ON_ERROR: " + BEHAVE_DEBUG_ON_ERROR)
 
     context.mist_config = dict()
     context.mist_config['browser'] = choose_driver()
@@ -101,11 +101,6 @@ def after_all(context):
 
 def finish_and_cleanup(context):
     dump_js_console_log(context)
-    # try:
-    #     get_screenshot(context)
-    # except Exception as e:
-    #     log.error("Could not get screen shot: %s" % repr(e))
-    #     pass
     context.mist_config['browser'].quit()
     if context.mist_config.get('browser2'):
         context.mist_config['browser2'].quit()
