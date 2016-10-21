@@ -14,6 +14,7 @@ log = logging.getLogger(__name__)
 
 logging.basicConfig(level=logging.INFO)
 
+
 def setup_debug_on_error(userdata):
     global BEHAVE_DEBUG_ON_ERROR
     BEHAVE_DEBUG_ON_ERROR = userdata.getbool("BEHAVE_DEBUG_ON_ERROR")
@@ -27,7 +28,6 @@ def before_all(context):
     log.info("Webdriver log:" + config.WEBDRIVER_LOG)
     log.info("JS console log:" + config.JS_CONSOLE_LOG)
     setup_debug_on_error(context.config.userdata)
-    log.info(BEHAVE_DEBUG_ON_ERROR)
 
     context.mist_config = dict()
     context.mist_config['browser'] = choose_driver()

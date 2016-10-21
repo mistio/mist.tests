@@ -11,7 +11,7 @@ Feature: Production
     Then I expect for "single-machine-page" page to appear within max 10 seconds
     Then I wait for the graphs to appear
     When I focus on the "Add Graph" button
-    And I click the button "Non existing Add Graph"
+    And I click the button "Add Graph"
     Then I expect for "metric-add-popup" popup to appear within max 30 seconds
     And I expect the metric buttons to appear within 30 seconds
     When I click the "entropy" button inside the "Select Metric" popup
@@ -61,7 +61,7 @@ Feature: Production
     When I choose the "stagingmayday" machine
     And I click the button "Actions"
     Then I expect for "machine-power-popup-popup" popup to appear within max 4 seconds
-    When I click the "Non-existing Reboot" button inside the "Actions" popup
+    When I click the "Reboot" button inside the "Actions" popup
     Then I expect for "dialog-popup" modal to appear within max 4 seconds
     And I click the button "Yes"
     Then I expect for "dialog-popup" modal to disappear within max 4 seconds
