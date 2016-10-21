@@ -19,7 +19,7 @@ Feature: Actions for Keys
     And I click the button "Add" in "key" add form
     Then I expect the "key" edit form to be visible within max 5 seconds
     When I visit the Keys page
-    Then "non-existing-Key1" key should be present within 15 seconds
+    Then "Key1" key should be present within 15 seconds
     ##
     Then I visit the Home page
     When I wait for the dashboard to load
