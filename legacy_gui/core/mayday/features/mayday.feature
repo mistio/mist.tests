@@ -61,7 +61,7 @@ Feature: Production
     When I choose the "stagingmayday" machine
     And I click the button "Actions"
     Then I expect for "machine-power-popup-popup" popup to appear within max 4 seconds
-    When I click the "Reboot" button inside the "Actions" popup
+    When I click the "Non-existing Reboot" button inside the "Actions" popup
     Then I expect for "dialog-popup" modal to appear within max 4 seconds
     And I click the button "Yes"
     Then I expect for "dialog-popup" modal to disappear within max 4 seconds
