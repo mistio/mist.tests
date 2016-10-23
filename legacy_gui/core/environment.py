@@ -1,5 +1,6 @@
 import sys
 import logging
+import tests.helpers.recording
 
 from tests import config
 
@@ -95,6 +96,7 @@ def after_step(context, step):
     if BEHAVE_DEBUG_ON_ERROR and step.status == "failed":
         try:
             get_screenshot(context)
+            tests.helpers.recording.kill_recording_process = True
         except Exception as e:
             log.error("Could not get screen shot: %s" % repr(e))
 
