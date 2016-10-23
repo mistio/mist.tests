@@ -19,7 +19,7 @@ from selenium.common.exceptions import NoSuchElementException
 @step(u'I wait for the graphs to appear')
 def wait_graphs_to_appear(context):
     try:
-        WebDriverWait(context.browser, 400).until(EC.presence_of_element_located((By.CLASS_NAME, "graph")))
+        WebDriverWait(context.browser, 4).until(EC.presence_of_element_located((By.CLASS_NAME, "graph")))
     except TimeoutException:
         raise TimeoutException("No graphs have appeared after 200 seconds")
 
