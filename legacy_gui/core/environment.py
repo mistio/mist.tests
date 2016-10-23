@@ -96,6 +96,8 @@ def after_step(context, step):
     if BEHAVE_DEBUG_ON_ERROR and step.status == "failed":
         try:
             get_screenshot(context)
+            tests.helpers.recording.recording_sub_process.stdin.write('q\n')
+            log.info("Sent terminating character to recording process")
             #stop_recording()
         except Exception as e:
             log.error("Could not get screen shot: %s" % repr(e))
