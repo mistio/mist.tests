@@ -9,7 +9,7 @@ from tests.helpers.selenium_utils import get_screenshot
 from tests.helpers.selenium_utils import dump_js_console_log
 
 from tests.helpers.recording import start_recording
-from tests.helpers.recording import stop_recording
+from tests.helpers.recording import discard_output
 
 log = logging.getLogger(__name__)
 
@@ -96,9 +96,9 @@ def after_step(context, step):
     if BEHAVE_DEBUG_ON_ERROR and step.status == "failed":
         try:
             get_screenshot(context)
-            tests.helpers.recording.recording_sub_process.stdin.write('q\n')
-            log.info("Sent terminating character to recording process")
-            #stop_recording()
+            # tests.helpers.recording.recording_sub_process.stdin.write('q\n')
+            # log.info("Sent terminating character to recording process")
+            discard_output(tests.helpers.recording.recording_sub_process)
         except Exception as e:
             log.error("Could not get screen shot: %s" % repr(e))
 
@@ -112,5 +112,5 @@ def finish_and_cleanup(context):
     context.mist_config['browser'].quit()
     if context.mist_config.get('browser2'):
         context.mist_config['browser2'].quit()
-    # if context.mist_config.get('recording_session'):
-    #     stop_recording()
+    if context.mist_config.get('recording_session'):
+        stop_recording()
