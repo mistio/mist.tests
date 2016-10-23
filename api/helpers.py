@@ -105,6 +105,7 @@ def get_random_key_id(existing_keys):
             return random_key_name
 
 def destroy_machine(log, mist_core, api_token, cloud_id, machine_id):
+    mist_core.list_machines(cloud_id=cloud_id, api_token=api_token).get()
     response = mist_core.destroy_machine(api_token=api_token,
                                          cloud_id=cloud_id,
                                          machine_id=machine_id).post()
@@ -116,28 +117,40 @@ def destroy_machine(log, mist_core, api_token, cloud_id, machine_id):
         raise e
 
 def mp_fail_notify(error, provider, image_name, stage):
-    gmail_pwd = get_value_of('GOOGLE_TEST_PASSWORD', '')
-    FROM = get_value_of('GOOGLE_TEST_EMAIL', '')
-    TO = get_value_of('MP_NOTIFY_EMAIL', '')
+    slack_hook = get_value_of('SLACK_HOOK', '')
+    #gmail_pwd = get_value_of('GOOGLE_TEST_PASSWORD', '')
+    #FROM = get_value_of('GOOGLE_TEST_EMAIL', '')
+    #TO = get_value_of('MP_NOTIFY_EMAIL', '')
     if stage == 'provision':
         SUBJECT = '[Multiprovision-tests] Provisioning failed for ' + provider + ' and image ' + image_name
-    else:
+    elif stage == 'deploy':
         SUBJECT = '[Multiprovision-tests] Deployment failed for ' + provider + ' and image ' + image_name
-    error_json = json.loads(str(error.message.split('\n')[1]))
-    TEXT = error_json['error']
+    elif stage == 'destroy':
+        SUBJECT = '[Multiprovision-tests] Failed to destroy machine for ' + provider + ' and image ' + image_name
+    #TEXT = error_json['error']
 
-    message = """From: %s\nTo: %s\nSubject: %s\n\n%s
-    """ % (FROM, TO, SUBJECT, TEXT)
+    #message = """From: %s\nTo: %s\nSubject: %s\n\n%s
+    #""" % (FROM, TO, SUBJECT, TEXT)
 
     #send an email
-    server = smtplib.SMTP('smtp.gmail.com:587')
-    server.ehlo()
-    server.starttls()
-    server.login(FROM, gmail_pwd)
-    server.sendmail(FROM, TO, message)
-    server.quit()
+    #server = smtplib.SMTP('smtp.gmail.com:587')
+    #server.ehlo()
+    #server.starttls()
+    #server.login(FROM, gmail_pwd)
+    #server.sendmail(FROM, TO, message)
+    #server.quit()
 
     #post to Slack
+    attachments = [ { 'color':'danger', 'title': 'Error Message', 'text' : str(error.message) } ]
     headers = {"Content-type": "application/json"}
-    payload = {"text": SUBJECT}
-    #response = requests.post('https://hooks.slack.com/services/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', json=payload)
+    payload = {"text": SUBJECT, "attachments": attachments}
+    response = requests.post(slack_hook, json=payload)
+
+def mp_success_notify(provider, image_name):
+    slack_hook = get_value_of('SLACK_HOOK', '')
+    SUBJECT = 'Provisioning worked for ' + provider + ' and image ' + image_name
+    attachments = [ { 'color':'good', 'title': 'Test: ', 'text' : SUBJECT } ]
+    #post to Slack
+    headers = {"Content-type": "application/json"}
+    payload = {"text": '[Multiprovision-tests] Test successful', "attachments": attachments}
+    response = requests.post(slack_hook, json=payload)

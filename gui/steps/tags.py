@@ -122,7 +122,7 @@ def ensure_tags_are_present(context, type_of_item, tags):
     existing_tags = form.find_elements_by_class_name('tag')
     expected_tags = dict(map(lambda t: (t.split(':')[0], t.split(':')[1]), tags.strip().lower().split(',')))
     for existing_tag in existing_tags:
-        key = safe_get_element_text(existing_tag).lower().strip().split('=')[0]
+        key = safe_get_element_text(existing_tag).lower().split('=')[0].strip()
         if key.endswith('\n'):
             key = key[:-1]
         if key in expected_tags:

@@ -14,6 +14,9 @@ log = logging.getLogger(__name__)
 
 logging.basicConfig(level=logging.INFO)
 
+def setup_debug_on_error(userdata):
+    global BEHAVE_DEBUG_ON_ERROR
+    BEHAVE_DEBUG_ON_ERROR = userdata.getbool("BEHAVE_DEBUG_ON_ERROR")
 
 def setup_debug_on_error(userdata):
     global BEHAVE_DEBUG_ON_ERROR
@@ -94,6 +97,7 @@ def after_step(context, step):
             get_screenshot(context)
         except Exception as e:
             log.error("Could not get screen shot: %s" % repr(e))
+
 
 def after_all(context):
     finish_and_cleanup(context)
