@@ -110,5 +110,5 @@ def finish_and_cleanup(context):
     context.mist_config['browser'].quit()
     if context.mist_config.get('browser2'):
         context.mist_config['browser2'].quit()
-    if context.mist_config.get('recording_session'):
-        stop_recording()
+    # if context.mist_config.get('recording_session'):
+    #     stop_recording()
