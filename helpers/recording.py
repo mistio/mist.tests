@@ -70,6 +70,7 @@ def stop_recording():
     global recording_sub_process
     kill_recording_process = True
     log.info("Stopping recording of the session")
+    log.info(recording_sub_process)
     recording_sub_process.stdin.write('q\n')
     log.info("Sent terminating character to recording process")
     recording_process_lock.acquire()
