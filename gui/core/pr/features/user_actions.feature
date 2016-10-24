@@ -30,6 +30,30 @@ Feature: Login Scenarios
     Then I close the "Login" popup
     And I wait for 2 seconds
 
+  @api-token
+  Scenario:
+    Given I am logged in to mist.core
+    And I am in the new UI
+    And I wait for 3 seconds
+    When I visit the Account page
+    And I wait for 3 seconds
+
+
+#  @check-redirect
+#  Scenario: Add EC2 cloud, go to Machines logout and check redirect
+#    Given I am logged in to mist.core
+#    Given "EC2" cloud has been added
+#    Then I logout
+#    And I visit the machines page with a url
+#    When I wait for 2 seconds
+#    Then I click the email button in the landing page popup
+#    When I enter my standard credentials for login
+#    And I click the sign in button in the landing page popup
+#    Then I wait for the mist.io splash page to load
+#    And I should be in the machines page
+#    Then I logout
+#    And I wait for 2 seconds
+
 #  @api-token-test
 #  Scenario: Create and delete api tokens
 #    Given I am logged in to mist.core
@@ -55,19 +79,4 @@ Feature: Login Scenarios
 #    And I revoke the api token with name blabla
 #    Then I test the api token "BLABLA_TOKEN". It should fail.
 #    And I logout
-#    And I wait for 2 seconds
-
-#  @check-redirect
-#  Scenario: Add EC2 cloud, go to Machines logout and check redirect
-#    Given I am logged in to mist.core
-#    Given "Linode" cloud has been added
-#    Then I logout
-#    And I visit the machines page with a url
-#    When I wait for 2 seconds
-#    Then I click the email button in the landing page popup
-#    When I enter my standard credentials for login
-#    And I click the sign in button in the landing page popup
-#    Then I wait for the mist.io splash page to load
-#    And I should be in the machines page
-#    Then I logout
 #    And I wait for 2 seconds
