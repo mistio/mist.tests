@@ -25,11 +25,12 @@ Feature: Login Scenarios
     Then I close the "Login" popup
     And I wait for 2 seconds
 
-  @no_password_provided
+  @no-password-provided
   Scenario: 'Please enter your password' message should appear
+    When I visit mist.core
     When I open the login popup
     Then I click the email button in the landing page popup
-    And I enter my invalid no_password credentials for login
+    And I enter my invalid_no_password credentials for login
     And I click the sign in button in the landing page popup
     And I wait for 1 seconds
     Then there should be a message saying "Please enter your password" for error in "password"
