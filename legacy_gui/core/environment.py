@@ -94,8 +94,6 @@ def before_feature(context, feature):
 def after_step(context, step):
     if BEHAVE_DEBUG_ON_ERROR and step.status == "failed":
         try:
-            import ipdb
-            ipdb.set_trace()
             get_screenshot(context)
             stop_recording()
         except Exception as e:
