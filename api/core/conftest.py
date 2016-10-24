@@ -241,7 +241,7 @@ def random_bash_script(request):
 
 
 @pytest.fixture(scope='module')
-def machines_per_cloud(request):
+def scheduled_machines(request):
     _mist_core = mist_core()
     _valid_api_token = owner_api_token(request)
     response = _mist_core.list_clouds(api_token=_valid_api_token).get()
@@ -259,11 +259,11 @@ def machines_per_cloud(request):
     assert_response_ok(response)
     machines = json.loads(response.content)
     assert_list_not_empty(machines)
-    machines_per_cloud = []
+    scheduled_machines = []
     machine_num = 2
     while len(machines) > 0 and machine_num != 0:
         machine = machines.pop()
-        machines_per_cloud.append([cloud_id, machine['id']])
+        scheduled_machines.append(machine.id)
         machine_num -= 1
-    print "machines per cloud to be used is: %s" % machines_per_cloud
-    return machines_per_cloud
+    print "machines to be used are: %s" % scheduled_machines
+    return scheduled_machines
