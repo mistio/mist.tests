@@ -1,12 +1,18 @@
 @user-actions
 Feature: Login Scenarios
 
-  @api-token-test
-  Scenario: Create and delete api token
-    Given I am logged in to mist.core
-    And I am in the new UI
-    When I visit the account page
-    And I wait for the mist.io splash page to load
+  @invalid-login
+  Scenario: Make sure that 'Authentication failed' message appears
+    When I visit mist.core
+    When I open the login popup
+    Then I click the email button in the landing page popup
+    # PASSWORD2 needs to be configured, otherwise message is "Enter valid data"
+    And I enter my alt credentials for login
+    And I click the sign in button in the landing page popup
+    And I wait for 3 seconds
+    Then there should be a message saying "Authentication failed!" for error in "authentication"
+    Then I close the "Login" popup
+
 
 #  @api-token-test
 #  Scenario: Create and delete api tokens
@@ -34,19 +40,7 @@ Feature: Login Scenarios
 #    Then I test the api token "BLABLA_TOKEN". It should fail.
 #    And I logout
 #    And I wait for 2 seconds
-#
-#  @check-error-messages
-#  Scenario: Make sure that the error messages appear
-#    When I visit mist.core
-#
-#    When I open the login popup
-#    Then I click the email button in the landing page popup
-#    And I enter my alt credentials for login
-#    And I click the sign in button in the landing page popup
-#    Then I expect some reaction within max 3 seconds
-#    Then there should be a message saying "Authentication failed!" for error in "authentication"
-#    Then I close the "Login" popup
-#    And I wait for 1 seconds
+
 #
 #    When I open the login popup
 #    Then I click the email button in the landing page popup
