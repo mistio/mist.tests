@@ -94,7 +94,10 @@ def before_feature(context, feature):
 def after_step(context, step):
     if BEHAVE_DEBUG_ON_ERROR and step.status == "failed":
         try:
+            import ipdb
+            ipdb.set_trace()
             get_screenshot(context)
+            stop_recording()
         except Exception as e:
             log.error("Could not get screen shot: %s" % repr(e))
 
@@ -108,5 +111,5 @@ def finish_and_cleanup(context):
     context.mist_config['browser'].quit()
     if context.mist_config.get('browser2'):
         context.mist_config['browser2'].quit()
-    if context.mist_config.get('recording_session'):
-        stop_recording()
+    # if context.mist_config.get('recording_session'):
+    #     stop_recording()
