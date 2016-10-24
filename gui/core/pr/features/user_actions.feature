@@ -9,7 +9,7 @@ Feature: Login Scenarios
     # PASSWORD2 needs to be configured, otherwise message is "Enter valid data"
     And I enter my alt credentials for login
     And I click the sign in button in the landing page popup
-    And I wait for 2 seconds
+    And I wait for 1 seconds
     Then there should be a message saying "Authentication failed!" for error in "authentication"
     Then I close the "Login" popup
     And I wait for 2 seconds
@@ -20,21 +20,21 @@ Feature: Login Scenarios
     Then I click the email button in the landing page popup
     And I enter my invalid_email credentials for login
     And I click the sign in button in the landing page popup
-    And I wait for 2 seconds
+    And I wait for 1 seconds
     Then there should be a message saying "Please enter a valid email" for error in "email"
     Then I close the "Login" popup
     And I wait for 2 seconds
 
-
-
-#    When I open the login popup
-#    Then I click the email button in the landing page popup
-#    And I enter my invalid_no_password credentials for login
-#    And I click the sign in button in the landing page popup
-#    Then I expect some reaction within max 3 seconds
-#    Then there should be a message saying "Please enter your password" for error in "password"
-#    Then I close the "Login" popup
-#    And I wait for 1 seconds
+  @no_password_provided
+  Scenario: 'Please enter your password' message should appear
+    When I open the login popup
+    Then I click the email button in the landing page popup
+    And I enter my invalid no_password credentials for login
+    And I click the sign in button in the landing page popup
+    And I wait for 1 seconds
+    Then there should be a message saying "Please enter your password" for error in "password"
+    Then I close the "Login" popup
+    And I wait for 1 seconds
 
 #  @api-token-test
 #  Scenario: Create and delete api tokens
