@@ -1,18 +1,40 @@
 @user-actions
 Feature: Login Scenarios
 
-  @invalid-login
-  Scenario: Make sure that 'Authentication failed' message appears
+  @invalid-creds
+  Scenario:'Authentication failed' message should appear
     When I visit mist.core
     When I open the login popup
     Then I click the email button in the landing page popup
     # PASSWORD2 needs to be configured, otherwise message is "Enter valid data"
     And I enter my alt credentials for login
     And I click the sign in button in the landing page popup
-    And I wait for 3 seconds
+    And I wait for 2 seconds
     Then there should be a message saying "Authentication failed!" for error in "authentication"
     Then I close the "Login" popup
+    And I wait for 2 seconds
 
+  @invalid-email
+  Scenario: 'Please enter a valid email' message should appear
+    When I open the login popup
+    Then I click the email button in the landing page popup
+    And I enter my invalid_email credentials for login
+    And I click the sign in button in the landing page popup
+    And I wait for 2 seconds
+    Then there should be a message saying "Please enter a valid email" for error in "email"
+    Then I close the "Login" popup
+    And I wait for 2 seconds
+
+
+
+#    When I open the login popup
+#    Then I click the email button in the landing page popup
+#    And I enter my invalid_no_password credentials for login
+#    And I click the sign in button in the landing page popup
+#    Then I expect some reaction within max 3 seconds
+#    Then there should be a message saying "Please enter your password" for error in "password"
+#    Then I close the "Login" popup
+#    And I wait for 1 seconds
 
 #  @api-token-test
 #  Scenario: Create and delete api tokens
@@ -41,25 +63,6 @@ Feature: Login Scenarios
 #    And I logout
 #    And I wait for 2 seconds
 
-#
-#    When I open the login popup
-#    Then I click the email button in the landing page popup
-#    And I enter my invalid_email credentials for login
-#    And I click the sign in button in the landing page popup
-#    Then I expect some reaction within max 3 seconds
-#    Then there should be a message saying "Please enter a valid email" for error in "email"
-#    Then I close the "Login" popup
-#    And I wait for 1 seconds
-#
-#    When I open the login popup
-#    Then I click the email button in the landing page popup
-#    And I enter my invalid_no_password credentials for login
-#    And I click the sign in button in the landing page popup
-#    Then I expect some reaction within max 3 seconds
-#    Then there should be a message saying "Please enter your password" for error in "password"
-#    Then I close the "Login" popup
-#    And I wait for 1 seconds
-#
 #  @check-redirect
 #  Scenario: Add EC2 cloud, go to Machines logout and check redirect
 #    Given I am logged in to mist.core
