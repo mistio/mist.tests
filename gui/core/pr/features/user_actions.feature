@@ -11,31 +11,24 @@ Feature: Login Scenarios
     And I click the sign in button in the landing page popup
     And I wait for 1 seconds
     Then there should be a message saying "Authentication failed!" for error in "authentication"
-    Then I close the "Login" popup
-    And I wait for 2 seconds
+    When I wait for 2 seconds
 
   @invalid-email
   Scenario: 'Please enter a valid email' message should appear
-    When I open the login popup
-    Then I click the email button in the landing page popup
-    And I enter my invalid_email credentials for login
+    When I enter my invalid_email credentials for login
     And I click the sign in button in the landing page popup
     And I wait for 1 seconds
     Then there should be a message saying "Please enter a valid email" for error in "email"
-    Then I close the "Login" popup
-    And I wait for 2 seconds
+    When I wait for 2 seconds
 
   @no-password-provided
   Scenario: 'Please enter your password' message should appear
-    When I visit mist.core
-    When I open the login popup
-    Then I click the email button in the landing page popup
-    And I enter my invalid_no_password credentials for login
+    When I enter my invalid_no_password credentials for login
     And I click the sign in button in the landing page popup
     And I wait for 1 seconds
     Then there should be a message saying "Please enter your password" for error in "password"
     Then I close the "Login" popup
-    And I wait for 1 seconds
+    And I wait for 2 seconds
 
 #  @api-token-test
 #  Scenario: Create and delete api tokens
