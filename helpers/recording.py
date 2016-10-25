@@ -29,7 +29,7 @@ def start_recording(output='test.mp4', dimension='1024x768',
     # command = 'ffmpeg -f x11grab -video_size {0} -i :0.0 ' \
     #           '-codec:v libx264 -r 12 {2}'.format(dimension, display_num, output)
 
-    command = 'ffmpeg -video_size 1024x768 -framerate 25 -f x11grab -i :0.0+100,20 output.mp4'.format(dimension,display_num,output)
+    command = 'ffmpeg -video_size 1024x768 -framerate 25 -f x11grab -i :0.0+100,20 test.mp4'.format(dimension,display_num,output)
 
     print command
     global recording_sub_process
