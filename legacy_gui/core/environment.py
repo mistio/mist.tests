@@ -104,13 +104,13 @@ def after_scenario(context, step):
     if BEHAVE_DEBUG_ON_ERROR and step.status == "failed":
         try:
             get_screenshot(context)
-            #stop_recording()
-        except Exception as e:
-            log.error("Could not get screen shot: %s" % repr(e))
-        try:
             stop_recording()
         except Exception as e:
-            log.error("Could not stop recording: %s" % repr(e))
+            log.error("Could not get screen shot: %s" % repr(e))
+        # try:
+        #     stop_recording()
+        # except Exception as e:
+        #     log.error("Could not stop recording: %s" % repr(e))
 
 
 def after_all(context):
