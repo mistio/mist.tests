@@ -1,3 +1,5 @@
+import logging
+
 from behave import step
 from behave import given
 
@@ -13,6 +15,9 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 
+log = logging.getLogger(__name__)
+
+logging.basicConfig(level=logging.INFO)
 
 def i_am_in_homepage(context):
     possible_urls = [context.mist_config['MIST_URL']]
@@ -203,6 +208,7 @@ def visit_machines_url(context):
 
 @given(u'I am logged in to mist.core')
 def given_logged_in(context):
+    log.info ('Logging in...')
     if not i_am_in_homepage(context):
         context.execute_steps(u'When I visit mist.core')
 
