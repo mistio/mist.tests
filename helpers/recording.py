@@ -1,7 +1,7 @@
 import os
 import subprocess
 
-from shlex import split
+#from shlex import split
 
 from time import time
 from time import sleep
@@ -23,18 +23,24 @@ recording_sub_process = None
 
 def start_recording(output='test.mp4', dimension='1024x768',
                     display_num='1'):
-    log.info("Starting recording of the session")
+    log.info("Starting recording of the session!!!")
     if os.path.isfile(output):
         os.remove(output)
-    command = 'ffmpeg -f x11grab -video_size {0} -i 127.0.0.1:{1} ' \
-              '-codec:v libx264 -r 12 {2}'.format(dimension, display_num, output)
+    # command = 'ffmpeg -f x11grab -video_size {0} -i :0.0 ' \
+    #           '-codec:v libx264 -r 12 {2}'.format(dimension, display_num, output)
+
+    command = 'ffmpeg -video_size 1024x768 -framerate 25 -f x11grab -i :0.0+100,20 output.mp4'.format(dimension,display_num,output)
+
+    print command
     global recording_sub_process
-    recording_sub_process = subprocess.Popen(split(command),
-                                             stdout=subprocess.PIPE,
-                                             stderr=subprocess.STDOUT,
-                                             stdin=subprocess.PIPE,
-                                             shell=True,
-                                             bufsize=0)
+    # recording_sub_process = subprocess.Popen(split(command),
+    #                                          stdout=subprocess.PIPE,
+    #                                          stderr=subprocess.STDOUT,
+    #                                          stdin=subprocess.PIPE,
+    #                                          shell=True,
+    #                                          bufsize=0)
+    #
+    recording_sub_process = subprocess.Popen(command.split())
 
     thr = Thread(target=discard_output,
                  args=[recording_sub_process])
@@ -65,10 +71,13 @@ def discard_output(sub_process):
                         "selenium recording")
 
 
+
+
 def stop_recording():
     log.info("Stopping recording of the session")
     global kill_recording_process
     global recording_sub_process
     kill_recording_process = True
+    log.info("Sent terminating character to recording process")
     recording_sub_process.stdin.write('q\n')
     recording_process_lock.acquire()
