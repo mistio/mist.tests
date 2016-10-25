@@ -31,7 +31,7 @@ run_mayday_test:
         --webdriver-path=$(pwd)/tests/gitlab/chromedriver
         --js-console-log= /var/log/js_console.log
         -D BEHAVE_DEBUG_ON_ERROR --no-capture
-        -k --tags=graph
+        -k --tags=graph,alert
         tests/legacy_gui/core/mayday/features
   after_script:
     - find $(pwd)/var/log
