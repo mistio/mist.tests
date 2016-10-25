@@ -91,7 +91,7 @@ def before_feature(context, feature):
             finish_and_cleanup(context)
             raise e
 
-def after_step(context, step):
+def after_scenario(context, step):
     if BEHAVE_DEBUG_ON_ERROR and step.status == "failed":
         try:
             get_screenshot(context)
