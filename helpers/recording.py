@@ -78,14 +78,6 @@ def discard_output(sub_process):
 
 
 def stop_recording():
-    # log.info("Stopping recording of the session")
-    # global kill_recording_process
-    # global recording_sub_process
-    # kill_recording_process = True
-    # log.info("Sent terminating character to recording process")
-    # recording_sub_process.stdin.write('q\n')
-    # recording_process_lock.acquire()
-
     global kill_recording_process
     global recording_sub_process
     kill_recording_process = True
