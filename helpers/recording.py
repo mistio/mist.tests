@@ -41,19 +41,12 @@ def start_recording(output='test.mp4', dimension='1024x768',
     #                                          shell=True,
     #                                          bufsize=0)
     #
-    recording_sub_process = subprocess.Popen(command.split())
+    recording_sub_process = subprocess.Popen(command.split(),stdin=subprocess.PIPE,stdout=subprocess.PIPE,stderr=subprocess.PIPE)
 
     thr = Thread(target=discard_output,
                  args=[recording_sub_process])
     thr.daemon = True
     thr.start()
-    # global kill_recording_process
-    #
-    # while not kill_recording_process:
-    #     sleep(1)
-    #
-    # thr.kill()
-
 
 def discard_output(sub_process):
     log.info("Started recording subprocess and handling thread")
