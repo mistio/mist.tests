@@ -208,7 +208,6 @@ def visit_machines_url(context):
 
 @given(u'I am logged in to mist.core')
 def given_logged_in(context):
-    log.info ('Logging in...')
     if not i_am_in_homepage(context):
         context.execute_steps(u'When I visit mist.core')
 

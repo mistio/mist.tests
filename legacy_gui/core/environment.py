@@ -68,6 +68,7 @@ def before_all(context):
     context.mist_config['GITHUB_REGISTRATION_TEST_EMAIL'] = config.GITHUB_REGISTRATION_TEST_EMAIL
     context.mist_config['GITHUB_REGISTRATION_TEST_PASSWORD'] = config.GITHUB_REGISTRATION_TEST_PASSWORD
     log.info("Finished with the bulk of the test settings")
+
     if config.LOCAL:
         log.info("Initializing behaving mail for path: %s" % config.MAIL_PATH)
         from behaving.mail import environment as behaving_mail
@@ -76,9 +77,9 @@ def before_all(context):
         # calling behaving to setup it's context variables.
         behaving_mail.before_all(context)
 
-    if config.RECORD_SELENIUM:
-        start_recording()
-        context.mist_config['recording_session'] = True
+    # if config.RECORD_SELENIUM:
+    #     start_recording()
+    #     context.mist_config['recording_session'] = True
 
     log.info("Finished with before_all hook. Starting tests")
 
@@ -90,6 +91,14 @@ def before_feature(context, feature):
         except Exception as e:
             finish_and_cleanup(context)
             raise e
+
+def before_scenario(context,step):
+    if config.RECORD_SELENIUM:
+        try:
+            start_recording()
+            context.mist_config['recording_session'] = True
+        except Exception as e:
+            log.error("Could not start recording: %s" % repr(e))
 
 def after_scenario(context, step):
     if BEHAVE_DEBUG_ON_ERROR and step.status == "failed":

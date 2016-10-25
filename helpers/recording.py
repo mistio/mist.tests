@@ -33,7 +33,7 @@ def start_recording(output='test.mp4', dimension='1024x768',
                                              stdout=subprocess.PIPE,
                                              stderr=subprocess.STDOUT,
                                              stdin=subprocess.PIPE,
-                                             shell=True,
+                                             #shell=True,
                                              bufsize=0)
 
     thr = Thread(target=discard_output,
