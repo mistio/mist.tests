@@ -41,15 +41,12 @@ def start_recording(output='test.mp4', dimension='1024x768',
     #                                          shell=True,
     #                                          bufsize=0)
     #
-    recording_sub_process = subprocess.Popen(command.split(),stdout=subprocess.PIPE,
-                                             stderr=subprocess.STDOUT,
-                                             stdin=subprocess.PIPE,
-                                             bufsize=0)
+    recording_sub_process = subprocess.Popen(command.split())
 
-    # thr = Thread(target=discard_output,
-    #              args=[recording_sub_process])
-    # thr.daemon = True
-    # thr.start()
+    thr = Thread(target=discard_output,
+                 args=[recording_sub_process])
+    thr.daemon = True
+    thr.start()
     # global kill_recording_process
     #
     # while not kill_recording_process:
