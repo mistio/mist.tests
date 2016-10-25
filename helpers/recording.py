@@ -41,7 +41,10 @@ def start_recording(output='test.mp4', dimension='1024x768',
     #                                          shell=True,
     #                                          bufsize=0)
     #
-    recording_sub_process = subprocess.Popen(command.split())
+    recording_sub_process = subprocess.Popen(command.split(),stdout=subprocess.PIPE,
+                                             stderr=subprocess.STDOUT,
+                                             stdin=subprocess.PIPE,
+                                             bufsize=0)
 
     # thr = Thread(target=discard_output,
     #              args=[recording_sub_process])
@@ -88,3 +91,4 @@ def stop_recording():
 
 def kill_mayday_recording():
     os.killpg(os.getpgid(recording_sub_process.pid),signal.SIGTERM)
+    #until here revert..
