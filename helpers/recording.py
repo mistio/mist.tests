@@ -23,9 +23,8 @@ recording_sub_process = None
 
 def start_recording(output='test.mp4', dimension='1024x768',
                     display_num='1'):
-    log.info("Starting recording of the session")
-    if os.path.isfile(output):
-        os.remove(output)
+    # if os.path.isfile(output):
+    #     os.remove(output)
     command = 'ffmpeg -f x11grab -video_size {0} -i 127.0.0.1:{1} ' \
               '-codec:v libx264 -r 12 {2}'.format(dimension, display_num, output)
     global recording_sub_process
@@ -33,7 +32,7 @@ def start_recording(output='test.mp4', dimension='1024x768',
                                              stdout=subprocess.PIPE,
                                              stderr=subprocess.STDOUT,
                                              stdin=subprocess.PIPE,
-                                             #shell=True,
+                                             shell=True,
                                              bufsize=0)
 
     thr = Thread(target=discard_output,
@@ -52,7 +51,7 @@ def discard_output(sub_process):
     log.info("Stopped discarding output and proceeding to kill process")
     timeout = time() + 20
     while time() < timeout:
-        if sub_process.poll() is not None:
+        if sub_process.poll() is not None:  # has finished
             log.info("Recording process has terminated")
             recording_process_lock.release()
             break
@@ -66,10 +65,13 @@ def discard_output(sub_process):
 
 
 def stop_recording():
+    # import ipdb
+    # ipdb.set_trace()
     log.info("Stopping recording of the session")
     global kill_recording_process
     global recording_sub_process
     kill_recording_process = True
-    log.info("Sent terminating character to recording process")
-    recording_sub_process.stdin.write('q\n')
-    recording_process_lock.acquire()
+    #recording_process_lock.acquire()
+    # log.info("Sent terminating character to recording process")
+    # recording_sub_process.stdin.write('q\n')
+    #recording_process_lock.release()
