@@ -9,6 +9,8 @@ from tests.helpers.selenium_utils import dump_js_console_log
 
 from tests.helpers.recording import start_recording
 from tests.helpers.recording import stop_recording
+from tests.helpers.recording import kill_mayday_recording
+
 
 log = logging.getLogger(__name__)
 
@@ -104,7 +106,8 @@ def after_scenario(context, step):
     if BEHAVE_DEBUG_ON_ERROR and step.status == "failed":
         try:
             get_screenshot(context)
-            stop_recording()
+            #stop_recording()
+            kill_mayday_recording()
         except Exception as e:
             log.error("Could not get screen shot: %s" % repr(e))
         # try:

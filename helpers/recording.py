@@ -1,5 +1,6 @@
 import os
 import subprocess
+import signal
 
 #from shlex import split
 
@@ -42,10 +43,10 @@ def start_recording(output='test.mp4', dimension='1024x768',
     #
     recording_sub_process = subprocess.Popen(command.split())
 
-    thr = Thread(target=discard_output,
-                 args=[recording_sub_process])
-    thr.daemon = True
-    thr.start()
+    # thr = Thread(target=discard_output,
+    #              args=[recording_sub_process])
+    # thr.daemon = True
+    # thr.start()
     # global kill_recording_process
     #
     # while not kill_recording_process:
@@ -84,3 +85,6 @@ def stop_recording():
     recording_sub_process.stdin.write('q\n')
     log.info("Sent terminating character to recording process")
     recording_process_lock.acquire()
+
+def kill_mayday_recording():
+    os.killpg(os.getpgid(recording_sub_process.pid),signal.SIGTERM)
