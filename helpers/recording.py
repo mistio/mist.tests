@@ -29,7 +29,7 @@ def start_recording(output='test.mp4', dimension='1024x768',
     # command = 'ffmpeg -f x11grab -video_size {0} -i :0.0 ' \
     #           '-codec:v libx264 -r 12 {2}'.format(dimension, display_num, output)
 
-    command = 'ffmpeg -video_size 1024x768 -framerate 25 -f x11grab -i :0.0+100,20 test.mp4'.format(dimension,display_num,output)
+    command = 'ffmpeg -video_size 1024x768 -framerate 25 -f x11grab -i 127.0.0.1:{1} test.mp4'.format(dimension,display_num,output)
 
     print command
     global recording_sub_process
@@ -42,10 +42,16 @@ def start_recording(output='test.mp4', dimension='1024x768',
     #
     recording_sub_process = subprocess.Popen(command.split())
 
-    thr = Thread(target=discard_output,
-                 args=[recording_sub_process])
-    thr.daemon = True
-    thr.start()
+    # thr = Thread(target=discard_output,
+    #              args=[recording_sub_process])
+    # thr.daemon = True
+    # thr.start()
+    # global kill_recording_process
+    #
+    # while not kill_recording_process:
+    #     sleep(1)
+    #
+    # thr.kill()
 
 
 def discard_output(sub_process):
