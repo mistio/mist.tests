@@ -54,7 +54,7 @@ def discard_output(sub_process):
         if sub_process.poll() is not None:  # has finished
             log.info("Recording process has terminated")
             recording_process_lock.release()
-            break
+            #break
         log.info("Waiting for recording process to terminate")
         sleep(1)
     else:
@@ -72,6 +72,6 @@ def stop_recording():
     global recording_sub_process
     kill_recording_process = True
     #recording_process_lock.acquire()
-    # log.info("Sent terminating character to recording process")
-    # recording_sub_process.stdin.write('q\n')
+    log.info("Sent terminating character to recording process")
+    recording_sub_process.stdin.write('q\n')
     #recording_process_lock.release()

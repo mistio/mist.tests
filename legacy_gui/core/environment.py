@@ -77,9 +77,9 @@ def before_all(context):
         # calling behaving to setup it's context variables.
         behaving_mail.before_all(context)
 
-    # if config.RECORD_SELENIUM:
-    #     start_recording()
-    #     context.mist_config['recording_session'] = True
+    if config.RECORD_SELENIUM:
+        start_recording()
+        context.mist_config['recording_session'] = True
 
     log.info("Finished with before_all hook. Starting tests")
 
@@ -92,25 +92,25 @@ def before_feature(context, feature):
             finish_and_cleanup(context)
             raise e
 
-def before_scenario(context,step):
-    if config.RECORD_SELENIUM:
-        try:
-            start_recording()
-            context.mist_config['recording_session'] = True
-        except Exception as e:
-            log.error("Could not start recording: %s" % repr(e))
+# def before_scenario(context,step):
+#     if config.RECORD_SELENIUM:
+#         try:
+#             start_recording()
+#             context.mist_config['recording_session'] = True
+#         except Exception as e:
+#             log.error("Could not start recording: %s" % repr(e))
 
-def after_scenario(context, step):
-    if BEHAVE_DEBUG_ON_ERROR and step.status == "failed":
-        try:
-            get_screenshot(context)
-            #stop_recording()
-        except Exception as e:
-            log.error("Could not get screen shot: %s" % repr(e))
-        try:
-            stop_recording()
-        except Exception as e:
-            log.error("Could not stop recording: %s" % repr(e))
+# def after_scenario(context, step):
+#     if BEHAVE_DEBUG_ON_ERROR and step.status == "failed":
+#         try:
+#             get_screenshot(context)
+#             #stop_recording()
+#         except Exception as e:
+#             log.error("Could not get screen shot: %s" % repr(e))
+#         try:
+#             stop_recording()
+#         except Exception as e:
+#             log.error("Could not stop recording: %s" % repr(e))
 
 
 def after_all(context):
@@ -122,5 +122,5 @@ def finish_and_cleanup(context):
     context.mist_config['browser'].quit()
     if context.mist_config.get('browser2'):
         context.mist_config['browser2'].quit()
-    # if context.mist_config.get('recording_session'):
-    #     stop_recording()
+    if context.mist_config.get('recording_session'):
+        stop_recording()
