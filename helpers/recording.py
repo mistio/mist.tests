@@ -1,6 +1,5 @@
 import os
 import subprocess
-import signal
 
 from time import time
 from time import sleep
@@ -18,6 +17,7 @@ logging.basicConfig(level=logging.INFO)
 kill_recording_process = False
 recording_process_lock = Lock()
 recording_sub_process = None
+current_path = None
 
 def start_recording(context,output='test.mp4', dimension='1024x768',
                     display_num='1'):
@@ -31,6 +31,7 @@ def start_recording(context,output='test.mp4', dimension='1024x768',
     command = 'ffmpeg -video_size 1024x768 -framerate 25 -f x11grab ' \
               '-i 127.0.0.1:{1} '
 
+    global path
     path = context.mist_config['VIDEO_PATH'] + '{0}.mp4'.format(str(num))
 
     command = (command + path).format(dimension,display_num,output)
@@ -65,6 +66,13 @@ def discard_output(sub_process):
         recording_process_lock.release()
         raise Exception("Could not correctly terminate subprocess for "
                         "selenium recording")
+
+def  discard_unnecessary_recording():
+    log.info('discarding unnecessary recording...')
+    global recording_sub_process
+    global path
+    recording_sub_process.kill()
+    os.remove(path)
 
 
 def stop_recording():
