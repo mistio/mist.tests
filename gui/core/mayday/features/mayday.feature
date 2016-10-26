@@ -5,7 +5,7 @@ Feature: Production
   Scenario: Production monitor and graph testing
     Given I am logged in to mist.core
     Then I wait for the links in homepage to appear
-    When I visit the Machines page after the counter has loaded
+    When I visit the Machineees page after the counter has loaded
     Then I search for the "maydaymachine" Machine
     When I click the button "maydaymachine"
     Then I expect for "single-machine-page" page to appear within max 10 seconds
