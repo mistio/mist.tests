@@ -9,7 +9,6 @@ from tests.helpers.selenium_utils import dump_js_console_log
 
 from tests.helpers.recording import start_recording
 from tests.helpers.recording import stop_recording
-from tests.helpers.recording import kill_mayday_recording
 
 
 log = logging.getLogger(__name__)
