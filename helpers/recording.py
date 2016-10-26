@@ -62,7 +62,8 @@ def discard_output(sub_process):
         #log.info("Waiting for recording process to terminate")
         sleep(1)
     else:
-        sub_process.kill()
+        #sub_process.kill()
+        sub_process.stdin.write('q\n')
         recording_process_lock.release()
         raise Exception("Could not correctly terminate subprocess for "
                         "selenium recording")
