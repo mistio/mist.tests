@@ -30,8 +30,8 @@ run_mayday_test:
         --webdriver-log= /var/log/chromedriver.log
         --webdriver-path=$(pwd)/tests/gitlab/chromedriver
         --js-console-log= /var/log/js_console.log
-        -D BEHAVE_DEBUG_ON_ERROR --no-capture
-        -k --tags=alert,graph
+        -D BEHAVE_DEBUG_ON_ERROR
+        -k --tags=alert,graph,ssh,celery,google_sso_signin,github_sso_signin
         tests/legacy_gui/core/mayday/features
   after_script:
     - find $(pwd)/var/log
@@ -42,6 +42,6 @@ run_mayday_test:
       - var/log/chromedriver.log
       - var/log/js_console.log
       - var/log/error.*
-      - failed_test*
+      - var/log/test*
     expire_in: 7 days
     when: on_failure

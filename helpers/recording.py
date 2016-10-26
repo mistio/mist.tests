@@ -38,8 +38,7 @@ def start_recording(context,output='test.mp4', dimension='1024x768',
     global recording_sub_process
     recording_sub_process = subprocess.Popen(command.split(),stdin=subprocess.PIPE,
                                              stdout=subprocess.PIPE,stderr=subprocess.PIPE)
-    # import ipdb
-    # ipdb.set_trace()
+
     thr = Thread(target=discard_output,
                  args=[recording_sub_process])
     thr.daemon = True
@@ -53,8 +52,6 @@ def discard_output(sub_process):
     while not kill_recording_process:
         sub_process.stdout.readline()
     log.info("Stopped discarding output and proceeding to kill process")
-    # import ipdb
-    # ipdb.set_trace()
     timeout = time() + 20
     while time() < timeout:
         if sub_process.poll() is not None:
@@ -76,9 +73,4 @@ def stop_recording():
     kill_recording_process = True
     recording_sub_process.stdin.write('q\n')
     log.info("Sent terminating character to recording process")
-    # import ipdb
-    # ipdb.set_trace()
     #recording_process_lock.acquire()
-
-# def kill_mayday_recording():
-#     os.killpg(os.getpgid(recording_sub_process.pid),signal.SIGTERM)

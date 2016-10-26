@@ -107,14 +107,12 @@ def after_scenario(context, step):
     if BEHAVE_DEBUG_ON_ERROR and step.status == "failed":
         try:
             get_screenshot(context)
-            stop_recording()
-            #kill_mayday_recording()
         except Exception as e:
             log.error("Could not get screen shot: %s" % repr(e))
-        # try:
-        #     stop_recording()
-        # except Exception as e:
-        #     log.error("Could not stop recording: %s" % repr(e))
+        try:
+            stop_recording()
+        except Exception as e:
+            log.error("Could not stop recording: %s" % repr(e))
 
 
 def after_all(context):
@@ -126,5 +124,3 @@ def finish_and_cleanup(context):
     context.mist_config['browser'].quit()
     if context.mist_config.get('browser2'):
         context.mist_config['browser2'].quit()
-    # if context.mist_config.get('recording_session'):
-    #     stop_recording()
