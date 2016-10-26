@@ -54,6 +54,7 @@ def before_all(context):
     context.mist_config['ORG_NAME'] = config.ORG_NAME
     context.mist_config['NON_STOP'] = '--stop' not in sys.argv
     context.mist_config['ERROR_NUM'] = 0
+    context.mist_config['ERROR_NUM_MP4'] = 0
     context.mist_config['MIST_URL'] = config.MIST_URL
     context.mist_config['MP_DB_DIR'] = config.MP_DB_DIR
     context.mist_config['MAIL_PATH'] = config.MAIL_PATH
@@ -97,7 +98,7 @@ def before_feature(context, feature):
 def before_scenario(context,step):
     if config.RECORD_SELENIUM:
         try:
-            start_recording()
+            start_recording(context)
             context.mist_config['recording_session'] = True
         except Exception as e:
             log.error("Could not start recording: %s" % repr(e))
