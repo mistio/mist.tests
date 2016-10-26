@@ -58,6 +58,7 @@ def before_all(context):
     context.mist_config['MP_DB_DIR'] = config.MP_DB_DIR
     context.mist_config['MAIL_PATH'] = config.MAIL_PATH
     context.mist_config['SCREENSHOT_PATH'] = config.SCREENSHOT_PATH
+    context.mist_config['VIDEO_PATH'] = config.VIDEO_PATH
     context.mist_config['JS_CONSOLE_LOG'] = config.JS_CONSOLE_LOG
     context.mist_config['BROWSER_FLAVOR'] = config.BROWSER_FLAVOR
     context.mist_config['CREDENTIALS'] = config.CREDENTIALS

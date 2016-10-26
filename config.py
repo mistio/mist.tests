@@ -91,6 +91,8 @@ JS_CONSOLE_LOG = get_value_of("JS_CONSOLE_LOG",
 SCREENSHOT_PATH = get_value_of("SCREENSHOT_PATH",
                                os.path.join(BASE_DIR, 'error'))
 
+VIDEO_PATH = get_value_of("VIDEO_PATH",os.path.join(BASE_DIR,'error'))
+
 DISPLAY_NUM = get_value_of("DISPLAY_NUM", "1")
 
 # This is the path to the json file used for the multi-provisioning tests
