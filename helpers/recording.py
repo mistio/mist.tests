@@ -17,7 +17,6 @@ logging.basicConfig(level=logging.INFO)
 kill_recording_process = False
 recording_process_lock = Lock()
 recording_sub_process = None
-current_path = None
 
 def start_recording(context,output='test.mp4', dimension='1024x768',
                     display_num='1'):
@@ -27,15 +26,13 @@ def start_recording(context,output='test.mp4', dimension='1024x768',
     # command = 'ffmpeg -f x11grab -video_size {0} -i :0.0 ' \
     #           '-codec:v libx264 -r 12 {2}'.format(dimension, display_num, output)
 
-    num = context.mist_config['ERROR_NUM_MP4'] = context.mist_config['ERROR_NUM_MP4'] + 1
+    num = context.mist_config['ERROR_NUM_MP4'] + 1
     command = 'ffmpeg -video_size 1024x768 -framerate 25 -f x11grab ' \
               '-i 127.0.0.1:{1} '
 
     global path
     path = context.mist_config['VIDEO_PATH'] + '{0}.mp4'.format(str(num))
-
     command = (command + path).format(dimension,display_num,output)
-
     global recording_sub_process
     recording_sub_process = subprocess.Popen(command.split(),stdin=subprocess.PIPE,
                                              stdout=subprocess.PIPE,stderr=subprocess.PIPE)
@@ -69,12 +66,11 @@ def discard_output(sub_process):
                         "selenium recording")
 
 def  discard_unnecessary_recording():
-    log.info('discarding unnecessary recording...')
+    log.info('Discarding unnecessary recording...')
     global recording_sub_process
     global path
     recording_sub_process.kill()
     os.remove(path)
-
 
 def stop_recording():
     global kill_recording_process
@@ -82,4 +78,3 @@ def stop_recording():
     kill_recording_process = True
     recording_sub_process.stdin.write('q\n')
     log.info("Sent terminating character to recording process")
-    #recording_process_lock.acquire()
