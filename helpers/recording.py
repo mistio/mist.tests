@@ -59,7 +59,7 @@ def discard_output(sub_process):
             log.info("Recording process has terminated")
             recording_process_lock.release()
             break
-        log.info("Waiting for recording process to terminate")
+        #log.info("Waiting for recording process to terminate")
         sleep(1)
     else:
         sub_process.kill()
