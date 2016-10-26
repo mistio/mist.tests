@@ -17,6 +17,7 @@ logging.basicConfig(level=logging.INFO)
 kill_recording_process = False
 recording_process_lock = Lock()
 recording_sub_process = None
+current_path = None
 
 def start_recording(context,output='test.mp4', dimension='1024x768',
                     display_num='1'):
