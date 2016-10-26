@@ -2,8 +2,6 @@ import os
 import subprocess
 import signal
 
-#from shlex import split
-
 from time import time
 from time import sleep
 
@@ -31,25 +29,14 @@ def start_recording(context,output='test.mp4', dimension='1024x768',
     #           '-codec:v libx264 -r 12 {2}'.format(dimension, display_num, output)
 
     num = context.mist_config['ERROR_NUM_MP4'] = context.mist_config['ERROR_NUM_MP4'] + 1
-
     command = 'ffmpeg -video_size 1024x768 -framerate 25 -f x11grab ' \
               '-i 127.0.0.1:{1} '
     path = 'test{0}.mp4'.format(str(num))
-
     command = (command + path).format(dimension,display_num,output)
 
-    #.format(dimension,display_num,output)
-
-    print command
     global recording_sub_process
-    # recording_sub_process = subprocess.Popen(split(command),
-    #                                          stdout=subprocess.PIPE,
-    #                                          stderr=subprocess.STDOUT,
-    #                                          stdin=subprocess.PIPE,
-    #                                          shell=True,
-    #                                          bufsize=0)
-    #
-    recording_sub_process = subprocess.Popen(command.split(),stdin=subprocess.PIPE,stdout=subprocess.PIPE,stderr=subprocess.PIPE)
+    recording_sub_process = subprocess.Popen(command.split(),stdin=subprocess.PIPE,
+                                             stdout=subprocess.PIPE,stderr=subprocess.PIPE)
 
     thr = Thread(target=discard_output,
                  args=[recording_sub_process])
@@ -87,6 +74,5 @@ def stop_recording():
     log.info("Sent terminating character to recording process")
     recording_process_lock.acquire()
 
-def kill_mayday_recording():
-    os.killpg(os.getpgid(recording_sub_process.pid),signal.SIGTERM)
-    #until here revert..
+# def kill_mayday_recording():
+#     os.killpg(os.getpgid(recording_sub_process.pid),signal.SIGTERM)
