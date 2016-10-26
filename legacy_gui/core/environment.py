@@ -16,9 +16,6 @@ log = logging.getLogger(__name__)
 
 logging.basicConfig(level=logging.INFO)
 
-def setup_debug_on_error(userdata):
-    global BEHAVE_DEBUG_ON_ERROR
-    BEHAVE_DEBUG_ON_ERROR = userdata.getbool("BEHAVE_DEBUG_ON_ERROR")
 
 def setup_debug_on_error(userdata):
     global BEHAVE_DEBUG_ON_ERROR
@@ -81,10 +78,6 @@ def before_all(context):
         # calling behaving to setup it's context variables.
         behaving_mail.before_all(context)
 
-    # if config.RECORD_SELENIUM:
-    #     start_recording()
-    #     context.mist_config['recording_session'] = True
-
     log.info("Finished with before_all hook. Starting tests")
 
 
@@ -117,7 +110,6 @@ def after_scenario(context, step):
                 log.error("Could not stop recording: %s" % repr(e))
         else:
             discard_unnecessary_recording()
-
 
 
 def after_all(context):

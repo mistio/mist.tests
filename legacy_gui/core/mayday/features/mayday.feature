@@ -5,7 +5,7 @@ Feature: Production
   Scenario: Production monitor and graph testing
     Given I am logged in to mist.core
     Then I wait for the links in homepage to appear
-    When I visit the Machineeees page after the counter has loaded
+    When I visit the Machines page after the counter has loaded
     Then I search for the "stagingmayday" Machine
     When I click the button "stagingmayday"
     Then I expect for "single-machine-page" page to appear within max 10 seconds
@@ -25,7 +25,7 @@ Feature: Production
     Given I am logged in to mist.core
     Then I wait for the links in homepage to appear
     When I visit the Machines page after the counter has loaded
-    Then I search for the "stagingmaayday" Machine
+    Then I search for the "stagingmayday" Machine
     When I click the button "stagingmayday"
     Then I expect for "single-machine-page" page to appear within max 10 seconds
     Then I wait for the graphs to appear
