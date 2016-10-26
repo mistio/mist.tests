@@ -30,7 +30,7 @@ def start_recording(context,output='test.mp4', dimension='1024x768',
     num = context.mist_config['ERROR_NUM_MP4'] = context.mist_config['ERROR_NUM_MP4'] + 1
     command = 'ffmpeg -video_size 1024x768 -framerate 25 -f x11grab ' \
               '-i 127.0.0.1:{1} '
-    path = 'test{0}.mp4'.format(str(num))
+    path = 'var/log/test{0}.mp4'.format(str(num))
     command = (command + path).format(dimension,display_num,output)
 
     global recording_sub_process

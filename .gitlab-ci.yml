@@ -42,6 +42,6 @@ run_mayday_test:
       - var/log/chromedriver.log
       - var/log/js_console.log
       - var/log/error.*
-      - test*.mp4
+      - var/log/test*.mp4
     expire_in: 7 days
     when: on_failure
