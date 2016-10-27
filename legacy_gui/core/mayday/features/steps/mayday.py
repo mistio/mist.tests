@@ -9,6 +9,7 @@ from tests.legacy_gui.steps.machines import *
 from tests.legacy_gui.steps.popups import *
 from tests.legacy_gui.steps.modals import *
 from tests.legacy_gui.steps.ssh import *
+from tests.legacy_gui.steps.buttons import *
 
 from behave import step
 from time import sleep, time
