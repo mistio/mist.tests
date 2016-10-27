@@ -63,7 +63,7 @@ Feature: Production
     Then I wait for the links in homepage to appear
     When I visit the Machines page after the counter has loaded
     Then I search for the mayday machine
-    When I click the mayday machine
+    When I choose the mayday machine
     And I click the button "Actions"
     Then I expect for "machine-power-popup-popup" popup to appear within max 4 seconds
     When I click the "Reboot" button inside the "Actions" popup

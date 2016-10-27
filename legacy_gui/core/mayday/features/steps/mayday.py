@@ -61,3 +61,19 @@ def assert_mayday_machine_state(context, state, seconds):
         sleep(2)
 
     assert False, u'%s state is not "%s"' % (name, state)
+
+@step(u'I choose the mayday machine')
+def choose_machine(context):
+    if context.mist_config.get('MAYDAY_MACHINE'):
+        name = context.mist_config.get('MAYDAY_MACHINE')
+
+    end_time = time() + 20
+    while time() < end_time:
+        machine = get_machine(context, name)
+        if machine:
+            checkbox = machine.find_element_by_class_name("ui-checkbox")
+            checkbox.click()
+            return
+
+        sleep(2)
+    assert False, u'Could not choose/tick %s machine' % name
