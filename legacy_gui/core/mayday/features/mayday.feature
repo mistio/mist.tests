@@ -20,6 +20,11 @@ Feature: Production
     Then "entropy" graph should have value > 0 within 30 seconds
     And I delete the "entropy" graph
 
+
+  @passed
+  Scenario: Produfgction monitor and graph testing
+    Given I am logged in to mist.core
+
   @alert
   Scenario: Production rule and alert testing
     Given I am logged in to mist.core
