@@ -63,7 +63,7 @@ def assert_mayday_machine_state(context, state, seconds):
     assert False, u'%s state is not "%s"' % (name, state)
 
 @step(u'I choose the mayday machine')
-def choose_machine(context):
+def choose_mayday_machine(context):
     if context.mist_config.get('MAYDAY_MACHINE'):
         name = context.mist_config.get('MAYDAY_MACHINE')
 
