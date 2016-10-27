@@ -8,20 +8,21 @@ run_mayday_test:
   only:
     - triggers
   before_script:
+    - export RECORD_SELENIUM='"True"'
     - export DISPLAY=:1.0
     - Xvfb :1 -screen 0 1024x768x24 > /dev/null 2>&1 &
     - cd ..
     - rm -rf tests
     - mkdir tests
-    - cp -r -t tests mist.tests/*
+    - cp -r -t tests mist.mayday.staging/*
     - cp /chromedriver tests/gitlab/chromedriver
     - chmod 744 tests/gitlab/chromedriver
     - export "PATH=$(pwd)/tests/gitlab:$PATH"
     - /core.env/bin/pip install -e tests
-    - mkdir -p /builds/mistio/mist.tests/var/log
+    - mkdir -p /builds/mistio/mist.mayday.staging/var/log
     - cp -a /var/log/* var/log/
     - rm -rf /var/log
-    - ln -s /builds/mistio/mist.tests/var/log /var/log
+    - ln -s /builds/mistio/mist.mayday.staging/var/log /var/log
   script:
     - >
         /core.env/bin/ipython tests/prepare_env.py --
@@ -32,6 +33,8 @@ run_mayday_test:
         -D BEHAVE_DEBUG_ON_ERROR
         -k --tags=alert,graph,ssh,celery,google_sso_signin,github_sso_signin
         tests/legacy_gui/core/mayday/features
+  after_script:
+    - find $(pwd)/var/log
   tags:
      - mayday
   artifacts:
@@ -39,6 +42,6 @@ run_mayday_test:
       - var/log/chromedriver.log
       - var/log/js_console.log
       - var/log/error.*
-      - test.mp4
+      - var/log/test*
     expire_in: 7 days
     when: on_failure
