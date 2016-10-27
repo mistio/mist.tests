@@ -126,9 +126,6 @@ VPN_URL = get_value_of("VPN_URL", "")
 
 NAME = get_value_of("NAME", "Atheofovos Gkikas")
 
-#-----------MAYDAY------------------
-MAYDAY_MACHINE = get_value_of("MAYDAY_MACHINE", "")
-
 # DEFAULT CREDENTIALS FOR ACCESSING MIST.CORE
 EMAIL = get_value_of("EMAIL", "")
 PASSWORD1 = get_value_of("PASSWORD1", "")
