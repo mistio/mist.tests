@@ -65,12 +65,17 @@ def discard_output(sub_process):
         raise Exception("Could not correctly terminate subprocess for "
                         "selenium recording")
 
-def  discard_unnecessary_recording():
+def discard_unnecessary_recording():
     log.info('Discarding unnecessary recording...')
     global recording_sub_process
     global path
     recording_sub_process.kill()
-    os.remove(path)
+    sleep(1)
+    try:
+        os.remove(path)
+    except Exception as e:
+        log.error("Could not delete unnecessary video: %s" % repr(e))
+        pass
 
 def stop_recording():
     global kill_recording_process
