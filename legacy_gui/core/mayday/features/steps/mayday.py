@@ -21,8 +21,8 @@ def search_for_mayday_machine(context):
     assert len(search_bar) > 0, "Could not find the machine-search search input"
     assert len(search_bar) == 1, "Found more than one machine-search search input elements"
     search_bar = search_bar[0]
-    if context.mist_config.get(MAYDAY_MACHINE):
-        text = context.mist_config[MAYDAY_MACHINE]
+    if context.mist_config.get('MAYDAY_MACHINE'):
+        text = context.mist_config['MAYDAY_MACHINE']
     for letter in text:
         search_bar.send_keys(letter)
     sleep(2)
@@ -35,16 +35,16 @@ def click_mayday_machine(context):
     to find a button that contains the text given. If text is a key inside
     mist_config dict then it's value will be used.
     """
-    if context.mist_config.get(MAYDAY_MACHINE):
-        text = context.mist_config[MAYDAY_MACHINE]
+    if context.mist_config.get('MAYDAY_MACHINE'):
+        text = context.mist_config['MAYDAY_MACHINE']
     click_button_from_collection(context, text,
                                  error_message='Could not find button that '
                                                'contains %s' % text)
 
 @step(u'Mayday machine state should be "{state}" within {seconds} seconds')
 def assert_mayday_machine_state(context, state, seconds):
-    if context.mist_config.get(MAYDAY_MACHINE):
-        name = context.mist_config.get(MAYDAY_MACHINE)
+    if context.mist_config.get('MAYDAY_MACHINE'):
+        name = context.mist_config.get('MAYDAY_MACHINE')
 
     end_time = time() + int(seconds)
     while time() < end_time:
