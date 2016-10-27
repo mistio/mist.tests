@@ -8,7 +8,6 @@ run_mayday_test:
   only:
     - triggers
   before_script:
-    - export RECORD_SELENIUM='"True"'
     - export DISPLAY=:1.0
     - Xvfb :1 -screen 0 1024x768x24 > /dev/null 2>&1 &
     - cd ..
@@ -33,8 +32,6 @@ run_mayday_test:
         -D BEHAVE_DEBUG_ON_ERROR
         -k --tags=alert,graph,ssh,celery,google_sso_signin,github_sso_signin
         tests/legacy_gui/core/mayday/features
-  after_script:
-    - find $(pwd)/var/log
   tags:
      - mayday
   artifacts:
