@@ -17,7 +17,6 @@ from time import sleep, time
 
 @step(u'I search for the mayday machine')
 def search_for_mayday_machine(context):
-    type_of_search = type_of_search.lower()
     search_bar = context.browser.find_elements_by_class_name("machine-search")
     assert len(search_bar) > 0, "Could not find the machine-search search input"
     assert len(search_bar) == 1, "Found more than one machine-search search input elements"
