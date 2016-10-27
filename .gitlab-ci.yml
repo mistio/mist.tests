@@ -32,8 +32,6 @@ run_mayday_test:
         -D BEHAVE_DEBUG_ON_ERROR
         -k --tags=alert,graph,ssh,celery,google_sso_signin,github_sso_signin
         tests/legacy_gui/core/mayday/features
-  after_script:
-    - find $(pwd)/var/log
   tags:
      - mayday
   artifacts:
@@ -41,6 +39,6 @@ run_mayday_test:
       - var/log/chromedriver.log
       - var/log/js_console.log
       - var/log/error.*
-      - var/log/test*
+      - test.mp4
     expire_in: 7 days
     when: on_failure
