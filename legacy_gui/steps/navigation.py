@@ -1,5 +1,3 @@
-import logging
-
 from behave import step
 from behave import given
 
@@ -15,9 +13,6 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 
-log = logging.getLogger(__name__)
-
-logging.basicConfig(level=logging.INFO)
 
 def i_am_in_homepage(context):
     possible_urls = [context.mist_config['MIST_URL']]
