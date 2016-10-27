@@ -14,15 +14,15 @@ run_mayday_test:
     - cd ..
     - rm -rf tests
     - mkdir tests
-    - cp -r -t tests mist.mayday.staging/*
+    - cp -r -t tests mist.tests/*
     - cp /chromedriver tests/gitlab/chromedriver
     - chmod 744 tests/gitlab/chromedriver
     - export "PATH=$(pwd)/tests/gitlab:$PATH"
     - /core.env/bin/pip install -e tests
-    - mkdir -p /builds/mistio/mist.mayday.staging/var/log
+    - mkdir -p /builds/mistio/mist.tests/var/log
     - cp -a /var/log/* var/log/
     - rm -rf /var/log
-    - ln -s /builds/mistio/mist.mayday.staging/var/log /var/log
+    - ln -s /builds/mistio/mist.tests/var/log /var/log
   script:
     - >
         /core.env/bin/ipython tests/prepare_env.py --
