@@ -5,9 +5,9 @@ Feature: Production
   Scenario: Production monitor and graph testing
     Given I am logged in to mist.core
     Then I wait for the links in homepage to appear
-    When I visit the Machineees page after the counter has loaded
-    Then I search for the "stagingmayday" Machine
-    When I click the button "stagingmayday"
+    When I visit the Machines page after the counter has loaded
+    Then I search for the mayday machine
+    When I click the mayday machine
     Then I expect for "single-machine-page" page to appear within max 10 seconds
     Then I wait for the graphs to appear
     When I focus on the "Add Graph" button
@@ -30,8 +30,8 @@ Feature: Production
     Given I am logged in to mist.core
     Then I wait for the links in homepage to appear
     When I visit the Machines page after the counter has loaded
-    Then I search for the "stagingmayday" Machine
-    When I click the button "stagingmayday"
+    Then I search for the mayday machine
+    When I click the mayday machine
     Then I expect for "single-machine-page" page to appear within max 10 seconds
     Then I wait for the graphs to appear
     When I remove previous rules
@@ -51,8 +51,8 @@ Feature: Production
     Given I am logged in to mist.core
     Then I wait for the links in homepage to appear
     When I visit the Machines page after the counter has loaded
-    Then I search for the "stagingmayday" Machine
-    When I click the button "stagingmayday"
+    Then I search for the mayday machine
+    When I click the mayday machine
     Then I expect for "single-machine-page" page to appear within max 10 seconds
     Then I wait for the graphs to appear
     When I test the ssh connection 2 times for max 100 seconds each time
@@ -62,8 +62,8 @@ Feature: Production
     Given I am logged in to mist.core
     Then I wait for the links in homepage to appear
     When I visit the Machines page after the counter has loaded
-    Then I search for the "stassgingmayday" Machine
-    When I choose the "stagingmayday" machine
+    Then I search for the mayday machine
+    When I click the mayday machine
     And I click the button "Actions"
     Then I expect for "machine-power-popup-popup" popup to appear within max 4 seconds
     When I click the "Reboot" button inside the "Actions" popup
@@ -71,7 +71,7 @@ Feature: Production
     And I click the button "Yes"
     Then I expect for "dialog-popup" modal to disappear within max 4 seconds
     And I wait for 4 seconds
-    Then "stagingmayday" machine state should be "running" within 200 seconds
+    Then Mayday machine state should be "running" within 200 seconds
 
   @google_sso_signin
   Scenario: Production sign in testing with google oauth2
