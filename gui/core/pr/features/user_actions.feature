@@ -41,7 +41,9 @@ Feature: Login Scenarios
   @check-redirect
   Scenario: Add EC2 cloud, go to Machines logout and check redirect
     Given I am logged in to mist.core
-    Given "EC2" cloud has been added
+    And I am in the new UI
+    And I wait for 3 seconds
+    Given "Digital Ocean" cloud has been added
     Then I logout
     And I visit the machines page with a url
     When I wait for 2 seconds
