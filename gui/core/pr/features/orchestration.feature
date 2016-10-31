@@ -7,7 +7,6 @@ Feature: Tests for orchestration feature
     When I wait for the dashboard to load
 
   @template-add
-    @template
   Scenario: Add a template
     When I visit the Templates page
     When I click the button "+"
@@ -46,7 +45,6 @@ Feature: Tests for orchestration feature
     Then "TestStack" stack should be present within 30 seconds
 
   @template-search
-    @template
   Scenario: Filter a template
     When I visit the Templates page
     When I search for "Simple Python Template"
@@ -58,7 +56,6 @@ Feature: Tests for orchestration feature
     When I clear the search bar
 
   @template-tags
-    @template
   Scenario: Add tags to template
     When I visit the Templates page
     And I wait for 2 seconds
@@ -117,18 +114,7 @@ Feature: Tests for orchestration feature
     Then I expect for the tag popup to close within 4 seconds
     And I ensure that the "stack" has the tags "second:tag"
 
-  @stack-delete
-  Scenario: Delete a stack
-    When I visit the Stacks page
-    And I wait for 1 seconds
-    When I click the button "Delete" from the menu of the "TestStack" stack
-    And I expect the dialog "Delete Stack" is open within 4 seconds
-    When I click the "Delete" button in the dialog "Delete Stack"
-    Then I expect the dialog "Delete Stack" is closed within 4 seconds
-    And "TestStack" stack should be absent within 5 seconds
-
   @template-rename
-    @template
   Scenario: Rename a template
     When I visit the Templates page
     And I wait for 2 seconds
@@ -144,9 +130,14 @@ Feature: Tests for orchestration feature
     And "Simple Python Template" template should be absent within 5 seconds
     And "Renamed Template" template should be present within 5 seconds
 
+  @stack-is-deployed
+  Scenario: Ensure that a stack has been deployed
+    When I visit the Stacks page
+    And I wait for 1 seconds
+    When I click the "TestStack" "stack"
+    Then I ensure that there is at least one machine in the resources list
 
   @template-delete
-    @template
   Scenario: Delete a template
     When I visit the Templates page
     When I click the "Renamed Template" "template"
@@ -157,9 +148,12 @@ Feature: Tests for orchestration feature
     And I expect the dialog "Delete Template" is closed within 4 seconds
     Then "Renamed Template" template should be absent within 15 seconds
 
-    @stack-is-deployed
-    Scenario: Ensure that a stack has been deployed
-      When I visit the Stacks page
-      And I wait for 1 seconds
-      When I click the "Wtf" "stack"
-      Then I ensure that there is at least one machine in the resources list
+    @stack-delete
+  Scenario: Delete a stack
+    When I visit the Stacks page
+    And I wait for 1 seconds
+    When I click the button "Delete" from the menu of the "TestStack" stack
+    And I expect the dialog "Delete Stack" is open within 4 seconds
+    When I click the "Delete" button in the dialog "Delete Stack"
+    Then I expect the dialog "Delete Stack" is closed within 4 seconds
+    And "TestStack" stack should be absent within 5 seconds
