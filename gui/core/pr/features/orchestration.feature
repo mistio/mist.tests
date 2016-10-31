@@ -27,6 +27,24 @@ Feature: Tests for orchestration feature
     When I visit the Templates page
     Then "Simple Python Template" template should be present within 30 seconds
 
+  @stack-add
+  Scenario: Create a stack from the template added above
+    When I visit the Templates page
+    And I wait for 2 seconds
+    When I click the "Simple Python Template" "template"
+    And I expect the "template" edit form to be visible within max 5 seconds
+    When I click the button "Create Stack" in "template" edit form
+    And I expect the "stack" add form to be visible within max 20 seconds
+    When I set the value "TestStack" to field "Stack Name" in "stack" add form
+    And I expect for the button "Create Stack" in "stack" add form to be clickable within 9 seconds
+    When I focus on the button "Create Stack" in "stack" add form
+    And I click the button "Create Stack" in "stack" add form
+    Then I expect the "stack" edit form to be visible within max 30 seconds
+    When I visit the Home page
+    When I wait for the dashboard to load
+    When I visit the Stacks page
+    Then "TestStack" stack should be present within 30 seconds
+
   @template-search
     @template
   Scenario: Filter a template
@@ -63,24 +81,6 @@ Feature: Tests for orchestration feature
     And I click the button "Save Tags" in the tag menu
     Then I expect for the tag popup to close within 4 seconds
     And I ensure that the "template" has the tags "second:tag"
-
-  @stack-add
-  Scenario: Create a stack from the template added above
-    When I visit the Templates page
-    And I wait for 2 seconds
-    When I click the "Simple Python Template" "template"
-    And I expect the "template" edit form to be visible within max 5 seconds
-    When I click the button "Create Stack" in "template" edit form
-    And I expect the "stack" add form to be visible within max 20 seconds
-    When I set the value "TestStack" to field "Stack Name" in "stack" add form
-    And I expect for the button "Create Stack" in "stack" add form to be clickable within 9 seconds
-    When I focus on the button "Create Stack" in "stack" add form
-    And I click the button "Create Stack" in "stack" add form
-    Then I expect the "stack" edit form to be visible within max 30 seconds
-    When I visit the Home page
-    When I wait for the dashboard to load
-    When I visit the Stacks page
-    Then "TestStack" stack should be present within 30 seconds
 
   @stack-search
   Scenario: Filter a stack
