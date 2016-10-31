@@ -156,3 +156,10 @@ Feature: Tests for orchestration feature
     And I click the "Delete" button in the dialog "Delete Template"
     And I expect the dialog "Delete Template" is closed within 4 seconds
     Then "Renamed Template" template should be absent within 15 seconds
+
+    @stack-is-deployed
+    Scenario: Ensure that a stack has been deployed
+      When I visit the Stacks page
+      And I wait for 1 seconds
+      When I click the "Wtf" "stack"
+      Then I ensure that there is at least one machine in the resources list
