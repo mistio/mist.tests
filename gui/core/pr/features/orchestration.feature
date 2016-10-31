@@ -176,7 +176,7 @@ Feature: Tests for orchestration feature
     And I expect the dialog "Delete Template" is closed within 4 seconds
     Then "Renamed Template" template should be absent within 15 seconds
 
-    @stack-delete
+  @stack-delete
   Scenario: Delete a stack
     When I visit the Stacks page
     And I wait for 1 seconds
