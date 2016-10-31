@@ -3,11 +3,11 @@ Feature: Tests for orchestration feature
   Background:
     Given I am logged in to mist.core
     And I am in the new UI
-    Then I visit the Home page
-    When I wait for the dashboard to load
 
   @template-add
   Scenario: Add a template
+    Then I visit the Home page
+    When I wait for the dashboard to load
     When I visit the Templates page
     When I click the button "+"
     Then I expect the "Template" add form to be visible within max 10 seconds
@@ -28,21 +28,32 @@ Feature: Tests for orchestration feature
 
   @stack-add
   Scenario: Create a stack from the template added above
+    When I wait for the dashboard to load
+    Given "Docker" cloud has been added
     When I visit the Templates page
     And I wait for 2 seconds
     When I click the "Simple Python Template" "template"
     And I expect the "template" edit form to be visible within max 5 seconds
     When I click the button "Create Stack" in "template" edit form
     And I expect the "stack" add form to be visible within max 20 seconds
-    When I set the value "TestStack" to field "Stack Name" in "stack" add form
-    And I expect for the button "Create Stack" in "stack" add form to be clickable within 9 seconds
+    When I set the value "Test Stack" to field "Stack Name" in "stack" add form
+    And I open the "cloud" drop down
+    And I wait for 1 seconds
+    And I click the button "Docker" in the "cloud" dropdown
+    And I open the "mist image" drop down
+    And I wait for 1 seconds
+    And I click the button "mist/debian-wheezy" in the "mist image" dropdown
+    And I open the "mist key" drop down
+    And I wait for 1 seconds
+    And I click the button "key1" in the "mist key" dropdown
+    #And I expect for the button "Create Stack" in "stack" add form to be clickable within 9 seconds
     When I focus on the button "Create Stack" in "stack" add form
     And I click the button "Create Stack" in "stack" add form
     Then I expect the "stack" edit form to be visible within max 30 seconds
     When I visit the Home page
     When I wait for the dashboard to load
     When I visit the Stacks page
-    Then "TestStack" stack should be present within 30 seconds
+    Then "Test Stack" stack should be present within 30 seconds
 
   @template-search
   Scenario: Filter a template
@@ -82,19 +93,19 @@ Feature: Tests for orchestration feature
   @stack-search
   Scenario: Filter a stack
     When I visit the Stacks page
-    When I search for "TestStack"
-    Then "TestStack" stack should be present within 15 seconds
+    When I search for "Test Stack"
+    Then "Test Stack" stack should be present within 15 seconds
     When I clear the search bar
-    Then "TestStack" stack should be present within 15 seconds
+    Then "Test Stack" stack should be present within 15 seconds
     When I search for "Non-existing Stack"
-    Then "TestStack" stack should be absent within 15 seconds
+    Then "Test Stack" stack should be absent within 15 seconds
     When I clear the search bar
 
   @stack-tags
   Scenario: Add tags to stack
     When I visit the Stacks page
     And I wait for 1 seconds
-    When I click the "TestStack" "stack"
+    When I click the "Test Stack" "stack"
     And I expect the "stack" edit form to be visible within max 5 seconds
     Then I click the button "Tags" in "stack" edit form
     And I expect for the tag popup to open within 4 seconds
@@ -152,8 +163,8 @@ Feature: Tests for orchestration feature
   Scenario: Delete a stack
     When I visit the Stacks page
     And I wait for 1 seconds
-    When I click the button "Delete" from the menu of the "TestStack" stack
+    When I click the button "Delete" from the menu of the "Test Stack" stack
     And I expect the dialog "Delete Stack" is open within 4 seconds
     When I click the "Delete" button in the dialog "Delete Stack"
     Then I expect the dialog "Delete Stack" is closed within 4 seconds
-    And "TestStack" stack should be absent within 5 seconds
+    And "Test Stack" stack should be absent within 5 seconds
