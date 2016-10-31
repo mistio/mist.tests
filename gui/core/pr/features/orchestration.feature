@@ -27,9 +27,26 @@ Feature: Tests for orchestration feature
     Then "Simple Python Template" template should be present within 30 seconds
 
   @stack-add
-  Scenario: Create a stack from the template added above
+  Scenario: First add Docker and key and then create a stack from the template added above
     When I wait for the dashboard to load
     Given "Docker" cloud has been added
+
+    # change below to 'given key has been added...'
+    Then I visit the keys page
+    When I click the button "+"
+    Then I expect the "Key" add form to be visible within max 10 seconds
+    When I set the value "TestKey" to field "Name" in "key" add form
+    Then I click the button "Generate" in "key" add form
+    And I wait for 5 seconds
+    And I expect for the button "Add" in "key" add form to be clickable within 9 seconds
+    When I focus on the button "Add" in "key" add form
+    And I click the button "Add" in "key" add form
+    Then I expect the "key" edit form to be visible within max 5 seconds
+    When I visit the Keys page
+    Then "TestKey" key should be present within 15 seconds
+    Then I visit the Home page
+    When I wait for the dashboard to load
+
     When I visit the Templates page
     And I wait for 2 seconds
     When I click the "Simple Python Template" "template"
@@ -45,7 +62,7 @@ Feature: Tests for orchestration feature
     And I click the button "mist/debian-wheezy" in the "mist image" dropdown
     And I open the "mist key" drop down
     And I wait for 1 seconds
-    And I click the button "key1" in the "mist key" dropdown
+    And I click the button "TestKey" in the "mist key" dropdown
     #And I expect for the button "Create Stack" in "stack" add form to be clickable within 9 seconds
     When I focus on the button "Create Stack" in "stack" add form
     And I click the button "Create Stack" in "stack" add form
