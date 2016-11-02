@@ -28,7 +28,7 @@ def email():
 
 @pytest.fixture
 def password1():
-    return config.PASSWORD1
+    return config.API_PASSWORD
 
 
 @pytest.fixture
