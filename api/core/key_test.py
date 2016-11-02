@@ -8,106 +8,107 @@ from tests.api.helpers import *
 # Unit testing
 #############################################################################
 
-
-def test_001_list_keys(pretty_print, mist_core, valid_api_token):
-    response = mist_core.list_keys(api_token=valid_api_token).get()
-    assert_response_ok(response)
-    print "Success!!!"
-
-
-def test_002_add_key_with_no_id_and_no_priv(pretty_print, mist_core,
-                                            valid_api_token):
-    response = mist_core.add_key(name='', private='',
-                                 api_token=valid_api_token).put()
-    assert_response_bad_request(response)
-    print "Success!!!"
+@pytest.mark.incremental
+class NoFailTests:
+    def test_001_list_keys(pretty_print, mist_core, valid_api_token):
+        response = mist_core.list_keys(api_token=valid_api_token).get()
+        assert_response_ok(response)
+        print "Success!!!"
 
 
-def test_003_add_key_with_no_private(pretty_print, cache, mist_core,
-                                     valid_api_token):
-    response = mist_core.list_keys(api_token=valid_api_token).get()
-    assert_response_ok(response)
-    keys_list = json.loads(response.content)
-    cache.set('keys_tests/key_name', get_random_key_id(keys_list))
-    response = mist_core.add_key(name=cache.get('keys_tests/key_name', ''),
-                                 private='',
-                                 api_token=valid_api_token).put()
-    assert_response_bad_request(response)
-    print "Success!!!"
+    def test_002_add_key_with_no_id_and_no_priv(pretty_print, mist_core,
+                                                valid_api_token):
+        response = mist_core.add_key(name='', private='',
+                                     api_token=valid_api_token).put()
+        assert_response_bad_request(response)
+        print "Success!!!"
 
 
-def test_004_add_key_with_wrong_private(pretty_print, cache, mist_core,
-                                        valid_api_token, private_key):
-    response = mist_core.add_key(name=cache.get('keys_tests/key_name', ''),
-                                 private=private_key[:-40],
-                                 api_token=valid_api_token).put()
-    assert_response_bad_request(response)
-    print "Success!!!"
+    def test_003_add_key_with_no_private(pretty_print, cache, mist_core,
+                                         valid_api_token):
+        response = mist_core.list_keys(api_token=valid_api_token).get()
+        assert_response_ok(response)
+        keys_list = json.loads(response.content)
+        cache.set('keys_tests/key_name', get_random_key_id(keys_list))
+        response = mist_core.add_key(name=cache.get('keys_tests/key_name', ''),
+                                     private='',
+                                     api_token=valid_api_token).put()
+        assert_response_bad_request(response)
+        print "Success!!!"
 
 
-def test_005_get_private_key_with_wrong_id(pretty_print, cache, mist_core,
-                                           valid_api_token):
-    response = mist_core.get_private_key('bla', api_token=valid_api_token).get()
-    assert_response_not_found(response)
-    print "Success!!!"
+    def test_004_add_key_with_wrong_private(pretty_print, cache, mist_core,
+                                            valid_api_token, private_key):
+        response = mist_core.add_key(name=cache.get('keys_tests/key_name', ''),
+                                     private=private_key[:-40],
+                                     api_token=valid_api_token).put()
+        assert_response_bad_request(response)
+        print "Success!!!"
 
 
-def test_006_get_private_key_with_wrong_id(pretty_print, cache, mist_core,
-                                           valid_api_token):
-    response = mist_core.get_private_key(
-        cache.get('keys_tests/key_name', '')[:-2],
-        api_token=valid_api_token).get()
-    assert_response_not_found(response)
-    print "Success!!!"
-
-
-def test_007_get_public_key_with_wrong_id(pretty_print, cache, mist_core,
-                                          valid_api_token):
-    response = mist_core.get_public_key(
-        cache.get('keys_tests/key_name', '')[:-2],
-        api_token=valid_api_token).get()
-    assert_response_not_found(response)
-    print "Success!!!"
-
-
-def test_008_set_default_key_with_wrong_key_id(pretty_print, cache, mist_core,
+    def test_005_get_private_key_with_wrong_id(pretty_print, cache, mist_core,
                                                valid_api_token):
-    response = mist_core.set_default_key(
-        key_id='bla',
-        api_token=valid_api_token).post()
-    assert_response_not_found(response)
-    print "Success!!!"
+        response = mist_core.get_private_key('bla', api_token=valid_api_token).get()
+        assert_response_not_found(response)
+        print "Success!!!"
 
 
-def test_009_test_generate_keypair(pretty_print, mist_core, valid_api_token):
-    response = mist_core.generate_keypair(api_token=valid_api_token).post()
-    assert_response_ok(response)
-    print "Success!!!"
+    def test_006_get_private_key_with_wrong_id(pretty_print, cache, mist_core,
+                                               valid_api_token):
+        response = mist_core.get_private_key(
+            cache.get('keys_tests/key_name', '')[:-2],
+            api_token=valid_api_token).get()
+        assert_response_not_found(response)
+        print "Success!!!"
 
 
-def test_010_delete_multiple_keys_with_no_key_ids(pretty_print, mist_core,
-                                                  valid_api_token):
-    response = mist_core.delete_keys(key_ids=[],
-                                     api_token=valid_api_token).delete()
-    assert_response_bad_request(response)
-    print "Success!!!"
+    def test_007_get_public_key_with_wrong_id(pretty_print, cache, mist_core,
+                                              valid_api_token):
+        response = mist_core.get_public_key(
+            cache.get('keys_tests/key_name', '')[:-2],
+            api_token=valid_api_token).get()
+        assert_response_not_found(response)
+        print "Success!!!"
 
 
-def test_011_delete_multiple_wrong_key_ids(pretty_print, cache, mist_core,
-                                           valid_api_token):
-    response = mist_core.delete_keys(key_ids=['bla', 'bla2'],
-                                     api_token=valid_api_token).delete()
-    assert_response_not_found(response)
-    print "Success!!!"
+    def test_008_set_default_key_with_wrong_key_id(pretty_print, cache, mist_core,
+                                                   valid_api_token):
+        response = mist_core.set_default_key(
+            key_id='bla',
+            api_token=valid_api_token).post()
+        assert_response_not_found(response)
+        print "Success!!!"
 
 
-def test_012_delete_multiple_keys_with_wrong_api_token(pretty_print,
-                                                       mist_core,
-                                                       valid_api_token):
-    response = mist_core.delete_keys(key_ids=['bla', 'bla2'],
-                                     api_token=valid_api_token[:-2]).delete()
-    assert_response_unauthorized(response)
-    print "Success!!!"
+    def test_009_test_generate_keypair(pretty_print, mist_core, valid_api_token):
+        response = mist_core.generate_keypair(api_token=valid_api_token).post()
+        assert_response_ok(response)
+        print "Success!!!"
+
+
+    def test_010_delete_multiple_keys_with_no_key_ids(pretty_print, mist_core,
+                                                      valid_api_token):
+        response = mist_core.delete_keys(key_ids=[],
+                                         api_token=valid_api_token).delete()
+        assert_response_bad_request(response)
+        print "Success!!!"
+
+
+    def test_011_delete_multiple_wrong_key_ids(pretty_print, cache, mist_core,
+                                               valid_api_token):
+        response = mist_core.delete_keys(key_ids=['bla', 'bla2'],
+                                         api_token=valid_api_token).delete()
+        assert_response_not_found(response)
+        print "Success!!!"
+
+
+    def test_012_delete_multiple_keys_with_wrong_api_token(pretty_print,
+                                                           mist_core,
+                                                           valid_api_token):
+        response = mist_core.delete_keys(key_ids=['bla', 'bla2'],
+                                         api_token=valid_api_token[:-2]).delete()
+        assert_response_unauthorized(response)
+        print "Success!!!"
 
 
 #############################################################################
