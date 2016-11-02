@@ -6,7 +6,7 @@ from tests.api.utils import *
 def test_001_simple_api_token_test(pretty_print, mist_core,
                                    user_with_api_token):
     from mist.core.auth.models import ApiToken
-    mist_api_token_string = "mist_1 " + config.EMAIL + \
+    mist_api_token_string = "mist_1 " + config.API_EMAIL + \
                             ":" + user_with_api_token.mist_api_token
     print "\n>>>  Pinging core with old api token"
     response = mist_core.check_token(mist_api_token_string).post()
@@ -23,7 +23,7 @@ def test_001_simple_api_token_test(pretty_print, mist_core,
 def test_002_short_api_token_test(pretty_print, mist_core,
                                   user_with_short_api_token):
     from mist.core.auth.models import ApiToken
-    mist_api_token_string = "mist_1 " + config.EMAIL + \
+    mist_api_token_string = "mist_1 " + config.API_EMAIL + \
                             ":" + user_with_short_api_token.mist_api_token
     print "\n>>>  Pinging core with short old api token"
     response = mist_core.check_token(mist_api_token_string).post()

@@ -23,7 +23,7 @@ def pretty_print(request):
 
 @pytest.fixture
 def email():
-    return config.EMAIL
+    return config.API_EMAIL
 
 
 @pytest.fixture

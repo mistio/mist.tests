@@ -139,6 +139,10 @@ DEMO_PASSWORD = get_value_of("DEMO_PASSWORD", "")
 MIST_DEMO_REQUEST_EMAIL = get_value_of("MIST_DEMO_REQUEST_EMAIL",
                                        "demo@mist.io")
 
+# CREDENTIALS FOR API TESTS
+API_EMAIL = get_value_of("API_EMAIL","")
+API_PASSWORD = get_value_of("API_PASSWORD","")
+
 # CREDENTIALS FOR TESTING RBAC
 OWNER_EMAIL = get_value_of("OWNER_EMAIL", "")
 OWNER_PASSWORD = get_value_of("OWNER_PASSWORD", "")
