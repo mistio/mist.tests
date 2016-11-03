@@ -57,6 +57,11 @@ def clicketi_click_list_row(context, item):
 
 def click_button_from_collection(context, text, button_collection=None,
                                  error_message="Could not find button"):
+    if not button_collection:
+        try:
+            button_collection = context.browser.find_elements_by_tag_name('paper-button')
+        except NoSuchElementException:
+            button_collection = context.browser.find_elements_by_class_name('ui-btn')
     button = search_for_button(context, text.lower(), button_collection)
     assert button, error_message
     for i in range(0, 2):

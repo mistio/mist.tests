@@ -126,11 +126,13 @@ def check_sorting(context, sorting_field):
 
 @step(u'I clear the machines search bar')
 def clear_machines_search_bar(context):
-    search_bar_machine = context.browser.find_element_by_css_selector(
-        "div.machine-search-container "
-        "input.machine-search")
-    search_bar_machine.clear()
+    clear_button = context.browser.find_element_by_xpath("//iron-icon[@icon='close']")
+    clicketi_click(context, clear_button)
 
+@step(u'I open the actions dialog')
+def open_actions_dialog_from_list(context):
+    button = context.browser.find_element_by_xpath("//iron-icon[@icon='more-vert']")
+    clicketi_click(context, button)
 
 @step(u'I fill in a "{name}" machine name')
 def fill_machine_mame(context, name):
@@ -157,7 +159,6 @@ def fill_machine_mame(context, name):
 def choose_machine(context, name):
     if context.mist_config.get(name):
         name = context.mist_config.get(name)
-
     end_time = time() + 20
     while time() < end_time:
         machine = get_machine(context, name)
@@ -230,8 +231,8 @@ def assert_machine_added(context, name, seconds):
 
 def get_machine(context, name):
     try:
-        placeholder = context.browser.find_element_by_id("machine-list-page")
-        machines = placeholder.find_elements_by_tag_name("li")
+        placeholder = context.browser.find_element_by_tag_name("page-machines").find_element_by_id("items")
+        machines = placeholder.find_elements_by_tag_name("div")
 
         for machine in machines:
             machine_text = safe_get_element_text(machine)

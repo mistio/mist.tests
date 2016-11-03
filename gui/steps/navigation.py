@@ -60,7 +60,6 @@ def visit(context):
     """
     if not i_am_in_homepage(context):
         context.browser.get(context.mist_config['MIST_URL'])
-
     timeout = time() + 4
     while time() < timeout:
         try:
@@ -69,12 +68,13 @@ def visit(context):
             return
         except NoSuchElementException:
             try:
-                context.browser.find_element_by_id("splash")
-                wait_for_splash_to_load(context)
+                context.browser.find_element_by_xpath("//mist-app[@page='dashboard']")
+                wait_for_dashboard(context)
                 return
             except NoSuchElementException:
                 pass
         sleep(1)
+    import pdb;pdb.set_trace()
     assert False, "Do not know if I am at the landing page or the home page"
 
 
@@ -362,16 +362,18 @@ def given_logged_in(context, kind):
 def given_not_logged_in(context):
     if not i_am_in_homepage(context):
         context.execute_steps(u'When I visit mist.core')
-
     try:
-        context.browser.find_element_by_id("splash")
-        context.execute_steps(u"""
-              Then I wait for the mist.io splash page to load
-              And I wait for the links in homepage to appear
-              And I logout
-        """)
-    except NoSuchElementException:
-        pass
+        context.browser.find_element_by_id("top-signup-button")
+        return
+    except:
+        try:
+            context.execute_steps(u"""
+                  When I visit the Home page
+                  When I wait for the dashboard to load
+                  And I logout
+            """)
+        except NoSuchElementException:
+            pass
 
 
 def get_user_menu(context):
