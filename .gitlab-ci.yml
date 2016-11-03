@@ -31,7 +31,7 @@ run_mayday_test:
         --js-console-log= /var/log/js_console.log
         -D BEHAVE_DEBUG_ON_ERROR
         -k --tags=alert,graph,ssh,celery,google_sso_signin,github_sso_signin
-        tests/gui/core/mayday/features
+        tests/legacy_gui/core/mayday/features
   tags:
      - mayday
   artifacts:
