@@ -89,64 +89,65 @@ class MistCoreApi(MistIoApi):
         req.put = req.unavailable_api_call
         return req
 
-    def add_cronjob_entry(self, name, scheduled_machines, enabled,
-                          cronjob_type, cronjob_entry, api_token,
-                          expires='', script_id='', action=''):
-        data = {
-            'name': name,
-            'script_id': script_id,
-            'action': action,
-            'scheduled_machines': scheduled_machines,
-            'enabled': enabled,
-            'expires': expires,
-            'cronjob_type': cronjob_type,
-            'cronjob_entry': cronjob_entry
-        }
-        req = MistRequests(uri=self.uri + '/api/v1/cronjobs',
-                           data=json.dumps(data), api_token=api_token)
-        req.get = req.unavailable_api_call
-        req.delete = req.unavailable_api_call
-        req.put = req.unavailable_api_call
-        return req
-
-    def edit_cronjob_entry(self, name, scheduled_machines, enabled,
-                           cronjob_type, cronjob_entry, cronjob_id, api_token,
+    def add_schedule_entry(self, name, scheduled_machines, enabled,
+                           schedule_type, schedule_entry, api_token,
                            expires='', script_id='', action=''):
         data = {
             'name': name,
             'script_id': script_id,
             'action': action,
-            'scheduled_machines': scheduled_machines,
+            'machines_uuids': scheduled_machines,
             'enabled': enabled,
             'expires': expires,
-            'cronjob_type': cronjob_type,
-            'cronjob_entry': cronjob_entry
+            'schedule_type': schedule_type,
+            'schedule_entry': schedule_entry
+        }
+        req = MistRequests(uri=self.uri + '/api/v1/schedules',
+                           data=json.dumps(data), api_token=api_token)
+        req.get = req.unavailable_api_call
+        req.delete = req.unavailable_api_call
+        req.put = req.unavailable_api_call
+        return req
+
+    def edit_schedule_entry(self, name, scheduled_machines, enabled,
+                           schedule_type, schedule_entry, schedule_id,
+                           api_token, expires='', script_id='', action=''):
+        data = {
+            'name': name,
+            'script_id': script_id,
+            'action': action,
+            'machines_uuids': scheduled_machines,
+            'enabled': enabled,
+            'expires': expires,
+            'schedule_type': schedule_type,
+            'schedule_entry': schedule_entry
         }
 
-        req = MistRequests(uri=self.uri + '/api/v1/cronjobs/' + cronjob_id,
+        req = MistRequests(uri=self.uri + '/api/v1/schedules/' + schedule_id,
                            data=json.dumps(data), api_token=api_token)
         req.get = req.unavailable_api_call
         req.delete = req.unavailable_api_call
         req.post = req.unavailable_api_call
         return req
 
-    def list_cronjobs_entries(self, api_token):
-        req = MistRequests(uri=self.uri + '/api/v1/cronjobs', api_token=api_token)
-        req.post = req.unavailable_api_call
-        req.delete = req.unavailable_api_call
-        req.put = req.unavailable_api_call
-        return req
-
-    def show_cronjobs_entry(self, cronjob_id, api_token):
-        req = MistRequests(uri=self.uri + '/api/v1/cronjobs/' + cronjob_id,
+    def list_schedules_entries(self, api_token):
+        req = MistRequests(uri=self.uri + '/api/v1/schedules',
                            api_token=api_token)
         req.post = req.unavailable_api_call
         req.delete = req.unavailable_api_call
         req.put = req.unavailable_api_call
         return req
 
-    def delete_cronjob(self, cronjob_id, api_token):
-        req = MistRequests(uri=self.uri + '/api/v1/cronjobs/' + cronjob_id,
+    def show_schedules_entry(self, schedule_id, api_token):
+        req = MistRequests(uri=self.uri + '/api/v1/schedules/' + schedule_id,
+                           api_token=api_token)
+        req.post = req.unavailable_api_call
+        req.delete = req.unavailable_api_call
+        req.put = req.unavailable_api_call
+        return req
+
+    def delete_schedule(self, schedule_id, api_token):
+        req = MistRequests(uri=self.uri + '/api/v1/schedules/' + schedule_id,
                            api_token=api_token)
         req.get = req.unavailable_api_call
         req.post = req.unavailable_api_call
