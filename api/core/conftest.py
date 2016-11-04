@@ -261,9 +261,10 @@ def scheduled_machines(request):
     assert_list_not_empty(machines)
     scheduled_machines = []
     machine_num = 2
+
     while len(machines) > 0 and machine_num != 0:
         machine = machines.pop()
-        scheduled_machines.append(machine.id)
+        scheduled_machines.append(machine.get('uuid'))
         machine_num -= 1
     print "machines to be used are: %s" % scheduled_machines
     return scheduled_machines
