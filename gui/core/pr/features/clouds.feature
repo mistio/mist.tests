@@ -35,19 +35,19 @@ Feature: Add second-tier clouds in Polymist
     | Docker         |
     | Openstack      |
 
-  @cloud-rename
-  Scenario: Cloud Actions
-    Given "Azure" cloud has been added
-    Then I open the cloud menu for "Azure"
-    When I rename the cloud "Azure" to "Renamed"
-    Then I close the cloud menu for "Renamed"
-    And I refresh the page
-    Then I wait for the dashboard to load
-    And the "Renamed" provider should be added within 4 seconds
-
-  @cloud-delete
-  Scenario: Cloud Actions
-    Given "SoftLayer" cloud has been added
-    Then I open the cloud menu for "SoftLayer"
-    When I delete the "Softlayer" cloud
-    Then the "Softlayer" cloud should be deleted within "8" seconds
+#  @cloud-rename
+#  Scenario: Cloud Actions
+#    Given "Azure" cloud has been added
+#    Then I open the cloud menu for "Azure"
+#    When I rename the cloud "Azure" to "Renamed"
+#    Then I close the cloud menu for "Renamed"
+#    And I refresh the page
+#    Then I wait for the dashboard to load
+#    And the "Renamed" provider should be added within 4 seconds
+#
+#  @cloud-delete
+#  Scenario: Cloud Actions
+#    Given "SoftLayer" cloud has been added
+#    Then I open the cloud menu for "SoftLayer"
+#    When I delete the "Softlayer" cloud
+#    Then the "Softlayer" cloud should be deleted within "8" seconds
