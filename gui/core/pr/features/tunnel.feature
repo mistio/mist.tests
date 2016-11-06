@@ -4,10 +4,10 @@ Feature: Actions for Tunnels
   Background:
     Given I am logged in to mist.core
     And I am in the new UI
-    When I wait for the dashboard to load
 
   @tunnel-add
   Scenario: Add Tunnel
+    When I wait for the dashboard to load
     When I visit the Tunnels page
     When I click the button "+"
     Then I expect the "tunnel" add form to be visible within max 10 seconds
@@ -19,34 +19,19 @@ Feature: Actions for Tunnels
     Then I expect the "tunnel" edit form to be visible within max 5 seconds
     When I visit the Tunnels page
     Then "test_tunnel" tunnel should be present within 30 seconds
-    Then I visit the Home page
-    When I wait for the dashboard to load
-    # remove?
 
   @tunnel-tags
   Scenario: Add tags to tunnel
-    When I visit the Tunnels page
-    Then I click the "DockerTunnel" "tunnel"
+    When I click the "test_tunnel" "tunnel"
     And I expect the "tunnel" edit form to be visible within max 5 seconds
     Then I click the button "Tags" in "tunnel" edit form
     And I expect for the tag popup to open within 4 seconds
     When I remove all the previous tags
-    Then I add a tag with key "first" and value "tag"
-    Then I add a tag with key "second" and value "tag"
+    Then I add a tag with key "test" and value "tag"
     And I click the button "Save Tags" in the tag menu
     Then I expect for the tag popup to close within 4 seconds
     And I wait for 2 seconds
-    Then I ensure that the "tunnel" has the tags "first:tag,second:tag"
-    Then I click the button "Tags" in "tunnel" edit form
-    And I expect for the tag popup to open within 4 seconds
-    And I wait for 1 seconds
-    When I remove the tag with key "first"
-    And I wait for 1 seconds
-    And I click the button "Save Tags" in the tag menu
-    Then I expect for the tag popup to close within 4 seconds
-    And I ensure that the "tunnel" has the tags "second:tag"
-    Then I visit the Home page
-    When I wait for the dashboard to load
+    Then I ensure that the "tunnel" has the tags "test:tag"
 
   @tunnel-delete
   Scenario: Delete Tunnel
