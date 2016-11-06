@@ -20,7 +20,6 @@ Feature: Actions for Networks
     When I focus on the button "Add" in "network" add form
     And I click the button "Add" in "network" add form
     Then I expect the "network" edit form to be visible within max 5 seconds
-    Then I expect the "network" edit form to be visible within max 5 seconds
     When I visit the Networks page
     Then "network_random" network should be present within 30 seconds
     Then I visit the Home page
