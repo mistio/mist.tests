@@ -30,20 +30,31 @@ Feature: Login Scenarios
     Then I close the "Login" popup
     And I wait for 2 seconds
 
-# test below will probably be deleted...
-  @check-redirect
-  Scenario: Add Digital Ocean cloud, go to Machines logout and check redirect
+    
+
+  @api-token-test
+  Scenario: Create and delete api tokens
     Given I am logged in to mist.core
-    And I am in the new UI
-    And I wait for 3 seconds
-    Given "Digital Ocean" cloud has been added
-    Then I logout
-    And I visit the machines page with a url
-    When I wait for 2 seconds
-#    Then I click the email button in the landing page popup
-#    When I enter my standard credentials for login
-#    And I click the sign in button in the landing page popup
-#    Then I wait for the mist.io splash page to load
-#    And I should be in the machines page
-#    Then I logout
-#    And I wait for 2 seconds
+    When I visit the Account page
+    Then I wait for the mist.io splash page to load
+    When I focus on the "Create Token" button
+    And I revoke all api tokens
+    Then I click the button "Create Token"
+    And I expect for "token-popup-popup" popup to appear within max 4 seconds
+    Then I type "blabla" in input with id "new-token-name"
+    When I click the button "Create Token"
+    And I wait for 1 seconds
+    Then I click the button "Never" from the ttl dropdown
+    When I click the "Create Token" button inside the "Create Token" popup
+    And I wait for 1 seconds
+    Then I type "PASSWORD1" in input with id "token-password"
+    And I wait for 1 seconds
+    When I click the "Submit Password" button inside the "Verify Your Password" popup
+    And I wait for 1 seconds
+    When I get the new api token value "BLABLA_TOKEN"
+    Then I test the api token "BLABLA_TOKEN". It should work.
+    When I click the "_x_" button inside the "Token blabla Created" popup
+    And I revoke the api token with name blabla
+    Then I test the api token "BLABLA_TOKEN". It should fail.
+    And I logout
+    And I wait for 2 seconds
