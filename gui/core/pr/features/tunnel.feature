@@ -21,11 +21,37 @@ Feature: Actions for Tunnels
     Then "test_tunnel" tunnel should be present within 30 seconds
     Then I visit the Home page
     When I wait for the dashboard to load
+    # remove?
+
+  @tunnel-tags
+  Scenario: Add tags to tunnel
+    When I visit the Tunnels page
+    Then I click the "DockerTunnel" "tunnel"
+    And I expect the "tunnel" edit form to be visible within max 5 seconds
+    Then I click the button "Tags" in "tunnel" edit form
+    And I expect for the tag popup to open within 4 seconds
+    When I remove all the previous tags
+    Then I add a tag with key "first" and value "tag"
+    Then I add a tag with key "second" and value "tag"
+    And I click the button "Save Tags" in the tag menu
+    Then I expect for the tag popup to close within 4 seconds
+    And I wait for 2 seconds
+    Then I ensure that the "tunnel" has the tags "first:tag,second:tag"
+    Then I click the button "Tags" in "tunnel" edit form
+    And I expect for the tag popup to open within 4 seconds
+    And I wait for 1 seconds
+    When I remove the tag with key "first"
+    And I wait for 1 seconds
+    And I click the button "Save Tags" in the tag menu
+    Then I expect for the tag popup to close within 4 seconds
+    And I ensure that the "tunnel" has the tags "second:tag"
+    Then I visit the Home page
+    When I wait for the dashboard to load
 
   @tunnel-delete
   Scenario: Delete Tunnel
     When I visit the Tunnels page
-    Then I click the "DockerTunnel" "tunnel"
+    Then I click the "test_tunnel" "tunnel"
     And I expect the "tunnel" edit form to be visible within max 5 seconds
     Then I click the button "Delete Tunnel" from the menu of the "tunnel" edit form
     And I expect the dialog "Delete Tunnel" is open within 4 seconds
@@ -33,4 +59,4 @@ Feature: Actions for Tunnels
     And I expect the dialog "Delete Tunnel" is closed within 4 seconds
     Then I visit the Home page
     When I visit the Tunnels page
-    Then "DockerTunnel" tunnel should be absent within 30 seconds
+    Then "test_tunnel" tunnel should be absent within 30 seconds
