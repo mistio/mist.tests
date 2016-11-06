@@ -1,5 +1,5 @@
 @networks
-Feature: Actions for Keys
+Feature: Actions for Networks
 
   Background:
     Given I am logged in to mist.core
@@ -27,7 +27,7 @@ Feature: Actions for Keys
     When I wait for the dashboard to load
 
   @network-delete
-  Scenario: Delete Key
+  Scenario: Delete Network
     When I visit the Networks page
     When I click the "network_random" "network"
     Then I expect for the button "Delete" in "network" edit form to be clickable within 5 seconds
