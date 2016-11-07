@@ -36,7 +36,7 @@ Feature: Add second-tier clouds in Polymist
     | Openstack      |
 
   @cloud-rename
-  Scenario: Cloud Actions
+  Scenario: Rename a cloud
     Given "Openstack" cloud has been added
     Then I open the cloud menu for "Openstack"
     When I rename the cloud "Openstack" to "Renamed"
@@ -49,7 +49,7 @@ Feature: Add second-tier clouds in Polymist
 
 
   @cloud-delete
-  Scenario: Cloud Actions
+  Scenario: Delete a cloud
     Given "Renamed" cloud has been added
     Then I open the cloud menu for "Renamed"
     And I click the "delete cloud" button

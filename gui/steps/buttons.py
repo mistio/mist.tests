@@ -181,6 +181,10 @@ def click_button_by_id(context,button):
     assert button_to_click.is_displayed(), "%s button is not displayed" %button
     clicketi_click(context, button_to_click)
 
+
+### below 3 methods should be deleted, since they're duplcate -- first check where they are used....
+
+
 @step(u'I click the new cloud button')
 def add_cloud_button(context):
     cloud_button = context.browser.find_element_by_id('addBtn')
