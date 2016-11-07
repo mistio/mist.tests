@@ -46,10 +46,11 @@ Feature: Add second-tier clouds in Polymist
     When I visit mist_url
     And I wait for the dashboard to load
     Then "Renamed" cloud has been added
-#
-#  @cloud-delete
-#  Scenario: Cloud Actions
-#    Given "SoftLayer" cloud has been added
-#    Then I open the cloud menu for "SoftLayer"
-#    When I delete the "Softlayer" cloud
-#    Then the "Softlayer" cloud should be deleted within "8" seconds
+
+
+  @cloud-delete
+  Scenario: Cloud Actions
+    Given "Openstack" cloud has been added
+    Then I open the cloud menu for "Openstack"
+    And I click the delete cloud button
+    And I wait for 5 seconds

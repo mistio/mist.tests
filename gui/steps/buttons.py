@@ -180,6 +180,12 @@ def save_title_button(context):
     assert save_title_button.is_displayed(), "Save title button is not displayed"
     clicketi_click(context, save_title_button)
 
+@step(u'I click the delete cloud button')
+def save_title_button(context):
+    save_title_button = context.browser.find_element_by_id('delete-cloud')
+    assert save_title_button.is_displayed(), "Delete cloud button is not displayed"
+    clicketi_click(context, save_title_button)
+
 @step(u'I click the mist-logo')
 def visit_home_url(context):
     save_title_button = context.browser.find_element_by_id('logo-link')
