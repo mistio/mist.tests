@@ -41,7 +41,9 @@ Feature: Add second-tier clouds in Polymist
     Then I open the cloud menu for "Openstack"
     When I rename the cloud "Openstack" to "Renamed"
     And I click the save title button
-    When I click the mist-logo
+    And I wait for 3 seconds
+    #When I click the mist-logo
+    When I visit mist_url
     And I wait for the dashboard to load
     Then "Renamed" cloud has been added
 #
