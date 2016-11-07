@@ -35,8 +35,6 @@ def clicketi_click(context, button):
     Chrome driver for no apparent reason misinterprets the offset and
     size of the button
     """
-    import ipdb
-    ipdb.set_trace()
     try:
         button.click()
     except WebDriverException:
@@ -124,8 +122,6 @@ def click_button(context, text):
 
 @step(u'I click the button "{button}" in the "{name}" dropdown')
 def click_button_in_dropdown(context, button, name):
-    # import ipdb
-    # ipdb.set_trace()
     button = button.strip().lower()
     dropdown = find_dropdown(context, name.lower())
     if button == get_current_value_of_dropdown(dropdown):
@@ -178,6 +174,17 @@ def add_cloud_button(context):
     assert cloud_button.is_displayed(), "Add cloud button is not displayed"
     clicketi_click(context, cloud_button)
 
+@step(u'I click the save title button')
+def save_title_button(context):
+    save_title_button = context.browser.find_element_by_id('rename-cloud')
+    assert save_title_button.is_displayed(), "Save title button is not displayed"
+    clicketi_click(context, save_title_button)
+
+@step(u'I click the mist-logo')
+def visit_home_url(context):
+    save_title_button = context.browser.find_element_by_id('logo-link')
+   # assert save_title_button.is_displayed(), "Save title button is not displayed"
+    clicketi_click(context, save_title_button)
 
 @step(u'I click the Gravatar')
 def click_the_gravatar(context):
