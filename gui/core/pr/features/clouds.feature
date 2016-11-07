@@ -53,4 +53,5 @@ Feature: Add second-tier clouds in Polymist
     Given "Openstack" cloud has been added
     Then I open the cloud menu for "Openstack"
     And I click the delete cloud button
-    And I wait for 5 seconds
+    And I wait for 2 seconds
+    Then the "Openstack" cloud should be deleted
