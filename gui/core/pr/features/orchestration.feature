@@ -1,11 +1,10 @@
 @orchestration
 Feature: Tests for orchestration feature
-  Background:
-    Given I am logged in to mist.core
-    And I am in the new UI
 
   @template-add
   Scenario: Add a template
+    Given I am logged in to mist.core
+    And I am in the new UI
     Then I visit the Home page
     When I wait for the dashboard to load
     When I visit the Templates page
@@ -25,6 +24,8 @@ Feature: Tests for orchestration feature
     When I wait for the dashboard to load
     When I visit the Templates page
     Then "Simple Python Template" template should be present within 30 seconds
+    Then I visit the Home page
+    When I wait for the dashboard to load
 
 
   @stack-add
