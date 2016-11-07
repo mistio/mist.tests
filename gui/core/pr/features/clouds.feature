@@ -40,7 +40,7 @@ Feature: Add second-tier clouds in Polymist
     Given "Openstack" cloud has been added
     Then I open the cloud menu for "Openstack"
     When I rename the cloud "Openstack" to "Renamed"
-    And I click the save title button
+    And I click the "save title" button
     And I wait for 3 seconds
     #When I click the mist-logo
     When I visit mist_url
@@ -50,8 +50,8 @@ Feature: Add second-tier clouds in Polymist
 
   @cloud-delete
   Scenario: Cloud Actions
-    Given "Openstack" cloud has been added
-    Then I open the cloud menu for "Openstack"
-    And I click the delete cloud button
+    Given "Renamed" cloud has been added
+    Then I open the cloud menu for "Renamed"
+    And I click the "delete cloud" button
     And I wait for 2 seconds
-    Then the "Openstack" cloud should be deleted
+    Then the "Renamed" cloud should be deleted

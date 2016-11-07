@@ -178,7 +178,7 @@ def click_button_by_id(context,button):
       button_to_click = context.browser.find_element_by_id('delete-cloud')
     else:
         raise Exception('Unknown type of button')
-    assert button.is_displayed(), "%s button is not displayed" %button
+    assert button_to_click.is_displayed(), "%s button is not displayed" %button
     clicketi_click(context, button_to_click)
 
 @step(u'I click the new cloud button')
