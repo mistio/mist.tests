@@ -168,6 +168,19 @@ def click_mist_io(context):
     clicketi_click(context, context.browser.find_element_by_id('logo-link'))
 
 
+@step(u'I click the "{button}" button')
+def click_button_by_id(context,button):
+    if button == 'new cloud':
+      button_to_click = context.browser.find_element_by_id('addBtn')
+    elif button == 'save title':
+      button_to_click = context.browser.find_element_by_id('rename-cloud')
+    elif button == 'delete cloud':
+      button_to_click = context.browser.find_element_by_id('delete-cloud')
+    else:
+        raise Exception('Unknown type of button')
+    assert button.is_displayed(), "%s button is not displayed" %button
+    clicketi_click(context, button_to_click)
+
 @step(u'I click the new cloud button')
 def add_cloud_button(context):
     cloud_button = context.browser.find_element_by_id('addBtn')
