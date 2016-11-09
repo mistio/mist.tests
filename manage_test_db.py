@@ -10,10 +10,10 @@ from mist.core.user.models import User
 from mist.core.user.models import Owner
 from mist.core.user.models import Organization
 
-from mist.core.keypair.models import Keypair
+from mist.io.keypairs.models import Keypair
 
-from mist.core.cloud.models import Cloud
-from mist.core.cloud.models import Machine
+from mist.io.clouds.models import Cloud
+from mist.io.machines.models import Machine
 
 from mist.core.tag.models import Tag
 from mist.core.rule.models import Rule
