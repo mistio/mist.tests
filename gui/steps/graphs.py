@@ -49,7 +49,6 @@ def wait_metric_buttons(context, seconds):
     assert False, "Metric buttons inside popup did not appear after %s " \
                   "seconds" % seconds
 
-
 # @step(u'"{graph_title}" graph should be added within {seconds} seconds')
 # def wait_for_graph_to_appear(context, graph_title, seconds):
 #     timeout = time() + int(seconds)
