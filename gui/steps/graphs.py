@@ -140,8 +140,6 @@ def check_for_data_gaps(context, graph_title, seconds):
     timeout = time() + int(seconds)
     gap_found = False
     tooltip = graph_to_watch.find_element_by_css_selector(".c3-tooltip-container")
-    import ipdb
-    ipdb.set_trace()
     while time() < timeout:
         for i in range(1,10):
             check_point = graph_to_watch.find_element_by_css_selector(".c3-event-rects .c3-event-rect:nth-last-child(%s)" % i)
