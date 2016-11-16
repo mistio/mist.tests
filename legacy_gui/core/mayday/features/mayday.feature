@@ -24,7 +24,7 @@ Feature: Production
   Scenario: Production rule and alert testing
     Given I am logged in to mist.core
     Then I wait for the links in homepage to appear
-    When I visit the Machineees page after the counter has loaded
+    When I visit the Machinees page after the counter has loaded
     Then I search for the mayday machine
     When I click the mayday machine
     Then I expect for "single-machine-page" page to appear within max 10 seconds
@@ -48,7 +48,7 @@ Feature: Production
     When I visit the Machines page after the counter has loaded
     Then I search for the mayday machine
     When I click the mayday machine
-    Then I expect for "single-machrreine-page" page to appear within max 10 seconds
+    Then I expect for "single-machine-page" page to appear within max 10 seconds
     Then I wait for the graphs to appear
     When I test the ssh connection 2 times for max 100 seconds each time
 
@@ -56,7 +56,7 @@ Feature: Production
   Scenario: Production machine reboot testing
     Given I am logged in to mist.core
     Then I wait for the links in homepage to appear
-    When I visit the Machrtines page after the counter has loaded
+    When I visit the Machines page after the counter has loaded
     Then I search for the mayday machine
     When I choose the mayday machine
     And I click the button "Actions"
@@ -81,7 +81,7 @@ Feature: Production
   Scenario: Production sign in testing with google oauth2
     Given I am not logged in to mist.core
     When I open the login popup
-    Then I click the githurb button in the landing page popup
+    Then I click the githuub button in the landing page popup
     Then I do the Github login
     And I wait for the links in homepage to appear
     Then I logout
