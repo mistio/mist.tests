@@ -42,10 +42,10 @@ Feature: Tests for orchestration feature
     When I focus on the button "Add" in "key" add form
     And I click the button "Add" in "key" add form
     Then I expect the "key" edit form to be visible within max 5 seconds
+    When I visit the Home page
+    When I wait for the dashboard to load
     When I visit the Keys page
     Then "TestKey" key should be present within 15 seconds
-    Then I visit the Home page
-    When I wait for the dashboard to load
 
     When I visit the Templates page
     And I wait for 2 seconds
