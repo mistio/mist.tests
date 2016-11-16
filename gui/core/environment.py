@@ -49,10 +49,12 @@ def before_all(context):
     context.mist_config['ORG_NAME'] = config.ORG_NAME
     context.mist_config['NON_STOP'] = '--stop' not in sys.argv
     context.mist_config['ERROR_NUM'] = 0
+    context.mist_config['ERROR_NUM_MP4'] = 0
     context.mist_config['MIST_URL'] = config.MIST_URL
     context.mist_config['MP_DB_DIR'] = config.MP_DB_DIR
     context.mist_config['MAIL_PATH'] = config.MAIL_PATH
     context.mist_config['SCREENSHOT_PATH'] = config.SCREENSHOT_PATH
+    context.mist_config['VIDEO_PATH'] = config.VIDEO_PATH
     context.mist_config['JS_CONSOLE_LOG'] = config.JS_CONSOLE_LOG
     context.mist_config['BROWSER_FLAVOR'] = config.BROWSER_FLAVOR
     context.mist_config['CREDENTIALS'] = config.CREDENTIALS
@@ -74,7 +76,8 @@ def before_all(context):
         behaving_mail.before_all(context)
 
     if config.RECORD_SELENIUM:
-        start_recording()
+        #start_recording()
+        start_recording(context)
 
     context.mist_config['recording_session'] = config.RECORD_SELENIUM
     log.info("Finished with before_all hook. Starting tests")

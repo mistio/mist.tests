@@ -9,6 +9,7 @@ from tests.helpers.selenium_utils import dump_js_console_log
 
 from tests.helpers.recording import start_recording
 from tests.helpers.recording import stop_recording
+from tests.helpers.recording import discard_unnecessary_recording
 
 log = logging.getLogger(__name__)
 
@@ -49,10 +50,12 @@ def before_all(context):
     context.mist_config['ORG_NAME'] = config.ORG_NAME
     context.mist_config['NON_STOP'] = '--stop' not in sys.argv
     context.mist_config['ERROR_NUM'] = 0
+    context.mist_config['ERROR_NUM_MP4'] = 0
     context.mist_config['MIST_URL'] = config.MIST_URL
     context.mist_config['MP_DB_DIR'] = config.MP_DB_DIR
     context.mist_config['MAIL_PATH'] = config.MAIL_PATH
     context.mist_config['SCREENSHOT_PATH'] = config.SCREENSHOT_PATH
+    context.mist_config['VIDEO_PATH'] = config.VIDEO_PATH
     context.mist_config['JS_CONSOLE_LOG'] = config.JS_CONSOLE_LOG
     context.mist_config['BROWSER_FLAVOR'] = config.BROWSER_FLAVOR
     context.mist_config['CREDENTIALS'] = config.CREDENTIALS
@@ -73,10 +76,6 @@ def before_all(context):
         # calling behaving to setup it's context variables.
         behaving_mail.before_all(context)
 
-    if config.RECORD_SELENIUM:
-        start_recording()
-        context.mist_config['recording_session'] = True
-
     log.info("Finished with before_all hook. Starting tests")
 
 
@@ -88,12 +87,28 @@ def before_feature(context, feature):
             finish_and_cleanup(context)
             raise e
 
-def after_step(context, step):
-    if BEHAVE_DEBUG_ON_ERROR and step.status == "failed":
+
+def before_scenario(context, step):
+    if config.RECORD_SELENIUM:
         try:
-            get_screenshot(context)
+            start_recording(context)
+            context.mist_config['recording_session'] = True
         except Exception as e:
-            log.error("Could not get screen shot: %s" % repr(e))
+            log.error("Could not start recording: %s" % repr(e))
+
+def after_scenario(context, step):
+    if BEHAVE_DEBUG_ON_ERROR:
+        if step.status == "failed":
+            try:
+                get_screenshot(context)
+            except Exception as e:
+                log.error("Could not get screen shot: %s" % repr(e))
+            try:
+                stop_recording()
+            except Exception as e:
+                log.error("Could not stop recording: %s" % repr(e))
+        else:
+            discard_unnecessary_recording()
 
 
 def after_all(context):
@@ -105,5 +120,5 @@ def finish_and_cleanup(context):
     context.mist_config['browser'].quit()
     if context.mist_config.get('browser2'):
         context.mist_config['browser2'].quit()
-    if context.mist_config.get('recording_session'):
-        stop_recording()
+    # if context.mist_config.get('recording_session'):
+    #     stop_recording()
