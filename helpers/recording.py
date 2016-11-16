@@ -74,7 +74,7 @@ def discard_unnecessary_recording():
     log.info('Discarding unnecessary recording...')
     global recording_sub_process
     global path
-    recording_sub_process.kill()
+    #recording_sub_process.kill()
     sleep(1)
     try:
         os.remove(path)
