@@ -5,7 +5,7 @@ Feature: Production
   Scenario: Production monitor and graph testing
     Given I am logged in to mist.core
     Then I wait for the links in homepage to appear
-    When I visit the Machines page after the counter has loaded
+    When I visit the Machinees page after the counter has loaded
     Then I search for the mayday machine
     When I click the mayday machine
     Then I expect for "single-machine-page" page to appear within max 10 seconds
@@ -38,7 +38,7 @@ Feature: Production
     And I click the button "Load"
     And I click the button "RAM"
     When I fill "0" as rule value
-    Then I should receive an email within 300 seconds
+    Then I should receive an email within 1 seconds
     When I remove previous rules
 
   @ssh
