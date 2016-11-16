@@ -77,8 +77,7 @@ Feature: Tests for orchestration feature
     And I expect for the button "Create Stack" in "stack" add form to be clickable within 9 seconds
     When I focus on the button "Create Stack" in "stack" add form
     And I click the button "Create Stack" in "stack" add form
-    #Then I expect the "stack" edit form to be visible within max 30 seconds
-    And I wait for 5 seconds
+    Then I expect the "stack" edit form to be visible within max 30 seconds
 
 
   @stack-search
