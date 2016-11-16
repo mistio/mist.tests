@@ -14,6 +14,9 @@ log = logging.getLogger(__name__)
 
 logging.basicConfig(level=logging.INFO)
 
+def setup_debug_on_error(userdata):
+    global BEHAVE_DEBUG_ON_ERROR
+    BEHAVE_DEBUG_ON_ERROR = userdata.getbool("BEHAVE_DEBUG_ON_ERROR")
 
 def before_all(context):
     """
@@ -23,6 +26,7 @@ def before_all(context):
     log.info("Webdriver path:" + config.WEBDRIVER_PATH)
     log.info("Webdriver log:" + config.WEBDRIVER_LOG)
     log.info("JS console log:" + config.JS_CONSOLE_LOG)
+    setup_debug_on_error(context.config.userdata)
 
     context.mist_config = dict()
     context.mist_config['browser'] = choose_driver()
@@ -32,6 +36,7 @@ def before_all(context):
     context.mist_config['PASSWORD1'] = config.PASSWORD1
     context.mist_config['PASSWORD2'] = config.PASSWORD2
     context.mist_config['SETUP_ENVIRONMENT'] = config.SETUP_ENVIRONMENT
+    context.mist_config['MAYDAY_MACHINE'] = config.MAYDAY_MACHINE
     context.mist_config['DEMO_EMAIL'] = config.DEMO_EMAIL
     context.mist_config['DEMO_PASSWORD'] = config.DEMO_PASSWORD
     context.mist_config['MIST_DEMO_REQUEST_EMAIL'] = config.MIST_DEMO_REQUEST_EMAIL
@@ -83,6 +88,13 @@ def before_feature(context, feature):
             finish_and_cleanup(context)
             raise e
 
+def after_step(context, step):
+    if BEHAVE_DEBUG_ON_ERROR and step.status == "failed":
+        try:
+            get_screenshot(context)
+        except Exception as e:
+            log.error("Could not get screen shot: %s" % repr(e))
+
 
 def after_all(context):
     finish_and_cleanup(context)
@@ -90,11 +102,6 @@ def after_all(context):
 
 def finish_and_cleanup(context):
     dump_js_console_log(context)
-    try:
-        get_screenshot(context)
-    except Exception as e:
-        log.error("Could not get screen shot: %s" % repr(e))
-        pass
     context.mist_config['browser'].quit()
     if context.mist_config.get('browser2'):
         context.mist_config['browser2'].quit()

@@ -91,6 +91,7 @@ JS_CONSOLE_LOG = get_value_of("JS_CONSOLE_LOG",
 SCREENSHOT_PATH = get_value_of("SCREENSHOT_PATH",
                                os.path.join(BASE_DIR, 'error'))
 
+
 DISPLAY_NUM = get_value_of("DISPLAY_NUM", "1")
 
 # This is the path to the json file used for the multi-provisioning tests
@@ -123,6 +124,9 @@ MIST_URL = get_value_of("MIST_URL", "http://localhost:8000")
 VPN_URL = get_value_of("VPN_URL", "")
 
 NAME = get_value_of("NAME", "Atheofovos Gkikas")
+
+#-----------MAYDAY------------------
+MAYDAY_MACHINE = get_value_of("MAYDAY_MACHINE", "")
 
 # DEFAULT CREDENTIALS FOR ACCESSING MIST.CORE
 EMAIL = get_value_of("EMAIL", "")
