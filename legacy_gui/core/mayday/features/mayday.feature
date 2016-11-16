@@ -24,7 +24,7 @@ Feature: Production
   Scenario: Production rule and alert testing
     Given I am logged in to mist.core
     Then I wait for the links in homepage to appear
-    When I visit the Machines page after the counter has loaded
+    When I visit the Machinees page after the counter has loaded
     Then I search for the mayday machine
     When I click the mayday machine
     Then I expect for "single-machine-page" page to appear within max 10 seconds
@@ -81,7 +81,7 @@ Feature: Production
   Scenario: Production sign in testing with google oauth2
     Given I am not logged in to mist.core
     When I open the login popup
-    Then I click the github button in the landing page popup
+    Then I click the githuub button in the landing page popup
     Then I do the Github login
     And I wait for the links in homepage to appear
     Then I logout
