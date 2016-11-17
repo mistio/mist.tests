@@ -140,6 +140,11 @@ def set_openstack_creds(context):
                context.mist_config['CREDENTIALS']['OPENSTACK']['auth_url'],
                context.mist_config['CREDENTIALS']['OPENSTACK']['tenant'],))
 
+def set_hostvirtual_creds(context):
+    api_key = context.mist_config['CREDENTIALS']['HOSTVIRTUAL']['api_key']
+    context.execute_steps(u'Then I set the value "%s" to field "API Key" in '
+                          u'"cloud" add form' % api_key)
+
 cloud_creds_dict = {
     "azure": set_azure_creds,
     "gce": set_gce_creds,
