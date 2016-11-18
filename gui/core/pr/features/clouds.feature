@@ -34,10 +34,10 @@ Feature: Add second-tier clouds in Polymist
     | AWS            |
     | Docker         |
     | Openstack      |
-    | HostVirtual    |
-    | Indonesian     |
     | Vultr          |
     | Azure ARM      |
+#    | HostVirtual    |
+#    | Indonesian     |
 
   @cloud-rename
   Scenario: Rename a cloud
