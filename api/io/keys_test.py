@@ -1,6 +1,6 @@
 import requests
 
-from tests.api.helpers import *
+from misttests.api.helpers import *
 
 
 def test_001_list_keys(pretty_print, mist_io):

@@ -1,4 +1,4 @@
-from tests.legacy_gui.steps.promos import *
+from misttests.legacy_gui.steps.promos import *
 # """  File : promos.py
 #
 #    When:

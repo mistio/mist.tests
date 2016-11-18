@@ -1,3 +1,3 @@
-from tests.gui.steps.images import *
-from tests.gui.steps.search import *
-from tests.gui.steps.navigation import *
+from misttests.gui.steps.images import *
+from misttests.gui.steps.search import *
+from misttests.gui.steps.navigation import *

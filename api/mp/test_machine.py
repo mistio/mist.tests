@@ -5,9 +5,9 @@ import random
 from time import time
 from time import sleep
 
-from tests import config
+from misttests import config
 
-from tests.api.helpers import *
+from misttests.api.helpers import *
 
 # This are the names fo the providers that will be tested. The clouds that have
 # been added to the test account should be equal to these.

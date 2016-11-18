@@ -1,10 +1,10 @@
-from tests.api.helpers import *
-from tests.api.utils import *
+from misttests.api.helpers import *
+from misttests.api.utils import *
 
-from tests.helpers.setup import setup_team
-from tests.helpers.setup import setup_user_if_not_exists
+from misttests.helpers.setup import setup_team
+from misttests.helpers.setup import setup_user_if_not_exists
 
-from tests import config
+from misttests import config
 
 
 def test_tag_cloud(pretty_print, mist_core, cache, owner_api_token):

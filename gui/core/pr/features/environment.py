@@ -1,1 +1,1 @@
-from tests.gui.core.environment import *
+from misttests.gui.core.environment import *

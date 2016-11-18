@@ -1,1 +1,1 @@
-from tests.legacy_gui.steps.sso import *
+from misttests.legacy_gui.steps.sso import *

@@ -5,9 +5,9 @@ import shutil
 
 from datetime import datetime
 
-from tests import config
+from misttests import config
 
-from tests.api.core.core import MistCoreApi
+from misttests.api.core.core import MistCoreApi
 
 
 @pytest.fixture

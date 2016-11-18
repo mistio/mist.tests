@@ -1,4 +1,4 @@
-from tests import config
+from misttests import config
 
 
 def setup_user_if_not_exists(user_email, password=None):

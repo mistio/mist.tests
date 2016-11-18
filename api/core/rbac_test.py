@@ -1,7 +1,7 @@
 import sys
 from pprint import pprint
 
-from tests.api.helpers import *
+from misttests.api.helpers import *
 
 
 #############################################################################

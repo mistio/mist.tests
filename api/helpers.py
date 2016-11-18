@@ -4,9 +4,9 @@ import random
 import smtplib
 import requests
 
-from tests.api.utils import *
+from misttests.api.utils import *
 
-from tests.config import get_value_of
+from misttests.config import get_value_of
 
 bash_script_no_shebang = """
 touch ~/bla

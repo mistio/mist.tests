@@ -1,5 +1,5 @@
 from mist.core.auth.oidstore import OpenIdMistStore
-from tests.api.core import openidstoretest
+from misttests.api.core import openidstoretest
 
 
 def test_001_test_native_openid_store(pretty_print):

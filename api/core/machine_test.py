@@ -4,7 +4,7 @@ import random
 from time import time
 from time import sleep
 
-from tests.api.utils import *
+from misttests.api.utils import *
 
 
 def test_machine_async_lifecycle_with_cronjob(pretty_print, mist_core,

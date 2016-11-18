@@ -1,12 +1,12 @@
 from .core import MistCoreApi
 
-from tests.api.helpers import *
-from tests.api.io.conftest import *
+from misttests.api.helpers import *
+from misttests.api.io.conftest import *
 
-from tests.helpers.setup import setup_org_if_not_exists
-from tests.helpers.setup import setup_user_if_not_exists
+from misttests.helpers.setup import setup_org_if_not_exists
+from misttests.helpers.setup import setup_user_if_not_exists
 
-from tests.api.helpers import get_keys_with_id
+from misttests.api.helpers import get_keys_with_id
 
 
 @pytest.fixture

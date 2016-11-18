@@ -1,6 +1,6 @@
 from pytest import raises
 
-from tests.api.helpers import get_random_str
+from misttests.api.helpers import get_random_str
 
 from mongoengine import ValidationError
 

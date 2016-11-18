@@ -1,6 +1,6 @@
 import pytest
 
-from tests.api.helpers import *
+from misttests.api.helpers import *
 
 
 #############################################################################

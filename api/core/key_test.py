@@ -1,7 +1,7 @@
 import pytest
 import requests
 
-from tests.api.helpers import *
+from misttests.api.helpers import *
 
 
 #############################################################################

@@ -1,6 +1,6 @@
-from tests import config
+from misttests import config
 
-from tests.api.utils import *
+from misttests.api.utils import *
 
 
 def test_001_simple_api_token_test(pretty_print, mist_core,

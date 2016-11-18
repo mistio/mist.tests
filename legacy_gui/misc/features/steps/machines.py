@@ -1,1 +1,1 @@
-from tests.legacy_gui.steps.machines import *
+from misttests.legacy_gui.steps.machines import *

@@ -3,7 +3,7 @@ import json
 from time import time
 from time import sleep
 
-from tests.api.utils import *
+from misttests.api.utils import *
 
 
 #def test_001_machine_start(pretty_print, mist_core,

@@ -1,7 +1,7 @@
 from behave import step
 from behave import given
 
-from tests import config
+from misttests import config
 
 from selenium.common.exceptions import TimeoutException
 

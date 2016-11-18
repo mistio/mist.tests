@@ -1,6 +1,6 @@
 import json
 
-from tests import config
+from misttests import config
 
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options

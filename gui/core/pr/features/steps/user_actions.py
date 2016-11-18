@@ -1,3 +1,3 @@
-from tests.gui.steps.api_tokens import *
-from tests.gui.steps.modals import *
-from tests.gui.steps.navigation import *
+from misttests.gui.steps.api_tokens import *
+from misttests.gui.steps.modals import *
+from misttests.gui.steps.navigation import *

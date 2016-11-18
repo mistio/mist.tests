@@ -1,6 +1,6 @@
 from behave import step
 
-from tests.helpers.selenium_utils import choose_driver
+from misttests.helpers.selenium_utils import choose_driver
 
 
 @step(u'I launch a second browser')

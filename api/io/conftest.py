@@ -5,7 +5,7 @@ from time import time
 from datetime import date
 from datetime import timedelta
 
-from tests import config
+from misttests import config
 from io import MistIoApi
 
 

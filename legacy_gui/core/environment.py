@@ -1,14 +1,14 @@
 import sys
 import logging
 
-from tests import config
+from misttests import config
 
-from tests.helpers.selenium_utils import choose_driver
-from tests.helpers.selenium_utils import get_screenshot
-from tests.helpers.selenium_utils import dump_js_console_log
+from misttests.helpers.selenium_utils import choose_driver
+from misttests.helpers.selenium_utils import get_screenshot
+from misttests.helpers.selenium_utils import dump_js_console_log
 
-from tests.helpers.recording import start_recording
-from tests.helpers.recording import stop_recording
+from misttests.helpers.recording import start_recording
+from misttests.helpers.recording import stop_recording
 
 log = logging.getLogger(__name__)
 
