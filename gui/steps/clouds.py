@@ -145,6 +145,20 @@ def set_hostvirtual_creds(context):
     context.execute_steps(u'Then I set the value "%s" to field "API Key" in '
                           u'"cloud" add form' % api_key)
 
+def set_indonesian_creds(context):
+    context.execute_steps(u'''
+                Then I set the value "Indonesian" to field "Title" in "cloud" add form
+                Then I set the value "%s" to field "Username" in "cloud" add form
+                Then I set the value "%s" to field "Password" in "cloud" add form
+                Then I set the value "%s" to field "Organization" in "cloud" add form
+                Then I open the "Region" drop down
+                And I wait for 1 seconds
+                When I click the button "%s" in the "Region" dropdown
+            ''' % (context.mist_config['CREDENTIALS']['INDONESIAN']['username'],
+                   context.mist_config['CREDENTIALS']['INDONESIAN']['password'],
+                   context.mist_config['CREDENTIALS']['INDONESIAN']['organization'],
+                   context.mist_config['CREDENTIALS']['INDONESIAN']['indonesianRegion'],))
+
 cloud_creds_dict = {
     "azure": set_azure_creds,
     "gce": set_gce_creds,
@@ -157,7 +171,8 @@ cloud_creds_dict = {
     "docker": set_docker_creds,
     "packet": set_packet_creds,
     "openstack": set_openstack_creds,
-    "hostvirtual": set_hostvirtual_creds()
+    "hostvirtual": set_hostvirtual_creds(),
+    "indonesian": set_indonesian_creds()
 }
 
 
@@ -165,7 +180,7 @@ cloud_creds_dict = {
 def cloud_creds(context, provider):
     provider = provider.strip().lower()
     if provider not in cloud_creds_dict.keys():
-        raise Excpetion("Unknown cloud provider")
+        raise Exception("Unknown cloud provider")
     cloud_creds_dict.get(provider)(context)
 
 
