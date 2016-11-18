@@ -32,8 +32,6 @@ run_mayday_test:
         -D BEHAVE_DEBUG_ON_ERROR
         -k --tags=alert,graph,ssh,celery,google_sso_signin,github_sso_signin
         tests/legacy_gui/core/mayday/features
-  tags:
-     - mayday
   artifacts:
     paths:
       - var/log/chromedriver.log
