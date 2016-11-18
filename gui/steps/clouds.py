@@ -164,6 +164,18 @@ def set_indonesian_creds(context):
                    context.mist_config['CREDENTIALS']['INDONESIAN']['organization'],
                    context.mist_config['CREDENTIALS']['INDONESIAN']['indonesianRegion'],))
 
+def set_azure_arm_creds(context):
+    context.execute_steps(u'''
+                    Then I set the value "Azure ARM" to field "Title" in "cloud" add form
+                    Then I set the value "%s" to field "Tenant ID" in "cloud" add form
+                    Then I set the value "%s" to field "Subscription ID" in "cloud" add form
+                    Then I set the value "%s" to field "Client Key" in "cloud" add form
+                    Then I set the value "%s" to field "Client Secret" in "cloud" add form
+                ''' % (context.mist_config['CREDENTIALS']['AZURE_ARM']['tenant_id'],
+                       context.mist_config['CREDENTIALS']['AZURE_ARM']['subscription_id'],
+                       context.mist_config['CREDENTIALS']['AZURE_ARM']['client_key'],
+                       context.mist_config['CREDENTIALS']['AZURE_ARM']['client_secret'],))
+
 cloud_creds_dict = {
     "azure": set_azure_creds,
     "gce": set_gce_creds,
@@ -178,7 +190,8 @@ cloud_creds_dict = {
     "openstack": set_openstack_creds,
     "hostvirtual": set_hostvirtual_creds(),
     "indonesian": set_indonesian_creds(),
-    "vultr": set_vultr_creds()
+    "vultr": set_vultr_creds(),
+    "azure arm": set_azure_arm_creds()
 
 }
 

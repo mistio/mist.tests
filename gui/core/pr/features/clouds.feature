@@ -37,6 +37,7 @@ Feature: Add second-tier clouds in Polymist
     | HostVirtual    |
     | Indonesian     |
     | Vultr          |
+    | Azure ARM      |
 
   @cloud-rename
   Scenario: Rename a cloud
