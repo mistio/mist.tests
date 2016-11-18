@@ -187,6 +187,14 @@ def set_kvm_creds(context):
                        context.mist_config['CREDENTIALS']['KVM']['ssh_user'],
                        context.mist_config['CREDENTIALS']['KVM']['ssh_port'],))
 
+# os and ssh key might be needed as well
+def set_other_server_creds(context):
+    context.execute_steps(u'''
+                    Then I set the value "Bare Metal" to field "Title" in "cloud" add form
+                    Then I set the value "%s" to field "Hostname" in "cloud" add form
+                ''' % (context.mist_config['CREDENTIALS']['KVM']['hostname'],))
+
+
 cloud_creds_dict = {
     "azure": set_azure_creds,
     "gce": set_gce_creds,
@@ -203,8 +211,8 @@ cloud_creds_dict = {
     "indonesian": set_indonesian_creds,
     "vultr": set_vultr_creds,
     "azure arm": set_azure_arm_creds,
-    "kvm": set_kvm_creds()
-
+    "kvm": set_kvm_creds,
+    "other server": set_other_server_creds
 }
 
 
