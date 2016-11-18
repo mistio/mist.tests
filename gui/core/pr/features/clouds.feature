@@ -34,6 +34,7 @@ Feature: Add second-tier clouds in Polymist
     | AWS            |
     | Docker         |
     | Openstack      |
+    | HostVirtual    |
 
   @cloud-rename
   Scenario: Rename a cloud

@@ -157,6 +157,7 @@ cloud_creds_dict = {
     "docker": set_docker_creds,
     "packet": set_packet_creds,
     "openstack": set_openstack_creds,
+    "hostvirtual": set_hostvirtual_creds()
 }
 
 
