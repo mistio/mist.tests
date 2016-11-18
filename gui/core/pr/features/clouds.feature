@@ -36,6 +36,7 @@ Feature: Add second-tier clouds in Polymist
     | Openstack      |
     | HostVirtual    |
     | Indonesian     |
+    | Vultr          |
 
   @cloud-rename
   Scenario: Rename a cloud

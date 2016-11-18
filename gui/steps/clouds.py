@@ -145,6 +145,11 @@ def set_hostvirtual_creds(context):
     context.execute_steps(u'Then I set the value "%s" to field "API Key" in '
                           u'"cloud" add form' % api_key)
 
+def set_vultr_creds(context):
+    api_key = context.mist_config['CREDENTIALS']['VULTR']['apikey']
+    context.execute_steps(u'Then I set the value "%s" to field "API Key" in '
+                          u'"cloud" add form' % api_key)
+
 def set_indonesian_creds(context):
     context.execute_steps(u'''
                 Then I set the value "Indonesian" to field "Title" in "cloud" add form
@@ -172,7 +177,9 @@ cloud_creds_dict = {
     "packet": set_packet_creds,
     "openstack": set_openstack_creds,
     "hostvirtual": set_hostvirtual_creds(),
-    "indonesian": set_indonesian_creds()
+    "indonesian": set_indonesian_creds(),
+    "vultr": set_vultr_creds()
+
 }
 
 
