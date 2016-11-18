@@ -14,24 +14,23 @@ run_mayday_test:
     - echo $PATH
     - export DISPLAY=:1.0
     - Xvfb :1 -screen 0 1024x768x24 > /dev/null 2>&1 &
+    - mkdir -p $CI_PROJECT_DIR/logs
     - mkdir -p $CI_PROJECT_DIR/parts/chromedriver/
     - cp /chromedriver $CI_PROJECT_DIR/parts/chromedriver/
     - /core.env/bin/pip install -e $CI_PROJECT_DIR
   script:
     - >
         /core.env/bin/ipython prepare_env.py --
-        --screenshot-path=$CI_PROJECT_DIR/var/log/error -k
-        --webdriver-log=$CI_PROJECT_DIR/var/log/chromedriver.log
+        --screenshot-path=$CI_PROJECT_DIR/logs/error -k
+        --webdriver-log=$CI_PROJECT_DIR/logs/chromedriver.log
         --webdriver-path=$CI_PROJECT_DIR/parts/chromedriver/chromedriver
-        --js-console-log=$CI_PROJECT_DIR/var/log/js_console.log
+        --js-console-log=$CI_PROJECT_DIR/logs/js_console.log
         -D BEHAVE_DEBUG_ON_ERROR
         -k --tags=alert,graph,ssh,celery,google_sso_signin,github_sso_signin
         $CI_PROJECT_DIR/misttests/legacy_gui/core/mayday/features
   artifacts:
     paths:
-      - var/log/chromedriver.log
-      - var/log/js_console.log
-      - var/log/error.*
+      - logs/
       - test.mp4
     expire_in: 7 days
     when: always
