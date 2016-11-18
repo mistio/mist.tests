@@ -7,7 +7,7 @@ with open(REQS_DIR) as reqs:
     REQUIRES = map(lambda l: l.strip(),
                    filter(lambda l: not l.startswith('#'), reqs))
 
-setup(name='mist.tests',
+setup(name='tests',
       version='1.0',
       description='Tests for mist.core and mist.io',
       long_description='',
