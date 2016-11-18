@@ -9,6 +9,8 @@ run_mayday_test:
     - triggers
     - master
   before_script:
+    - pwd
+    - ls
     - export DISPLAY=:1.0
     - Xvfb :1 -screen 0 1024x768x24 > /dev/null 2>&1 &
     - cd ..
