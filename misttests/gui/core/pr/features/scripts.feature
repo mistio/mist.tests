@@ -21,7 +21,7 @@ Feature: Scripts
     And I expect for the button "Add" in "script" add form to be clickable within 3 seconds
     And I click the button "Add" in "script" add form
     When I visit the Scripts page after the counter has loaded
-    Then "Script1" script should be present within 5 seconds
+    #Then "Script1" script should be present within 5 seconds
     When I click the button "+"
     Then I expect the "Script" add form to be visible within max 10 seconds
     When I set the value "Script2" to field "Script Name" in "script" add form
@@ -35,10 +35,13 @@ Feature: Scripts
     When I focus on the button "Add" in "script" add form
     And I expect for the button "Add" in "script" add form to be clickable within 3 seconds
     And I click the button "Add" in "script" add form
-    When I visit the Scripts page after the counter has loaded
-    Then "Script2" script should be present within 5 seconds
+   # When I visit the Scripts page after the counter has loaded
+    #Then "Script2" script should be present within 5 seconds
     Then I visit the Home page
     When I wait for the dashboard to load
+    When I visit the Scripts page
+    Then "Script1" script should be present within 3 seconds
+    And "Script2" script should be present within 3 seconds
 
   @script-search
   Scenario: Filter scripts
@@ -46,8 +49,6 @@ Feature: Scripts
     Then "Script2" script should be absent within 5 seconds
     When I clear the search bar
     Then "Script2" script should be present within 5 seconds
-    Then I visit the Home page
-    When I wait for the dashboard to load
 
   @script-rename
   Scenario: Rename script
@@ -61,8 +62,6 @@ Feature: Scripts
     Then I visit the scripts page
     And "Script2" script should be absent within 5 seconds
     And "Second" script should be present within 5 seconds
-    Then I visit the Home page
-    When I wait for the dashboard to load
 
   @script-tags
   Scenario: Add tags to script
