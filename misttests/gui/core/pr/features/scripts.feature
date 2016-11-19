@@ -31,7 +31,7 @@ Feature: Scripts
     And I open the "Source" drop down
     And I wait for 1 seconds
     And I click the button "Inline" in the "Source" dropdown
-    When I set the value "" to field "Script" in "script" add form
+    When I set the value "---\n- hosts: all\n  roles:\n    - java-app" to field "Script" in "script" add form
     When I focus on the button "Add" in "script" add form
     And I expect for the button "Add" in "script" add form to be clickable within 3 seconds
     And I click the button "Add" in "script" add form
