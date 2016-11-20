@@ -88,6 +88,7 @@ Feature: Scripts
 
   @script-delete
   Scenario: Delete script
+    When I visit the Scripts page
     Then I click the button "Delete" from the menu of the "Script1" script
     And I expect the dialog "Delete Script" is open within 4 seconds
     And I click the "Delete" button in the dialog "Delete Script"
