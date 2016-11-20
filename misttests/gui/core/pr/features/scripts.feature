@@ -85,8 +85,6 @@ Feature: Scripts
     And I click the button "Save Tags" in the tag menu
     Then I expect for the tag popup to close within 4 seconds
     And I ensure that the "script" has the tags "second:tag"
-    Then I visit the Home page
-    When I wait for the dashboard to load
 
   @script-delete
   Scenario: Delete script
