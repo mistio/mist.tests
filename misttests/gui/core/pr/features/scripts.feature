@@ -21,7 +21,6 @@ Feature: Scripts
     And I expect for the button "Add" in "script" add form to be clickable within 3 seconds
     And I click the button "Add" in "script" add form
     When I visit the Scripts page after the counter has loaded
-    #Then "Script1" script should be present within 5 seconds
     When I click the button "+"
     Then I expect the "Script" add form to be visible within max 10 seconds
     When I set the value "Script2" to field "Script Name" in "script" add form
@@ -35,7 +34,8 @@ Feature: Scripts
     When I focus on the button "Add" in "script" add form
     And I expect for the button "Add" in "script" add form to be clickable within 3 seconds
     And I click the button "Add" in "script" add form
-   # When I visit the Scripts page after the counter has loaded
+    ### FIXME: below has been commented out because script is not available immediately..need for redirection to another page first...
+    #When I visit the Scripts page after the counter has loaded
     #Then "Script2" script should be present within 5 seconds
     Then I visit the Home page
     When I wait for the dashboard to load
@@ -93,13 +93,12 @@ Feature: Scripts
     And I expect the dialog "Delete Script" is open within 4 seconds
     And I click the "Delete" button in the dialog "Delete Script"
     And I expect the dialog "Delete Script" is closed within 4 seconds
-    Then "Script1" script should be absent within 15 seconds
+    Then "Script1" script should be absent within 5 seconds
     When I click the "Second" "script"
     And I expect the "script" edit form to be visible within max 5 seconds
     Then I click the button "Delete Script" from the menu of the "script" edit form
     And I expect the dialog "Delete Script" is open within 4 seconds
     And I click the "Delete" button in the dialog "Delete Script"
     And I expect the dialog "Delete Script" is closed within 4 seconds
-    Then "Second" script should be absent within 15 seconds
-    Then I visit the Home page
-    When I wait for the dashboard to load
+    Then "Second" script should be absent within 5 seconds
+    
