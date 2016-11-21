@@ -3,7 +3,7 @@ import types
 import logging
 import argparse
 
-import tests.config as config
+from misttests import config
 
 log = logging.getLogger(__name__)
 logging.basicConfig(level=logging.INFO)
