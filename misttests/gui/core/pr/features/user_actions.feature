@@ -41,24 +41,23 @@ Feature: Login Scenarios
     Then I click the "API Tokens" button
     #When I revoke all api tokens # needs to be fixed in the backend
     Then I click the "Create API Token" button
+    #Create a step that checks if popup with id is open
+    #And I expect for "createTokenDialog" popup to appear within max 4 seconds
+    And I wait for 2 seconds
+    Then I type "Test API Token" in input with id "tokenName"
+    Then I type "PASSWORD1" in input with id "pass"
 
-    And I expect for "createTokenDialog" popup to appear within max 4 seconds
 
-    Then I type "blabla" in input with id "new-token-name"
 
     When I click the button "Create Token"
     And I wait for 1 seconds
-
     Then I click the button "Never" from the ttl dropdown
     When I click the "Create Token" button inside the "Create Token" popup
     And I wait for 1 seconds
-
     Then I type "PASSWORD1" in input with id "token-password"
     And I wait for 1 seconds
-
     When I click the "Submit Password" button inside the "Verify Your Password" popup
     And I wait for 1 seconds
-
     ######################################################
     When I get the new api token value "BLABLA_TOKEN"
     Then I test the api token "BLABLA_TOKEN". It should work.
