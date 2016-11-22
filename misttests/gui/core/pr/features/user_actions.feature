@@ -45,9 +45,11 @@ Feature: Login Scenarios
     #And I expect for "createTokenDialog" popup to appear within max 4 seconds
     And I wait for 2 seconds
     Then I type "Test API Token" in input with id "tokenName"
-   
-    # select 1 day from the dropdown
+
+
+    #When I click the button "1 DAY" in the "Expires After" dropdown
     Then I click the button "Never" from the ttl dropdown
+
     Then I type "PASSWORD1" in input with id "pass"
     # click on create
     And I wait for 5 seconds

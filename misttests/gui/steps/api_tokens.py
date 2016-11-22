@@ -62,8 +62,9 @@ def test_api_token(context, token_value, work_or_fail):
 
 @step(u'I click the button "Never" from the ttl dropdown')
 def click_inside_the_ttl_dropdown(context):
-    dropbox = context.browser.find_element_by_id('new-token-ttl')
-    options = dropbox.find_elements_by_tag_name('option')
+    dropbox = context.browser.find_element_by_id('tokenExpires')
+    import ipdb;ipdb.set_trace()
+    options = dropbox.find_elements_by_tag_name('paper-item')
     for option in options:
         if 'Never' in safe_get_element_text(option):
             option.click()
