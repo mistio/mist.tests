@@ -31,29 +31,39 @@ Feature: Login Scenarios
     And I wait for 2 seconds
 
 
-#  @api-token-test
-#  Scenario: Create and delete api tokens
-#    Given I am logged in to mist.core
-#    When I visit the Account page
-#    Then I wait for the mist.io splash page to load
-#    When I focus on the "Create Token" button
-#    And I revoke all api tokens
-#    Then I click the button "Create Token"
-#    And I expect for "token-popup-popup" popup to appear within max 4 seconds
-#    Then I type "blabla" in input with id "new-token-name"
-#    When I click the button "Create Token"
-#    And I wait for 1 seconds
-#    Then I click the button "Never" from the ttl dropdown
-#    When I click the "Create Token" button inside the "Create Token" popup
-#    And I wait for 1 seconds
-#    Then I type "PASSWORD1" in input with id "token-password"
-#    And I wait for 1 seconds
-#    When I click the "Submit Password" button inside the "Verify Your Password" popup
-#    And I wait for 1 seconds
-#    When I get the new api token value "BLABLA_TOKEN"
-#    Then I test the api token "BLABLA_TOKEN". It should work.
-#    When I click the "_x_" button inside the "Token blabla Created" popup
-#    And I revoke the api token with name blabla
-#    Then I test the api token "BLABLA_TOKEN". It should fail.
-#    And I logout
-#    And I wait for 2 seconds
+ @api-token-test
+  Scenario: Create and delete api tokens
+    Given I am logged in to mist.core
+    And I am in the new UI
+    When I wait for the dashboard to load
+    When I visit the Account page
+    And I wait for 3 seconds
+    Then I click the "API Tokens" button
+    #When I revoke all api tokens # needs to be fixed in the backend
+    Then I click the "Create API Token" button
+
+    And I expect for "createTokenDialog" popup to appear within max 4 seconds
+
+    Then I type "blabla" in input with id "new-token-name"
+
+    When I click the button "Create Token"
+    And I wait for 1 seconds
+
+    Then I click the button "Never" from the ttl dropdown
+    When I click the "Create Token" button inside the "Create Token" popup
+    And I wait for 1 seconds
+
+    Then I type "PASSWORD1" in input with id "token-password"
+    And I wait for 1 seconds
+
+    When I click the "Submit Password" button inside the "Verify Your Password" popup
+    And I wait for 1 seconds
+
+    ######################################################
+    When I get the new api token value "BLABLA_TOKEN"
+    Then I test the api token "BLABLA_TOKEN". It should work.
+    When I click the "_x_" button inside the "Token blabla Created" popup
+    And I revoke the api token with name blabla
+    Then I test the api token "BLABLA_TOKEN". It should fail.
+    And I logout
+    And I wait for 2 seconds

@@ -8,9 +8,11 @@ from .buttons import clicketi_click
 
 @step(u'I revoke all api tokens')
 def revoke_all_api_tokens(context):
-    token_items = context.browser.find_elements_by_class_name('token-record')
+    #token_items = context.browser.find_elements_by_class_name('token-record')
+    token_items = context.browser.find_elements_by_class_name('token-item')
     for token_item in token_items:
-        revoke_btn = token_item.find_element_by_class_name('ui-btn')
+        #revoke_btn = token_item.find_element_by_class_name('ui-btn')
+        revoke_btn = token_item.find_element_by_class_name('red')
         focus_on_element(context, revoke_btn)
         clicketi_click(context, revoke_btn)
         context.execute_steps(u'''
