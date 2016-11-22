@@ -1,6 +1,6 @@
 import logging
 
-from config import LOG_DIR, MAIL_DIR
+from misttests.config import LOG_DIR, MAIL_DIR
 
 log = logging.getLogger(__name__)
 
