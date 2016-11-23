@@ -7,14 +7,13 @@ with open(REQS_DIR) as reqs:
     REQUIRES = map(lambda l: l.strip(),
                    filter(lambda l: not l.startswith('#'), reqs))
 
-setup(name='mist.tests',
+setup(name='misttests',
       version='1.0',
       description='Tests for mist.core and mist.io',
       long_description='',
       classifiers=["Programming Language :: Python"],
       author='mist.io',
-      packages=find_packages('.'),
-      package_dir={'': '.'},
+      packages=['misttests'],
       include_package_data=True,
       zip_safe=False,
       install_requires=REQUIRES
