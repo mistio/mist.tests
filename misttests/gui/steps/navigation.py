@@ -284,7 +284,7 @@ def given_logged_in(context):
             raise NoSuchElementException("I am not in the landing page or the"
                                          " home page")
 
-    context.execute_steps(u'Then I wait for the mist.io splash page to load')
+    context.execute_steps(u'Then I wait for the dashboard to load')
 
 
 def found_one(context):
