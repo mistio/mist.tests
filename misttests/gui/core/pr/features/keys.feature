@@ -3,8 +3,6 @@ Feature: Actions for Keys
 
   Background:
     Given I am logged in to mist.core
-    And I am in the new UI
-    When I wait for the dashboard to load
     When I visit the Keys page
 
   @key-add
