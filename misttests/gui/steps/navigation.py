@@ -279,7 +279,7 @@ def given_logged_in(context):
         """)
     except NoSuchElementException:
         try:
-            context.browser.find_element_by_id("splash")
+            context.browser.find_element_by_tag_name('mist-app')
         except NoSuchElementException:
             raise NoSuchElementException("I am not in the landing page or the"
                                          " home page")
