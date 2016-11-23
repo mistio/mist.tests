@@ -5,6 +5,8 @@ from .utils import safe_get_element_text
 
 from .buttons import clicketi_click
 
+from selenium.webdriver.support.ui import Select
+
 
 @step(u'I revoke all api tokens')
 def revoke_all_api_tokens(context):
@@ -63,8 +65,10 @@ def test_api_token(context, token_value, work_or_fail):
 @step(u'I click the button "Never" from the ttl dropdown')
 def click_inside_the_ttl_dropdown(context):
     dropbox = context.browser.find_element_by_id('tokenExpires')
-    import ipdb;ipdb.set_trace()
-    options = dropbox.find_elements_by_tag_name('paper-item')
-    for option in options:
-        if 'Never' in safe_get_element_text(option):
-            option.click()
+    dropbox.click()
+    #options = dropbox.find_elements_by_tag_name('paper-item')
+    #options = context.browser.find_element_by_xpath("//paper-menu[id = 'tokenExpires']")
+    #options.click()
+    # for option in options:
+    #     if option.get_attribute("value")=='0':
+    #         option.click()
