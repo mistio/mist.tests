@@ -14,7 +14,6 @@ from selenium.webdriver.support import expected_conditions as EC
 
 from selenium.webdriver.common.action_chains import ActionChains
 
-
 def safe_get_element_text(check_element):
     try:
         return check_element.text
@@ -24,16 +23,13 @@ def safe_get_element_text(check_element):
 
 @step(u'I type "{some_text}" in input with id "{element_id}"')
 def give_some_input(context, some_text, element_id):
-    #import ipdb;ipdb.set_trace()
     input_element = context.browser.find_element_by_id(element_id)
     if context.mist_config.get(some_text):
         some_text = context.mist_config[some_text]
-    #input_element.send_keys(some_text)
     actions = ActionChains(context.browser)
     actions.move_to_element(input_element)
     actions.click(input_element)
     actions.send_keys(some_text)
-    #import ipdb;ipdb.set_trace()
     actions.perform()
 
 

@@ -30,7 +30,6 @@ Feature: Login Scenarios
     Then I close the "Login" popup
     And I wait for 2 seconds
 
-
  @api-token-test
   Scenario: Create and delete api tokens
     Given I am logged in to mist.core
@@ -44,17 +43,12 @@ Feature: Login Scenarios
     #Create a step that checks if popup with id is open
     #And I expect for "createTokenDialog" popup to appear within max 4 seconds
     And I wait for 2 seconds
-    Then I type "TestedToken" in input with id "tokenName"
-    #When I click the button "1 DAY" in the "Expires After" dropdown
+    Then I type "Test token2" in input with id "tokenName"
     Then I click the button "Never" from the ttl dropdown
     Then I type "PASSWORD1" in input with id "pass"
     And I click the "Create" button
     And I wait for 5 seconds
     When I get the new api token value "BLABLA_TOKEN"
-
-
     Then I test the api token "BLABLA_TOKEN". It should work.
-
     #When i revoke it, it should fail #needs to be fixed in the backend
     #Then I test the api token "BLABLA_TOKEN". It should fail.
-    And I logout

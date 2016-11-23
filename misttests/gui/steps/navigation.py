@@ -201,9 +201,6 @@ def go_to_some_page_without_waiting(context, title):
     if title.lower() == 'home':
         context.execute_steps(u'When I click the mist.io button')
     elif title.lower() == 'account':
-        # import ipdb;ipdb.set_trace()
-        # # TODO implement account page visit
-        # return
         context.execute_steps(u'''
                 When I click the gravatar
                 And I wait for 2 seconds
