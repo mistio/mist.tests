@@ -66,9 +66,9 @@ def test_api_token(context, token_value, work_or_fail):
 def click_inside_the_ttl_dropdown(context):
     dropbox = context.browser.find_element_by_id('tokenExpires')
     dropbox.click()
-    #options = dropbox.find_elements_by_tag_name('paper-item')
+    options = dropbox.find_elements_by_tag_name('paper-item')
     #options = context.browser.find_element_by_xpath("//paper-menu[id = 'tokenExpires']")
     #options.click()
-    # for option in options:
-    #     if option.get_attribute("value")=='0':
-    #         option.click()
+    for option in options:
+        if option.get_attribute("value")=='0':
+            option.click()
