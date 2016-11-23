@@ -42,12 +42,14 @@ def revoke_all_api_tokens(context, name):
 
 @step(u'I get the new api token value "{token_name}"')
 def get_new_token_value(context, token_name):
-    token_text_area = context.browser.find_element_by_id('new-token-value')
+    token_text_area = context.browser.find_element_by_id('tokenValue')
+    import ipdb;ipdb.set_trace()
     context.mist_config[token_name] = token_text_area.get_attribute('value')
 
 
 @step(u'I test the api token "{token_value}". It should {work_or_fail}.')
 def test_api_token(context, token_value, work_or_fail):
+    import ipdb; ipdb.set_trace()
     from misttests.api.core.core import MistCoreApi as mist_core
     if work_or_fail not in ['work', 'fail']:
         raise ValueError('Token can either work or fail.')
