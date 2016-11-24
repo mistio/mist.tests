@@ -11,16 +11,15 @@ Feature: Production
     When I click the mayday machine
     And I expect the "machine" edit form to be visible within max 5 seconds
     And I clear the machines search bar
-#    Then I wait for the graphs to appear
-#    When I focus on the "Add Graph" button
-#    And I click the button "Add Graph"
-#    Then I expect for "metric-add-popup" popup to appear within max 30 seconds
-#    And I expect the metric buttons to appear within 30 seconds
-#    When I click the "entropy" button inside the "Select Metric" popup
-#    Then "entropy" graph should be added within 30 seconds
-#    When I focus on the "entropy" graph
-#    Then "entropy" graph should have value > 0 within 30 seconds
-#    And I delete the "entropy" graph
+    Then I wait for the graphs to appear
+    And I click the button "Add Graph"
+    Then I expect for "selectTarget" modal to appear within max 30 seconds
+    And I expect the metric buttons to appear within 30 seconds
+    When I click the "entropy" button inside the popup with id "selectTarget"
+    Then "entropy" graph should be added within 30 seconds
+    When I focus on the "entropy" graph
+    Then "entropy" graph should have value > 0 within 30 seconds
+    And I delete the "entropy" graph
 
   @alert
   Scenario: Production rule and alert testing
@@ -33,7 +32,7 @@ Feature: Production
     When I click the mayday machine
     And I clear the machines search bar
     And I expect the "machine" edit form to be visible within max 5 seconds
-#    Then I wait for the graphs to appear
+    Then I wait for the graphs to appear
 #    When I remove previous rules
 #    When I delete old emails
 #    When I focus on the "Add Rule" button
@@ -57,7 +56,7 @@ Feature: Production
     When I click the mayday machine
     And I clear the machines search bar
     And I expect the "machine" edit form to be visible within max 5 seconds
-#    Then I wait for the graphs to appear
+    Then I wait for the graphs to appear
     When I test the ssh connection 2 times for max 100 seconds each time
 
   @celery
