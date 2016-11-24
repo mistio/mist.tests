@@ -143,20 +143,6 @@ def go_to_some_page_without_waiting(context, title):
         And I wait for "%s" list page to load
     ''' % (title, title))
 
-@step(u'I wait for the links in homepage to appear')
-def wait_for_buttons_to_appear(context):
-    end_time = time() + 10
-    while time() < end_time:
-        try:
-            images_button = context.browser.find_element_by_id('images')
-            counter_span = images_button.find_element_by_class_name('count')
-            int(safe_get_element_text(counter_span))
-            break
-        except (NoSuchElementException, ValueError, AttributeError):
-            assert time() + 1 < end_time, "Links in the home page have not" \
-                                          " appeared after 10 seconds"
-            sleep(1)
-
 
 def filter_buttons(context, text):
     return filter(lambda el: safe_get_element_text(el).strip().lower() == text,
