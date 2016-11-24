@@ -7,6 +7,8 @@ from misttests.helpers.setup import remove_user_if_exists
 
 from selenium.common.exceptions import NoSuchElementException
 
+from time import sleep
+
 log = logging.getLogger(__name__)
 
 logging.basicConfig(level=logging.INFO)
@@ -50,6 +52,7 @@ def register_user(context, user_email):
             And I enter my standard credentials for login
             Then I click the sign in button in the landing page popup
         ''')
+        sleep(3)
         context.browser.find_element_by_tag_name('mist-app')
         log.info('tests/misttests/gui/steps/setup.py')
         context.execute_steps(u'Then I wait for the dashboard to load')
