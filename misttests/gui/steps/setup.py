@@ -44,8 +44,8 @@ def register_user(context, user_email):
             Then I click the sign in button in the landing page popup
             And I expect some reaction within max 5 seconds
         ''')
-        context.browser.find_element_by_id("splash")
-        context.execute_steps(u'Then I wait for the mist.io splash page to load')
+        context.browser.find_element_by_tag_name('mist-app')
+        context.execute_steps(u'Then I wait for the dashboard to load')
         # if we reach this line successfully it means that the user is already
         # registered
         return
