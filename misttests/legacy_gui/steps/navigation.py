@@ -255,6 +255,7 @@ def given_logged_in(context):
             Then I click the email button in the landing page popup
             And I enter my standard credentials for login
             And I click the sign in button in the landing page popup
+            And I am in the legacy UI
         """)
     except NoSuchElementException:
         try:
@@ -276,8 +277,8 @@ def am_in_legacy_UI(context):
     #     return
     # except:
     context.execute_steps(u'''
-            And I wait for 5 seconds
-            Then I wait for the dashboard to load
+            When I wait for 5 seconds
+            And I wait for the dashboard to load
             When I click the gravatar
             And I click the button legacy_ui
             Then I wait for the mist.io splash page to load

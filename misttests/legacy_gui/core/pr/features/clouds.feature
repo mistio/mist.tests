@@ -3,7 +3,6 @@ Feature: Add second-tier clouds
 
   Background:
     Given I am logged in to mist.core
-    And I am in the legacy UI
 
   @cloud-add
   Scenario Outline:
