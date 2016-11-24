@@ -263,7 +263,24 @@ def given_logged_in(context):
             raise NoSuchElementException("I am not in the landing page or the"
                                          " home page")
 
-    context.execute_steps(u'Then I wait for the mist.io splash page to load')
+    context.execute_steps(u'Then I wait for the dashboard to load')
+
+@step(u'I am in the legacy UI')
+def am_in_legacy_UI(context):
+    """
+    Function that waits for the legacy UI to load. The maximum time for the page
+    to load is 60 seconds in this case
+    """
+    try:
+        context.browser.find_element_by_css_selector('paper-icon-button.gravatar')
+        return
+    except:
+        context.execute_steps(u'''
+            Then I wait for the dashboard to load
+            When I click the gravatar
+            I click the button by "legacy_ui" id_name
+            Then I wait for the mist.io splash page to load
+        ''')
 
 
 @given(u'I am logged in to mist.core as {kind}')

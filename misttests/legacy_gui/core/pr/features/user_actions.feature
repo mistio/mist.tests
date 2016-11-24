@@ -4,6 +4,7 @@ Feature: Login Scenarios
   @api-token-test
   Scenario: Create and delete api tokens
     Given I am logged in to mist.core
+    And I am in the legacy UI
     When I visit the Account page
     Then I wait for the mist.io splash page to load
     When I focus on the "Create Token" button
@@ -62,6 +63,7 @@ Feature: Login Scenarios
   @check-redirect
   Scenario: Add EC2 cloud, go to Machines logout and check redirect
     Given I am logged in to mist.core
+    And I am in the legacy UI
     Given "Linode" cloud has been added
     Then I logout
     And I visit the machines page with a url
