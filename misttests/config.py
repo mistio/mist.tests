@@ -49,6 +49,13 @@ def get_value_of(name_of_variable, default_value):
     env_var = os.environ.get(name_of_variable)
     if env_var is not None:
         env_var = env_var.replace("\'", '').decode('string_escape')
+        try:
+            env_var = json.loads(env_var)
+        except ValueError as e:
+            log.error("Could not decode value of variable %s(%s)" %
+                      (name_of_variable, env_var))
+            raise e
+
         return env_var
     return test_settings.get(name_of_variable, default_value)
 
