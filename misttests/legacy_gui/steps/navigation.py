@@ -5,6 +5,9 @@ from time import time
 from time import sleep
 
 from .buttons import click_the_gravatar, search_for_button
+from .buttons import clicketi_click
+
+from .utils import safe_get_element_text
 
 from selenium.common.exceptions import TimeoutException
 from selenium.common.exceptions import NoSuchElementException
@@ -139,6 +142,52 @@ def go_to_some_page_without_waiting(context, title):
         When I click the button "%s"
         And I wait for "%s" list page to load
     ''' % (title, title))
+
+@step(u'I wait for the links in homepage to appear')
+def wait_for_buttons_to_appear(context):
+    end_time = time() + 10
+    while time() < end_time:
+        try:
+            images_button = context.browser.find_element_by_id('images')
+            counter_span = images_button.find_element_by_class_name('count')
+            int(safe_get_element_text(counter_span))
+            break
+        except (NoSuchElementException, ValueError, AttributeError):
+            assert time() + 1 < end_time, "Links in the home page have not" \
+                                          " appeared after 10 seconds"
+            sleep(1)
+
+
+def filter_buttons(context, text):
+    return filter(lambda el: safe_get_element_text(el).strip().lower() == text,
+                  context.browser.find_elements_by_tag_name('paper-button'))
+
+@step(u'I wait for the dashboard to load')
+def wait_for_dashboard(context):
+    # wait first until the sidebar is open
+    context.execute_steps(u'Then I wait for the links in homepage to appear')
+    # wait until the panel in the middle is visible
+    timeout = 20
+    try:
+        WebDriverWait(context.browser, timeout).until(
+            EC.visibility_of_element_located((By.CSS_SELECTOR,
+                                              "mist-app div#mainPanel "
+                                              "div#mainContainer div#content")))
+    except TimeoutException:
+        raise TimeoutException("Dashboard did not load after %s seconds"
+                               % timeout)
+    # wait until the add clouds button is clickable
+    context.execute_steps(u'Then I expect for "addBtn" to be clickable within '
+                          u'max 20 seconds')
+    save_org = filter_buttons(context, 'save organisation')
+    if save_org:
+        # first save the name of the organizational context for future use then
+        # press the button to save the name and finally return successfully
+        org_form = context.browser.find_element_by_id('orginput')
+        org_input = org_form.find_element_by_id('input')
+        context.organizational_context = org_input.get_attribute('value').strip().lower()
+        clicketi_click(context, save_org[0])
+        return True
 
 
 @step(u'I visit mist.core')

@@ -2,7 +2,6 @@ from behave import step
 
 from misttests.helpers.setup import setup_user_if_not_exists
 from misttests.helpers.setup import remove_user_if_exists
-from misttests.gui.steps import navigation
 
 from selenium.common.exceptions import NoSuchElementException
 
