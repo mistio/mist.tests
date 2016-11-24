@@ -1,5 +1,7 @@
 from behave import step
 
+import logging
+
 from time import time
 from time import sleep
 
@@ -11,6 +13,9 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 
+log = logging.getLogger(__name__)
+
+logging.basicConfig(level=logging.INFO)
 
 @step(u'I wait for "{title}" list page to load')
 def wait_for_some_list_page_to_load(context, title):
@@ -97,19 +102,23 @@ def assert_title_contains(context, text):
 
 @step(u'I wait for the links in homepage to appear')
 def wait_for_buttons_to_appear(context):
+    log.info('w8ing for the links in homepage...')
     from .buttons import search_for_button
     end_time = time() + 100
     while time() < end_time:
         try:
+            log.info('Before searching for button...')
             images_button = search_for_button(context, 'Images')
             counter_span = images_button.find_element_by_class_name("ui-li-count")
 
+            log.info('Before safe_get_element_text for button...')
             counter_span_text = safe_get_element_text(counter_span)
 
             int(counter_span_text)
             break
         except (NoSuchElementException, StaleElementReferenceException,
                 ValueError, AttributeError) as e:
+            log.exception('sth broke')
             assert time() + 1 < end_time, "Links in the home page have not" \
                                           " appeared after 10 seconds"
             sleep(1)

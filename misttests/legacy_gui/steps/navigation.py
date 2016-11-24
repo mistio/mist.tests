@@ -1,6 +1,8 @@
 from behave import step
 from behave import given
 
+import logging
+
 from time import time
 from time import sleep
 
@@ -15,6 +17,10 @@ from selenium.common.exceptions import NoSuchElementException
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
+
+log = logging.getLogger(__name__)
+
+logging.basicConfig(level=logging.INFO)
 
 
 def i_am_in_homepage(context):
@@ -151,6 +157,7 @@ def filter_buttons(context, text):
 @step(u'I wait for the dashboard to load')
 def wait_for_dashboard(context):
     # wait first until the sidebar is open
+    log.info('W8ing for dashboard to load...')
     context.execute_steps(u'Then I wait for the links in homepage to appear')
     # wait until the panel in the middle is visible
     timeout = 20
