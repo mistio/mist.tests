@@ -120,6 +120,12 @@ def click_button_id(context, id_name):
     clicketi_click(context, my_element)
 
 
+@step(u'I click the button legacy_ui')
+def click_legacy_ui(context):
+    my_element = context.browser.find_element_by_id('legacy_ui')
+    clicketi_click(context, my_element)
+
+
 @step(u'I click the button "{text}"')
 def click_button(context, text):
     """

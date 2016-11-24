@@ -278,7 +278,7 @@ def am_in_legacy_UI(context):
     context.execute_steps(u'''
             Then I wait for the dashboard to load
             When I click the gravatar
-            I click the button by "legacy_ui" id_name
+            And I click the button legacy_ui
             Then I wait for the mist.io splash page to load
         ''')
 
