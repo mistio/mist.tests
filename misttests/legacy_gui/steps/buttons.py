@@ -13,6 +13,7 @@ from selenium.webdriver.support import expected_conditions as EC
 
 from selenium.common.exceptions import WebDriverException
 from selenium.common.exceptions import TimeoutException
+from selenium.common.exceptions import NoSuchElementException
 
 
 @step(u'I expect for "{element_id}" to be clickable within max {seconds} '
@@ -140,8 +141,16 @@ def click_button(context, text):
                                  error_message='Could not find button that '
                                                'contains %s' % text)
 
-
 @step(u'I click the Gravatar')
+def click_the_gravatar(context):
+    try:
+        gravatar = context.browser.find_element_by_css_selector('paper-icon-button.gravatar')
+        clicketi_click(context, gravatar)
+    except NoSuchElementException:
+        gravatar = context.browser.find_element_by_css_selector('paper-icon-button.gravatar')
+        clicketi_click(context, gravatar)
+
+@step(u'I click the gravatar')
 def click_the_gravatar(context):
     """
     This function tries to click the gravatar button. It has a ridiculous amount
