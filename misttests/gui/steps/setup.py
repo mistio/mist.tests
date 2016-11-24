@@ -35,7 +35,6 @@ def register_user(context, user_email):
     try:
         context.execute_steps(u"When I visit mist.core")
         context.browser.find_element_by_id("top-signup-button")
-        import ipdb;ipdb.set_trace()
         context.execute_steps(u'''
             When I visit mist.core
             Given I am not logged in to mist.core
