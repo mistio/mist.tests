@@ -109,7 +109,7 @@ if BROWSER_FLAVOR == 'chrome':
 elif BROWSER_FLAVOR == 'phantomjs':
     default_browser_path = os.path.join(default_browser_path, 'parts/envuiphantomjs')
 
-WEBDRIVER_PATH = get_value_of("WEBDRIVER_PATH", default_browser_path)
+WEBDRIVER_PATH = get_value_of("WEBDRIVER_PATH", "/usr/local/bin/chromedriver")
 
 WEBDRIVER_LOG = get_value_of("WEBDRIVER_LOG",
                              os.path.join(BASE_DIR, LOG_DIR,
