@@ -3,7 +3,6 @@ Feature: Actions for Keys
 
   Background:
     Given I am logged in to mist.core
-    And I am in the legacy UI
     Given "Azure" cloud has been added
 
   @key-addition
