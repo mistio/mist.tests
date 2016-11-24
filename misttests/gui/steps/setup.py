@@ -1,9 +1,15 @@
 from behave import step
 
+import logging
+
 from misttests.helpers.setup import setup_user_if_not_exists
 from misttests.helpers.setup import remove_user_if_exists
 
 from selenium.common.exceptions import NoSuchElementException
+
+log = logging.getLogger(__name__)
+
+logging.basicConfig(level=logging.INFO)
 
 
 @step(u'I setup user with email "{user_email}"')
@@ -44,6 +50,7 @@ def register_user(context, user_email):
             Then I click the sign in button in the landing page popup
         ''')
         context.browser.find_element_by_tag_name('mist-app')
+        log.info('tests/misttests/gui/steps/setup.py')
         context.execute_steps(u'Then I wait for the dashboard to load')
         # if we reach this line successfully it means that the user is already
         # registered
