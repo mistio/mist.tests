@@ -109,7 +109,7 @@ def wait_for_buttons_to_appear(context):
         try:
             log.info('Before searching for button...')
             images_button = search_for_button(context, 'Images')
-            counter_span = images_button.find_element_by_class_name("ui-li-count")
+            counter_span = images_button.find_element_by_class_name('count')
 
             log.info('Before safe_get_element_text for button...')
             counter_span_text = safe_get_element_text(counter_span)
