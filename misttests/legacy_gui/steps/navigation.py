@@ -271,11 +271,11 @@ def am_in_legacy_UI(context):
     Function that waits for the legacy UI to load. The maximum time for the page
     to load is 60 seconds in this case
     """
-    try:
-        context.browser.find_element_by_css_selector('paper-icon-button.gravatar')
-        return
-    except:
-        context.execute_steps(u'''
+    # try:
+    #     context.browser.find_element_by_css_selector('paper-icon-button.gravatar')
+    #     return
+    # except:
+    context.execute_steps(u'''
             Then I wait for the dashboard to load
             When I click the gravatar
             I click the button by "legacy_ui" id_name
