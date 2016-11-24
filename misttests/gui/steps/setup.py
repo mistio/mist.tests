@@ -42,7 +42,6 @@ def register_user(context, user_email):
             Then I click the email button in the landing page popup
             And I enter my standard credentials for login
             Then I click the sign in button in the landing page popup
-            And I expect some reaction within max 5 seconds
         ''')
         context.browser.find_element_by_tag_name('mist-app')
         context.execute_steps(u'Then I wait for the dashboard to load')
