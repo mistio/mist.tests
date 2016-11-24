@@ -44,8 +44,8 @@ def register_user(context, user_email):
             Then I click the sign in button in the landing page popup
             And I wait for 3 seconds
         ''')
-        context.browser.find_element_by_id("splash")
-        context.execute_steps(u'And I wait for the mist.io splash page to load')
+        context.browser.find_element_by_tag_name('mist-app')
+        context.execute_steps(u'Then I wait for the dashboard to load')
         # if we reach this line successfully it means that the user is already
         # registered
         return
@@ -62,5 +62,5 @@ def register_user(context, user_email):
             And I follow the link contained in the email sent at the address "EMAIL" with subject "[mist.io] Confirm your registration"
             Then I enter my standard credentials for signup_password_set
             And I click the submit button in the landing page popup
-            And I wait for the mist.io splash page to load
+            Then I wait for the dashboard to load
         ''')
