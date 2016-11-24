@@ -74,5 +74,5 @@ def register_user(context, user_email):
             Then I enter my standard credentials for signup_password_set
             And I click the submit button in the landing page popup
             Given that I am redirected within 10 seconds
-            And I wait for the mist.io splash page to load
+            And I wait for the dashboard to load
         ''')
