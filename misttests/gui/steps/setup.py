@@ -28,6 +28,7 @@ def remove_user(context, user_email):
 
 @step(u'user with email "{user_email}" is registered')
 def register_user(context, user_email):
+    log.info('entered register user')
     if context.mist_config.get(user_email):
         user_email = context.mist_config.get(user_email)
 
@@ -56,6 +57,7 @@ def register_user(context, user_email):
         # registered
         return
     except NoSuchElementException:
+        log.exception('something broke')
         remove_user(context, user_email)
         context.execute_steps(u'''
             Then I refresh the page
