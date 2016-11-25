@@ -1,4 +1,6 @@
 import sys
+import json
+import requests
 import logging
 
 from .requirements import chrome_driver_setup
@@ -82,11 +84,19 @@ def before_all(context):
 
 def before_feature(context, feature):
     if config.REGISTER_USER_BEFORE_FEATURE:
-        try:
-            context.execute_steps(u'Given user with email "EMAIL" is registered')
-        except Exception as e:
-            finish_and_cleanup(context)
-            raise e
+        payload = {
+            'email': context.mist_config['EMAIL'],
+            'password': context.mist_config['PASSWORD1'],
+            'name': "Atheofovos Gkikas"
+        }
+
+        re = requests.post("%s/api/v1/dev/register" % context.mist_config['MIST_URL'], data=json.dumps(payload))
+
+        # try:
+        #     context.execute_steps(u'Given user with email "EMAIL" is registered')
+        # except Exception as e:
+        #     finish_and_cleanup(context)
+        #     raise e
 
 
 def after_all(context):
