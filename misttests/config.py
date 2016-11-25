@@ -76,15 +76,11 @@ MAIL_DIR = get_setting("MAIL_DIR", '/var/mail/')
 TEST_DIR = get_setting("TEST_DIR",
                         os.path.join(BASE_DIR, 'tests'))
 
-MAIL_PATH = get_setting("MAIL_PATH",
-                         os.path.join(BASE_DIR, '/var/mail/'))
+MAIL_PATH = get_setting("MAIL_PATH", MAIL_DIR)
 
-JS_CONSOLE_LOG = get_setting("JS_CONSOLE_LOG",
-                              os.path.join(BASE_DIR, LOG_DIR,
-                                           'js_console.log'))
+JS_CONSOLE_LOG = get_setting("JS_CONSOLE_LOG", '/var/log/js_console.log')
 
-SCREENSHOT_PATH = get_setting("SCREENSHOT_PATH",
-                               os.path.join(BASE_DIR, 'error'))
+SCREENSHOT_PATH = get_setting("SCREENSHOT_PATH", '/var/log/error')
 
 
 DISPLAY_NUM = get_setting("DISPLAY_NUM", "1")
