@@ -30,6 +30,7 @@ Feature: Scripts
     And I open the "Type" drop down
     And I wait for 1 seconds
     When I click the button "Executable" in the "Type" dropdown
+    And I wait for 2 seconds
     And I open the "Source" drop down
     And I wait for 1 seconds
     And I click the button "Inline" in the "Source" dropdown
@@ -37,6 +38,7 @@ Feature: Scripts
     When I focus on the button "Add" in "script" add form
     And I expect for the button "Add" in "script" add form to be clickable within 3 seconds
     And I click the button "Add" in "script" add form
+    And I wait for 3 seconds
     When I visit the Scripts page after the counter has loaded
     Then "Script2" script should be present within 5 seconds
     Then I visit the Home page
