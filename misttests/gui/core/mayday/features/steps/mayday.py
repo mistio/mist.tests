@@ -9,7 +9,10 @@ from misttests.gui.steps.machines import *
 from misttests.gui.steps.popups import *
 from misttests.gui.steps.modals import *
 from misttests.gui.steps.ssh import *
+from misttests.gui.steps.utils import focus_on_element
 
+from selenium.webdriver import ActionChains
+from selenium.webdriver.common.keys import Keys
 from behave import step
 from time import sleep, time
 
@@ -33,7 +36,7 @@ def click_mayday_machine(context):
     """
     if context.mist_config.get('MAYDAY_MACHINE'):
         text = context.mist_config['MAYDAY_MACHINE']
-    button = context.browser.find_element_by_class_name(text)
+    button = context.browser.find_element_by_xpath("//a[contains(text(), '%s')]" % text)
     clicketi_click(context, button)
 
 @step(u'Mayday machine state should be "{state}" within {seconds} seconds')
@@ -70,3 +73,21 @@ def choose_mayday_machine(context):
 
         sleep(2)
     assert False, u'Could not choose/tick %s machine' % name
+
+@step(u'I fill "{value}" as metric value')
+def rule_value(context, value):
+    value_input = context.browser.find_element_by_xpath("//paper-input[@id='metricValue']")
+    actions = ActionChains(context.browser)
+    actions.move_to_element(value_input)
+    actions.click()
+    actions.send_keys(Keys.BACK_SPACE)
+    actions.perform()
+
+    actions.move_to_element(value_input)
+    actions.click()
+    actions.send_keys("0")
+    actions.perform()
+#    context.execute_steps(u'When I wait for 2 seconds')
+#    value_input.send_keys(u'\ue003')
+#    context.execute_steps(u'When I wait for 2 seconds')
+#    value_input.send_keys(value)

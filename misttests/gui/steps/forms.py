@@ -201,7 +201,6 @@ def find_dropdown(context, dropdown_text):
     assert dropdown, 'There is no dropdown with text %s' % dropdown_text
     return dropdown.pop()[1]
 
-
 @step(u'I open the "{dropdown_text}" drop down')
 def open_drop_down(context, dropdown_text):
     from .buttons import clicketi_click

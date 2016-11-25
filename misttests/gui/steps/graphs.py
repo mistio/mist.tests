@@ -72,6 +72,7 @@ def check_graph_tooltip_value(context, graph, operator, wanted_value, tries=3):
     if last_point:
         hover = ActionChains(context.browser).move_to_element(last_point)
         hover.perform()
+        sleep(1)
         try:
             tooltip = graph.find_element_by_css_selector(".c3-tooltip-container")
             tooltip_value = safe_get_element_text(tooltip.find_element_by_css_selector(".value"))

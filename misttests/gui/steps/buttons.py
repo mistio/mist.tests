@@ -28,7 +28,6 @@ def become_visible_waiting_with_timeout(context, element_id, seconds):
         raise TimeoutException("element with id %s did not become clickable "
                                "after %s seconds" % (element_id, seconds))
 
-
 def clicketi_click(context, button):
     """
     trying two different ways of clicking a button because sometimes the
@@ -129,6 +128,16 @@ def click_button(context, text):
 def click_button_in_dropdown(context, button, name):
     button = button.strip().lower()
     dropdown = find_dropdown(context, name.lower())
+    if button == get_current_value_of_dropdown(dropdown):
+        return True
+    buttons = dropdown.find_elements_by_tag_name('paper-item')
+    click_button_from_collection(context, button.lower(), buttons)
+
+
+@step(u'I click the "{button}" button in the dropdown with id "{dropdown_id}"')
+def click_button_in_dropdown_with_id(context, button, dropdown_id):
+    button = button.strip().lower()
+    dropdown = context.browser.find_element_by_xpath('//paper-menu[@id="%s"]' % dropdown_id)
     if button == get_current_value_of_dropdown(dropdown):
         return True
     buttons = dropdown.find_elements_by_tag_name('paper-item')
