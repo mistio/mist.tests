@@ -91,6 +91,8 @@ def before_feature(context, feature):
         }
 
         re = requests.post("%s/api/v1/dev/register" % context.mist_config['MIST_URL'], data=json.dumps(payload))
+        log.error("REEEEEEEE")
+        log.error(re.status)
 
         # try:
         #     context.execute_steps(u'Given user with email "EMAIL" is registered')
@@ -100,6 +102,9 @@ def before_feature(context, feature):
 
 
 def after_all(context):
+    log.error("USER: %s" % context.mist_config['EMAIL'])
+    log.error("PASSWORD1: %s" % context.mist_config['PASSWORD1'])
+    log.error(context.mist_config['REGISTER_USER_BEFORE_FEATURE'])
     finish_and_cleanup(context)
 
 
