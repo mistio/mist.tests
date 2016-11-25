@@ -92,7 +92,8 @@ def before_feature(context, feature):
 
         re = requests.post("%s/api/v1/dev/register" % context.mist_config['MIST_URL'], data=json.dumps(payload))
         log.error("REEEEEEEE")
-        log.error(re.status)
+        log.error(re.content)
+        log.error(payload)
 
         # try:
         #     context.execute_steps(u'Given user with email "EMAIL" is registered')
