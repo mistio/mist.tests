@@ -342,7 +342,9 @@ def given_not_logged_in(context):
 
 @step(u'I logout')
 def logout(context):
-    click_the_gravatar(context)
+    #click_the_gravatar(context)
+    button = context.browser.find_element_by_id("me-btn")
+    clicketi_click(context,button)
     context.execute_steps(u'''
         Then I wait for 2 seconds
     ''')

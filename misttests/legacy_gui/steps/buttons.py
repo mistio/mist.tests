@@ -150,6 +150,14 @@ def click_the_gravatar(context):
         gravatar = context.browser.find_element_by_css_selector('paper-icon-button.gravatar')
         clicketi_click(context, gravatar)
 
+def click_the_gravatar(context):
+    try:
+        gravatar = context.browser.find_element_by_css_selector('paper-icon-button.gravatar')
+        clicketi_click(context, gravatar)
+    except NoSuchElementException:
+        gravatar = context.browser.find_element_by_css_selector('paper-icon-button.gravatar')
+        clicketi_click(context, gravatar)
+
 # @step(u'I click the gravatar')
 # def click_the_gravatar(context):
 #     """
