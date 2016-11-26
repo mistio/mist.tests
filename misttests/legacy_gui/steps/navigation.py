@@ -280,7 +280,7 @@ def am_in_legacy_UI(context):
             When I wait for 5 seconds
             And I wait for the dashboard to load
             When I click the gravatar
-            And I wait for 2 seconds
+            And I wait for 4 seconds
             And I click the button legacy_ui
             Then I wait for the mist.io splash page to load
         ''')
