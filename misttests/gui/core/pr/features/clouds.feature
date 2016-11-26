@@ -49,7 +49,7 @@ Feature: Add second-tier clouds in Polymist
     And I click the "save title" button
     And I wait for 3 seconds
     #When I click the mist-logo
-    When I visit mist_url
+    When I visit the Home page
     And I wait for the dashboard to load
     Then "Renamed" cloud has been added
 
