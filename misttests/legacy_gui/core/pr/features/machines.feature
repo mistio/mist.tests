@@ -83,7 +83,8 @@ Feature: Machines
 
     When I click the button "Home"
     Then I expect for "home-page" page to appear within max 4 seconds
-    When I visit the Keys page after the counter has loaded
+    When I visit the Keys page
+    #When I visit the Keys page after the counter has loaded
     When I click the button "first_machine_key"
     Then I expect for "single-key-page" page to appear within max 4 seconds
     When I click the button "Delete"
