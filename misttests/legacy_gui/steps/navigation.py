@@ -264,6 +264,27 @@ def given_logged_in(context):
             raise NoSuchElementException("I am not in the landing page or the"
                                          " home page")
 
+
+@given(u'I am logged in to legacy mist.core')
+def given_logged_in_legacy(context):
+    if not i_am_in_homepage(context):
+        context.execute_steps(u'When I visit mist.core')
+
+    try:
+        context.browser.find_element_by_id("top-signup-button")
+        context.execute_steps(u"""
+            When I open the login popup
+            Then I click the email button in the landing page popup
+            And I enter my standard credentials for login
+            And I click the sign in button in the landing page popup
+        """)
+    except NoSuchElementException:
+        try:
+            context.browser.find_element_by_id("splash")
+        except NoSuchElementException:
+            raise NoSuchElementException("I am not in the landing page or the"
+                                         " home page")
+
     #context.execute_steps(u'Then I wait for the dashboard to load')
 
 @step(u'I am in the legacy UI')
