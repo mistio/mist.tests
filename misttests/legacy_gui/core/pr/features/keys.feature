@@ -18,14 +18,16 @@ Feature: Actions for Keys
     Then I expect for "key-add-popup" popup to disappear within max 4 seconds
     And I click the button "Home"
     And I expect for "home-page" page to appear within max 4 seconds
-    When I visit the Keys page after the counter has loaded
+    When I visit the Keys page
+    #When I visit the Keys page after the counter has loaded
     Then "FirstKey" key should be added within 15 seconds
     Then I click the button "Home"
     And I wait for 1 seconds
 
   @key-renaming
   Scenario: Rename Key
-    When I visit the Keys page after the counter has loaded
+    When I visit the Keys page
+    #When I visit the Keys page after the counter has loaded
     And I click the button "FirstKey"
     And I click the button "Rename"
     Then I expect for "rename-key-popup-popup" popup to appear within max 4 seconds
@@ -36,14 +38,16 @@ Feature: Actions for Keys
     And I expect for "key-list-page" page to appear within max 4 seconds
     And I click the button "Home"
     And I expect for "home-page" page to appear within max 4 seconds
-    When I visit the Keys page after the counter has loaded
+    When I visit the Keys page
+    #When I visit the Keys page after the counter has loaded
     Then "RenamedFirstKey" key should be added within 5 seconds
     Then I click the button "Home"
     And I wait for 1 seconds
 
   @key-deletion
   Scenario: Delete Key
-    When I visit the Keys page after the counter has loaded
+    When I visit the Keys page
+    #When I visit the Keys page after the counter has loaded
     And I click the button "RenamedFirstKey"
     Then I expect for "single-key-page" page to appear within max 4 seconds
     And I click the button "Delete"
