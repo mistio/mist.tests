@@ -6,7 +6,7 @@ Feature: Machines
     Given I am logged in to mist.core
     Given "EC2" cloud has been added
     And I wait for 5 seconds
-    When I visit the machines page
+    When I visit the Machines page
     #When I visit the Machines page after the Images counter has loaded
     And I wait for 5 seconds
     And I click the button "Create Machine"
