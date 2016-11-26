@@ -4,7 +4,6 @@ Feature: Machines
   Scenario: Create machine from machine list
 
     Given I am logged in to mist.core
-    And I am in the legacy UI
     Given "EC2" cloud has been added
     When I visit the Machines page after the Images counter has loaded
 
