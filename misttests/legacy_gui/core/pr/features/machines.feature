@@ -5,8 +5,10 @@ Feature: Machines
 
     Given I am logged in to mist.core
     Given "EC2" cloud has been added
-    When I visit the Machines page after the Images counter has loaded
-
+    And I wait for 5 seconds
+    When I visit the machines page
+    #When I visit the Machines page after the Images counter has loaded
+    And I wait for 5 seconds
     And I click the button "Create Machine"
     Then I expect for "create-machine" panel to appear within max 4 seconds
     When I fill in a "random first" machine name

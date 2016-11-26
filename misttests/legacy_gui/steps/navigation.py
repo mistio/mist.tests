@@ -144,7 +144,6 @@ def go_to_some_page_without_waiting(context, title):
         if not str(context.browser.current_url).endswith(title.lower()):
             context.execute_steps(u'When I click the button "Home"')
     context.execute_steps(u'''
-        Then I wait for the links in homepage to appear
         When I click the button "%s"
         And I wait for "%s" list page to load
     ''' % (title, title))
