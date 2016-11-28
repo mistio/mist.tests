@@ -21,7 +21,7 @@ recording_process_lock = Lock()
 recording_sub_process = None
 
 
-def start_recording(output='test.mp4', dimension='1024x768',
+def start_recording(output='test.mp4', dimension='1280x1024',
                     display_num='1'):
     log.info("Starting recording of the session")
     if os.path.isfile(output):
