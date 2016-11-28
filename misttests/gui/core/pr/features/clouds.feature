@@ -23,7 +23,7 @@ Feature: Add second-tier clouds in Polymist
 
     Examples: Providers
     | provider       |
-    | Azure          |
+    #| Azure          |
     | Digital Ocean  |
     | SoftLayer      |
     | NephoScale     |

@@ -6,14 +6,14 @@ Feature: Actions for Keys
 
   @network-add
   Scenario: Add Network
-    Given "Openstack" cloud has been added
+    Given "Linode" cloud has been added
     When I visit the Networks page
     When I click the button "+"
     Then I expect the "network" add form to be visible within max 10 seconds
     When I set the value "network_random" to field "Name" in "network" add form
     Then I open the "Cloud" drop down
     And I wait for 1 seconds
-    When I click the button "Openstack" in the "Cloud" dropdown
+    When I click the button "Linode" in the "Cloud" dropdown
     And I expect for the button "Add" in "network" add form to be clickable within 3 seconds
     When I focus on the button "Add" in "network" add form
     And I click the button "Add" in "network" add form
