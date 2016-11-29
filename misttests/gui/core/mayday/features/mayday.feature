@@ -17,7 +17,7 @@ Feature: Production
     When I click the "entropy" button inside the popup with id "selectTarget"
     Then "entropy" graph should be added within 30 seconds
     When I focus on the "entropy" graph
-    Then "entropy" graph should have value > 0 within 30 seconds
+    Then the "entropy" graph should have value > 0 within 30 seconds
     And I delete the "entropy" graph
 
   @alert
