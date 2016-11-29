@@ -279,11 +279,13 @@ def given_logged_in(context):
         """)
     except NoSuchElementException:
         try:
+            context.execute_steps(u'And I am in the new UI')
             context.browser.find_element_by_tag_name("mist-app")
         except NoSuchElementException:
             raise NoSuchElementException("I am not in the landing page or the"
                                          " home page")
 
+    context.execute_steps(u'When I am in the new UI')
     context.execute_steps(u'Then I wait for the dashboard to load')
 
 
@@ -369,6 +371,7 @@ def given_not_logged_in(context):
         try:
             context.execute_steps(u"""
                   When I visit the Home page
+                  And I am in the new UI
                   When I wait for the dashboard to load
                   And I logout
             """)
