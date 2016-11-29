@@ -39,12 +39,17 @@ except Exception as exc:
     log.error("Error parsing test_settings py: %r", exc)
 
 
-def get_setting(setting, default_value=None):
+def get_setting(setting, default_value=None, priority='config_file'):
 
     if default_value is None:
         default_value = ''
 
-    setting = test_settings.get(setting, os.environ.get(setting, default_value))
+    if priority in ['env', 'environ', 'environment']:
+        setting = os.environ.get(setting) or test_settings.get(setting, default_value)
+    else:
+        setting = test_settings.get(setting, os.environ.get(setting, default_value))
+
+
     if type(setting) == type(default_value):
         return setting
 
@@ -120,7 +125,10 @@ NAME = get_setting("NAME", "Atheofovos Gkikas")
 MAYDAY_MACHINE = get_setting("MAYDAY_MACHINE", "")
 
 # DEFAULT CREDENTIALS FOR ACCESSING MIST.CORE
-EMAIL = get_setting("EMAIL", "tester-%d@mist.io" % random.randint(1,20000))
+BASE_EMAIL = get_setting("BASE_EMAIL", "fatboy.tester.mist.io")
+GMAIL_FATBOY_USER = get_setting("GMAIL_FATBOY_USER", "%s@gmail.com" % BASE_EMAIL)
+GMAIL_FATBOY_PASSWORD = get_setting("GMAIL_FATBOY_PASSWORD", "")
+EMAIL = get_setting("EMAIL", "%s+%d@gmail.com" % (BASE_EMAIL, random.randint(1,200000)))
 PASSWORD1 = get_setting("PASSWORD1",
                         ''.join(random.choice(string.ascii_letters + string.digits) for _ in range(10)))
 PASSWORD2 = get_setting("PASSWORD2",
@@ -137,10 +145,10 @@ OWNER_EMAIL = get_setting("OWNER_EMAIL", "")
 OWNER_PASSWORD = get_setting("OWNER_PASSWORD", "")
 
 MEMBER1_EMAIL = get_setting("MEMBER1_EMAIL", "")
-MEMBER1_PASSWORD = get_setting("MEMBER1_PASSWORD", "")
+MEMBER1_PASSWORD = get_setting("MEMBER1_PASSWORD", PASSWORD1)
 
 MEMBER2_EMAIL = get_setting("MEMBER2_EMAIL", "")
-MEMBER2_PASSWORD = get_setting("MEMBER2_PASSWORD", "")
+MEMBER2_PASSWORD = get_setting("MEMBER2_PASSWORD", PASSWORD1)
 
 # CREDENTIALS FOR GOOGLE SSO
 GOOGLE_TEST_EMAIL = get_setting("GOOGLE_TEST_EMAIL", "")
@@ -184,7 +192,14 @@ SETUP_ENVIRONMENT = get_setting("SETUP_ENVIRONMENT", False)
 WEBDRIVER_OPTIONS = get_setting('WEBDRIVER_OPTIONS',
                                  ['--dns-prefetch-disable'])
 
-REGISTER_USER_BEFORE_FEATURE = get_setting('REGISTER_USER_BEFORE_FEATURE',
-                                            False)
+REGISTER_USER_BEFORE_FEATURE = get_setting('REGISTER_USER_BEFORE_FEATURE', False, priority='environment')
+
+IMAP_SERVER = get_setting('IMAP_SERVER', 'imap.gmail.com', priority='environment')
+
+IMAP_USE_SSL = get_setting('IMAP_USE_SSL', True, priority='environment')
+
+IMAP_USER = get_setting('IMAP_USER', EMAIL)
+
+IMAP_PASSWORD = get_setting('IMAP_PASSWORD', '')
 
 KEY_ID = get_setting('KEY_ID', '')
