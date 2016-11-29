@@ -291,7 +291,7 @@ def given_logged_in(context):
 
 def found_one(context):
     success = 0
-    timeout = time() + 10
+    timeout = time() + 30
     while time() < timeout:
         try:
             context.browser.find_element_by_id("top-signup-button")
