@@ -15,9 +15,9 @@ Feature: Production
     Then I expect for "selectTarget" modal to appear within max 30 seconds
     And I expect the metric buttons to appear within 30 seconds
     When I click the "entropy" button inside the popup with id "selectTarget"
-    Then "entropy" graph should be added within 30 seconds
+    Then "entropy" graph should appear within 30 seconds
     When I focus on the "entropy" graph
-    Then the "entropy" graph should have value > 0 within 30 seconds
+    Then "entropy" graph should have value > 0 within 30 seconds
     And I delete the "entropy" graph
 
   @alert
