@@ -1,14 +1,12 @@
 @scripts
 Feature: Scripts
 
-  Background:
+  @script-add
+  Scenario: Add script
     Given I am logged in to mist.core
     And I am in the new UI
     When I wait for the dashboard to load
     When I visit the Scripts page
-
-  @script-add
-  Scenario: Add script
     When I click the button "+"
     Then I expect the "Script" add form to be visible within max 10 seconds
     When I set the value "Script1" to field "Script Name" in "script" add form
@@ -23,24 +21,27 @@ Feature: Scripts
     And I expect for the button "Add" in "script" add form to be clickable within 3 seconds
     And I click the button "Add" in "script" add form
     When I visit the Scripts page after the counter has loaded
-    Then "Script1" script should be present within 5 seconds
     When I click the button "+"
     Then I expect the "Script" add form to be visible within max 10 seconds
     When I set the value "Script2" to field "Script Name" in "script" add form
     And I open the "Type" drop down
     And I wait for 1 seconds
-    When I click the button "Executable" in the "Type" dropdown
+    When I click the button "Ansible Playbook" in the "Type" dropdown
     And I open the "Source" drop down
     And I wait for 1 seconds
     And I click the button "Inline" in the "Source" dropdown
-    When I set the value "#!/bin/bash\necho bla > ~/kati" to field "Script" in "script" add form
+    When I set the value "---\n- hosts: all\n  roles:\n    - java-app" to field "Script" in "script" add form
     When I focus on the button "Add" in "script" add form
     And I expect for the button "Add" in "script" add form to be clickable within 3 seconds
     And I click the button "Add" in "script" add form
-    When I visit the Scripts page after the counter has loaded
-    Then "Script2" script should be present within 5 seconds
+    ### FIXME: below has been commented out because script is not available immediately..need for redirection to another page first...
+    #When I visit the Scripts page after the counter has loaded
+    #Then "Script2" script should be present within 5 seconds
     Then I visit the Home page
     When I wait for the dashboard to load
+    When I visit the Scripts page
+    Then "Script1" script should be present within 3 seconds
+    And "Script2" script should be present within 3 seconds
 
   @script-search
   Scenario: Filter scripts
@@ -48,8 +49,6 @@ Feature: Scripts
     Then "Script2" script should be absent within 5 seconds
     When I clear the search bar
     Then "Script2" script should be present within 5 seconds
-    Then I visit the Home page
-    When I wait for the dashboard to load
 
   @script-rename
   Scenario: Rename script
@@ -63,8 +62,6 @@ Feature: Scripts
     Then I visit the scripts page
     And "Script2" script should be absent within 5 seconds
     And "Second" script should be present within 5 seconds
-    Then I visit the Home page
-    When I wait for the dashboard to load
 
   @script-tags
   Scenario: Add tags to script
@@ -88,22 +85,20 @@ Feature: Scripts
     And I click the button "Save Tags" in the tag menu
     Then I expect for the tag popup to close within 4 seconds
     And I ensure that the "script" has the tags "second:tag"
-    Then I visit the Home page
-    When I wait for the dashboard to load
 
   @script-delete
   Scenario: Delete script
+    When I visit the Scripts page
     Then I click the button "Delete" from the menu of the "Script1" script
     And I expect the dialog "Delete Script" is open within 4 seconds
     And I click the "Delete" button in the dialog "Delete Script"
     And I expect the dialog "Delete Script" is closed within 4 seconds
-    Then "Script1" script should be absent within 15 seconds
+    Then "Script1" script should be absent within 5 seconds
     When I click the "Second" "script"
     And I expect the "script" edit form to be visible within max 5 seconds
     Then I click the button "Delete Script" from the menu of the "script" edit form
     And I expect the dialog "Delete Script" is open within 4 seconds
     And I click the "Delete" button in the dialog "Delete Script"
     And I expect the dialog "Delete Script" is closed within 4 seconds
-    Then "Second" script should be absent within 15 seconds
-    Then I visit the Home page
-    When I wait for the dashboard to load
+    Then "Second" script should be absent within 5 seconds
+    
