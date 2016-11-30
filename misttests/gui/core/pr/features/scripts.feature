@@ -1,39 +1,41 @@
 @scripts
 Feature: Scripts
 
-  @script-add
-  Scenario: Add script
+  Background:
     Given I am logged in to mist.core
     And I am in the new UI
+
+  @script-add
+  Scenario Outline: Add script
     When I wait for the dashboard to load
     When I visit the Scripts page
     When I click the button "+"
     Then I expect the "Script" add form to be visible within max 10 seconds
-    When I set the value "Script1" to field "Script Name" in "script" add form
+    When I set the value "<name>" to field "Script Name" in "script" add form
     And I open the "Type" drop down
-    And I wait for 1 seconds
+    And I wait for 2 seconds
     When I click the button "Executable" in the "Type" dropdown
     And I open the "Source" drop down
-    And I wait for 1 seconds
-    And I click the button "Inline" in the "Source" dropdown
-    When I set the value "#!/bin/bash\necho bla > ~/kati" to field "Script" in "script" add form
+    And I wait for 2 seconds
+    And I click the button "<source>" in the "Source" dropdown
+    When I set the value "<script>" to field "<field>" in "script" add form
     When I focus on the button "Add" in "script" add form
     And I expect for the button "Add" in "script" add form to be clickable within 3 seconds
     And I click the button "Add" in "script" add form
     When I visit the Scripts page after the counter has loaded
-    When I click the button "+"
-    Then I expect the "Script" add form to be visible within max 10 seconds
-    When I set the value "Script2" to field "Script Name" in "script" add form
-    And I open the "Type" drop down
-    And I wait for 1 seconds
-    When I click the button "Ansible Playbook" in the "Type" dropdown
-    And I open the "Source" drop down
-    And I wait for 1 seconds
-    And I click the button "Inline" in the "Source" dropdown
-    When I set the value "---\n- hosts: all\n  roles:\n    - java-app" to field "Script" in "script" add form
-    When I focus on the button "Add" in "script" add form
-    And I expect for the button "Add" in "script" add form to be clickable within 3 seconds
-    And I click the button "Add" in "script" add form
+#    When I click the button "+"
+#    Then I expect the "Script" add form to be visible within max 10 seconds
+#    When I set the value "Script2" to field "Script Name" in "script" add form
+#    And I open the "Type" drop down
+#    And I wait for 1 seconds
+#    When I click the button "Ansible Playbook" in the "Type" dropdown
+#    And I open the "Source" drop down
+#    And I wait for 1 seconds
+#    And I click the button "Inline" in the "Source" dropdown
+#    When I set the value "---\n- hosts: all\n  roles:\n    - java-app" to field "Script" in "script" add form
+#    When I focus on the button "Add" in "script" add form
+#    And I expect for the button "Add" in "script" add form to be clickable within 3 seconds
+#    And I click the button "Add" in "script" add form
     ### FIXME: below has been commented out because script is not available immediately..need for redirection to another page first...
     #When I visit the Scripts page after the counter has loaded
     #Then "Script2" script should be present within 5 seconds
@@ -41,7 +43,15 @@ Feature: Scripts
     When I wait for the dashboard to load
     When I visit the Scripts page
     Then "Script1" script should be present within 3 seconds
-    And "Script2" script should be present within 3 seconds
+    Then I visit the Home page
+#    And "Script2" script should be present within 3 seconds
+
+
+    Examples: Script according to source
+    | source        | field       | script                                                                      | name    |
+    | Inline        | Script      | #!/bin/bash\necho bla > ~/kati                                              | Script1 |
+    | Github        | Github Repo | https://github.com/ansible/ansible-examples                                 | Script2 |
+    | Url           | Url         | https://github.com/ansible/ansible-examples/blob/master/lamp_simple/site.yml| Script3 |
 
   @script-search
   Scenario: Filter scripts
