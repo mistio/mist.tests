@@ -42,7 +42,7 @@ Feature: Scripts
     Then I visit the Home page
     When I wait for the dashboard to load
     When I visit the Scripts page
-    Then "Script1" script should be present within 3 seconds
+    Then "<name>" script should be present within 3 seconds
     Then I visit the Home page
 #    And "Script2" script should be present within 3 seconds
 
