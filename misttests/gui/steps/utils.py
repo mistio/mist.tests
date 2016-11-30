@@ -7,10 +7,12 @@ from selenium.common.exceptions import TimeoutException
 from selenium.common.exceptions import NoSuchElementException
 from selenium.common.exceptions import StaleElementReferenceException
 
+from selenium import webdriver
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 
+from selenium.webdriver.common.action_chains import ActionChains
 
 def safe_get_element_text(check_element):
     try:
@@ -19,12 +21,16 @@ def safe_get_element_text(check_element):
         return ""
 
 
-# @step(u'I type "{some_text}" in input with id "{element_id}"')
-# def give_some_input(context, some_text, element_id):
-#     input_element = context.browser.find_element_by_id(element_id)
-#     if context.mist_config.get(some_text):
-#         some_text = context.mist_config[some_text]
-#     input_element.send_keys(some_text)
+@step(u'I type "{some_text}" in input with id "{element_id}"')
+def give_some_input(context, some_text, element_id):
+    input_element = context.browser.find_element_by_id(element_id)
+    if context.mist_config.get(some_text):
+        some_text = context.mist_config[some_text]
+    actions = ActionChains(context.browser)
+    actions.move_to_element(input_element)
+    actions.click(input_element)
+    actions.send_keys(some_text)
+    actions.perform()
 
 
 def focus_on_element(context, element):
