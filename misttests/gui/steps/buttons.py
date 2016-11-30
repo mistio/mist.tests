@@ -168,6 +168,8 @@ def click_mist_io(context):
     clicketi_click(context, context.browser.find_element_by_id('logo-link'))
 
 
+#TODO: "{button}" and ids should have the exact same name
+
 @step(u'I click the "{button}" button')
 def click_button_by_id(context,button):
     if button == 'new cloud':
@@ -176,14 +178,20 @@ def click_button_by_id(context,button):
       button_to_click = context.browser.find_element_by_id('rename-cloud')
     elif button == 'delete cloud':
       button_to_click = context.browser.find_element_by_id('delete-cloud')
+    elif button == 'Account':
+        button_to_click = context.browser.find_element_by_id('Account')
+    elif button == 'API Tokens':
+        button_to_click = context.browser.find_element_by_id('API Tokens')
+    elif button == 'Create API Token':
+        button_to_click = context.browser.find_element_by_id('Create API Token')
+    elif button == 'Create':
+        button_to_click = context.browser.find_element_by_id('Create')
     else:
         raise Exception('Unknown type of button')
     assert button_to_click.is_displayed(), "%s button is not displayed" %button
     clicketi_click(context, button_to_click)
 
-
-### below 3 methods should be deleted, since they're duplcate -- first check where they are used....
-
+# below 3 methods should be deleted, since they're duplicate -- first check where they are used....
 
 @step(u'I click the new cloud button')
 def add_cloud_button(context):
