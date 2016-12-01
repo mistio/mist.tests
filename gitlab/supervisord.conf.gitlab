@@ -51,6 +51,12 @@ process_name = beat
 directory = /builds/mistio/mist.core
 priority = 160
 
+[program:poller]
+command = /core.env/bin/celery beat -A mist.core.tasks -S mist.io.poller.schedulers.PollingScheduler -l INFO --pidfile=/var/run/poller.pid
+process_name = poller
+directory = /builds/mistio/mist.core
+priority = 160
+
 [program:sockjs]
 command = /core.env/bin/python serve.py
 process_name = sockjs
