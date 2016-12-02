@@ -209,7 +209,8 @@ class MistIoApi(object):
             'name': name,
             'priv': private
         }
-        req = MistRequests(uri=self.uri + '/api/v1/keys', cookie=cookie, data=payload,
+        req = MistRequests(uri=self.uri + '/api/v1/keys', cookie=cookie,
+                           data=json.dumps(payload),
                            csrf_token=csrf_token, api_token=api_token)
 
         req.get = req.unavailable_api_call
@@ -220,7 +221,8 @@ class MistIoApi(object):
     def edit_key(self, id, new_name, cookie=None, csrf_token=None,
                  api_token=None):
         req = MistRequests(uri=self.uri + '/api/v1/keys/' + id,
-                           data={'new_name': new_name}, cookie=cookie,
+                           data=json.dumps({'new_name': new_name}),
+                           cookie=cookie,
                            csrf_token=csrf_token, api_token=api_token)
         req.get = req.unavailable_api_call
         req.post = req.unavailable_api_call
@@ -228,7 +230,8 @@ class MistIoApi(object):
         return req
 
     def delete_key(self, key_id, cookie=None, csrf_token=None, api_token=None):
-        req = MistRequests(uri=self.uri + '/api/v1/keys/' + key_id, cookie=cookie,
+        req = MistRequests(uri=self.uri + '/api/v1/keys/' + key_id,
+                           cookie=cookie,
                            csrf_token=csrf_token, api_token=api_token)
         req.get = req.unavailable_api_call
         req.post = req.unavailable_api_call
