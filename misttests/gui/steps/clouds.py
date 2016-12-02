@@ -158,6 +158,7 @@ def set_indonesian_creds(context):
                 Then I set the value "Indonesian" to field "Title" in "cloud" add form
                 Then I set the value "%s" to field "Username" in "cloud" add form
                 Then I set the value "%s" to field "Password" in "cloud" add form
+                Then I set the value "%s" to field "Organization" in "cloud" add form
             ''' % (context.mist_config['CREDENTIALS']['INDONESIAN']['username'],
                    context.mist_config['CREDENTIALS']['INDONESIAN']['password'],
                    context.mist_config['CREDENTIALS']['INDONESIAN']['organization'],))
