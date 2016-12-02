@@ -25,7 +25,7 @@ Feature: Add second-tier clouds in Polymist
     | provider       |
     | Azure          |
     | Digital Ocean  |
-    | SoftLayer      |
+ #   | SoftLayer      |
     | NephoScale     |
     | Rackspace      |
     | Packet         |

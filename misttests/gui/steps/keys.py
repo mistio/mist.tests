@@ -50,4 +50,3 @@ def add_key_for_provider(context,provider):
         Then "KVMKey" key should be present within 15 seconds
         Then I visit the Home page
         When I wait for the dashboard to load''')
-    
