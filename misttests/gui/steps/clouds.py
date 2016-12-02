@@ -140,29 +140,28 @@ def set_openstack_creds(context):
                context.mist_config['CREDENTIALS']['OPENSTACK']['auth_url'],
                context.mist_config['CREDENTIALS']['OPENSTACK']['tenant'],))
 
+
 def set_hostvirtual_creds(context):
     api_key = context.mist_config['CREDENTIALS']['HOSTVIRTUAL']['api_key']
     context.execute_steps(u'Then I set the value "%s" to field "API Key" in '
                           u'"cloud" add form' % api_key)
+
 
 def set_vultr_creds(context):
     api_key = context.mist_config['CREDENTIALS']['VULTR']['apikey']
     context.execute_steps(u'Then I set the value "%s" to field "API Key" in '
                           u'"cloud" add form' % api_key)
 
+
 def set_indonesian_creds(context):
     context.execute_steps(u'''
                 Then I set the value "Indonesian" to field "Title" in "cloud" add form
                 Then I set the value "%s" to field "Username" in "cloud" add form
                 Then I set the value "%s" to field "Password" in "cloud" add form
-                Then I set the value "%s" to field "Organization" in "cloud" add form
-                Then I open the "Region" drop down
-                And I wait for 1 seconds
-                When I click the button "%s" in the "Region" dropdown
             ''' % (context.mist_config['CREDENTIALS']['INDONESIAN']['username'],
                    context.mist_config['CREDENTIALS']['INDONESIAN']['password'],
-                   context.mist_config['CREDENTIALS']['INDONESIAN']['organization'],
-                   context.mist_config['CREDENTIALS']['INDONESIAN']['indonesianRegion'],))
+                   context.mist_config['CREDENTIALS']['INDONESIAN']['organization'],))
+
 
 def set_azure_arm_creds(context):
     context.execute_steps(u'''
@@ -176,16 +175,16 @@ def set_azure_arm_creds(context):
                        context.mist_config['CREDENTIALS']['AZURE_ARM']['client_key'],
                        context.mist_config['CREDENTIALS']['AZURE_ARM']['client_secret'],))
 
+
 # path for images and ssh key might be needed as well
 def set_kvm_creds(context):
     context.execute_steps(u'''
                     Then I set the value "KVM" to field "Title" in "cloud" add form
                     Then I set the value "%s" to field "KVM Hostname" in "cloud" add form
                     Then I set the value "%s" to field "SSH user" in "cloud" add form
-                    Then I set the value "%s" to field "SSH port" in "cloud" add form
                 ''' % (context.mist_config['CREDENTIALS']['KVM']['hostname'],
-                       context.mist_config['CREDENTIALS']['KVM']['ssh_user'],
-                       context.mist_config['CREDENTIALS']['KVM']['ssh_port'],))
+                       context.mist_config['CREDENTIALS']['KVM']['ssh_user'],))
+
 
 # os and ssh key might be needed as well
 def set_other_server_creds(context):
@@ -193,6 +192,19 @@ def set_other_server_creds(context):
                     Then I set the value "Bare Metal" to field "Title" in "cloud" add form
                     Then I set the value "%s" to field "Hostname" in "cloud" add form
                 ''' % (context.mist_config['CREDENTIALS']['KVM']['hostname'],))
+
+
+def set_vmware_creds(context):
+    context.execute_steps(u'''
+                Then I set the value "VmWare" to field "Title" in "cloud" add form
+                Then I set the value "%s" to field "Username" in "cloud" add form
+                Then I set the value "%s" to field "Password" in "cloud" add form
+                Then I set the value "%s" to field "Organization" in "cloud" add form
+                Then I set the value "%s" to field "Hostname" in "cloud" add form
+            ''' % (context.mist_config['CREDENTIALS']['VMWARE']['username'],
+                   context.mist_config['CREDENTIALS']['VMWARE']['password'],
+                   context.mist_config['CREDENTIALS']['VMWARE']['organization'],
+                   context.mist_config['CREDENTIALS']['VMWARE']['host'],))
 
 
 cloud_creds_dict = {
@@ -211,8 +223,9 @@ cloud_creds_dict = {
     "indonesian": set_indonesian_creds,
     "vultr": set_vultr_creds,
     "azure arm": set_azure_arm_creds,
-    "kvm": set_kvm_creds,
-    "other server": set_other_server_creds
+    "kvm (via libvirt)": set_kvm_creds,
+    "other server": set_other_server_creds,
+    "vmware": set_vmware_creds
 }
 
 
