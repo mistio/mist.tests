@@ -17,8 +17,6 @@ from .forms import clear_input_and_send_keys
 from .buttons import clicketi_click
 from .buttons import click_button_from_collection
 
-from .keys import add_key_for_provider
-
 
 def set_azure_creds(context):
     subscription_id = context.mist_config['CREDENTIALS']['AZURE'][
@@ -182,7 +180,7 @@ def set_azure_arm_creds(context):
 # path for images and ssh key might be needed as well
 def set_kvm_creds(context):
     context.execute_steps(u'''
-                    When I add the key needed in order to connect to "KVM"
+                    Then I add the key needed in order to connect to "KVM"
                     When I click the new cloud button
                     Then I expect the "Cloud" add form to be visible within max 5 seconds
                     And I open the "Choose Provider" drop down
@@ -194,6 +192,24 @@ def set_kvm_creds(context):
                     And I wait for 1 seconds
                     And I click the button "KVMKEY" in the "SSH Key" dropdown
                 ''' % (context.mist_config['CREDENTIALS']['KVM']['hostname'],))
+
+@step('u I add the key needed in order to connect to "{provider}"')
+def add_key_for_provider(context,provider):
+    context.execute_steps(u'''
+        When I visit the Keys page
+        When I click the button "+"
+        Then I expect the "Key" add form to be visible within max 10 seconds
+        When I set the value "KVMKey" to field "Name" in "key" add form
+        When I set the value "APITESTINGMACHINEPRIVATEKEY" to field "Private Key" in "key" add form
+        And I wait for 5 seconds
+        And I expect for the button "Add" in "key" add form to be clickable within 9 seconds
+        When I focus on the button "Add" in "key" add form
+        And I click the button "Add" in "key" add form
+        Then I expect the "key" edit form to be visible within max 7 seconds
+        When I visit the Keys page
+        Then "KVMKey" key should be present within 15 seconds
+        Then I visit the Home page
+        When I wait for the dashboard to load''')
 
 
 # os and ssh key might be needed as well
