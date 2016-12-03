@@ -181,10 +181,10 @@ def set_azure_arm_creds(context):
 def set_kvm_creds(context):
     context.execute_steps(u'''
                     Then I set the value "KVM" to field "Title" in "cloud" add form
-                    Then I set the value "%s" to field "KVM Hostname" in "cloud" add form
-                    Then I set the value "%s" to field "SSH user" in "cloud" add form
-                ''' % (context.mist_config['CREDENTIALS']['KVM']['hostname'],
-                       context.mist_config['CREDENTIALS']['KVM']['ssh_user'],))
+                    Then I set the value "%s" to field "KVM hostname" in "cloud" add form
+                    And I wait for 2 seconds
+                    And I click the button "KVMKEY" in the "SSH Key" dropdown
+                ''' % (context.mist_config['CREDENTIALS']['KVM']['hostname'],))
 
 
 # os and ssh key might be needed as well

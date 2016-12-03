@@ -40,7 +40,7 @@ def add_key_for_provider(context,provider):
         When I click the button "+"
         Then I expect the "Key" add form to be visible within max 10 seconds
         When I set the value "KVMKey" to field "Name" in "key" add form
-        When I set the value "API_TESTING_MACHINE_PRIVATE_KEY" to field "Private Key" in "key" add form
+        When I set the value "APITESTINGMACHINEPRIVATEKEY" to field "Private Key" in "key" add form
         And I wait for 5 seconds
         And I expect for the button "Add" in "key" add form to be clickable within 9 seconds
         When I focus on the button "Add" in "key" add form
