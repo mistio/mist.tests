@@ -210,7 +210,7 @@ def add_key_for_provider(context):
         Then "KVMKey" key should be present within 15 seconds
         Then I visit the Home page
         When I wait for the dashboard to load
-    '''%(context.mist_config['KVM_KEY']['PRIVATE'],))
+    '''%(context.mist_config['KVM_KEY'],))
 
 
 # os and ssh key might be needed as well
