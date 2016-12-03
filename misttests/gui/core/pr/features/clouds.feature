@@ -21,6 +21,7 @@ Feature: Add second-tier clouds in Polymist
     And I scroll the clouds list into view
     Then the "<provider>" provider should be added within 120 seconds
 
+
     Examples: Providers
     | provider       |
     | Azure          |

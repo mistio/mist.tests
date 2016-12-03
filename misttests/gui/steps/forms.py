@@ -124,6 +124,7 @@ def check_that_field_is_visible(context, field_name, title, form_type, seconds):
 @step(u'I set the value "{value}" to field "{name}" in "{title}" {form_type}'
       u' form')
 def set_value_to_field(context, value, name, title, form_type):
+    import ipdb;ipdb.set_trace()
     if context.mist_config.get(value):
         value = context.mist_config.get(value)
     elif "random" in value:
