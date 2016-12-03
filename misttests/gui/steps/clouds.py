@@ -180,9 +180,16 @@ def set_azure_arm_creds(context):
 # path for images and ssh key might be needed as well
 def set_kvm_creds(context):
     context.execute_steps(u'''
+                    When I add the key needed in order to connect to "KVM"
+                    When I click the new cloud button
+                    Then I expect the "Cloud" add form to be visible within max 5 seconds
+                    And I open the "Choose Provider" drop down
+                    And I wait for 1 seconds
+                    When I click the button "KVM (Via Libvirt)" in the "Choose Provider" dropdown
+                    Then I expect the field "Title" in the cloud add form to be visible within max 4 seconds
                     Then I set the value "KVM" to field "Title" in "cloud" add form
                     Then I set the value "%s" to field "KVM hostname" in "cloud" add form
-                    And I wait for 2 seconds
+                    And I wait for 1 seconds
                     And I click the button "KVMKEY" in the "SSH Key" dropdown
                 ''' % (context.mist_config['CREDENTIALS']['KVM']['hostname'],))
 
