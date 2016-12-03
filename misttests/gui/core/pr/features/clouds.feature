@@ -39,7 +39,7 @@ Feature: Add second-tier clouds in Polymist
     | Azure ARM      |
     | Vmware         |
     | Indonesian     |
-    | KVM (Via Libvirt)           |
+#    | KVM (Via Libvirt)           |
 #    | Other Server   |
 #    | HostVirtual    |
 
