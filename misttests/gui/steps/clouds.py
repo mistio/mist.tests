@@ -17,6 +17,8 @@ from .forms import clear_input_and_send_keys
 from .buttons import clicketi_click
 from .buttons import click_button_from_collection
 
+from .keys import add_key_for_provider
+
 
 def set_azure_creds(context):
     subscription_id = context.mist_config['CREDENTIALS']['AZURE'][
