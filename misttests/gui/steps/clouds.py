@@ -177,10 +177,9 @@ def set_azure_arm_creds(context):
                        context.mist_config['CREDENTIALS']['AZURE_ARM']['client_secret'],))
 
 
-# path for images and ssh key might be needed as well
 def set_kvm_creds(context):
     context.execute_steps(u'''
-                    Then I add the key needed
+                    When I add the key needed for KVM
                     When I click the new cloud button
                     Then I expect the "Cloud" add form to be visible within max 5 seconds
                     And I open the "Choose Provider" drop down
@@ -191,11 +190,11 @@ def set_kvm_creds(context):
                     Then I set the value "%s" to field "KVM hostname" in "cloud" add form
                     And I wait for 1 seconds
                     And I click the button "KVMKEY" in the "SSH Key" dropdown
-                ''' % (context.mist_config['CREDENTIALS']['KVM']['hostname'],))
+                '''% (context.mist_config['CREDENTIALS']['KVM']['hostname'],))
 
 
-@step('u I add the key needed')
-def add_key_for_provider(context,provider):
+@step(u'I add the key needed for KVM')
+def add_key_for_provider(context):
     context.execute_steps(u'''
         When I visit the Keys page
         When I click the button "+"
