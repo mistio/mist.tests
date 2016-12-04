@@ -187,10 +187,10 @@ def set_kvm_creds(context):
                     When I click the button "KVM (Via Libvirt)" in the "Choose Provider" dropdown
                     Then I expect the field "Title" in the cloud add form to be visible within max 4 seconds
                     Then I set the value "KVM" to field "Title" in "cloud" add form
-                    Then I set the value "%s" to field "KVM hostname" in "cloud" add form
+                    Then I set the value "dfsgdsfg" to field "KVM hostname" in "cloud" add form
                     And I wait for 1 seconds
                     And I click the button "KVMKEY" in the "SSH Key" dropdown
-                '''% (context.mist_config['CREDENTIALS']['KVM']['hostname'],))
+                ''')#% (context.mist_config['CREDENTIALS']['KVM']['hostname'],))
 
 
 @step(u'I add the key needed for KVM')
@@ -210,7 +210,7 @@ def add_key_for_provider(context):
         Then "KVMKey" key should be present within 15 seconds
         Then I visit the Home page
         When I wait for the dashboard to load
-    '''%(context.mist_config['KVM_KEY'],))
+        '''%(context.mist_config['API_TESTING_MACHINE_PRIVATE_KEY'],))
 
 
 # os and ssh key might be needed as well
