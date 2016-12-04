@@ -40,7 +40,7 @@ Feature: Add second-tier clouds in Polymist
 #    | Vmware         |
 #    | Indonesian     |
     | KVM (Via Libvirt)           |
-    | Other Server   |
+#    | Other Server   |
 #    | HostVirtual    |
 
   @cloud-rename
