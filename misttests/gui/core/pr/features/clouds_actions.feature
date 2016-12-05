@@ -1,4 +1,4 @@
-@clouds
+@clouds-actions
 Feature: Cloud actions for polymer
 
   Background:

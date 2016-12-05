@@ -1,4 +1,4 @@
-@clouds
+@clouds-add-b
 Feature: Add second-tier clouds in Polymist
 
   Background:
