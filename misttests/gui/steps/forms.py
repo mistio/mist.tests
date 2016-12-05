@@ -158,6 +158,7 @@ def focus_on_form_button(context, button_name, title, form_type):
         get_edit_form(context, title)
     button = get_button_from_form(form, button_name.lower())
     focus_on_element(context, button)
+    sleep(1)
 
 
 @step(u'I click the button "{button_name}" in "{title}" {form_type} form')

@@ -18,8 +18,8 @@ Feature: RBAC
     And I follow the link contained in the email sent at the address "MEMBER1_EMAIL" with subject "[mist.io] Confirm your registration"
     Then I enter my rbac_member1 credentials for signup_password_set
     And I click the submit button in the landing page popup
-    And I wait for the mist.io splash page to load
-    Then I logout of legacy gui
+    And I wait for the dashboard to load
+    Then I logout
 
   @owner-signup
   Scenario: Organization Owner signs up
@@ -33,12 +33,12 @@ Feature: RBAC
     And I follow the link contained in the email sent at the address "OWNER_EMAIL" with subject "[mist.io] Confirm your registration"
     Then I enter my rbac_owner credentials for signup_password_set
     And I click the submit button in the landing page popup
-    And I wait for the mist.io splash page to load
+    And I wait for the dashboard to load
 
   @create-org
   Scenario: Owner creates a new organization
-    Given I am in the new UI
-    And  I wait for the dashboard to load
+#    Given I am in the new UI
+#    And  I wait for the dashboard to load
     When I click the Gravatar
     And I wait for 1 seconds
     Then I click the button "Add Organisation" in the user menu
@@ -104,7 +104,6 @@ Feature: RBAC
     And I follow the link contained in the email sent at the address "MEMBER2_EMAIL" with subject "[mist.io] Confirm your invitation"
     Then I enter my rbac_member2 credentials for signup_password_set
     And I click the submit button in the landing page popup
-    And I am in the new UI
     When I wait for the dashboard to load
     Then I ensure that I am in the "Rbac_Test" organization context
     When I visit the Teams page
