@@ -10,10 +10,10 @@ from mist.core.user.models import User
 from mist.core.user.models import Owner
 from mist.core.user.models import Organization
 
-from mist.core.keypair.models import Keypair
+from mist.io.keys.models import Key
 
-from mist.core.cloud.models import Cloud
-from mist.core.cloud.models import Machine
+from mist.io.clouds.models import Cloud
+from mist.io.machines.models import Machine
 
 from mist.core.tag.models import Tag
 from mist.core.rule.models import Rule
@@ -97,7 +97,7 @@ def clean_owner(owner):
         for machine in machines:
             machine.delete()
     clouds.delete()
-    keypairs = Keypair.objects(owner=owner)
+    keypairs = Key.objects(owner=owner)
     keypairs.delete()
     scripts = Script.objects(owner=owner)
     scripts.delete()
@@ -112,7 +112,7 @@ def clean_db():
     Cloud.drop_collection()
     Owner.drop_collection()
     Machine.drop_collection()
-    Keypair.drop_collection()
+    Key.drop_collection()
     Tag.drop_collection()
     Script.drop_collection()
 
