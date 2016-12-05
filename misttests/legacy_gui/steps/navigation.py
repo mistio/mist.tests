@@ -62,8 +62,16 @@ def standard_splash_waiting(context):
     Function that waits for the splash to load. The maximum time for the page
     to load is 60 seconds in this case
     """
-    wait_for_splash_to_appear(context)
-    wait_for_splash_to_load(context)
+    try:
+        context.browser.find_element_by_tag_name("mist-app")
+        gravatar = context.browser.find_element_by_css_selector('paper-icon-button.gravatar')
+        clicketi_click(context, gravatar)
+        user_menu = context.browser.find_element_by_tag_name('app-user-menu').find_element_by_tag_name('iron-dropdown')
+        button = context.browser.find_element_by_xpath("//iron-icon[@icon='hardware:laptop-mac']")
+        clicketi_click(context, button)
+    except:
+        wait_for_splash_to_appear(context)
+        wait_for_splash_to_load(context)
 
 
 def wait_for_splash_to_appear(context, timeout=20):
