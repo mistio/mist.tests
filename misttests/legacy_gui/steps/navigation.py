@@ -18,9 +18,17 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 
+from selenium.webdriver.remote.webdriver import WebDriver
+
 log = logging.getLogger(__name__)
 
 logging.basicConfig(level=logging.INFO)
+
+@step(u'I set the cookie for legacy UI')
+def set_cookie(context):
+    cookie = {'name': 'ui','value': 'legacy'}
+    context.browser.add_cookie(cookie)
+#    context.driver.get_cookies()
 
 
 def i_am_in_homepage(context):
@@ -263,6 +271,27 @@ def given_logged_in(context):
             And I enter my standard credentials for login
             And I click the sign in button in the landing page popup
             And I am in the legacy UI
+        """)
+    except NoSuchElementException:
+        try:
+            context.browser.find_element_by_id("splash")
+        except NoSuchElementException:
+            raise NoSuchElementException("I am not in the landing page or the"
+                                         " home page")
+
+@given(u'I am temporarily logged in to mist.core')
+def given_logged_in(context):
+    if not i_am_in_homepage(context):
+        context.execute_steps(u'When I visit mist.core')
+
+    try:
+        context.browser.find_element_by_id("top-signup-button")
+        context.execute_steps(u"""
+            When I open the login popup
+            And I set the cookie for legacy UI
+            Then I click the email button in the landing page popup
+            And I enter my standard credentials for login
+            And I click the sign in button in the landing page popup
         """)
     except NoSuchElementException:
         try:
