@@ -172,14 +172,12 @@ def filter_buttons(context, text):
 def wait_for_dashboard(context):
     # wait first until the sidebar is open
     log.info('W8ing for dashboard to load...')
-    context.execute_steps(u'Then I wait for the links in homepage to appear')
+    #context.execute_steps(u'Then I wait for the links in homepage to appear')
     # wait until the panel in the middle is visible
     timeout = 20
     try:
         WebDriverWait(context.browser, timeout).until(
-            EC.visibility_of_element_located((By.CSS_SELECTOR,
-                                              "mist-app div#mainPanel "
-                                              "div#mainContainer div#content")))
+            EC.visibility_of_element_located((By.TAG_NAME, "mist-app")))
     except TimeoutException:
         raise TimeoutException("Dashboard did not load after %s seconds"
                                % timeout)
@@ -269,7 +267,6 @@ def given_logged_in(context):
             Then I click the email button in the landing page popup
             And I enter my standard credentials for login
             And I click the sign in button in the landing page popup
-            And I am in the legacy UI
         """)
     except NoSuchElementException:
         try:
@@ -333,7 +330,7 @@ def am_in_legacy_UI(context):
     #     return
     # except:
     context.execute_steps(u'''
-            When I wait for 5 seconds
+            When I wait for 15 seconds
             And I wait for the dashboard to load
             When I click the gravatar
             And I wait for 4 seconds
