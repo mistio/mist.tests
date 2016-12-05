@@ -55,6 +55,13 @@ Feature: Add second-tier clouds in Polymist
     And I wait for the dashboard to load
     Then "Renamed" cloud has been added
 
+  @cloud-toggle
+   Scenario: Toggle a cloud
+    Given "Openstack" cloud has been added
+    Then I open the cloud menu for "Openstack"
+    When I click the "toggle" button
+
+
 
   @cloud-delete
   Scenario: Delete a cloud
