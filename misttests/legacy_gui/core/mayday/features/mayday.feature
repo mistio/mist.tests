@@ -23,7 +23,6 @@ Feature: Production
   @alert
   Scenario: Production rule and alert testing
     Given I am logged in to mist.core
-    And I am in the legacy UI
     When I visit the Machines page after the counter has loaded
     Then I search for the mayday machine
     When I click the mayday machine
@@ -44,7 +43,6 @@ Feature: Production
   @ssh
   Scenario: Production ssh testing
     Given I am logged in to mist.core
-    And I am in the legacy UI
     When I visit the Machines page after the counter has loaded
     Then I search for the mayday machine
     When I click the mayday machine
@@ -55,7 +53,6 @@ Feature: Production
   @celery
   Scenario: Production machine reboot testing
     Given I am logged in to mist.core
-    And I am in the legacy UI
     When I visit the Machines page after the counter has loaded
     Then I search for the mayday machine
     When I choose the mayday machine
