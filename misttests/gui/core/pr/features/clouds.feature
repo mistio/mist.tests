@@ -21,6 +21,7 @@ Feature: Add second-tier clouds in Polymist
     And I scroll the clouds list into view
     Then the "<provider>" provider should be added within 120 seconds
 
+
     Examples: Providers
     | provider       |
     | Azure          |
@@ -36,10 +37,11 @@ Feature: Add second-tier clouds in Polymist
     | Openstack      |
     | Vultr          |
     | Azure ARM      |
-#   | KVM            |
-  # | Other Server   |
+    | Vmware         |
+    | Indonesian     |
+#    | KVM (Via Libvirt)           |
+#    | Other Server   |
 #    | HostVirtual    |
-#    | Indonesian     |
 
   @cloud-rename
   Scenario: Rename a cloud
