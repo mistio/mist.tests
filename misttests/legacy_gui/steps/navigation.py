@@ -136,7 +136,6 @@ def go_to_some_page_after_counter_loading(context, title, counter_title):
     if counter_title not in ['Machines', 'Images', 'Keys', 'Networks', 'Scripts', 'Teams']:
         raise ValueError('The page given is unknown')
     context.execute_steps(u'''
-        Then I wait for the links in homepage to appear
         Then %s counter should be greater than 0 within 80 seconds
         When I click the button "%s"
         And I wait for "%s" list page to load
