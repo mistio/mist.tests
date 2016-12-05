@@ -25,6 +25,7 @@ Feature: Login Scenarios
     When I click the "_x_" button inside the "Token blabla Created" popup
     And I revoke the api token with name blabla
     Then I test the api token "BLABLA_TOKEN". It should fail.
+    And I wait for 2 seconds
     And I logout
     And I wait for 2 seconds
 
@@ -61,7 +62,7 @@ Feature: Login Scenarios
 
   @check-redirect
   Scenario: Add EC2 cloud, go to Machines logout and check redirect
-    Given I am logged in to mist.core
+    Given I am logged in to legacy mist.core
     Given "Linode" cloud has been added
     Then I logout
     And I visit the machines page with a url
@@ -71,5 +72,6 @@ Feature: Login Scenarios
     And I click the sign in button in the landing page popup
     Then I wait for the mist.io splash page to load
     And I should be in the machines page
+    And I wait for 2 seconds
     Then I logout
     And I wait for 2 seconds

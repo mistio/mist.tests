@@ -13,6 +13,7 @@ from selenium.webdriver.support import expected_conditions as EC
 
 from selenium.common.exceptions import WebDriverException
 from selenium.common.exceptions import TimeoutException
+from selenium.common.exceptions import NoSuchElementException
 
 
 @step(u'I expect for "{element_id}" to be clickable within max {seconds} '
@@ -120,6 +121,12 @@ def click_button_id(context, id_name):
     clicketi_click(context, my_element)
 
 
+@step(u'I click the button legacy_ui')
+def click_legacy_ui(context):
+    my_element = context.browser.find_element_by_id('legacy_ui')
+    clicketi_click(context, my_element)
+
+
 @step(u'I click the button "{text}"')
 def click_button(context, text):
     """
@@ -134,74 +141,90 @@ def click_button(context, text):
                                  error_message='Could not find button that '
                                                'contains %s' % text)
 
-
 @step(u'I click the Gravatar')
 def click_the_gravatar(context):
-    """
-    This function tries to click the gravatar button. It has a ridiculous amount
-    of code because there is a ridiculous amount of errors happening during
-    this simple task. It tries to print the reasons why it didn't work
-    """
-    from .popups import popup_waiting_with_timeout
-    msg = ""
-    gravatar = context.browser.find_element_by_class_name("gravatar-image")
-    focus_on_element(context, gravatar)
-    me_button = context.browser.find_element_by_id('me-btn')
     try:
-        clicketi_click(context, me_button)
-        WebDriverWait(context.browser, int(2)).until(
-            EC.visibility_of_element_located((By.ID, 'user-menu-popup-screen')))
-        popup_waiting_with_timeout(context, 'user-menu-popup-popup', 'appear', 4)
-        return
-    except:
-        pass
-    try:
+        gravatar = context.browser.find_element_by_css_selector('paper-icon-button.gravatar')
         clicketi_click(context, gravatar)
-        WebDriverWait(context.browser, int(2)).until(
-            EC.visibility_of_element_located((By.ID, 'user-menu-popup-screen')))
-        popup_waiting_with_timeout(context, 'user-menu-popup-popup', 'appear', 4)
-        return
-    except:
-        pass
-
-    try:
+    except NoSuchElementException:
+        gravatar = context.browser.find_element_by_css_selector('paper-icon-button.gravatar')
         clicketi_click(context, gravatar)
-        try:
-            WebDriverWait(context.browser, int(2)).until(
-                EC.visibility_of_element_located((By.ID,
-                                                  'user-menu-popup-screen')))
-            try:
-                popup_waiting_with_timeout(context, 'user-menu-popup-popup',
-                                           'appear', 4)
-                return
-            except Exception as e:
-                msg = "After clicking the gravatar the grey background " \
-                      "appeared but not the popup.(%s)" % type(e)
-        except Exception as e:
-            msg = "Grey background did not appear after 2 seconds." \
-                  "(%s)" % type(e)
-    except Exception as e:
-        msg = "There was an exception(%s) when trying to click the Gravatar" \
-              " image" % type(e)
 
+def click_the_gravatar(context):
     try:
-        clicketi_click(context, me_button)
-        try:
-            WebDriverWait(context.browser, int(2)).until(
-                EC.visibility_of_element_located((By.ID, 'user-menu-popup-screen')))
-            try:
-                popup_waiting_with_timeout(context, 'user-menu-popup-popup',
-                                           'appear', 4)
-                return
-            except Exception as e:
-                msg += "\nAfter clicking the me-btn the grey background " \
-                       "appeared but not the popup.(%s)" % type(e)
-        except Exception as e:
-            msg += "\nGrey background did not appear after 2 seconds." \
-                   "(%s)" % type(e)
-    except Exception as e:
-        msg += "\nThere was an exception(%s) when trying to click the " \
-               "me-btn" % type(e)
+        gravatar = context.browser.find_element_by_css_selector('paper-icon-button.gravatar')
+        clicketi_click(context, gravatar)
+    except NoSuchElementException:
+        gravatar = context.browser.find_element_by_css_selector('paper-icon-button.gravatar')
+        clicketi_click(context, gravatar)
 
-    assert False, "I tried clicking the Gravatar but it did not work :(." \
-                  "\n%s" % msg
+# @step(u'I click the gravatar')
+# def click_the_gravatar(context):
+#     """
+#     This function tries to click the gravatar button. It has a ridiculous amount
+#     of code because there is a ridiculous amount of errors happening during
+#     this simple task. It tries to print the reasons why it didn't work
+#     """
+#     from .popups import popup_waiting_with_timeout
+#     msg = ""
+#     gravatar = context.browser.find_element_by_class_name("gravatar-image")
+#     focus_on_element(context, gravatar)
+#     me_button = context.browser.find_element_by_id('me-btn')
+#     try:
+#         clicketi_click(context, me_button)
+#         WebDriverWait(context.browser, int(2)).until(
+#             EC.visibility_of_element_located((By.ID, 'user-menu-popup-screen')))
+#         popup_waiting_with_timeout(context, 'user-menu-popup-popup', 'appear', 4)
+#         return
+#     except:
+#         pass
+#     try:
+#         clicketi_click(context, gravatar)
+#         WebDriverWait(context.browser, int(2)).until(
+#             EC.visibility_of_element_located((By.ID, 'user-menu-popup-screen')))
+#         popup_waiting_with_timeout(context, 'user-menu-popup-popup', 'appear', 4)
+#         return
+#     except:
+#         pass
+#
+#     try:
+#         clicketi_click(context, gravatar)
+#         try:
+#             WebDriverWait(context.browser, int(2)).until(
+#                 EC.visibility_of_element_located((By.ID,
+#                                                   'user-menu-popup-screen')))
+#             try:
+#                 popup_waiting_with_timeout(context, 'user-menu-popup-popup',
+#                                            'appear', 4)
+#                 return
+#             except Exception as e:
+#                 msg = "After clicking the gravatar the grey background " \
+#                       "appeared but not the popup.(%s)" % type(e)
+#         except Exception as e:
+#             msg = "Grey background did not appear after 2 seconds." \
+#                   "(%s)" % type(e)
+#     except Exception as e:
+#         msg = "There was an exception(%s) when trying to click the Gravatar" \
+#               " image" % type(e)
+#
+#     try:
+#         clicketi_click(context, me_button)
+#         try:
+#             WebDriverWait(context.browser, int(2)).until(
+#                 EC.visibility_of_element_located((By.ID, 'user-menu-popup-screen')))
+#             try:
+#                 popup_waiting_with_timeout(context, 'user-menu-popup-popup',
+#                                            'appear', 4)
+#                 return
+#             except Exception as e:
+#                 msg += "\nAfter clicking the me-btn the grey background " \
+#                        "appeared but not the popup.(%s)" % type(e)
+#         except Exception as e:
+#             msg += "\nGrey background did not appear after 2 seconds." \
+#                    "(%s)" % type(e)
+#     except Exception as e:
+#         msg += "\nThere was an exception(%s) when trying to click the " \
+#                "me-btn" % type(e)
+#
+#     assert False, "I tried clicking the Gravatar but it did not work :(." \
+#                   "\n%s" % msg
