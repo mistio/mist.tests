@@ -31,3 +31,4 @@ def add_or_select_key(context, key_name):
         When I click the "Add" button inside the "Add key" popup
         Then I expect for "key-add-popup" popup to disappear within max 4 seconds
     ''' % key_name)
+
