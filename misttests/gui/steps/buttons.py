@@ -3,6 +3,8 @@ from behave import step
 from time import sleep
 from time import time
 
+import re
+
 from .utils import safe_get_element_text
 from .utils import focus_on_element
 
@@ -162,6 +164,21 @@ def click_item(context, text, type_of_item):
             return True
     assert False, "Could not click item %s" % text
 
+@step(u'cloud "{search_cloud}" should be "{state}"')
+def state_of_cloud(context,search_cloud,state):
+    from .clouds import find_cloud
+    cloud = find_cloud(context,search_cloud.lower())
+    if not cloud:
+        assert False, "Cloud %s is not added" % cloud
+    if state not in ['enabled','disabled']:
+        raise Exception('Unknown type of state')
+    button_state = cloud.find_element_by_class_name('icon').value_of_css_property('background-color')
+    import ipdb; ipdb.set_trace()
+
+    r, g, b = map(int, re.search(
+        r'rgb\((\d+),\s*(\d+),\s*(\d+)', rgb).groups())
+    color = '#%02x%02x%02x' % (r, g, b)
+
 
 @step(u'I click the mist.io button')
 def click_mist_io(context):
@@ -172,7 +189,6 @@ def click_mist_io(context):
 
 @step(u'I click the "{button}" button')
 def click_button_by_id(context,button):
-    import ipdb;ipdb.set_trace()
     if button == 'new cloud':
       button_to_click = context.browser.find_element_by_id('addBtn')
     elif button == 'save title':
