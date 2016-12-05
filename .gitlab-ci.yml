@@ -22,8 +22,8 @@ run_mayday_test:
         --webdriver-path=$CI_PROJECT_DIR/parts/chromedriver/chromedriver
         --js-console-log=$CI_PROJECT_DIR/logs/js_console.log
         -D BEHAVE_DEBUG_ON_ERROR
-        -k --tags=alert,graph,ssh,celery,google_sso_signin,github_sso_signin
-        $CI_PROJECT_DIR/misttests/legacy_gui/core/mayday/features
+        -k --tags=alert,ssh,celery,google_sso_signin,github_sso_signin
+        $CI_PROJECT_DIR/misttests/gui/core/mayday/features
   artifacts:
     paths:
       - logs/
