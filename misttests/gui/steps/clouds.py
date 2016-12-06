@@ -140,15 +140,18 @@ def set_openstack_creds(context):
                context.mist_config['CREDENTIALS']['OPENSTACK']['auth_url'],
                context.mist_config['CREDENTIALS']['OPENSTACK']['tenant'],))
 
+
 def set_hostvirtual_creds(context):
     api_key = context.mist_config['CREDENTIALS']['HOSTVIRTUAL']['api_key']
     context.execute_steps(u'Then I set the value "%s" to field "API Key" in '
                           u'"cloud" add form' % api_key)
 
+
 def set_vultr_creds(context):
     api_key = context.mist_config['CREDENTIALS']['VULTR']['apikey']
     context.execute_steps(u'Then I set the value "%s" to field "API Key" in '
                           u'"cloud" add form' % api_key)
+
 
 def set_indonesian_creds(context):
     context.execute_steps(u'''
@@ -156,13 +159,10 @@ def set_indonesian_creds(context):
                 Then I set the value "%s" to field "Username" in "cloud" add form
                 Then I set the value "%s" to field "Password" in "cloud" add form
                 Then I set the value "%s" to field "Organization" in "cloud" add form
-                Then I open the "Region" drop down
-                And I wait for 1 seconds
-                When I click the button "%s" in the "Region" dropdown
             ''' % (context.mist_config['CREDENTIALS']['INDONESIAN']['username'],
                    context.mist_config['CREDENTIALS']['INDONESIAN']['password'],
-                   context.mist_config['CREDENTIALS']['INDONESIAN']['organization'],
-                   context.mist_config['CREDENTIALS']['INDONESIAN']['indonesianRegion'],))
+                   context.mist_config['CREDENTIALS']['INDONESIAN']['organization'],))
+
 
 def set_azure_arm_creds(context):
     context.execute_steps(u'''
@@ -176,16 +176,42 @@ def set_azure_arm_creds(context):
                        context.mist_config['CREDENTIALS']['AZURE_ARM']['client_key'],
                        context.mist_config['CREDENTIALS']['AZURE_ARM']['client_secret'],))
 
-# path for images and ssh key might be needed as well
+
 def set_kvm_creds(context):
     context.execute_steps(u'''
+                    When I add the key needed for KVM
+                    When I click the new cloud button
+                    Then I expect the "Cloud" add form to be visible within max 5 seconds
+                    And I open the "Choose Provider" drop down
+                    And I wait for 1 seconds
+                    When I click the button "KVM (Via Libvirt)" in the "Choose Provider" dropdown
+                    Then I expect the field "Title" in the cloud add form to be visible within max 4 seconds
                     Then I set the value "KVM" to field "Title" in "cloud" add form
-                    Then I set the value "%s" to field "KVM Hostname" in "cloud" add form
-                    Then I set the value "%s" to field "SSH user" in "cloud" add form
-                    Then I set the value "%s" to field "SSH port" in "cloud" add form
-                ''' % (context.mist_config['CREDENTIALS']['KVM']['hostname'],
-                       context.mist_config['CREDENTIALS']['KVM']['ssh_user'],
-                       context.mist_config['CREDENTIALS']['KVM']['ssh_port'],))
+                    Then I set the value "%s" to field "KVM hostname" in "cloud" add form
+                    And I wait for 1 seconds
+                    And I click the button "KVMKEY" in the "SSH Key" dropdown
+                '''% (context.mist_config['CREDENTIALS']['KVM']['hostname'],))
+
+
+# @step(u'I add the key needed for KVM')
+# def add_key_for_provider(context):
+#     context.execute_steps(u'''
+#         When I visit the Keys page
+#         When I click the button "+"
+#         Then I expect the "Key" add form to be visible within max 10 seconds
+#         When I set the value "KVMKey" to field "Name" in "key" add form
+#         When I set the value "%s" to field "Private Key" in "key" add form
+#         And I wait for 5 seconds
+#         And I expect for the button "Add" in "key" add form to be clickable within 9 seconds
+#         When I focus on the button "Add" in "key" add form
+#         And I click the button "Add" in "key" add form
+#         Then I expect the "key" edit form to be visible within max 7 seconds
+#         When I visit the Keys page
+#         Then "KVMKey" key should be present within 15 seconds
+#         Then I visit the Home page
+#         When I wait for the dashboard to load
+#         '''%(context.mist_config['CREDENTIALS']['KVM']['key'],))
+
 
 # os and ssh key might be needed as well
 def set_other_server_creds(context):
@@ -193,6 +219,19 @@ def set_other_server_creds(context):
                     Then I set the value "Bare Metal" to field "Title" in "cloud" add form
                     Then I set the value "%s" to field "Hostname" in "cloud" add form
                 ''' % (context.mist_config['CREDENTIALS']['KVM']['hostname'],))
+
+
+def set_vmware_creds(context):
+    context.execute_steps(u'''
+                Then I set the value "VmWare" to field "Title" in "cloud" add form
+                Then I set the value "%s" to field "Username" in "cloud" add form
+                Then I set the value "%s" to field "Password" in "cloud" add form
+                Then I set the value "%s" to field "Organization" in "cloud" add form
+                Then I set the value "%s" to field "Hostname" in "cloud" add form
+            ''' % (context.mist_config['CREDENTIALS']['VMWARE']['username'],
+                   context.mist_config['CREDENTIALS']['VMWARE']['password'],
+                   context.mist_config['CREDENTIALS']['VMWARE']['organization'],
+                   context.mist_config['CREDENTIALS']['VMWARE']['host'],))
 
 
 cloud_creds_dict = {
@@ -211,8 +250,9 @@ cloud_creds_dict = {
     "indonesian": set_indonesian_creds,
     "vultr": set_vultr_creds,
     "azure arm": set_azure_arm_creds,
-    "kvm": set_kvm_creds,
-    "other server": set_other_server_creds
+    "kvm (via libvirt)": set_kvm_creds,
+    "other server": set_other_server_creds,
+    "vmware": set_vmware_creds
 }
 
 
