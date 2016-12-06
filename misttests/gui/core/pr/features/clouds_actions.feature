@@ -7,7 +7,7 @@ Feature: Cloud actions for polymer
     When I wait for the dashboard to load
 
   @cloud-edit-creds
-  Scenario: Rename a cloud
+  Scenario: Edit credentials of a cloud
     Given "Openstack" cloud has been added
     Then I open the cloud menu for "Openstack"
     Then I set the value "['CREDENTIALS']['OPENSTACK']['username']" to field "Username" in "cloud" edit form

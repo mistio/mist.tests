@@ -138,6 +138,7 @@ def set_value_to_field(context, value, name, title, form_type):
     clear_input_and_send_keys(input, value)
 
 
+
 @step(u'I expect for the button "{button_name}" in "{title}" {form_type} form'
       u' to be clickable within {seconds} seconds')
 def check_button_in_form_is_clickable(context, button_name, title, form_type,
