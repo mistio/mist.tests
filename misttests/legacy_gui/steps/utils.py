@@ -105,8 +105,8 @@ def wait_for_buttons_to_appear(context):
     end_time = time() + 10
     while time() < end_time:
         try:
-            images_button = context.browser.find_element_by_id('images')
-            counter_span = images_button.find_element_by_class_name('count')
+            images_button = context.browser.find_element_by_xpath("//a[@href='#/images'")
+            counter_span = images_button.find_element_by_class_name('ui-li-count ui-body-inherit')
             int(safe_get_element_text(counter_span))
             break
         except (NoSuchElementException, ValueError, AttributeError):
