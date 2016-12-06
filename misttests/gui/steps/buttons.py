@@ -15,6 +15,8 @@ from selenium.webdriver import ActionChains
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
+from selenium.webdriver.support.color import Color
+
 
 from selenium.common.exceptions import WebDriverException
 from selenium.common.exceptions import TimeoutException
@@ -175,9 +177,14 @@ def state_of_cloud(context,search_cloud,state):
     button_state = cloud.find_element_by_class_name('icon').value_of_css_property('background-color')
     import ipdb; ipdb.set_trace()
 
-    r, g, b = map(int, re.search(
-        r'rgb\((\d+),\s*(\d+),\s*(\d+)', rgb).groups())
-    color = '#%02x%02x%02x' % (r, g, b)
+    print Color.from_string('rgb(1, 255, 3)').hex
+
+    color = Color.from_string(button_state).hex
+
+    color = '#%02x%02x%02x%02x' % button_state
+    # r, g, b = map(int, re.search(
+    #     r'rgb\((\d+),\s*(\d+),\s*(\d+)', button_state).groups())
+    # color = '#%02x%02x%02x' % (r, g, b)
 
 
 @step(u'I click the mist.io button')
