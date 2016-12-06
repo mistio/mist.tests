@@ -43,10 +43,10 @@ def get_add_form(context, title):
 
 def get_edit_form(context, title):
     title = title.lower()
-    if title == 'cloud':
-        raise Exception
+    # if title == 'cloud':
+    #     raise Exception
     if title not in ['machine', 'image', 'key', 'network', 'tunnel', 'script',
-                     'template', 'stack', 'team', 'policy']:
+                     'template', 'stack', 'team', 'policy', 'cloud']:
         raise Exception('The title given is unknown')
     try:
         if title == 'policy':
@@ -124,6 +124,7 @@ def check_that_field_is_visible(context, field_name, title, form_type, seconds):
 @step(u'I set the value "{value}" to field "{name}" in "{title}" {form_type}'
       u' form')
 def set_value_to_field(context, value, name, title, form_type):
+    import ipdb;ipdb.set_trace()
     if context.mist_config.get(value):
         value = context.mist_config.get(value)
     elif "random" in value:
