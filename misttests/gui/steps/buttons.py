@@ -166,6 +166,7 @@ def click_item(context, text, type_of_item):
             return True
     assert False, "Could not click item %s" % text
 
+
 @step(u'cloud "{search_cloud}" should be "{state}"')
 def state_of_cloud(context,search_cloud,state):
     from .clouds import find_cloud
@@ -175,16 +176,19 @@ def state_of_cloud(context,search_cloud,state):
     if state not in ['enabled','disabled']:
         raise Exception('Unknown type of state')
     button_state = cloud.find_element_by_class_name('icon').value_of_css_property('background-color')
-    import ipdb; ipdb.set_trace()
-
-    print Color.from_string('rgb(1, 255, 3)').hex
 
     color = Color.from_string(button_state).hex
+    actual_state = get_color_from_state(state)
+    if color != actual_state:
+        assert False, "Cloud should be %s, but it is not" % state
 
-    color = '#%02x%02x%02x%02x' % button_state
-    # r, g, b = map(int, re.search(
-    #     r'rgb\((\d+),\s*(\d+),\s*(\d+)', button_state).groups())
-    # color = '#%02x%02x%02x' % (r, g, b)
+
+def get_color_from_state(state):
+    if state == 'enabled':
+        return '#69b46c'
+    elif state == 'disabled':
+        return '#d96557'
+    return None
 
 
 @step(u'I click the mist.io button')
