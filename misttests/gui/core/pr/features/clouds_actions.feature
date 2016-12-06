@@ -6,6 +6,16 @@ Feature: Cloud actions for polymer
     And I am in the new UI
     When I wait for the dashboard to load
 
+  @cloud-toggle
+   Scenario: Toggle a cloud
+    Given "Openstack" cloud has been added
+    Then I open the cloud menu for "Openstack"
+    When I click the "toggle" button
+    And I wait for 3 seconds
+    When I visit the Home page
+    And I wait for the dashboard to load
+    Then cloud "Openstack" should be "disabled"
+
   @cloud-rename
   Scenario: Rename a cloud
     Given "Openstack" cloud has been added
