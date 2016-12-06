@@ -28,14 +28,13 @@ def wait_graphs_to_appear(context):
 
 @step(u'I focus on the "{graph_title}" graph')
 def focus_on_a_graph(context, graph_title):
-    graphs = context.browser.find_elements_by_tag_name('dashboard-panel')
-    graph_title = graph_title.lower()
-    for graph in graphs:
-        if graph_title in safe_get_element_text(graph.find_element_by_tag_name('h3')).lower():
-            position = graph.location['y']
-            context.browser.execute_script("window.scrollTo(0, %s)" % position)
-            return
-    assert False, "Could not find graph with title %s" % graph_title
+    try:
+        monitoring_area = context.browser.find_element_by_tag_name('polyana-dashboard')
+        graph = monitoring_area.find_element_by_xpath("//chart-line[contains(@id, '%s')]" % graph_title)
+        position = graph.location['y']
+        context.browser.execute_script("window.scrollTo(0, %s)" % position)
+    except NoSuchElementException:
+            assert False, "Could not find graph with title %s" % graph_title
 
 
 @step(u'I expect the metric buttons to appear within {seconds} seconds')
@@ -53,18 +52,12 @@ def wait_metric_buttons(context, seconds):
 
 @step(u'"{graph_title}" graph should appear within {seconds} seconds')
 def wait_for_graph_to_appear(context, graph_title, seconds):
-    timeout = time() + int(seconds)
     graph_title = graph_title.lower()
-    while time() < timeout:
-        graphs = context.browser.find_elements_by_tag_name('dashboard-panel')
-        for graph in graphs:
-            graph = graph.find_element_by_tag_name('h3')
-            graph_text = safe_get_element_text(graph)
-            if graph_title in graph_text.lower():
-                return
-        sleep(1)
-    assert False, "Graph with title %s has not appeared after %s seconds"\
-                   % (graph_title, seconds)
+    monitoring_area = context.browser.find_element_by_tag_name('polyana-dashboard')
+    try:
+        WebDriverWait(monitoring_area, int(seconds)).until(EC.presence_of_element_located((By.XPATH, "//chart-line[contains(@id, '%s')]" % graph_title)))
+    except TimeoutException:
+        raise TimeoutException("%s graph has not appeared after %s seconds" % (graph_title, seconds))
 
 
 def check_graph_tooltip_value(context, graph, operator, wanted_value, tries=3):
@@ -86,7 +79,26 @@ def check_graph_tooltip_value(context, graph, operator, wanted_value, tries=3):
     else:
         return False
 
+#This works with the new canvas based graphs
+@step(u'"{graph_title}" graph should have some values')
+def graph_some_value(context, graph_title):
+    """
+     Checks the graph to see if there is anything drawn
+    """
+    graph_title = graph_title.lower()
+    graph_xpath = '[id^="%s-"]' % graph_title
 
+    try:
+        datapoints = context.browser.execute_script("var graph = document.querySelector('%s'); return graph.data.datasets[0].data.length" % graph_xpath)
+        if datapoints > 1:
+            return
+        else:
+            assert False, 'Graph does not have any values'
+    except NoSuchElementException:
+        assert False, "Could not find graph with title %s" % graph_title
+
+
+#TO REMOVE: This does not work with the new canvas based graphs
 @step(u'"{graph_title}" graph should have value {operator} {target_value} '
       u'within {seconds} seconds')
 def watch_graph_value(context, graph_title, operator, target_value, seconds):
@@ -97,21 +109,17 @@ def watch_graph_value(context, graph_title, operator, target_value, seconds):
     if operator not in comparisons.keys():
         raise ValueError("Operator must be one of these: %s" % comparisons.keys())
     graph_title = graph_title.lower()
-    graph_to_watch = None
-    graphs = context.browser.find_elements_by_tag_name('dashboard-panel')
-    for graph in graphs:
-        graph_title_text = safe_get_element_text(graph.find_element_by_tag_name('h3'))
-        if graph_title in graph_title_text.lower():
-            graph_to_watch = graph
-            break
-    assert graph_to_watch, "Graph with title %s has not appeared after %s " \
-                           "seconds" % (graph_title, seconds)
+    monitoring_area = context.browser.find_element_by_tag_name('polyana-dashboard')
+    try:
+        graph = monitoring_area.find_element_by_xpath("./chart-line[contains(@id, '%s')]" % graph_title)
+    except NoSuchElementException:
+        assert False, "Could not find graph with title %s" % graph_title
 
     timeout = time() + int(seconds)
     target_value = float(target_value)
     while time() < timeout:
         try:
-            if check_graph_tooltip_value(context, graph_to_watch, operator, target_value):
+            if check_graph_tooltip_value(context, graph, operator, target_value):
                 return True
         except NoSuchElementException:
             pass
@@ -157,24 +165,20 @@ def check_for_data_gaps(context, graph_title, seconds):
 @step(u'I delete the "{graph_title}" graph')
 def delete_a_graph(context, graph_title):
     graph_title = graph_title.lower()
-    graph_to_watch = None
-    graphs = context.browser.find_elements_by_tag_name('dashboard-panel')
-    for graph in graphs:
-        if graph_title in safe_get_element_text(graph.find_element_by_tag_name('h3')).lower():
-            graph_to_watch = graph
-            break
-    assert graph_to_watch, "Could not find graph with title %s" % graph_title
+    graph = context.browser.find_element_by_xpath("//chart-line[contains(@id, '%s')]" % graph_title)
 
     try:
-        x_button = graph_to_watch.find_element_by_xpath(".//paper-icon-button[@icon='icons:close']")
+        parent = graph.find_element_by_xpath("..")
+        delete_button = parent.find_element_by_tag_name("paper-icon-button")
     except NoSuchElementException:
         assert False, "Could not find X button in the graph with title %s" % graph_title
-    x_button.click()
+
+    delete_button.click()
 
     timeout = time() + 20
     while time() < timeout:
         try:
-            graph_to_watch.is_displayed()
+            graph.is_displayed()
         except Exception:
             return
     assert False, "Graph %s has not disappeared after 20 seconds" % graph_title
