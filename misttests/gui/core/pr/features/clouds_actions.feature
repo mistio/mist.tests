@@ -7,10 +7,17 @@ Feature: Cloud actions for polymer
     When I wait for the dashboard to load
 
   @cloud-edit-creds
-  Scenario: Edit credentials of a cloud
-    Given "Openstack" cloud has been added
-    Then I open the cloud menu for "Openstack"
-    Then I set the value "['CREDENTIALS']['OPENSTACK']['username']" to field "Username" in "cloud" edit form
+  Scenario Outline: Edit credentials of a cloud
+    Given "Packet" cloud has been added
+    Then I open the cloud menu for "Packet"
+    And  I use my second "<provider>" credentials in cloud edit form
+    And I focus on the button "Edit Credentials" in "cloud" edit form
+    Then I click the button "Edit Credentials" in "cloud" edit form
+    And I wait for 5 seconds
+
+  Examples: Providers
+  | provider       |
+  | Packet         |
 
   @cloud-rename
   Scenario: Rename a cloud
