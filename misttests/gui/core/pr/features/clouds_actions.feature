@@ -14,6 +14,7 @@ Feature: Cloud actions for polymer
     And I focus on the button "Edit Credentials" in "cloud" edit form
     Then I click the button "Edit Credentials" in "cloud" edit form
     And I wait for 5 seconds
+    # stin openstack o admin exei 1 machine, enw o tester den exei
 
   Examples: Providers
   | provider       |
