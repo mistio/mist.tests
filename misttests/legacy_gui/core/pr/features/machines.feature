@@ -4,6 +4,7 @@ Feature: Machines
   Scenario: Create machine from machine list
 
     Given I am logged in to mist.core
+    And I am in the legacy UI
     Given "EC2" cloud has been added
     And I wait for 5 seconds
     When I visit the Machines page
