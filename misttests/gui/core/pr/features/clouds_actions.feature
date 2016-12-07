@@ -4,12 +4,14 @@ Feature: Cloud actions for polymer
   Background:
     Given I am logged in to mist.core
     And I am in the new UI
-    When I wait for the dashboard to load
 
   @cloud-edit-creds
   Scenario Outline: Edit credentials of a cloud
-    Given "Packet" cloud has been added
-    Then I open the cloud menu for "Packet"
+    When I wait for the dashboard to load
+    Given "Openstack" cloud has been added
+    When I visit the Machines page
+    Then "Test" machine should be absent within 15 seconds
+    Then I open the cloud menu for "Openstack"
     And  I use my second "<provider>" credentials in cloud edit form
     And I focus on the button "Edit Credentials" in "cloud" edit form
     Then I click the button "Edit Credentials" in "cloud" edit form
