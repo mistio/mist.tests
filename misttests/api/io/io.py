@@ -4,7 +4,6 @@ from misttests.api.mistrequests import MistRequests
 
 
 class MistIoApi(object):
-
     def __init__(self, uri):
         self.uri = uri
 
@@ -16,11 +15,69 @@ class MistIoApi(object):
         return req
 
     def list_clouds(self, api_token=None):
-
         req = MistRequests(uri=self.uri + '/api/v1/clouds', api_token=api_token)
         req.post = req.unavailable_api_call
         req.put = req.unavailable_api_call
         req.delete = req.unavailable_api_call
+        return req
+
+    def list_networks(self, cloud_id, api_token):
+        uri = '{base_uri}/clouds/{cloud_id}/networks'.format(base_uri=self.uri,
+                                                             cloud_id=cloud_id)
+        req = MistRequests(uri=uri, api_token=api_token)
+        req.post = req.unavailable_api_call
+        req.put = req.unavailable_api_call
+        req.delete = req.unavailable_api_call
+        return req
+
+    def list_subnets(self, cloud_id, network_id, api_token):
+        uri = '{base_uri}/clouds/{cloud_id}/networks/{network_id}/subnets'.format(base_uri=self.uri,
+                                                                                  cloud_id=cloud_id,
+                                                                                  network_id=network_id)
+        req = MistRequests(uri=uri, api_token=api_token)
+        req.post = req.unavailable_api_call
+        req.put = req.unavailable_api_call
+        req.delete = req.unavailable_api_call
+        return req
+
+    def create_network(self, cloud_id, network_params, api_token):
+        uri = '{base_uri}/clouds/{cloud_id}/networks'.format(base_uri=self.uri,
+                                                             cloud_id=cloud_id)
+        req = MistRequests(uri=uri, api_token=api_token, data=json.dumps(network_params))
+        req.get = req.unavailable_api_call
+        req.put = req.unavailable_api_call
+        req.delete = req.unavailable_api_call
+        return req
+
+    def create_subnet(self, cloud_id, network_id, subnet_params, api_token):
+        uri = '{base_uri}/clouds/{cloud_id}/networks/{network_id}/subnets'.format(base_uri=self.uri,
+                                                                                  cloud_id=cloud_id,
+                                                                                  network_id=network_id)
+        req = MistRequests(uri=uri, api_token=api_token, data=json.dumps(subnet_params))
+        req.get = req.unavailable_api_call
+        req.put = req.unavailable_api_call
+        req.delete = req.unavailable_api_call
+        return req
+
+    def delete_network(self, cloud_id, network_id, api_token):
+        uri = '{base_uri}/clouds/{cloud_id}/networks/{network_id}'.format(base_uri=self.uri,
+                                                                          cloud_id=cloud_id,
+                                                                          network_id=network_id)
+        req = MistRequests(uri=uri, api_token=api_token)
+        req.get = req.unavailable_api_call
+        req.post = req.unavailable_api_call
+        req.put = req.unavailable_api_call
+        return req
+
+    def delete_subnet(self, cloud_id, network_id, subnet_id, api_token):
+        uri = '{base_uri}/clouds/{cloud_id}/networks/{network_id}/subnets/{subnet_id}'.format(base_uri=self.uri,
+                                                                                              cloud_id=cloud_id,
+                                                                                              network_id=network_id,
+                                                                                              subnet_id=subnet_id)
+        req = MistRequests(uri=uri, api_token=api_token)
+        req.get = req.unavailable_api_call
+        req.post = req.unavailable_api_call
+        req.put = req.unavailable_api_call
         return req
 
     def add_cloud(self, title, provider, api_token=None, **kwargs):
@@ -204,7 +261,7 @@ class MistIoApi(object):
         return req
 
     def add_key(self, name, private, cookie=None, csrf_token=None,
-                 api_token=None):
+                api_token=None):
         payload = {
             'name': name,
             'priv': private

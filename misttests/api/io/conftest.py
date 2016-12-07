@@ -7,6 +7,8 @@ from datetime import timedelta
 
 from misttests import config
 from io import MistIoApi
+from mist.io.clouds.models import Cloud
+from mist.io.networks.models import Network, Subnet
 
 
 @pytest.fixture
@@ -111,6 +113,27 @@ def cloud_name():
     return config.API_TESTING_CLOUD
 
 
+@pytest.fixture(scope='module')
+def cloud():
+    test_cloud = Cloud.objects.get(title=cloud_name())
+    return test_cloud
+
+
 @pytest.fixture
 def org_name():
     return config.ORG_NAME
+
+
+@pytest.fixture()
+def network_test_cleanup(request):
+    def fin():
+        try:
+            [network.ctl.delete_network() for network in Network.objects(title='api_test_network')]
+        except Network.DoesNotExist:
+            pass
+        try:
+            [subnet.ctl.delete_subnet() for subnet in Subnet.objects(title='api_test_subnet')]
+        except Subnet.DoesNotExist:
+            pass
+    request.addfinalizer(fin)
+    return None
