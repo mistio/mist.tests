@@ -240,6 +240,18 @@ def set_second_packet_creds(context):
                           u'"cloud" edit form' % api_key)
 
 
+def set_second_openstack_creds(context):
+    context.execute_steps(u'''
+                Then I set the value "%s" to field "Username" in "cloud" edit form
+                Then I set the value "%s" to field "Password" in "cloud" edit form
+                Then I set the value "%s" to field "Auth Url" in "cloud" edit form
+                Then I set the value "%s" to field "Tenant Name" in "cloud" edit form
+            ''' % (context.mist_config['CREDENTIALS']['OPENSTACK_2']['username'],
+                   context.mist_config['CREDENTIALS']['OPENSTACK']['password'],
+                   context.mist_config['CREDENTIALS']['OPENSTACK']['auth_url'],
+                   context.mist_config['CREDENTIALS']['OPENSTACK_2']['tenant'],))
+
+
 cloud_creds_dict = {
     "azure": set_azure_creds,
     "gce": set_gce_creds,
@@ -264,6 +276,7 @@ cloud_creds_dict = {
 
 cloud_second_creds_dict = {
     "packet": set_second_packet_creds,
+    "openstack": set_second_openstack_creds
 }
 
 

@@ -23,7 +23,6 @@ Feature: Cloud actions for polymer
     Then I visit the Home page
     And I wait for the dashboard to load
 
-
   @cloud-rename
   Scenario: Rename a cloud
     Given "Openstack" cloud has been added
@@ -39,7 +38,6 @@ Feature: Cloud actions for polymer
 
   @cloud-delete
   Scenario: Delete a cloud
-    Given "Renamed" cloud has been added
     Then I open the cloud menu for "Renamed"
     And I click the "delete cloud" button
     And I wait for 2 seconds
