@@ -3,6 +3,7 @@ Feature: Actions for Images
 
   Scenario: Star image from Advanced search
     Given I am logged in to mist.core
+    And I am in the legacy UI
     Given "EC2" cloud has been added
     When I visit the Images page after the counter has loaded
     Then there should be starred Images

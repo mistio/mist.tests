@@ -14,6 +14,7 @@ Feature: RBAC
     And I follow the link contained in the email sent at the address "RBAC_OWNER_EMAIL" with subject "[mist.io] Confirm your registration"
     Then I enter my rbac_owner credentials for signup_password_set
     And I click the submit button in the landing page popup
+    And I am in the legacy UI
     And I wait for the mist.io splash page to load
 
   # user (with no owner privileges) signs up
@@ -29,12 +30,14 @@ Feature: RBAC
     And I follow the link contained in the email sent at the address "RBAC_MEMBER_EMAIL" with subject "[mist.io] Confirm your registration"
     Then I enter my rbac_member credentials for signup_password_set
     And I click the submit button in the landing page popup
+    And I am in the legacy UI
     And I wait for the mist.io splash page to load
 
   # owner creates an organization
   @create-org
   Scenario: Organization creation
     Given I am logged in to mist.core as rbac_owner
+    And I am in the legacy UI
     When I click the gravatar
     Then I click the button "ADD ORGANIZATION"
     And I expect for "organization-add-popup" popup to appear within max 3 seconds
@@ -59,6 +62,7 @@ Feature: RBAC
   @add-org-cloud
   Scenario: Add cloud in organization context
     Given I am logged in to mist.core as rbac_owner
+    And I am in the legacy UI
     And I switch to the ORG organization
     Given "EC2" cloud has been added
     Then I logout
@@ -66,6 +70,7 @@ Feature: RBAC
   @manage-team
   Scenario: Manage member and team from single team page
     Given I am logged in to mist.core as rbac_owner
+    And I am in the legacy UI
     And I switch to personal context
     Given I am logged in to mist.core as rbac_owner
     And I switch to the ORG organization
@@ -101,6 +106,7 @@ Feature: RBAC
   @manage-members
   Scenario: Invite mist.io and non-mist.io members
     Given I am logged in to mist.core as rbac_owner
+    And I am in the legacy UI
     And I switch to personal context
     Given I am logged in to mist.core as rbac_owner
     And I switch to the ORG organization
@@ -160,6 +166,7 @@ Feature: RBAC
   @manage-rules
   Scenario: Manage team rules
     Given I am logged in to mist.core as rbac_owner
+    And I am in the legacy UI
     When I visit the Teams page after the Teams counter has loaded
     When I click the button "Create team"
     Then I expect for "add-team" collapsible to appear within max 5 seconds
