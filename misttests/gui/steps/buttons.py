@@ -122,6 +122,7 @@ def click_button(context, text):
 
 @step(u'I click the button "{button}" in the "{name}" dropdown')
 def click_button_in_dropdown(context, button, name):
+    #import ipdb;ipdb.set_trace()
     button = button.strip().lower()
     dropdown = find_dropdown(context, name.lower())
     if button == get_current_value_of_dropdown(dropdown):

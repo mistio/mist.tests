@@ -50,7 +50,7 @@ machine_states_ordering = {
 def set_aws_values(context):
     context.execute_steps(u'''
                 Then I set the value "AWS UI Testing Machine" to field "Machine Name" in "machine" add form
-                Then I click the button "CoreOS stable 1068.8.0 (PV)" in the "Image" dropdown
+                When I click the button "ap-northeast-1a " in the "Location" dropdown
             ''')
 
 machine_values_dict = {
