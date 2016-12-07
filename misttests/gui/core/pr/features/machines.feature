@@ -7,7 +7,20 @@ Feature: Machine actions for polymer
 
 
   @machine-create
-  Scenario: Create a machine
+  Scenario Outline: Create a machine
     When I wait for the dashboard to load
-    Given "EC2" cloud has been added
-    
+    Given "<provider>" cloud has been added
+    When I visit the Machines page
+    And I click the button "+"
+    Then I expect the "Machine" add form to be visible within max 10 seconds
+    When I open the "Choose Cloud" drop down
+    And I wait for 1 seconds
+    When I click the button "<provider>" in the "Choose Cloud" dropdown
+    Then I expect the field "Machine name" in the machine add form to be visible within max 4 seconds
+    When I select the proper values for "<provider>" in the machine "add" form
+
+
+    Examples: Providers
+    | provider       |
+    | AWS            |
+

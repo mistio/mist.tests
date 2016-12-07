@@ -47,6 +47,27 @@ machine_states_ordering = {
 }
 
 
+def set_aws_values(context):
+    context.execute_steps(u'''
+                Then I set the value "AWS UI Testing Machine" to field "Machine Name" in "machine" add form
+                Then I click the button "CoreOS stable 1068.8.0 (PV)" in the "Image" dropdown
+            ''')
+
+machine_values_dict = {
+    "aws": set_aws_values,
+}
+
+
+@step(u'I select the proper values for "{provider}" in the machine "{form_type}" form')
+def cloud_creds(context, provider, form_type):
+    if form_type not in ['add','edit']:
+        raise ValueError('The form type given is unknown')
+    provider = provider.strip().lower()
+    if provider not in machine_values_dict.keys():
+        raise Exception("Unknown cloud provider")
+    machine_values_dict.get(provider)(context)
+
+
 @step(u'I expect for "{key}" key to appear within max {seconds} seconds')
 def key_appears(context, key, seconds):
     if context.mist_config.get(key):
