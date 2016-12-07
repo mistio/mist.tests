@@ -3,6 +3,7 @@ Feature: Create Machine and test monitoring
 
   Background:
     Given I am logged in to mist.core
+    And I am in the legacy UI
     Given "EC2" cloud has been added
 
   Scenario: Create Machine,deploy monitoring agent and check the graphs
