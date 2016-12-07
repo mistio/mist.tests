@@ -24,6 +24,7 @@ Feature: Login Scenarios
     And I follow the link contained in the email sent at the address "EMAIL" with subject "[mist.io] Confirm your registration"
     Then I enter my standard credentials for signup_password_set
     And I click the submit button in the landing page popup
+    And I am in the legacy UI
     And I wait for the mist.io splash page to load
     Then I logout
     Given I am not logged in to mist.core
@@ -48,6 +49,7 @@ Feature: Login Scenarios
     And I follow the link contained in the email sent at the address "EMAIL" with subject "[mist.io] Password reset request"
     And I enter my standard credentials for password_reset
     Then I click the reset_pass_submit button in the landing page popup
+    And I am in the legacy UI
     And I wait for the mist.io splash page to load
     And I logout
     And I wait for 2 seconds
@@ -78,6 +80,7 @@ Feature: Login Scenarios
     And I follow the link contained in the email sent at the address "DEMO_EMAIL" with subject "[mist.io] Confirm your registration"
     Then I enter my standard credentials for signup_password_set
     And I click the submit button in the landing page popup
+    And I am in the legacy UI
     And I wait for the mist.io splash page to load
     Then I logout
     And I wait for 2 seconds
@@ -85,10 +88,12 @@ Feature: Login Scenarios
   @multiple-login
   Scenario: Launch two browsers and try to login from both
     Given I am logged in to mist.core
+    And I am in the legacy UI
     When I launch a second browser
     And I switch browser
     When I visit mist.core
     Given I am logged in to mist.core
+    And I am in the legacy UI
     When I visit the Account page
     Then I wait for the mist.io splash page to load
     When I focus on the "Create Token" button
