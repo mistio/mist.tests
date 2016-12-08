@@ -59,7 +59,8 @@ def set_aws_values(context,machine_name):
                 When I open the "Key" drop down
                 And I click the button "TestKey " in the "Key" dropdown
                 Then I set the value "#!bin/bash " to field "Cloud Init Script" in "machine" add form
-            '''% (machine_name))
+            '''% machine_name)
+
 
 def set_do_values(context,machine_name):
     context.execute_steps(u'''
@@ -73,7 +74,8 @@ def set_do_values(context,machine_name):
                 When I open the "Key" drop down
                 And I click the button "TestKey " in the "Key" dropdown
                 Then I set the value "#!bin/bash " to field "Cloud Init Script" in "machine" add form
-            '''% (machine_name))
+            '''% machine_name)
+
 
 machine_values_dict = {
     "aws": set_aws_values,
