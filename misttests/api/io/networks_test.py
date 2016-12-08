@@ -4,34 +4,34 @@ import misttests.api.helpers
 from misttests.api.core.conftest import owner_api_token
 
 create_network_params = {
-        'ec2': {'network': {'name': 'api_test_network',
-                            'description': 'A Test Network',
+        'ec2': {'network': {'name': 'ec2apitestnet',
+                            'description': 'api-test-net',
                             'cidr': '10.1.0.0/16'}},
 
-        'openstack': {'network': {'name': 'api_test_network',
-                                  'description': 'A Test Network'}},
+        'openstack': {'network': {'name': 'openstackapitestnet',
+                                  'description': 'api-test-net'}},
 
-        'gce': {'network': {'name': 'api_test_network',
-                            'description': 'A Test Network',
+        'gce': {'network': {'name': 'gceapitestnet',
+                            'description': 'api-test-net',
                             'mode': 'custom',
                             'cidr': '10.1.0.0/16'}}
      }
 create_subnet_params = {
-        'ec2': {'subnet': {'name': 'api_test_subnet',
+        'ec2': {'subnet': {'name': 'ec2apitestsubnet',
                            'cidr': '10.1.1.0/24',
-                           'description': 'A Test Subnet',
+                           'description': 'api-test-subnet',
                            'availability_zone': 'ap-northeast-1a'}
                 },
 
-        'openstack': {'subnet': {'name': 'api_test_subnet',
+        'openstack': {'subnet': {'name': 'openstackapitestsubnet',
                                  'cidr': '10.1.1.0/24',
-                                 'description': 'A Test Subnet'}
+                                 'description': 'api-test-subnet'}
                 },
 
-        'gce': {'subnet': {'name': 'api_test_subnet',
+        'gce': {'subnet': {'name': 'gceapitestsubnet',
                            'cidr': '10.1.1.0/24',
-                           'description': 'A Test Subnet',
-                           'zone': 'us-west1'}
+                           'description': 'api-test-subnet',
+                           'region': 'us-west1'}
                 }
      }
 
@@ -42,13 +42,14 @@ def test_001_create_network(pretty_print, mist_io, owner_api_token, network_test
                                       network_params=create_network_params[network_test_cloud.ctl.provider],
                                       api_token=owner_api_token).post()
     # Testing the API response
+    print 'Response: code:{0}, body:{1}'.format(response.status_code, response.text)
     assert response.status_code == requests.codes.ok
 
     response_content = response.json()
     misttests.api.helpers.assert_is_instance(response_content, dict)
 
-    assert response_content['name'] == 'api_test_network'
-    assert response_content['description'] == 'A Test Network'
+    assert response_content['name'] == create_network_params[network_test_cloud.ctl.provider]['network']['name']
+    assert response_content['description'] == 'api-test-net'
 
 
 def test_002_create_subnet(pretty_print, mist_io, owner_api_token, network_test_cloud, network_test_cleanup):
@@ -65,19 +66,21 @@ def test_002_create_subnet(pretty_print, mist_io, owner_api_token, network_test_
                                      api_token=owner_api_token).post()
 
     # Testing the API response
+    print 'Response: code:{0}, body:{1}'.format(response.status_code, response.text)
     assert response.status_code == requests.codes.ok
 
     response_content = response.json()
     misttests.api.helpers.assert_is_instance(response_content, dict)
 
-    assert response_content['name'] == 'api_test_subnet'
-    assert response_content['description'] == 'A Test Subnet'
+    assert response_content['name'] == create_subnet_params[network_test_cloud.ctl.provider]['subnet']['name']
+    assert response_content['description'] == 'api-test-subnet'
 
 
-def test_003_list_networks(pretty_print, mist_io, owner_api_token, network_test_cloud):
+def test_003_list_networks(pretty_print, mist_io, owner_api_token, network_test_cloud, network_test_cleanup):
     # Getting a network listing
     response = mist_io.list_networks(cloud_id=network_test_cloud.id,
                                      api_token=owner_api_token).get()
+    print 'Response: code:{0}, body:{1}'.format(response.status_code, response.text)
     assert response.status_code == requests.codes.ok
 
     # Verifying that the API response has the correct structure
@@ -95,7 +98,7 @@ def test_003_list_networks(pretty_print, mist_io, owner_api_token, network_test_
         misttests.api.helpers.assert_is_instance(network['subnets'], list)
 
 
-def test_004_list_subnets(pretty_print, mist_io, owner_api_token, network_test_cloud):
+def test_004_list_subnets(pretty_print, mist_io, owner_api_token, network_test_cloud, network_test_cleanup):
     # Creating a network
     network_response = mist_io.create_network(cloud_id=network_test_cloud.id,
                                               network_params=create_network_params[network_test_cloud.ctl.provider],
@@ -114,6 +117,8 @@ def test_004_list_subnets(pretty_print, mist_io, owner_api_token, network_test_c
     subnet_listing = mist_io.list_subnets(cloud_id=network_test_cloud.id,
                                           api_token=owner_api_token,
                                           network_id=network_response.json()['id']).get()
+
+    print 'Response: code:{0}, body:{1}'.format(subnet_listing.status_code, subnet_listing.text)
     assert subnet_listing.status_code == requests.codes.ok
 
     # Verifying that the API response has the correct structure
@@ -128,7 +133,7 @@ def test_004_list_subnets(pretty_print, mist_io, owner_api_token, network_test_c
         assert 'description' in subnet
 
 
-def test_005_delete_network(pretty_print, mist_io, owner_api_token, network_test_cloud):
+def test_005_delete_network(pretty_print, mist_io, owner_api_token, network_test_cloud, network_test_cleanup):
     # Creating a network
     network_response = mist_io.create_network(cloud_id=network_test_cloud.id,
                                               network_params=create_network_params[network_test_cloud.ctl.provider],
@@ -141,6 +146,7 @@ def test_005_delete_network(pretty_print, mist_io, owner_api_token, network_test
     delete_response = mist_io.delete_network(cloud_id=network_test_cloud.id,
                                              network_id=network_db_id,
                                              api_token=owner_api_token).delete()
+    print 'Response: code:{0}, body:{1}'.format(delete_response.status_code, delete_response.text)
     assert delete_response.status_code == requests.codes.ok
 
     # Getting a network listing
@@ -154,7 +160,7 @@ def test_005_delete_network(pretty_print, mist_io, owner_api_token, network_test
     assert network_db_id not in api_network_ids
 
 
-def test_006_delete_subnet(pretty_print, mist_io, owner_api_token, network_test_cloud):
+def test_006_delete_subnet(pretty_print, mist_io, owner_api_token, network_test_cloud, network_test_cleanup):
     # Creating a network
     network_response = mist_io.create_network(cloud_id=network_test_cloud.id,
                                               network_params=create_network_params[network_test_cloud.ctl.provider],
@@ -178,6 +184,7 @@ def test_006_delete_subnet(pretty_print, mist_io, owner_api_token, network_test_
                                             network_id=network_db_id,
                                             subnet_id=subnet_response.json()['id'],
                                             api_token=owner_api_token).delete()
+    print 'Response: code:{0}, body:{1}'.format(delete_response.status_code, delete_response.text)
     assert delete_response.status_code == requests.codes.ok
 
     # Getting a subnet listing

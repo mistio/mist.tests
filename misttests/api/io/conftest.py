@@ -132,13 +132,13 @@ def network_test_cloud(request):
 @pytest.fixture()
 def network_test_cleanup(request):
     def fin():
-        for network in Network.objects(title='api_test_network'):
+        for network in Network.objects(description='api-test-net'):
             try:
                 network.ctl.delete_network()
             except Exception as e:
                 print 'Failed to delete network {0}'.format(network.id)
                 raise e
-        for subnet in Subnet.objects(title='api_test_subnet'):
+        for subnet in Subnet.objects(description='api-test-subnet'):
             try:
                 subnet.ctl.delete_subnet()
             except Exception as e:
