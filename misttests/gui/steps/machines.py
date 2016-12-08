@@ -58,6 +58,7 @@ def set_aws_values(context):
                 And I click the button "ap-northeast-1a " in the "Location" dropdown
                 When I open the "Key" drop down
                 And I click the button "TestKey " in the "Key" dropdown
+                Then I set the value "#!bin/bash " to field "Cloud Init Script" in "machine" add form
                 And I wait for 5 seconds
             ''')
 

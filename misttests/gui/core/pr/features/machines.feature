@@ -10,7 +10,22 @@ Feature: Machine actions for polymer
   Scenario Outline: Create a machine
     When I wait for the dashboard to load
     Given "<provider>" cloud has been added
-    # given key has been added...
+    Given "Testkey" key has been added
+#    Then I visit the keys page
+#    When I click the button "+"
+#    Then I expect the "Key" add form to be visible within max 10 seconds
+#    When I set the value "TestKey" to field "Name" in "key" add form
+#    Then I click the button "Generate" in "key" add form
+#    And I wait for 5 seconds
+#    And I expect for the button "Add" in "key" add form to be clickable within 9 seconds
+#    When I focus on the button "Add" in "key" add form
+#    And I click the button "Add" in "key" add form
+#    Then I expect the "key" edit form to be visible within max 5 seconds
+#    When I visit the Home page
+#    When I wait for the dashboard to load
+#    When I visit the Keys page
+#    Then "TestKey" key should be present within 15 seconds
+    ########################################################
     When I visit the Machines page
     And I click the button "+"
     Then I expect the "Machine" add form to be visible within max 10 seconds
