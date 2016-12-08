@@ -50,7 +50,9 @@ machine_states_ordering = {
 def set_aws_values(context):
     context.execute_steps(u'''
                 Then I set the value "AWS UI Testing Machine" to field "Machine Name" in "machine" add form
+                When I open the "Location" drop down
                 When I click the button "ap-northeast-1a " in the "Location" dropdown
+                And I wait for 5 seconds
             ''')
 
 machine_values_dict = {
