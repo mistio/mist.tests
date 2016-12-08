@@ -10,6 +10,7 @@ Feature: Machine actions for polymer
   Scenario Outline: Create a machine
     When I wait for the dashboard to load
     Given "<provider>" cloud has been added
+    # given key has been added...
     When I visit the Machines page
     And I click the button "+"
     Then I expect the "Machine" add form to be visible within max 10 seconds
