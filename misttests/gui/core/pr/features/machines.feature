@@ -22,10 +22,10 @@ Feature: Machine actions for polymer
     Then I click the "Launch" button
     And I wait for 3 seconds
     Then I visit the Machines page
-    Then "<machine_name>" machine should be present within 30 seconds
+    Then "<machine_name>" machine should be present within 40 seconds
+    Then I visit the Home page
 
     Examples: Providers
     | provider       |  machine_name |
     | AWS            |  AWS UI Test  |
     | Digital Ocean  |  DO UI Test   |
-    

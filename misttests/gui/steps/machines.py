@@ -53,6 +53,20 @@ def set_aws_values(context,machine_name):
                 When I open the "Image" drop down
                 And I click the button "Ubuntu Server 16.04 Beta2 (PV)" in the "Image" dropdown
                 When I open the "Size" drop down
+                And I click the button "512mb" in the "Size" dropdown
+                When I open the "Location" drop down
+                And I click the button "Amsterdam 2" in the "Location" dropdown
+                When I open the "Key" drop down
+                And I click the button "TestKey " in the "Key" dropdown
+                Then I set the value "#!bin/bash " to field "Cloud Init Script" in "machine" add form
+            '''% (machine_name))
+
+def set_do_values(context,machine_name):
+    context.execute_steps(u'''
+                Then I set the value "%s" to field "Machine Name" in "machine" add form
+                When I open the "Image" drop down
+                And I click the button "CentOS 5.11 x32" in the "Image" dropdown
+                When I open the "Size" drop down
                 And I click the button "m1.small - Small Instance" in the "Size" dropdown
                 When I open the "Location" drop down
                 And I click the button "ap-northeast-1a " in the "Location" dropdown
@@ -63,6 +77,7 @@ def set_aws_values(context,machine_name):
 
 machine_values_dict = {
     "aws": set_aws_values,
+    "digital ocean": set_do_values,
 }
 
 
