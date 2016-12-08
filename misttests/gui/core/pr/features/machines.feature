@@ -18,13 +18,13 @@ Feature: Machine actions for polymer
     And I wait for 1 seconds
     When I click the button "<provider>" in the "Choose Cloud" dropdown
     Then I expect the field "Machine name" in the machine add form to be visible within max 4 seconds
-    When I select the proper values for "<provider>" in the machine "add" form
+    When I select the proper values for "<provider>" to create the "<machine-name>" machine
     Then I click the "Launch" button
     And I wait for 3 seconds
     Then I visit the Machines page
-    And
 
     Examples: Providers
-    | provider       |
-    | AWS            |
+    | provider       |  machine-name |
+    | AWS            |  AWS UI Test  |
+    | Digital Ocean  |  DO UI Test   |
 

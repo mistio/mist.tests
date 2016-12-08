@@ -66,10 +66,8 @@ machine_values_dict = {
 }
 
 
-@step(u'I select the proper values for "{provider}" in the machine "{form_type}" form')
-def cloud_creds(context, provider, form_type):
-    if form_type not in ['add','edit']:
-        raise ValueError('The form type given is unknown')
+@step(u'I select the proper values for "{provider}" to create the "{machine-name}" machine')
+def cloud_creds(context, provider, machine-name):
     provider = provider.strip().lower()
     if provider not in machine_values_dict.keys():
         raise Exception("Unknown cloud provider")
