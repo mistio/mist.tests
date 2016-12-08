@@ -53,13 +53,12 @@ def set_aws_values(context):
                 When I open the "Image" drop down
                 And I click the button "Ubuntu Server 16.04 Beta2 (PV)" in the "Image" dropdown
                 When I open the "Size" drop down
-                And I click the button "t1.micro - Micro Instance" in the "Size" dropdown
+                And I click the button "m1.small - Small Instance" in the "Size" dropdown
                 When I open the "Location" drop down
                 And I click the button "ap-northeast-1a " in the "Location" dropdown
                 When I open the "Key" drop down
                 And I click the button "TestKey " in the "Key" dropdown
                 Then I set the value "#!bin/bash " to field "Cloud Init Script" in "machine" add form
-                And I wait for 5 seconds
             ''')
 
 machine_values_dict = {

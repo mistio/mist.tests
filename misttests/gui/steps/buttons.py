@@ -187,6 +187,8 @@ def click_button_by_id(context,button):
         button_to_click = context.browser.find_element_by_id('Create API Token')
     elif button == 'Create':
         button_to_click = context.browser.find_element_by_id('Create')
+    elif button == 'Launch':
+        button_to_click = context.browser.find_element_by_id('appformsubmit')
     else:
         raise Exception('Unknown type of button')
     assert button_to_click.is_displayed(), "%s button is not displayed" %button
