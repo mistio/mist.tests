@@ -195,3 +195,5 @@ REGISTER_USER_BEFORE_FEATURE = get_value_of('REGISTER_USER_BEFORE_FEATURE',
                                             False)
 
 KEY_ID = get_value_of('KEY_ID', '')
+
+NETWORK_TESTING_CLOUDS = get_value_of('NETWORK_TESTING_CLOUDS', '')

@@ -113,27 +113,36 @@ def cloud_name():
     return config.API_TESTING_CLOUD
 
 
-@pytest.fixture(scope='module')
-def cloud():
-    test_cloud = Cloud.objects.get(title=cloud_name())
-    return test_cloud
-
-
 @pytest.fixture
 def org_name():
     return config.ORG_NAME
 
 
 @pytest.fixture()
+def network_test_cloud_names():
+    return config.NETWORK_TESTING_CLOUDS
+
+
+@pytest.fixture(params=network_test_cloud_names())
+def network_test_cloud(request):
+    test_cloud = Cloud.objects.get(title=request.param)
+    return test_cloud
+
+
+@pytest.fixture()
 def network_test_cleanup(request):
     def fin():
-        try:
-            [network.ctl.delete_network() for network in Network.objects(title='api_test_network')]
-        except Network.DoesNotExist:
-            pass
-        try:
-            [subnet.ctl.delete_subnet() for subnet in Subnet.objects(title='api_test_subnet')]
-        except Subnet.DoesNotExist:
-            pass
+        for network in Network.objects(title='api_test_network'):
+            try:
+                network.ctl.delete_network()
+            except Exception as e:
+                print 'Failed to delete network {0}'.format(network.id)
+                raise e
+        for subnet in Subnet.objects(title='api_test_subnet'):
+            try:
+                subnet.ctl.delete_subnet()
+            except Exception as e:
+                print 'Failed to delete subnet {0}'.format(subnet.id)
+                raise e
     request.addfinalizer(fin)
     return None
