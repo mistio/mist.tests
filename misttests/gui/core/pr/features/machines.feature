@@ -30,10 +30,9 @@ Feature: Machine actions for polymer
     | AWS            |  AWS Test        |
     | Digital Ocean  |  DO Test         |
     | Packet         |  Packet Test     |
-    | Openstack      |  Openstack Test  |
-    | Rackspace      |  Rackspace Test  |
-    | Softlayer      |  Softlayer Test  |
-    | Nephoscale     |  Nephoscale Test |
-    | Azure          |  Azure Test      |
-    | GCE            |  GCE Test        |
-    
+#    | Openstack      |  Openstack Test  |
+#    | Rackspace      |  Rackspace Test  |
+#    | Softlayer      |  Softlayer Test  |
+#    | Nephoscale     |  Nephoscale Test |
+#    | Azure          |  Azure Test      |
+#    | GCE            |  GCE Test        |
