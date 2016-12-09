@@ -47,45 +47,10 @@ machine_states_ordering = {
 }
 
 
-def set_aws_values(context,machine_name):
-    context.execute_steps(u'''
-                Then I set the value "%s" to field "Machine Name" in "machine" add form
-                When I open the "Image" drop down
-                And I click the button "Ubuntu Server 16.04 Beta2 (PV)" in the "Image" dropdown
-                When I open the "Size" drop down
-                And I click the button "512mb" in the "Size" dropdown
-                When I open the "Location" drop down
-                And I click the button "Amsterdam 2" in the "Location" dropdown
-                When I open the "Key" drop down
-                And I click the button "TestKey " in the "Key" dropdown
-                Then I set the value "#!bin/bash " to field "Cloud Init Script" in "machine" add form
-            '''% machine_name)
-
-
-def set_do_values(context,machine_name):
-    context.execute_steps(u'''
-                Then I set the value "%s" to field "Machine Name" in "machine" add form
-                When I open the "Image" drop down
-                And I click the button "CentOS 5.11 x32" in the "Image" dropdown
-                When I open the "Size" drop down
-                And I click the button "m1.small - Small Instance" in the "Size" dropdown
-                When I open the "Location" drop down
-                And I click the button "ap-northeast-1a " in the "Location" dropdown
-                When I open the "Key" drop down
-                And I click the button "TestKey " in the "Key" dropdown
-                Then I set the value "#!bin/bash " to field "Cloud Init Script" in "machine" add form
-            '''% machine_name)
-
-
-# machine_values_dict = {
-#     "aws": set_aws_values,
-#     "digital ocean": set_do_values,
-# }
-
-
 machine_values_dict = {
-    "aws": ["Ubuntu Server 16.04 Beta2 (PV)", "512mb", "Amsterdam 2"],
-    "digital ocean": ["CentOS 5.11 x32", "m1.small - Small Instance", "ap-northeast-1a "]
+    "aws": ["Ubuntu Server 16.04 Beta2 (PV)", "m1.small - Small Instance", "ap-northeast-1a "],
+    "digital ocean": ["CentOS 5.11 x32", "512mb", "Amsterdam 2"],
+    "packet": ["Ubuntu 14.04 LTS", "Type 0 - 8GB RAM", "Amsterdam, NL"]
 }
 
 
@@ -100,7 +65,6 @@ def set_values_to_create_machine_form(context,provider,machine_name):
                 And I click the button "%s" in the "Location" dropdown
                 When I open the "Key" drop down
                 And I click the button "TestKey " in the "Key" dropdown
-                Then I set the value "#!bin/bash " to field "Cloud Init Script" in "machine" add form
             ''' % (machine_name,
                    machine_values_dict.get(provider)[0],
                    machine_values_dict.get(provider)[1],
@@ -112,16 +76,7 @@ def cloud_creds(context, provider, machine_name):
     provider = provider.strip().lower()
     if provider not in machine_values_dict.keys():
         raise Exception("Unknown cloud provider")
-    #machine_values_dict.get(provider)(context,machine_name)
     set_values_to_create_machine_form(context,provider,machine_name)
-
-
-# @step(u'I select the proper values for "{provider}" to create the "{machine_name}" machine')
-# def cloud_creds(context, provider, machine_name):
-#     provider = provider.strip().lower()
-#     if provider not in machine_values_dict.keys():
-#         raise Exception("Unknown cloud provider")
-#     machine_values_dict.get(provider)(context,machine_name)
 
 
 @step(u'I expect for "{key}" key to appear within max {seconds} seconds')
