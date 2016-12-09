@@ -26,6 +26,14 @@ Feature: Machine actions for polymer
     Then I visit the Home page
 
     Examples: Providers
-    | provider       |  machine_name |
-    | AWS            |  AWS UI Test  |
-    | Digital Ocean  |  DO UI Test   |
+    | provider       |  machine_name    |
+    | AWS            |  AWS Test        |
+    | Digital Ocean  |  DO Test         |
+    | Packet         |  Packet Test     |
+    | Openstack      |  Openstack Test  |
+    | Rackspace      |  Rackspace Test  |
+    | Softlayer      |  Softlayer Test  |
+    | Nephoscale     |  Nephoscale Test |
+    | Azure          |  Azure Test      |
+    | GCE            |  GCE Test        |
+    
