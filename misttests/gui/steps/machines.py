@@ -46,12 +46,14 @@ machine_states_ordering = {
     'stopped': 0
 }
 
-
+# this dict contains image, size and location to be tested for each provider
 machine_values_dict = {
     "aws": ["Ubuntu Server 16.04 Beta2 (PV)", "m1.small - Small Instance", "ap-northeast-1a "],
     "digital ocean": ["CentOS 5.11 x32", "512mb", "Amsterdam 2"],
     "packet": ["Ubuntu 14.04 LTS", "Type 0 - 8GB RAM", "Amsterdam, NL"],
-    "openstack": ["CoreOS", "m1.tiny", "0"]
+    "openstack": ["CoreOS", "m1.tiny", "0"],
+    "rackspace": ["Ubuntu 14.04 LTS (Trusty Tahr) (PV)", "512MB Standard Instance", "0"],
+    "nephoscale": ["Ubuntu Server 14.04 LTS 64-bit", "CS05 - Cloud Server 0.5 GB RAM, 1 Core", "SJC-1"]
 }
 
 
