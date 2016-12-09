@@ -27,9 +27,9 @@ Feature: Machine actions for polymer
 
     Examples: Providers
     | provider       |  machine_name    |
-#    | AWS            |  AWS_Test        |
-#    | Digital Ocean  |  DO_Test         |
-     | Packet         |  Packet_Test     |
+    | AWS            |  aws-test        |
+    | Digital Ocean  |  do-test         |
+    | Packet         |  packet-test     |
 #    | Openstack      |  Openstack Test  |
 #    | Rackspace      |  Rackspace Test  |
 #    | Softlayer      |  Softlayer Test  |
