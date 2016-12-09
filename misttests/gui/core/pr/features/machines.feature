@@ -5,7 +5,6 @@ Feature: Machine actions for polymer
     Given I am logged in to mist.core
     And I am in the new UI
 
-
   @machine-create
   Scenario Outline: Create a machine
     When I wait for the dashboard to load
@@ -33,7 +32,5 @@ Feature: Machine actions for polymer
     | Openstack      |  openstack-ui-test  |
     | Rackspace      |  rackspace-ui-test  |
     | Nephoscale     |  nephoscale-ui-test |
-
-
-#    | Softlayer      |  Softlayer Test  |
-#    | Azure          |  Azure Test      |
+    | Softlayer      |  softlayer-ui-test  |
+    | Azure          |  azure-ui-test      |
