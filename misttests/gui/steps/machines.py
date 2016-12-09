@@ -50,7 +50,8 @@ machine_states_ordering = {
 machine_values_dict = {
     "aws": ["Ubuntu Server 16.04 Beta2 (PV)", "m1.small - Small Instance", "ap-northeast-1a "],
     "digital ocean": ["CentOS 5.11 x32", "512mb", "Amsterdam 2"],
-    "packet": ["Ubuntu 14.04 LTS", "Type 0 - 8GB RAM", "Amsterdam, NL"]
+    "packet": ["Ubuntu 14.04 LTS", "Type 0 - 8GB RAM", "Amsterdam, NL"],
+    "openstack": ["CoreOS", "m1.tiny", "0"]
 }
 
 

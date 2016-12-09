@@ -30,7 +30,7 @@ Feature: Machine actions for polymer
     | AWS            |  aws-test        |
     | Digital Ocean  |  do-test         |
     | Packet         |  packet-test     |
-#    | Openstack      |  Openstack Test  |
+    | Openstack      |  openstack-test  |
 #    | Rackspace      |  Rackspace Test  |
 #    | Softlayer      |  Softlayer Test  |
 #    | Nephoscale     |  Nephoscale Test |
