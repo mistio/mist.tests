@@ -154,6 +154,7 @@ def click_item(context, text, type_of_item):
     if context.mist_config.get(text):
         text = context.mist_config[text]
     text = text.lower()
+    import ipdb; ipdb.set_trace()
     item_selector = 'page-%ss iron-list div.row' % type_of_item
     items = context.browser.find_elements_by_css_selector(item_selector)
     for item in items:
