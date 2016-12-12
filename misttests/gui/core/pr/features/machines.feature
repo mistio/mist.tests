@@ -24,6 +24,25 @@ Feature: Machine actions for polymer
     Then "<machine_name>" machine should be present within 40 seconds
     Then I visit the Home page
 
+  @machine-destroy
+  Scenario Outline: Destroy a machine
+    When I wait for the dashboard to load
+    Given "<provider>" cloud has been added
+#    Given "Testkey" key has been added
+#    When I visit the Machines page
+#    And I click the button "+"
+#    Then I expect the "Machine" add form to be visible within max 10 seconds
+#    When I open the "Choose Cloud" drop down
+#    And I wait for 1 seconds
+#    When I click the button "<provider>" in the "Choose Cloud" dropdown
+#    Then I expect the field "Machine name" in the machine add form to be visible within max 4 seconds
+#    When I select the proper values for "<provider>" to create the "<machine_name>" machine
+#    Then I click the "Launch" button
+#    And I wait for 3 seconds
+#    Then I visit the Machines page
+#    Then "<machine_name>" machine should be present within 40 seconds
+#    Then I visit the Home page
+
     Examples: Providers
     | provider       |  machine_name       |
     | AWS            |  aws-ui-test        |
@@ -34,3 +53,4 @@ Feature: Machine actions for polymer
     | Nephoscale     |  nephoscale-ui-test |
     | Softlayer      |  softlayer-ui-test  |
     | Azure          |  azure-ui-test      |
+
