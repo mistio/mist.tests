@@ -156,7 +156,7 @@ def click_item(context, text, type_of_item):
     text = text.lower()
     import ipdb; ipdb.set_trace()
     item_selector = 'page-%ss iron-list div.row' % type_of_item
-    buttons = context.driver.findElements(By.CSS_SELECTOR(item_selector))
+    #buttons = context.driver.findElements(By.CSS_SELECTOR(item_selector))
     items = context.browser.find_elements_by_css_selector(item_selector)
     for item in items:
         name = safe_get_element_text(item.find_element_by_css_selector('div.name')).strip().lower()

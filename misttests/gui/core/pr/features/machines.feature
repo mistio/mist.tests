@@ -41,12 +41,10 @@ Feature: Machine actions for polymer
     When I visit the Machines page
     When I click the "<machine_name>" "machine"
     And I expect the "machine" edit form to be visible within max 5 seconds
-#    Then "<machine_name>" machine should be present within 40 seconds
-#    Then I visit the Home page
 
     Examples: Providers
     |  machine_name       |
-    |  aws-ui-test        |
+    |  yolomachine        |
     |  do-ui-test         |
     |  packet-ui-test     |
     |  openstack-ui-test  |
