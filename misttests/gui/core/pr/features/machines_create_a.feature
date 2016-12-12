@@ -30,10 +30,6 @@ Feature: Machine actions for polymer
     | Digital Ocean  |  do-ui-test         |
     | Packet         |  packet-ui-test     |
     | Openstack      |  openstack-ui-test  |
-    | Rackspace      |  rackspace-ui-test  |
-    | Nephoscale     |  nephoscale-ui-test |
-    | Softlayer      |  softlayer-ui-test  |
-    | Azure          |  azure-ui-test      |
 
   @machine-destroy
   Scenario Outline: Destroy a machine
@@ -44,12 +40,9 @@ Feature: Machine actions for polymer
 
     Examples: Providers
     |  machine_name       |
-    |  yolomachine        |
+    |  aws-ui-test        |
     |  do-ui-test         |
     |  packet-ui-test     |
     |  openstack-ui-test  |
-    |  rackspace-ui-test  |
-    |  nephoscale-ui-test |
-    |  softlayer-ui-test  |
-    |  azure-ui-test      |
+
 
