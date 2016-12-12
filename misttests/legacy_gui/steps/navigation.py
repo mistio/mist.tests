@@ -1,10 +1,15 @@
 from behave import step
 from behave import given
 
+import logging
+
 from time import time
 from time import sleep
 
 from .buttons import click_the_gravatar, search_for_button
+from .buttons import clicketi_click
+
+from .utils import safe_get_element_text
 
 from selenium.common.exceptions import TimeoutException
 from selenium.common.exceptions import NoSuchElementException
@@ -12,6 +17,18 @@ from selenium.common.exceptions import NoSuchElementException
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
+
+from selenium.webdriver.remote.webdriver import WebDriver
+
+log = logging.getLogger(__name__)
+
+logging.basicConfig(level=logging.INFO)
+
+@step(u'I set the cookie for legacy UI')
+def set_cookie(context):
+    cookie = {'name': 'ui','value': 'legacy'}
+    context.browser.add_cookie(cookie)
+#    context.driver.get_cookies()
 
 
 def i_am_in_homepage(context):
@@ -53,8 +70,16 @@ def standard_splash_waiting(context):
     Function that waits for the splash to load. The maximum time for the page
     to load is 60 seconds in this case
     """
-    wait_for_splash_to_appear(context)
-    wait_for_splash_to_load(context)
+    try:
+        context.browser.find_element_by_tag_name("mist-app")
+        gravatar = context.browser.find_element_by_css_selector('paper-icon-button.gravatar')
+        clicketi_click(context, gravatar)
+        user_menu = context.browser.find_element_by_tag_name('app-user-menu').find_element_by_tag_name('iron-dropdown')
+        button = context.browser.find_element_by_xpath("//iron-icon[@icon='hardware:laptop-mac']")
+        clicketi_click(context, button)
+    except:
+        wait_for_splash_to_appear(context)
+        wait_for_splash_to_load(context)
 
 
 def wait_for_splash_to_appear(context, timeout=20):
@@ -111,7 +136,6 @@ def go_to_some_page_after_counter_loading(context, title, counter_title):
     if counter_title not in ['Machines', 'Images', 'Keys', 'Networks', 'Scripts', 'Teams']:
         raise ValueError('The page given is unknown')
     context.execute_steps(u'''
-        Then I wait for the links in homepage to appear
         Then %s counter should be greater than 0 within 80 seconds
         When I click the button "%s"
         And I wait for "%s" list page to load
@@ -135,10 +159,40 @@ def go_to_some_page_without_waiting(context, title):
         if not str(context.browser.current_url).endswith(title.lower()):
             context.execute_steps(u'When I click the button "Home"')
     context.execute_steps(u'''
-        Then I wait for the links in homepage to appear
         When I click the button "%s"
         And I wait for "%s" list page to load
     ''' % (title, title))
+
+
+def filter_buttons(context, text):
+    return filter(lambda el: safe_get_element_text(el).strip().lower() == text,
+                  context.browser.find_elements_by_tag_name('paper-button'))
+
+@step(u'I wait for the dashboard to load')
+def wait_for_dashboard(context):
+    # wait first until the sidebar is open
+    log.info('W8ing for dashboard to load...')
+    #context.execute_steps(u'Then I wait for the links in homepage to appear')
+    # wait until the panel in the middle is visible
+    timeout = 20
+    try:
+        WebDriverWait(context.browser, timeout).until(
+            EC.visibility_of_element_located((By.TAG_NAME, "mist-app")))
+    except TimeoutException:
+        raise TimeoutException("Dashboard did not load after %s seconds"
+                               % timeout)
+    # wait until the add clouds button is clickable
+    context.execute_steps(u'Then I expect for "addBtn" to be clickable within '
+                          u'max 20 seconds')
+    save_org = filter_buttons(context, 'save organisation')
+    if save_org:
+        # first save the name of the organizational context for future use then
+        # press the button to save the name and finally return successfully
+        org_form = context.browser.find_element_by_id('orginput')
+        org_input = org_form.find_element_by_id('input')
+        context.organizational_context = org_input.get_attribute('value').strip().lower()
+        clicketi_click(context, save_org[0])
+        return True
 
 
 @step(u'I visit mist.core')
@@ -221,7 +275,68 @@ def given_logged_in(context):
             raise NoSuchElementException("I am not in the landing page or the"
                                          " home page")
 
-    context.execute_steps(u'Then I wait for the mist.io splash page to load')
+@given(u'I am temporarily logged in to mist.core')
+def given_logged_in(context):
+    if not i_am_in_homepage(context):
+        context.execute_steps(u'When I visit mist.core')
+
+    try:
+        context.browser.find_element_by_id("top-signup-button")
+        context.execute_steps(u"""
+            When I open the login popup
+            And I set the cookie for legacy UI
+            Then I click the email button in the landing page popup
+            And I enter my standard credentials for login
+            And I click the sign in button in the landing page popup
+        """)
+    except NoSuchElementException:
+        try:
+            context.browser.find_element_by_id("splash")
+        except NoSuchElementException:
+            raise NoSuchElementException("I am not in the landing page or the"
+                                         " home page")
+
+
+@given(u'I am logged in to legacy mist.core')
+def given_logged_in_legacy(context):
+    if not i_am_in_homepage(context):
+        context.execute_steps(u'When I visit mist.core')
+
+    try:
+        context.browser.find_element_by_id("top-signup-button")
+        context.execute_steps(u"""
+            When I open the login popup
+            Then I click the email button in the landing page popup
+            And I enter my standard credentials for login
+            And I click the sign in button in the landing page popup
+        """)
+    except NoSuchElementException:
+        try:
+            context.browser.find_element_by_id("splash")
+        except NoSuchElementException:
+            raise NoSuchElementException("I am not in the landing page or the"
+                                         " home page")
+
+    #context.execute_steps(u'Then I wait for the dashboard to load')
+
+@step(u'I am in the legacy UI')
+def am_in_legacy_UI(context):
+    """
+    Function that waits for the legacy UI to load. The maximum time for the page
+    to load is 60 seconds in this case
+    """
+    try:
+        context.browser.find_element_by_id("splash")
+        return
+    except:
+        context.execute_steps(u'''
+                When I wait for 15 seconds
+                And I wait for the dashboard to load
+                When I click the gravatar
+                And I wait for 4 seconds
+                And I click the button legacy_ui
+                Then I wait for the mist.io splash page to load
+            ''')
 
 
 @given(u'I am logged in to mist.core as {kind}')
@@ -280,7 +395,9 @@ def given_not_logged_in(context):
 
 @step(u'I logout')
 def logout(context):
-    click_the_gravatar(context)
+    #click_the_gravatar(context)
+    button = context.browser.find_element_by_id("me-btn")
+    clicketi_click(context,button)
     context.execute_steps(u'''
         Then I wait for 2 seconds
     ''')
