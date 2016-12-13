@@ -1,4 +1,4 @@
-@clouds
+@clouds-add-a
 Feature: Add second-tier clouds in Polymist
 
   Background:
@@ -21,6 +21,7 @@ Feature: Add second-tier clouds in Polymist
     And I scroll the clouds list into view
     Then the "<provider>" provider should be added within 120 seconds
 
+
     Examples: Providers
     | provider       |
     | Azure          |
@@ -32,32 +33,3 @@ Feature: Add second-tier clouds in Polymist
     | GCE            |
     | Linode         |
     | AWS            |
-    | Docker         |
-    | Openstack      |
-    | Vultr          |
-    | Azure ARM      |
-#   | KVM            |
-  # | Other Server   |
-#    | HostVirtual    |
-#    | Indonesian     |
-
-  @cloud-rename
-  Scenario: Rename a cloud
-    Given "Openstack" cloud has been added
-    Then I open the cloud menu for "Openstack"
-    When I rename the cloud "Openstack" to "Renamed"
-    And I click the "save title" button
-    And I wait for 3 seconds
-    #When I click the mist-logo
-    When I visit mist_url
-    And I wait for the dashboard to load
-    Then "Renamed" cloud has been added
-
-
-  @cloud-delete
-  Scenario: Delete a cloud
-    Given "Renamed" cloud has been added
-    Then I open the cloud menu for "Renamed"
-    And I click the "delete cloud" button
-    And I wait for 2 seconds
-    Then the "Renamed" cloud should be deleted

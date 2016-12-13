@@ -74,7 +74,6 @@ def visit(context):
             except NoSuchElementException:
                 pass
         sleep(1)
-    import pdb;pdb.set_trace()
     assert False, "Do not know if I am at the landing page or the home page"
 
 
@@ -197,14 +196,15 @@ def go_to_some_page_without_waiting(context, title):
                      'scripts', 'templates', 'stacks', 'teams', 'account',
                      'home']:
         raise ValueError('The page given is unknown')
-    if title == 'Account':
-        context.browser.get(context.mist_config['MIST_URL'] + '/account')
-        return
     context.execute_steps(u'Then I wait for the links in homepage to appear')
     if title.lower() == 'home':
         context.execute_steps(u'When I click the mist.io button')
     elif title.lower() == 'account':
-        # TODO implement account page visit
+        context.execute_steps(u'''
+                When I click the gravatar
+                And I wait for 2 seconds
+                And I click the "Account" button
+               ''')
         return
     else:
         button = context.browser.find_element_by_id(
@@ -279,13 +279,11 @@ def given_logged_in(context):
         """)
     except NoSuchElementException:
         try:
-            context.execute_steps(u'And I am in the new UI')
-            context.browser.find_element_by_tag_name("mist-app")
+            context.browser.find_element_by_tag_name('mist-app')
         except NoSuchElementException:
             raise NoSuchElementException("I am not in the landing page or the"
                                          " home page")
 
-    context.execute_steps(u'When I am in the new UI')
     context.execute_steps(u'Then I wait for the dashboard to load')
 
 

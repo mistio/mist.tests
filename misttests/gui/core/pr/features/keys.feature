@@ -3,8 +3,6 @@ Feature: Actions for Keys
 
   Background:
     Given I am logged in to mist.core
-    And I am in the new UI
-    When I wait for the dashboard to load
     When I visit the Keys page
 
   @key-add
@@ -17,7 +15,7 @@ Feature: Actions for Keys
     And I expect for the button "Add" in "key" add form to be clickable within 9 seconds
     When I focus on the button "Add" in "key" add form
     And I click the button "Add" in "key" add form
-    Then I expect the "key" edit form to be visible within max 5 seconds
+    Then I expect the "key" edit form to be visible within max 8 seconds
     When I visit the Keys page
     Then "Key1" key should be present within 15 seconds
     Then I visit the Home page

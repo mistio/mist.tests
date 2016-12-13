@@ -4,9 +4,6 @@ Feature: Tests for orchestration feature
   @template-add
   Scenario: Add a template
     Given I am logged in to mist.core
-    And I am in the new UI
-    Then I visit the Home page
-    When I wait for the dashboard to load
     When I visit the Templates page
     When I click the button "+"
     Then I expect the "Template" add form to be visible within max 10 seconds
