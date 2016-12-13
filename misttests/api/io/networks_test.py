@@ -13,8 +13,7 @@ create_network_params = {
 
         'gce': {'network': {'name': 'gceapitestnet',
                             'description': 'api-test-net',
-                            'mode': 'custom',
-                            'cidr': '10.1.0.0/16'}}
+                            'mode': 'custom'}}
      }
 create_subnet_params = {
         'ec2': {'subnet': {'name': 'ec2apitestsubnet',
@@ -124,6 +123,7 @@ def test_004_list_subnets(pretty_print, mist_io, owner_api_token, network_test_c
     # Verifying that the API response has the correct structure
     subnets = subnet_listing.json()
     misttests.api.helpers.assert_is_instance(subnets, list)
+    misttests.api.helpers.assert_equal(len(subnets), 1)
 
     subnet_dict_required_keys = ['name', 'id', 'subnet_id', 'cloud', 'cidr', 'network']
 
