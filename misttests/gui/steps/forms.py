@@ -250,6 +250,9 @@ def click_menu_button_from_more_menu(context, button_name, title, form_type):
 def collect_dropdown_buttons_in_machine_page(context):
     buttons = []
     for i in ['tag', 'stop', 'start', 'destroy']:
-        button = context.browser.find_element_by_class_name('button-%s' %i)
-        buttons.append(button)
+        try:
+            button = context.browser.find_element_by_class_name('button-%s' %i)
+            buttons.append(button)
+        except NoSuchElementException:
+            pass
     return buttons
