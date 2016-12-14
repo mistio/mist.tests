@@ -176,17 +176,16 @@ def cloud_creds(context, cloud):
         for i in range(6):
             port.send_keys(u'\ue003')
         port.send_keys(context.mist_config['CREDENTIALS']['DOCKER']['port'])
-        if context.mist_config['CREDENTIALS']['DOCKER']['key_pem'] or \
-           context.mist_config['CREDENTIALS']['DOCKER']['cert_pem']:
+        if context.mist_config['CREDENTIALS']['DOCKER']['key']:
             advanced_button = context.browser.find_element_by_class_name("ui-slider-handle")
             advanced_button.click()
             sleep(1)
             key_file = context.browser.find_element_by_id("key_file")
             key_file.click()
             key_upload = context.browser.find_element_by_id("upload-area")
-            key_upload.send_keys(context.mist_config['CREDENTIALS']['DOCKER']['key_pem'])
+            key_upload.send_keys(context.mist_config['CREDENTIALS']['DOCKER']['key'])
             sleep(1)
-            if context.mist_config['CREDENTIALS']['DOCKER']['key_pem']:
+            if context.mist_config['CREDENTIALS']['DOCKER']['key']:
                 file_upload_ok = context.browser.find_element_by_id("file-upload-ok")
                 file_upload_ok.click()
                 sleep(2)
@@ -197,9 +196,9 @@ def cloud_creds(context, cloud):
             cert_file = context.browser.find_element_by_id("cert_file")
             cert_file.click()
             cert_upload = context.browser.find_element_by_id("upload-area")
-            cert_upload.send_keys(context.mist_config['CREDENTIALS']['DOCKER']['cert_pem'])
+            cert_upload.send_keys(context.mist_config['CREDENTIALS']['DOCKER']['cert'])
             sleep(1)
-            if context.mist_config['CREDENTIALS']['DOCKER']['cert_pem']:
+            if context.mist_config['CREDENTIALS']['DOCKER']['cert']:
                 file_upload_ok = context.browser.find_element_by_id("file-upload-ok")
                 file_upload_ok.click()
                 sleep(2)
