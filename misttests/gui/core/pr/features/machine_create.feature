@@ -40,6 +40,10 @@ Feature: Machine actions for polymer
     When I click the "<machine_name>" "machine"
     And I expect the "machine" edit form to be visible within max 5 seconds
     Then I click the button "Destroy" from the menu of the "machine" edit form
+    And I expect the dialog "Destroy 1 Machine" is open within 4 seconds
+    And I wait for 2 seconds
+    And I click the "Destroy" button in the dialog "Destroy 1 Machine"
+    And I expect the dialog "Destroy 1 Machine" is closed within 4 seconds
 
     Examples: Providers
     |  machine_name       |
