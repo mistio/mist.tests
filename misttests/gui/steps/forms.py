@@ -227,7 +227,11 @@ def click_menu_button_from_more_menu(context, button_name, title, form_type):
         more_dropdown = form.find_element_by_tag_name('paper-menu-button')
     assert more_dropdown, "Could not find more button"
     clicketi_click(context, more_dropdown)
-    more_dropdown_buttons = more_dropdown.find_elements_by_tag_name('paper-button')
+
+    if title == 'machine':
+        more_dropdown_buttons = collect_dropdown_buttons_in_machine_page(context)
+    else:
+        more_dropdown_buttons = more_dropdown.find_elements_by_tag_name('paper-button')
     assert more_dropdown_buttons, "There are no buttons within the more dropdown"
     timeout = time() + 5
     while time() < timeout:
@@ -241,3 +245,11 @@ def click_menu_button_from_more_menu(context, button_name, title, form_type):
     else:
         assert False, "More dropdown buttons are not visible after 5 seconds"
     click_button_from_collection(context, button_name, more_dropdown_buttons)
+
+
+def collect_dropdown_buttons_in_machine_page(context):
+    buttons = []
+    for i in ['tag', 'stop', 'start', 'destroy']:
+        button = context.browser.find_element_by_class_name('button-%s' %i)
+        buttons.append(button)
+    return buttons

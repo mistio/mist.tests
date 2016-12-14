@@ -36,6 +36,7 @@ Feature: Machine actions for polymer
   Scenario Outline: Destroy a machine
     When I wait for the dashboard to load
     When I visit the Machines page
+    And I wait for 2 seconds
     When I click the "<machine_name>" "machine"
     And I expect the "machine" edit form to be visible within max 5 seconds
     Then I click the button "Destroy" from the menu of the "machine" edit form
