@@ -71,6 +71,7 @@ Feature: Machines
     Then I expect for "dialog-popup" modal to appear within max 4 seconds
     When I click the button "Yes"
     Then I expect for "dialog-popup" modal to disappear within max 4 seconds
+    Then I click the button "Machines"
 
     When I click the button "Home"
     Then I expect for "home-page" page to appear within max 4 seconds
