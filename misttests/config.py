@@ -187,6 +187,7 @@ API_TESTING_CLOUD_PROVIDER = get_setting('API_TESTING_CLOUD_PROVIDER', '')
 
 ORG_NAME = get_setting('ORG_NAME', '')
 
+# TODO: This should maybe set to True for api tests
 SETUP_ENVIRONMENT = get_setting("SETUP_ENVIRONMENT", False)
 
 WEBDRIVER_OPTIONS = get_setting('WEBDRIVER_OPTIONS',
