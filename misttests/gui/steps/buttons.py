@@ -36,7 +36,11 @@ def clicketi_click(context, button):
     size of the button
     """
     try:
-        button.click()
+        action_chain = ActionChains(context.browser)
+        action_chain.move_to_element(button)
+        action_chain.click()
+        action_chain.perform()
+       # button.click()
     except WebDriverException:
         action_chain = ActionChains(context.browser)
         action_chain.move_to_element(button)

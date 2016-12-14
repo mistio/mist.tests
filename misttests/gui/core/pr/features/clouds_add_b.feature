@@ -21,6 +21,10 @@ Feature: Add second-tier clouds in Polymist
     And I scroll the clouds list into view
     Then the "<provider>" provider should be added within 120 seconds
 
+            Then I click the email button in the landing page popup
+            And I enter my standard credentials for login
+            And I click the sign in button in the landing page popup
+
 
     Examples: Providers
     | provider       |

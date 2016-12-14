@@ -25,16 +25,16 @@ Feature: Actions for Keys
   Scenario: Change Default Key
     When I click the button "+"
     Then I expect the "Key" add form to be visible within max 10 seconds
-    When I set the value "Key2" to field "Name" in "key" add form
+    When I set the value "Key22" to field "Name" in "key" add form
     Then I click the button "Generate" in "key" add form
     And I wait for 5 seconds
     And I expect for the button "Add" in "key" add form to be clickable within 9 seconds
     When I focus on the button "Add" in "key" add form
     And I click the button "Add" in "key" add form
-    Then I expect the "key" edit form to be visible within max 5 seconds
+    Then I expect the "key" edit form to be visible within max 15 seconds
     When I visit the Keys page
-    Then "Key2" key should be present within 15 seconds
-    And I click the button "Make Default" from the menu of the "Key2" key
+    Then "Key22" key should be present within 15 seconds
+    And I click the button "Make Default" from the menu of the "Key22" key
     Then I wait for 1 seconds
     And key "Key2" should be default key
     Then I visit the Home page

@@ -17,6 +17,8 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 
+from selenium.webdriver import ActionChains
+
 
 def i_am_in_homepage(context):
     possible_urls = [context.mist_config['MIST_URL']]
@@ -192,6 +194,49 @@ def go_to_some_page_without_waiting(context, title):
     waiting for the counter or the list on the page to load.
     For now the code will not be very accurate for keys page
     """
+    code = '''
+        var prevDot;
+        document.onmousemove = handleMouseMove;
+
+        function   handleMouseMove(event) {
+            var dot, eventDoc, doc, body, pageX, pageY;
+
+            event = event || window.event;
+            if (event.pageX == null && event.clientX != null)    {
+                eventDoc = event.target && event.target.ownerDocument || document;
+                doc = eventDoc.documentElement;
+                body = eventDoc.body;
+
+                event.pageX = event.clientX +
+                          (doc && doc.scrollLeft || body && body.scrollLeft || 0) -
+                          (doc && doc.clientLeft || body && body.clientLeft || 0);
+                event.pageY = event.clientY +
+                          (doc && doc.scrollTop || body && body.scrollTop || 0) -
+                          (doc && doc.clientTop || body && body.clientTop || 0);
+            }
+            dot = document.createElement('div');
+            dot.style.backgroundColor = "black";
+            dot.style.position = "absolute";
+            dot.style.height = "5px"
+            dot.style.width = "5px"
+            dot.style.left = event.pageX + "px";
+            dot.style.top = event.pageY + "px";
+
+            if (prevDot) {
+                document.body.removeChild(prevDot);
+            }
+
+            document.body.appendChild(dot);
+            prevDot = dot;
+        }
+        '''
+
+    context.browser.execute_script(code)
+
+
+    #import ipdb;ipdb.set_trace()
+    context.browser.execute_script(code)
+
     title = title.lower()
     if title not in ['machines', 'images', 'keys', 'networks', 'tunnels',
                      'scripts', 'templates', 'stacks', 'teams', 'account',
@@ -210,6 +255,11 @@ def go_to_some_page_without_waiting(context, title):
     else:
         button = context.browser.find_element_by_id(
             'sidebar').find_element_by_id(title)
+
+        action_chain = ActionChains(context.browser)
+        action_chain.move_to_element(button)
+        # action_chain.click()
+        # action_chain.perform()
         clicketi_click(context, button)
         context.execute_steps(u'Then I expect for "%s" page to appear within '
                               u'max 10 seconds' % title)
@@ -270,8 +320,53 @@ def given_logged_in(context):
     if not i_am_in_homepage(context):
         context.execute_steps(u'When I visit mist.core')
 
+    code = '''
+    var prevDot;
+    document.onmousemove = handleMouseMove;
+
+    function   handleMouseMove(event) {
+        var dot, eventDoc, doc, body, pageX, pageY;
+
+        event = event || window.event;
+        if (event.pageX == null && event.clientX != null)    {
+            eventDoc = event.target && event.target.ownerDocument || document;
+            doc = eventDoc.documentElement;
+            body = eventDoc.body;
+
+            event.pageX = event.clientX +
+                      (doc && doc.scrollLeft || body && body.scrollLeft || 0) -
+                      (doc && doc.clientLeft || body && body.clientLeft || 0);
+            event.pageY = event.clientY +
+                      (doc && doc.scrollTop || body && body.scrollTop || 0) -
+                      (doc && doc.clientTop || body && body.clientTop || 0);
+        }
+        dot = document.createElement('div');
+        dot.style.backgroundColor = "black";
+        dot.style.position = "absolute";
+        dot.style.height = "5px"
+        dot.style.width = "5px"
+        dot.style.left = event.pageX + "px";
+        dot.style.top = event.pageY + "px";
+
+        if (prevDot) {
+            document.body.removeChild(prevDot);
+        }
+
+        document.body.appendChild(dot);
+        prevDot = dot;
+    }
+    '''
+
+
     try:
-        context.browser.find_element_by_id("top-signup-button")
+        testid = context.browser.find_element_by_id("top-signup-button")
+        context.browser.execute_script(code)
+
+        # action_chain = ActionChains(context.browser)
+        # action_chain.move_to_element(testid)
+        # action_chain.click()
+        # action_chain.perform()
+
         context.execute_steps(u"""
             When I open the login popup
             Then I click the email button in the landing page popup
