@@ -387,7 +387,6 @@ def given_not_logged_in(context):
         context.browser.find_element_by_id("splash")
         context.execute_steps(u"""
               Then I wait for the mist.io splash page to load
-              And I wait for the links in homepage to appear
               And I logout
         """)
     except NoSuchElementException:
