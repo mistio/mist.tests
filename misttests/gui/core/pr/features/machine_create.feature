@@ -1,5 +1,6 @@
 # Created by spiros at 7/12/2016
-Feature: Machine actions for polymer
+@machines
+Feature: Machine create and destroy for polymer
 
   Background:
     Given I am logged in to mist.core
@@ -41,13 +42,14 @@ Feature: Machine actions for polymer
     And I expect the "machine" edit form to be visible within max 5 seconds
     Then I click the button "Destroy" from the menu of the "machine" edit form
     And I expect the dialog "Destroy 1 Machine" is open within 4 seconds
-    And I wait for 2 seconds
     And I click the "Destroy" button in the dialog "Destroy 1 Machine"
     And I expect the dialog "Destroy 1 Machine" is closed within 4 seconds
+    Then I visit the Machines page
+    Then "<machine_name>" machine should be absent within 40 seconds
 
     Examples: Providers
     |  machine_name       |
-    |  Docker-ui-test-2   |
+    |  docker-ui-test     |
 #    |  aws-ui-test        |
 #    |  do-ui-test         |
 #    |  packet-ui-test     |

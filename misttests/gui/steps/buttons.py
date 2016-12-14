@@ -126,7 +126,6 @@ def click_button(context, text):
 
 @step(u'I click the button "{button}" in the "{name}" dropdown')
 def click_button_in_dropdown(context, button, name):
-    #import ipdb;ipdb.set_trace()
     button = button.strip().lower()
     dropdown = find_dropdown(context, name.lower())
     if button == get_current_value_of_dropdown(dropdown):
@@ -202,7 +201,6 @@ def click_mist_io(context):
 
 @step(u'I click the "{button}" button')
 def click_button_by_id(context,button):
-    import ipdb;ipdb.set_trace()
     if button == 'new cloud':
       button_to_click = context.browser.find_element_by_id('addBtn')
     elif button == 'save title':

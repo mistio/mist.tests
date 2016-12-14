@@ -217,7 +217,6 @@ def open_drop_down(context, dropdown_text):
 def click_menu_button_from_more_menu(context, button_name, title, form_type):
     from .buttons import clicketi_click
     from .buttons import click_button_from_collection
-    import ipdb;ipdb.set_trace()
     form_type = form_type.lower()
     form = get_add_form(context, form_type) if form_type == 'add' else \
         get_edit_form(context, title)

@@ -14,7 +14,6 @@ from .forms import clear_input_and_send_keys
 def get_dialog(context, title):
     title = title.lower()
     dialogs = context.browser.find_elements_by_tag_name('paper-dialog')
-    import ipdb;ipdb.set_trace()
     for dialog in dialogs:
         if dialog.is_displayed():
             try:
