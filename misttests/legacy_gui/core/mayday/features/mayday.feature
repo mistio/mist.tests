@@ -71,7 +71,8 @@ Feature: Production
     When I open the login popup
     Then I click the google button in the landing page popup
     Then I do the Google login
-    And I wait for the links in homepage to appear
+    And I am in the legacy UI
+    And I wait for the mist.io splash page to load
     Then I logout
 
   @github_sso_signin
@@ -80,5 +81,6 @@ Feature: Production
     When I open the login popup
     Then I click the github button in the landing page popup
     Then I do the Github login
-    And I wait for the links in homepage to appear
+    And I am in the legacy UI
+    And I wait for the mist.io splash page to load
     Then I logout
