@@ -5,7 +5,7 @@ Feature: Machines
 
     Given I am logged in to mist.core
     And I am in the legacy UI
-    Given "EC2" cloud has been added
+    Given "Docker-mist" cloud has been added
     And I wait for 5 seconds
     When I visit the Machines page
     #When I visit the Machines page after the Images counter has loaded
@@ -14,13 +14,13 @@ Feature: Machines
     Then I expect for "create-machine" panel to appear within max 4 seconds
     When I fill in a "random first" machine name
     And I click the "Select Provider" button inside the "Create Machine" panel
-    And I click the "EC2" button inside the "Create Machine" panel
+    And I click the "Docker-mist" button inside the "Create Machine" panel
     And I click the "Select Image" button inside the "Create Machine" panel
-    And I click the "Ubuntu Server" button inside the "Create Machine" panel
-    And I click the "Select Size" button inside the "Create Machine" panel
-    And I click the "Micro Instance" button inside the "Create Machine" panel
-    And I click the "Select Location" button inside the "Create Machine" panel
-    And I click the "ap-northeast-1a" button inside the "Create Machine" panel
+    And I click the "Ubuntu 14.04" button inside the "Create Machine" panel
+#    And I click the "Select Size" button inside the "Create Machine" panel
+#    And I click the "Micro Instance" button inside the "Create Machine" panel
+#    And I click the "Select Location" button inside the "Create Machine" panel
+#    And I click the "ap-northeast-1a" button inside the "Create Machine" panel
     And I click the "Select Key" button inside the "Create Machine" panel
     And I click the "Add Key" button inside the "Create Machine" panel
     Then I expect for "key-add-popup" popup to appear within max 4 seconds
