@@ -44,5 +44,4 @@ Feature: Machine actions for polymer
     |  do-ui-test         |
     |  packet-ui-test     |
     |  openstack-ui-test  |
-
-
+    
