@@ -158,7 +158,6 @@ def click_item(context, text, type_of_item):
     if context.mist_config.get(text):
         text = context.mist_config[text]
     text = text.lower()
-    import ipdb; ipdb.set_trace()
     item_selector = 'page-%ss iron-list div.row' % type_of_item
     #buttons = context.driver.findElements(By.CSS_SELECTOR(item_selector))
     items = context.browser.find_elements_by_css_selector(item_selector)
@@ -203,6 +202,7 @@ def click_mist_io(context):
 
 @step(u'I click the "{button}" button')
 def click_button_by_id(context,button):
+    import ipdb;ipdb.set_trace()
     if button == 'new cloud':
       button_to_click = context.browser.find_element_by_id('addBtn')
     elif button == 'save title':
@@ -221,6 +221,8 @@ def click_button_by_id(context,button):
         button_to_click = context.browser.find_element_by_id('appformsubmit')
     elif button == 'toggle':
         button_to_click = context.browser.find_element_by_id('enable-disable-cloud')
+    elif button == 'more options':
+        button_to_click = context.browser.find_element_by_class_name('more')
     else:
         raise Exception('Unknown type of button')
     assert button_to_click.is_displayed(), "%s button is not displayed" %button

@@ -26,10 +26,11 @@ Feature: Machine actions for polymer
 
     Examples: Providers
     | provider       |  machine_name       |
-    | AWS            |  aws-ui-test        |
-    | Digital Ocean  |  do-ui-test         |
-    | Packet         |  packet-ui-test     |
-    | Openstack      |  openstack-ui-test  |
+    | Docker         |  docker-ui-test     |
+#    | AWS            |  aws-ui-test        |
+#    | Digital Ocean  |  do-ui-test         |
+#    | Packet         |  packet-ui-test     |
+#    | Openstack      |  openstack-ui-test  |
 
   @machine-destroy
   Scenario Outline: Destroy a machine
@@ -37,11 +38,12 @@ Feature: Machine actions for polymer
     When I visit the Machines page
     When I click the "<machine_name>" "machine"
     And I expect the "machine" edit form to be visible within max 5 seconds
+    Then I click the button "Destroy" from the menu of the "machine" edit form
 
     Examples: Providers
     |  machine_name       |
-    |  aws-ui-test        |
-    |  do-ui-test         |
-    |  packet-ui-test     |
-    |  openstack-ui-test  |
-    
+    |  Docker-ui-test-2   |
+#    |  aws-ui-test        |
+#    |  do-ui-test         |
+#    |  packet-ui-test     |
+#    |  openstack-ui-test  |

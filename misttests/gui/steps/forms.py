@@ -168,6 +168,7 @@ def click_button_in_form(context, button_name, title, form_type):
         get_edit_form(context, title)
     button = get_button_from_form(form, button_name.lower())
     from .buttons import clicketi_click
+    import ipdb;ipdb.set_trace()
     clicketi_click(context, button)
 
 
@@ -216,10 +217,14 @@ def open_drop_down(context, dropdown_text):
 def click_menu_button_from_more_menu(context, button_name, title, form_type):
     from .buttons import clicketi_click
     from .buttons import click_button_from_collection
+    import ipdb;ipdb.set_trace()
     form_type = form_type.lower()
     form = get_add_form(context, form_type) if form_type == 'add' else \
         get_edit_form(context, title)
-    more_dropdown = form.find_element_by_tag_name('paper-menu-button')
+    if title == 'machine':
+        more_dropdown = form.find_element_by_class_name('more')
+    else:
+        more_dropdown = form.find_element_by_tag_name('paper-menu-button')
     assert more_dropdown, "Could not find more button"
     clicketi_click(context, more_dropdown)
     more_dropdown_buttons = more_dropdown.find_elements_by_tag_name('paper-button')
