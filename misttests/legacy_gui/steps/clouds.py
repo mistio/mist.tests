@@ -206,6 +206,21 @@ def cloud_creds(context, cloud):
                 cancel = context.browser.find_element_by_class("close")
                 cancel.click()
                 sleep(1)
+
+            if context.mist_config['CREDENTIALS']['DOCKER']['ca']:
+                ca_cert_file = context.browser.find_element_by_id("ca_cert_file")
+                ca_cert_file.click()
+                sleep(2)
+            else:
+                cancel = context.browser.find_element_by_class("close")
+                cancel.click()
+                sleep(1)
+            cert_upload = context.browser.find_element_by_id("upload-area")
+            cert_upload.send_keys(context.mist_config['CREDENTIALS']['DOCKER']['ca'])
+            sleep(1)
+            file_upload_ok = context.browser.find_element_by_id("file-upload-ok")
+            file_upload_ok.click()
+            sleep(2)
         else:
             # in case key/cert are missing
             # and basic authentication is to be configured
