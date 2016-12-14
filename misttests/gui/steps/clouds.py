@@ -234,6 +234,24 @@ def set_vmware_creds(context):
                    context.mist_config['CREDENTIALS']['VMWARE']['host'],))
 
 
+def set_second_packet_creds(context):
+    api_key = context.mist_config['CREDENTIALS']['PACKET_2']['api_key']
+    context.execute_steps(u'Then I set the value "%s" to field "API Key" in '
+                          u'"cloud" edit form' % api_key)
+
+
+def set_second_openstack_creds(context):
+    context.execute_steps(u'''
+                Then I set the value "%s" to field "Username" in "cloud" edit form
+                Then I set the value "%s" to field "Password" in "cloud" edit form
+                Then I set the value "%s" to field "Auth Url" in "cloud" edit form
+                Then I set the value "%s" to field "Tenant Name" in "cloud" edit form
+            ''' % (context.mist_config['CREDENTIALS']['OPENSTACK_2']['username'],
+                   context.mist_config['CREDENTIALS']['OPENSTACK']['password'],
+                   context.mist_config['CREDENTIALS']['OPENSTACK']['auth_url'],
+                   context.mist_config['CREDENTIALS']['OPENSTACK_2']['tenant'],))
+
+
 cloud_creds_dict = {
     "azure": set_azure_creds,
     "gce": set_gce_creds,
@@ -256,6 +274,12 @@ cloud_creds_dict = {
 }
 
 
+cloud_second_creds_dict = {
+    "packet": set_second_packet_creds,
+    "openstack": set_second_openstack_creds
+}
+
+
 @step(u'I use my "{provider}" credentials')
 def cloud_creds(context, provider):
     provider = provider.strip().lower()
@@ -263,6 +287,13 @@ def cloud_creds(context, provider):
         raise Exception("Unknown cloud provider")
     cloud_creds_dict.get(provider)(context)
 
+
+@step(u'I use my second "{provider}" credentials in cloud edit form')
+def cloud_second_creds(context, provider):
+    provider = provider.strip().lower()
+    if provider not in cloud_second_creds_dict.keys():
+        raise Exception("Unknown cloud provider")
+    cloud_second_creds_dict.get(provider)(context)
 
 def find_cloud(context, cloud_title):
     cloud_chips = context.browser.find_elements_by_tag_name('cloud-chip')

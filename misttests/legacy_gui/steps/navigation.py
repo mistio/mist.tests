@@ -267,6 +267,7 @@ def given_logged_in(context):
             Then I click the email button in the landing page popup
             And I enter my standard credentials for login
             And I click the sign in button in the landing page popup
+            And I am in the legacy UI
         """)
     except NoSuchElementException:
         try:
