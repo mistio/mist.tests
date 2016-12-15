@@ -20,7 +20,8 @@ Feature: Images
     Then "CoreOS-Beta" image should be present within 5 seconds
 
 
-    Then there should be ticked Images in the list
+#    Then there should be ticked Images in the list
+
 #    When I search for the "docker" Image
 #    And I click the button "Load more"
 #    Then the images list should be loaded within 100 seconds
