@@ -61,7 +61,7 @@ Feature: Scripts
 
   @script-tags
   Scenario: Add tags to script
-    When I click the "Script7" "script"
+    When I click the "Script1" "script"
     And I expect the "script" edit form to be visible within max 5 seconds
     Then I click the button "Tags" in "script" edit form
     And I expect for the tag popup to open within 4 seconds
