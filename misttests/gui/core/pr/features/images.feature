@@ -6,7 +6,7 @@ Feature: Images
     And I am in the new UI
 
   @image-search
-  Scenario: Star image from Advanced search
+  Scenario: Search image
     When I wait for the dashboard to load
     Given "OpenStack" cloud has been added
     When I visit the Images page
@@ -20,8 +20,7 @@ Feature: Images
     Then "CoreOS-Beta" image should be present within 5 seconds
 
 
-#   Then there should be ticked Images in the list
-
+    Then there should be ticked Images in the list
 #    When I search for the "docker" Image
 #    And I click the button "Load more"
 #    Then the images list should be loaded within 100 seconds
