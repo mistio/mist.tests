@@ -16,21 +16,21 @@ create_network_params = {
                             'mode': 'custom'}}
      }
 create_subnet_params = {
-        'ec2': {'subnet': {'name': 'ec2apitestsubnet',
-                           'cidr': '10.1.1.0/24',
-                           'description': 'api-test-subnet',
-                           'availability_zone': 'ap-northeast-1a'}
+        'ec2': {'name': 'ec2apitestsubnet',
+                        'cidr': '10.1.1.0/24',
+                        'description': 'api-test-subnet',
+                        'availability_zone': 'ap-northeast-1a'
                 },
 
-        'openstack': {'subnet': {'name': 'openstackapitestsubnet',
-                                 'cidr': '10.1.1.0/24',
-                                 'description': 'api-test-subnet'}
+        'openstack': {'name': 'openstackapitestsubnet',
+                              'cidr': '10.1.1.0/24',
+                              'description': 'api-test-subnet'
                 },
 
-        'gce': {'subnet': {'name': 'gceapitestsubnet',
-                           'cidr': '10.1.1.0/24',
-                           'description': 'api-test-subnet',
-                           'region': 'us-west1'}
+        'gce': {'name': 'gceapitestsubnet',
+                        'cidr': '10.1.1.0/24',
+                        'description': 'api-test-subnet',
+                        'region': 'us-west1'
                 }
      }
 
@@ -71,7 +71,7 @@ def test_002_create_subnet(pretty_print, mist_io, owner_api_token, network_test_
     response_content = response.json()
     misttests.api.helpers.assert_is_instance(response_content, dict)
 
-    assert response_content['name'] == create_subnet_params[network_test_cloud.ctl.provider]['subnet']['name']
+    assert response_content['name'] == create_subnet_params[network_test_cloud.ctl.provider]['name']
     assert response_content['description'] == 'api-test-subnet'
 
 
