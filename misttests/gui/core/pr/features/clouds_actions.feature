@@ -32,12 +32,18 @@ Feature: Cloud actions for polymer
     When I visit the Home page
     And I wait for the dashboard to load
     Then cloud "Openstack" should be "disabled"
+    When I visit the Images page
+    Then "CoreOS" image should be absent within 15 seconds
+    Then I visit the Home page
+    And I wait for the dashboard to load
     When I open the cloud menu for "Openstack"
     And I click the "toggle" button
     And I wait for 2 seconds
     When I visit the Home page
     And I wait for the dashboard to load
     Then cloud "Openstack" should be "enabled"
+    When I visit the Images page
+    Then "CoreOS" image should be present within 15 seconds
 
   @cloud-rename
   Scenario: Rename a cloud
@@ -58,3 +64,4 @@ Feature: Cloud actions for polymer
     And I click the "delete cloud" button
     And I wait for 2 seconds
     Then the "Renamed" cloud should be deleted
+    
