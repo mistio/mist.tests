@@ -24,13 +24,13 @@ Feature: Add second-tier clouds in Polymist
 
     Examples: Providers
     | provider       |
-    | Docker         |
-    | Openstack      |
-    | Vultr          |
-    | Azure ARM      |
-    | Vmware         |
-    | Indonesian     |
-#    | KVM (Via Libvirt)           |
+#    | Docker         |
+#    | Openstack      |
+#    | Vultr          |
+#    | Azure ARM      |
+#    | Vmware         |
+#    | Indonesian     |
+     | KVM (Via Libvirt)           |
 #    | Other Server   |
 #    | HostVirtual    |
   
