@@ -64,4 +64,3 @@ Feature: Cloud actions for polymer
     And I click the "delete cloud" button
     And I wait for 2 seconds
     Then the "Renamed" cloud should be deleted
-    
