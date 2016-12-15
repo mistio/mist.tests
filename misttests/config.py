@@ -186,7 +186,7 @@ API_TESTING_CLOUD_PROVIDER = get_value_of('API_TESTING_CLOUD_PROVIDER', '')
 
 ORG_NAME = get_value_of('ORG_NAME', '')
 
-SETUP_ENVIRONMENT = get_bool_value("SETUP_ENVIRONMENT", False)
+SETUP_ENVIRONMENT = get_bool_value("SETUP_ENVIRONMENT", True)
 
 WEBDRIVER_OPTIONS = get_value_of('WEBDRIVER_OPTIONS',
                                  ['--dns-prefetch-disable'])

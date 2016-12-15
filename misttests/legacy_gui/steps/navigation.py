@@ -267,6 +267,7 @@ def given_logged_in(context):
             Then I click the email button in the landing page popup
             And I enter my standard credentials for login
             And I click the sign in button in the landing page popup
+            And I am in the legacy UI
         """)
     except NoSuchElementException:
         try:
@@ -386,7 +387,6 @@ def given_not_logged_in(context):
         context.browser.find_element_by_id("splash")
         context.execute_steps(u"""
               Then I wait for the mist.io splash page to load
-              And I wait for the links in homepage to appear
               And I logout
         """)
     except NoSuchElementException:
