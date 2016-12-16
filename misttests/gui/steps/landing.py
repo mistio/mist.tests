@@ -16,6 +16,8 @@ from selenium.webdriver.support import expected_conditions as EC
 from selenium.common.exceptions import TimeoutException
 from selenium.common.exceptions import NoSuchElementException
 
+from selenium.webdriver import ActionChains
+
 
 @step(u'I open the {kind} popup')
 def open_login_popup(context, kind):
@@ -28,7 +30,11 @@ def open_login_popup(context, kind):
     if kind == 'login':
         button_collapse = context.browser.find_element_by_class_name('button-collapse')
         if button_collapse.is_displayed():
-            button_collapse.click()
+            action_chain = ActionChains(context.browser)
+            action_chain.move_to_element(button_collapse)
+            action_chain.click()
+            action_chain.perform()
+            #button_collapse.click()
             timeout = time() + 3
             nav = context.browser.find_element_by_id("nav-mobile")
             while time() < timeout:

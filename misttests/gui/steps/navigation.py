@@ -19,6 +19,8 @@ from selenium.webdriver.support import expected_conditions as EC
 
 from selenium.webdriver import ActionChains
 
+from misttests.helpers.screencast_utils import show_cursor
+
 
 def i_am_in_homepage(context):
     possible_urls = [context.mist_config['MIST_URL']]
@@ -161,6 +163,7 @@ def filter_buttons(context, text):
 
 @step(u'I wait for the dashboard to load')
 def wait_for_dashboard(context):
+    show_cursor(context)
     # wait first until the sidebar is open
     context.execute_steps(u'Then I wait for the links in homepage to appear')
     # wait until the panel in the middle is visible
@@ -194,44 +197,6 @@ def go_to_some_page_without_waiting(context, title):
     waiting for the counter or the list on the page to load.
     For now the code will not be very accurate for keys page
     """
-    code = '''
-        var prevDot;
-        document.onmousemove = handleMouseMove;
-
-        function   handleMouseMove(event) {
-            var dot, eventDoc, doc, body, pageX, pageY;
-
-            event = event || window.event;
-            if (event.pageX == null && event.clientX != null)    {
-                eventDoc = event.target && event.target.ownerDocument || document;
-                doc = eventDoc.documentElement;
-                body = eventDoc.body;
-
-                event.pageX = event.clientX +
-                          (doc && doc.scrollLeft || body && body.scrollLeft || 0) -
-                          (doc && doc.clientLeft || body && body.clientLeft || 0);
-                event.pageY = event.clientY +
-                          (doc && doc.scrollTop || body && body.scrollTop || 0) -
-                          (doc && doc.clientTop || body && body.clientTop || 0);
-            }
-            dot = document.createElement('div');
-            dot.style.backgroundColor = "black";
-            dot.style.position = "absolute";
-            dot.style.height = "15px"
-            dot.style.width = "15px"
-            dot.style.left = event.pageX + "px";
-            dot.style.top = event.pageY + "px";
-
-            if (prevDot) {
-                document.body.removeChild(prevDot);
-            }
-
-            document.body.appendChild(dot);
-            prevDot = dot;
-        }
-        '''
-
-    context.browser.execute_script(code)
 
     title = title.lower()
     if title not in ['machines', 'images', 'keys', 'networks', 'tunnels',
@@ -252,15 +217,6 @@ def go_to_some_page_without_waiting(context, title):
         button = context.browser.find_element_by_id(
             'sidebar').find_element_by_id(title)
 
-        import ipdb;
-        ipdb.set_trace()
-
-        for i in (1,2,3,4,5,6,7,8,9,10,11,12,13):
-            action_chain = ActionChains(context.browser)
-            action_chain.move_by_offset(-15,-15)
-            # action_chain.click()
-            action_chain.perform()
-            sleep(0.1)
         clicketi_click(context, button)
         context.execute_steps(u'Then I expect for "%s" page to appear within '
                               u'max 10 seconds' % title)
