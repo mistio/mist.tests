@@ -193,24 +193,24 @@ def set_kvm_creds(context):
                 '''% (context.mist_config['CREDENTIALS']['KVM']['hostname'],))
 
 
-# @step(u'I add the key needed for KVM')
-# def add_key_for_provider(context):
-#     context.execute_steps(u'''
-#         When I visit the Keys page
-#         When I click the button "+"
-#         Then I expect the "Key" add form to be visible within max 10 seconds
-#         When I set the value "KVMKey" to field "Name" in "key" add form
-#         When I set the value "%s" to field "Private Key" in "key" add form
-#         And I wait for 5 seconds
-#         And I expect for the button "Add" in "key" add form to be clickable within 9 seconds
-#         When I focus on the button "Add" in "key" add form
-#         And I click the button "Add" in "key" add form
-#         Then I expect the "key" edit form to be visible within max 7 seconds
-#         When I visit the Keys page
-#         Then "KVMKey" key should be present within 15 seconds
-#         Then I visit the Home page
-#         When I wait for the dashboard to load
-#         '''%(context.mist_config['CREDENTIALS']['KVM']['key'],))
+@step(u'I add the key needed for KVM')
+def add_key_for_provider(context):
+    context.execute_steps(u'''
+        When I visit the Keys page
+        When I click the button "+"
+        Then I expect the "Key" add form to be visible within max 10 seconds
+        When I set the value "KVMKey" to field "Name" in "key" add form
+        When I set the value "%s" to field "Private Key" in "key" add form
+        And I wait for 5 seconds
+        And I expect for the button "Add" in "key" add form to be clickable within 9 seconds
+        When I focus on the button "Add" in "key" add form
+        And I click the button "Add" in "key" add form
+        Then I expect the "key" edit form to be visible within max 7 seconds
+        When I visit the Keys page
+        Then "KVMKey" key should be present within 15 seconds
+        Then I visit the Home page
+        When I wait for the dashboard to load
+        '''%(context.mist_config['CREDENTIALS']['KVM']['key'],))
 
 
 # os and ssh key might be needed as well
