@@ -217,8 +217,8 @@ def go_to_some_page_without_waiting(context, title):
             dot = document.createElement('div');
             dot.style.backgroundColor = "black";
             dot.style.position = "absolute";
-            dot.style.height = "5px"
-            dot.style.width = "5px"
+            dot.style.height = "15px"
+            dot.style.width = "15px"
             dot.style.left = event.pageX + "px";
             dot.style.top = event.pageY + "px";
 
@@ -231,10 +231,6 @@ def go_to_some_page_without_waiting(context, title):
         }
         '''
 
-    context.browser.execute_script(code)
-
-
-    #import ipdb;ipdb.set_trace()
     context.browser.execute_script(code)
 
     title = title.lower()
@@ -256,10 +252,15 @@ def go_to_some_page_without_waiting(context, title):
         button = context.browser.find_element_by_id(
             'sidebar').find_element_by_id(title)
 
-        action_chain = ActionChains(context.browser)
-        action_chain.move_to_element(button)
-        # action_chain.click()
-        # action_chain.perform()
+        import ipdb;
+        ipdb.set_trace()
+
+        for i in (1,2,3,4,5,6,7,8,9,10,11,12,13):
+            action_chain = ActionChains(context.browser)
+            action_chain.move_by_offset(-15,-15)
+            # action_chain.click()
+            action_chain.perform()
+            sleep(0.1)
         clicketi_click(context, button)
         context.execute_steps(u'Then I expect for "%s" page to appear within '
                               u'max 10 seconds' % title)
