@@ -3,6 +3,8 @@ from behave import step
 from time import sleep
 from time import time
 
+import re
+
 from .utils import safe_get_element_text
 from .utils import focus_on_element
 
@@ -13,6 +15,8 @@ from selenium.webdriver import ActionChains
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
+from selenium.webdriver.support.color import Color
+
 
 from selenium.common.exceptions import WebDriverException
 from selenium.common.exceptions import TimeoutException
@@ -177,6 +181,30 @@ def click_item(context, text, type_of_item):
     assert False, "Could not click item %s" % text
 
 
+@step(u'cloud "{search_cloud}" should be "{state}"')
+def state_of_cloud(context,search_cloud,state):
+    from .clouds import find_cloud
+    cloud = find_cloud(context,search_cloud.lower())
+    if not cloud:
+        assert False, "Cloud %s is not added" % cloud
+    if state not in ['enabled','disabled']:
+        raise Exception('Unknown type of state')
+    button_state = cloud.find_element_by_class_name('icon').value_of_css_property('background-color')
+
+    color = Color.from_string(button_state).hex
+    actual_state = get_color_from_state(state)
+    if color != actual_state:
+        assert False, "Cloud should be %s, but it is not" % state
+
+
+def get_color_from_state(state):
+    if state == 'enabled':
+        return '#69b46c'
+    elif state == 'disabled':
+        return '#d96557'
+    return None
+
+
 @step(u'I click the mist.io button')
 def click_mist_io(context):
     clicketi_click(context, context.browser.find_element_by_id('logo-link'))
@@ -200,6 +228,8 @@ def click_button_by_id(context,button):
         button_to_click = context.browser.find_element_by_id('Create API Token')
     elif button == 'Create':
         button_to_click = context.browser.find_element_by_id('Create')
+    elif button == 'toggle':
+        button_to_click = context.browser.find_element_by_id('enable-disable-cloud')
     else:
         raise Exception('Unknown type of button')
     assert button_to_click.is_displayed(), "%s button is not displayed" %button

@@ -43,10 +43,10 @@ def get_add_form(context, title):
 
 def get_edit_form(context, title):
     title = title.lower()
-    if title == 'cloud':
-        raise Exception
+    # if title == 'cloud':
+    #     raise Exception
     if title not in ['machine', 'image', 'key', 'network', 'tunnel', 'script',
-                     'template', 'stack', 'team', 'policy']:
+                     'template', 'stack', 'team', 'policy', 'cloud']:
         raise Exception('The title given is unknown')
     try:
         if title == 'policy':
@@ -135,6 +135,7 @@ def set_value_to_field(context, value, name, title, form_type):
     input = get_input_from_form(form, name.lower())
     assert input, "Could not set value to field %s" % name
     clear_input_and_send_keys(input, value)
+
 
 
 @step(u'I expect for the button "{button_name}" in "{title}" {form_type} form'

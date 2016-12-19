@@ -267,6 +267,7 @@ def given_logged_in(context):
             Then I click the email button in the landing page popup
             And I enter my standard credentials for login
             And I click the sign in button in the landing page popup
+            And I am in the legacy UI
         """)
     except NoSuchElementException:
         try:
@@ -325,18 +326,18 @@ def am_in_legacy_UI(context):
     Function that waits for the legacy UI to load. The maximum time for the page
     to load is 60 seconds in this case
     """
-    # try:
-    #     context.browser.find_element_by_css_selector('paper-icon-button.gravatar')
-    #     return
-    # except:
-    context.execute_steps(u'''
-            When I wait for 15 seconds
-            And I wait for the dashboard to load
-            When I click the gravatar
-            And I wait for 4 seconds
-            And I click the button legacy_ui
-            Then I wait for the mist.io splash page to load
-        ''')
+    try:
+        context.browser.find_element_by_id("splash")
+        return
+    except:
+        context.execute_steps(u'''
+                When I wait for 15 seconds
+                And I wait for the dashboard to load
+                When I click the gravatar
+                And I wait for 4 seconds
+                And I click the button legacy_ui
+                Then I wait for the mist.io splash page to load
+            ''')
 
 
 @given(u'I am logged in to mist.core as {kind}')
@@ -386,7 +387,6 @@ def given_not_logged_in(context):
         context.browser.find_element_by_id("splash")
         context.execute_steps(u"""
               Then I wait for the mist.io splash page to load
-              And I wait for the links in homepage to appear
               And I logout
         """)
     except NoSuchElementException:
