@@ -1,12 +1,9 @@
 @machines
 Feature: Machine create and destroy for polymer
 
-  Background:
-    Given I am logged in to mist.core
-    And I am in the new UI
-
   @machine-create
-  Scenario: Create a machine in Docker
+  Scenario: Create a machine in Docker and check the ssh connection
+    Given I am logged in to mist.core
     When I wait for the dashboard to load
     Given "Docker" cloud has been added
     Given "Testkey" key has been added
@@ -22,6 +19,11 @@ Feature: Machine create and destroy for polymer
     And I wait for 3 seconds
     Then I visit the Machines page
     Then "docker-ui-test" machine should be present within 40 seconds
+    When I visit the Machines page
+    When I click the "TestMachine" "machine"
+    # click the shell button
+    Then I test the ssh connection
+    And I wait for 5 seconds
     Then I visit the Home page
 
 
