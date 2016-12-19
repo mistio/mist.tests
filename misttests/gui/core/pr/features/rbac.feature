@@ -10,8 +10,8 @@ Feature: RBAC
   Scenario: Member1 of organization signs up
     When I visit mist.core
     When I open the signup popup
-    Then I click the sign up button in the landing page popup
-    Then I click the email button in the landing page popup
+    #Then I click the sign up button in the landing page popup
+    #Then I click the email button in the landing page popup
     And I enter my rbac_member1 credentials for signup
     And I click the sign up button in the landing page popup
     Then I should receive an email at the address "MEMBER1_EMAIL" with subject "[mist.io] Confirm your registration" within 10 seconds
@@ -25,8 +25,8 @@ Feature: RBAC
   Scenario: Organization Owner signs up
     When I visit mist.core
     When I open the signup popup
-    Then I click the sign up button in the landing page popup
-    Then I click the email button in the landing page popup
+    #Then I click the sign up button in the landing page popup
+    #Then I click the email button in the landing page popup
     And I enter my rbac_owner credentials for signup
     And I click the sign up button in the landing page popup
     Then I should receive an email at the address "OWNER_EMAIL" with subject "[mist.io] Confirm your registration" within 10 seconds
