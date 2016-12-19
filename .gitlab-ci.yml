@@ -9,7 +9,7 @@ run_mayday_test:
     - triggers
   before_script:
     - export DISPLAY=:1.0
-    - Xvfb :1 -screen 0 1280x1024x24 > /dev/null 2>&1 &
+    - Xvfb :1 -screen 0 1024x768x24 > /dev/null 2>&1 &
     - mkdir -p $CI_PROJECT_DIR/logs
     - mkdir -p $CI_PROJECT_DIR/parts/chromedriver/
     - cp /chromedriver $CI_PROJECT_DIR/parts/chromedriver/
