@@ -212,6 +212,14 @@ def open_drop_down(context, dropdown_text):
     clicketi_click(context, dropdown)
 
 
+@step(u'I click the {machine_action} button in the machine edit form')
+def click_machine_action(context,machine_action):
+    import ipdb;ipdb.set_trace()
+    machine_actions = context.browser.find_elements_by_tag_name('item-actions')
+    from .buttons import clicketi_click
+    clicketi_click(context, machine_actions[1])
+
+
 @step(u'I click the button "{button_name}" from the menu of the "{title}" '
       u'{form_type} form')
 def click_menu_button_from_more_menu(context, button_name, title, form_type):
@@ -220,6 +228,7 @@ def click_menu_button_from_more_menu(context, button_name, title, form_type):
     form_type = form_type.lower()
     form = get_add_form(context, form_type) if form_type == 'add' else \
         get_edit_form(context, title)
+    import ipdb;ipdb.set_trace()
     if title == 'machine':
         more_dropdown = form.find_element_by_class_name('more')
     else:

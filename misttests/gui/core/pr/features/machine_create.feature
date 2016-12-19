@@ -5,22 +5,23 @@ Feature: Machine create and destroy for polymer
   Scenario: Create a machine in Docker and check the ssh connection
     Given I am logged in to mist.core
     When I wait for the dashboard to load
-    Given "Docker" cloud has been added
-    Given "Testkey" key has been added
-    When I visit the Machines page
-    And I click the button "+"
-    Then I expect the "Machine" add form to be visible within max 10 seconds
-    When I open the "Choose Cloud" drop down
-    And I wait for 1 seconds
-    When I click the button "Docker" in the "Choose Cloud" dropdown
-    Then I expect the field "Machine name" in the machine add form to be visible within max 4 seconds
-    When I select the proper values for "Docker" to create the "docker-ui-test" machine
-    Then I click the "Launch" button
-    And I wait for 3 seconds
-    Then I visit the Machines page
-    Then "docker-ui-test" machine should be present within 40 seconds
+#    Given "Docker" cloud has been added
+#    Given "Testkey" key has been added
+#    When I visit the Machines page
+#    And I click the button "+"
+#    Then I expect the "Machine" add form to be visible within max 10 seconds
+#    When I open the "Choose Cloud" drop down
+#    And I wait for 1 seconds
+#    When I click the button "Docker" in the "Choose Cloud" dropdown
+#    Then I expect the field "Machine name" in the machine add form to be visible within max 4 seconds
+#    When I select the proper values for "Docker" to create the "docker-ui-test" machine
+#    Then I click the "Launch" button
+#    And I wait for 3 seconds
+#    Then I visit the Machines page
+#    Then "docker-ui-test" machine should be present within 40 seconds
     When I visit the Machines page
     When I click the "TestMachine" "machine"
+    Then I click the Shell button in the machine edit form
     # click the shell button
     Then I test the ssh connection
     And I wait for 5 seconds
