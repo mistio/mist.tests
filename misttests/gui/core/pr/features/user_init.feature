@@ -15,8 +15,8 @@ Feature: Login Scenarios
     Then I refresh the page
     Given I am not logged in to mist.core
     When I open the signup popup
-    Then I click the sign up button in the landing page popup
-    Then I click the email button in the landing page popup
+#    Then I click the sign up button in the landing page popup
+#    Then I click the email button in the landing page popup
     And I enter my standard credentials for signup
     And I click the sign up button in the landing page popup
     Then I should receive an email at the address "EMAIL" with subject "[mist.io] Confirm your registration" within 10 seconds
@@ -30,8 +30,8 @@ Feature: Login Scenarios
     #Then I logout of legacy gui
     Given I am not logged in to mist.core
     When I open the signup popup
-    Then I click the sign up button in the landing page popup
-    Then I click the email button in the landing page popup
+#    Then I click the sign up button in the landing page popup
+#    Then I click the email button in the landing page popup
     And I enter my standard credentials for signup
     And I click the sign up button in the landing page popup
     Then I should get an already registered error
@@ -56,36 +56,36 @@ Feature: Login Scenarios
     #Then I logout of legacy gui
     And I wait for 2 seconds
 
-  @req-demo
-  Scenario: Request demo as an already registered member
-    Given I am not logged in to mist.core
-    When I open the signup popup
-    And I click the request demo button in the landing page popup
-    And I enter my standard credentials for demo request
-    And I click the request demo button in the landing page popup
-    Then I should receive an email at the address "MIST_DEMO_REQUEST_EMAIL" with subject "Demo request" within 10 seconds
-    When I wait for 2 seconds
-    Then I close the "Success" popup
+#  @req-demo
+#  Scenario: Request demo as an already registered member
+#    Given I am not logged in to mist.core
+#    When I open the signup popup
+#    And I click the request demo button in the landing page popup
+#    And I enter my standard credentials for demo request
+#    And I click the request demo button in the landing page popup
+#    Then I should receive an email at the address "MIST_DEMO_REQUEST_EMAIL" with subject "Demo request" within 10 seconds
+#    When I wait for 2 seconds
+#    Then I close the "Success" popup
 
-  @req-demo-register
-  Scenario: Request demo and sign up
-    When I make sure user with email "DEMO_EMAIL" is absent
-    Given I am not logged in to mist.core
-    When I open the signup popup
-    And I click the request demo button in the landing page popup
-    And I enter my alt credentials for demo request
-    And I wait for 1 seconds
-    And I click the request demo button in the landing page popup
-    Then I should receive an email at the address "MIST_DEMO_REQUEST_EMAIL" with subject "Demo request" within 10 seconds
-    Then I should receive an email at the address "DEMO_EMAIL" with subject "[mist.io] Confirm your registration" within 10 seconds
-    And I follow the link contained in the email sent at the address "DEMO_EMAIL" with subject "[mist.io] Confirm your registration"
-    Then I enter my standard credentials for signup_password_set
-    And I click the submit button in the landing page popup
-    And I wait for the dashboard to load
-    Then I logout
-    #And I wait for the mist.io splash page to load
-    #Then I logout of legacy gui
-    And I wait for 2 seconds
+#  @req-demo-register
+#  Scenario: Request demo and sign up
+#    When I make sure user with email "DEMO_EMAIL" is absent
+#    Given I am not logged in to mist.core
+#    When I open the signup popup
+#    And I click the request demo button in the landing page popup
+#    And I enter my alt credentials for demo request
+#    And I wait for 1 seconds
+#    And I click the request demo button in the landing page popup
+#    Then I should receive an email at the address "MIST_DEMO_REQUEST_EMAIL" with subject "Demo request" within 10 seconds
+#    Then I should receive an email at the address "DEMO_EMAIL" with subject "[mist.io] Confirm your registration" within 10 seconds
+#    And I follow the link contained in the email sent at the address "DEMO_EMAIL" with subject "[mist.io] Confirm your registration"
+#    Then I enter my standard credentials for signup_password_set
+#    And I click the submit button in the landing page popup
+#    And I wait for the dashboard to load
+#    Then I logout
+#    #And I wait for the mist.io splash page to load
+#    #Then I logout of legacy gui
+#    And I wait for 2 seconds
 #
 #  @multiple-login
 #  Scenario: Launch two browsers and try to login from both
