@@ -154,6 +154,7 @@ def make_sure_menu_is_open(context):
 
 @step(u'I wait for the links in homepage to appear')
 def wait_for_buttons_to_appear(context):
+    context.execute_steps(u'Then I make sure the menu is open')
     end_time = time() + 10
     while time() < end_time:
         try:
@@ -175,7 +176,6 @@ def filter_buttons(context, text):
 @step(u'I wait for the dashboard to load')
 def wait_for_dashboard(context):
     # wait first until the sidebar is open
-    context.execute_steps(u'Then I make sure the menu is open')
     context.execute_steps(u'Then I wait for the links in homepage to appear')
     # wait until the panel in the middle is visible
     timeout = 20
@@ -213,7 +213,6 @@ def go_to_some_page_without_waiting(context, title):
                      'scripts', 'templates', 'stacks', 'teams', 'account',
                      'home']:
         raise ValueError('The page given is unknown')
-    context.execute_steps(u'Then I wait for the links in homepage to appear')
     if title.lower() == 'home':
         context.execute_steps(u'When I click the mist.io button')
     elif title.lower() == 'account':
