@@ -136,6 +136,22 @@ def am_in_new_UI(context):
         ''')
 
 
+@step(u'I make sure the menu is open')
+def make_sure_menu_is_open(context):
+    end_time = time() + 10
+    while time() < end_time:
+        try:
+            menu = context.browser.find_element_by_id('sidebar')
+            if menu.get_attribute('isclosed') == 'true':
+                top_bar = context.browser.find_element_by_id('topBar')
+                button = top_bar.find_element_by_xpath('./paper-icon-button["icon=menu"]')
+                button.click()
+                break
+        except (NoSuchElementException, ValueError, AttributeError):
+            assert time() + 1 < end_time, "Menu button has not" \
+                                          " appeared after 10 seconds"
+            sleep(1)
+
 @step(u'I wait for the links in homepage to appear')
 def wait_for_buttons_to_appear(context):
     end_time = time() + 10
@@ -159,6 +175,7 @@ def filter_buttons(context, text):
 @step(u'I wait for the dashboard to load')
 def wait_for_dashboard(context):
     # wait first until the sidebar is open
+    context.execute_steps(u'Then I make sure the menu is open')
     context.execute_steps(u'Then I wait for the links in homepage to appear')
     # wait until the panel in the middle is visible
     timeout = 20
