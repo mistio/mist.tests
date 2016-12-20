@@ -9,7 +9,6 @@ from .utils import safe_get_element_text
 
 from selenium.common.exceptions import TimeoutException
 from selenium.common.exceptions import WebDriverException
-from selenium.common.exceptions import NoSuchElementException
 
 from selenium.webdriver.common.by import By
 
@@ -25,36 +24,40 @@ def modal_waiting_with_timeout(context, modal_id, action, seconds):
     Function that wait for keyadd-popup to appear but for a maximum
     amount of time
     """
-
-    css_selector = "//paper-dialog[@id='%s']" % modal_id
     if action == 'appear':
-        try:
-            WebDriverWait(context.browser, int(seconds)).until(
-                EC.visibility_of_element_located((By.XPATH, css_selector)))
-        except TimeoutException:
-            raise TimeoutException("Modal %s did not %s after %s seconds"
-                                   % (modal_id, action, seconds))
+        css_selector = '#%s[class*="md-show"]' % modal_id
     elif action == 'disappear':
-        try:
-            WebDriverWait(context.browser, int(seconds)).until(
-                EC.invisibility_of_element_located((By.XPATH, css_selector)))
-        except TimeoutException:
-            raise TimeoutException("Modal %s did not %s after %s seconds"
-                                   % (modal_id, action, seconds))
+        css_selector = '#%s[class*="md-hide"]' % modal_id
     else:
         raise ValueError("Action can be either appear or disappear. Duh!")
+    try:
+        WebDriverWait(context.browser, int(seconds)).until(
+            EC.presence_of_element_located((By.CSS_SELECTOR, css_selector)))
+    except TimeoutException:
+        raise TimeoutException("Modal %s did not %s after %s seconds"
+                               % (modal_id, action, seconds))
 
 
-@step(u'I click the "{text}" button inside the "{modal_id}" modal')
-def click_button_within_modal(context, text, modal_id):
-
-    modal = context.browser.find_element_by_xpath("//paper-dialog[@id='%s']" % modal_id)
-    modal_items = modal.find_elements_by_tag_name("paper-item")
-    for item in modal_items:
-        if text.lower() == item.text.lower():
-            clicketi_click(context, item)
+@step(u'I click the "{text}" button inside the "{modal_title}" modal')
+def click_button_within_modal(context, text, modal_title):
+    modals = context.browser.find_elements_by_class_name("md-show")
+    for modal in modals:
+        title = safe_get_element_text(modal.find_element_by_class_name('md-title'))
+        if modal_title.lower() in title.lower():
+            if text == '_x_':
+                buttons = modal.find_elements_by_class_name("close")
+                assert len(buttons) > 0, "Could not find the close button"
+                for i in range(0, 2):
+                    try:
+                        clicketi_click(context, buttons[0])
+                        return
+                    except WebDriverException:
+                        sleep(1)
+                assert False, 'Could not click the close button'
+            else:
+                buttons = modal.find_elements_by_class_name("ui-btn")
+                click_button_from_collection(context, text, buttons,
+                                             'Could not find %s button in %s '
+                                             'modal' % (text, modal_title))
             return
-        else:
-            pass
-
-    raise NoSuchElementException("Could not find the %s button inside the %s modal" % (text, modal_id))
+    assert False, "Could not find modal with title %s" % modal_title
