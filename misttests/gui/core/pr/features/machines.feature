@@ -34,11 +34,11 @@ Feature: Actions for machines
   @machine-stop
   Scenario: Stop the machine created above
     When I visit the Machines page
-#    When I click the "docker-ui-test" "machine"
-#    Then I click the button "Stop" from the menu of the "machine" edit form
-#    And I expect the dialog "Stop 1 Machines" is open within 2 seconds
-#    And I click the "Stop" button in the dialog "Stop 1 Machines"
-#    When I visit the Machines page
+    When I click the "docker-ui-test" "machine"
+    Then I click the button "Stop" from the menu of the "machine" edit form
+    And I expect the dialog "Stop 1 Machines" is open within 2 seconds
+    And I click the "Stop" button in the dialog "Stop 1 Machines"
+    When I visit the Machines page
     Then "docker-ui-test" machine state should be "stopped" within 10 seconds
 
 
@@ -48,6 +48,8 @@ Feature: Actions for machines
     Then I click the button "Start" from the menu of the "machine" edit form
     And I expect the dialog "Start Machine" is open within 2 seconds
     And I click the "Start" button in the dialog "Start Machine"
+    When I visit the Machines page
+    Then "docker-ui-test" machine state should be "running" within 10 seconds
 
 
   @machine-reboot

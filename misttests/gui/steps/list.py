@@ -55,19 +55,8 @@ def get_list_item(context, resource_type, name):
 
 def get_machine(context, name):
     try:
-        # placeholder = context.browser.find_element_by_id("items")
-        # import ipdb;ipdb.set_trace()
-        # rows = placeholder.find_elements_by_class_name('style-scope')
-
         placeholder = context.browser.find_element_by_tag_name("page-machines")
-        import ipdb; ipdb.set_trace()
-        rows = placeholder.find_elements_by_tag_name("list-item")
-
-        machines = []
-
-        for row in rows:
-             machine = row.find_element_by_tag_name('list-item')
-             machines += machine
+        machines = placeholder.find_elements_by_tag_name("list-item")
 
         for machine in machines:
             machine_text = safe_get_element_text(machine)
