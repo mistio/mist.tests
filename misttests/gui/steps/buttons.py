@@ -46,17 +46,23 @@ def get_distance_between_points(button):
     global current_mouse_position
     current_x = current_mouse_position.get('x')
     button_x = button.location.get('x')
-    distance_x = (pow(button_x - current_x, 2))
+    distance_x = sqrt(pow(button_x - current_x, 2))
     current_y = current_mouse_position.get('y')
     button_y = button.location.get('y')
-    distance_y = (pow(button_y - current_y, 2))
-    return sqrt(distance_x + distance_y)
+    distance_y = sqrt(pow(button_y - current_y, 2))
+    #return sqrt(distance_x + distance_y)
+    return distance_x, distance_y
 
 
 def custom_move_to_element(action_chain,button):
     distance = get_distance_between_points(button)
-    while(1):
-        action_chain.move_by_offset(1,1)
+    #step = distance[0]/distance[1] if
+    covered_distance_x = 0.0
+    while(covered_distance_x < distance[0]):
+    #for i in (1,2,3,4,5,6):
+        #action_chain.move_by_offset(distance[0]/distance[1],1)
+        action_chain.move_by_offset(-6,-0.6)
+        sleep(0.1)
         action_chain.perform()
     action_chain.move_to_element(button)
     action_chain.perform()
@@ -68,9 +74,9 @@ def clicketi_click(context, button):
     Chrome driver for no apparent reason misinterprets the offset and
     size of the button
     """
-    show_cursor(context)
+    #show_cursor(context)
     try:
-        import ipdb;ipdb.set_trace()
+        #import ipdb;ipdb.set_trace()
         action_chain = ActionChains(context.browser)
         #location = button.location
         # action_chain.move_to_element(button)
