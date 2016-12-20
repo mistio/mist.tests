@@ -35,7 +35,6 @@ def start_recording(output='test.mp4', dimension='1280x960',
                                              stdin=subprocess.PIPE,
                                              bufsize=0)
 
-    global thr
     thr = Thread(target=discard_output,
                  args=[recording_sub_process])
     thr.daemon = True
@@ -70,7 +69,6 @@ def stop_recording():
     global kill_recording_process
     global recording_sub_process
     kill_recording_process = True
-    thr.join()
     recording_sub_process.communicate(input='q\n')
     log.info("Sent terminating character to recording process")
     recording_process_lock.acquire()
