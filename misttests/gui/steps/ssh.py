@@ -78,6 +78,7 @@ def check_ls_output(lines, filename=None):
 def check_ssh_connection_with_timeout(context,
                                       connection_timeout=200,
                                       filename=None):
+    import ipdb;ipdb.set_trace()
     end_time = time() + 10
     terminal = None
     while time() < end_time:
@@ -169,7 +170,8 @@ def multi_ssh_test_for_file(context, times, seconds, filename):
     assert int(times) > 0, "You should test ssh a positive number of times"
     for i in range(int(times)):
         assertion_error = None
-        context.execute_steps(u'Then I click the button "Shell"')
+        #context.execute_steps(u'Then I click the button "Shell"')
+        context.execute_steps(u'Then I click the Shell button in the machine edit form')
         try:
             check_ssh_connection_with_timeout(context, int(seconds), filename)
         except AssertionError as e:
