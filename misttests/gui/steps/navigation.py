@@ -217,6 +217,8 @@ def go_to_some_page_without_waiting(context, title):
         button = context.browser.find_element_by_id(
             'sidebar').find_element_by_id(title)
 
+        import ipdb;
+        ipdb.set_trace()
         clicketi_click(context, button)
         context.execute_steps(u'Then I expect for "%s" page to appear within '
                               u'max 10 seconds' % title)

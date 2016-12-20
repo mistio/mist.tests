@@ -19,6 +19,9 @@ from selenium.common.exceptions import TimeoutException
 from selenium.common.exceptions import NoSuchElementException
 
 
+current_mouse_position = {'y': 0, 'x': 0}
+
+
 @step(u'I expect for "{element_id}" to be clickable within max {seconds} '
       u'seconds')
 def become_visible_waiting_with_timeout(context, element_id, seconds):
@@ -29,6 +32,11 @@ def become_visible_waiting_with_timeout(context, element_id, seconds):
                                "after %s seconds" % (element_id, seconds))
 
 
+def update_current_mouse_position(location):
+    global current_mouse_position
+    current_mouse_position = location
+
+
 def clicketi_click(context, button):
     """
     trying two different ways of clicking a button because sometimes the
@@ -37,9 +45,11 @@ def clicketi_click(context, button):
     """
     try:
         action_chain = ActionChains(context.browser)
+        #location = button.location
         action_chain.move_to_element(button)
         action_chain.click()
         action_chain.perform()
+        update_current_mouse_position(button.location)
        # button.click()
     except WebDriverException:
         action_chain = ActionChains(context.browser)
