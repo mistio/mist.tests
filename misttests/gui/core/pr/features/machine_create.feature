@@ -20,10 +20,12 @@ Feature: Machine create and destroy for polymer
 #    Then I visit the Machines page
 #    Then "docker-ui-test" machine should be present within 40 seconds
     When I visit the Machines page
+    And I wait for 1 seconds
     When I click the "docker-ui-test" "machine"
-    Then I click the Start button in the machine edit form
-    And I expect the dialog "Start Machine" is open within 3 seconds
-    And I click the "Start" button in the dialog "Start Machine"
+   # Then I click the Stop button in the machine edit form
+    Then I click the button "Stop" from the menu of the "machine" edit form
+    And I expect the dialog "Stop 1 Machines" is open within 3 seconds
+    And I click the "Stop" button in the dialog "Stop 1 Machines"
 #    Then I click the Shell button in the machine edit form
     # click the shell button
     #Then I test the ssh connection
