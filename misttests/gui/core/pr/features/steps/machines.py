@@ -4,3 +4,4 @@ from misttests.gui.steps.modals import *
 from misttests.gui.steps.tags import *
 from misttests.gui.steps.popups import *
 from misttests.gui.steps.ssh import *
+from misttests.gui.steps.list import *
