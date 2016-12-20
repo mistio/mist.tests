@@ -3,6 +3,8 @@ from behave import step
 from time import sleep
 from time import time
 
+from math import pow,sqrt
+
 from .utils import safe_get_element_text
 from .utils import focus_on_element
 
@@ -17,6 +19,8 @@ from selenium.webdriver.support import expected_conditions as EC
 from selenium.common.exceptions import WebDriverException
 from selenium.common.exceptions import TimeoutException
 from selenium.common.exceptions import NoSuchElementException
+
+from misttests.helpers.screencast_utils import show_cursor
 
 
 current_mouse_position = {'y': 0, 'x': 0}
@@ -37,16 +41,41 @@ def update_current_mouse_position(location):
     current_mouse_position = location
 
 
+# create a method out of this
+def get_distance_between_points(button):
+    global current_mouse_position
+    current_x = current_mouse_position.get('x')
+    button_x = button.location.get('x')
+    distance_x = (pow(button_x - current_x, 2))
+    current_y = current_mouse_position.get('y')
+    button_y = button.location.get('y')
+    distance_y = (pow(button_y - current_y, 2))
+    return sqrt(distance_x + distance_y)
+
+
+def custom_move_to_element(action_chain,button):
+    distance = get_distance_between_points(button)
+    while(1):
+        action_chain.move_by_offset(1,1)
+        action_chain.perform()
+    action_chain.move_to_element(button)
+    action_chain.perform()
+
+
 def clicketi_click(context, button):
     """
     trying two different ways of clicking a button because sometimes the
     Chrome driver for no apparent reason misinterprets the offset and
     size of the button
     """
+    show_cursor(context)
     try:
+        import ipdb;ipdb.set_trace()
         action_chain = ActionChains(context.browser)
         #location = button.location
-        action_chain.move_to_element(button)
+        # action_chain.move_to_element(button)
+        # action_chain.perform()
+        custom_move_to_element(action_chain,button)
         action_chain.click()
         action_chain.perform()
         update_current_mouse_position(button.location)
