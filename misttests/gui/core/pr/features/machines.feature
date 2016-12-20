@@ -1,10 +1,12 @@
 @machines
-Feature: Machine create and destroy for polymer
+Feature: Actions for machines
+
+  Background:
+    Given I am logged in to mist.core
 
   @machine-create
-  Scenario: Create a machine in Docker and check the ssh connection
-    Given I am logged in to mist.core
-    When I wait for the dashboard to load
+  Scenario: Create a machine in Docker provider and check the ssh connection
+    When I visit the Machines page
 #    Given "Docker" cloud has been added
 #    Given "Testkey" key has been added
 #    When I visit the Machines page
@@ -22,16 +24,28 @@ Feature: Machine create and destroy for polymer
     When I visit the Machines page
     And I wait for 1 seconds
     When I click the "docker-ui-test" "machine"
-   # Then I click the Stop button in the machine edit form
-    Then I click the button "Stop" from the menu of the "machine" edit form
-    And I expect the dialog "Stop 1 Machines" is open within 3 seconds
-    And I click the "Stop" button in the dialog "Stop 1 Machines"
+
 #    Then I click the Shell button in the machine edit form
-    # click the shell button
     #Then I test the ssh connection
     # Then I test the ssh connection 2 times for max 100 seconds each time
     And I wait for 5 seconds
     Then I visit the Home page
+
+
+  @machine-stop
+  Scenario: Stop the machine created above
+    When I click the "docker-ui-test" "machine"
+    Then I click the button "Stop" from the menu of the "machine" edit form
+    And I expect the dialog "Stop 1 Machines" is open within 2 seconds
+    And I click the "Stop" button in the dialog "Stop 1 Machines"
+
+
+  @machine-start
+  Scenario: Start the machine that was stopped above
+    When I click the "docker-ui-test" "machine"
+    Then I click the button "Start" from the menu of the "machine" edit form
+    And I expect the dialog "Start Machine" is open within 2 seconds
+    And I click the "Start" button in the dialog "Start Machine"
 
 
   @machine-destroy
