@@ -47,6 +47,13 @@ Feature: Actions for machines
     And I expect the dialog "Start Machine" is open within 2 seconds
     And I click the "Start" button in the dialog "Start Machine"
 
+  @machine-reboot
+  Scenario: Reboot the machine
+    When I click the "docker-ui-test" "machine"
+    Then I click the button "Reboot" from the menu of the "machine" edit form
+    And I expect the dialog "Reboot Machine" is open within 2 seconds
+    And I click the "Reboot" button in the dialog "Reboot Machine"
+
 
   @machine-destroy
   Scenario: Destroy the machine created
