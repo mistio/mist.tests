@@ -33,24 +33,73 @@ def get_list_item(context, resource_type, name):
     return None
 
 
-@step(u'"{expected_name}" {resource_type} should be {state} within {seconds}'
-      u' seconds')
-def wait_for_item_show(context, expected_name, resource_type, state, seconds):
-    expected_name = expected_name.strip().lower()
-    expected_name = context.mist_config.get(expected_name, expected_name)
-    state = state.lower()
-    if state not in ['present', 'absent']:
-        raise Exception('Unknown state %s' % state)
-    timeout = time() + int(seconds)
-    while time() < timeout:
-        item = get_list_item(context, resource_type, expected_name)
-        if state == 'present' and item:
-            return True
-        if state == 'absent' and not item:
-            return True
-        sleep(1)
-    assert False, 'Item %s is not %s in the list after %s seconds' \
-                  % (expected_name, state, seconds)
+# @step(u'"{expected_name}" {resource_type} should be {state} within {seconds}'
+#       u' seconds')
+# def wait_for_item_show(context, expected_name, resource_type, state, seconds):
+#     expected_name = expected_name.strip().lower()
+#     expected_name = context.mist_config.get(expected_name, expected_name)
+#     state = state.lower()
+#     if state not in ['present', 'absent']:
+#         raise Exception('Unknown state %s' % state)
+#     timeout = time() + int(seconds)
+#     while time() < timeout:
+#         item = get_list_item(context, resource_type, expected_name)
+#         if state == 'present' and item:
+#             return True
+#         if state == 'absent' and not item:
+#             return True
+#         sleep(1)
+#     assert False, 'Item %s is not %s in the list after %s seconds' \
+#                   % (expected_name, state, seconds)
+
+
+def get_machine(context, name):
+    try:
+        # placeholder = context.browser.find_element_by_id("items")
+        # import ipdb;ipdb.set_trace()
+        # rows = placeholder.find_elements_by_class_name('style-scope')
+
+        placeholder = context.browser.find_element_by_tag_name("page-machines")
+        import ipdb; ipdb.set_trace()
+        rows = placeholder.find_elements_by_tag_name("list-item")
+
+        machines = []
+
+        for row in rows:
+             machine = row.find_element_by_tag_name('list-item')
+             machines += machine
+
+        for machine in machines:
+            machine_text = safe_get_element_text(machine)
+            if name in machine_text:
+                return machine
+
+        return None
+    except NoSuchElementException:
+        return None
+    except StaleElementReferenceException:
+        return None
+
+
+@step(u'"{name}" machine state should be "{state}" within {seconds} seconds')
+def assert_machine_state(context, name, state, seconds):
+    if context.mist_config.get(name):
+        name = context.mist_config.get(name)
+
+    end_time = time() + int(seconds)
+    while time() < end_time:
+        machine = get_machine(context, name)
+        if machine:
+            try:
+                if state in safe_get_element_text(machine):
+                    return
+            except NoSuchElementException:
+                pass
+            except StaleElementReferenceException:
+                pass
+        sleep(2)
+
+    assert False, u'%s state is not "%s"' % (name, state)
 
 
 @step(u'I click the button "{button_name}" from the menu of the "{item_name}"'
