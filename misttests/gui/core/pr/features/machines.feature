@@ -20,7 +20,7 @@ Feature: Actions for machines
     Then I click the "Launch" button
     And I wait for 3 seconds
     Then I visit the Machines page
-    Then "docker-ui-test" machine state should be "running" within 30 seconds
+    Then "docker-ui-test" machine state has to be "running" within 30 seconds
 
     # C H E C K   S S H !
 
@@ -36,7 +36,7 @@ Feature: Actions for machines
     And I expect the dialog "Stop 1 Machines" is open within 2 seconds
     And I click the "Stop" button in the dialog "Stop 1 Machines"
     When I visit the Machines page
-    Then "docker-ui-test" machine state should be "stopped" within 10 seconds
+    Then "docker-ui-test" machine state has to be "stopped" within 10 seconds
 
 
   @machine-start
@@ -46,7 +46,7 @@ Feature: Actions for machines
     And I expect the dialog "Start 1 Machines" is open within 2 seconds
     And I click the "Start" button in the dialog "Start 1 Machines"
     When I visit the Machines page
-    Then "docker-ui-test" machine state should be "running" within 10 seconds
+    Then "docker-ui-test" machine state has to be "running" within 10 seconds
 
 
 #  @machine-reboot
