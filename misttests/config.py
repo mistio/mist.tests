@@ -65,7 +65,7 @@ def get_bool_value(name_of_variable, default_value):
         return ast.literal_eval(val)
     return val
 
-LOCAL = get_bool_value("LOCAL", True)
+LOCAL = get_bool_value("LOCAL", False)
 
 DEBUG = get_bool_value("DEBUG", False)
 

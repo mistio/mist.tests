@@ -5,6 +5,8 @@ import logging
 from misttests.helpers.setup import setup_user_if_not_exists
 from misttests.helpers.setup import remove_user_if_exists
 
+from misttests import config
+
 from selenium.common.exceptions import NoSuchElementException
 
 from time import sleep
@@ -41,38 +43,39 @@ def register_user(context, user_email):
     except NoSuchElementException:
         pass
 
-    try:
-        context.execute_steps(u"When I visit mist.core")
-        context.browser.find_element_by_id("top-signup-button")
-        context.execute_steps(u'''
-            When I visit mist.core
-            Given I am not logged in to mist.core
-            And I open the login popup
-            Then I click the email button in the landing page popup
-            And I enter my standard credentials for login
-            Then I click the sign in button in the landing page popup
-        ''')
-        sleep(3)
-        context.browser.find_element_by_tag_name('mist-app')
-        log.info('tests/misttests/gui/steps/setup.py')
-        context.execute_steps(u'Then I wait for the dashboard to load')
-        # if we reach this line successfully it means that the user is already
-        # registered
-        return
-    except NoSuchElementException:
-        log.exception('something broke')
-        remove_user(context, user_email)
-        context.execute_steps(u'''
-            Then I refresh the page
-            When I open the signup popup
-            Then I click the sign up button in the landing page popup
-            Then I click the email button in the landing page popup
-            And I enter my standard credentials for signup
-            And I click the sign up button in the landing page popup
-            Then I should receive an email at the address "EMAIL" with subject "[mist.io] Confirm your registration" within 10 seconds
-            And I follow the link contained in the email sent at the address "EMAIL" with subject "[mist.io] Confirm your registration"
-            Then I enter my standard credentials for signup_password_set
-            And I click the submit button in the landing page popup
-            Given that I am redirected within 10 seconds
-            And I wait for the dashboard to load
-        ''')
+    if not config.LOCAL:
+        try:
+            context.execute_steps(u"When I visit mist.core")
+            context.browser.find_element_by_id("top-signup-button")
+            context.execute_steps(u'''
+                When I visit mist.core
+                Given I am not logged in to mist.core
+                And I open the login popup
+                Then I click the email button in the landing page popup
+                And I enter my standard credentials for login
+                Then I click the sign in button in the landing page popup
+            ''')
+            sleep(3)
+            context.browser.find_element_by_tag_name('mist-app')
+            log.info('tests/misttests/gui/steps/setup.py')
+            context.execute_steps(u'Then I wait for the dashboard to load')
+            # if we reach this line successfully it means that the user is already
+            # registered
+            return
+        except NoSuchElementException:
+            log.exception('something broke')
+            remove_user(context, user_email)
+    context.execute_steps(u'''
+                Then I refresh the page
+                When I open the signup popup
+                Then I click the sign up button in the landing page popup
+                Then I click the email button in the landing page popup
+                And I enter my standard credentials for signup
+                And I click the sign up button in the landing page popup
+                Then I should receive an email at the address "EMAIL" with subject "[mist.io] Confirm your registration" within 10 seconds
+                And I follow the link contained in the email sent at the address "EMAIL" with subject "[mist.io] Confirm your registration"
+                Then I enter my standard credentials for signup_password_set
+                And I click the submit button in the landing page popup
+                Given that I am redirected within 10 seconds
+                And I wait for the dashboard to load
+            ''')
