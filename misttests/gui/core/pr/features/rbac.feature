@@ -10,7 +10,7 @@ Feature: RBAC
 #  Scenario: Member1 of organization signs up
 #    When I visit mist.core
 #    When I open the signup popup
-#    Then I click the sign up button in the landing page popup
+#    #Then I click the sign up button in the landing page popup
 #    Then I click the email button in the landing page popup
 #    And I enter my rbac_member1 credentials for signup
 #    And I click the sign up button in the landing page popup
@@ -18,14 +18,14 @@ Feature: RBAC
 #    And I follow the link contained in the email sent at the address "MEMBER1_EMAIL" with subject "[mist.io] Confirm your registration"
 #    Then I enter my rbac_member1 credentials for signup_password_set
 #    And I click the submit button in the landing page popup
-#    And I wait for the mist.io splash page to load
-#    Then I logout of legacy gui
+#    And I wait for the dashboard to load
+#    Then I logout
 
 #  @owner-signup
 #  Scenario: Organization Owner signs up
 #    When I visit mist.core
 #    When I open the signup popup
-#    Then I click the sign up button in the landing page popup
+#    #Then I click the sign up button in the landing page popup
 #    Then I click the email button in the landing page popup
 #    And I enter my rbac_owner credentials for signup
 #    And I click the sign up button in the landing page popup
@@ -33,7 +33,7 @@ Feature: RBAC
 #    And I follow the link contained in the email sent at the address "OWNER_EMAIL" with subject "[mist.io] Confirm your registration"
 #    Then I enter my rbac_owner credentials for signup_password_set
 #    And I click the submit button in the landing page popup
-#    And I wait for the mist.io splash page to load
+#    And I wait for the dashboard to load
 
   @create-org
   Scenario: Owner creates a new organization

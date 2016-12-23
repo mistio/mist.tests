@@ -6,7 +6,6 @@ Feature: Login Scenarios
     When I make sure user with email "EMAIL" is absent
     Given I am not logged in to mist.core
     When I open the signup popup
-    Then I click the sign up button in the landing page popup
     Then I click the email button in the landing page popup
     And I enter my standard credentials for signup
     And I click the sign up button in the landing page popup
@@ -21,7 +20,6 @@ Feature: Login Scenarios
     #Then I logout of legacy gui
     Given I am not logged in to mist.core
     When I open the signup popup
-    Then I click the sign up button in the landing page popup
     Then I click the email button in the landing page popup
     And I enter my standard credentials for signup
     And I click the sign up button in the landing page popup
