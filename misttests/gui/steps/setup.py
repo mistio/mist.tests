@@ -65,6 +65,7 @@ def register_user(context, user_email):
         context.execute_steps(u'''
             Then I refresh the page
             When I open the signup popup
+            Then I click the email button in the landing page popup
             And I enter my standard credentials for signup
             And I click the sign up button in the landing page popup
             Then I should receive an email at the address "EMAIL" with subject "[mist.io] Confirm your registration" within 10 seconds
