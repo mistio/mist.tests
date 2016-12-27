@@ -93,16 +93,20 @@ def check_for_opened_terminal(context):
 
 @step(u'the user "{user}" should have access to the machine "{machine_name}"')
 def check_for_root_access(context,user,machine_name):
-    import ipdb;ipdb.set_trace()
     terminal = context.browser.find_element_by_class_name('terminal')
     rows = context.browser.find_element_by_class_name('xterm-rows')
     all_lines = rows.find_elements_by_tag_name('div')
     text_to_find = user + '@' + machine_name
-    import ipdb;ipdb.set_trace()
-    for i in range(0, len(all_lines)):
-        text = safe_get_element_text(all_lines[i])
-        if text_to_find in text:
-            return
+
+    end_time = time() + 5
+    while time() < end_time:
+        for i in range(0, len(all_lines)):
+            text = safe_get_element_text(all_lines[i])
+            if text_to_find in text:
+                terminal.send_keys("ls -l\n")
+                sleep(1)
+                return
+    assert False, "User has no access after 5 seconds"
 
 
 def check_ssh_connection_with_timeout(context,

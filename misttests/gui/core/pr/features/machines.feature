@@ -6,27 +6,24 @@ Feature: Actions for machines
 
   @machine-create
   Scenario: Create a machine in Docker provider and check the ssh connection
-#    Given "Docker" cloud has been added
-#    Given "Testkey" key has been added
-#    When I visit the Machines page
-#    And I click the button "+"
-#    Then I expect the "Machine" add form to be visible within max 10 seconds
-#    When I open the "Choose Cloud" drop down
-#    And I wait for 1 seconds
-#    When I click the button "Docker" in the "Choose Cloud" dropdown
-#    Then I expect the field "Machine name" in the machine add form to be visible within max 4 seconds
-#    When I select the proper values for "Docker" to create the "docker-ui-test" machine
-#    Then I click the "Launch" button
-#    And I wait for 3 seconds
-#    Then I visit the Machines page
-#    Then "docker-ui-test" machine state has to be "running" within 30 seconds
-
-    # C H E C K   S S H !
+    Given "Docker" cloud has been added
+    Given "Testkey" key has been added
     When I visit the Machines page
-    And I click the "mistio-mist-core" "machine"
+    And I click the button "+"
+    Then I expect the "Machine" add form to be visible within max 10 seconds
+    When I open the "Choose Cloud" drop down
+    And I wait for 1 seconds
+    When I click the button "Docker" in the "Choose Cloud" dropdown
+    Then I expect the field "Machine name" in the machine add form to be visible within max 4 seconds
+    When I select the proper values for "Docker" to create the "docker-ui-test" machine
+    Then I click the "Launch" button
+    And I wait for 3 seconds
+    Then I visit the Machines page
+    Then "docker-ui-test" machine state has to be "running" within 30 seconds
+    When I click the "docker-ui-test" "machine"
     When I click the Shell button in the machine edit form
     Then the terminal should be opened within 5 seconds
-    And the user "root" should have access to the machine "mistio-mist-core"
+    And the user "root" should have access to the machine "docker-ui-test"
 
 
 
