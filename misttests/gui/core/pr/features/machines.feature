@@ -6,7 +6,7 @@ Feature: Actions for machines
 
   @machine-create
   Scenario: Create a machine in Docker provider and check the ssh connection
-    When I visit the Machines page
+    #When I visit the Machines page
     Given "Docker" cloud has been added
     Given "Testkey" key has been added
     When I visit the Machines page
