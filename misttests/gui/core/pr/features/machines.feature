@@ -6,27 +6,37 @@ Feature: Actions for machines
 
   @machine-create
   Scenario: Create a machine in Docker provider and check the ssh connection
-    #When I visit the Machines page
-    Given "Docker" cloud has been added
-    Given "Testkey" key has been added
-    When I visit the Machines page
-    And I click the button "+"
-    Then I expect the "Machine" add form to be visible within max 10 seconds
-    When I open the "Choose Cloud" drop down
-    And I wait for 1 seconds
-    When I click the button "Docker" in the "Choose Cloud" dropdown
-    Then I expect the field "Machine name" in the machine add form to be visible within max 4 seconds
-    When I select the proper values for "Docker" to create the "docker-ui-test" machine
-    Then I click the "Launch" button
-    And I wait for 3 seconds
-    Then I visit the Machines page
-    Then "docker-ui-test" machine state has to be "running" within 30 seconds
+#    Given "Docker" cloud has been added
+#    Given "Testkey" key has been added
+#    When I visit the Machines page
+#    And I click the button "+"
+#    Then I expect the "Machine" add form to be visible within max 10 seconds
+#    When I open the "Choose Cloud" drop down
+#    And I wait for 1 seconds
+#    When I click the button "Docker" in the "Choose Cloud" dropdown
+#    Then I expect the field "Machine name" in the machine add form to be visible within max 4 seconds
+#    When I select the proper values for "Docker" to create the "docker-ui-test" machine
+#    Then I click the "Launch" button
+#    And I wait for 3 seconds
+#    Then I visit the Machines page
+#    Then "docker-ui-test" machine state has to be "running" within 30 seconds
 
     # C H E C K   S S H !
-
-    # Then I click the Shell button in the machine edit form
-    # Then I test the ssh connection
+    When I visit the Machines page
+    And I click the "mistio-mist-core" "machine"
+    Then I click the Shell button in the machine edit form
+    And I wait for 10 seconds
+    Then I test the ssh connection
     # Then I test the ssh connection 2 times for max 100 seconds each time
+
+  @machine-create-legacy
+   Scenario: Dummy test
+    And I am in the legacy UI
+    When I visit the Machines page after the counter has loaded
+    When I click the mayday machine
+    Then I expect for "single-machine-page" page to appear within max 10 seconds
+    When I test the ssh connection 2 times for max 100 seconds each time
+
 
 
   @machine-stop
