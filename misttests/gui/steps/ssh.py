@@ -14,6 +14,8 @@ from selenium.webdriver.support.ui import WebDriverWait
 from selenium.common.exceptions import NoSuchElementException
 from selenium.webdriver.support import expected_conditions as EC
 
+from selenium.webdriver.common.action_chains import ActionChains
+
 
 def is_ssh_connection_up(lines):
     errors = ['disconnected', 'timeout', 'timed out', 'closure', 'broken']
@@ -76,7 +78,7 @@ def check_ls_output(lines, filename=None):
 
 
 @step(u'the terminal should be opened within 5 seconds')
-def check_for_root_access(context):
+def check_for_opened_terminal(context):
     end_time = time() + 5
     terminal = None
     while time() < end_time:
@@ -88,10 +90,19 @@ def check_for_root_access(context):
     assert terminal, "Terminal has not opened 5 seconds after pressing the " \
                      "button. Aborting!"
 
-#
-# @step(u'I ensure i have access to the machine "{machine_name}"')
-# def check_for_root_access(context,machine_name):
-# all_lines = terminal.find_elements_by_tag_name('div')
+
+@step(u'the user "{user}" should have access to the machine "{machine_name}"')
+def check_for_root_access(context,user,machine_name):
+    import ipdb;ipdb.set_trace()
+    terminal = context.browser.find_element_by_class_name('terminal')
+    rows = context.browser.find_element_by_class_name('xterm-rows')
+    all_lines = rows.find_elements_by_tag_name('div')
+    text_to_find = user + '@' + machine_name
+    import ipdb;ipdb.set_trace()
+    for i in range(0, len(all_lines)):
+        text = safe_get_element_text(all_lines[i])
+        if text_to_find in text:
+            return
 
 
 def check_ssh_connection_with_timeout(context,

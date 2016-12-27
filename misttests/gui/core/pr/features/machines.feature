@@ -26,7 +26,7 @@ Feature: Actions for machines
     And I click the "mistio-mist-core" "machine"
     When I click the Shell button in the machine edit form
     Then the terminal should be opened within 5 seconds
-    # Then I test the ssh connection 2 times for max 100 seconds each time
+    And the user "root" should have access to the machine "mistio-mist-core"
 
 
 
