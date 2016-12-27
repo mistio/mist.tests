@@ -24,18 +24,9 @@ Feature: Actions for machines
     # C H E C K   S S H !
     When I visit the Machines page
     And I click the "mistio-mist-core" "machine"
-    Then I click the Shell button in the machine edit form
-    And I wait for 10 seconds
-    Then I test the ssh connection
+    When I click the Shell button in the machine edit form
+    Then the terminal should be opened within 5 seconds
     # Then I test the ssh connection 2 times for max 100 seconds each time
-
-  @machine-create-legacy
-   Scenario: Dummy test
-    And I am in the legacy UI
-    When I visit the Machines page after the counter has loaded
-    When I click the mayday machine
-    Then I expect for "single-machine-page" page to appear within max 10 seconds
-    When I test the ssh connection 2 times for max 100 seconds each time
 
 
 

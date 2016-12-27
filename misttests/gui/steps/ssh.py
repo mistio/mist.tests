@@ -75,10 +75,28 @@ def check_ls_output(lines, filename=None):
                   "command. Contents of the terminal are: %s" & lines
 
 
+@step(u'the terminal should be opened within 5 seconds')
+def check_for_root_access(context):
+    end_time = time() + 5
+    terminal = None
+    while time() < end_time:
+        try:
+            terminal = context.browser.find_element_by_class_name('terminal')
+            break
+        except NoSuchElementException:
+            sleep(1)
+    assert terminal, "Terminal has not opened 5 seconds after pressing the " \
+                     "button. Aborting!"
+
+#
+# @step(u'I ensure i have access to the machine "{machine_name}"')
+# def check_for_root_access(context,machine_name):
+# all_lines = terminal.find_elements_by_tag_name('div')
+
+
 def check_ssh_connection_with_timeout(context,
                                       connection_timeout=200,
                                       filename=None):
-    import ipdb;ipdb.set_trace()
     end_time = time() + 10
     terminal = None
     while time() < end_time:
@@ -136,6 +154,7 @@ def check_ssh_connection(context):
     get some output.
     """
     check_ssh_connection_with_timeout(context)
+
 
 
 @step(u'I test the ssh connection for max {seconds} seconds')
