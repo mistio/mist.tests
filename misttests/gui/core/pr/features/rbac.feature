@@ -93,9 +93,16 @@ Feature: RBAC
     And I am in the new UI
     When I wait for the dashboard to load
     And I visit the Teams page
-      # give permission for viewing cloud
-    When I click the "Test team" "team"
-    And I expect the "team" edit form to be visible within max 5 seconds
+    # give permission for viewing cloud
+     # check below
+    When I focus on the button "Add a new rule" in "policy" edit form
+    Then I click the button "Add a new rule" in "policy" edit form
+    And I wait for 1 seconds
+    Then I add the rule always "ALLOW" "cloud" "read"
+    And I click the button "Save Policy" in "policy" edit form
+#    When I click the "Test team" "team"
+#    And I expect the "team" edit form to be visible within max 5 seconds
+    And I wait for 2 seconds
     Then I click the button "Invite Members" in "team" edit form
     And I expect the "members" add form to be visible within max 5 seconds
     When I set the value "MEMBER2_EMAIL" to field "Emails" in "members" add form
@@ -131,6 +138,11 @@ Feature: RBAC
     And I click the "Delete" button in the dialog "Delete Member from Team"
     And I expect the dialog "Delete Member from Team" is closed within 4 seconds
     # allow adding a cloud
+    #  CHECK BELOW
+    When I focus on the button "Add a new rule" in "policy" edit form
+    Then I click the button "Add a new rule" in "policy" edit form
+    And I wait for 1 seconds
+    Then I add the rule always "ALLOW" "cloud" "all"
     Then I logout
     Given I am logged in to mist.core as rbac_member2
     And I am in the new UI
