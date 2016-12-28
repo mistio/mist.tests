@@ -61,8 +61,8 @@ Feature: RBAC
     When I visit the Teams page
     And "Test Team" team should be present within 5 seconds
 
-  @add-members
-  Scenario: Owner invites two team members
+  @add-member1
+  Scenario: Add member1 and verify that he cannot add cloud
     When I click the "Test team" "team"
     And I expect the "team" edit form to be visible within max 5 seconds
     Then I click the button "Invite Members" in "team" edit form
@@ -85,6 +85,10 @@ Feature: RBAC
     When I visit the Teams page
     And "Test Team" team should be present within 5 seconds
     Then I logout
+
+
+    @add-member2
+    Scenario: Add member2
     Given I am logged in to mist.core as rbac_owner
     And I am in the new UI
     When I wait for the dashboard to load

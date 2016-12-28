@@ -61,7 +61,7 @@ def register_user(context, user_email):
         return
     except NoSuchElementException:
         log.exception('something broke')
-        remove_user(context, user_email)
+        #remove_user(context, user_email)
         context.execute_steps(u'''
             Then I refresh the page
             When I open the signup popup
