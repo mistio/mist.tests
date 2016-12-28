@@ -1,16 +1,11 @@
 @rbac
 Feature: RBAC
 
-# there are some tests also mentioned here: https://gitlab.ops.mist.io/mistio/mist.tests/issues/30
-# most of the above are implemented, what could also be done is to test more specific rules
-# eg. member tries to run a script but has no permissions, and he cannot
-# then owner changes permissions, and member can successfully run the script
 
   @member-signup
   Scenario: Member1 of organization signs up
     When I visit mist.core
     When I open the signup popup
-    #Then I click the sign up button in the landing page popup
     Then I click the email button in the landing page popup
     And I enter my rbac_member1 credentials for signup
     And I click the sign up button in the landing page popup
@@ -21,11 +16,11 @@ Feature: RBAC
     And I wait for the dashboard to load
     Then I logout
 
+
   @owner-signup
   Scenario: Organization Owner signs up
     When I visit mist.core
     When I open the signup popup
-    #Then I click the sign up button in the landing page popup
     Then I click the email button in the landing page popup
     And I enter my rbac_owner credentials for signup
     And I click the sign up button in the landing page popup
@@ -34,13 +29,11 @@ Feature: RBAC
     Then I enter my rbac_owner credentials for signup_password_set
     And I click the submit button in the landing page popup
     And I wait for the dashboard to load
+    Given "Docker" cloud has been added
 
-    # add cloud
 
   @create-org
   Scenario: Owner creates a new organization
-#    Given I am in the new UI
-#    And  I wait for the dashboard to load
     When I click the Gravatar
     And I wait for 1 seconds
     Then I click the button "Add Organisation" in the user menu
@@ -53,6 +46,7 @@ Feature: RBAC
     Then I expect the dialog "Add Organization" is closed within 4 seconds
     When I wait for the dashboard to load
 
+
   @add-team
   Scenario: Owner creates a team
     When I visit the Teams page
@@ -62,6 +56,7 @@ Feature: RBAC
     And I click the "Add" button in the dialog "Add Team"
     When I visit the Teams page
     And "Test Team" team should be present within 5 seconds
+
 
   @add-member1
   Scenario: Add member1 and verify that he cannot add cloud
@@ -86,7 +81,9 @@ Feature: RBAC
     Then I ensure that I am in the "Rbac_Test" organization context
     When I visit the Teams page
     And "Test Team" team should be present within 5 seconds
-    # shouldn't be able to view the cloud
+    When I visit the Home page
+    # CHECK BELOW!!!
+    Then there should be no clouds added
     Then I logout
 
 
@@ -133,6 +130,7 @@ Feature: RBAC
     And I expect the dialog "Delete Member from Team" is open within 4 seconds
     And I click the "Delete" button in the dialog "Delete Member from Team"
     And I expect the dialog "Delete Member from Team" is closed within 4 seconds
+    # allow adding a cloud
     Then I logout
     Given I am logged in to mist.core as rbac_member2
     And I am in the new UI
@@ -140,7 +138,6 @@ Feature: RBAC
     Then I should see the form to set name for new organization
     Then I logout
 
-   # set permissions on cloud to ALLOW ALL
    # MEMBER1 should be able to add a cloud
    # set permissions on cloud to DENY ALL
    # MEMBER 1 should not be able to add a cloud

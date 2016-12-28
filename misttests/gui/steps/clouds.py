@@ -295,6 +295,17 @@ def cloud_second_creds(context, provider):
         raise Exception("Unknown cloud provider")
     cloud_second_creds_dict.get(provider)(context)
 
+
+@step(u'there should be no clouds added')
+def count_added_clouds(context):
+    cloud_chips = context.browser.find_elements_by_tag_name('cloud-chip')
+    if len(cloud_chips) == 0:
+        return
+
+    assert False, "Member of the team can view added clouds although he shouldn't!"
+
+
+
 def find_cloud(context, cloud_title):
     cloud_chips = context.browser.find_elements_by_tag_name('cloud-chip')
     clouds = []
