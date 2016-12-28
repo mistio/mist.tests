@@ -130,6 +130,11 @@ Feature: RBAC
     Then I should see the form to set name for new organization
     Then I logout
 
+   # set permissions on cloud to ALLOW ALL
+   # MEMBER1 should be able to add a cloud
+   # set permissions on cloud to DENY ALL
+   # MEMBER 1 should not be able to add a cloud
+
   @rename-team
   Scenario: Owner renames a team
     Given I am logged in to mist.core as rbac_owner
