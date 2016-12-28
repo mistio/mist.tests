@@ -35,6 +35,8 @@ Feature: RBAC
     And I click the submit button in the landing page popup
     And I wait for the dashboard to load
 
+    # add cloud
+
   @create-org
   Scenario: Owner creates a new organization
 #    Given I am in the new UI
@@ -84,6 +86,7 @@ Feature: RBAC
     Then I ensure that I am in the "Rbac_Test" organization context
     When I visit the Teams page
     And "Test Team" team should be present within 5 seconds
+    # shouldn't be able to view the cloud
     Then I logout
 
 
@@ -93,6 +96,7 @@ Feature: RBAC
     And I am in the new UI
     When I wait for the dashboard to load
     And I visit the Teams page
+      # give permission for viewing cloud
     When I click the "Test team" "team"
     And I expect the "team" edit form to be visible within max 5 seconds
     Then I click the button "Invite Members" in "team" edit form
@@ -112,6 +116,8 @@ Feature: RBAC
     Then I ensure that I am in the "Rbac_Test" organization context
     When I visit the Teams page
     And "Test Team" team should be present within 5 seconds
+      # should be able to view cloud
+      # shouldn't be able to add cloud
     Then I logout
 
   @delete-member
@@ -214,7 +220,10 @@ Feature: RBAC
 #    Then I expect for the tag popup to close within 4 seconds
 #    And I wait for 2 seconds
 #    Then I ensure that the "team" has the tags "team:ops"
-#
+
+
+  # delete team!
+
 #  @delete-team
 #  Scenario: Owner deletes a team
 #    When I click the "Rbac Test Team" "team"
