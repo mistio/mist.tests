@@ -12,6 +12,7 @@ Feature: Actions for Keys
     When I set the value "Key1" to field "Name" in "key" add form
     And I focus on the button "Generate" in "key" add form
     Then I click the button "Generate" in "key" add form
+    And I wait for 7 seconds
     And I expect for the button "Add" in "key" add form to be clickable within 12 seconds
     When I focus on the button "Add" in "key" add form
     And I click the button "Add" in "key" add form
