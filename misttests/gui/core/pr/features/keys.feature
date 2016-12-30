@@ -4,9 +4,6 @@ Feature: Actions for Keys
   Background:
     Given I am logged in to mist.core
     When I visit the Keys page
-    
-    -- ember: user-actions --> given Linode has been added --> w8 for mist.io splash page...
-
 
   @key-add
   Scenario: Add Key
