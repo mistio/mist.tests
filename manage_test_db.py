@@ -17,7 +17,7 @@ from mist.io.machines.models import Machine
 
 from mist.core.tag.models import Tag
 from mist.core.rule.models import Rule
-from mist.core.script.models import Script
+from mist.io.scripts.models import Script
 
 
 log = logging.getLogger(__name__)
