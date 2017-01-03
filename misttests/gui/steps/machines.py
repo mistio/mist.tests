@@ -116,26 +116,6 @@ def key_appears(context, key, seconds):
     assert False, "Key %s did not appear after %s seconds" % (key,seconds)
 
 
-@step(u'I expect for "{key}" key to appear within max {seconds} seconds')
-def key_appears(context, key, seconds):
-    if context.mist_config.get(key):
-        key_name = context.mist_config.get(key)
-    timeout = time() + int(seconds)
-    while time() < timeout:
-        try:
-            for key_in_list in context.browser.find_elements_by_class_name('small-list-item'):
-                if key_name == safe_get_element_text(key_in_list):
-                    actions = ActionChains(context.browser)
-                    actions.send_keys(Keys.ESCAPE)
-                    actions.perform()
-                    return True
-                else:
-                    pass
-        except:
-            sleep(1)
-    assert False, "Key %s did not appear after %s seconds" % (key,seconds)
-
-
 @step(u'I wait for max {seconds} seconds until tag with key "{key}" and value'
       u' "{value}" is available')
 def wait_for_tags(context, seconds, key,value):

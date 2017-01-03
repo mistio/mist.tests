@@ -5,6 +5,7 @@ Feature: Create Machine and test monitoring
   @enable-monitoring
   Scenario: Create Machine,deploy monitoring agent and check the graphs
     Given I am logged in to mist.core
+    When I wait for the dashboard to load
     Given "Docker" cloud has been added
     Given "Testkey" key has been added
     # create machine
@@ -17,6 +18,7 @@ Feature: Create Machine and test monitoring
     Then I expect the field "Machine name" in the machine add form to be visible within max 4 seconds
     When I select the proper values for "Docker" to create the "docker-ui-test" machine
     # enable monitoring
+    # launch button
     Then I click the "Launch" button
     And I wait for 3 seconds
     Then I visit the Machines page
@@ -36,7 +38,7 @@ Feature: Create Machine and test monitoring
   @disable-monitoring
 
 
-    And I expect for "dialog-popup" modal to appear within max 400 seconds
+#    And I expect for "dialog-popup" modal to appear within max 400 seconds
 #    And I click the "_x_" button inside the "Success" modal
 #    When I focus on the "third" button
 #    And I click the button "third"
