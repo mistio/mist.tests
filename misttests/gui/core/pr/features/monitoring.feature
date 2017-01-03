@@ -16,24 +16,14 @@ Feature: Create Machine and test monitoring
     When I click the button "Docker" in the "Choose Cloud" dropdown
     Then I expect the field "Machine name" in the machine add form to be visible within max 4 seconds
     When I select the proper values for "Docker" to create the "docker-ui-test" machine
+    # enable monitoring
     Then I click the "Launch" button
     And I wait for 3 seconds
     Then I visit the Machines page
     Then "docker-ui-test" machine state has to be "running" within 30 seconds
     When I click the "docker-ui-test" "machine"
-    When I click the Shell button in the machine edit form
-    Then the terminal should be opened within 5 seconds
-    And the user "root" should have access to the machine "docker-ui-test"
 
 
-    When I click the button "Images"
-    Then I expect for "image-list-page" page to appear within max 4 seconds
-    When I click the button "Home"
-    Then I expect for "home-page" page to appear within max 4 seconds
-    When I visit the Machines page after the counter has loaded
-    And I search for the "third" Machine
-    Then I should see the "third" machine added within 60 seconds
-#
 #    # wait for machine state to become running
 #    Then "third" machine state should be "running" within 120 seconds
 #    And I expect for "dialog-popup" modal to appear within max 400 seconds
