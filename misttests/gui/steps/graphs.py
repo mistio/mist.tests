@@ -36,6 +36,15 @@ def focus_on_a_graph(context, graph_title):
     assert False, "Could not find graph with title %s" % graph_title
 
 
+@step(u'{graphs} graphs should be visible within max {seconds} seconds')
+def wait_for_all_graphs_to_appear(context,graphs,seconds):
+    timeout = time() + int(seconds)
+    for i in range(0,graphs-1):
+        while time() < timeout:
+            try:
+
+
+
 @step(u'I expect the metric buttons to appear within {seconds} seconds')
 def wait_metric_buttons(context, seconds):
     metrics_popup = context.browser.find_element_by_id('metric-add-popup')

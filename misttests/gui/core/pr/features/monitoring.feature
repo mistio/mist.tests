@@ -22,7 +22,8 @@ Feature: Create Machine and test monitoring
     Then I visit the Machines page
     Then "docker-ui-test" machine state has to be "running" within 30 seconds
     When I click the "docker-ui-test" "machine"
-    # check that graphs have appeared
+    # check if all 9 panels have appeared.... // is it always 9 panels?
+    Then 9 graphs should be visible within max 20 seconds
 
 
   @add-custom-graph
