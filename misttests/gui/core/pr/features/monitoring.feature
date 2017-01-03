@@ -6,8 +6,7 @@ Feature: Create Machine and test monitoring
   Scenario: Create Machine,deploy monitoring agent and check the graphs
     Given I am logged in to mist.core
     Given "Docker" cloud has been added
-    # need for key addition
-
+    Given "Testkey" key has been added
     # create machine
     When I visit the Machines page
     And I click the button "+"
@@ -24,6 +23,7 @@ Feature: Create Machine and test monitoring
     Then "docker-ui-test" machine state has to be "running" within 30 seconds
     When I click the "docker-ui-test" "machine"
     # check that graphs have appeared
+
 
   @add-custom-graph
 
