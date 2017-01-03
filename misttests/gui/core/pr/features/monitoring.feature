@@ -1,10 +1,8 @@
 @monitoring
 Feature: Create Machine and test monitoring
 
-  # check that graphs have appeared
 
-  #make sure about the machine to be monitored...
-
+  @enable-monitoring
   Scenario: Create Machine,deploy monitoring agent and check the graphs
     Given I am logged in to mist.core
     Given "Docker" cloud has been added
@@ -25,6 +23,18 @@ Feature: Create Machine and test monitoring
     Then I visit the Machines page
     Then "docker-ui-test" machine state has to be "running" within 30 seconds
     When I click the "docker-ui-test" "machine"
+    # check that graphs have appeared
+
+  @add-custom-graph
+
+
+
+
+  @add-rule
+
+
+  @disable-monitoring
+
 
     And I expect for "dialog-popup" modal to appear within max 400 seconds
 #    And I click the "_x_" button inside the "Success" modal
