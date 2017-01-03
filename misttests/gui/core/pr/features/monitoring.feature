@@ -11,15 +11,7 @@ Feature: Create Machine and test monitoring
 
 
 
-    
-    When I visit the Images page after the counter has loaded
-    Then there should be starred images
-    When I search for the "ubuntu" Image
-    Then the images list should be loaded within 60 seconds
-    Then I scroll down until all starred images appear
-    When I focus on the "Ubuntu Server 14.04 LTS (PV)" button
-    And I click the button "Ubuntu Server 14.04 LTS (PV)"
-    Then I expect for "single-image-page" page to appear within max 4 seconds
+
     And I click the button "Create Machine"
     When I fill in a "random third" machine name
     And I click the "Select Size" button inside the "Create Machine" panel
