@@ -5,7 +5,7 @@ Feature: Create Machine and test monitoring
   Scenario: Create Machine,deploy monitoring agent and check the graphs
     Given I am logged in to mist.core
     # provider docker?
-    Given "EC2" cloud has been added
+    Given "Docker" cloud has been added
 
     # create machine
     When I visit the Machines page
@@ -21,11 +21,10 @@ Feature: Create Machine and test monitoring
     And I wait for 3 seconds
     Then I visit the Machines page
     Then "docker-ui-test" machine state has to be "running" within 30 seconds
+
+
     When I click the "docker-ui-test" "machine"
 
-
-#    # wait for machine state to become running
-#    Then "third" machine state should be "running" within 120 seconds
 #    And I expect for "dialog-popup" modal to appear within max 400 seconds
 #    And I click the "_x_" button inside the "Success" modal
 #    When I focus on the "third" button
