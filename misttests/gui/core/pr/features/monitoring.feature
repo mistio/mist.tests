@@ -8,7 +8,6 @@ Feature: Create Machine and test monitoring
     When I wait for the dashboard to load
     Given "Docker" cloud has been added
     Given "Testkey" key has been added
-    # create machine
     When I visit the Machines page
     And I click the button "+"
     Then I expect the "Machine" add form to be visible within max 10 seconds
@@ -17,8 +16,7 @@ Feature: Create Machine and test monitoring
     When I click the button "Docker" in the "Choose Cloud" dropdown
     Then I expect the field "Machine name" in the machine add form to be visible within max 4 seconds
     When I select the proper values for "Docker" to create the "docker-ui-test" machine
-    # enable monitoring
-    # launch button
+    And I click the "enable monitoring" button
     Then I click the "Launch" button
     And I wait for 3 seconds
     Then I visit the Machines page

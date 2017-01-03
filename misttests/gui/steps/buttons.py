@@ -200,7 +200,6 @@ def click_mist_io(context):
 
 @step(u'I click the "{button}" button')
 def click_button_by_id(context,button):
-    import ipdb;ipdb.set_trace()
     if button == 'new cloud':
       button_to_click = context.browser.find_element_by_id('addBtn')
     elif button == 'save title':
@@ -215,8 +214,14 @@ def click_button_by_id(context,button):
         button_to_click = context.browser.find_element_by_id('Create API Token')
     elif button == 'Create':
         button_to_click = context.browser.find_element_by_id('Create')
+    elif button == 'Launch':
+        button_to_click = context.browser.find_element_by_id('appformsubmit')
     elif button == 'toggle':
         button_to_click = context.browser.find_element_by_id('enable-disable-cloud')
+    elif button == 'more options':
+        button_to_click = context.browser.find_element_by_class_name('more')
+    elif button == 'enable monitoring':
+        button_to_click = context.browser.find_element_by_id('monitoring')
     else:
         raise Exception('Unknown type of button')
     assert button_to_click.is_displayed(), "%s button is not displayed" %button

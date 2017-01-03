@@ -53,6 +53,23 @@ def wait_for_item_show(context, expected_name, resource_type, state, seconds):
                   % (expected_name, state, seconds)
 
 
+def get_machine(context, name):
+    try:
+        placeholder = context.browser.find_element_by_tag_name("page-machines")
+        machines = placeholder.find_elements_by_tag_name("list-item")
+
+        for machine in machines:
+            machine_text = safe_get_element_text(machine)
+            if name in machine_text:
+                return machine
+
+        return None
+    except NoSuchElementException:
+        return None
+    except StaleElementReferenceException:
+        return None
+
+
 @step(u'I click the button "{button_name}" from the menu of the "{item_name}"'
       u' {resource_type}')
 def click_menu_button_of_list_item(context, button_name, item_name,
