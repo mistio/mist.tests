@@ -7,27 +7,25 @@ Feature: Create Machine and test monitoring
     # provider docker?
     Given "EC2" cloud has been added
 
+    # create machine
+    When I visit the Machines page
+    And I click the button "+"
+    Then I expect the "Machine" add form to be visible within max 10 seconds
+    When I open the "Choose Cloud" drop down
+    And I wait for 1 seconds
+    When I click the button "Docker" in the "Choose Cloud" dropdown
+    Then I expect the field "Machine name" in the machine add form to be visible within max 4 seconds
+    When I select the proper values for "Docker" to create the "docker-ui-test" machine
+    Then I click the "Launch" button
+    And I wait for 3 seconds
+    Then I visit the Machines page
+    Then "docker-ui-test" machine state has to be "running" within 30 seconds
+    When I click the "docker-ui-test" "machine"
+    When I click the Shell button in the machine edit form
+    Then the terminal should be opened within 5 seconds
+    And the user "root" should have access to the machine "docker-ui-test"
 
 
-
-
-
-    And I click the button "Create Machine"
-    When I fill in a "random third" machine name
-    And I click the "Select Size" button inside the "Create Machine" panel
-    And I click the "Micro Instance" button inside the "Create Machine" panel
-    And I click the "Select Location" button inside the "Create Machine" panel
-    And I click the "ap-northeast-1a" button inside the "Create Machine" panel
-    And I click the "Select Key" button inside the "Create Machine" panel
-    And I click the "Add Key" button inside the "Create Machine" panel
-    Then I expect for "key-add-popup" popup to appear within max 4 seconds
-    When I fill "third_machine_key" as key name
-    And I click the "Generate" button inside the "Add key" popup
-    Then I expect for "key-generate-loader" loader to finish within max 10 seconds
-    When I click the "Add" button inside the "Add key" popup
-    Then I expect for "key-add-popup" popup to disappear within max 4 seconds
-    When I click the "Launch" button inside the "Create Machine" panel
-    Then I expect for "create-machine" panel to disappear within max 4 seconds
     When I click the button "Images"
     Then I expect for "image-list-page" page to appear within max 4 seconds
     When I click the button "Home"
