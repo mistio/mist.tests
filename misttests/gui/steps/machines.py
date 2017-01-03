@@ -46,6 +46,75 @@ machine_states_ordering = {
     'stopped': 0
 }
 
+# this dict contains image, size and location to be tested for each provider
+machine_values_dict = {
+    "aws": ["Ubuntu Server 16.04 Beta2 (PV)", "m1.small - Small Instance", "ap-northeast-1a "],
+    "digital ocean": ["CentOS 5.11 x32", "512mb", "Amsterdam 2"],
+    "packet": ["Ubuntu 14.04 LTS", "Type 0 - 8GB RAM", "Amsterdam, NL"],
+    "openstack": ["CoreOS", "m1.tiny", "0"],
+    "rackspace": ["Ubuntu 14.04 LTS (Trusty Tahr) (PV)", "512MB Standard Instance", "0"],
+    "nephoscale": ["Ubuntu Server 14.04 LTS 64-bit", "CS05 - Cloud Server 0.5 GB RAM, 1 Core", "SJC-1"],
+    "softlayer": ["Ubuntu - Latest (64 bit) ", "1 CPU, 1GB ram, 25GB ", "AMS01 - Amsterdam"],
+    "azure": ["Ubuntu Server 14.04 LTS", "ExtraSmall (1 cores, 768 MB) ", "West Europe"],
+    "docker": ["Ubuntu 14.04"]
+}
+
+
+def set_values_to_create_machine_form(context,provider,machine_name):
+    context.execute_steps(u'''
+                Then I set the value "%s" to field "Machine Name" in "machine" add form
+                When I open the "Image" drop down
+                And I click the button "%s" in the "Image" dropdown
+                When I open the "Key" drop down
+                And I click the button "TestKey " in the "Key" dropdown
+            ''' % (machine_name,
+                   machine_values_dict.get(provider)[0]))
+
+
+# def set_values_to_create_machine_form(context,provider,machine_name):
+#     context.execute_steps(u'''
+#                 Then I set the value "%s" to field "Machine Name" in "machine" add form
+#                 When I open the "Image" drop down
+#                 And I click the button "%s" in the "Image" dropdown
+#                 When I open the "Size" drop down
+#                 And I click the button "%s" in the "Size" dropdown
+#                 When I open the "Location" drop down
+#                 And I click the button "%s" in the "Location" dropdown
+#                 When I open the "Key" drop down
+#                 And I click the button "TestKey " in the "Key" dropdown
+#             ''' % (machine_name,
+#                    machine_values_dict.get(provider)[0],
+#                    machine_values_dict.get(provider)[1],
+#                    machine_values_dict.get(provider)[2]))
+
+
+@step(u'I select the proper values for "{provider}" to create the "{machine_name}" machine')
+def cloud_creds(context, provider, machine_name):
+    provider = provider.strip().lower()
+    if provider not in machine_values_dict.keys():
+        raise Exception("Unknown cloud provider")
+    set_values_to_create_machine_form(context,provider,machine_name)
+
+
+@step(u'I expect for "{key}" key to appear within max {seconds} seconds')
+def key_appears(context, key, seconds):
+    if context.mist_config.get(key):
+        key_name = context.mist_config.get(key)
+    timeout = time() + int(seconds)
+    while time() < timeout:
+        try:
+            for key_in_list in context.browser.find_elements_by_class_name('small-list-item'):
+                if key_name == safe_get_element_text(key_in_list):
+                    actions = ActionChains(context.browser)
+                    actions.send_keys(Keys.ESCAPE)
+                    actions.perform()
+                    return True
+                else:
+                    pass
+        except:
+            sleep(1)
+    assert False, "Key %s did not appear after %s seconds" % (key,seconds)
+
 
 @step(u'I expect for "{key}" key to appear within max {seconds} seconds')
 def key_appears(context, key, seconds):
