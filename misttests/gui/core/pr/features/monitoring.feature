@@ -1,42 +1,48 @@
 @monitoring
 Feature: Create Machine and test monitoring
 
-  Background:
+
+  Scenario: Create Machine,deploy monitoring agent and check the graphs
     Given I am logged in to mist.core
+    # provider docker?
     Given "EC2" cloud has been added
 
-#  Scenario: Create Machine,deploy monitoring agent and check the graphs
-#    When I visit the Images page after the counter has loaded
-#    Then there should be starred images
-#    When I search for the "ubuntu" Image
-#    Then the images list should be loaded within 60 seconds
-#    Then I scroll down until all starred images appear
-#    When I focus on the "Ubuntu Server 14.04 LTS (PV)" button
-#    And I click the button "Ubuntu Server 14.04 LTS (PV)"
-#    Then I expect for "single-image-page" page to appear within max 4 seconds
-#    And I click the button "Create Machine"
-#    When I fill in a "random third" machine name
-#    And I click the "Select Size" button inside the "Create Machine" panel
-#    And I click the "Micro Instance" button inside the "Create Machine" panel
-#    And I click the "Select Location" button inside the "Create Machine" panel
-#    And I click the "ap-northeast-1a" button inside the "Create Machine" panel
-#    And I click the "Select Key" button inside the "Create Machine" panel
-#    And I click the "Add Key" button inside the "Create Machine" panel
-#    Then I expect for "key-add-popup" popup to appear within max 4 seconds
-#    When I fill "third_machine_key" as key name
-#    And I click the "Generate" button inside the "Add key" popup
-#    Then I expect for "key-generate-loader" loader to finish within max 10 seconds
-#    When I click the "Add" button inside the "Add key" popup
-#    Then I expect for "key-add-popup" popup to disappear within max 4 seconds
-#    When I click the "Launch" button inside the "Create Machine" panel
-#    Then I expect for "create-machine" panel to disappear within max 4 seconds
-#    When I click the button "Images"
-#    Then I expect for "image-list-page" page to appear within max 4 seconds
-#    When I click the button "Home"
-#    Then I expect for "home-page" page to appear within max 4 seconds
-#    When I visit the Machines page after the counter has loaded
-#    And I search for the "third" Machine
-#    Then I should see the "third" machine added within 60 seconds
+
+
+
+
+    
+    When I visit the Images page after the counter has loaded
+    Then there should be starred images
+    When I search for the "ubuntu" Image
+    Then the images list should be loaded within 60 seconds
+    Then I scroll down until all starred images appear
+    When I focus on the "Ubuntu Server 14.04 LTS (PV)" button
+    And I click the button "Ubuntu Server 14.04 LTS (PV)"
+    Then I expect for "single-image-page" page to appear within max 4 seconds
+    And I click the button "Create Machine"
+    When I fill in a "random third" machine name
+    And I click the "Select Size" button inside the "Create Machine" panel
+    And I click the "Micro Instance" button inside the "Create Machine" panel
+    And I click the "Select Location" button inside the "Create Machine" panel
+    And I click the "ap-northeast-1a" button inside the "Create Machine" panel
+    And I click the "Select Key" button inside the "Create Machine" panel
+    And I click the "Add Key" button inside the "Create Machine" panel
+    Then I expect for "key-add-popup" popup to appear within max 4 seconds
+    When I fill "third_machine_key" as key name
+    And I click the "Generate" button inside the "Add key" popup
+    Then I expect for "key-generate-loader" loader to finish within max 10 seconds
+    When I click the "Add" button inside the "Add key" popup
+    Then I expect for "key-add-popup" popup to disappear within max 4 seconds
+    When I click the "Launch" button inside the "Create Machine" panel
+    Then I expect for "create-machine" panel to disappear within max 4 seconds
+    When I click the button "Images"
+    Then I expect for "image-list-page" page to appear within max 4 seconds
+    When I click the button "Home"
+    Then I expect for "home-page" page to appear within max 4 seconds
+    When I visit the Machines page after the counter has loaded
+    And I search for the "third" Machine
+    Then I should see the "third" machine added within 60 seconds
 #
 #    # wait for machine state to become running
 #    Then "third" machine state should be "running" within 120 seconds
