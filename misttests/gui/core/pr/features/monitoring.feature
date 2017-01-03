@@ -39,20 +39,4 @@ Feature: Create Machine and test monitoring
 #    And I click the "Yes" button inside the "Disable monitoring" modal
 #    And I expect for "dialog-popup" modal to appear within max 60 seconds
 #    And I click the "_x_" button inside the "Success" modal
-#
-#    # Go to machines page and destroy the machine
-#    When I focus on the "Machines" button
-#    And I click the button "Machines"
-#    Then I wait for "Machines" list page to load
-#    When I clear the machines search bar
-#    Then I search for the "third" Machine
-#    And I wait for 1 seconds
-#    When I choose the "third" machine
-#    And I click the button "Actions"
-#    Then I expect for "machine-power-popup-popup" popup to appear within max 4 seconds
-#    When I click the "Destroy" button inside the "Actions" popup
-#    Then I expect for "dialog-popup" modal to appear within max 4 seconds
-#    When I click the button "Yes"
-#    And "third" machine state should be "terminated" within 200 seconds
-#
-#    Then I logout
+
