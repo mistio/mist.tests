@@ -31,7 +31,8 @@ Feature: Create Machine and test monitoring
     When I click the "Add graph" button
     Then I expect the dialog "Select target for graph" is open within 5 seconds
     When I select "entropy" in the dialog "Select target for graph"
-    And I wait for 3 seconds
+    And I wait for 2 seconds
+    Then 10 graphs should be visible within max 20 seconds
 
   @add-rule
 
@@ -53,4 +54,3 @@ Feature: Create Machine and test monitoring
 #    And I click the "Yes" button inside the "Disable monitoring" modal
 #    And I expect for "dialog-popup" modal to appear within max 60 seconds
 #    And I click the "_x_" button inside the "Success" modal
-

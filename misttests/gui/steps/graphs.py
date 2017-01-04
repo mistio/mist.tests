@@ -51,7 +51,7 @@ def check_if_graph_is_visible(context, graph_id, timeout, seconds):
 @step(u'{graphs} graphs should be visible within max {seconds} seconds')
 def wait_for_all_graphs_to_appear(context,graphs,seconds):
     timeout = time() + int(seconds)
-    for i in range(0, int(graphs) - 1):
+    for i in range(0, int(graphs)):
         graph_id = 'panel-' + str(i)
         check_if_graph_is_visible(context,graph_id, timeout, seconds)
 
