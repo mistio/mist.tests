@@ -38,20 +38,23 @@ def focus_on_a_graph(context, graph_title):
     assert False, "Could not find graph with title %s" % graph_title
 
 
-# CHECK AGAIN! this is wrong...
+def check_if_graph_is_visible(context, graph_id, timeout, seconds):
+    while time() < timeout:
+        try:
+            context.browser.find_element_by_id(graph_id)
+            return
+        except NoSuchElementException:
+            sleep(1)
+    assert False, "Not all graphs appeared after %s seconds" % seconds
+
+
 @step(u'{graphs} graphs should be visible within max {seconds} seconds')
 def wait_for_all_graphs_to_appear(context,graphs,seconds):
     import ipdb;ipdb.set_trace()
     timeout = time() + int(seconds)
     for i in range(0, int(graphs) - 1):
         graph_id = 'panel-' + str(i)
-        while time() < timeout:
-            try:
-                context.browser.find_element_by_id(graph_id)
-                break
-            except NoSuchElementException:
-                pass
-            assert False, "Not all graphs appeared after %s seconds" % seconds
+        check_if_graph_is_visible(context,graph_id, timeout, seconds)
 
 
 @step(u'I expect the metric buttons to appear within {seconds} seconds')
