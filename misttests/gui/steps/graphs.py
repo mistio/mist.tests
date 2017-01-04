@@ -50,7 +50,6 @@ def check_if_graph_is_visible(context, graph_id, timeout, seconds):
 
 @step(u'{graphs} graphs should be visible within max {seconds} seconds')
 def wait_for_all_graphs_to_appear(context,graphs,seconds):
-    import ipdb;ipdb.set_trace()
     timeout = time() + int(seconds)
     for i in range(0, int(graphs) - 1):
         graph_id = 'panel-' + str(i)
@@ -204,7 +203,6 @@ def delete_a_graph(context, graph_title):
 
 @step(u'I select "{metric}" in the dialog "{dialog}"')
 def select_metric_from_dialog(context,metric,dialog):
-    import ipdb;ipdb.set_trace()
     if dialog == 'Select target for graph':
         dialog_element = context.browser.find_element_by_id('selectTarget')
     else:
