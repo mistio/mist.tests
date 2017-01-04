@@ -64,6 +64,7 @@ def check_that_field_is_visible(context, field_name, dialog_title, seconds):
 def click_button_in_dialog(context, button_name, dialog_title):
     dialog = get_dialog(context, dialog_title)
     assert dialog, "Could not find dialog with title %s" % dialog_title
+    import ipdb;ipdb.set_trace()
     dialog_buttons = dialog.find_elements_by_tag_name('paper-button')
     click_button_from_collection(context, button_name, dialog_buttons)
 

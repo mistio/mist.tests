@@ -47,7 +47,7 @@ def wait_for_all_graphs_to_appear(context,graphs,seconds):
                 break
             except NoSuchElementException:
                 pass
-            assert False, "Not all graphs appeared after %s seconds" % seconds
+    assert False, "Not all graphs appeared after %s seconds" % seconds
 
 
 @step(u'I expect the metric buttons to appear within {seconds} seconds')

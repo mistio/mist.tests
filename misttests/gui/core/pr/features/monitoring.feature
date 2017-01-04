@@ -26,6 +26,11 @@ Feature: Create Machine and test monitoring
     Then 9 graphs should be visible within max 20 seconds
 
   @add-custom-graph
+  Scenario: Add custom graph and make sure an extra graph is visible
+    When I click the "Add graph" button
+    Then I expect the dialog "Select target for graph" is open within 5 seconds
+    When I click the "Entropy" button in the dialog "Select target for graph"
+    And I wait for 3 seconds
 
 
   @add-rule
