@@ -7,6 +7,8 @@ from .machines import comparisons
 
 from .utils import safe_get_element_text
 
+from .buttons import clicketi_click
+
 from selenium.webdriver.common.by import By
 
 from selenium.webdriver.support import expected_conditions as EC
@@ -193,3 +195,14 @@ def delete_a_graph(context, graph_title):
         except Exception:
             return
     assert False, "Graph %s has not disappeared after 20 seconds" % graph_title
+
+
+@step(u'I select "{metric}" in the dialog "{dialog}"')
+def select_metric_from_dialog(context,metric,dialog):
+    import ipdb;ipdb.set_trace()
+    if dialog == 'Select target for graph':
+        dialog_element = context.browser.find_element_by_id('selectTarget')
+    else:
+        assert False, "Unknown dialog given"
+    option_to_click = dialog_element.find_element_by_id(metric)
+    clicketi_click(context,option_to_click)
