@@ -15,9 +15,9 @@ from mist.core.orchestration.models import Stack
 def test_rbac_policy_rule_validation(pretty_print, email):
     from mist.core.rbac.models import Rule
 
-    from mist.core.user.models import User
-    from mist.core.user.models import Team
-    from mist.core.user.models import Organization
+    from mist.io.users.models import User
+    from mist.io.users.models import Team
+    from mist.io.users.models import Organization
 
     def rule_should_raise_exc(rule_dict, org, team):
         rule = Rule(**rule_dict)

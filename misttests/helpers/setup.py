@@ -3,7 +3,7 @@ from misttests import config
 
 def setup_user_if_not_exists(user_email, password=None):
     if config.SETUP_ENVIRONMENT:
-        from mist.core.user.models import User, Owner
+        from mist.io.users.models import User, Owner
         try:
             user = User.objects.get(email=user_email)
         except User.DoesNotExist:
@@ -19,7 +19,7 @@ def setup_user_if_not_exists(user_email, password=None):
 
 def remove_user_if_exists(user_email):
     if config.SETUP_ENVIRONMENT:
-        from mist.core.user.models import Owner
+        from mist.io.users.models import Owner
         try:
             Owner.objects.get(email=user_email).delete()
         except Owner.DoesNotExist:
@@ -33,8 +33,8 @@ def setup_org_if_not_exists(org_name, owner_email, clean_org=True, add_cloud=Tru
         from mist.io.clouds.models import Cloud
         from mist.io.machines.models import Machine
 
-        from mist.core.user.models import User
-        from mist.core.user.models import Organization
+        from mist.io.users.models import User
+        from mist.io.users.models import Organization
         owner = User.objects.get(email=owner_email)
         try:
             org = Organization.objects.get(name=org_name)
@@ -98,9 +98,9 @@ def setup_org_if_not_exists(org_name, owner_email, clean_org=True, add_cloud=Tru
 
 def setup_team(org_name, team_name, team_members=[], clean_policy=True):
     if config.SETUP_ENVIRONMENT:
-        from mist.core.user.models import User
-        from mist.core.user.models import Team
-        from mist.core.user.models import Organization
+        from mist.io.users.models import User
+        from mist.io.users.models import Team
+        from mist.io.users.models import Organization
         org = Organization.objects(name=org_name).get()
         team_found = False
         for team in org.teams:
@@ -125,8 +125,8 @@ def setup_team(org_name, team_name, team_members=[], clean_policy=True):
 
 def setup_team_members(org_name, team_name, team_members=[]):
     if config.SETUP_ENVIRONMENT:
-        from mist.core.user.models import Team
-        from mist.core.user.models import Organization
+        from mist.io.users.models import Team
+        from mist.io.users.models import Organization
         org = Organization.objects(name=org_name).get()
         for team_member in team_members:
             org.add_member_to_team(team_name, team_member)
