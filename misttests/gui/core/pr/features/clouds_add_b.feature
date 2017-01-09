@@ -28,7 +28,7 @@ Feature: Add second-tier clouds in Polymist
     | Openstack      |
     | Vultr          |
     | Azure ARM      |
-    | Vmware         |
+#    | Vmware         |
     | Indonesian     |
 #    | KVM (Via Libvirt)           |
 #    | Other Server   |
