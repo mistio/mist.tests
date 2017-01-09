@@ -25,32 +25,32 @@ Feature: Cloud actions for polymer
 
   @cloud-toggle
    Scenario: Toggle a cloud
-    Given "Azure ARM" cloud has been added
-    Then I open the cloud menu for "Azure ARM"
+    Given "Docker" cloud has been added
+    Then I open the cloud menu for "Docker"
     When I click the "toggle" button
     And I wait for 2 seconds
     When I visit the Home page
     And I wait for the dashboard to load
-    Then cloud "Azure ARM" should be "disabled"
+    Then cloud "Docker" should be "disabled"
     When I visit the Machines page
-    Then "marx" machine should be absent within 60 seconds
+    Then "yolomachine" machine should be absent within 120 seconds
     Then I visit the Home page
     And I wait for the dashboard to load
-    When I open the cloud menu for "Azure ARM"
+    When I open the cloud menu for "Docker"
     And I click the "toggle" button
     And I wait for 2 seconds
     When I visit the Home page
     And I wait for the dashboard to load
-    Then cloud "Azure ARM" should be "enabled"
+    Then cloud "Docker" should be "enabled"
     When I visit the Machines page
-    Then "marx" machine should be present within 60 seconds
+    Then "yolomachine" machine should be present within 120 seconds
     Then I visit the Home page
 
   @cloud-rename
   Scenario: Rename a cloud
-    Given "Azure ARM" cloud has been added
-    Then I open the cloud menu for "Azure ARM"
-    When I rename the cloud "Azure ARM" to "Renamed"
+    Given "Docker" cloud has been added
+    Then I open the cloud menu for "Docker"
+    When I rename the cloud "Docker" to "Renamed"
     And I click the "save title" button
     And I wait for 3 seconds
     When I visit the Home page
