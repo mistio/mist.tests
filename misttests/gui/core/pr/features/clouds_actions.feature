@@ -33,7 +33,7 @@ Feature: Cloud actions for polymer
     And I wait for the dashboard to load
     Then cloud "Softlayer" should be "disabled"
     When I visit the Machines page
-    Then "openstack.mist.io" machine should be absent within 15 seconds
+    Then "openstack.mist.io" machine should be absent within 60 seconds
     Then I visit the Home page
     And I wait for the dashboard to load
     When I open the cloud menu for "Softlayer"
@@ -43,7 +43,7 @@ Feature: Cloud actions for polymer
     And I wait for the dashboard to load
     Then cloud "Softlayer" should be "enabled"
     When I visit the Machines page
-    Then "openstack.mist.io" machine should be present within 15 seconds
+    Then "openstack.mist.io" machine should be present within 60 seconds
     Then I visit the Home page
 
   @cloud-rename
