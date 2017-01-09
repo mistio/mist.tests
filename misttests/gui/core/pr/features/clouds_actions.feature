@@ -25,32 +25,32 @@ Feature: Cloud actions for polymer
 
   @cloud-toggle
    Scenario: Toggle a cloud
-    Given "Softlayer" cloud has been added
-    Then I open the cloud menu for "Softlayer"
+    Given "Docker" cloud has been added
+    Then I open the cloud menu for "Docker"
     When I click the "toggle" button
     And I wait for 2 seconds
     When I visit the Home page
     And I wait for the dashboard to load
-    Then cloud "Softlayer" should be "disabled"
+    Then cloud "Docker" should be "disabled"
     When I visit the Machines page
-    Then "openstack.mist.io" machine should be absent within 60 seconds
+    Then "yolomachine" machine should be absent within 60 seconds
     Then I visit the Home page
     And I wait for the dashboard to load
-    When I open the cloud menu for "Softlayer"
+    When I open the cloud menu for "Docker"
     And I click the "toggle" button
     And I wait for 2 seconds
     When I visit the Home page
     And I wait for the dashboard to load
-    Then cloud "Softlayer" should be "enabled"
+    Then cloud "Docker" should be "enabled"
     When I visit the Machines page
-    Then "openstack.mist.io" machine should be present within 60 seconds
+    Then "yolomachine" machine should be present within 60 seconds
     Then I visit the Home page
 
   @cloud-rename
   Scenario: Rename a cloud
-    Given "Softlayer" cloud has been added
-    Then I open the cloud menu for "Softlayer"
-    When I rename the cloud "Softlayer" to "Renamed"
+    Given "Docker" cloud has been added
+    Then I open the cloud menu for "Docker"
+    When I rename the cloud "Docker" to "Renamed"
     And I click the "save title" button
     And I wait for 3 seconds
     When I visit the Home page
