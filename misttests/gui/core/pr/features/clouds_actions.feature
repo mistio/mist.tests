@@ -32,12 +32,19 @@ Feature: Cloud actions for polymer
     When I visit the Home page
     And I wait for the dashboard to load
     Then cloud "Openstack" should be "disabled"
+    When I visit the Machines page
+    Then "aloe" machine should be absent within 15 seconds
+    Then I visit the Home page
+    And I wait for the dashboard to load
     When I open the cloud menu for "Openstack"
     And I click the "toggle" button
     And I wait for 2 seconds
     When I visit the Home page
     And I wait for the dashboard to load
     Then cloud "Openstack" should be "enabled"
+    When I visit the Machines page
+    Then "aloe" machine should be present within 15 seconds
+    Then I visit the Home page
 
   @cloud-rename
   Scenario: Rename a cloud
@@ -50,7 +57,6 @@ Feature: Cloud actions for polymer
     When I visit the Home page
     And I wait for the dashboard to load
     Then "Renamed" cloud has been added
-
 
   @cloud-delete
   Scenario: Delete a cloud
