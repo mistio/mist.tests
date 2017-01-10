@@ -10,8 +10,6 @@ from .list import get_list
 
 @step(u'there should be ticked Images in the list')
 def ticked_images_loaded(context):
-    import ipdb
-    ipdb.set_trace()
     images = get_list(context, 'image')
     for image in images:
         if image.find_element_by_css_selector('iron-icon[icon="check"]').\
