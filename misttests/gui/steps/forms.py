@@ -167,7 +167,6 @@ def click_button_in_form(context, button_name, title, form_type):
         get_edit_form(context, title)
     button = get_button_from_form(form, button_name.lower())
     from .buttons import clicketi_click
-    import ipdb;ipdb.set_trace()
     clicketi_click(context, button)
 
 
