@@ -6,7 +6,6 @@ Feature: Actions for machines
   Scenario: Create a machine in Docker provider and check the ssh connection
     Given I am logged in to mist.core
     When I wait for the dashboard to load
-    And I wait for 7 seconds
     Given "Docker" cloud has been added
     Given "Testkey" key has been added
     When I visit the Machines page
@@ -20,15 +19,15 @@ Feature: Actions for machines
     Then I click the "Launch" button
     And I wait for 3 seconds
     Then I visit the Machines page
-    Then "docker-ui-test" machine state has to be "running" within 30 seconds
+    Then "docker-ui-test-machine-random" machine state has to be "running" within 30 seconds
 
 
   @machine-ssh
   Scenario: Connect to machine through ssh
-    When I click the "docker-ui-test" "machine"
+    When I click the "docker-ui-test-machine-random" "machine"
     When I click the Shell button in the machine edit form
     Then the terminal should be opened within 5 seconds
-    And the user "root" should have access to the machine "docker-ui-test"
+    And the user "root" should have access to the machine "docker-ui-test-machine-random"
 
 
   @machine-stop
