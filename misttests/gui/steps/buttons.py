@@ -225,7 +225,7 @@ def click_button_by_id(context,button):
         button_to_click = context.browser.find_element_by_class_name('more')
     else:
         raise Exception('Unknown type of button')
-    assert button_to_click.is_displayed(), "%s button is not displayed" %button
+    #assert button_to_click.is_displayed(), "%s button is not displayed" %button
     clicketi_click(context, button_to_click)
 
 # below 3 methods should be deleted, since they're duplicate -- first check where they are used....
