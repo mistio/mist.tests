@@ -96,6 +96,9 @@ def check_for_root_access(context,user,machine_name):
     terminal = context.browser.find_element_by_class_name('terminal')
     rows = context.browser.find_element_by_class_name('xterm-rows')
     all_lines = rows.find_elements_by_tag_name('div')
+
+    if context.mist_config.get(machine_name):
+        machine_name = context.mist_config.get(machine_name)
     text_to_find = user + '@' + machine_name
 
     end_time = time() + 5
