@@ -2,8 +2,7 @@ from behave import step
 
 from time import sleep
 from time import time
-
-import re
+import logging
 
 from .utils import safe_get_element_text
 from .utils import focus_on_element
@@ -22,6 +21,10 @@ from selenium.common.exceptions import WebDriverException
 from selenium.common.exceptions import TimeoutException
 from selenium.common.exceptions import NoSuchElementException
 
+
+log = logging.getLogger(__name__)
+
+logging.basicConfig(level=logging.INFO)
 
 @step(u'I expect for "{element_id}" to be clickable within max {seconds} '
       u'seconds')
@@ -215,6 +218,7 @@ def click_button_by_id(context,button):
     elif button == 'Create':
         button_to_click = context.browser.find_element_by_id('Create')
     elif button == 'Launch':
+        log.info('Launch btn!')
         button_to_click = context.browser.find_element_by_id('appformsubmit')
     elif button == 'toggle':
         button_to_click = context.browser.find_element_by_id('enable-disable-cloud')
