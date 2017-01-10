@@ -106,8 +106,8 @@ def check_for_root_access(context,user,machine_name):
         for i in range(0, len(all_lines)):
             text = safe_get_element_text(all_lines[i])
             if text_to_find in text:
-                terminal.send_keys("ls -l\n")
-                sleep(1)
+                # terminal.send_keys("ls -l\n")
+                # sleep(1)
                 return
     assert False, "User has no access after 5 seconds"
 
