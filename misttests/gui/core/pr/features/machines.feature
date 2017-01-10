@@ -23,7 +23,7 @@ Feature: Actions for machines
     Then I click the "Launch" button
     And I wait for 3 seconds
     Then I visit the Machines page
-    Then "docker-ui-test-machine-random" machine state has to be "running" within 120 seconds
+    Then "docker-ui-test-machine-random" machine state has to be "running" within 300 seconds
 
 
   @machine-ssh
