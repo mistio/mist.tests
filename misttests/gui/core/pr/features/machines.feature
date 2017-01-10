@@ -20,11 +20,14 @@ Feature: Actions for machines
     And I wait for 3 seconds
     Then I visit the Machines page
     Then "docker-ui-test" machine state has to be "running" within 30 seconds
+
+
+  @machine-ssh
+  Scenario: Connect to machine through ssh
     When I click the "docker-ui-test" "machine"
     When I click the Shell button in the machine edit form
     Then the terminal should be opened within 5 seconds
     And the user "root" should have access to the machine "docker-ui-test"
-
 
 
   @machine-stop
