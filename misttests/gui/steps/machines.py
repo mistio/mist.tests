@@ -66,7 +66,7 @@ def set_values_to_create_machine_form(context,provider,machine_name):
                 When I open the "Image" drop down
                 And I click the button "%s" in the "Image" dropdown
                 When I open the "Key" drop down
-                And I click the button "TestKey " in the "Key" dropdown
+                And I click the button "Testkey " in the "Key" dropdown
             ''' % (machine_name,
                    machine_values_dict.get(provider)[0]))
 

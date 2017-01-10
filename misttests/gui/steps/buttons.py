@@ -218,7 +218,6 @@ def click_button_by_id(context,button):
     elif button == 'Create':
         button_to_click = context.browser.find_element_by_id('Create')
     elif button == 'Launch':
-        log.info('Launch btn!')
         button_to_click = context.browser.find_element_by_id('appformsubmit')
     elif button == 'toggle':
         button_to_click = context.browser.find_element_by_id('enable-disable-cloud')
