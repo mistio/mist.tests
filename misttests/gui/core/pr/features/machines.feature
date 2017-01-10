@@ -1,11 +1,12 @@
 @machines
 Feature: Actions for machines
 
-  Background:
-    Given I am logged in to mist.core
 
   @machine-create
   Scenario: Create a machine in Docker provider and check the ssh connection
+    Given I am logged in to mist.core
+    When I wait for the dashboard to load
+    And I wait for 7 seconds
     Given "Docker" cloud has been added
     Given "Testkey" key has been added
     When I visit the Machines page
