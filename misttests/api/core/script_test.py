@@ -149,7 +149,7 @@ def test_012_test_rename_script_with_no_name(pretty_print, cache, mist_core,
     response = mist_core.edit_script(api_token=owner_api_token,
                                      script_id='blablalba398438',
                                      new_name='').put()
-    assert_response_bad_request(response)
+    assert_response_not_found(response)
     print "Success!!!"
 
 
