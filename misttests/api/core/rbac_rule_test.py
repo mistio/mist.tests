@@ -4,6 +4,13 @@ from misttests.api.helpers import get_random_str
 
 from mongoengine import ValidationError
 
+# Imports to solve dependency issues
+from mist.io.clouds.models import Cloud
+from mist.io.schedules.models import Schedule
+from mist.io.scripts.models import Script
+from mist.io.keys.models import Key
+from mist.core.orchestration.models import Stack
+
 def test_rbac_policy_rule_validation(pretty_print, email):
     from mist.core.rbac.models import Rule
 
