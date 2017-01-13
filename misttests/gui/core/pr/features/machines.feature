@@ -16,7 +16,8 @@ Feature: Actions for machines
     When I click the button "Docker" in the "Choose Cloud" dropdown
     Then I expect the field "Machine name" in the machine add form to be visible within max 4 seconds
     When I select the proper values for "Docker" to create the "docker-ui-test-machine-random" machine
-    And I wait for 3 seconds
+    And I scroll to the bottom to see what is going on
+    And I wait for 3 secondss
     And I expect for the button "Launch" in "machine" add form to be clickable within 10 seconds
     When I focus on the button "Launch" in "machine" add form
     #And I click the button "Add" in "key" add form
