@@ -65,10 +65,10 @@ def set_values_to_create_machine_form(context,provider,machine_name):
                 Then I set the value "%s" to field "Machine Name" in "machine" add form
                 When I open the "Image" drop down
                 And I click the button "%s" in the "Image" dropdown
-                When I open the "Key" drop down
-                And I click the button "Testkey " in the "Key" dropdown
             ''' % (machine_name,
                    machine_values_dict.get(provider)[0]))
+
+
 
 
 @step(u'I scroll to the bottom to see what is going on')
