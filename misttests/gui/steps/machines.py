@@ -73,7 +73,7 @@ def set_values_to_create_machine_form(context,provider,machine_name):
 
 @step(u'I scroll to the bottom to see what is going on')
 def scroll_to_bottom(context):
-    context.browser.execute_script("window.scrollTo(0, document.body.scrollHeight);")
+    context.browser.execute_script("window.scrollTo(0, 0);")
 
 
 # def set_values_to_create_machine_form(context,provider,machine_name):
