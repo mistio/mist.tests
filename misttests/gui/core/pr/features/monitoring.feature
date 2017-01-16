@@ -39,14 +39,13 @@ Feature: Create Machine and test monitoring
 
   @disable-monitoring
   Scenario: Disable monitoring
-    Given I am logged in to mist.core
-    When I wait for the dashboard to load
     When I visit the Machines page
     And I click the "mistio-mist-core" "machine"
     When I click the "Disable Monitoring" button
     Then I expect the dialog "Disable Machine Monitoring" is open within 5 seconds 
     When I click the "Disable Monitoring" button in the dialog "Disable Machine Monitoring"
     Then I expect the dialog "Disable Machine Monitoring" is closed within 5 seconds
+    Then 0 graphs should be visible within max 20 seconds
 
 #    And I expect for "dialog-popup" modal to appear within max 400 seconds
 #    And I click the "_x_" button inside the "Success" modal
@@ -54,4 +53,3 @@ Feature: Create Machine and test monitoring
 #    And I click the button "third"
 #    Then I expect for "single-machine-page" page to appear within max 4 seconds
 #    And I wait for the graphs to appear
-#
