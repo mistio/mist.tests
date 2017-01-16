@@ -55,10 +55,3 @@ Feature: Create Machine and test monitoring
 #    Then I expect for "single-machine-page" page to appear within max 4 seconds
 #    And I wait for the graphs to appear
 #
-#    # disable monitoring and wait for success message
-#    When I focus on the "Disable" button
-#    And I click the button "Disable"
-#    And I expect for "dialog-popup" modal to appear within max 4 seconds
-#    And I click the "Yes" button inside the "Disable monitoring" modal
-#    And I expect for "dialog-popup" modal to appear within max 60 seconds
-#    And I click the "_x_" button inside the "Success" modal
