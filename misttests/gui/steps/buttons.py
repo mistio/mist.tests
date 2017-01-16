@@ -227,12 +227,13 @@ def click_button_by_id(context,button):
     elif button == 'entropy':
         button_to_click = context.browser.find_element_by_id('enropy')
     elif button == 'Disable Monitoring':
+        import ipdb;ipdb.set_trace()
         menu_button = context.browser.find_element_by_id('monitoring-menu-wrapper')
         clicketi_click(context,menu_button)
-        button_to_click = context.browser.find_element_by_id('dropdown')
+        button_to_click = context.browser.find_element_by_id('monitoring-actions')
     else:
         raise Exception('Unknown type of button')
-    assert button_to_click.is_displayed(), "%s button is not displayed" %button
+    #assert button_to_click.is_displayed(), "%s button is not displayed" %button
     clicketi_click(context, button_to_click)
 
 # below 3 methods should be deleted, since they're duplicate -- first check where they are used....

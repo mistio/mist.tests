@@ -38,6 +38,9 @@ Feature: Create Machine and test monitoring
 
 
   @disable-monitoring
+  Scenario: Disable monitoring
+    Given I am logged in to mist.core
+    When I wait for the dashboard to load
     When I visit the Machines page
     And I click the "mistio-mist-core" "machine"
     When I click the "Disable Monitoring" button
