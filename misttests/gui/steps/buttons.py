@@ -226,6 +226,10 @@ def click_button_by_id(context,button):
         button_to_click = context.browser.find_element_by_id('monitoring')
     elif button == 'entropy':
         button_to_click = context.browser.find_element_by_id('enropy')
+    elif button == 'Disable Monitoring':
+        menu_button = context.browser.find_element_by_id('monitoring-menu-wrapper')
+        clicketi_click(context,menu_button)
+
     else:
         raise Exception('Unknown type of button')
     assert button_to_click.is_displayed(), "%s button is not displayed" %button

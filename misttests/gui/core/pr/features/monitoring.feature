@@ -38,6 +38,9 @@ Feature: Create Machine and test monitoring
 
 
   @disable-monitoring
+    When I visit the Machines page
+    And I click the "mistio-mist-core" "machine"
+    When I click the "Disable Monitoring" button
 
 
 #    And I expect for "dialog-popup" modal to appear within max 400 seconds
