@@ -41,7 +41,9 @@ Feature: Create Machine and test monitoring
     When I visit the Machines page
     And I click the "mistio-mist-core" "machine"
     When I click the "Disable Monitoring" button
-
+    Then I expect the dialog "Disable Machine Monitoring" is open within 5 seconds 
+    When I click the "Disable Monitoring" button in the dialog "Disable Machine Monitoring"
+    Then I expect the dialog "Disable Machine Monitoring" is closed within 5 seconds
 
 #    And I expect for "dialog-popup" modal to appear within max 400 seconds
 #    And I click the "_x_" button inside the "Success" modal
