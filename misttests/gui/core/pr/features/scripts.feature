@@ -15,6 +15,7 @@ Feature: Scripts
     And I open the "Type" drop down
     And I wait for 2 seconds
     When I click the button "<type>" in the "Type" dropdown
+    And I wait for 2 seconds
     And I open the "Source" drop down
     And I wait for 2 seconds
     And I click the button "<source>" in the "Source" dropdown
@@ -22,9 +23,10 @@ Feature: Scripts
     When I focus on the button "Add" in "script" add form
     And I expect for the button "Add" in "script" add form to be clickable within 3 seconds
     And I click the button "Add" in "script" add form
+    And I wait for 3 seconds
     When I visit the Scripts page after the counter has loaded
     # FIXME: below has been commented out because script is not available immediately..need for redirection to another page first...
-    # FIXME: instead of redirecxting to home, an option is to sort the items...
+    # FIXME: instead of redirecting to home, an option is to sort the items...
     Then I visit the Home page
     When I wait for the dashboard to load
     When I visit the Scripts page
@@ -97,4 +99,3 @@ Feature: Scripts
     And I click the "Delete" button in the dialog "Delete Script"
     And I expect the dialog "Delete Script" is closed within 4 seconds
     Then "Second" script should be absent within 5 seconds
-    
