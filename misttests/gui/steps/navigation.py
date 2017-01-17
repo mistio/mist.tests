@@ -26,8 +26,6 @@ def i_am_in_homepage(context):
         possible_urls.append(temp)
     possible_urls.append(possible_urls[0] + '#')
     possible_urls.append(possible_urls[0] + '#' + '/')
-    print context.browser.current_url
-    print possible_urls
     return context.browser.current_url in possible_urls
 
 
