@@ -26,8 +26,8 @@ def start_recording(output='test.mp4', dimension='1280x720',
     log.info("Starting recording of the session")
     if os.path.isfile(output):
         os.remove(output)
-    command = 'ffmpeg -f x11grab -video_size {0} -y -r 16 -i 127.0.0.1:{1} ' \
-              '{2}'.format(dimension, display_num, output)
+    command = 'ffmpeg -f x11grab -video_size {0} -i 127.0.0.1:{1} ' \
+              '-codec:v libx264 -r 12 -preset ultrafast {2}'.format(dimension, display_num, output)
 
     # This is valid for debian, but we should update this for alpine.
     # Commenting it out for the time being
