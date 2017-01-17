@@ -151,7 +151,7 @@ def enter_creds(context, kind, action):
             clear_input_and_send_keys(email_input, 'tester')
         elif kind == 'rbac_owner':
             clear_input_and_send_keys(email_input,
-                                      context.mist_config['OWNER_EMAIL'])
+                                      context.mist_config['EMAIL'])
         elif kind == 'rbac_member1':
             clear_input_and_send_keys(email_input,
                                       context.mist_config['MEMBER1_EMAIL'])
@@ -163,7 +163,7 @@ def enter_creds(context, kind, action):
                                       context.mist_config['PASSWORD2'])
         elif kind == 'rbac_owner':
             clear_input_and_send_keys(password_input,
-                                      context.mist_config['OWNER_PASSWORD'])
+                                      context.mist_config['PASSWORD1'])
         elif kind == 'rbac_member1':
             clear_input_and_send_keys(password_input,
                                       context.mist_config['MEMBER1_PASSWORD'])
@@ -180,7 +180,7 @@ def enter_creds(context, kind, action):
             raise TimeoutException("Email input did not appear after 4 seconds")
         email_input = context.browser.find_element_by_id("signup-email")
         if kind == 'rbac_owner':
-            clear_input_and_send_keys(email_input, context.mist_config['OWNER_EMAIL'])
+            clear_input_and_send_keys(email_input, context.mist_config['EMAIL'])
         elif kind == 'rbac_member1':
             clear_input_and_send_keys(email_input, context.mist_config['MEMBER1_EMAIL'])
         else:
@@ -226,7 +226,7 @@ def enter_creds(context, kind, action):
         elif kind == 'standard':
             password_to_use = context.mist_config['PASSWORD1']
         elif kind == 'rbac_owner':
-            password_to_use = context.mist_config['OWNER_PASSWORD']
+            password_to_use = context.mist_config['PASSWORD1']
         elif kind == 'rbac_member1':
             password_to_use = context.mist_config['MEMBER1_PASSWORD']
         elif kind == 'rbac_member2':

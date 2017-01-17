@@ -1,21 +1,26 @@
 @images
-Feature: Actions for Images
+Feature: Images
 
-  # Not finished yet cause Image search is not working yet in polymist
-  Scenario: Star image from Advanced search
+  Background:
     Given I am logged in to mist.core
     And I am in the new UI
+
+  @image-search
+  Scenario: Search image
     When I wait for the dashboard to load
-#    Given "AWS" cloud has been added
-#    When I visit the Images page after the counter has loaded
-#    And I wait for 3 seconds
+    Given "OpenStack" cloud has been added
+    When I visit the Images page
+    When I search for "CoreOS"
+    Then "CoreOS-Alpha" image should be present within 3 seconds
+    And "CoreOS-Beta" image should be present within 3 seconds
+    When I search for "CoreOS-Alpha"
+    Then "CoreOS-Alpha" image should be present within 3 seconds
+    And "CoreOS-Beta" image should be absent within 3 seconds
+    When I clear the search bar
+    Then "CoreOS-Beta" image should be present within 5 seconds
+
+
 #    Then there should be ticked Images in the list
-#    When I search for "docker"
-#    Then "Key1" key should be absent within 15 seconds
-#    When I clear the search bar
-#    Then "Key1" key should be present within 15 seconds
-#    Then I visit the Home page
-#    When I wait for the dashboard to load
 
 #    When I search for the "docker" Image
 #    And I click the button "Load more"

@@ -166,7 +166,7 @@ class MistIoApi(object):
                        csrf_token=None, api_token=None, cron_enable=False,
                        cron_type=None, cron_entry=None, cron_script=None,
                        cron_name=None, async=False, monitoring=False,
-                       cloud_init="", location_name=''):
+                       cloud_init="", location_name='', job_id=None):
         # ! disk and image_extra are required only for Linode
         # ! cronjobs' variables are required only if we want to set a scheduler
         # ! this way cronjob vars pass empty in create machine params
@@ -189,7 +189,8 @@ class MistIoApi(object):
             'cronjob_name': cron_name,
             'async': async,
             'monitoring': monitoring,
-            'cloud_init': cloud_init
+            'cloud_init': cloud_init,
+            'job_id': job_id,
         }
         req = MistRequests(uri=self.uri + '/api/v1/clouds/' + cloud_id + '/machines',
                            cookie=cookie, data=json.dumps(payload), timeout=600,
