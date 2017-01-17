@@ -134,12 +134,12 @@ def network_test_cleanup(request):
     def fin():
         for network in Network.objects(description='api-test-net'):
             try:
-                network.ctl.delete_network()
+                network.ctl.delete()
             except Exception as e:
                 print 'Failed to delete network {0}: exception:{1}'.format(network.id, e.message)
         for subnet in Subnet.objects(description='api-test-subnet'):
             try:
-                subnet.ctl.delete_subnet()
+                subnet.ctl.delete()
             except Exception as e:
                 print 'Failed to delete subnet {0} exception:{1}'.format(subnet.id, e.message)
     request.addfinalizer(fin)
