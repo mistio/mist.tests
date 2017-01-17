@@ -81,8 +81,8 @@ def before_all(context):
         # calling behaving to setup it's context variables.
         behaving_mail.before_all(context)
 
-    if config.RECORD_SELENIUM:
-        start_recording()
+    #if config.RECORD_SELENIUM:
+    #    start_recording()
 
     context.mist_config['recording_session'] = config.RECORD_SELENIUM
     log.info("Finished with before_all hook. Starting tests")
