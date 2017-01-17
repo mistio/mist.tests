@@ -31,8 +31,17 @@ Feature: Cloud actions for polymer
     And I wait for 2 seconds
     When I visit the Home page
     And I wait for the dashboard to load
+#<<<<<<< Updated upstream
     Then cloud "Openstack" should be "disabled"
     When I open the cloud menu for "Openstack"
+#=======
+#    Then cloud "Docker" should be "disabled"
+#    When I visit the Machines page
+#    Then "yolomachine" machine should be absent within 180 seconds
+#    Then I visit the Home page
+#    And I wait for the dashboard to load
+#    When I open the cloud menu for "Docker"
+#>>>>>>> Stashed changes
     And I click the "toggle" button
     And I wait for 2 seconds
     When I visit the Home page
