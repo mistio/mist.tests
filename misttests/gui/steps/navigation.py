@@ -282,8 +282,9 @@ def given_logged_in(context):
         return
     except:
         pass
-    if not i_am_in_homepage(context):
-        context.execute_steps(u'When I visit mist.core')
+
+    #if not i_am_in_homepage(context):
+    context.execute_steps(u'When I visit mist.core')
 
     try:
         context.browser.find_element_by_id("top-signup-button")
