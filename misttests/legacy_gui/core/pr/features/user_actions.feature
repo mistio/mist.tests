@@ -20,7 +20,7 @@ Feature: Login Scenarios
     Then I type "PASSWORD1" in input with id "token-password"
     And I wait for 1 seconds
     When I click the "Submit Password" button inside the "Verify Your Password" popup
-    And I wait for 1 seconds
+    And I wait for 2 seconds
     When I get the new api token value "BLABLA_TOKEN"
     Then I test the api token "BLABLA_TOKEN". It should work.
     When I click the "_x_" button inside the "Token blabla Created" popup

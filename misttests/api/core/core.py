@@ -208,12 +208,13 @@ class MistCoreApi(MistIoApi):
         req.delete = req.unavailable_api_call
         return req
 
-    def run_script(self, api_token, cloud_id, machine_id, script_id):
+    def run_script(self, api_token, cloud_id, machine_id, script_id, job_id):
         data = {
             'cloud_id': cloud_id,
             'machine_id': machine_id,
+            'job_id': job_id,
         }
-        req = MistRequests(uri=self.uri + '/api/v1/script/%s' % script_id,
+        req = MistRequests(uri=self.uri + '/api/v1/scripts/%s' % script_id,
                            api_token=api_token, data=data)
         req.get = req.unavailable_api_call
         req.put = req.unavailable_api_call
