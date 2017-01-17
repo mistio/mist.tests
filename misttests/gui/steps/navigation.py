@@ -26,8 +26,10 @@ def i_am_in_homepage(context):
         possible_urls.append(temp)
     possible_urls.append(possible_urls[0] + '#')
     possible_urls.append(possible_urls[0] + '#' + '/')
-    #return context.browser.current_url in possible_urls
-    return True
+    print context.browser.current_url
+    print possible_urls
+    return context.browser.current_url in possible_urls
+
 
 def wait_for_log_in_page_to_load(context):
     time_left = time()
@@ -282,7 +284,6 @@ def given_logged_in(context):
         return
     except:
         pass
-
     if not i_am_in_homepage(context):
         context.execute_steps(u'When I visit mist.core')
 
