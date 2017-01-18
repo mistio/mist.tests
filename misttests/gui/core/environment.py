@@ -70,6 +70,7 @@ def before_all(context):
     context.mist_config['GITHUB_REGISTRATION_TEST_PASSWORD'] = config.GITHUB_REGISTRATION_TEST_PASSWORD
     context.mist_config['GMAIL_FATBOY_USER'] = config.GMAIL_FATBOY_USER
     context.mist_config['GMAIL_FATBOY_PASSWORD'] = config.GMAIL_FATBOY_PASSWORD
+    context.mist_config['recording_session'] = config.RECORD_SELENIUM
     context.link_inside_email = ''
 
     log.info("Finished with the bulk of the test settings")
@@ -81,10 +82,9 @@ def before_all(context):
         # calling behaving to setup it's context variables.
         behaving_mail.before_all(context)
 
-    #if config.RECORD_SELENIUM:
-    #    start_recording()
+    if context.mist_config.get('recording_session', False):
+        start_recording()
 
-    context.mist_config['recording_session'] = config.RECORD_SELENIUM
     log.info("Finished with before_all hook. Starting tests")
 
 
@@ -115,5 +115,5 @@ def finish_and_cleanup(context):
     context.mist_config['browser'].quit()
     if context.mist_config.get('browser2'):
         context.mist_config['browser2'].quit()
-    #if context.mist_config.get('recording_session', False):
-    #    stop_recording()
+    if context.mist_config.get('recording_session', False):
+        stop_recording()
