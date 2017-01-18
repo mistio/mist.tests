@@ -44,8 +44,11 @@ Feature: Login Scenarios
     #And I expect for "createTokenDialog" popup to appear within max 4 seconds
     And I wait for 2 seconds
     Then I type "Test token2" in input with id "tokenName"
+    And I wait for 1 seconds
     Then I click the button "Never" from the ttl dropdown
+    And I wait for 1 seconds
     Then I type "PASSWORD1" in input with id "pass"
+    And I wait for 1 seconds
     And I click the "Create" button
     And I wait for 5 seconds
     When I get the new api token value "BLABLA_TOKEN"
