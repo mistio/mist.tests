@@ -6,9 +6,9 @@ import mongoengine as me
 
 from mist.core import config
 
-from mist.core.user.models import User
-from mist.core.user.models import Owner
-from mist.core.user.models import Organization
+from mist.io.users.models import User
+from mist.io.users.models import Owner
+from mist.io.users.models import Organization
 
 from mist.io.keys.models import Key
 
