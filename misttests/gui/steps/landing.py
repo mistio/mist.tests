@@ -138,7 +138,7 @@ def enter_creds(context, kind, action):
                       'demo request']:
         raise ValueError("Cannot input %s credentials" % action)
     if kind not in ['standard', 'alt', 'rbac_owner', 'rbac_member1',
-                    'rbac_member2'] and not kind.startswith('invalid'):
+                    'rbac_member2', 'mayday_user'] and not kind.startswith('invalid'):
         raise ValueError("No idea what %s credentials are" % kind)
     if action == 'login':
         try:
@@ -155,6 +155,9 @@ def enter_creds(context, kind, action):
         elif kind == 'rbac_member1':
             clear_input_and_send_keys(email_input,
                                       context.mist_config['MEMBER1_EMAIL'])
+        elif kind == 'mayday_user':
+            clear_input_and_send_keys(email_input,
+                                      context.mist_config['MAYDAY_USER']
         else:
             clear_input_and_send_keys(email_input, context.mist_config['EMAIL'])
         password_input = context.browser.find_element_by_id("signin-password")

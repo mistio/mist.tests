@@ -337,14 +337,14 @@ def given_logged_in(context, kind):
     assert found_one(context), "No idea where I am now"
     try:
         context.browser.find_element_by_id("top-signup-button")
-        if kind in ['rbac_owner', 'rbac_member1', 'rbac_member2']:
+        if kind in ['rbac_owner', 'rbac_member1', 'rbac_member2', 'mayday_user']:
             context.execute_steps(u"""
                 When I open the login popup
                 Then I click the email button in the landing page popup
                 And I enter my %s credentials for login
                 And I click the sign in button in the landing page popup
             """ % kind)
-        elif kind == 'reg_member':
+        elif kind in ['reg_member']:
             context.execute_steps(u"""
                 When I open the login popup
                 Then I click the email button in the landing page popup

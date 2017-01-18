@@ -3,7 +3,7 @@ Feature: Production
 
   @graph
   Scenario: Production monitor and graph testing
-    Given I am logged in to mist.core
+    Given I am logged in to mist.core as mayday_user
     When I visit the Machines page after the counter has loaded
     Then I search for the mayday machine
     When I click the mayday machine
