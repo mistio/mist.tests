@@ -332,9 +332,15 @@ def found_one(context):
 
 @step(u'I am logged in to mist.core as {kind}')
 def given_logged_in(context, kind):
+    try:
+        context.browser.find_element_by_tag_name("mist-app")
+        # we're on the new UI
+        return
+    except:
+        pass
     if not i_am_in_homepage(context):
         context.execute_steps(u'When I visit mist.core')
-    assert found_one(context), "No idea where I am now"
+
     try:
         context.browser.find_element_by_id("top-signup-button")
         if kind in ['rbac_owner', 'rbac_member1', 'rbac_member2', 'mayday_user']:
