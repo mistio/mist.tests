@@ -173,6 +173,7 @@ Feature: Tests for orchestration feature
     And I click the "Delete" button in the dialog "Delete Template"
     And I expect the dialog "Delete Template" is closed within 4 seconds
     Then "Renamed Template" template should be absent within 15 seconds
+    Then I click the "dfgdf" button in the dialog "fghfg"
 
 #  @stack-delete
 #  Scenario: Delete a stack
