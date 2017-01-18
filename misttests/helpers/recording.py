@@ -75,6 +75,10 @@ def stop_recording():
     global kill_recording_process
     global recording_sub_process
     kill_recording_process = True
-    recording_sub_process.communicate(input='q\n')
-    log.info("Sent terminating character to recording process")
+    try:
+        recording_sub_process.communicate(input='q\n')
+        log.info("Sent terminating character to recording process")
+    except:
+        #process already closing
+        pass
     recording_process_lock.acquire()
