@@ -31,7 +31,7 @@ def update_lines(terminal, lines):
     """
     starting_lines = len(lines)
     line_has_been_updated = False
-    all_lines = terminal.find_elements_by_class_name('xterm-rows')[0].find_elements_by_tag_name('div')
+    all_lines = terminal.find_elements_by_tag_name('div')
     safety_counter = max_safety_count = 5
     for i in range(0, len(all_lines)):
         line = safe_get_element_text(all_lines[i]).rstrip().lstrip()
@@ -177,7 +177,7 @@ def multi_ssh_test_for_file(context, times, seconds, filename):
                 assert False, "Connection has not been established. Last error " \
                               "encountered was:\n%s" % repr(assertion_error)
         sleep(2)
-        clicketi_click(context, context.browser.find_element_by_xpath("//iron-icon[@icon='icons:close']"))
+        clicketi_click(context, context.browser.find_element_by_id('shell-back'))
         WebDriverWait(context.browser, 4).until(EC.invisibility_of_element_located((By.CLASS_NAME, 'terminal')))
         if not assertion_error:
             return
