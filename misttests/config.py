@@ -203,6 +203,6 @@ IMAP_USER = get_setting('IMAP_USER', EMAIL)
 
 IMAP_PASSWORD = get_setting('IMAP_PASSWORD', '')
 
-KEY_ID = get_value_of('KEY_ID', '')
+KEY_ID = get_setting('KEY_ID', '')
 
-NETWORK_TESTING_CLOUDS = get_value_of('NETWORK_TESTING_CLOUDS', '')
+NETWORK_TESTING_CLOUDS = get_setting('NETWORK_TESTING_CLOUDS', '')
