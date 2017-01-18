@@ -44,7 +44,6 @@ Feature: Tests for orchestration feature
     When I wait for the dashboard to load
     When I visit the Keys page
     Then "TestKey2" key should be present within 15 seconds
-
     When I visit the Templates page
     And I wait for 2 seconds
     When I click the "Simple Python Template" "template"
