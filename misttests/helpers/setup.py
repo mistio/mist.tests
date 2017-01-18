@@ -1,3 +1,6 @@
+import json
+import requests
+
 from misttests import config
 
 
@@ -17,13 +20,13 @@ def setup_user_if_not_exists(user_email, password=None):
         return user
 
 
-def remove_user_if_exists(user_email):
-    if config.SETUP_ENVIRONMENT:
-        from mist.io.users.models import Owner
-        try:
-            Owner.objects.get(email=user_email).delete()
-        except Owner.DoesNotExist:
-            pass
+def remove_user_if_exists(core_uri, user_email):
+    url = "%s/api/v1/dev/users" % core_uri
+    payload = {
+        "email": user_email
+    }
+
+    re = requests.delete(url, data=json.dumps(payload))
 
 
 def setup_org_if_not_exists(org_name, owner_email, clean_org=True, add_cloud=True):
