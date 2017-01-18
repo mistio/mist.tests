@@ -79,7 +79,6 @@ Feature: Production
     When I open the login popup
     Then I click the google button in the landing page popup
     Then I do the Google login
-    And I am in the new UI
     When I wait for the dashboard to load
     Then I logout
 
@@ -89,6 +88,5 @@ Feature: Production
     When I open the login popup
     Then I click the github button in the landing page popup
     Then I do the Github login
-    And I am in the new UI
     When I wait for the dashboard to load
     Then I logout
