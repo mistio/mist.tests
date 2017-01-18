@@ -82,8 +82,8 @@ def before_all(context):
         # calling behaving to setup it's context variables.
         behaving_mail.before_all(context)
 
-    #if context.mist_config.get('recording_session', False):
-    #    start_recording()
+    if context.mist_config.get('recording_session', False):
+        start_recording()
 
     log.info("Finished with before_all hook. Starting tests")
 
@@ -115,5 +115,5 @@ def finish_and_cleanup(context):
     context.mist_config['browser'].quit()
     if context.mist_config.get('browser2'):
         context.mist_config['browser2'].quit()
-    #if context.mist_config.get('recording_session', False):
-    #    stop_recording()
+    if context.mist_config.get('recording_session', False):
+        stop_recording()
