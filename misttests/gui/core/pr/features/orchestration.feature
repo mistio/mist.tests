@@ -28,7 +28,6 @@ Feature: Tests for orchestration feature
   @stack-add
   Scenario: First add Docker and key and then create a stack from the template added above
     Given "Docker" cloud has been added
-    
     # change below to 'given key has been added...'
     Then I visit the keys page
     When I click the button "+"
