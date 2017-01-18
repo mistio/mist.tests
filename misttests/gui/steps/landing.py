@@ -157,7 +157,7 @@ def enter_creds(context, kind, action):
                                       context.mist_config['MEMBER1_EMAIL'])
         elif kind == 'mayday_user':
             clear_input_and_send_keys(email_input,
-                                      context.mist_config['MAYDAY_USER']
+                                      context.mist_config['MAYDAY_USER'])
         else:
             clear_input_and_send_keys(email_input, context.mist_config['EMAIL'])
         password_input = context.browser.find_element_by_id("signin-password")
