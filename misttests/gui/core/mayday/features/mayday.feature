@@ -33,6 +33,7 @@ Feature: Production
     Then I wait for the graphs to appear
     When I remove previous rules
     When I delete old mayday emails
+    And I wait for 2 seconds
     And I focus on the "add new rule" button
     And I click the button "add new rule"
     Then I expect for "newrule" to be visible within max 20 seconds
@@ -69,6 +70,7 @@ Feature: Production
     Then I expect for "confirmation" modal to appear within max 4 seconds
     And I click the button "Reboot"
     Then I expect for "select-action" modal to disappear within max 4 seconds
+    And I wait for 4 seconds
     Then Mayday machine state should be "running" within 200 seconds
 
   @google_sso_signin
@@ -77,6 +79,7 @@ Feature: Production
     When I open the login popup
     Then I click the google button in the landing page popup
     Then I do the Google login
+    And I am in the new UI
     When I wait for the dashboard to load
     Then I logout
 
@@ -86,5 +89,6 @@ Feature: Production
     When I open the login popup
     Then I click the github button in the landing page popup
     Then I do the Github login
+    And I am in the new UI
     When I wait for the dashboard to load
     Then I logout
