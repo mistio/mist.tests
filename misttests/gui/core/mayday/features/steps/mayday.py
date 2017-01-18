@@ -27,6 +27,7 @@ def search_for_mayday_machine(context):
     sleep(2)
 
 @step(u'I delete old mayday emails')
+def delete_old_mayday_emails(context):
     box = login_email(context)
     box.select("INBOX")
     typ, data = box.search(None, 'ALL')
