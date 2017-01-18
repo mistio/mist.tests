@@ -287,11 +287,8 @@ def select_provider_in_cloud_add_form(context, provider):
     clouds_class = context.browser.find_element_by_class_name('selectable-content')
     clouds = clouds_class.find_elements_by_tag_name('paper-item')
     for c in clouds:
-        try:
             if safe_get_element_text(c).lower().strip() == provider_title:
                 return c
-        except (NoSuchElementException, StaleElementReferenceException):
-            pass
 
 
 @step(u'I use my "{provider}" credentials')

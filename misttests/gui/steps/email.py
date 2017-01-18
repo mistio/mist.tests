@@ -3,7 +3,7 @@ import shutil
 import logging
 import imaplib
 
-import gmail
+#import gmail
 
 from time import sleep
 from time import time
