@@ -14,7 +14,6 @@ Feature: Production
     Then I expect for "selectTarget" modal to appear within max 30 seconds
     And I expect the metric buttons to appear within 30 seconds
     When I click the "entropy" button inside the popup with id "selectTarget"
-    And I wait for 6 seconds
     Then "entropy" graph should appear within 30 seconds
     When I focus on the "entropy" graph
     Then "entropy" graph should have some values
@@ -33,7 +32,6 @@ Feature: Production
     Then I wait for the graphs to appear
     When I remove previous rules
     When I delete old mayday emails
-    And I wait for 2 seconds
     And I focus on the "add new rule" button
     And I click the button "add new rule"
     Then I expect for "newrule" to be visible within max 20 seconds
@@ -70,7 +68,6 @@ Feature: Production
     Then I expect for "confirmation" modal to appear within max 4 seconds
     And I click the button "Reboot"
     Then I expect for "select-action" modal to disappear within max 4 seconds
-    And I wait for 4 seconds
     Then Mayday machine state should be "running" within 200 seconds
 
   @google_sso_signin
