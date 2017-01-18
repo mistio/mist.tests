@@ -3,7 +3,7 @@ Feature: Production
 
   @graph
   Scenario: Production monitor and graph testing
-    Given I am logged in to mist.core as mayday_user
+    Given I am logged in to mist.core
     When I visit the Machines page after the counter has loaded
     Then I search for the mayday machine
     When I click the mayday machine
@@ -22,7 +22,7 @@ Feature: Production
 
   @alert
   Scenario: Production rule and alert testing
-    Given I am logged in to mist.core as mayday_user
+    Given I am logged in to mist.core
     Then I visit the Home page
     When I wait for the dashboard to load
     When I visit the Machines page after the counter has loaded
@@ -32,7 +32,7 @@ Feature: Production
     And I expect the "machine" edit form to be visible within max 5 seconds
     Then I wait for the graphs to appear
     When I remove previous rules
-    When I delete old emails
+    When I delete old mayday emails
     And I wait for 2 seconds
     And I focus on the "add new rule" button
     And I click the button "add new rule"
@@ -46,7 +46,7 @@ Feature: Production
 
   @ssh
   Scenario: Production ssh testing
-    Given I am logged in to mist.core as mayday_user
+    Given I am logged in to mist.core
     Then I visit the Home page
     When I wait for the dashboard to load
     When I visit the Machines page after the counter has loaded
@@ -59,7 +59,7 @@ Feature: Production
 
   @celery
   Scenario: Production machine reboot testing
-    Given I am logged in to mist.core as mayday_user
+    Given I am logged in to mist.core
     Then I visit the Home page
     When I wait for the dashboard to load
     When I visit the Machines page after the counter has loaded

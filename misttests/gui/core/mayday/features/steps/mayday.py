@@ -26,6 +26,18 @@ def search_for_mayday_machine(context):
         search_bar.send_keys(letter)
     sleep(2)
 
+@step(u'I delete old mayday emails')
+    box = login_email(context)
+    box.select("INBOX")
+    typ, data = box.search(None, 'ALL')
+    if not data[0].split():
+        return
+
+    for num in data[0].split():
+        box.store(num, '+FLAGS', '\\Deleted')
+    box.expunge()
+    logout_email(box)
+
 @step(u'I click the mayday machine')
 def click_mayday_machine(context):
     """
