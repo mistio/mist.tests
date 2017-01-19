@@ -141,8 +141,8 @@ def click_button_in_dropdown(context, button, name):
 def click_button_in_div(context, button, name):
     button = button.strip().lower()
     div = context.browser.find_element_by_class_name(name)
-    buttons = div.find_elements_by_tag_name('paper-button')
-    click_button_from_collection(context, button.lower(), buttons)
+    button = div.find_element_by_tag_name('paper-button')
+    cclicketi_click(context, button)
 
 
 @step(u'I click the button "{button}" in the tag menu')
