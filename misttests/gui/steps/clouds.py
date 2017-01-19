@@ -306,6 +306,7 @@ def cloud_second_creds(context, provider):
         raise Exception("Unknown cloud provider")
     cloud_second_creds_dict.get(provider)(context)
 
+
 def find_cloud(context, cloud_title):
     cloud_chips = context.browser.find_elements_by_tag_name('cloud-chip')
     clouds = []
