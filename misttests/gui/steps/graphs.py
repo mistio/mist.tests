@@ -87,33 +87,6 @@ def fill_metric_mame(context,name):
         textfield.send_keys(letter)
 
 
-@step(u'there should be a gap in the "{graph_title}" graph within {seconds}'
-      u' seconds')
-def check_for_data_gaps(context, graph_title, seconds):
-    graph_title = graph_title.lower()
-    graph_to_watch = None
-    graphs = context.browser.find_elements_by_class_name('graph')
-    for graph in graphs:
-        if graph_title in safe_get_element_text(graph.find_element_by_class_name('title')).lower():
-            graph_to_watch = graph
-            break
-    assert graph_to_watch, "Could not find graph with title %s" % graph_title
-    timeout = time() + int(seconds)
-    gap_found = False
-    tooltip = graph_to_watch.find_element_by_css_selector(".c3-tooltip-container")
-    while time() < timeout:
-        for i in range(1,10):
-            check_point = graph_to_watch.find_element_by_css_selector(".c3-event-rects .c3-event-rect:nth-last-child(%s)" % i)
-            check_point.click()
-            if not tooltip.is_displayed():
-                gap_found = True
-                break
-        if gap_found:
-            break
-        sleep(10)
-    assert gap_found, "No gap in data after %s seconds" % seconds
-
-
 @step(u'I delete the "{graph_title}" graph')
 def delete_a_graph(context, graph_title):
     graph_title = graph_title.lower()
