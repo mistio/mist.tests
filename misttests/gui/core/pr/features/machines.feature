@@ -22,7 +22,7 @@ Feature: Actions for machines
     And I expect for the button "Launch" in "machine" add form to be clickable within 10 seconds
     When I focus on the button "Launch" in "machine" add form
     #And I click the button "Add" in "key" add form
-    Then I click the "Launch" button in the bottom-actions div
+    Then I click the "Launch" button in the "bottom-actions" div
     And I wait for 10 seconds
     #Then I visit the Machines page
     And I scroll to the bottom to see what is going on
