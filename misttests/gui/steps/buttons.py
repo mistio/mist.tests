@@ -137,6 +137,14 @@ def click_button_in_dropdown(context, button, name):
     click_button_from_collection(context, button.lower(), buttons)
 
 
+@step(u'I click the button "{button}" in the "{name}" div')
+def click_button_in_div(context, button, name):
+    button = button.strip().lower()
+    div = browser.find_element_by_class_name(name)
+    buttons = div.find_elements_by_tag_name('paper-item')
+    click_button_from_collection(context, button.lower(), buttons)
+
+
 @step(u'I click the button "{button}" in the tag menu')
 def click_button_in_tag_model(context, button):
     from .tags import get_open_tag_modal
