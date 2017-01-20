@@ -282,7 +282,6 @@ cloud_second_creds_dict = {
 
 @step(u'I select the "{provider}" provider')
 def select_provider_in_cloud_add_form(context, provider):
-    import pdb;pdb.set_trace()
     provider_title = provider.lower()
     clouds_class = context.browser.find_element_by_class_name('providers')
     clouds = clouds_class.find_elements_by_tag_name('paper-item')
