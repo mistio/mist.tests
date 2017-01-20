@@ -19,23 +19,23 @@ Feature: Images
     When I clear the search bar
     Then "CoreOS-Beta" image should be present within 5 seconds
 
-  @image-star
+  @image-unstar
+  Scenario: Unstar image
     When I click the "CoreOS-Beta" "image"
     And I expect the "image" edit form to be visible within max 5 seconds
     Then I click the button "Unstar" in "image" edit form
     When I visit the Images page
     # then CoreOS-Beta image should be unstarred within 10 seconds
+
+  @image-unstar
+  Scenario: Star image
     When I click the "CoreOS-Beta" "image"
     And I expect the "image" edit form to be visible within max 5 seconds
-    Then I click the button "Unstar" in "image" edit form
+    Then I click the button "Star" in "image" edit form
     When I visit the Images page
     # then CoreOS-Beta image should be starred within 10 seconds
 
-    When I star an image that contains "openstack"
-#    Then I unstar the image that contains "the_image_name_i_starred"
 
-#    And I clear the Images search bar
-#    Then the images list should be loaded within 100 seconds
 #    When I scroll down until all starred images appear
 #    Then an image that contains "the_image_name_i_starred" should be starred
 #    When I focus on the "the_image_name_i_starred" button

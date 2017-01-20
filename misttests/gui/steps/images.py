@@ -38,19 +38,6 @@ def clear_image_search_bar(context):
         search_bar.send_keys(u'\ue003')
 
 
-@step(u'I unstar the image that contains "{text}"')
-def unstar_image(context, text):
-    images_list = context.browser.find_element_by_id("image-list")
-    images = images_list.find_elements_by_tag_name("li")
-    if context.mist_config.get(text):
-        text = context.mist_config[text]
-    for image in images:
-        if text in safe_get_element_text(image):
-            star_button = image.find_element_by_class_name("ui-checkbox")
-            star_button.click()
-            return
-
-
 def scroll_down_and_wait(context, wait_for_unstarred_images=False, wait=5):
     """
     Wait for a few seconds until new images are loaded
