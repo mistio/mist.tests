@@ -182,9 +182,7 @@ def set_kvm_creds(context):
                     When I add the key needed for KVM
                     When I click the new cloud button
                     Then I expect the "Cloud" add form to be visible within max 5 seconds
-                    And I open the "Choose Provider" drop down
-                    And I wait for 1 seconds
-                    When I click the button "KVM (Via Libvirt)" in the "Choose Provider" dropdown
+                    When I select the "KVM (Via Libvirt)" provider
                     Then I expect the field "Title" in the cloud add form to be visible within max 4 seconds
                     Then I set the value "KVM" to field "Title" in "cloud" add form
                     Then I set the value "%s" to field "KVM hostname" in "cloud" add form
@@ -352,9 +350,7 @@ def given_cloud(context, cloud):
     context.execute_steps(u'''
         When I click the new cloud button
         Then I expect the "Cloud" add form to be visible within max 5 seconds
-        And I open the "Choose Provider" drop down
-        And I wait for 1 seconds
-        When I click the button "%s" in the "Choose Provider" dropdown
+        When I select the "%s" provider
         Then I expect the field "Title" in the cloud add form to be visible within max 4 seconds
         When I use my "%s" credentials
         And I focus on the button "Add Cloud" in "cloud" add form
