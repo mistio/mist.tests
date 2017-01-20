@@ -25,10 +25,18 @@ Feature: Images
 #    When I search for the "docker" Image
 #    And I click the button "Load more"
 #    Then the images list should be loaded within 100 seconds
-#    When I star an image that contains "docker"
+    When I click the "CoreOS-Beta" "image"
+    And I expect the "image" edit form to be visible within max 5 seconds
+    Then I click the button "Unstar" in "image" edit form
+
+
+
+#    When I star an image that contains "openstack"
+#    Then I unstar the image that contains "the_image_name_i_starred"
+
 #    And I clear the Images search bar
 #    Then the images list should be loaded within 100 seconds
 #    When I scroll down until all starred images appear
 #    Then an image that contains "the_image_name_i_starred" should be starred
 #    When I focus on the "the_image_name_i_starred" button
-#    Then I unstar the image that contains "the_image_name_i_starred"
+    #Then I unstar the image that contains "the_image_name_i_starred"

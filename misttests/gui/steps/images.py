@@ -32,10 +32,10 @@ def assert_starred_image(context, text):
         "Could not find starred image with name %s" % text
 
 
-@step(u'I star an image that contains "{text}"')
+@step(u'I star the "{text}" image')
 def star_image(context, text):
-    images_list = context.browser.find_element_by_id("image-list")
-    images = images_list.find_elements_by_class_name("staroff")
+    images_list = context.browser.find_element_by_id("items")
+    images = images_list.find_elements_by_class_name("row")
     for image in images:
         if text in safe_get_element_text(image):
             star_button = image.find_element_by_class_name("ui-checkbox")
