@@ -352,7 +352,8 @@ def given_cloud(context, cloud):
     context.execute_steps(u'''
         When I click the new cloud button
         Then I expect the "Cloud" add form to be visible within max 5 seconds
-        When I select the "<provider>" provider
+        When I select the "%s" provider
+        When I click the button "%s" in the "Choose Provider" dropdown
         Then I expect the field "Title" in the cloud add form to be visible within max 4 seconds
         When I use my "%s" credentials
         And I focus on the button "Add Cloud" in "cloud" add form
