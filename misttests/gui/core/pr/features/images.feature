@@ -19,19 +19,19 @@ Feature: Images
     When I clear the search bar
     Then "CoreOS-Beta" image should be present within 5 seconds
 
-
-#    Then there should be ticked Images in the list
-
-#    When I search for the "docker" Image
-#    And I click the button "Load more"
-#    Then the images list should be loaded within 100 seconds
+  @image-star
     When I click the "CoreOS-Beta" "image"
     And I expect the "image" edit form to be visible within max 5 seconds
     Then I click the button "Unstar" in "image" edit form
+    When I visit the Images page
+    # then CoreOS-Beta image should be unstarred within 10 seconds
+    When I click the "CoreOS-Beta" "image"
+    And I expect the "image" edit form to be visible within max 5 seconds
+    Then I click the button "Unstar" in "image" edit form
+    When I visit the Images page
+    # then CoreOS-Beta image should be starred within 10 seconds
 
-
-
-#    When I star an image that contains "openstack"
+    When I star an image that contains "openstack"
 #    Then I unstar the image that contains "the_image_name_i_starred"
 
 #    And I clear the Images search bar
