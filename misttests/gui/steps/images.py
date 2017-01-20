@@ -8,18 +8,6 @@ from .utils import safe_get_element_text
 from .list import get_list
 
 
-@step(u'there should be ticked Images in the list')
-def ticked_images_loaded(context):
-    images = get_list(context, 'image')
-    for image in images:
-        if image.find_element_by_css_selector('iron-icon[icon="check"]').\
-                is_displayed():
-            break
-    else:
-        raise Exception('No ticked images available')
-    # name = safe_get_element_text(image.find_element_by_css_selector('div.name'))
-
-
 @step(u'an image that contains "{text}" should be starred')
 def assert_starred_image(context, text):
     images_list = context.browser.find_element_by_id("image-list")
