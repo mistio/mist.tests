@@ -11,6 +11,7 @@ Feature: Add second-tier clouds in Polymist
     When I click the new cloud button
     Then I expect the "Cloud" add form to be visible within max 5 seconds
     When I select the "<provider>" provider
+    And I wait for 3 seconds
     Then I expect the field "Title" in the cloud add form to be visible within max 4 seconds
     When I use my "<provider>" credentials
     And I focus on the button "Add Cloud" in "cloud" add form
