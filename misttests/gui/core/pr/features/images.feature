@@ -30,4 +30,4 @@ Feature: Images
     And I expect the "image" edit form to be visible within max 5 seconds
     Then I click the button "Star" in "image" edit form
     When I visit the Images page
-    Then "CoreOS-Beta" image should be "starred" within 10 seconds
+    Then the "CoreOS-Beta" image should be "starred" within 10 seconds
