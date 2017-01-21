@@ -6,6 +6,11 @@ from time import sleep
 from .utils import safe_get_element_text
 
 
+@step(u'"{image}" image should be "{state}" within {seconds} seconds')
+def assert_starred_unstarred_image(context,image,state,seconds):
+    
+
+
 @step(u'an image that contains "{text}" should be starred')
 def assert_starred_image(context, text):
     images_list = context.browser.find_element_by_id("image-list")

@@ -22,7 +22,7 @@ Feature: Images
     And I expect the "image" edit form to be visible within max 5 seconds
     Then I click the button "Unstar" in "image" edit form
     When I visit the Images page
-    # then CoreOS-Beta image should be unstarred within 10 seconds
+    Then CoreOS-Beta image should be unstarred within 10 seconds
 
   @image-unstar
   Scenario: Star image
