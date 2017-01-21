@@ -6,9 +6,34 @@ from time import sleep
 from .utils import safe_get_element_text
 
 
-@step(u'"{image}" image should be "{state}" within {seconds} seconds')
+def find_starred_images(images_list):
+    starred_images = []
+    for image in images_list:
+        try:
+            starred_image = image.find_element_by_class_name('star')
+            starred_images.append(starred_image)
+        except:
+            pass
+    return starred_images
+
+
+
+@step(u'the "{image}" image should be "{state}" within {seconds} seconds')
 def assert_starred_unstarred_image(context,image,state,seconds):
-    
+    state = state.lower()
+    if state not in ['starred', 'unstarred']:
+        raise Exception('Unknown type of state')
+    import pdb;pdb.set_trace()
+    images = context.browser.find_element_by_tag_name('item-list').find_element_by_tag_name('iron-list')
+    images_list = images.find_element_by_id("items").find_elements_by_class_name("row")
+    end_time = time() + int(seconds)
+    for check_image in images_list:
+        if image in safe_get_element_text(check_image):
+            image = check_image
+            break
+    while time() < end_time:
+        starred_images = find_starred_images(images_list)
+
 
 
 @step(u'an image that contains "{text}" should be starred')
