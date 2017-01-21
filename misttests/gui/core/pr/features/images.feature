@@ -23,7 +23,8 @@ Feature: Images
     Then  I visit the Home page
     And I wait for 2 seconds
     When I visit the Images page
-    Then the "CoreOS-Beta" image should be "unstarred" within 100 seconds
+    And I wait for 2 seconds
+    Then the "CoreOS-Beta" image should be "unstarred" within 10 seconds
 
   @image-unstar
   Scenario: Star image
@@ -33,4 +34,5 @@ Feature: Images
     Then  I visit the Home page
     And I wait for 2 seconds
     When I visit the Images page
-    Then the "CoreOS-Beta" image should be "starred" within 100 seconds
+    And I wait for 2 seconds
+    Then the "CoreOS-Beta" image should be "starred" within 10 seconds
