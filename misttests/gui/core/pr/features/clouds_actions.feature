@@ -9,8 +9,8 @@ Feature: Cloud actions for polymer
   Scenario: Edit credentials of a cloud
     When I wait for the dashboard to load
     Given "Openstack" cloud has been added
-    When I visit the Images page
-    Then "CoreOS-Kubernetes" image should be present within 15 seconds
+    When I visit the Networks page
+    Then "private_network" network should be present within 10 seconds
     Then I visit the Home page
     And I wait for the dashboard to load
     Then I open the cloud menu for "Openstack"
@@ -18,8 +18,8 @@ Feature: Cloud actions for polymer
     And I focus on the button "Edit Credentials" in "cloud" edit form
     Then I click the button "Edit Credentials" in "cloud" edit form
     And I wait for 5 seconds
-    When I visit the Images page
-    Then "CoreOS-Kubernetes" image should be absent within 30 seconds
+    When I visit the Networks page
+    Then "private_network" network should be absent within 10 seconds
     Then I visit the Home page
     And I wait for the dashboard to load
 
