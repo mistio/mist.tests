@@ -19,7 +19,7 @@ Feature: Cloud actions for polymer
     Then I click the button "Edit Credentials" in "cloud" edit form
     And I wait for 5 seconds
     When I visit the Images page
-    Then "CoreOS-Kubernetes" image should be absent within 15 seconds
+    Then "CoreOS-Kubernetes" image should be absent within 30 seconds
     Then I visit the Home page
     And I wait for the dashboard to load
 
