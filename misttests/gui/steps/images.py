@@ -5,6 +5,12 @@ from time import sleep
 
 from .utils import safe_get_element_text
 
+import logging
+
+log = logging.getLogger(__name__)
+
+logging.basicConfig(level=logging.INFO)
+
 
 def find_starred_images(images_list):
     starred_images = []
@@ -35,6 +41,8 @@ def assert_starred_unstarred_image(context,image,state,seconds):
     while time() < end_time:
         starred_images = find_starred_images(images_list)
         if state == 'starred':
+            log.info("The images that are starred are " + starred_images)
+            log.info("The image that should be starred is " + image_to_check_state)
             if image_to_check_state in starred_images:
                 return
         elif state == 'unstarred':
