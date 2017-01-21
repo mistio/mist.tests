@@ -20,7 +20,7 @@ def find_starred_images(images_list):
 def find_image(image, images_list):
     for check_image in images_list:
         if image in safe_get_element_text(check_image):
-            return check_image
+            return check_image.find_element_by_tag_name('list-item')
 
 
 @step(u'the "{image}" image should be "{state}" within {seconds} seconds')
