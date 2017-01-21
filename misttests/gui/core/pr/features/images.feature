@@ -4,7 +4,7 @@ Feature: Images
   @image-search
   Scenario: Search image
     Given I am logged in to mist.core
-    When I wait for the dashboard to load
+    And I wait for the dashboard to load
     Given "OpenStack" cloud has been added
     When I visit the Images page
     When I search for "CoreOS"
@@ -30,4 +30,4 @@ Feature: Images
     And I expect the "image" edit form to be visible within max 5 seconds
     Then I click the button "Star" in "image" edit form
     When I visit the Images page
-    # then CoreOS-Beta image should be starred within 10 seconds
+    Then "CoreOS-Beta" image should be "starred" within 10 seconds

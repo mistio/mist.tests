@@ -17,6 +17,11 @@ def find_starred_images(images_list):
     return starred_images
 
 
+def find_image(image, images_list):
+    for check_image in images_list:
+        if image in safe_get_element_text(check_image):
+            return check_image
+
 
 @step(u'the "{image}" image should be "{state}" within {seconds} seconds')
 def assert_starred_unstarred_image(context,image,state,seconds):
@@ -27,12 +32,17 @@ def assert_starred_unstarred_image(context,image,state,seconds):
     images = context.browser.find_element_by_tag_name('item-list').find_element_by_tag_name('iron-list')
     images_list = images.find_element_by_id("items").find_elements_by_class_name("row")
     end_time = time() + int(seconds)
-    for check_image in images_list:
-        if image in safe_get_element_text(check_image):
-            image = check_image
-            break
+    image_to_check_state= find_image(image, images_list)
     while time() < end_time:
         starred_images = find_starred_images(images_list)
+        if state == 'starred':
+            if image_to_check_state in starred_images:
+                return
+        elif state == 'unstarred':
+            if image_to_check_state not in starred_images:
+                return
+    assert False, 'Image %s is not %s in the list after %s seconds' \
+                  % (image, state, seconds)
 
 
 
