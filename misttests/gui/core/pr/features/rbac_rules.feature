@@ -93,7 +93,7 @@ Feature: RBAC
   @member1-view-cloud-success
     Scenario: Verify that member1 can view a cloud
     Given I am logged in to mist.core as rbac_member1
-    Then I ensure that I am in the "Rbac_Test" organization context
+    Then I ensure that I am in the "ORG_NAME" organization context
     When I visit the Teams page
     And "Test Team" team should be present within 5 seconds
     Then I visit the Home page
@@ -156,7 +156,7 @@ Feature: RBAC
   @member1-delete-cloud
   Scenario: Member 1 should not be able to delete cloud
     Given I am logged in to mist.core as rbac_member1
-    Then I ensure that I am in the "Rbac_Test" organization context
+    Then I ensure that I am in the "ORG_NAME" organization context
     And I am in the new UI
     When I wait for the dashboard to load
     When I open the cloud menu for "Docker"
