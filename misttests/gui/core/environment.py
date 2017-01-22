@@ -2,6 +2,7 @@ import sys
 import json
 import requests
 import logging
+import random
 
 from .requirements import chrome_driver_setup
 
@@ -50,7 +51,7 @@ def before_all(context):
     context.mist_config['MEMBER2_PASSWORD'] = config.MEMBER2_PASSWORD
     context.mist_config['LOCAL'] = config.LOCAL
     context.mist_config['DEBUG'] = config.DEBUG
-    context.mist_config['ORG_NAME'] = config.ORG_NAME
+    context.mist_config['ORG_NAME'] = config.ORG_NAME + str(random.randint(1, 10000000))
     context.mist_config['NON_STOP'] = '--stop' not in sys.argv
     context.mist_config['ERROR_NUM'] = 0
     context.mist_config['MIST_URL'] = config.MIST_URL
