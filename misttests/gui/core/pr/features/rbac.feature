@@ -83,8 +83,6 @@ Feature: RBAC
     And "Test Team" team should be present within 5 seconds
     Then I logout
 
-    *********************
-
   @delete-member
   Scenario: Owner deletes a team member
     Given I am logged in to mist.core as rbac_owner
@@ -98,21 +96,9 @@ Feature: RBAC
     And I expect the dialog "Delete Member from Team" is open within 4 seconds
     And I click the "Delete" button in the dialog "Delete Member from Team"
     And I expect the dialog "Delete Member from Team" is closed within 4 seconds
-    Then I logout
-    Given I am logged in to mist.core as rbac_member2
-    And I am in the new UI
-    When I wait for the dashboard to load
-    Then I should see the form to set name for new organization
-    Then I logout
 
   @rename-team
   Scenario: Owner renames a team
-    Given I am logged in to mist.core as rbac_owner
-    And I am in the new UI
-    When I wait for the dashboard to load
-    And I visit the Teams page
-    When I click the "Test team" "team"
-    And I expect the "team" edit form to be visible within max 5 seconds
     Then I click the button "Edit Team" in "team" edit form
     And I expect the dialog "Edit Team" is open within 4 seconds
     Then I expect the field "Name" in the dialog with title "Edit Team" to be visible within max 2 seconds
@@ -120,24 +106,34 @@ Feature: RBAC
     And I wait for 1 seconds
     And I click the "Submit" button in the dialog "Edit Team"
     And I expect the dialog "Edit Team" is closed within 4 seconds
+    Then I visit the Home page
     Then I visit the Teams page
-    And "Test Team" key should be absent within 5 seconds
+    And "Test Team" team should be absent within 5 seconds
     And "Rbac Test Team" team should be present within 5 seconds
+    Then I logout
 
-  @key-add
-  Scenario: Owner adds key in order to use it below for a rule
-    When I visit the Keys page
-    When I click the button "+"
-    Then I expect the "Key" add form to be visible within max 10 seconds
-    When I set the value "PolicyKey" to field "Name" in "key" add form
-    Then I click the button "Generate" in "key" add form
-    And I wait for 5 seconds
-    And I expect for the button "Add" in "key" add form to be clickable within 9 seconds
-    When I focus on the button "Add" in "key" add form
-    And I click the button "Add" in "key" add form
-    Then I expect the "key" edit form to be visible within max 5 seconds
-    When I visit the Keys page
-    Then "PolicyKey" key should be present within 15 seconds
+#  @delete-team
+#  Scenario: Owner deletes a team
+#    When I click the "Rbac Test Team" "team"
+#    And I expect the "team" edit form to be visible within max 5 seconds
+#    Then I click the button "Delete Team" from the menu of the "team" edit form
+#    And I expect the dialog "Delete Team" is open within 4 seconds
+#    And I click the "Delete" button in the dialog "Delete Team"
+#    Then I expect the dialog "Delete Team" is closed within 4 seconds
+#    Then I visit the Home page
+#    And I wait for 2 seconds
+#    And I visit the Teams page
+#    And "Rbac Test Team" team should be absent within 10 seconds
+#    Then I logout
+
+   @verify-delete-member
+    Scenario: Member2 has been removed from org
+    Given I am logged in to mist.core as rbac_member2
+    And I am in the new UI
+    When I wait for the dashboard to load
+    Then I should see the form to set name for new organization
+    Then I logout
+
 
   @manage-rules
   Scenario: Manage team rules
