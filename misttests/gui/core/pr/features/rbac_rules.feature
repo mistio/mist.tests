@@ -104,9 +104,7 @@ Feature: RBAC
   Scenario: Member1 cannot add cloud
     When I click the new cloud button
     Then I expect the "Cloud" add form to be visible within max 5 seconds
-    And I open the "Choose Provider" drop down
-    And I wait for 1 seconds
-    When I click the button "Vultr" in the "Choose Provider" dropdown
+    When I select the "%s" provider
     Then I expect the field "Title" in the cloud add form to be visible within max 4 seconds
     When I use my "Vultr" credentials
     And I focus on the button "Add Cloud" in "cloud" add form
