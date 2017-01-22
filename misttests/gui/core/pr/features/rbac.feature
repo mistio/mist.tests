@@ -30,8 +30,9 @@ Feature: RBAC
     When I visit the Teams page
     And "Test Team" team should be present within 5 seconds
 
-  @add-members
-  Scenario: Owner invites two team members
+
+  @add-member1
+  Scenario: Add member1
     When I click the "Test team" "team"
     And I expect the "team" edit form to be visible within max 5 seconds
     Then I click the button "Invite Members" in "team" edit form
@@ -44,7 +45,7 @@ Feature: RBAC
     Then I logout
     Then I should receive an email at the address "MEMBER1_EMAIL" with subject "[mist.io] Confirm your invitation" within 15 seconds
     And I follow the link inside the email
-    AND I click the email button in the landing page popup
+    And I click the email button in the landing page popup
     Then I enter my rbac_member1 credentials for login
     And I click the sign in button in the landing page popup
     Given that I am redirected within 5 seconds
@@ -52,8 +53,11 @@ Feature: RBAC
     When I wait for the dashboard to load
     Then I ensure that I am in the "ORG_NAME" organization context
     When I visit the Teams page
-    And "Test Team" team should be present within 5 seconds
+    Then "Test Team" team should be present within 5 seconds
     Then I logout
+
+  @add-member2
+   Scenario: Add member2
     Given I am logged in to mist.core as rbac_owner
     And I am in the new UI
     When I wait for the dashboard to load
@@ -69,7 +73,7 @@ Feature: RBAC
     Then user with email "MEMBER2_EMAIL" should be pending
     And user with email "MEMBER1_EMAIL" should be confirmed
     Then I logout
-    Then I should receive an email at the address "MEMBER2_EMAIL" with subject "[mist.io] Confirm your invitation" within 10 seconds
+    Then I should receive an email at the address "MEMBER2_EMAIL" with subject "[mist.io] Confirm your invitation" within 15 seconds
     And I follow the link inside the email
     Then I enter my rbac_member2 credentials for signup_password_set
     And I click the submit button in the landing page popup
@@ -78,6 +82,8 @@ Feature: RBAC
     When I visit the Teams page
     And "Test Team" team should be present within 5 seconds
     Then I logout
+
+    *********************
 
   @delete-member
   Scenario: Owner deletes a team member
