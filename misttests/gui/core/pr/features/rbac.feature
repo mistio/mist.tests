@@ -6,34 +6,6 @@ Feature: RBAC
 # eg. member tries to run a script but has no permissions, and he cannot
 # then owner changes permissions, and member can successfully run the script
 
-#  @member-signup
-#  Scenario: Member1 of organization signs up
-#    When I visit mist.core
-#    When I open the signup popup
-#    #Then I click the sign up button in the landing page popup
-#    Then I click the email button in the landing page popup
-#    And I enter my rbac_member1 credentials for signup
-#    And I click the sign up button in the landing page popup
-#    Then I should receive an email at the address "MEMBER1_EMAIL" with subject "[mist.io] Confirm your registration" within 10 seconds
-#    And I follow the link contained in the email sent at the address "MEMBER1_EMAIL" with subject "[mist.io] Confirm your registration"
-#    Then I enter my rbac_member1 credentials for signup_password_set
-#    And I click the submit button in the landing page popup
-#    And I wait for the dashboard to load
-#    Then I logout
-
-#  @owner-signup
-#  Scenario: Organization Owner signs up
-#    When I visit mist.core
-#    When I open the signup popup
-#    #Then I click the sign up button in the landing page popup
-#    Then I click the email button in the landing page popup
-#    And I enter my rbac_owner credentials for signup
-#    And I click the sign up button in the landing page popup
-#    Then I should receive an email at the address "OWNER_EMAIL" with subject "[mist.io] Confirm your registration" within 10 seconds
-#    And I follow the link contained in the email sent at the address "OWNER_EMAIL" with subject "[mist.io] Confirm your registration"
-#    Then I enter my rbac_owner credentials for signup_password_set
-#    And I click the submit button in the landing page popup
-#    And I wait for the dashboard to load
 
   @create-org
   Scenario: Owner creates a new organization
