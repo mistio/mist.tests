@@ -1,11 +1,6 @@
 @rbac
 Feature: RBAC
 
-# there are some tests also mentioned here: https://gitlab.ops.mist.io/mistio/mist.tests/issues/30
-# most of the above are implemented, what could also be done is to test more specific rules
-# eg. member tries to run a script but has no permissions, and he cannot
-# then owner changes permissions, and member can successfully run the script
-
 
   @create-org
   Scenario: Owner creates a new organization
