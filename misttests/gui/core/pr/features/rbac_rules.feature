@@ -244,7 +244,7 @@ Feature: RBAC
     When I wait for the dashboard to load
     When I visit the Scripts page
     And I wait for 2 seconds
-    When I click the "Script1" "script"
+    When I click the "TestScript" "script"
 
    @member1-edit-script-fail
    Scenario: Member 1 should not be able to edit the script
@@ -257,7 +257,7 @@ Feature: RBAC
     Then I visit the Home page
     And I wait for 2 seconds
     Then I visit the Scripts page
-    And "Script1" script should be present within 5 seconds
+    And "TestScript" script should be present within 5 seconds
     And "Second" script should be absent within 5 seconds
     Then I logout
 
@@ -284,7 +284,7 @@ Feature: RBAC
     When I wait for the dashboard to load
     When I visit the Scripts page
     And I wait for 2 seconds
-    When I click the "Script1" "script"
+    When I click the "TestScript" "script"
     And I expect the "script" edit form to be visible within max 5 seconds
     Then I click the button "Edit Script" from the menu of the "script" edit form
     And I expect the dialog "Edit Script" is open within 4 seconds
@@ -294,7 +294,7 @@ Feature: RBAC
     Then I visit the Home page
     And I wait for 2 seconds
     Then I visit the Scripts page
-    And "Script1" script should be absent within 5 seconds
+    And "TestScript" script should be absent within 5 seconds
     And "Second" script should be present within 5 seconds
     Then I logout
 
