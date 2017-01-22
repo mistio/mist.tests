@@ -13,7 +13,7 @@ Feature: RBAC
     Then I click the button "Add Organisation" in the user menu
     And I expect the dialog "Add Organization" is open within 4 seconds
     And I wait for 1 seconds
-    When I set the value "Rbac_Test" to field "Name" in "Add Organization" dialog
+    When I set the value "ORG_NAME" to field "Name" in "Add Organization" dialog
     And I click the "Add" button in the dialog "Add Organization"
     And I wait for 2 seconds
     And I click the "Switch" button in the dialog "Add Organization"
@@ -55,7 +55,7 @@ Feature: RBAC
     Given that I am redirected within 10 seconds
     And I am in the new UI
     When I wait for the dashboard to load
-    Then I ensure that I am in the "Rbac_Test" organization context
+    Then I ensure that I am in the "ORG_NAME" organization context
     When I visit the Teams page
     And "Test Team" team should be present within 5 seconds
     When I visit the Home page
