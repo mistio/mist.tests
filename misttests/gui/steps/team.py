@@ -67,7 +67,7 @@ def delete_member_from_team(context, email):
 
 
 @step(u'rbac members are initialized')
-def initiliaze_rbac_members(context):
+def initialize_rbac_members(context):
     BASE_EMAIL = context.mist_config['BASE_EMAIL']
     context.mist_config['MEMBER1_EMAIL'] = "%s+%d@gmail.com" % (BASE_EMAIL, random.randint(1,200000))
     context.mist_config['MEMBER2_EMAIL'] = "%s+%d@gmail.com" % (BASE_EMAIL, random.randint(1,200000))
@@ -81,4 +81,16 @@ def initiliaze_rbac_members(context):
     }
 
     re = requests.post("%s/api/v1/dev/register" % context.mist_config['MIST_URL'], data=json.dumps(payload))
+    return
+
+
+@step(u'organization has been created')
+def create_organization(context):
+    context.mist_config['ORG_NAME'] = "rbac_org_%d" % random.randint(1, 200000)
+
+    payload = {
+        'name': context.mist_config['ORG_NAME']
+    }
+
+    re = requests.post("%s/api/v1/org" % context.mist_config['MIST_URL'], data=json.dumps(payload))
     return
