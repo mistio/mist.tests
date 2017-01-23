@@ -179,7 +179,7 @@ Feature: RBAC
   @member1-add-cloud-success
   Scenario: Member 1 should now be able to add cloud
     Given I am logged in to mist.core as rbac_member1
-    Then I ensure that I am in the "Rbac_Test" organization context
+    Then I ensure that I am in the "ORG_NAME" organization context
     And I am in the new UI
     When I wait for the dashboard to load
     When I click the new cloud button
