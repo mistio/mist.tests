@@ -5,6 +5,8 @@ stages:
 run_mayday_test:
   image: gcr.io/mist-ops/tests_base
   stage: test
+  tags:
+    - shm
   only:
     - triggers
   before_script:
@@ -12,7 +14,7 @@ run_mayday_test:
     - export DISPLAY=:1.0
     - pip install -e .
   script:
-    - python prepare_env.py -k --tags=alert,graph,ssh,celery misttests/legacy_gui/core/mayday/features
+    - python prepare_env.py -k --tags=alert,graph,ssh,celery,google_sso_signin,github_sso_signin misttests/gui/core/mayday/features
   artifacts:
     paths:
       - js_console.log

@@ -171,6 +171,8 @@ Feature: Tests for orchestration feature
     And I expect the dialog "Delete Template" is open within 4 seconds
     And I click the "Delete" button in the dialog "Delete Template"
     And I expect the dialog "Delete Template" is closed within 4 seconds
+    When I visit the Home page
+    And I visit the templates page
     Then "Renamed Template" template should be absent within 15 seconds
 
 #  @stack-delete

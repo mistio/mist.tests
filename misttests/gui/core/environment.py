@@ -38,6 +38,7 @@ def before_all(context):
     context.mist_config['PASSWORD1'] = config.PASSWORD1
     context.mist_config['PASSWORD2'] = config.PASSWORD2
     context.mist_config['SETUP_ENVIRONMENT'] = config.SETUP_ENVIRONMENT
+    context.mist_config['MAYDAY_MACHINE'] = config.MAYDAY_MACHINE
     context.mist_config['DEMO_EMAIL'] = config.DEMO_EMAIL
     context.mist_config['DEMO_PASSWORD'] = config.DEMO_PASSWORD
     context.mist_config['MIST_DEMO_REQUEST_EMAIL'] = config.MIST_DEMO_REQUEST_EMAIL
@@ -69,6 +70,7 @@ def before_all(context):
     context.mist_config['GITHUB_REGISTRATION_TEST_PASSWORD'] = config.GITHUB_REGISTRATION_TEST_PASSWORD
     context.mist_config['GMAIL_FATBOY_USER'] = config.GMAIL_FATBOY_USER
     context.mist_config['GMAIL_FATBOY_PASSWORD'] = config.GMAIL_FATBOY_PASSWORD
+    context.mist_config['recording_session'] = config.RECORD_SELENIUM
     context.link_inside_email = ''
 
     log.info("Finished with the bulk of the test settings")
@@ -80,10 +82,9 @@ def before_all(context):
         # calling behaving to setup it's context variables.
         behaving_mail.before_all(context)
 
-    if config.RECORD_SELENIUM:
+    if context.mist_config.get('recording_session', False):
         start_recording()
 
-    context.mist_config['recording_session'] = config.RECORD_SELENIUM
     log.info("Finished with before_all hook. Starting tests")
 
 
@@ -101,6 +102,7 @@ def before_feature(context, feature):
 def after_all(context):
     log.info("USER: %s" % context.mist_config['EMAIL'])
     log.info("PASSWORD1: %s" % context.mist_config['PASSWORD1'])
+    log.info("MIST_URL: %s" % context.mist_config['MIST_URL'])
     finish_and_cleanup(context)
 
 

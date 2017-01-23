@@ -41,24 +41,10 @@ def click_button_within_popup_with_id(context, text, popup_id):
     if context.mist_config.get(text):
         text = context.mist_config.get(text)
     popup = context.browser.find_element_by_id(popup_id)
-    if "ui-popup-active" not in popup.get_attribute('class'):
-        raise Exception("Popup with id %s is not open" % popup_id)
-    if text == '_x_':
-        buttons = popup.find_elements_by_class_name("close")
-        assert len(buttons) > 0, "Could not find the close button"
-        for i in range(0, 2):
-            try:
-                clicketi_click(context, buttons[0])
-                return
-            except WebDriverException:
-                sleep(1)
-        assert False, 'Could not click the close button'
-    else:
-        buttons = popup.find_elements_by_class_name("ui-btn")
-        click_button_from_collection(context, text, buttons,
-                                     'Could not find %s button in popup'
-                                     'with id  %s' % (text, popup_id))
-        return
+    buttons = popup.find_elements_by_tag_name("paper-item")
+    click_button_from_collection(context, text, buttons,
+                                 'Could not find %s button in popup'
+                                 'with id  %s' % (text, popup_id))
 
 
 @step(u'I click the "{text}" button inside the "{popup}" popup')

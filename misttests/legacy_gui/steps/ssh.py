@@ -103,7 +103,6 @@ def check_ssh_connection_with_timeout(context,
                                                  " %s seconds. Aborting!"\
                                                  % connection_timeout
         sleep(1)
-
     terminal.send_keys("ls -l\n")
     # remove the last line so that it can be updated since the command has
     # been added

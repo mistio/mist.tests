@@ -141,12 +141,11 @@ def check_if_email_arrived_with_delay(context, email_address, subject, seconds):
 def delete_emails(context):
     g = gmail.login(context.mist_config['GMAIL_FATBOY_USER'], context.mist_config['GMAIL_FATBOY_PASSWORD'])
     mails = g.inbox().mail(unread=True, to=context.mist_config['EMAIL'])
-
     for mail in mails:
         mail.delete()
-
     g.logout()
     return True
+
 
 @step(u'I should receive an email within {seconds} seconds')
 def receive_mail(context, seconds):
