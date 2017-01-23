@@ -7,23 +7,24 @@ Feature: RBAC
   @create-org
   Scenario: Owner creates a new organization and adds a Docker cloud
     Given rbac members are initialized
-    And organization has been created
+#    And organization has been created
+#    And  team "Test Team" has been created
 #
-#    Given I am logged in to mist.core
-#    And I am in the new UI
-#    And  I wait for the dashboard to load
-#    When I click the Gravatar
-#    And I wait for 1 seconds
-#    Then I click the button "Add Organisation" in the user menu
-#    And I expect the dialog "Add Organization" is open within 4 seconds
-#    And I wait for 1 seconds
-#    When I set the value "ORG_NAME" to field "Name" in "Add Organization" dialog
-#    And I click the "Add" button in the dialog "Add Organization"
-#    And I wait for 2 seconds
-#    And I click the "Switch" button in the dialog "Add Organization"
-#    Then I expect the dialog "Add Organization" is closed within 4 seconds
-#    When I wait for the dashboard to load
-#    Given "Docker" cloud has been added
+    Given I am logged in to mist.core
+    And I am in the new UI
+    And  I wait for the dashboard to load
+    When I click the Gravatar
+    And I wait for 1 seconds
+    Then I click the button "Add Organisation" in the user menu
+    And I expect the dialog "Add Organization" is open within 4 seconds
+    And I wait for 1 seconds
+    When I set the value "ORG_NAME" to field "Name" in "Add Organization" dialog
+    And I click the "Add" button in the dialog "Add Organization"
+    And I wait for 2 seconds
+    And I click the "Switch" button in the dialog "Add Organization"
+    Then I expect the dialog "Add Organization" is closed within 4 seconds
+    When I wait for the dashboard to load
+    Given "Docker" cloud has been added
 
   @add-team
   Scenario: Owner creates a team
@@ -49,9 +50,9 @@ Feature: RBAC
     And I click the button "Add" in "members" add form
     And I expect the "team" edit form to be visible within max 5 seconds
     Then user with email "MEMBER1_EMAIL" should be pending
-    Then I visit the Home page
-    When I wait for the dashboard to load
-    Given "Docker" cloud has been added
+#    Then I visit the Home page
+#    When I wait for the dashboard to load
+#    Given "Docker" cloud has been added
     Then I logout
 
   @view-cloud-fail

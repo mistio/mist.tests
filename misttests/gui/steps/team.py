@@ -94,3 +94,14 @@ def create_organization(context):
 
     re = requests.post("%s/api/v1/org" % context.mist_config['MIST_URL'], data=json.dumps(payload))
     return
+
+
+@step(u'team "{team_name}" has been created')
+def create_organization(context, team_name):
+
+    payload = {
+        'name': context.mist_config['ORG_NAME']
+    }
+
+    re = requests.post("%s/api/v1/org" % context.mist_config['MIST_URL'], data=json.dumps(payload))
+    return
