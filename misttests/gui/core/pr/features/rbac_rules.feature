@@ -50,7 +50,6 @@ Feature: RBAC
   Scenario: Verify that member1 cannot view the cloud added above
     Then I should receive an email at the address "MEMBER1_EMAIL" with subject "[mist.io] Confirm your invitation" within 15 seconds
     And I follow the link inside the email
-    #And I follow the link contained in the email sent at the address "MEMBER1_EMAIL" with subject "[mist.io] Confirm your invitation"
     Then I click the email button in the landing page popup
     Then I enter my rbac_member1 credentials for login
     And I click the sign in button in the landing page popup
@@ -80,7 +79,7 @@ Feature: RBAC
     And I wait for 2 seconds
 
   @allow-view-script
-  Scenario: Allow members to view script and add a script
+  Scenario: Allow viewing a script and add a script
     When I focus on the button "Add a new rule" in "policy" edit form
     Then I click the button "Add a new rule" in "policy" edit form
     And I wait for 1 seconds
@@ -105,18 +104,7 @@ Feature: RBAC
     And I click the button "Add" in "script" add form
     And I wait for 3 seconds
     Then I logout
-
-#   @add-member2
-#   Scenario: Add member2
-#    Then I click the button "Invite Members" in "team" edit form
-#    And I expect the "members" add form to be visible within max 5 seconds
-#    When I set the value "MEMBER2_EMAIL" to field "Emails" in "members" add form
-#    Then I expect for the button "Add" in "members" add form to be clickable within 2 seconds
-#    And I click the button "Add" in "members" add form
-#    And I expect the "team" edit form to be visible within max 5 seconds
-#    Then user with email "MEMBER2_EMAIL" should be pending
-#    And user with email "MEMBER1_EMAIL" should be confirmed
-#    Then I logout
+    
 
   @member1-view-cloud-success
     Scenario: Verify that member1 can view a cloud
