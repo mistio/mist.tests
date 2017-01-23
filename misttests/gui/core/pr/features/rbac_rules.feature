@@ -150,11 +150,8 @@ Feature: RBAC
     And "Second" script should be absent within 5 seconds
     Then I logout
 
-
-
-    
   @allow-add-cloud
-    Scenario: Allow adding a cloud
+  Scenario: Allow adding a cloud
     Given I am logged in to mist.core as rbac_owner
     And I am in the new UI
     When I wait for the dashboard to load
