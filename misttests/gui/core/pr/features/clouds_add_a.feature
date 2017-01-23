@@ -30,5 +30,4 @@ Feature: Add second-tier clouds in Polymist
     | Rackspace      |
     | Packet         |
     | GCE            |
-    | Linode         |
-    | AWS            |
+
