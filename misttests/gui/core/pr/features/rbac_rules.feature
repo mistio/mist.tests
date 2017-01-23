@@ -162,45 +162,49 @@ Feature: RBAC
     Then I click the button "Add a new rule" in "policy" edit form
     And I wait for 1 seconds
     Then I add the rule always "ALLOW" "cloud" "add"
+    And I click the button "Save Policy" in "policy" edit form
     Then I logout
 
  # below should pass, but it doesn't...
 
-#  @member1-add-cloud
-#  Scenario: Member 1 should now be able to add cloud
-#    Given I am logged in to mist.core as rbac_member1
-#    Then I ensure that I am in the "Rbac_Test" organization context
-#    And I am in the new UI
-#    When I wait for the dashboard to load
-#    When I click the new cloud button
-#    Then I expect the "Cloud" add form to be visible within max 5 seconds
-#    And I open the "Choose Provider" drop down
-#    And I wait for 1 seconds
-#    When I click the button "Vultr" in the "Choose Provider" dropdown
-#    Then I expect the field "Title" in the cloud add form to be visible within max 4 seconds
-#    When I use my "Vultr" credentials
-#    And I focus on the button "Add Cloud" in "cloud" add form
-#    And I click the button "Add Cloud" in "cloud" add form
-#    Then I wait for 2 seconds
-#    Then I visit the Home page
-#    Then I wait for the dashboard to load
-#    Then I should have 2 clouds added
+  @member1-add-cloud-success
+  Scenario: Member 1 should now be able to add cloud
+    Given I am logged in to mist.core as rbac_member1
+    Then I ensure that I am in the "Rbac_Test" organization context
+    And I am in the new UI
+    When I wait for the dashboard to load
+    When I click the new cloud button
+    Then I expect the "Cloud" add form to be visible within max 5 seconds
+    And I open the "Choose Provider" drop down
+    And I wait for 1 seconds
+    When I click the button "Vultr" in the "Choose Provider" dropdown
+    Then I expect the field "Title" in the cloud add form to be visible within max 4 seconds
+    When I use my "Vultr" credentials
+    And I focus on the button "Add Cloud" in "cloud" add form
+    And I click the button "Add Cloud" in "cloud" add form
+    Then I wait for 2 seconds
+    Then I visit the Home page
+    Then I wait for the dashboard to load
+    Then I should have 2 clouds added
 
   @member1-delete-cloud
   Scenario: Member 1 should not be able to delete cloud
-    Given I am logged in to mist.core as rbac_member1
-    Then I ensure that I am in the "ORG_NAME" organization context
-    And I am in the new UI
-    When I wait for the dashboard to load
+    When I wait for 2 seconds
     When I open the cloud menu for "Docker"
     And I click the "delete cloud" button
     And I wait for 3 seconds
     Then I visit the Home page
     # deletion did not work
-    Then I should have 1 clouds added
+    #Then I should have 1 clouds added
     # when above is fixed, below is correct
-    #Then I should have 2 clouds added
+    Then I should have 2 clouds added
     Then I logout
+
+
+
+
+
+
 
   @deny-all-cloud
   Scenario: Manage team rules
@@ -282,21 +286,3 @@ Feature: RBAC
 #    Given rule "1" is "ALLOW" "cloud" "all" always
 #    Given rule "2" is "DENY" "key" "edit" where id = "PolicyKey"
 #    Then I logout
-
-
-# will be checked again when issues are resolved
-
-#  @tag-team
-#  Scenario: Owner tags a team
-#    Given I am logged in to mist.core as rbac_owner
-#    And I am in the new UI
-#    When I wait for the dashboard to load
-#    And I visit the Teams page
-#    When I click the button "tag" from the menu of the "Rbac Test Team" team
-#    And I expect for the tag popup to open within 4 seconds
-#    When I remove all the previous tags
-#    Then I add a tag with key "team" and value "ops"
-#    And I click the button "Save Tags" in the tag menu
-#    Then I expect for the tag popup to close within 4 seconds
-#    And I wait for 2 seconds
-#    Then I ensure that the "team" has the tags "team:ops"

@@ -134,28 +134,17 @@ Feature: Rbac
     Then I should see the form to set name for new organization
     Then I logout
 
-
-#  @manage-rules
-#  Scenario: Manage team rules
-#    When I visit the teams page
-#    When I click the "Rbac Test Team" "team"
-#    And I expect the "policy" edit form to be visible within max 5 seconds
-#    When I focus on the button "Add a new rule" in "policy" edit form
-#    Then I click the button "Add a new rule" in "policy" edit form
-#    And I wait for 1 seconds
-#    Then I add the rule "ALLOW" "machine" "all" where tags = "bla=bla"
-#    When I focus on the button "Add a new rule" in "policy" edit form
-#    Then I click the button "Add a new rule" in "policy" edit form
-#    And I wait for 1 seconds
-#    Then I add the rule always "ALLOW" "cloud" "all"
-#    When I focus on the button "Add a new rule" in "policy" edit form
-#    Then I click the button "Add a new rule" in "policy" edit form
-#    And I wait for 1 seconds
-#    Then I add the rule "DENY" "key" "edit" where id = "PolicyKey"
-#    And I click the button "Save Policy" in "policy" edit form
-#    Then I wait for 3 seconds
-#    Given rule "0" is "ALLOW" "machine" "all" where tags = "bla=bla"
-#    Given rule "1" is "ALLOW" "cloud" "all" always
-#    Given rule "2" is "DENY" "key" "edit" where id = "PolicyKey"
-#    Then I logout
-#
+#  @tag-team
+#  Scenario: Owner tags a team
+#    Given I am logged in to mist.core as rbac_owner
+#    And I am in the new UI
+#    When I wait for the dashboard to load
+#    And I visit the Teams page
+#    When I click the button "tag" from the menu of the "Rbac Test Team" team
+#    And I expect for the tag popup to open within 4 seconds
+#    When I remove all the previous tags
+#    Then I add a tag with key "team" and value "ops"
+#    And I click the button "Save Tags" in the tag menu
+#    Then I expect for the tag popup to close within 4 seconds
+#    And I wait for 2 seconds
+#    Then I ensure that the "team" has the tags "team:ops"
