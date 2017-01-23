@@ -240,6 +240,7 @@ Feature: RBAC
   @member1-view-script-success
   Scenario: Member 1 should be able to view the script
     Given I am logged in to mist.core as rbac_member1
+    Then I ensure that I am in the "ORG_NAME" organization context
     And I am in the new UI
     When I wait for the dashboard to load
     When I visit the Scripts page
@@ -280,6 +281,7 @@ Feature: RBAC
   @member1-edit-script-fail
    Scenario: Member 1 should not be able to edit the script
     Given I am logged in to mist.core as rbac_member1
+    Then I ensure that I am in the "ORG_NAME" organization context
     And I am in the new UI
     When I wait for the dashboard to load
     When I visit the Scripts page
