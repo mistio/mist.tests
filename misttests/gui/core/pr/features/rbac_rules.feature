@@ -2,6 +2,8 @@
 Feature: RBAC
 
 
+  # TODO: first 3 steps can be replaced with an API request since they are checked at rbac-teams
+
   @create-org
   Scenario: Owner creates a new organization and adds a Docker cloud
     Given rbac members are initialized
@@ -76,6 +78,32 @@ Feature: RBAC
     Then I add the rule always "ALLOW" "cloud" "read"
     And I click the button "Save Policy" in "policy" edit form
     And I wait for 2 seconds
+
+  @allow-view-script
+  Scenario: Allow members to view script and add a script
+    When I focus on the button "Add a new rule" in "policy" edit form
+    Then I click the button "Add a new rule" in "policy" edit form
+    And I wait for 1 seconds
+    Then I add the rule always "ALLOW" "script" "read"
+    And I click the button "Save Policy" in "policy" edit form
+    And I wait for 2 seconds
+    # TODO: Below can be replaced with an API request
+    When I visit the Scripts page
+    When I click the button "+"
+    Then I expect the "Script" add form to be visible within max 10 seconds
+    When I set the value "TestScript" to field "Script Name" in "script" add form
+    And I open the "Type" drop down
+    And I wait for 2 seconds
+    When I click the button "Executable" in the "Type" dropdown
+    And I wait for 2 seconds
+    And I open the "Source" drop down
+    And I wait for 2 seconds
+    And I click the button "Inline" in the "Source" dropdown
+    When I set the value "#!/bin/bash\necho bla > ~/kati" to field "Script" in "script" add form
+    When I focus on the button "Add" in "script" add form
+    And I expect for the button "Add" in "script" add form to be clickable within 3 seconds
+    And I click the button "Add" in "script" add form
+    And I wait for 3 seconds
     Then I logout
 
 #   @add-member2
@@ -98,7 +126,8 @@ Feature: RBAC
     And "Test Team" team should be present within 5 seconds
     Then I visit the Home page
     # should be able to view cloud
-    Given "Docker" cloud has been added
+    #Given "Docker" cloud has been added
+    Then I should have 1 clouds added
 
   @member1-add-cloud-fail
   Scenario: Member1 cannot add cloud
@@ -201,39 +230,6 @@ Feature: RBAC
     Then I wait for the dashboard to load
     Then I should have 1 clouds added
     #Then I should have 2 clouds added
-    Then I logout
-
-  @allow-view-script
-  Scenario: Add script and allow members to view it
-    Given I am logged in to mist.core as rbac_owner
-    And I am in the new UI
-    When I wait for the dashboard to load
-    When I visit the Scripts page
-    When I click the button "+"
-    Then I expect the "Script" add form to be visible within max 10 seconds
-    When I set the value "TestScript" to field "Script Name" in "script" add form
-    And I open the "Type" drop down
-    And I wait for 2 seconds
-    When I click the button "Executable" in the "Type" dropdown
-    And I wait for 2 seconds
-    And I open the "Source" drop down
-    And I wait for 2 seconds
-    And I click the button "Inline" in the "Source" dropdown
-    When I set the value "#!/bin/bash\necho bla > ~/kati" to field "Script" in "script" add form
-    When I focus on the button "Add" in "script" add form
-    And I expect for the button "Add" in "script" add form to be clickable within 3 seconds
-    And I click the button "Add" in "script" add form
-    And I wait for 3 seconds
-    When I visit the teams page
-    When I click the "Test Team" "team"
-    And I expect the "policy" edit form to be visible within max 5 seconds
-    When I focus on the button "Add a new rule" in "policy" edit form
-    Then I click the button "Add a new rule" in "policy" edit form
-    And I wait for 1 seconds
-    Then I add the rule always "ALLOW" "script" "read"
-    When I focus on the button "Add a new rule" in "policy" edit form
-    Then I click the button "Add a new rule" in "policy" edit form
-    And I wait for 1 seconds
     Then I logout
 
 
