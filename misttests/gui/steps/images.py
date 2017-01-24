@@ -7,9 +7,9 @@ from .utils import safe_get_element_text
 
 import logging
 
-log = logging.getLogger(__name__)
-
-logging.basicConfig(level=logging.INFO)
+# log = logging.getLogger(__name__)
+#
+# logging.basicConfig(level=logging.INFO)
 
 
 def find_starred_images(images_list):
@@ -41,7 +41,7 @@ def assert_starred_unstarred_image(context,image,state,seconds):
     sleep(2)
     while time() < end_time:
         starred_images = find_starred_images(images_list)
-        log.info('Length of starred images is ' + str(len(starred_images)))
+        logging.warning('Length of starred images is ' + str(len(starred_images)))
         if state == 'starred':
             if image_to_check_state in starred_images:
                 return
