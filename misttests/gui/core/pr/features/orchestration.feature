@@ -28,7 +28,7 @@ Feature: Tests for orchestration feature
   @stack-add
   Scenario: First add Docker and key and then create a stack from the template added above
     Given I am logged in to mist.core
-    Given "Docker" cloud has been added
+    Given "Digital Ocean" cloud has been added
     # change below to 'given key has been added...'
     Then I visit the keys page
     When I click the button "+"
@@ -54,9 +54,15 @@ Feature: Tests for orchestration feature
     And I open the "cloud" drop down
     And I wait for 1 seconds
     And I click the button "Docker" in the "cloud" dropdown
+    And I open the "mist location" drop down
+    And I wait for 1 seconds
+    And I click the button "Amsterdam 2" in the "mist location" dropdown
+    And I open the "mist size" drop down
+    And I wait for 1 seconds
+    And I click the button "1gb" in the "mist size" dropdown
     And I open the "mist image" drop down
     And I wait for 1 seconds
-    And I click the button "Ubuntu 14.04" in the "mist image" dropdown
+    And I click the button "Ubuntu 16.04.1 x64" in the "mist image" dropdown
     And I open the "mist key" drop down
     And I wait for 1 seconds
     And I click the button "TestKey2" in the "mist key" dropdown
