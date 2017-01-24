@@ -53,7 +53,7 @@ Feature: Tests for orchestration feature
     When I set the value "Test Stack" to field "Stack Name" in "stack" add form
     And I open the "cloud" drop down
     And I wait for 1 seconds
-    And I click the button "Docker" in the "cloud" dropdown
+    And I click the button "Digital Ocean" in the "cloud" dropdown
     And I open the "mist location" drop down
     And I wait for 1 seconds
     And I click the button "Amsterdam 2" in the "mist location" dropdown
