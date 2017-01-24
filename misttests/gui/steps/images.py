@@ -34,18 +34,22 @@ def assert_starred_unstarred_image(context,image,state,seconds):
     state = state.lower()
     if state not in ['starred', 'unstarred']:
         raise Exception('Unknown type of state')
+    import pdb;pdb.set_trace()
     images = context.browser.find_element_by_tag_name('item-list').find_element_by_tag_name('iron-list')
     images_list = images.find_element_by_id("items").find_elements_by_class_name("row")
     end_time = time() + int(seconds)
     image_to_check_state= find_image(image, images_list)
+    sleep(2)
     while time() < end_time:
         starred_images = find_starred_images(images_list)
         if state == 'starred':
-            log.info(len(starred_images))
+            log.info('Length of images list is ' + str(len(images_list)))
+            log.info('Length of starred images is ' + str(len(starred_images)))
             if image_to_check_state in starred_images:
                 return
         elif state == 'unstarred':
-            log.info(len(starred_images))
+            log.info('Length of images list is ' + str(len(images_list)))
+            log.info('Length of starred images is ' + str(len(starred_images)))
             if image_to_check_state not in starred_images:
                 return
     assert False, 'Image %s is not %s in the list after %s seconds' \
