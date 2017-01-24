@@ -34,7 +34,6 @@ def assert_starred_unstarred_image(context,image,state,seconds):
     state = state.lower()
     if state not in ['starred', 'unstarred']:
         raise Exception('Unknown type of state')
-    import pdb;pdb.set_trace()
     images = context.browser.find_element_by_tag_name('item-list').find_element_by_tag_name('iron-list')
     images_list = images.find_element_by_id("items").find_elements_by_class_name("row")
     end_time = time() + int(seconds)
