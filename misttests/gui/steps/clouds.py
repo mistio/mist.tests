@@ -305,6 +305,15 @@ def cloud_second_creds(context, provider):
     cloud_second_creds_dict.get(provider)(context)
 
 
+@step(u'I should have {clouds} clouds added')
+def check_error_message(context, clouds):
+    cloud_chips = context.browser.find_elements_by_tag_name('cloud-chip')
+    if len(cloud_chips) == int(clouds):
+        return
+    else:
+        assert False, "There are %s clouds added, not %s"%(len(cloud_chips),clouds)
+
+
 def find_cloud(context, cloud_title):
     cloud_chips = context.browser.find_elements_by_tag_name('cloud-chip')
     clouds = []
