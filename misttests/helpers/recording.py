@@ -26,8 +26,9 @@ def start_recording(output='test.mp4', dimension='1280x720',
     log.info("Starting recording of the session")
     if os.path.isfile(output):
         os.remove(output)
-    command = 'ffmpeg -f x11grab -video_size {0} -y -r 16 -i 127.0.0.1:{1} ' \
-              '{2}'.format(dimension, display_num, output)
+
+    command = 'ffmpeg -f x11grab -video_size {0} -y -r 12 -i 127.0.0.1:{1} ' \
+              '-codec:v libx264 -preset ultrafast {2}'.format(dimension, display_num, output)
 
     # This is valid for debian, but we should update this for alpine.
     # Commenting it out for the time being
@@ -74,6 +75,10 @@ def stop_recording():
     global kill_recording_process
     global recording_sub_process
     kill_recording_process = True
-    recording_sub_process.stdin.write('q\n')
-    log.info("Sent terminating character to recording process")
+    try:
+        recording_sub_process.communicate(input='q\n')
+        log.info("Sent terminating character to recording process")
+    except:
+        #process already closing
+        pass
     recording_process_lock.acquire()

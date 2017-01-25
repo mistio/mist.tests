@@ -51,9 +51,9 @@ def focus_on_element(context, element):
 def focus_on_add_rule(context, name):
     if context.mist_config.get(name):
         name = context.mist_config[name]
-    if "Add Rule" in name:
-        button = context.browser.find_element_by_id("add-rule-button")
-        focus_on_element(context, button)
+    if "add new rule" in name:
+        container = context.browser.find_element_by_tag_name("mist-rules")
+        focus_on_element(context, container)
     elif "Add Graph" in name:
         button = context.browser.find_element_by_id("add-metric-btn")
         focus_on_element(context, button)
