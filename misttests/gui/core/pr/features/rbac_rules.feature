@@ -114,7 +114,6 @@ Feature: RBAC
     When I visit the Teams page
     And "Test Team" team should be present within 5 seconds
     Then I visit the Home page
-    #Given "Docker" cloud has been added
     Then I should have 1 clouds added
 
   @member1-add-cloud-fail
@@ -165,9 +164,17 @@ Feature: RBAC
     And I wait for 1 seconds
     Then I add the rule always "ALLOW" "cloud" "add"
     And I click the button "Save Policy" in "policy" edit form
-    Then I logout
+    And I wait for 2 seconds
 
- # below should pass, but it doesn't...
+  @allow-edit-script
+  Scenario: Allow editing a script
+    When I focus on the button "Add a new rule" in "policy" edit form
+    Then I click the button "Add a new rule" in "policy" edit form
+    And I wait for 1 seconds
+    Then I add the rule always "ALLOW" "script" "edit"
+    And I click the button "Save Policy" in "policy" edit form
+    And I wait for 2 seconds
+    Then I logout
 
   @member1-add-cloud-success
   Scenario: Member 1 should now be able to add cloud
