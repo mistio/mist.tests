@@ -9,7 +9,6 @@ Feature: RBAC
     Given rbac members are initialized
 #    And organization has been created
 #    And  team "Test Team" has been created
-#
     Given I am logged in to mist.core
     And I am in the new UI
     And  I wait for the dashboard to load
@@ -28,9 +27,6 @@ Feature: RBAC
 
   @add-team
   Scenario: Owner creates a team
-    Given I am logged in to mist.core
-    And I am in the new UI
-    And  I wait for the dashboard to load
     When I visit the Teams page
     When I click the button "+"
     And I expect the dialog "Add Team" is open within 4 seconds
@@ -50,9 +46,6 @@ Feature: RBAC
     And I click the button "Add" in "members" add form
     And I expect the "team" edit form to be visible within max 5 seconds
     Then user with email "MEMBER1_EMAIL" should be pending
-#    Then I visit the Home page
-#    When I wait for the dashboard to load
-#    Given "Docker" cloud has been added
     Then I logout
 
   @view-cloud-fail
