@@ -86,32 +86,32 @@ Feature: RBAC
     Then I add the rule always "ALLOW" "cloud" "read"
     And I click the button "Save Policy" in "policy" edit form
     And I wait for 2 seconds
-#
-#  @allow-read-script
-#  Scenario: Allow reading a script and add a script
-#    When I focus on the button "Add a new rule" in "policy" edit form
-#    Then I click the button "Add a new rule" in "policy" edit form
-#    And I wait for 1 seconds
-#    Then I add the rule always "ALLOW" "script" "read"
-#    And I click the button "Save Policy" in "policy" edit form
-#    And I wait for 2 seconds
-#    # TODO: Below can be replaced with an API request
-#    When I visit the Scripts page
-#    When I click the button "+"
-#    Then I expect the "Script" add form to be visible within max 10 seconds
-#    When I set the value "TestScript" to field "Script Name" in "script" add form
-#    And I open the "Type" drop down
-#    And I wait for 2 seconds
-#    When I click the button "Executable" in the "Type" dropdown
-#    And I wait for 2 seconds
-#    And I open the "Source" drop down
-#    And I wait for 2 seconds
-#    And I click the button "Inline" in the "Source" dropdown
-#    When I set the value "#!/bin/bash\necho bla > ~/kati" to field "Script" in "script" add form
-#    When I focus on the button "Add" in "script" add form
-#    And I expect for the button "Add" in "script" add form to be clickable within 3 seconds
-#    And I click the button "Add" in "script" add form
-#    And I wait for 3 seconds
+
+  @allow-read-script
+  Scenario: Allow reading a script and add a script
+    When I focus on the button "Add a new rule" in "policy" edit form
+    Then I click the button "Add a new rule" in "policy" edit form
+    And I wait for 1 seconds
+    Then I add the rule always "ALLOW" "script" "read"
+    And I click the button "Save Policy" in "policy" edit form
+    And I wait for 2 seconds
+    # TODO: Below can be replaced with an API request
+    When I visit the Scripts page
+    When I click the button "+"
+    Then I expect the "Script" add form to be visible within max 10 seconds
+    When I set the value "TestScript" to field "Script Name" in "script" add form
+    And I open the "Type" drop down
+    And I wait for 2 seconds
+    When I click the button "Executable" in the "Type" dropdown
+    And I wait for 2 seconds
+    And I open the "Source" drop down
+    And I wait for 2 seconds
+    And I click the button "Inline" in the "Source" dropdown
+    When I set the value "#!/bin/bash\necho bla > ~/kati" to field "Script" in "script" add form
+    When I focus on the button "Add" in "script" add form
+    And I expect for the button "Add" in "script" add form to be clickable within 3 seconds
+    And I click the button "Add" in "script" add form
+    And I wait for 3 seconds
     Then I logout
 
   @member1-view-cloud-success
@@ -137,26 +137,26 @@ Feature: RBAC
     Then I visit the Home page
     Then I wait for the dashboard to load
     Then I should have 1 clouds added
-#
-#  @member1-view-script-success
-#  Scenario: Member 1 should be able to view the script
-#    When I visit the Scripts page
-#    And I wait for 2 seconds
-#    Then I click the "TestScript" "script"
-#
-#  @member1-edit-script-fail
-#  Scenario: Member 1 should not be able to edit the script
-#    And I expect the "script" edit form to be visible within max 5 seconds
-#    Then I click the button "Edit Script" from the menu of the "script" edit form
-#    And I expect the dialog "Edit Script" is open within 4 seconds
-#    When I set the value "Second" to field "Name" in "Edit Script" dialog
-#    And I click the "Submit" button in the dialog "Edit Script"
-#    And I expect the dialog "Edit Script" is closed within 4 seconds
-#    Then I visit the Home page
-#    And I wait for 2 seconds
-#    Then I visit the Scripts page
-#    And "TestScript" script should be present within 5 seconds
-#    And "Second" script should be absent within 5 seconds
+
+  @member1-view-script-success
+  Scenario: Member 1 should be able to view the script
+    When I visit the Scripts page
+    And I wait for 2 seconds
+    Then I click the "TestScript" "script"
+
+  @member1-edit-script-fail
+  Scenario: Member 1 should not be able to edit the script
+    And I expect the "script" edit form to be visible within max 5 seconds
+    Then I click the button "Edit Script" from the menu of the "script" edit form
+    And I expect the dialog "Edit Script" is open within 4 seconds
+    When I set the value "Second" to field "Name" in "Edit Script" dialog
+    And I click the "Submit" button in the dialog "Edit Script"
+    And I expect the dialog "Edit Script" is closed within 4 seconds
+    Then I visit the Home page
+    And I wait for 2 seconds
+    Then I visit the Scripts page
+    And "TestScript" script should be present within 5 seconds
+    And "Second" script should be absent within 5 seconds
     Then I logout
 
   @allow-add-cloud
@@ -227,43 +227,43 @@ Feature: RBAC
 
 #
 #
-#  @allow-edit-script
-#  Scenario: Allow members to edit scripts
-#    Given I am logged in to mist.core as rbac_owner
-#    And I am in the new UI
-#    When I visit the teams page
-#    When I click the "Test Team" "team"
-#    And I expect the "policy" edit form to be visible within max 5 seconds
-#    When I focus on the button "Add a new rule" in "policy" edit form
-#    Then I click the button "Add a new rule" in "policy" edit form
-#    And I wait for 1 seconds
-#    Then I add the rule always "ALLOW" "script" "edit"
-#    When I focus on the button "Add a new rule" in "policy" edit form
-#    Then I click the button "Add a new rule" in "policy" edit form
-#    And I wait for 1 seconds
-#    Then I logout
+  @allow-edit-script
+  Scenario: Allow members to edit scripts
+    Given I am logged in to mist.core as rbac_owner
+    And I am in the new UI
+    When I visit the teams page
+    When I click the "Test Team" "team"
+    And I expect the "policy" edit form to be visible within max 5 seconds
+    When I focus on the button "Add a new rule" in "policy" edit form
+    Then I click the button "Add a new rule" in "policy" edit form
+    And I wait for 1 seconds
+    Then I add the rule always "ALLOW" "script" "edit"
+    When I focus on the button "Add a new rule" in "policy" edit form
+    Then I click the button "Add a new rule" in "policy" edit form
+    And I wait for 1 seconds
+    Then I logout
 
-#  @member1-edit-script-fail
-#   Scenario: Member 1 should not be able to edit the script
-#    Given I am logged in to mist.core as rbac_member1
-#    Then I ensure that I am in the "ORG_NAME" organization context
-#    And I am in the new UI
-#    When I wait for the dashboard to load
-#    When I visit the Scripts page
-#    And I wait for 2 seconds
-#    When I click the "TestScript" "script"
-#    And I expect the "script" edit form to be visible within max 5 seconds
-#    Then I click the button "Edit Script" from the menu of the "script" edit form
-#    And I expect the dialog "Edit Script" is open within 4 seconds
-#    When I set the value "Second" to field "Name" in "Edit Script" dialog
-#    And I click the "Submit" button in the dialog "Edit Script"
-#    And I expect the dialog "Edit Script" is closed within 4 seconds
-#    Then I visit the Home page
-#    And I wait for 2 seconds
-#    Then I visit the Scripts page
-#    And "TestScript" script should be absent within 5 seconds
-#    And "Second" script should be present within 5 seconds
-#    Then I logout
+  @member1-edit-script-fail
+   Scenario: Member 1 should not be able to edit the script
+    Given I am logged in to mist.core as rbac_member1
+    Then I ensure that I am in the "ORG_NAME" organization context
+    And I am in the new UI
+    When I wait for the dashboard to load
+    When I visit the Scripts page
+    And I wait for 2 seconds
+    When I click the "TestScript" "script"
+    And I expect the "script" edit form to be visible within max 5 seconds
+    Then I click the button "Edit Script" from the menu of the "script" edit form
+    And I expect the dialog "Edit Script" is open within 4 seconds
+    When I set the value "Second" to field "Name" in "Edit Script" dialog
+    And I click the "Submit" button in the dialog "Edit Script"
+    And I expect the dialog "Edit Script" is closed within 4 seconds
+    Then I visit the Home page
+    And I wait for 2 seconds
+    Then I visit the Scripts page
+    And "TestScript" script should be absent within 5 seconds
+    And "Second" script should be present within 5 seconds
+    Then I logout
 
 #  @manage-rules
 #  Scenario: Manage team rules
