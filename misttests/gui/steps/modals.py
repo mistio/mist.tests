@@ -25,39 +25,31 @@ def modal_waiting_with_timeout(context, modal_id, action, seconds):
     amount of time
     """
     if action == 'appear':
-        css_selector = '#%s[class*="md-show"]' % modal_id
+        try:
+            WebDriverWait(context.browser, int(seconds)).until(
+                EC.visibility_of_element_located((By.ID, modal_id)))
+        except TimeoutException:
+            raise TimeoutException("Modal %s did not %s after %s seconds"
+                                   % (modal_id, action, seconds))
     elif action == 'disappear':
-        css_selector = '#%s[class*="md-hide"]' % modal_id
+        try:
+            WebDriverWait(context.browser, int(seconds)).until(
+                EC.invisibility_of_element_located((By.ID, modal_id)))
+        except TimeoutException:
+            raise TimeoutException("Modal %s did not %s after %s seconds"
+                                   % (modal_id, action, seconds))
     else:
         raise ValueError("Action can be either appear or disappear. Duh!")
+
+
+@step(u'I click the "{text}" button inside the "{modal_id}" modal')
+def click_button_within_modal(context, text, modal_id):
     try:
-        WebDriverWait(context.browser, int(seconds)).until(
-            EC.presence_of_element_located((By.CSS_SELECTOR, css_selector)))
-    except TimeoutException:
-        raise TimeoutException("Modal %s did not %s after %s seconds"
-                               % (modal_id, action, seconds))
-
-
-@step(u'I click the "{text}" button inside the "{modal_title}" modal')
-def click_button_within_modal(context, text, modal_title):
-    modals = context.browser.find_elements_by_class_name("md-show")
-    for modal in modals:
-        title = safe_get_element_text(modal.find_element_by_class_name('md-title'))
-        if modal_title.lower() in title.lower():
-            if text == '_x_':
-                buttons = modal.find_elements_by_class_name("close")
-                assert len(buttons) > 0, "Could not find the close button"
-                for i in range(0, 2):
-                    try:
-                        clicketi_click(context, buttons[0])
-                        return
-                    except WebDriverException:
-                        sleep(1)
-                assert False, 'Could not click the close button'
-            else:
-                buttons = modal.find_elements_by_class_name("ui-btn")
-                click_button_from_collection(context, text, buttons,
-                                             'Could not find %s button in %s '
-                                             'modal' % (text, modal_title))
-            return
-    assert False, "Could not find modal with title %s" % modal_title
+        modal = context.browser.find_element_by_id(modal_id)
+        buttons = modal.find_elements_by_tag_name("paper-item")
+        click_button_from_collection(context, text, buttons,
+                                     'Could not find %s button in %s '
+                                     'modal' % (text, modal_id))
+        return
+    except:
+        assert False, "Could not find modal with id %s" % modal_id

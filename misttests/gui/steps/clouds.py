@@ -182,9 +182,7 @@ def set_kvm_creds(context):
                     When I add the key needed for KVM
                     When I click the new cloud button
                     Then I expect the "Cloud" add form to be visible within max 5 seconds
-                    And I open the "Choose Provider" drop down
-                    And I wait for 1 seconds
-                    When I click the button "KVM (Via Libvirt)" in the "Choose Provider" dropdown
+                    When I select the "KVM (Via Libvirt)" provider
                     Then I expect the field "Title" in the cloud add form to be visible within max 4 seconds
                     Then I set the value "KVM" to field "Title" in "cloud" add form
                     Then I set the value "%s" to field "KVM hostname" in "cloud" add form
@@ -280,6 +278,17 @@ cloud_second_creds_dict = {
 }
 
 
+@step(u'I select the "{provider}" provider')
+def select_provider_in_cloud_add_form(context, provider):
+    provider_title = provider.lower()
+    clouds_class = context.browser.find_element_by_class_name('providers')
+    clouds = clouds_class.find_elements_by_tag_name('paper-item')
+    for c in clouds:
+            if safe_get_element_text(c).lower().strip() == provider_title:
+                clicketi_click(context, c)
+                return
+
+
 @step(u'I use my "{provider}" credentials')
 def cloud_creds(context, provider):
     provider = provider.strip().lower()
@@ -294,6 +303,16 @@ def cloud_second_creds(context, provider):
     if provider not in cloud_second_creds_dict.keys():
         raise Exception("Unknown cloud provider")
     cloud_second_creds_dict.get(provider)(context)
+
+
+@step(u'I should have {clouds} clouds added')
+def check_error_message(context, clouds):
+    cloud_chips = context.browser.find_elements_by_tag_name('cloud-chip')
+    if len(cloud_chips) == int(clouds):
+        return
+    else:
+        assert False, "There are %s clouds added, not %s"%(len(cloud_chips),clouds)
+
 
 def find_cloud(context, cloud_title):
     cloud_chips = context.browser.find_elements_by_tag_name('cloud-chip')
@@ -340,9 +359,7 @@ def given_cloud(context, cloud):
     context.execute_steps(u'''
         When I click the new cloud button
         Then I expect the "Cloud" add form to be visible within max 5 seconds
-        And I open the "Choose Provider" drop down
-        And I wait for 1 seconds
-        When I click the button "%s" in the "Choose Provider" dropdown
+        When I select the "%s" provider
         Then I expect the field "Title" in the cloud add form to be visible within max 4 seconds
         When I use my "%s" credentials
         And I focus on the button "Add Cloud" in "cloud" add form

@@ -85,7 +85,7 @@ def do_google_login(context):
         except:
             pass
         context.execute_steps(u'''
-            Then I wait for the mist.io splash page to load
+            Then I wait for the dashboard to load
         ''')
 
 
@@ -102,12 +102,12 @@ def do_github_login(context):
             Then I input my "GITHUB_TEST_PASSWORD" in the field with id "password"
             And I click the Sign In button in the Github form
             And I wait for 5 seconds
-            Then I wait for the mist.io splash page to load
+            Then I wait for the dashboard to load
         ''')
     else:
         context.execute_steps(u'''
             Then I wait for 5 seconds
-            And I wait for the mist.io splash page to load
+            And I wait for the dashboard to load
         ''')
 
 

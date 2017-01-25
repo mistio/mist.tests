@@ -23,7 +23,7 @@ def fresh_api_token():
 
 @pytest.fixture(scope='session')
 def user():
-    from mist.core.user.models import User
+    from mist.io.users.models import User
     _email = email()
     print "\n>>> Getting user with email %s from db" % _email
     return User.objects.get(email=_email)
