@@ -194,6 +194,17 @@ Feature: RBAC
     Then I wait for the dashboard to load
     Then I should have 2 clouds added
 
+  @member1-delete-cloud
+  Scenario: Member 1 should not be able to delete cloud
+    When I wait for 2 seconds
+    When I open the cloud menu for "Softlayer"
+    And I click the "delete cloud" button
+    And I wait for 3 seconds
+    Then I visit the Home page
+    # deletion did not work
+    Then I should have 2 clouds added
+
+
   @member1-edit-script-success
   Scenario: Member 1 should be able to edit the script
     When I visit the Scripts page
@@ -210,20 +221,6 @@ Feature: RBAC
     And "TestScript" script should be absent within 5 seconds
     And "Second" script should be present within 5 seconds
     Then I logout
-
-  @member1-delete-cloud
-  Scenario: Member 1 should not be able to delete cloud
-    When I wait for 2 seconds
-    When I open the cloud menu for "Softlayer"
-    And I click the "delete cloud" button
-    And I wait for 3 seconds
-    Then I visit the Home page
-    # deletion did not work
-    #Then I should have 1 clouds added
-    # when above is fixed, below is correct
-    Then I should have 2 clouds added
-    Then I logout
-
 
 #  @deny-all-cloud
 #  Scenario: Manage team rules
