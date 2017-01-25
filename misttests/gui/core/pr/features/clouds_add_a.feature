@@ -24,8 +24,7 @@ Feature: Add second-tier clouds in Polymist
     Examples: Providers
     | provider       |
     | Azure          |
-    | Digital Ocean  |
-    | SoftLayer      |
+#    | SoftLayer      | -- tested @ rbac-rules
     | NephoScale     |
     | Rackspace      |
     | Packet         |

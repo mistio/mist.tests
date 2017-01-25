@@ -22,12 +22,13 @@ Feature: Add second-tier clouds in Polymist
 
     Examples: Providers
     | provider       |
-    | Docker         |
-    | Openstack      |
+#    | Docker         | -- tested @ cloud-actions
+#    | Openstack      | -- tested @ cloud-actions
     | Vultr          |
     | Azure ARM      |
     | Linode         |
     | AWS            |
+    | Digital Ocean  |
 #    | Vmware         |
 #    | Indonesian     |
 #    | KVM (Via Libvirt)           |

@@ -5,7 +5,7 @@ Feature: RBAC
   # TODO: first 3 steps can be replaced with an API request since they are checked at rbac-teams
 
   @create-org
-  Scenario: Owner creates a new organization and adds a Docker cloud
+  Scenario: Owner creates a new organization and adds a Softlayer cloud
     Given rbac members are initialized
 #    And organization has been created
 #    And  team "Test Team" has been created
@@ -24,7 +24,7 @@ Feature: RBAC
     And I click the "Switch" button in the dialog "Add Organization"
     Then I expect the dialog "Add Organization" is closed within 4 seconds
     When I wait for the dashboard to load
-    Given "Docker" cloud has been added
+    Given "Softlayer" cloud has been added
 
   @add-team
   Scenario: Owner creates a team
@@ -197,7 +197,7 @@ Feature: RBAC
   @member1-delete-cloud
   Scenario: Member 1 should not be able to delete cloud
     When I wait for 2 seconds
-    When I open the cloud menu for "Docker"
+    When I open the cloud menu for "Softlayer"
     And I click the "delete cloud" button
     And I wait for 3 seconds
     Then I visit the Home page
