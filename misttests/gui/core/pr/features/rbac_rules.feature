@@ -9,7 +9,6 @@ Feature: RBAC
     Given rbac members are initialized
 #    And organization has been created
 #    And  team "Test Team" has been created
-#
     Given I am logged in to mist.core
     And I am in the new UI
     And  I wait for the dashboard to load
@@ -28,9 +27,6 @@ Feature: RBAC
 
   @add-team
   Scenario: Owner creates a team
-    Given I am logged in to mist.core
-    And I am in the new UI
-    And  I wait for the dashboard to load
     When I visit the Teams page
     When I click the button "+"
     And I expect the dialog "Add Team" is open within 4 seconds
@@ -50,9 +46,6 @@ Feature: RBAC
     And I click the button "Add" in "members" add form
     And I expect the "team" edit form to be visible within max 5 seconds
     Then user with email "MEMBER1_EMAIL" should be pending
-#    Then I visit the Home page
-#    When I wait for the dashboard to load
-#    Given "Docker" cloud has been added
     Then I logout
 
   @view-cloud-fail
@@ -86,32 +79,32 @@ Feature: RBAC
     Then I add the rule always "ALLOW" "cloud" "read"
     And I click the button "Save Policy" in "policy" edit form
     And I wait for 2 seconds
-#
-#  @allow-read-script
-#  Scenario: Allow reading a script and add a script
-#    When I focus on the button "Add a new rule" in "policy" edit form
-#    Then I click the button "Add a new rule" in "policy" edit form
-#    And I wait for 1 seconds
-#    Then I add the rule always "ALLOW" "script" "read"
-#    And I click the button "Save Policy" in "policy" edit form
-#    And I wait for 2 seconds
-#    # TODO: Below can be replaced with an API request
-#    When I visit the Scripts page
-#    When I click the button "+"
-#    Then I expect the "Script" add form to be visible within max 10 seconds
-#    When I set the value "TestScript" to field "Script Name" in "script" add form
-#    And I open the "Type" drop down
-#    And I wait for 2 seconds
-#    When I click the button "Executable" in the "Type" dropdown
-#    And I wait for 2 seconds
-#    And I open the "Source" drop down
-#    And I wait for 2 seconds
-#    And I click the button "Inline" in the "Source" dropdown
-#    When I set the value "#!/bin/bash\necho bla > ~/kati" to field "Script" in "script" add form
-#    When I focus on the button "Add" in "script" add form
-#    And I expect for the button "Add" in "script" add form to be clickable within 3 seconds
-#    And I click the button "Add" in "script" add form
-#    And I wait for 3 seconds
+
+  @allow-read-script
+  Scenario: Allow reading a script and add a script
+    When I focus on the button "Add a new rule" in "policy" edit form
+    Then I click the button "Add a new rule" in "policy" edit form
+    And I wait for 1 seconds
+    Then I add the rule always "ALLOW" "script" "read"
+    And I click the button "Save Policy" in "policy" edit form
+    And I wait for 2 seconds
+    # TODO: Below can be replaced with an API request
+    When I visit the Scripts page
+    When I click the button "+"
+    Then I expect the "Script" add form to be visible within max 10 seconds
+    When I set the value "TestScript" to field "Script Name" in "script" add form
+    And I open the "Type" drop down
+    And I wait for 2 seconds
+    When I click the button "Executable" in the "Type" dropdown
+    And I wait for 2 seconds
+    And I open the "Source" drop down
+    And I wait for 2 seconds
+    And I click the button "Inline" in the "Source" dropdown
+    When I set the value "#!/bin/bash\necho bla > ~/kati" to field "Script" in "script" add form
+    When I focus on the button "Add" in "script" add form
+    And I expect for the button "Add" in "script" add form to be clickable within 3 seconds
+    And I click the button "Add" in "script" add form
+    And I wait for 3 seconds
     Then I logout
 
   @member1-view-cloud-success
@@ -121,7 +114,6 @@ Feature: RBAC
     When I visit the Teams page
     And "Test Team" team should be present within 5 seconds
     Then I visit the Home page
-    #Given "Docker" cloud has been added
     Then I should have 1 clouds added
 
   @member1-add-cloud-fail
@@ -137,16 +129,16 @@ Feature: RBAC
     Then I visit the Home page
     Then I wait for the dashboard to load
     Then I should have 1 clouds added
-#
-#  @member1-view-script-success
-#  Scenario: Member 1 should be able to view the script
-#    When I visit the Scripts page
-#    And I wait for 2 seconds
-#    Then I click the "TestScript" "script"
-#
-#  @member1-edit-script-fail
-#  Scenario: Member 1 should not be able to edit the script
-#    And I expect the "script" edit form to be visible within max 5 seconds
+
+  @member1-view-script-success
+  Scenario: Member 1 should be able to view the script
+    When I visit the Scripts page
+    And I wait for 2 seconds
+    Then I click the "TestScript" "script"
+
+  @member1-edit-script-fail
+  Scenario: Member 1 should not be able to edit the script
+    And I expect the "script" edit form to be visible within max 5 seconds
 #    Then I click the button "Edit Script" from the menu of the "script" edit form
 #    And I expect the dialog "Edit Script" is open within 4 seconds
 #    When I set the value "Second" to field "Name" in "Edit Script" dialog
@@ -172,9 +164,17 @@ Feature: RBAC
     And I wait for 1 seconds
     Then I add the rule always "ALLOW" "cloud" "add"
     And I click the button "Save Policy" in "policy" edit form
-    Then I logout
+    And I wait for 2 seconds
 
- # below should pass, but it doesn't...
+  @allow-edit-script
+  Scenario: Allow editing a script
+    When I focus on the button "Add a new rule" in "policy" edit form
+    Then I click the button "Add a new rule" in "policy" edit form
+    And I wait for 1 seconds
+    Then I add the rule always "ALLOW" "script" "edit"
+    And I click the button "Save Policy" in "policy" edit form
+    And I wait for 2 seconds
+    Then I logout
 
   @member1-add-cloud-success
   Scenario: Member 1 should now be able to add cloud
@@ -194,7 +194,7 @@ Feature: RBAC
     Then I wait for the dashboard to load
     Then I should have 2 clouds added
 
-  @member1-delete-cloud
+  @member1-delete-cloud-fail
   Scenario: Member 1 should not be able to delete cloud
     When I wait for 2 seconds
     When I open the cloud menu for "Packet"
@@ -202,68 +202,24 @@ Feature: RBAC
     And I wait for 3 seconds
     Then I visit the Home page
     # deletion did not work
-    #Then I should have 1 clouds added
-    # when above is fixed, below is correct
     Then I should have 2 clouds added
+
+  @member1-edit-script-success
+  Scenario: Member 1 should be able to edit the script
+    When I visit the Scripts page
+    Then I click the "TestScript" "script"
+    And I expect the "script" edit form to be visible within max 5 seconds
+    Then I click the button "Edit Script" from the menu of the "script" edit form
+    And I expect the dialog "Edit Script" is open within 4 seconds
+    When I set the value "Second" to field "Name" in "Edit Script" dialog
+    And I click the "Submit" button in the dialog "Edit Script"
+    And I expect the dialog "Edit Script" is closed within 4 seconds
+    Then I visit the Home page
+    And I wait for 2 seconds
+    Then I visit the Scripts page
+    And "TestScript" script should be absent within 5 seconds
+    And "Second" script should be present within 5 seconds
     Then I logout
-
-
-#  @deny-all-cloud
-#  Scenario: Manage team rules
-#    Given I am logged in to mist.core as rbac_owner
-#    And I am in the new UI
-#    When I wait for the dashboard to load
-#    When I visit the teams page
-#    When I click the "Test Team" "team"
-#    And I expect the "policy" edit form to be visible within max 5 seconds
-#    When I focus on the button "Add a new rule" in "policy" edit form
-#    Then I click the button "Add a new rule" in "policy" edit form
-#    And I wait for 1 seconds
-#    Then I add the rule always "DENY" "cloud" "all"
-#    When I focus on the button "Add a new rule" in "policy" edit form
-#    Then I click the button "Add a new rule" in "policy" edit form
-#    And I wait for 1 seconds
-#    Then I logout
-
-#
-#
-#  @allow-edit-script
-#  Scenario: Allow members to edit scripts
-#    Given I am logged in to mist.core as rbac_owner
-#    And I am in the new UI
-#    When I visit the teams page
-#    When I click the "Test Team" "team"
-#    And I expect the "policy" edit form to be visible within max 5 seconds
-#    When I focus on the button "Add a new rule" in "policy" edit form
-#    Then I click the button "Add a new rule" in "policy" edit form
-#    And I wait for 1 seconds
-#    Then I add the rule always "ALLOW" "script" "edit"
-#    When I focus on the button "Add a new rule" in "policy" edit form
-#    Then I click the button "Add a new rule" in "policy" edit form
-#    And I wait for 1 seconds
-#    Then I logout
-
-#  @member1-edit-script-fail
-#   Scenario: Member 1 should not be able to edit the script
-#    Given I am logged in to mist.core as rbac_member1
-#    Then I ensure that I am in the "ORG_NAME" organization context
-#    And I am in the new UI
-#    When I wait for the dashboard to load
-#    When I visit the Scripts page
-#    And I wait for 2 seconds
-#    When I click the "TestScript" "script"
-#    And I expect the "script" edit form to be visible within max 5 seconds
-#    Then I click the button "Edit Script" from the menu of the "script" edit form
-#    And I expect the dialog "Edit Script" is open within 4 seconds
-#    When I set the value "Second" to field "Name" in "Edit Script" dialog
-#    And I click the "Submit" button in the dialog "Edit Script"
-#    And I expect the dialog "Edit Script" is closed within 4 seconds
-#    Then I visit the Home page
-#    And I wait for 2 seconds
-#    Then I visit the Scripts page
-#    And "TestScript" script should be absent within 5 seconds
-#    And "Second" script should be present within 5 seconds
-#    Then I logout
 
 #  @manage-rules
 #  Scenario: Manage team rules
