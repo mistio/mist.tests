@@ -1,5 +1,5 @@
-@images
-Feature: Images
+@images-networks
+Feature: Images and Networks
 
   Background:
     Given I am logged in to mist.core
