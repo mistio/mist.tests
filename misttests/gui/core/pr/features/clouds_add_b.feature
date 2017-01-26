@@ -24,7 +24,7 @@ Feature: Add second-tier clouds in Polymist
     | provider       |
 #    | Docker         | -- tested @ cloud-actions
 #    | Openstack      | -- tested @ cloud-actions
-    | Vultr          |
+#    | Vultr          | -- tested @ rbac-rules
     | Azure ARM      |
     | Linode         |
     | AWS            |
@@ -34,4 +34,3 @@ Feature: Add second-tier clouds in Polymist
 #    | KVM (Via Libvirt)           |
 #    | Other Server   |
 #    | HostVirtual    |
-  
