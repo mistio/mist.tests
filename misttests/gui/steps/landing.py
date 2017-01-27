@@ -17,8 +17,14 @@ from selenium.common.exceptions import TimeoutException
 from selenium.common.exceptions import NoSuchElementException
 
 
+def get_shadow_elements(context,web_element):
+    shadow_root = context.browser.execute_script('return arguments[0].shadowRoot', web_element)
+    return shadow_root
+
+
 @step(u'I open the {kind} popup')
 def open_login_popup(context, kind):
+    import ipdb;ipdb.set_trace()
     kind = kind.lower()
     modals = {'login': 'modalLogin', 'signup': 'modalRegister'}
     if kind.lower() not in modals.keys():
@@ -26,9 +32,12 @@ def open_login_popup(context, kind):
     popup_id = modals[kind]
     # first press the buttons
     if kind == 'login':
-        button_collapse = context.browser.find_element_by_class_name('button-collapse')
-        if button_collapse.is_displayed():
-            button_collapse.click()
+        landing_app = context.browser.find_element_by_tag_name("landing-app")
+        iron_pages = landing_app.find_element_by_id("appLocation")
+        sign_in_btn = iron_pages.find_element_by_tag_name("landing-sign-in")
+        #button_collapse = context.browser.find_element_by_class_name('button-collapse')
+        if sign_in_btn.is_displayed():
+            sign_in_btn.click()
             timeout = time() + 3
             nav = context.browser.find_element_by_id("nav-mobile")
             while time() < timeout:

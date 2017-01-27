@@ -63,8 +63,8 @@ def visit(context):
     timeout = time() + 4
     while time() < timeout:
         try:
-            context.browser.find_element_by_id("top-signup-button")
-            wait_for_log_in_page_to_load(context)
+            elements = context.browser.find_element_by_tag_name("landing-app")
+            #wait_for_log_in_page_to_load(context)
             return
         except NoSuchElementException:
             try:
@@ -77,45 +77,45 @@ def visit(context):
     assert False, "Do not know if I am at the landing page or the home page"
 
 
-@step(u'I wait for the mist.io splash page to load')
-def standard_splash_waiting(context):
-    """
-    Function that waits for the splash to load. The maximum time for the page
-    to load is 60 seconds in this case
-    """
-    wait_for_splash_to_appear(context)
-    wait_for_splash_to_load(context)
-
-
-def wait_for_splash_to_appear(context, timeout=20):
-    end = time() + timeout
-    while time() < end:
-        try:
-            context.browser.find_element_by_id("splash")
-            return
-        except NoSuchElementException:
-            try:
-                context.browser.find_element_by_id("edit-org-form")
-                return
-            except:
-                sleep(1)
-    assert False, 'Splash did not appear after %s seconds' % timeout
-
-
-def wait_for_splash_to_load(context, timeout=60):
-    end = time() + timeout
-    while time() < end:
-        splash_page = context.browser.find_element_by_id("splash")
-        display = splash_page.value_of_css_property("display")
-        try:
-            context.browser.find_element_by_id("edit-org-form")
-            org_button = search_for_button(context, 'OK')
-            org_button.click()
-            return
-        except:
-            if 'none' in display:
-                return
-    assert False, 'Page took longer than %s seconds to load' % timeout
+# @step(u'I wait for the mist.io splash page to load')
+# def standard_splash_waiting(context):
+#     """
+#     Function that waits for the splash to load. The maximum time for the page
+#     to load is 60 seconds in this case
+#     """
+#     wait_for_splash_to_appear(context)
+#     wait_for_splash_to_load(context)
+#
+#
+# def wait_for_splash_to_appear(context, timeout=20):
+#     end = time() + timeout
+#     while time() < end:
+#         try:
+#             context.browser.find_element_by_id("splash")
+#             return
+#         except NoSuchElementException:
+#             try:
+#                 context.browser.find_element_by_id("edit-org-form")
+#                 return
+#             except:
+#                 sleep(1)
+#     assert False, 'Splash did not appear after %s seconds' % timeout
+#
+#
+# def wait_for_splash_to_load(context, timeout=60):
+#     end = time() + timeout
+#     while time() < end:
+#         splash_page = context.browser.find_element_by_id("splash")
+#         display = splash_page.value_of_css_property("display")
+#         try:
+#             context.browser.find_element_by_id("edit-org-form")
+#             org_button = search_for_button(context, 'OK')
+#             org_button.click()
+#             return
+#         except:
+#             if 'none' in display:
+#                 return
+#     assert False, 'Page took longer than %s seconds to load' % timeout
 
 
 @step(u'I am in the new UI')
@@ -151,6 +151,7 @@ def make_sure_menu_is_open(context):
             assert time() + 1 < end_time, "Menu button has not" \
                                           " appeared after 10 seconds"
             sleep(1)
+
 
 @step(u'I wait for the links in homepage to appear')
 def wait_for_buttons_to_appear(context):
@@ -286,7 +287,7 @@ def given_logged_in(context):
         context.execute_steps(u'When I visit mist.core')
 
     try:
-        context.browser.find_element_by_id("top-signup-button")
+        #context.browser.find_element_by_id("top-signup-button")
         context.execute_steps(u"""
             When I open the login popup
             Then I click the email button in the landing page popup
