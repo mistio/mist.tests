@@ -175,7 +175,6 @@ def enter_creds(context, kind, action):
         #         EC.visibility_of_element_located((By.ID, "signin-email")))
         # except TimeoutException:
         #     raise TimeoutException("Email input did not appear after 4 seconds")
-        import ipdb;ipdb.set_trace()
         landing_app = context.browser.find_element_by_tag_name("landing-app")
         shadow_root = get_shadow_root(context, landing_app)
         iron_pages = shadow_root.find_element_by_css_selector("iron-pages")
