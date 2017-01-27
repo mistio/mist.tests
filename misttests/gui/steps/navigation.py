@@ -245,21 +245,12 @@ def given_logged_in(context):
     if not i_am_in_homepage(context):
         context.execute_steps(u'When I visit mist.core')
 
-    try:
-        #context.browser.find_element_by_id("top-signup-button")
-        context.execute_steps(u"""
-            When I open the login popup
-            And I enter my standard credentials for login
-            And I click the sign in button in the landing page popup
-        """)
-    except NoSuchElementException:
-        try:
-            context.browser.find_element_by_tag_name('mist-app')
-        except NoSuchElementException:
-            raise NoSuchElementException("I am not in the landing page or the"
-                                         " home page")
-
-    context.execute_steps(u'Then I wait for the dashboard to load')
+    context.execute_steps(u"""
+        When I open the login popup
+        And I enter my standard credentials for login
+        And I click the sign in button in the landing page popup
+        Then I wait for the dashboard to load
+    """)
 
 
 def found_one(context):
@@ -396,54 +387,6 @@ def logout(context):
         sleep(1)
 
     assert False, "User menu has not appeared yet"
-
-
-@step(u'I logout of legacy gui')
-def logout_of_legacy(context):
-    from .popups import popup_waiting_with_timeout
-    msg = ""
-    me_button = context.browser.find_element_by_id('me-btn')
-    position = me_button.location
-    context.browser.execute_script("window.scrollTo(0, %s)" % position['y'])
-    clicketi_click(context, me_button)
-
-    for _ in range(2):
-        try:
-            try:
-                WebDriverWait(context.browser, int(4)).until(
-                    EC.visibility_of_element_located((By.ID,
-                                                      'user-menu-popup-screen')))
-                try:
-                    popup_waiting_with_timeout(context, 'user-menu-popup-popup',
-                                               'appear', 4)
-                    sleep(2)
-
-                    container = context.browser.find_element_by_id(
-                        "user-menu-popup")
-                    clicketi_click(context,
-                                   container.find_element_by_class_name(
-                                       'icon-x'))
-
-                    try:
-                        WebDriverWait(context.browser, 10).until(
-                            EC.element_to_be_clickable(
-                                (By.ID, "top-signup-button")))
-                        return
-                    except TimeoutException:
-                        raise TimeoutException(
-                            "Landing page has not appeared after 10 seconds")
-                except Exception as e:
-                    msg = "After clicking the gravatar the grey background " \
-                          "appeared but not the popup.(%s)" % type(e)
-            except Exception as e:
-                msg = "Grey background did not appear after 2 seconds." \
-                      "(%s)" % type(e)
-        except Exception as e:
-            msg = "There was an exception(%s) when trying to click the Gravatar" \
-                  " image" % type(e)
-        sleep(1)
-    assert False, "I tried clicking the Gravatar but it did not work :(." \
-                  "\n%s" % msg
 
 
 @step(u'I wait for "{title}" list page to load')
