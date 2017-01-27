@@ -17,7 +17,7 @@ from selenium.common.exceptions import TimeoutException
 from selenium.common.exceptions import NoSuchElementException
 
 
-def get_shadow_elements(context,web_element):
+def get_shadow_root(context,web_element):
     shadow_root = context.browser.execute_script('return arguments[0].shadowRoot', web_element)
     return shadow_root
 
@@ -33,9 +33,12 @@ def open_login_popup(context, kind):
     # first press the buttons
     if kind == 'login':
         landing_app = context.browser.find_element_by_tag_name("landing-app")
-        iron_pages = landing_app.find_element_by_id("appLocation")
+        shadow_root = get_shadow_root(context,landing_app)
+        iron_pages = shadow_root.find_element_by_css_selector("iron-pages")
         sign_in_btn = iron_pages.find_element_by_tag_name("landing-sign-in")
         #button_collapse = context.browser.find_element_by_class_name('button-collapse')
+        from .buttons import clicketi_click
+        clicketi_click(context,sign_in_btn)
         if sign_in_btn.is_displayed():
             sign_in_btn.click()
             timeout = time() + 3
