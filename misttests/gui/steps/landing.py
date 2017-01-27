@@ -28,7 +28,6 @@ def click_sign_in(context, element):
 
 @step(u'I open the {kind} popup')
 def open_login_popup(context, kind):
-    import ipdb;ipdb.set_trace()
     kind = kind.lower()
     modals = {'login': 'modalLogin', 'signup': 'modalRegister'}
     if kind.lower() not in modals.keys():
@@ -44,47 +43,47 @@ def open_login_popup(context, kind):
         sign_in_btn = a.find_element_by_tag_name("paper-button")
         # click_sign_in(context,sign_in_btn)
         #button_collapse = context.browser.find_element_by_class_name('button-collapse')
-        from .buttons import clicketi_click
-        clicketi_click(context,sign_in_btn)
+        # from .buttons import clicketi_click
+        # clicketi_click(context,sign_in_btn)
         if sign_in_btn.is_displayed():
             sign_in_btn.click()
-            timeout = time() + 3
-            nav = context.browser.find_element_by_id("nav-mobile")
-            while time() < timeout:
-                if nav.value_of_css_property('right') == '0px':
-                    break
-                assert time() + 1 < timeout, "Right side nav menu hasn't " \
-                                             "appeared after 3 seconds"
-                sleep(1)
-
-        button_collection = context.browser.find_elements_by_class_name("btn")
-        click_button_from_collection(context, "sign in", button_collection,
-                                     error_message="Could not find sign in "
-                                                   "button in the landing page")
-    else:
-        button_collection = context.browser.find_elements_by_class_name("btn-large")
-        click_button_from_collection(context, "get started", button_collection,
-                                     error_message="Could not find get started "
-                                                   "button in the landing page")
-    # then wait until the modal is displayed
-    timeout = time() + 10
-    dimensions = None
-    while time() < timeout:
-        try:
-            popup = context.browser.find_element_by_id(popup_id)
-            if dimensions is None:
-                dimensions = popup.size
-            elif dimensions['width'] == popup.size['width'] and \
-                    dimensions['height'] == popup.size['height']:
-                sleep(1)
-                return True
-            else:
-                dimensions = popup.size
-        except NoSuchElementException:
-            pass
-        sleep(1)
-
-    assert False, "Modal has not appeared yet on screen"
+    #         timeout = time() + 3
+    #         nav = context.browser.find_element_by_id("nav-mobile")
+    #         while time() < timeout:
+    #             if nav.value_of_css_property('right') == '0px':
+    #                 break
+    #             assert time() + 1 < timeout, "Right side nav menu hasn't " \
+    #                                          "appeared after 3 seconds"
+    #             sleep(1)
+    #
+    #     button_collection = context.browser.find_elements_by_class_name("btn")
+    #     click_button_from_collection(context, "sign in", button_collection,
+    #                                  error_message="Could not find sign in "
+    #                                                "button in the landing page")
+    # else:
+    #     button_collection = context.browser.find_elements_by_class_name("btn-large")
+    #     click_button_from_collection(context, "get started", button_collection,
+    #                                  error_message="Could not find get started "
+    #                                                "button in the landing page")
+    # # then wait until the modal is displayed
+    # timeout = time() + 10
+    # dimensions = None
+    # while time() < timeout:
+    #     try:
+    #         popup = context.browser.find_element_by_id(popup_id)
+    #         if dimensions is None:
+    #             dimensions = popup.size
+    #         elif dimensions['width'] == popup.size['width'] and \
+    #                 dimensions['height'] == popup.size['height']:
+    #             sleep(1)
+    #             return True
+    #         else:
+    #             dimensions = popup.size
+    #     except NoSuchElementException:
+    #         pass
+    #     sleep(1)
+    #
+    # assert False, "Modal has not appeared yet on screen"
 
 
 @step("I click the {text} button in the landing page popup")
@@ -160,11 +159,21 @@ def enter_creds(context, kind, action):
                     'rbac_member2'] and not kind.startswith('invalid'):
         raise ValueError("No idea what %s credentials are" % kind)
     if action == 'login':
-        try:
-            WebDriverWait(context.browser, 4).until(
-                EC.visibility_of_element_located((By.ID, "signin-email")))
-        except TimeoutException:
-            raise TimeoutException("Email input did not appear after 4 seconds")
+        # try:
+        #     WebDriverWait(context.browser, 4).until(
+        #         EC.visibility_of_element_located((By.ID, "signin-email")))
+        # except TimeoutException:
+        #     raise TimeoutException("Email input did not appear after 4 seconds")
+        import ipdb;ipdb.set_trace()
+        landing_app = context.browser.find_element_by_tag_name("landing-app")
+        shadow_root = get_shadow_root(context, landing_app)
+        iron_pages = shadow_root.find_element_by_css_selector("iron-pages")
+        sign_in_class = iron_pages.find_element_by_tag_name('landing-sign-in')
+        shadow_root = get_shadow_root(context, sign_in_class)
+        iron_form = shadow_root.find_element_by_css_selector('iron-form')
+        form = iron_form.find_element_by_tag_name('form')
+
+        inputs = form.find_elements_by_tag_name('paper-input')
         email_input = context.browser.find_element_by_id("signin-email")
         if kind == 'invalid_email':
             clear_input_and_send_keys(email_input, 'tester')

@@ -290,7 +290,6 @@ def given_logged_in(context):
         #context.browser.find_element_by_id("top-signup-button")
         context.execute_steps(u"""
             When I open the login popup
-            Then I click the email button in the landing page popup
             And I enter my standard credentials for login
             And I click the sign in button in the landing page popup
         """)

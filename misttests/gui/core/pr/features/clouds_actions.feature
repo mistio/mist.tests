@@ -4,7 +4,7 @@ Feature: Cloud actions for polymer
   Background:
     Given I am logged in to mist.core
     And I am in the new UI
-
+And I enter my standard credentials for login
   @cloud-edit-creds
   Scenario: Edit credentials of a cloud
     When I wait for the dashboard to load
