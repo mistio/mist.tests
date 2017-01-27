@@ -22,6 +22,10 @@ def get_shadow_root(context,web_element):
     return shadow_root
 
 
+def click_sign_in(context, element):
+    context.browser.execute_script('arguments[0].click()', element)
+
+
 @step(u'I open the {kind} popup')
 def open_login_popup(context, kind):
     import ipdb;ipdb.set_trace()
@@ -34,8 +38,11 @@ def open_login_popup(context, kind):
     if kind == 'login':
         landing_app = context.browser.find_element_by_tag_name("landing-app")
         shadow_root = get_shadow_root(context,landing_app)
-        iron_pages = shadow_root.find_element_by_css_selector("iron-pages")
-        sign_in_btn = iron_pages.find_element_by_tag_name("landing-sign-in")
+        app_toolbar = shadow_root.find_element_by_css_selector("app-toolbar")
+        sign_in_class = app_toolbar.find_element_by_class_name('signin-btn-container')
+        a = sign_in_class.find_element_by_tag_name("a")
+        sign_in_btn = a.find_element_by_tag_name("paper-button")
+        # click_sign_in(context,sign_in_btn)
         #button_collapse = context.browser.find_element_by_class_name('button-collapse')
         from .buttons import clicketi_click
         clicketi_click(context,sign_in_btn)
