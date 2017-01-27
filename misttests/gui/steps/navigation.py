@@ -77,47 +77,6 @@ def visit(context):
     assert False, "Do not know if I am at the landing page or the home page"
 
 
-# @step(u'I wait for the mist.io splash page to load')
-# def standard_splash_waiting(context):
-#     """
-#     Function that waits for the splash to load. The maximum time for the page
-#     to load is 60 seconds in this case
-#     """
-#     wait_for_splash_to_appear(context)
-#     wait_for_splash_to_load(context)
-#
-#
-# def wait_for_splash_to_appear(context, timeout=20):
-#     end = time() + timeout
-#     while time() < end:
-#         try:
-#             context.browser.find_element_by_id("splash")
-#             return
-#         except NoSuchElementException:
-#             try:
-#                 context.browser.find_element_by_id("edit-org-form")
-#                 return
-#             except:
-#                 sleep(1)
-#     assert False, 'Splash did not appear after %s seconds' % timeout
-#
-#
-# def wait_for_splash_to_load(context, timeout=60):
-#     end = time() + timeout
-#     while time() < end:
-#         splash_page = context.browser.find_element_by_id("splash")
-#         display = splash_page.value_of_css_property("display")
-#         try:
-#             context.browser.find_element_by_id("edit-org-form")
-#             org_button = search_for_button(context, 'OK')
-#             org_button.click()
-#             return
-#         except:
-#             if 'none' in display:
-#                 return
-#     assert False, 'Page took longer than %s seconds to load' % timeout
-
-
 @step(u'I am in the new UI')
 def am_in_new_UI(context):
     """
