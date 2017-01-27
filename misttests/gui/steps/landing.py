@@ -7,11 +7,11 @@ from .buttons import click_button_from_collection
 
 from .utils import safe_get_element_text
 
-from .forms import clear_input_and_send_keys
 
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
+from selenium.webdriver.common.keys import Keys
 
 from selenium.common.exceptions import TimeoutException
 from selenium.common.exceptions import NoSuchElementException
@@ -101,16 +101,25 @@ def click_button_in_landing_page(context, text):
     except NoSuchElementException:
         pass
     try:
-        login_popup = context.browser.find_element_by_id('modalLogin')
-        if login_popup.is_displayed():
-            if text.lower() == 'forgot password':
-                click_button_from_collection(context, text,
-                                             login_popup.find_elements_by_class_name('modal-trigger'))
-            else:
-                click_button_from_collection(context, text,
-                                             login_popup.find_elements_by_class_name('btn-large'))
-            sleep(1)
-            return
+        landing_app = context.browser.find_element_by_tag_name("landing-app")
+        shadow_root = get_shadow_root(context, landing_app)
+        iron_pages = shadow_root.find_element_by_css_selector("iron-pages")
+        sign_in_class = iron_pages.find_element_by_tag_name('landing-sign-in')
+        shadow_root = get_shadow_root(context, sign_in_class)
+        iron_form = shadow_root.find_element_by_css_selector('iron-form')
+        form = iron_form.find_element_by_tag_name('form')
+        login_popup = form.find_element_by_id('signInSubmit')
+        from .buttons import clicketi_click
+        clicketi_click(context, login_popup)
+        # if login_popup.is_displayed():
+        #     if text.lower() == 'forgot password':
+        #         click_button_from_collection(context, text,
+        #                                      login_popup.find_elements_by_class_name('modal-trigger'))
+        #     else:
+        #         click_button_from_collection(context, text,
+        #                                      login_popup.find_elements_by_class_name('btn-large'))
+        #     sleep(1)
+        return
     except NoSuchElementException:
         pass
     try:
@@ -149,6 +158,8 @@ def click_button_in_landing_page(context, text):
 
 @step(u'I enter my {kind} credentials for {action}')
 def enter_creds(context, kind, action):
+    from .forms import clear_input_and_send_keys
+
     kind = kind.lower()
     action = action.lower()
     if action not in ['login', 'signup', 'signup_password_set',
@@ -172,9 +183,10 @@ def enter_creds(context, kind, action):
         shadow_root = get_shadow_root(context, sign_in_class)
         iron_form = shadow_root.find_element_by_css_selector('iron-form')
         form = iron_form.find_element_by_tag_name('form')
+        #inputs = form.find_elements_by_tag_name('paper-input')
 
-        inputs = form.find_elements_by_tag_name('paper-input')
-        email_input = context.browser.find_element_by_id("signin-email")
+        email_input = form.find_element_by_id("signin-email")
+
         if kind == 'invalid_email':
             clear_input_and_send_keys(email_input, 'tester')
         elif kind == 'rbac_owner':
@@ -184,8 +196,10 @@ def enter_creds(context, kind, action):
             clear_input_and_send_keys(email_input,
                                       context.mist_config['MEMBER1_EMAIL'])
         else:
-            clear_input_and_send_keys(email_input, context.mist_config['EMAIL'])
-        password_input = context.browser.find_element_by_id("signin-password")
+            #clear_input_and_send_keys(email_input, context.mist_config['EMAIL'])
+            email_input.send_keys(context.mist_config['EMAIL'])
+
+        password_input = form.find_element_by_id("signin-password")
         if kind == 'alt':
             clear_input_and_send_keys(password_input,
                                       context.mist_config['PASSWORD2'])
@@ -198,8 +212,9 @@ def enter_creds(context, kind, action):
         elif kind == 'invalid_no_password':
             clear_input_and_send_keys(password_input, '')
         else:
-            clear_input_and_send_keys(password_input,
-                                      context.mist_config['PASSWORD1'])
+            #clear_input_and_send_keys(password_input,context.mist_config['PASSWORD1'])
+            password_input.send_keys(context.mist_config['PASSWORD1'])
+
     elif action == 'signup':
         try:
             WebDriverWait(context.browser, 4).until(
