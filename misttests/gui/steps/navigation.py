@@ -315,13 +315,13 @@ def given_logged_in(context, kind):
         return
     except NoSuchElementException:
         pass
-    try:
-        context.browser.find_element_by_id("splash")
-        context.execute_steps(
-            u'Then I wait for the mist.io splash page to load')
-    except NoSuchElementException:
-        raise NoSuchElementException("I am not in the landing page or the "
-                                     "home page")
+    # try:
+    #     context.browser.find_element_by_id("splash")
+    #     context.execute_steps(
+    #         u'Then I wait for the mist.io splash page to load')
+    # except NoSuchElementException:
+    #     raise NoSuchElementException("I am not in the landing page or the "
+    #                                  "home page")
 
 
 @step(u'I am not logged in to mist.core')

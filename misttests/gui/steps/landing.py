@@ -190,13 +190,10 @@ def enter_creds(context, kind, action):
             #clear_input_and_send_keys(email_input, 'tester')
             email_input.send_keys('tester')
         elif kind == 'rbac_owner':
-            clear_input_and_send_keys(email_input,
-                                      context.mist_config['EMAIL'])
+            email_input.send_keys(context.mist_config['EMAIL'])
         elif kind == 'rbac_member1':
-            clear_input_and_send_keys(email_input,
-                                      context.mist_config['MEMBER1_EMAIL'])
+            email_input.send_keys(context.mist_config['MEMBER1_EMAIL'])
         else:
-            #clear_input_and_send_keys(email_input, context.mist_config['EMAIL'])
             email_input.send_keys(context.mist_config['EMAIL'])
 
         password_input = form.find_element_by_id("signin-password")
@@ -205,13 +202,13 @@ def enter_creds(context, kind, action):
             #clear_input_and_send_keys(password_input,
              #                         context.mist_config['PASSWORD2'])
         elif kind == 'rbac_owner':
-            clear_input_and_send_keys(password_input,
-                                      context.mist_config['PASSWORD1'])
+            password_input.send_keys(context.mist_config['PASSWORD1'])
         elif kind == 'rbac_member1':
-            clear_input_and_send_keys(password_input,
-                                      context.mist_config['MEMBER1_PASSWORD'])
-        elif kind == 'invalid_no_password':
-            clear_input_and_send_keys(password_input, '')
+            password_input.send_keys(context.mist_config['MEMBER1_PASSWORD'])
+            # clear_input_and_send_keys(password_input,
+            #                           context.mist_config['MEMBER1_PASSWORD'])
+        # elif kind == 'invalid_no_password':
+        #     clear_input_and_send_keys(password_input, '')
         else:
             #clear_input_and_send_keys(password_input,context.mist_config['PASSWORD1'])
             password_input.send_keys(context.mist_config['PASSWORD1'])

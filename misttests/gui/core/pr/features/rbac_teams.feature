@@ -6,8 +6,8 @@ Feature: Rbac
   Scenario: Owner creates a new organization
     Given rbac members are initialized
     Given I am logged in to mist.core
-    And I am in the new UI
-    And  I wait for the dashboard to load
+#    And I am in the new UI
+#    And  I wait for the dashboard to load
     When I click the Gravatar
     And I wait for 1 seconds
     Then I click the button "Add Organisation" in the user menu
@@ -18,7 +18,7 @@ Feature: Rbac
     And I wait for 2 seconds
     And I click the "Switch" button in the dialog "Add Organization"
     Then I expect the dialog "Add Organization" is closed within 4 seconds
-    When I wait for the dashboard to load
+#    When I wait for the dashboard to load
 
   @add-team
   Scenario: Owner creates a team
@@ -29,7 +29,6 @@ Feature: Rbac
     And I click the "Add" button in the dialog "Add Team"
     When I visit the Teams page
     And "Test Team" team should be present within 5 seconds
-
 
   @add-member1
   Scenario: Add member1
@@ -45,7 +44,7 @@ Feature: Rbac
     Then I logout
     Then I should receive an email at the address "MEMBER1_EMAIL" with subject "[mist.io] Confirm your invitation" within 15 seconds
     And I follow the link inside the email
-    And I click the email button in the landing page popup
+#    And I click the email button in the landing page popup
     Then I enter my rbac_member1 credentials for login
     And I click the sign in button in the landing page popup
     Given that I am redirected within 5 seconds

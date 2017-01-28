@@ -1,5 +1,5 @@
 @user-actions
-Feature: Login Scenarios
+Feature: Login Scenarios and Api Token
 
   @invalid-creds
   Scenario: 'Unauthorized' message should appear
@@ -7,17 +7,17 @@ Feature: Login Scenarios
     When I open the login popup
     And I enter my alt credentials for login
     And I click the sign in button in the landing page popup
-    And I wait for 1 seconds
+    And I wait for 3 seconds
     Then there should be an "Unauthorized" error message inside the "sign in" button
-    When I wait for 2 seconds
+    When I wait for 1 seconds
 
   @invalid-email
   Scenario: 'Unauthorized' message should appear
     When I enter my invalid_email credentials for login
     And I click the sign in button in the landing page popup
-    And I wait for 1 seconds
+    And I wait for 3 seconds
     Then there should be an "Unauthorized" error message inside the "sign in" button
-    When I wait for 2 seconds
+    When I wait for 1 seconds
 
 #  @no-password-provided
 #  Scenario: 'Please enter your password' message should appear
