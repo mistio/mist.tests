@@ -2,15 +2,14 @@
 Feature: Login Scenarios
 
   @invalid-creds
-  Scenario:'Authentication failed' message should appear
+  Scenario: 'Unauthorized' message should appear
     When I visit mist.core
     When I open the login popup
-    #Then I click the email button in the landing page popup
-    # PASSWORD2 needs to be configured, otherwise message is "Enter valid data"
     And I enter my alt credentials for login
     And I click the sign in button in the landing page popup
     And I wait for 1 seconds
-    Then there should be a message saying "Authentication failed!" for error in "authentication"
+    Then there should be an "Unauthorized" error message inside the "sign in" button
+    #Then there should be a message saying "Authentication failed!" for error in "authentication"
     When I wait for 2 seconds
 
   @invalid-email

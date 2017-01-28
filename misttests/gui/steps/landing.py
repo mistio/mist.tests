@@ -293,22 +293,43 @@ def enter_creds(context, kind, action):
         clear_input_and_send_keys(name_input, context.mist_config['NAME'])
 
 
-@step(u'there should be a message saying "{error_message}" for error in '
-      u'"{type_of_error}"')
-def check_error_message(context, error_message, type_of_error):
-    assert type_of_error.lower() in ['authentication', 'email', 'password'],\
-        "This type of message is not available in the login page"
-    if type_of_error == 'email':
-        text = safe_get_element_text(context.browser.find_element_by_id('signin-email-error'))
-    elif type_of_error == 'password':
-        text = safe_get_element_text(context.browser.find_element_by_id('signin-password-error'))
-    elif type_of_error == 'authentication':
-        text = safe_get_element_text(context.browser.
-                                     find_element_by_id('modalLogin').
-                                     find_element_by_class_name('error-msg'))
-    assert error_message.lower() in text.lower(), "Error message was not %s " \
-                                                  "but instead %s" % \
-                                                  (error_message, text)
+# @step(u'there should be a message saying "{error_message}" for error in '
+#       u'"{type_of_error}"')
+# def check_error_message(context, error_message, type_of_error):
+#     assert type_of_error.lower() in ['authentication', 'email', 'password'],\
+#         "This type of message is not available in the login page"
+#     if type_of_error == 'email':
+#         text = safe_get_element_text(context.browser.find_element_by_id('signin-email-error'))
+#     elif type_of_error == 'password':
+#         text = safe_get_element_text(context.browser.find_element_by_id('signin-password-error'))
+#     elif type_of_error == 'authentication':
+#         text = safe_get_element_text(context.browser.
+#                                      find_element_by_id('modalLogin').
+#                                      find_element_by_class_name('error-msg'))
+#     assert error_message.lower() in text.lower(), "Error message was not %s " \
+#                                                   "but instead %s" % \
+#                                                   (error_message, text)
+
+
+@step(u'there should be an "{error_message}" error message inside the "{button}" button')
+def check_error_message(context, error_message, button):
+    button = button.lower()
+    error_message = error_message.lower()
+    import ipdb;ipdb.set_trace()
+    if button not in ['sign in']:
+        raise Exception('Unknown type of button')
+    if button == 'sign in':
+        landing_app = context.browser.find_element_by_tag_name("landing-app")
+        shadow_root = get_shadow_root(context, landing_app)
+        iron_pages = shadow_root.find_element_by_css_selector("iron-pages")
+        sign_in_class = iron_pages.find_element_by_tag_name('landing-sign-in')
+        shadow_root = get_shadow_root(context, sign_in_class)
+        iron_form = shadow_root.find_element_by_css_selector('iron-form')
+        form = iron_form.find_element_by_tag_name('form')
+        login_popup = form.find_element_by_id('signInSubmit')
+
+    text = safe_get_element_text(login_popup)
+
 
 
 @step(u'I should get an already registered error')
