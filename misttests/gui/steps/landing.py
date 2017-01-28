@@ -27,10 +27,10 @@ def open_login_popup(context, kind):
     if kind.lower() not in modals.keys():
         raise ValueError('No such popup in the landing page')
     popup_id = modals[kind]
-    # first press the buttons
+    landing_app = context.browser.find_element_by_tag_name("landing-app")
+    shadow_root = get_shadow_root(context, landing_app)
+    import ipdb; ipdb.set_trace()
     if kind == 'login':
-        landing_app = context.browser.find_element_by_tag_name("landing-app")
-        shadow_root = get_shadow_root(context,landing_app)
         app_toolbar = shadow_root.find_element_by_css_selector("app-toolbar")
         sign_in_class = app_toolbar.find_element_by_class_name('signin-btn-container')
         a = sign_in_class.find_element_by_tag_name("a")
@@ -41,6 +41,16 @@ def open_login_popup(context, kind):
         # clicketi_click(context,sign_in_btn)
         if sign_in_btn.is_displayed():
             sign_in_btn.click()
+    elif kind == 'signup':
+        iron_pages = shadow_root.find_element_by_css_selector('iron-pages')
+        landing_home = iron_pages.find_element_by_tag_name("landing-home")
+        inner_shadow_root = get_shadow_root(context, landing_home)
+        div = inner_shadow_root.find_element_by_css_selector('div')
+        a = div.find_element_by_tag_name("a")
+        sign_up_btn = a.find_element_by_tag_name("paper-button")
+
+        if sign_up_btn.is_displayed():
+            sign_up_btn.click()
     # else:
     #     button_collection = context.browser.find_elements_by_class_name("btn-large")
     #     click_button_from_collection(context, "get started", button_collection,
@@ -73,6 +83,7 @@ def click_button_in_landing_page(context, text):
                             , 'submit', 'request demo', 'forgot password',
                             'reset_password_email_submit', 'reset_pass_submit']:
         raise ValueError('This button does not exist in the landing page popup')
+    import ipdb;ipdb.set_trace()
     try:
         reg_popup = context.browser.find_element_by_id("modalRegister")
         if reg_popup.is_displayed():
@@ -81,51 +92,68 @@ def click_button_in_landing_page(context, text):
             return
     except NoSuchElementException:
         pass
-    try:
-        landing_app = context.browser.find_element_by_tag_name("landing-app")
-        shadow_root = get_shadow_root(context, landing_app)
-        iron_pages = shadow_root.find_element_by_css_selector("iron-pages")
-        sign_in_class = iron_pages.find_element_by_tag_name('landing-sign-in')
-        shadow_root = get_shadow_root(context, sign_in_class)
-        iron_form = shadow_root.find_element_by_css_selector('iron-form')
-        form = iron_form.find_element_by_tag_name('form')
-        login_popup = form.find_element_by_id('signInSubmit')
-        from .buttons import clicketi_click
-        clicketi_click(context, login_popup)
-        return
-    except NoSuchElementException:
-        pass
-    try:
-        password_set_popup = context.browser.find_element_by_id('modalPasswordSet')
-        if password_set_popup.is_displayed():
-            click_button_from_collection(context, text,
-                                         password_set_popup.find_elements_by_class_name('btn-large'))
-            sleep(1)
+
+    if text.lower() == 'sign in':
+        try:
+            landing_app = context.browser.find_element_by_tag_name("landing-app")
+            shadow_root = get_shadow_root(context, landing_app)
+            iron_pages = shadow_root.find_element_by_css_selector("iron-pages")
+            sign_in_class = iron_pages.find_element_by_tag_name('landing-sign-in')
+            shadow_root = get_shadow_root(context, sign_in_class)
+            iron_form = shadow_root.find_element_by_css_selector('iron-form')
+            form = iron_form.find_element_by_tag_name('form')
+            login_popup = form.find_element_by_id('signInSubmit')
+            from .buttons import clicketi_click
+            clicketi_click(context, login_popup)
             return
-    except NoSuchElementException:
-        pass
-    try:
-        if text == 'reset_password_email_submit':
-            text = 'submit'
-        password_reset_email_popup = context.browser.find_element_by_id('modalPasswordRequest')
-        if password_reset_email_popup.is_displayed():
-            click_button_from_collection(context, text,
-                                         password_reset_email_popup.find_elements_by_class_name('btn-large'))
-            sleep(1)
-            return
-    except NoSuchElementException:
-        pass
-    try:
-        if text == 'reset_pass_submit':
-            text = 'submit'
-        password_reset_email_popup = context.browser.find_element_by_id('modalPasswordReset')
-        if password_reset_email_popup.is_displayed():
-            click_button_from_collection(context, text,
-                                         password_reset_email_popup.find_elements_by_class_name('btn-large'))
-            sleep(1)
-            return
-    except NoSuchElementException:
-        pass
+        except NoSuchElementException:
+            pass
+    elif text.lower() == 'sign up':
+        try:
+            landing_app = context.browser.find_element_by_tag_name("landing-app")
+            shadow_root = get_shadow_root(context, landing_app)
+            iron_pages = shadow_root.find_element_by_css_selector("iron-pages")
+            sign_in_class = iron_pages.find_element_by_tag_name('landing-sign-up')
+            shadow_root = get_shadow_root(context, sign_in_class)
+            iron_form = shadow_root.find_element_by_css_selector('iron-form')
+            form = iron_form.find_element_by_tag_name('form')
+            login_popup = form.find_element_by_id('signUpSubmit')
+            from .buttons import clicketi_click
+            clicketi_click(context, login_popup)
+        except:
+            pass
+
+    # try:
+    #     password_set_popup = context.browser.find_element_by_id('modalPasswordSet')
+    #     if password_set_popup.is_displayed():
+    #         click_button_from_collection(context, text,
+    #                                      password_set_popup.find_elements_by_class_name('btn-large'))
+    #         sleep(1)
+    #         return
+    # except NoSuchElementException:
+    #     pass
+    # try:
+    #     if text == 'reset_password_email_submit':
+    #         text = 'submit'
+    #     password_reset_email_popup = context.browser.find_element_by_id('modalPasswordRequest')
+    #     if password_reset_email_popup.is_displayed():
+    #         click_button_from_collection(context, text,
+    #                                      password_reset_email_popup.find_elements_by_class_name('btn-large'))
+    #         sleep(1)
+    #         return
+    # except NoSuchElementException:
+    #     pass
+    # try:
+    #     if text == 'reset_pass_submit':
+    #         text = 'submit'
+    #     password_reset_email_popup = context.browser.find_element_by_id('modalPasswordReset')
+    #     if password_reset_email_popup.is_displayed():
+    #         click_button_from_collection(context, text,
+    #                                      password_reset_email_popup.find_elements_by_class_name('btn-large'))
+    #         sleep(1)
+    #         return
+    # except NoSuchElementException:
+    #     pass
     assert False, "Could not find any popups in the landing page"
 
 
@@ -160,10 +188,11 @@ def enter_creds(context, kind, action):
     if kind not in ['standard', 'alt', 'rbac_owner', 'rbac_member1',
                     'rbac_member2'] and not kind.startswith('invalid'):
         raise ValueError("No idea what %s credentials are" % kind)
+    landing_app = context.browser.find_element_by_tag_name("landing-app")
+    shadow_root = get_shadow_root(context, landing_app)
+    iron_pages = shadow_root.find_element_by_css_selector("iron-pages")
+
     if action == 'login':
-        landing_app = context.browser.find_element_by_tag_name("landing-app")
-        shadow_root = get_shadow_root(context, landing_app)
-        iron_pages = shadow_root.find_element_by_css_selector("iron-pages")
         sign_in_class = iron_pages.find_element_by_tag_name('landing-sign-in')
         shadow_root = get_shadow_root(context, sign_in_class)
         iron_form = shadow_root.find_element_by_css_selector('iron-form')
@@ -176,20 +205,30 @@ def enter_creds(context, kind, action):
         password_input.send_keys(get_mist_config_password(context, kind))
 
     elif action == 'signup':
-        try:
-            WebDriverWait(context.browser, 4).until(
-                EC.visibility_of_element_located((By.ID, "signup-email")))
-        except TimeoutException:
-            raise TimeoutException("Email input did not appear after 4 seconds")
-        email_input = context.browser.find_element_by_id("signup-email")
-        if kind == 'rbac_owner':
-            clear_input_and_send_keys(email_input, context.mist_config['EMAIL'])
-        elif kind == 'rbac_member1':
-            clear_input_and_send_keys(email_input, context.mist_config['MEMBER1_EMAIL'])
-        else:
-            clear_input_and_send_keys(email_input, context.mist_config['EMAIL'])
-        name_input = context.browser.find_element_by_id("signup-name")
-        clear_input_and_send_keys(name_input, context.mist_config['NAME'])
+        sign_up_class = iron_pages.find_element_by_tag_name('landing-sign-up')
+        shadow_root = get_shadow_root(context, sign_up_class)
+        iron_form = shadow_root.find_element_by_css_selector('iron-form')
+        form = iron_form.find_element_by_tag_name('form')
+
+        name_input = form.find_element_by_id("name")
+        name_input.send_keys(context.mist_config['NAME'])
+
+        email_input = form.find_element_by_id("email")
+        email_input.send_keys(get_mist_config_email(context, kind))
+        # try:
+        #     WebDriverWait(context.browser, 4).until(
+        #         EC.visibility_of_element_located((By.ID, "signup-email")))
+        # except TimeoutException:
+        #     raise TimeoutException("Email input did not appear after 4 seconds")
+        # email_input = context.browser.find_element_by_id("signup-email")
+        # if kind == 'rbac_owner':
+        #     clear_input_and_send_keys(email_input, context.mist_config['EMAIL'])
+        # elif kind == 'rbac_member1':
+        #     clear_input_and_send_keys(email_input, context.mist_config['MEMBER1_EMAIL'])
+        # else:
+        #     clear_input_and_send_keys(email_input, context.mist_config['EMAIL'])
+        # name_input = context.browser.find_element_by_id("signup-name")
+        # clear_input_and_send_keys(name_input, context.mist_config['NAME'])
     elif action == 'password_reset_request':
         try:
             WebDriverWait(context.browser, 4).until(
