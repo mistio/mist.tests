@@ -329,7 +329,7 @@ def given_not_logged_in(context):
     if not i_am_in_homepage(context):
         context.execute_steps(u'When I visit mist.core')
     try:
-        context.browser.find_element_by_id("top-signup-button")
+        context.browser.find_element_by_tag_name("landing-app")
         return
     except:
         try:

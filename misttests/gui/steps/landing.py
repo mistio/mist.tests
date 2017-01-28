@@ -200,8 +200,9 @@ def enter_creds(context, kind, action):
 
         password_input = form.find_element_by_id("signin-password")
         if kind == 'alt':
-            clear_input_and_send_keys(password_input,
-                                      context.mist_config['PASSWORD2'])
+            password_input.send_keys(context.mist_config['PASSWORD2'])
+            #clear_input_and_send_keys(password_input,
+             #                         context.mist_config['PASSWORD2'])
         elif kind == 'rbac_owner':
             clear_input_and_send_keys(password_input,
                                       context.mist_config['PASSWORD1'])

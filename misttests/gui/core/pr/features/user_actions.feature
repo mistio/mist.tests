@@ -5,7 +5,7 @@ Feature: Login Scenarios
   Scenario:'Authentication failed' message should appear
     When I visit mist.core
     When I open the login popup
-    Then I click the email button in the landing page popup
+    #Then I click the email button in the landing page popup
     # PASSWORD2 needs to be configured, otherwise message is "Enter valid data"
     And I enter my alt credentials for login
     And I click the sign in button in the landing page popup
@@ -15,7 +15,7 @@ Feature: Login Scenarios
 
   @invalid-email
   Scenario: 'Please enter a valid email' message should appear
-    When I enter my invalid_email credentials for login
+    When I enter my invalid_email credentials fghfgfor login
     And I click the sign in button in the landing page popup
     And I wait for 1 seconds
     Then there should be a message saying "Please enter a valid email" for error in "email"
