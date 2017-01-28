@@ -50,16 +50,13 @@ Feature: RBAC
     And I click the button "Add" in "members" add form
     And I expect the "team" edit form to be visible within max 5 seconds
     Then user with email "MEMBER1_EMAIL" should be pending
-#    Then I visit the Home page
-#    When I wait for the dashboard to load
-#    Given "Docker" cloud has been added
     Then I logout
 
   @view-cloud-fail
   Scenario: Verify that member1 cannot view the cloud added above
     Then I should receive an email at the address "MEMBER1_EMAIL" with subject "[mist.io] Confirm your invitation" within 15 seconds
     And I follow the link inside the email
-    Then I click the email button in the landing page popup
+#    Then I click the email button in the landing page popup
     Then I enter my rbac_member1 credentials for login
     And I click the sign in button in the landing page popup
     Given that I am redirected within 10 seconds
