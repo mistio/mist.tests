@@ -253,24 +253,6 @@ def enter_creds(context, kind, action):
         clear_input_and_send_keys(name_input, context.mist_config['NAME'])
 
 
-# @step(u'there should be a message saying "{error_message}" for error in '
-#       u'"{type_of_error}"')
-# def check_error_message(context, error_message, type_of_error):
-#     assert type_of_error.lower() in ['authentication', 'email', 'password'],\
-#         "This type of message is not available in the login page"
-#     if type_of_error == 'email':
-#         text = safe_get_element_text(context.browser.find_element_by_id('signin-email-error'))
-#     elif type_of_error == 'password':
-#         text = safe_get_element_text(context.browser.find_element_by_id('signin-password-error'))
-#     elif type_of_error == 'authentication':
-#         text = safe_get_element_text(context.browser.
-#                                      find_element_by_id('modalLogin').
-#                                      find_element_by_class_name('error-msg'))
-#     assert error_message.lower() in text.lower(), "Error message was not %s " \
-#                                                   "but instead %s" % \
-#                                                   (error_message, text)
-
-
 @step(u'there should be an "{error_message}" error message inside the "{button}" button')
 def check_error_message(context, error_message, button):
     button = button.lower()
@@ -301,45 +283,6 @@ def already_registered(context):
             EC.visibility_of_element_located((By.CLASS_NAME, 'center')))
     except TimeoutException:
         raise TimeoutException("'Already Registered!' message did not appear.")
-
-
-@step(u'I expect some reaction within max {seconds} seconds')
-def wait_for_some_answer(context, seconds):
-    timeout = time() + int(seconds)
-    while time() < timeout:
-        try:
-            context.browser.find_element_by_id("splash")
-            return
-        except NoSuchElementException:
-            pass
-        try:
-            context.browser.find_element_by_id("signin-email-error")
-            return
-        except NoSuchElementException:
-            pass
-        try:
-            context.browser.find_element_by_id("signin-password-error")
-            return
-        except NoSuchElementException:
-            pass
-        try:
-            context.browser.find_element_by_id("signup-email-error")
-            return
-        except NoSuchElementException:
-            pass
-        try:
-            context.browser.find_element_by_id("signup-password-error")
-            return
-        except NoSuchElementException:
-            pass
-        try:
-            context.browser.find_element_by_class_name("error-msg")
-            return
-        except NoSuchElementException:
-            pass
-        sleep(1)
-    assert False, "Nothing has happened in the landing screen after %s seconds"\
-                  % seconds
 
 
 @step(u'I should see the landing page within {seconds} seconds')
