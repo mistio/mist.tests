@@ -17,7 +17,6 @@ Feature: Login Scenarios
     And I click the sign in button in the landing page popup
     And I wait for 1 seconds
     Then there should be an "Unauthorized" error message inside the "sign in" button
-#    Then there should be a message saying "Please enter a valid email" for error in "email"
     When I wait for 2 seconds
 
 #  @no-password-provided
@@ -32,8 +31,6 @@ Feature: Login Scenarios
  @api-token-test
   Scenario: Create and delete api tokens
     Given I am logged in to mist.core
-    #And I am in the new UI
-    #When I wait for the dashboard to load
     When I visit the Account page
     And I wait for 3 seconds
     Then I click the "API Tokens" button
@@ -42,7 +39,7 @@ Feature: Login Scenarios
     #Create a step that checks if popup with id is open
     #And I expect for "createTokenDialog" popup to appear within max 4 seconds
     And I wait for 2 seconds
-    Then I type "Test token2" in input with id "tokenName"
+    Then I type "Test token" in input with id "tokenName"
     And I wait for 1 seconds
     Then I click the button "Never" from the ttl dropdown
     And I wait for 1 seconds

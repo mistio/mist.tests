@@ -316,7 +316,6 @@ def enter_creds(context, kind, action):
 def check_error_message(context, error_message, button):
     button = button.lower()
     error_message = error_message.lower()
-    import ipdb;ipdb.set_trace()
     if button not in ['sign in']:
         raise Exception('Unknown type of button')
     if button == 'sign in':
