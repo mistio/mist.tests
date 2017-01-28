@@ -11,26 +11,30 @@ Feature: Login Scenarios
     Then I should receive an email at the address "EMAIL" with subject "[mist.io] Confirm your registration" within 10 seconds
     Then I follow the link inside the email
     And I delete old emails
+
+    # TODO: FIX
     Then I enter my standard credentials for signup_password_set
     And I click the submit button in the landing page popup
+
+
     And I wait for the dashboard to load
-    #And I wait for the mist.io splash page to load
     Then I logout
-    #Then I logout of legacy gui
     Given I am not logged in to mist.core
     When I open the signup popup
-    Then I click the email button in the landing page popup
     And I enter my standard credentials for signup
     And I click the sign up button in the landing page popup
+
+    # TODO: FIX
     Then I should get an already registered error
     Then I close the "Register" popup
+
+
     And I wait for 2 seconds
 
   @forgot-password
   Scenario: Forgot password
     When I visit mist.core
     When I open the login popup
-    Then I click the email button in the landing page popup
     And I click the forgot password button in the landing page popup
     And I enter my standard credentials for password_reset_request
     And I click the reset_password_email_submit button in the landing page popup
@@ -39,7 +43,6 @@ Feature: Login Scenarios
     And I enter my standard credentials for password_reset
     Then I click the reset_pass_submit button in the landing page popup
     And I wait for the dashboard to load
-    #And I wait for the mist.io splash page to load
     Then I logout
     #Then I logout of legacy gui
     And I wait for 2 seconds

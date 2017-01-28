@@ -3,8 +3,6 @@ from behave import step
 from time import time
 from time import sleep
 
-from .buttons import click_button_from_collection
-
 from .utils import safe_get_element_text
 
 from selenium.webdriver.common.by import By
@@ -79,49 +77,32 @@ def open_login_popup(context, kind):
 
 @step("I click the {text} button in the landing page popup")
 def click_button_in_landing_page(context, text):
-    if text.lower() not in ['email', 'google', 'github', 'sign in', 'sign up'
+    from .buttons import clicketi_click
+    text = text.lower()
+    if text not in ['email', 'google', 'github', 'sign in', 'sign up'
                             , 'submit', 'request demo', 'forgot password',
                             'reset_password_email_submit', 'reset_pass_submit']:
         raise ValueError('This button does not exist in the landing page popup')
-    import ipdb;ipdb.set_trace()
-    try:
-        reg_popup = context.browser.find_element_by_id("modalRegister")
-        if reg_popup.is_displayed():
-            click_button_from_collection(context, text, reg_popup.find_elements_by_class_name('btn-large'))
-            sleep(1)
-            return
-    except NoSuchElementException:
-        pass
+    landing_app = context.browser.find_element_by_tag_name("landing-app")
+    shadow_root = get_shadow_root(context, landing_app)
+    iron_pages = shadow_root.find_element_by_css_selector("iron-pages")
 
-    if text.lower() == 'sign in':
-        try:
-            landing_app = context.browser.find_element_by_tag_name("landing-app")
-            shadow_root = get_shadow_root(context, landing_app)
-            iron_pages = shadow_root.find_element_by_css_selector("iron-pages")
+    if text == 'sign in':
             sign_in_class = iron_pages.find_element_by_tag_name('landing-sign-in')
             shadow_root = get_shadow_root(context, sign_in_class)
             iron_form = shadow_root.find_element_by_css_selector('iron-form')
             form = iron_form.find_element_by_tag_name('form')
             login_popup = form.find_element_by_id('signInSubmit')
-            from .buttons import clicketi_click
             clicketi_click(context, login_popup)
             return
-        except NoSuchElementException:
-            pass
     elif text.lower() == 'sign up':
-        try:
-            landing_app = context.browser.find_element_by_tag_name("landing-app")
-            shadow_root = get_shadow_root(context, landing_app)
-            iron_pages = shadow_root.find_element_by_css_selector("iron-pages")
             sign_in_class = iron_pages.find_element_by_tag_name('landing-sign-up')
             shadow_root = get_shadow_root(context, sign_in_class)
             iron_form = shadow_root.find_element_by_css_selector('iron-form')
             form = iron_form.find_element_by_tag_name('form')
-            login_popup = form.find_element_by_id('signUpSubmit')
-            from .buttons import clicketi_click
-            clicketi_click(context, login_popup)
-        except:
-            pass
+            signup_popup = form.find_element_by_id('signUpSubmit')
+            clicketi_click(context, signup_popup)
+            return
 
     # try:
     #     password_set_popup = context.browser.find_element_by_id('modalPasswordSet')
