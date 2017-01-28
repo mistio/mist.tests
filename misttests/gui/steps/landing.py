@@ -7,11 +7,9 @@ from .buttons import click_button_from_collection
 
 from .utils import safe_get_element_text
 
-
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
-from selenium.webdriver.common.keys import Keys
 
 from selenium.common.exceptions import TimeoutException
 from selenium.common.exceptions import NoSuchElementException
@@ -20,10 +18,6 @@ from selenium.common.exceptions import NoSuchElementException
 def get_shadow_root(context,web_element):
     shadow_root = context.browser.execute_script('return arguments[0].shadowRoot', web_element)
     return shadow_root
-
-
-def click_sign_in(context, element):
-    context.browser.execute_script('arguments[0].click()', element)
 
 
 @step(u'I open the {kind} popup')
@@ -47,19 +41,6 @@ def open_login_popup(context, kind):
         # clicketi_click(context,sign_in_btn)
         if sign_in_btn.is_displayed():
             sign_in_btn.click()
-    #         timeout = time() + 3
-    #         nav = context.browser.find_element_by_id("nav-mobile")
-    #         while time() < timeout:
-    #             if nav.value_of_css_property('right') == '0px':
-    #                 break
-    #             assert time() + 1 < timeout, "Right side nav menu hasn't " \
-    #                                          "appeared after 3 seconds"
-    #             sleep(1)
-    #
-    #     button_collection = context.browser.find_elements_by_class_name("btn")
-    #     click_button_from_collection(context, "sign in", button_collection,
-    #                                  error_message="Could not find sign in "
-    #                                                "button in the landing page")
     # else:
     #     button_collection = context.browser.find_elements_by_class_name("btn-large")
     #     click_button_from_collection(context, "get started", button_collection,
@@ -111,14 +92,6 @@ def click_button_in_landing_page(context, text):
         login_popup = form.find_element_by_id('signInSubmit')
         from .buttons import clicketi_click
         clicketi_click(context, login_popup)
-        # if login_popup.is_displayed():
-        #     if text.lower() == 'forgot password':
-        #         click_button_from_collection(context, text,
-        #                                      login_popup.find_elements_by_class_name('modal-trigger'))
-        #     else:
-        #         click_button_from_collection(context, text,
-        #                                      login_popup.find_elements_by_class_name('btn-large'))
-        #     sleep(1)
         return
     except NoSuchElementException:
         pass
