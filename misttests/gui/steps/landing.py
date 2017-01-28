@@ -187,7 +187,8 @@ def enter_creds(context, kind, action):
         email_input = form.find_element_by_id("signin-email")
 
         if kind == 'invalid_email':
-            clear_input_and_send_keys(email_input, 'tester')
+            #clear_input_and_send_keys(email_input, 'tester')
+            email_input.send_keys('tester')
         elif kind == 'rbac_owner':
             clear_input_and_send_keys(email_input,
                                       context.mist_config['EMAIL'])

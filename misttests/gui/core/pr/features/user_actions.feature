@@ -13,10 +13,11 @@ Feature: Login Scenarios
 
   @invalid-email
   Scenario: 'Please enter a valid email' message should appear
-    When I enter my invalid_email credentials fghfgfor login
+    When I enter my invalid_email credentials for login
     And I click the sign in button in the landing page popup
     And I wait for 1 seconds
-    Then there should be a message saying "Please enter a valid email" for error in "email"
+    Then there should be an "Unauthorized" error message inside the "sign in" button
+#    Then there should be a message saying "Please enter a valid email" for error in "email"
     When I wait for 2 seconds
 
   @no-password-provided
