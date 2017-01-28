@@ -32,8 +32,8 @@ Feature: Login Scenarios
  @api-token-test
   Scenario: Create and delete api tokens
     Given I am logged in to mist.core
-    And I am in the new UI
-    When I wait for the dashboard to load
+    #And I am in the new UI
+    #When I wait for the dashboard to load
     When I visit the Account page
     And I wait for 3 seconds
     Then I click the "API Tokens" button
