@@ -129,6 +129,24 @@ def click_button_in_landing_page(context, text):
     assert False, "Could not find any popups in the landing page"
 
 
+def get_mist_config_email(context,kind):
+    if kind == 'invalid_email':
+        return 'tester'
+    elif kind == 'rbac_member1':
+        return context.mist_config['MEMBER1_EMAIL']
+    else:
+        return context.mist_config['EMAIL']
+
+
+def get_mist_config_password(context,kind):
+    if kind == 'alt':
+        return context.mist_config['PASSWORD2']
+    elif kind == 'rbac_member1':
+        return context.mist_config['MEMBER1_PASSWORD']
+    else:
+        return context.mist_config['PASSWORD1']
+
+
 @step(u'I enter my {kind} credentials for {action}')
 def enter_creds(context, kind, action):
     from .forms import clear_input_and_send_keys
@@ -143,11 +161,6 @@ def enter_creds(context, kind, action):
                     'rbac_member2'] and not kind.startswith('invalid'):
         raise ValueError("No idea what %s credentials are" % kind)
     if action == 'login':
-        # try:
-        #     WebDriverWait(context.browser, 4).until(
-        #         EC.visibility_of_element_located((By.ID, "signin-email")))
-        # except TimeoutException:
-        #     raise TimeoutException("Email input did not appear after 4 seconds")
         landing_app = context.browser.find_element_by_tag_name("landing-app")
         shadow_root = get_shadow_root(context, landing_app)
         iron_pages = shadow_root.find_element_by_css_selector("iron-pages")
@@ -155,36 +168,12 @@ def enter_creds(context, kind, action):
         shadow_root = get_shadow_root(context, sign_in_class)
         iron_form = shadow_root.find_element_by_css_selector('iron-form')
         form = iron_form.find_element_by_tag_name('form')
-        #inputs = form.find_elements_by_tag_name('paper-input')
 
         email_input = form.find_element_by_id("signin-email")
-
-        if kind == 'invalid_email':
-            #clear_input_and_send_keys(email_input, 'tester')
-            email_input.send_keys('tester')
-        elif kind == 'rbac_owner':
-            email_input.send_keys(context.mist_config['EMAIL'])
-        elif kind == 'rbac_member1':
-            email_input.send_keys(context.mist_config['MEMBER1_EMAIL'])
-        else:
-            email_input.send_keys(context.mist_config['EMAIL'])
+        email_input.send_keys(get_mist_config_email(context, kind))
 
         password_input = form.find_element_by_id("signin-password")
-        if kind == 'alt':
-            password_input.send_keys(context.mist_config['PASSWORD2'])
-            #clear_input_and_send_keys(password_input,
-             #                         context.mist_config['PASSWORD2'])
-        elif kind == 'rbac_owner':
-            password_input.send_keys(context.mist_config['PASSWORD1'])
-        elif kind == 'rbac_member1':
-            password_input.send_keys(context.mist_config['MEMBER1_PASSWORD'])
-            # clear_input_and_send_keys(password_input,
-            #                           context.mist_config['MEMBER1_PASSWORD'])
-        # elif kind == 'invalid_no_password':
-        #     clear_input_and_send_keys(password_input, '')
-        else:
-            #clear_input_and_send_keys(password_input,context.mist_config['PASSWORD1'])
-            password_input.send_keys(context.mist_config['PASSWORD1'])
+        password_input.send_keys(get_mist_config_password(context, kind))
 
     elif action == 'signup':
         try:
