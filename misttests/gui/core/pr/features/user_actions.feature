@@ -9,7 +9,6 @@ Feature: Login Scenarios
     And I click the sign in button in the landing page popup
     And I wait for 1 seconds
     Then there should be an "Unauthorized" error message inside the "sign in" button
-    #Then there should be a message saying "Authentication failed!" for error in "authentication"
     When I wait for 2 seconds
 
   @invalid-email

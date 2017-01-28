@@ -327,9 +327,12 @@ def check_error_message(context, error_message, button):
         iron_form = shadow_root.find_element_by_css_selector('iron-form')
         form = iron_form.find_element_by_tag_name('form')
         login_popup = form.find_element_by_id('signInSubmit')
+        text = safe_get_element_text(login_popup).lower()
 
-    text = safe_get_element_text(login_popup)
-
+    if text == error_message:
+        return
+    assert False, "Error message was not %s but instead %s" % \
+                                                  (error_message, text)
 
 
 @step(u'I should get an already registered error')
