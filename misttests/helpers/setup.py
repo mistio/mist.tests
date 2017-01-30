@@ -1,5 +1,6 @@
 import json
 import requests
+import logging
 
 from misttests import config
 
@@ -30,6 +31,9 @@ def setup_user_if_not_exists(email, password):
         'name': "Atheofovos Gkikas",
         'request_demo': False
     }
+
+    print "The user used for API tests is " + config.OWNER_EMAIL
+    print "The password used for API tests is " + config.OWNER_PASSWORD
 
     re = requests.post("%s/api/v1/dev/register" % config.MIST_URL, data=json.dumps(payload))
     return
