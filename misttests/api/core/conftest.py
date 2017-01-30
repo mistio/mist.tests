@@ -82,6 +82,7 @@ def owner_api_token(request):
     email = owner_email()
     password = owner_password()
     setup_user_if_not_exists(email, password)
+    _mist_core.login(email, password)
     personal_api_token = common_valid_api_token(request,
                                                 email=email,
                                                 password=password)
