@@ -164,12 +164,12 @@ def common_valid_api_token(request, email, password, org_id=None):
     api_token = response.json().get('token', None)
     api_token_id = response.json().get('id', None)
 
-    # def fin():
-    #     _response = _mist_core.revoke_token(api_token=api_token,
-    #                                         api_token_id=api_token_id).delete()
-    #     assert_response_ok(_response)
-    #
-    # request.addfinalizer(fin)
+    def fin():
+        _response = _mist_core.revoke_token(api_token=api_token,
+                                            api_token_id=api_token_id).delete()
+        assert_response_ok(_response)
+
+    request.addfinalizer(fin)
     return api_token
 
 
