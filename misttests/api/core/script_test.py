@@ -4,7 +4,7 @@ from misttests.api.helpers import *
 
 
 ############################################################################
-#                         Unit testing                                     #
+#                             Unit Testing                                 #
 ############################################################################
 
 
@@ -48,19 +48,6 @@ def test_add_script_wrong_script(pretty_print, mist_core, owner_api_token,
                                     script_data=script_wrong_script).post()
     assert_response_bad_request(response)
     print "Success!!!"
-
-
-# def test_007_add_bash_script_no_shebang(pretty_print, cache, mist_core,
-#                                         owner_api_token):
-#     response = mist_core.add_script(api_token=owner_api_token,
-#                                     name=cache.get(
-#                                         'script_tests/bash_script_name',
-#                                         ''),
-#                                     location_type='inline',
-#                                     exec_type='executable',
-#                                     script=bash_script_no_shebang).post()
-#     assert_response_bad_request(response)
-#     print "Success!!!"
 
 
 def test_008_add_bash_script_with_absolute_entrypoint(pretty_print, cache,
