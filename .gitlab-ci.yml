@@ -24,5 +24,7 @@ run_mayday_test:
 
 ssl-check:
   image: dimrozakis/ssl-check
+  variables:
+    GIT_STRATEGY: none
   script:
     - ssl-check -g A+ A A- -e 15 mist.io
