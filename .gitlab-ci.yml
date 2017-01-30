@@ -27,4 +27,4 @@ ssl-check:
   variables:
     GIT_STRATEGY: none
   script:
-    - ssl-check -g A+ A A- -e 15 mist.io
+    - ssl-check -g A+ A A- -e 15 mist.io lifeofbrian.ops.mist.io dogfood.ops.mist.io gitlab.ops.mist.io
