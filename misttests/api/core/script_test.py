@@ -81,26 +81,7 @@ def test_show_script_wrong_id(pretty_print, mist_core,
     print "Success!!!"
 
 
-
-
-
-def test_010_test_add_ansible_wrong_yaml_format(pretty_print, cache, mist_core,
-                                                owner_api_token):
-    response = mist_core.list_scripts(api_token=owner_api_token).get()
-    assert_response_ok(response)
-    ansible_script_name = get_random_script_name(json.loads(response.content))
-    response = mist_core.add_script(api_token=owner_api_token,
-                                    name=ansible_script_name,
-                                    location_type='inline',
-                                    exec_type='ansible',
-                                    script=ansible_script_with_error,
-                                    entrypoint='bla').post()
-    assert_response_server_error(response)
-    print "Success!!!"
-
-
-
-def test_013_delete_script_with_wrong_api_token(pretty_print, cache, mist_core,
+def test_delete_script_wrong_api_token(pretty_print, mist_core,
                                                 owner_api_token):
     response = mist_core.delete_script(api_token='00' + owner_api_token[:-2],
                                        script_id='bla').delete()
@@ -108,8 +89,8 @@ def test_013_delete_script_with_wrong_api_token(pretty_print, cache, mist_core,
     print "Success!!!"
 
 
-def test_014_delete_script_with_wrong_script_id(pretty_print, cache, mist_core,
-                                                owner_api_token):
+def test_delete_script_wrong_script_id(pretty_print, cache, mist_core,
+                                       owner_api_token):
     response = mist_core.delete_script(api_token=owner_api_token,
                                        script_id='bla').delete()
     assert_response_not_found(response)
@@ -129,8 +110,19 @@ def test_014_delete_script_with_wrong_script_id(pretty_print, cache, mist_core,
 
 
 
-
-
+def test_010_test_add_ansible_wrong_yaml_format(pretty_print, cache, mist_core,
+                                                owner_api_token):
+    response = mist_core.list_scripts(api_token=owner_api_token).get()
+    assert_response_ok(response)
+    ansible_script_name = get_random_script_name(json.loads(response.content))
+    response = mist_core.add_script(api_token=owner_api_token,
+                                    name=ansible_script_name,
+                                    location_type='inline',
+                                    exec_type='ansible',
+                                    script=ansible_script_with_error,
+                                    entrypoint='bla').post()
+    assert_response_server_error(response)
+    print "Success!!!"
 
 
 def test_011_test_rename_script_with_wrong_script_id(pretty_print, cache,
