@@ -64,6 +64,42 @@ def test_add_script_wrong_entrypoint(pretty_print, cache, mist_core,
 
 
 
+
+def test_018_add_bash_script_with_absolute_entrypoint_github(pretty_print,
+                                                             cache, mist_core,
+                                                          owner_api_token):
+
+    response = mist_core.add_script(api_token=owner_api_token,
+                                    name=cache.get(
+                                        'script_tests/bash_script_name',
+                                        ''),
+                                    location_type='github',
+                                    exec_type='executable',
+                                    script='https://github.com/owner/repo',
+                                    entrypoint='').post()
+    assert_response_ok(response)
+    print "Success!!!"
+
+
+def test_019_add_bash_script_with_absolute_entrypoint_repo(pretty_print, cache,
+                                                          mist_core,
+                                                          owner_api_token):
+    response = mist_core.list_scripts(api_token=owner_api_token).get()
+    assert_response_ok(response)
+    script_list = json.loads(response.content)
+    cache.set('script_tests/bash_script_name2',
+              get_random_script_name(script_list))
+
+    response = mist_core.add_script(api_token=owner_api_token,
+                            name=cache.get('script_tests/bash_script_name2', ''),
+                            location_type='github',
+                            exec_type='executable',
+                            script='owner/repo',
+                            entrypoint='').post()
+    assert_response_ok(response)
+    print "Success!!!"
+
+
 def test_010_test_add_ansible_wrong_yaml_format(pretty_print, cache, mist_core,
                                                 owner_api_token):
     response = mist_core.list_scripts(api_token=owner_api_token).get()
@@ -96,14 +132,6 @@ def test_014_delete_script_with_wrong_script_id(pretty_print, cache, mist_core,
     print "Success!!!"
 
 
-
-
-
-
-
-
-
-
 def test_009_test_show_script_with_wrong_id(pretty_print, cache, mist_core,
                                             owner_api_token):
     response = mist_core.show_script(owner_api_token,
@@ -111,6 +139,22 @@ def test_009_test_show_script_with_wrong_id(pretty_print, cache, mist_core,
                                                '')[:-2]).get()
     assert_response_not_found(response)
     print "Success!!!"
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 def test_011_test_rename_script_with_wrong_script_id(pretty_print, cache,
@@ -157,41 +201,6 @@ def test_017_delete_multiple_wrong_script_ids(pretty_print, cache,
     response = mist_core.delete_scripts(api_token=owner_api_token,
                                         script_ids=['bla', 'bla2']).delete()
     assert_response_not_found(response)
-    print "Success!!!"
-
-
-def test_018_add_bash_script_with_absolute_entrypoint_github(pretty_print,
-                                                             cache, mist_core,
-                                                          owner_api_token):
-
-    response = mist_core.add_script(api_token=owner_api_token,
-                                    name=cache.get(
-                                        'script_tests/bash_script_name',
-                                        ''),
-                                    location_type='github',
-                                    exec_type='executable',
-                                    script='https://github.com/owner/repo',
-                                    entrypoint='').post()
-    assert_response_ok(response)
-    print "Success!!!"
-
-
-def test_019_add_bash_script_with_absolute_entrypoint_repo(pretty_print, cache,
-                                                          mist_core,
-                                                          owner_api_token):
-    response = mist_core.list_scripts(api_token=owner_api_token).get()
-    assert_response_ok(response)
-    script_list = json.loads(response.content)
-    cache.set('script_tests/bash_script_name2',
-              get_random_script_name(script_list))
-
-    response = mist_core.add_script(api_token=owner_api_token,
-                            name=cache.get('script_tests/bash_script_name2', ''),
-                            location_type='github',
-                            exec_type='executable',
-                            script='owner/repo',
-                            entrypoint='').post()
-    assert_response_ok(response)
     print "Success!!!"
 
 
