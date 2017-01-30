@@ -43,23 +43,18 @@ def test_add_script_wrong_parameter(pretty_print, mist_core, owner_api_token,
 
 
 def test_add_script_wrong_script(pretty_print, mist_core, owner_api_token,
-                                 script_wrong_script):
+                                 script_wrong_script, base_exec_inline_script):
     response = mist_core.add_script(api_token=owner_api_token,
-                                    script_data=script_wrong_script).post()
+                                    script_data=base_exec_inline_script,
+                                    script=script_wrong_script).post()
     assert_response_bad_request(response)
     print "Success!!!"
 
 
-def test_008_add_bash_script_with_absolute_entrypoint(pretty_print, cache,
-                                                      mist_core,
-                                                      owner_api_token):
+def test_add_script_wrong_entrypoint(pretty_print, cache, mist_core,
+                                             owner_api_token, base_exec_inline_script):
     response = mist_core.add_script(api_token=owner_api_token,
-                                    name=cache.get(
-                                        'script_tests/bash_script_name',
-                                        ''),
-                                    location_type='inline',
-                                    exec_type='executable',
-                                    script=bash_script_no_shebang,
+                                    script_data=base_exec_inline_script,
                                     entrypoint='/home/yada/yada').post()
     assert_response_bad_request(response)
     print "Success!!!"

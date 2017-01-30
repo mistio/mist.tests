@@ -289,3 +289,8 @@ def script_wrong_param(request):
 @pytest.fixture(scope='module', params=[bash_script_no_shebang])
 def script_wrong_script(request):
         return bash_script_no_shebang
+
+
+@pytest.fixture(scope='module')
+def base_exec_inline_script(request):
+    return {'name': 'dummy', 'location': 'inline', 'exec_type': 'executable'}
