@@ -1,6 +1,5 @@
 stages:
   - test
-  - build
 
 run_mayday_test:
   image: gcr.io/mist-ops/tests_base
@@ -22,3 +21,10 @@ run_mayday_test:
       - test.mp4
     expire_in: 7 days
     when: always
+
+ssl-check:
+  image: dimrozakis/ssl-check
+  variables:
+    GIT_STRATEGY: none
+  script:
+    - ssl-check -g A+ A A- -e 15 mist.io lifeofbrian.ops.mist.io dogfood.ops.mist.io gitlab.ops.mist.io
