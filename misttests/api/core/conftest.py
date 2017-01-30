@@ -272,7 +272,6 @@ def machines_per_cloud(request):
 
 @pytest.fixture(scope='module', params=['name', 'location', 'exec_type'])
 def script_missing_param(request):
-    import ipdb; ipdb.set_trace()
     if request.param == 'name':
         return {'name': '', 'location': 'inline', 'exec_type': 'ansible'}
     elif request.param == 'location':

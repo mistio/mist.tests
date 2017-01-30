@@ -24,47 +24,21 @@ def test_add_script_missing_parameter(pretty_print, mist_core, owner_api_token,
     print "Success!!!"
 
 
-def test_002_add_script_with_no_name(pretty_print, mist_core, owner_api_token):
-    response = mist_core.add_script(api_token=owner_api_token,
-                                    name='',
-                                    location_type='',
-                                    exec_type='').post()
-    assert_response_bad_request(response)
-    response = mist_core.add_script(api_token=owner_api_token,
-                                    location_type='',
-                                    name='',
-                                    exec_type='').post()
-    assert_response_bad_request(response)
-    print "Success!!!"
-
-
-def test_003_add_script_with_no_location_type(pretty_print, cache, mist_core,
-                                              owner_api_token):
-    response = mist_core.list_scripts(api_token=owner_api_token).get()
-    assert_response_ok(response)
-    script_list = json.loads(response.content)
-    cache.set('script_tests/bash_script_name',
-              get_random_script_name(script_list))
-    response = mist_core.add_script(api_token=owner_api_token,
-                                    name=cache.get(
-                                        'script_tests/bash_script_name',
-                                        ''),
-                                    location_type='',
-                                    exec_type='').post()
-    assert_response_bad_request(response)
-    print "Success!!!"
-
-
-def test_004_add_script_with_no_exec_type(pretty_print, cache, mist_core,
-                                          owner_api_token):
-    response = mist_core.add_script(api_token=owner_api_token,
-                                    name=cache.get(
-                                        'script_tests/bash_script_name',
-                                        ''),
-                                    location_type='inline',
-                                    exec_type='').post()
-    assert_response_bad_request(response)
-    print "Success!!!"
+# def test_003_add_script_with_no_location_type(pretty_print, cache, mist_core,
+#                                               owner_api_token):
+#     response = mist_core.list_scripts(api_token=owner_api_token).get()
+#     assert_response_ok(response)
+#     script_list = json.loads(response.content)
+#     cache.set('script_tests/bash_script_name',
+#               get_random_script_name(script_list))
+#     response = mist_core.add_script(api_token=owner_api_token,
+#                                     name=cache.get(
+#                                         'script_tests/bash_script_name',
+#                                         ''),
+#                                     location_type='',
+#                                     exec_type='').post()
+#     assert_response_bad_request(response)
+#     print "Success!!!"
 
 
 def test_005_add_script_with_no_script(pretty_print, cache, mist_core,
