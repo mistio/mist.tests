@@ -268,3 +268,10 @@ def machines_per_cloud(request):
         machine_num -= 1
     print "machines per cloud to be used is: %s" % machines_per_cloud
     return machines_per_cloud
+
+
+@pytest.fixture(scope='module', params=['name', 'location', 'exec_type'])
+def script_missing_params(request):
+    import ipdb; ipdb.set_trace()
+    print request.param
+    return request.param

@@ -16,6 +16,11 @@ def test_list_scripts(pretty_print, mist_core, owner_api_token):
     print "Success!!!"
 
 
+def test_add_script_missing_parameter(pretty_print, mist_core, owner_api_token,
+                                      script_missing_params):
+
+
+
 def test_002_add_script_with_no_name(pretty_print, mist_core, owner_api_token):
     response = mist_core.add_script(api_token=owner_api_token,
                                     name='',
