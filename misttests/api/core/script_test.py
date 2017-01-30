@@ -59,20 +59,26 @@ def test_add_script_wrong_entrypoint(pretty_print, cache, mist_core,
 
 
 # ask below!!!
-def test_018_add_bash_script_with_absolute_entrypoint_github(pretty_print,
-                                                             cache, mist_core,
-                                                          owner_api_token):
+# def test_018_add_bash_script_with_absolute_entrypoint_github(pretty_print,
+#                                                              cache, mist_core,
+#                                                           owner_api_token):
+#
+#     response = mist_core.add_script(api_token=owner_api_token,
+#                                     script_data={'name':'script_tests/bash_script_name',
+#                                     'location_type':'github',
+#                                     'exec_type':'executable'},
+#                                     script='https://github.com/owner/repo',
+#                                     entrypoint='').post()
+#     assert_response_ok(response)
+#     print "Success!!!"
 
-    response = mist_core.add_script(api_token=owner_api_token,
-                                    script_data={'name':'script_tests/bash_script_name',
-                                    'location_type':'github',
-                                    'exec_type':'executable'},
-                                    script='https://github.com/owner/repo',
-                                    entrypoint='').post()
-    assert_response_ok(response)
+
+def test_show_script_wrong_id(pretty_print, mist_core,
+                              owner_api_token):
+    response = mist_core.show_script(owner_api_token,
+                                     script_id='dummy1234').get()
+    assert_response_not_found(response)
     print "Success!!!"
-
-
 
 
 
@@ -109,14 +115,6 @@ def test_014_delete_script_with_wrong_script_id(pretty_print, cache, mist_core,
     assert_response_not_found(response)
     print "Success!!!"
 
-
-def test_009_test_show_script_with_wrong_id(pretty_print, cache, mist_core,
-                                            owner_api_token):
-    response = mist_core.show_script(owner_api_token,
-                                     cache.get('script_tests/bash_script_id',
-                                               '')[:-2]).get()
-    assert_response_not_found(response)
-    print "Success!!!"
 
 
 
