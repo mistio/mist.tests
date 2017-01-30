@@ -163,26 +163,31 @@ class MistCoreApi(MistIoApi):
 
     def add_script(self, api_token, script_data, script=None,
                    entrypoint=None, description=None):
+        data = {}
+        data.update(script_data)
+
         # data = {
         #     'name': name,
         #     'exec_type': exec_type,
         #     'location_type': location_type
         # }
 
+        if script is not None:
+            data['script'] = script
+        if entrypoint is not None:
+            data['entrypoint'] = entrypoint
+        if description is not None:
+            data['description'] = description
+
         req = MistRequests(uri=self.uri + '/api/v1/scripts', api_token=api_token,
-                           data=script_data)
+                           data=data)
         req.get = req.unavailable_api_call
         req.delete = req.unavailable_api_call
         req.put = req.unavailable_api_call
         return req
 
 
-        # if script is not None:
-        #     data['script'] = script
-        # if entrypoint is not None:
-        #     data['entrypoint'] = entrypoint
-        # if description is not None:
-        #     data['description'] = description
+
         # req = MistRequests(uri=self.uri + '/api/v1/scripts', api_token=api_token,
         #                    data=data)
         # req.get = req.unavailable_api_call

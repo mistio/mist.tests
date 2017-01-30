@@ -4,7 +4,7 @@ from misttests.api.helpers import *
 
 
 #############################################################################
-# Unit testing
+############                   Unit testing               ###################
 #############################################################################
 
 
@@ -24,6 +24,13 @@ def test_add_script_missing_parameter(pretty_print, mist_core, owner_api_token,
     print "Success!!!"
 
 
+def test_add_script_missing_script(pretty_print, cache, mist_core,
+                                       owner_api_token):
+    response = mist_core.add_script(api_token=owner_api_token,
+                                    script_data={'name': 'wtf', 'location':'inline', 'exec_type': 'executable'}).post()
+    assert_response_bad_request(response)
+    print "Success!!!"
+
 # def test_003_add_script_with_no_location_type(pretty_print, cache, mist_core,
 #                                               owner_api_token):
 #     response = mist_core.list_scripts(api_token=owner_api_token).get()
@@ -41,7 +48,7 @@ def test_add_script_missing_parameter(pretty_print, mist_core, owner_api_token,
 #     print "Success!!!"
 
 
-def test_005_add_script_with_no_script(pretty_print, cache, mist_core,
+def test_add_script_missing_script(pretty_print, cache, mist_core,
                                        owner_api_token):
     response = mist_core.add_script(api_token=owner_api_token,
                                     name=cache.get(
