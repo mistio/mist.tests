@@ -24,6 +24,7 @@ def test_add_script_missing_parameter(pretty_print, mist_core, owner_api_token,
     print "Success!!!"
 
 
+# create fixture for script with all required params
 def test_add_script_missing_script(pretty_print, cache, mist_core,
                                        owner_api_token):
     response = mist_core.add_script(api_token=owner_api_token,
@@ -48,16 +49,16 @@ def test_add_script_missing_script(pretty_print, cache, mist_core,
 #     print "Success!!!"
 
 
-def test_add_script_missing_script(pretty_print, cache, mist_core,
-                                       owner_api_token):
-    response = mist_core.add_script(api_token=owner_api_token,
-                                    name=cache.get(
-                                        'script_tests/bash_script_name',
-                                        ''),
-                                    location_type='inline',
-                                    exec_type='executable').post()
-    assert_response_bad_request(response)
-    print "Success!!!"
+# def test_add_script_missing_script(pretty_print, cache, mist_core,
+#                                        owner_api_token):
+#     response = mist_core.add_script(api_token=owner_api_token,
+#                                     name=cache.get(
+#                                         'script_tests/bash_script_name',
+#                                         ''),
+#                                     location_type='inline',
+#                                     exec_type='executable').post()
+#     assert_response_bad_request(response)
+#     print "Success!!!"
 
 
 def test_006_add_bash_script_wrong_exec_type(pretty_print, cache, mist_core,
