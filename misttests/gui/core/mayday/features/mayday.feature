@@ -84,7 +84,7 @@ Feature: Production
     Then I logout
 
   @github_sso_signin
-  Scenario: Production sign in testing with google oauth2
+  Scenario: Production sign in testing with github
     Given I am not logged in to mist.core
     When I open the login popup
     Then I click the github button in the landing page popup
