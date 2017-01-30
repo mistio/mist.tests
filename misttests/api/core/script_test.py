@@ -8,9 +8,11 @@ from misttests.api.helpers import *
 #############################################################################
 
 
-def test_001_list_scripts(pretty_print, mist_core, owner_api_token):
+def test_list_scripts(pretty_print, mist_core, owner_api_token):
+    import ipdb; ipdb.set_trace()
     response = mist_core.list_scripts(api_token=owner_api_token).get()
     assert_response_ok(response)
+    assert len(response.json()) == 0
     print "Success!!!"
 
 
