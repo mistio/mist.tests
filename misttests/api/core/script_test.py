@@ -3,9 +3,9 @@ import pytest
 from misttests.api.helpers import *
 
 
-#############################################################################
-############                   Unit testing               ###################
-#############################################################################
+############################################################################
+#                         Unit testing                                     #
+############################################################################
 
 
 def test_list_scripts(pretty_print, mist_core, owner_api_token):
@@ -28,63 +28,39 @@ def test_add_script_missing_parameter(pretty_print, mist_core, owner_api_token,
 def test_add_script_missing_script(pretty_print, cache, mist_core,
                                        owner_api_token):
     response = mist_core.add_script(api_token=owner_api_token,
-                                    script_data={'name': 'wtf', 'location':'inline', 'exec_type': 'executable'}).post()
+                                    script_data={'name': 'dummy', 'location':'inline',
+                                                 'exec_type': 'executable'}).post()
     assert_response_bad_request(response)
     print "Success!!!"
 
-# def test_003_add_script_with_no_location_type(pretty_print, cache, mist_core,
-#                                               owner_api_token):
-#     response = mist_core.list_scripts(api_token=owner_api_token).get()
-#     assert_response_ok(response)
-#     script_list = json.loads(response.content)
-#     cache.set('script_tests/bash_script_name',
-#               get_random_script_name(script_list))
-#     response = mist_core.add_script(api_token=owner_api_token,
-#                                     name=cache.get(
-#                                         'script_tests/bash_script_name',
-#                                         ''),
-#                                     location_type='',
-#                                     exec_type='').post()
-#     assert_response_bad_request(response)
-#     print "Success!!!"
+
+def test_add_script_wrong_parameter(pretty_print, mist_core, owner_api_token,
+                                      script_wrong_param):
+    response = mist_core.add_script(api_token=owner_api_token,
+                                    script_data=script_wrong_param).post()
+    assert_response_bad_request(response)
+    print "Success!!!"
 
 
-# def test_add_script_missing_script(pretty_print, cache, mist_core,
-#                                        owner_api_token):
+def test_add_script_wrong_script(pretty_print, mist_core, owner_api_token,
+                                 script_wrong_script):
+    response = mist_core.add_script(api_token=owner_api_token,
+                                    script_data=script_wrong_script).post()
+    assert_response_bad_request(response)
+    print "Success!!!"
+
+
+# def test_007_add_bash_script_no_shebang(pretty_print, cache, mist_core,
+#                                         owner_api_token):
 #     response = mist_core.add_script(api_token=owner_api_token,
 #                                     name=cache.get(
 #                                         'script_tests/bash_script_name',
 #                                         ''),
 #                                     location_type='inline',
-#                                     exec_type='executable').post()
+#                                     exec_type='executable',
+#                                     script=bash_script_no_shebang).post()
 #     assert_response_bad_request(response)
 #     print "Success!!!"
-
-
-def test_006_add_bash_script_wrong_exec_type(pretty_print, cache, mist_core,
-                                             owner_api_token):
-    response = mist_core.add_script(api_token=owner_api_token,
-                                    name=cache.get(
-                                        'script_tests/bash_script_name',
-                                        ''),
-                                    location_type='inline',
-                                    exec_type='exece',
-                                    script=bash_script).post()
-    assert_response_bad_request(response)
-    print "Success!!!"
-
-
-def test_007_add_bash_script_no_shebang(pretty_print, cache, mist_core,
-                                        owner_api_token):
-    response = mist_core.add_script(api_token=owner_api_token,
-                                    name=cache.get(
-                                        'script_tests/bash_script_name',
-                                        ''),
-                                    location_type='inline',
-                                    exec_type='executable',
-                                    script=bash_script_no_shebang).post()
-    assert_response_bad_request(response)
-    print "Success!!!"
 
 
 def test_008_add_bash_script_with_absolute_entrypoint(pretty_print, cache,

@@ -2,8 +2,6 @@ from .core import MistCoreApi
 
 from misttests.api.helpers import *
 from misttests.api.io.conftest import *
-
-from misttests.helpers.setup import setup_org_if_not_exists
 from misttests.helpers.setup import setup_user_if_not_exists
 
 from misttests.api.helpers import get_keys_with_id
@@ -278,3 +276,16 @@ def script_missing_param(request):
         return {'name': 'dummy', 'location': '', 'exec_type': 'ansible'}
     else:
         return {'name': 'dummy', 'location': 'inline', 'exec_type': ''}
+
+
+@pytest.fixture(scope='module', params=['location', 'exec_type'])
+def script_wrong_param(request):
+    if request.param == 'location':
+        return {'name': 'dummy', 'location': 'dummy', 'exec_type': 'ansible'}
+    else:
+        return {'name': 'dummy', 'location': 'inline', 'exec_type': 'dummy'}
+
+
+@pytest.fixture(scope='module', params=[bash_script_no_shebang])
+def script_wrong_script(request):
+        return bash_script_no_shebang
