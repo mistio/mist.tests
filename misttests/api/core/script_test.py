@@ -58,46 +58,24 @@ def test_add_script_wrong_entrypoint(pretty_print, cache, mist_core,
     print "Success!!!"
 
 
-
-
-
-
-
-
-
+# ask below!!!
 def test_018_add_bash_script_with_absolute_entrypoint_github(pretty_print,
                                                              cache, mist_core,
                                                           owner_api_token):
 
     response = mist_core.add_script(api_token=owner_api_token,
-                                    name=cache.get(
-                                        'script_tests/bash_script_name',
-                                        ''),
-                                    location_type='github',
-                                    exec_type='executable',
+                                    script_data={'name':'script_tests/bash_script_name',
+                                    'location_type':'github',
+                                    'exec_type':'executable'},
                                     script='https://github.com/owner/repo',
                                     entrypoint='').post()
     assert_response_ok(response)
     print "Success!!!"
 
 
-def test_019_add_bash_script_with_absolute_entrypoint_repo(pretty_print, cache,
-                                                          mist_core,
-                                                          owner_api_token):
-    response = mist_core.list_scripts(api_token=owner_api_token).get()
-    assert_response_ok(response)
-    script_list = json.loads(response.content)
-    cache.set('script_tests/bash_script_name2',
-              get_random_script_name(script_list))
 
-    response = mist_core.add_script(api_token=owner_api_token,
-                            name=cache.get('script_tests/bash_script_name2', ''),
-                            location_type='github',
-                            exec_type='executable',
-                            script='owner/repo',
-                            entrypoint='').post()
-    assert_response_ok(response)
-    print "Success!!!"
+
+
 
 
 def test_010_test_add_ansible_wrong_yaml_format(pretty_print, cache, mist_core,
