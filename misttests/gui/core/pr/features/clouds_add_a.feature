@@ -28,6 +28,12 @@ Feature: Add second-tier clouds in Polymist
     | Rackspace      |
     | GCE            |
     | SoftLayer      |
+
+    | Azure ARM      |
+    | Linode         |
+    | AWS            |
+    | Digital Ocean  |
+
 #    | Docker         | -- tested @ cloud-actions
 #    | Openstack      | -- tested @ cloud-actions + images_networks
 #    | Vultr          | -- tested @ rbac-rules
