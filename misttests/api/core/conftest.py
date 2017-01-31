@@ -2,8 +2,6 @@ from .core import MistCoreApi
 
 from misttests.api.helpers import *
 from misttests.api.io.conftest import *
-
-from misttests.helpers.setup import setup_org_if_not_exists
 from misttests.helpers.setup import setup_user_if_not_exists
 
 from misttests.api.helpers import get_keys_with_id
@@ -23,7 +21,7 @@ def fresh_api_token():
 
 @pytest.fixture(scope='session')
 def user():
-    from mist.core.user.models import User
+    from mist.io.users.models import User
     _email = email()
     print "\n>>> Getting user with email %s from db" % _email
     return User.objects.get(email=_email)
@@ -82,18 +80,16 @@ def owner_api_token(request):
     email = owner_email()
     password = owner_password()
     setup_user_if_not_exists(email, password)
+    _mist_core.login(email, password)
     personal_api_token = common_valid_api_token(request,
                                                 email=email,
                                                 password=password)
-    _org_name = org_name()
-    setup_org_if_not_exists(_org_name, email)
     response = _mist_core.list_orgs(api_token=personal_api_token).get()
     assert_response_ok(response)
     org_id = None
-    for org in response.json():
-        if _org_name == org['name']:
-            org_id = org['id']
-            break
+    org = response.json()
+
+    org_id = org[0]['id']
     assert_is_not_none(org_id)
 
     return common_valid_api_token(request,
@@ -163,12 +159,12 @@ def common_valid_api_token(request, email, password, org_id=None):
     api_token = response.json().get('token', None)
     api_token_id = response.json().get('id', None)
 
-    def fin():
-        _response = _mist_core.revoke_token(api_token=api_token,
-                                            api_token_id=api_token_id).delete()
-        assert_response_ok(_response)
-
-    request.addfinalizer(fin)
+    # def fin():
+    #     _response = _mist_core.revoke_token(api_token=api_token,
+    #                                         api_token_id=api_token_id).delete()
+    #     assert_response_ok(_response)
+    #
+    # request.addfinalizer(fin)
     return api_token
 
 
@@ -267,3 +263,31 @@ def machines_per_cloud(request):
         machine_num -= 1
     print "machines per cloud to be used is: %s" % machines_per_cloud
     return machines_per_cloud
+
+
+@pytest.fixture(scope='module', params=['name', 'location', 'exec_type'])
+def script_missing_param(request):
+    if request.param == 'name':
+        return {'name': '', 'location': 'inline', 'exec_type': 'ansible'}
+    elif request.param == 'location':
+        return {'name': 'dummy', 'location': '', 'exec_type': 'ansible'}
+    else:
+        return {'name': 'dummy', 'location': 'inline', 'exec_type': ''}
+
+
+@pytest.fixture(scope='module', params=['location', 'exec_type'])
+def script_wrong_param(request):
+    if request.param == 'location':
+        return {'name': 'dummy', 'location': 'dummy', 'exec_type': 'ansible'}
+    else:
+        return {'name': 'dummy', 'location': 'inline', 'exec_type': 'dummy'}
+
+
+@pytest.fixture(scope='module', params=[bash_script_no_shebang])
+def script_wrong_script(request):
+        return bash_script_no_shebang
+
+
+@pytest.fixture(scope='module')
+def base_exec_inline_script(request):
+    return {'name': 'dummy', 'location': 'inline', 'exec_type': 'executable'}

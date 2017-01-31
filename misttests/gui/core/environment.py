@@ -1,5 +1,8 @@
 import sys
+import json
+import requests
 import logging
+import random
 
 from .requirements import chrome_driver_setup
 
@@ -31,10 +34,12 @@ def before_all(context):
     context.mist_config['browser'] = choose_driver()
     context.browser = context.mist_config['browser']
     context.mist_config['NAME'] = config.NAME
+    context.mist_config['BASE_EMAIL'] = config.BASE_EMAIL
     context.mist_config['EMAIL'] = config.EMAIL
     context.mist_config['PASSWORD1'] = config.PASSWORD1
     context.mist_config['PASSWORD2'] = config.PASSWORD2
     context.mist_config['SETUP_ENVIRONMENT'] = config.SETUP_ENVIRONMENT
+    context.mist_config['MAYDAY_MACHINE'] = config.MAYDAY_MACHINE
     context.mist_config['DEMO_EMAIL'] = config.DEMO_EMAIL
     context.mist_config['DEMO_PASSWORD'] = config.DEMO_PASSWORD
     context.mist_config['MIST_DEMO_REQUEST_EMAIL'] = config.MIST_DEMO_REQUEST_EMAIL
@@ -46,7 +51,7 @@ def before_all(context):
     context.mist_config['MEMBER2_PASSWORD'] = config.MEMBER2_PASSWORD
     context.mist_config['LOCAL'] = config.LOCAL
     context.mist_config['DEBUG'] = config.DEBUG
-    context.mist_config['ORG_NAME'] = config.ORG_NAME
+    context.mist_config['ORG_NAME'] = config.ORG_NAME + str(random.randint(1, 10000000))
     context.mist_config['NON_STOP'] = '--stop' not in sys.argv
     context.mist_config['ERROR_NUM'] = 0
     context.mist_config['MIST_URL'] = config.MIST_URL
@@ -64,6 +69,11 @@ def before_all(context):
     context.mist_config['GOOGLE_REGISTRATION_TEST_PASSWORD'] = config.GOOGLE_REGISTRATION_TEST_PASSWORD
     context.mist_config['GITHUB_REGISTRATION_TEST_EMAIL'] = config.GITHUB_REGISTRATION_TEST_EMAIL
     context.mist_config['GITHUB_REGISTRATION_TEST_PASSWORD'] = config.GITHUB_REGISTRATION_TEST_PASSWORD
+    context.mist_config['GMAIL_FATBOY_USER'] = config.GMAIL_FATBOY_USER
+    context.mist_config['GMAIL_FATBOY_PASSWORD'] = config.GMAIL_FATBOY_PASSWORD
+    context.mist_config['recording_session'] = config.RECORD_SELENIUM
+    context.link_inside_email = ''
+
     log.info("Finished with the bulk of the test settings")
     if config.LOCAL:
         log.info("Initializing behaving mail for path: %s" % config.MAIL_PATH)
@@ -73,23 +83,29 @@ def before_all(context):
         # calling behaving to setup it's context variables.
         behaving_mail.before_all(context)
 
-    if config.RECORD_SELENIUM:
+    if context.mist_config.get('recording_session', False):
         start_recording()
 
-    context.mist_config['recording_session'] = config.RECORD_SELENIUM
     log.info("Finished with before_all hook. Starting tests")
 
 
 def before_feature(context, feature):
     if config.REGISTER_USER_BEFORE_FEATURE:
-        try:
-            context.execute_steps(u'Given user with email "EMAIL" is registered')
-        except Exception as e:
-            finish_and_cleanup(context)
-            raise e
+        payload = {
+            'email': context.mist_config['EMAIL'],
+            'password': context.mist_config['PASSWORD1'],
+            'name': "Atheofovos Gkikas"
+        }
+
+        re = requests.post("%s/api/v1/dev/register" % context.mist_config['MIST_URL'], data=json.dumps(payload))
 
 
 def after_all(context):
+    log.info("USER: %s" % context.mist_config['EMAIL'])
+    log.info("PASSWORD1: %s" % context.mist_config['PASSWORD1'])
+    log.info("MEMBER_1: %s" % context.mist_config['MEMBER1_EMAIL'])
+    log.info("MEMBER_PASSWORD: %s" % context.mist_config['MEMBER1_PASSWORD'])
+    log.info("MIST_URL: %s" % context.mist_config['MIST_URL'])
     finish_and_cleanup(context)
 
 

@@ -7,17 +7,16 @@ from mongoengine import ValidationError
 # Imports to solve dependency issues
 from mist.io.clouds.models import Cloud
 from mist.io.schedules.models import Schedule
-from mist.core.script.models import Script
-from mist.core.keypair.models import Keypair
+from mist.io.scripts.models import Script
+from mist.io.keys.models import Key
 from mist.core.orchestration.models import Stack
-
 
 def test_rbac_policy_rule_validation(pretty_print, email):
     from mist.core.rbac.models import Rule
 
-    from mist.core.user.models import User
-    from mist.core.user.models import Team
-    from mist.core.user.models import Organization
+    from mist.io.users.models import User
+    from mist.io.users.models import Team
+    from mist.io.users.models import Organization
 
     def rule_should_raise_exc(rule_dict, org, team):
         rule = Rule(**rule_dict)

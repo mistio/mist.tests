@@ -126,11 +126,13 @@ def check_sorting(context, sorting_field):
 
 @step(u'I clear the machines search bar')
 def clear_machines_search_bar(context):
-    search_bar_machine = context.browser.find_element_by_css_selector(
-        "div.machine-search-container "
-        "input.machine-search")
-    search_bar_machine.clear()
+    clear_button = context.browser.find_element_by_xpath("//iron-icon[@icon='close']")
+    clicketi_click(context, clear_button)
 
+@step(u'I open the actions dialog')
+def open_actions_dialog_from_list(context):
+    button = context.browser.find_element_by_xpath("//iron-icon[@icon='more-vert']")
+    clicketi_click(context, button)
 
 @step(u'I fill in a "{name}" machine name')
 def fill_machine_mame(context, name):
@@ -157,7 +159,6 @@ def fill_machine_mame(context, name):
 def choose_machine(context, name):
     if context.mist_config.get(name):
         name = context.mist_config.get(name)
-
     end_time = time() + 20
     while time() < end_time:
         machine = get_machine(context, name)
@@ -230,8 +231,8 @@ def assert_machine_added(context, name, seconds):
 
 def get_machine(context, name):
     try:
-        placeholder = context.browser.find_element_by_id("machine-list-page")
-        machines = placeholder.find_elements_by_tag_name("li")
+        placeholder = context.browser.find_element_by_tag_name("page-machines").find_element_by_id("items")
+        machines = placeholder.find_elements_by_tag_name("div")
 
         for machine in machines:
             machine_text = safe_get_element_text(machine)
@@ -445,27 +446,35 @@ def fill_default_script(context):
         textfield.send_keys(letter)
 
 
+@step(u'I click the "{rule_class}" rule')
+def click_rule_dropdown(context, rule_class):
+    rule_element = context.browser.find_element_by_xpath('//paper-dropdown-menu[contains(@class, "%s")]' % rule_class)
+    clicketi_click(context, rule_element)
+
+@step(u'I save the rule')
+def save_rule(context):
+    container = context.browser.find_element_by_xpath('//div[contains(@class, "rule-actions")]')
+    button = container.find_element_by_xpath('.//paper-button[contains(@class, "blue")]')
+    clicketi_click(context, button)
+
 @step(u'I remove previous rules')
 def remove_previous_rules(context):
-    previous_rules = context.browser.find_elements_by_class_name('rule-box')
+    previous_rules = context.browser.find_elements_by_tag_name('rules-item')
     rule_length = len(previous_rules)
     if rule_length > 0:
-        context.execute_steps(u'Then I expect for buttons inside '
-                              u'"basic-condition" to be clickable within max '
-                              u'20 seconds')
         position = previous_rules[0].location['y']
         context.browser.execute_script("window.scrollTo(0, %s)" % position)
     while rule_length > 0:
         rule = previous_rules.pop()
-        delete_rule_button = rule.find_element_by_class_name('delete-rule-button')
+        delete_rule_button = rule.find_element_by_xpath(".//iron-icon[@icon='close']")
         clicketi_click(context, delete_rule_button)
-        previous_rules = context.browser.find_elements_by_class_name('rule-box')
+        previous_rules = context.browser.find_elements_by_tag_name('rules-item')
         sleeps = 0
         while len(previous_rules) == rule_length:
             assert sleeps != 10, "Rule hasn't been deleted after 10 seconds"
             sleep(1)
             sleeps += 1
-            previous_rules = context.browser.find_elements_by_class_name('rule-box')
+            previous_rules = context.browser.find_elements_by_tag_name('rules-item')
         rule_length = len(previous_rules)
 
 

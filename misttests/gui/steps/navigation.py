@@ -60,7 +60,6 @@ def visit(context):
     """
     if not i_am_in_homepage(context):
         context.browser.get(context.mist_config['MIST_URL'])
-
     timeout = time() + 4
     while time() < timeout:
         try:
@@ -69,8 +68,8 @@ def visit(context):
             return
         except NoSuchElementException:
             try:
-                context.browser.find_element_by_id("splash")
-                wait_for_splash_to_load(context)
+                context.browser.find_element_by_xpath("//mist-app[@page='dashboard']")
+                wait_for_dashboard(context)
                 return
             except NoSuchElementException:
                 pass
@@ -137,8 +136,25 @@ def am_in_new_UI(context):
         ''')
 
 
+@step(u'I make sure the menu is open')
+def make_sure_menu_is_open(context):
+    end_time = time() + 10
+    while time() < end_time:
+        try:
+            menu = context.browser.find_element_by_id('sidebar')
+            if menu.get_attribute('isclosed') == 'true':
+                top_bar = context.browser.find_element_by_id('topBar')
+                button = top_bar.find_element_by_xpath('./paper-icon-button["icon=menu"]')
+                button.click()
+                break
+        except (NoSuchElementException, ValueError, AttributeError):
+            assert time() + 1 < end_time, "Menu button has not" \
+                                          " appeared after 10 seconds"
+            sleep(1)
+
 @step(u'I wait for the links in homepage to appear')
 def wait_for_buttons_to_appear(context):
+    context.execute_steps(u'Then I make sure the menu is open')
     end_time = time() + 10
     while time() < end_time:
         try:
@@ -197,7 +213,6 @@ def go_to_some_page_without_waiting(context, title):
                      'scripts', 'templates', 'stacks', 'teams', 'account',
                      'home']:
         raise ValueError('The page given is unknown')
-    context.execute_steps(u'Then I wait for the links in homepage to appear')
     if title.lower() == 'home':
         context.execute_steps(u'When I click the mist.io button')
     elif title.lower() == 'account':
@@ -290,7 +305,7 @@ def given_logged_in(context):
 
 def found_one(context):
     success = 0
-    timeout = time() + 10
+    timeout = time() + 30
     while time() < timeout:
         try:
             context.browser.find_element_by_id("top-signup-button")
@@ -363,16 +378,19 @@ def given_logged_in(context, kind):
 def given_not_logged_in(context):
     if not i_am_in_homepage(context):
         context.execute_steps(u'When I visit mist.core')
-
     try:
-        context.browser.find_element_by_id("splash")
-        context.execute_steps(u"""
-              Then I wait for the mist.io splash page to load
-              And I wait for the links in homepage to appear
-              And I logout
-        """)
-    except NoSuchElementException:
-        pass
+        context.browser.find_element_by_id("top-signup-button")
+        return
+    except:
+        try:
+            context.execute_steps(u"""
+                  When I visit the Home page
+                  And I am in the new UI
+                  When I wait for the dashboard to load
+                  And I logout
+            """)
+        except NoSuchElementException:
+            pass
 
 
 def get_user_menu(context):
