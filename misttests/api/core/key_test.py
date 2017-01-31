@@ -15,10 +15,25 @@ def test_list_keys(pretty_print, mist_core, owner_api_token):
     print "Success!!!"
 
 
+def test_generate_key(pretty_print, mist_core, owner_api_token):
+    response = mist_core.generate_keypair(api_token=owner_api_token).post()
+    assert_response_ok(response)
+    print "Success!!!"
+
+
 def test_delete_key_wrong_id(pretty_print, mist_core, owner_api_token):
     response = mist_core.delete_key(key_id='dummy',api_token=owner_api_token).delete()
     assert_response_not_found(response)
     print "Success!!!"
+
+
+def test_delete_key_wrong_api_token(pretty_print, mist_core):
+    response = mist_core.delete_key(key_id='dummy',api_token='dummy').delete()
+    assert_response_unauthorized(response)
+    print "Success!!!"
+
+
+
 
 
 
