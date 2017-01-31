@@ -1,5 +1,3 @@
-import pytest
-
 from misttests.api.helpers import *
 
 
@@ -32,7 +30,7 @@ def test_add_script_missing_script(pretty_print, cache, mist_core,
 
 
 def test_add_script_wrong_parameter(pretty_print, mist_core, owner_api_token,
-                                      script_wrong_param):
+                                    script_wrong_param):
     response = mist_core.add_script(api_token=owner_api_token,
                                     script_data=script_wrong_param).post()
     assert_response_bad_request(response)
@@ -49,7 +47,7 @@ def test_add_script_wrong_script(pretty_print, mist_core, owner_api_token,
 
 
 def test_add_script_wrong_entrypoint(pretty_print, cache, mist_core,
-                                             owner_api_token, base_exec_inline_script):
+                                     owner_api_token, base_exec_inline_script):
     response = mist_core.add_script(api_token=owner_api_token,
                                     script_data=base_exec_inline_script,
                                     entrypoint='/home/yada/yada').post()
@@ -81,7 +79,7 @@ def test_show_script_wrong_id(pretty_print, mist_core,
 
 
 def test_delete_script_wrong_api_token(pretty_print, mist_core,
-                                                owner_api_token):
+                                       owner_api_token):
     response = mist_core.delete_script(api_token='00' + owner_api_token[:-2],
                                        script_id='bla').delete()
     assert_response_unauthorized(response)
@@ -169,9 +167,9 @@ def test_edit_script_wrong_api_token(pretty_print, cache,
 
 
 def test_edit_script_no_new_name(pretty_print, cache,
-                                          mist_core, owner_api_token):
-    response = mist_core.delete_scripts(api_token=owner_api_token,
-                                        script_ids=['bla', 'bla2']).delete()
+                                 mist_core, owner_api_token):
+    response = mist_core.edit_script(api_token=owner_api_token,
+                                     script_id='bla', new_name='').put()
     assert_response_not_found(response)
     print "Success!!!"
 #####################################################################################
