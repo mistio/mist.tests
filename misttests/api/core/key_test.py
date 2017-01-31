@@ -46,7 +46,18 @@ def test_rename_key_wrong_id(pretty_print, mist_core, owner_api_token):
     print "Success!!!"
 
 
+def test_rename_key_wrong_api_token(pretty_print, mist_core):
+    response = mist_core.edit_key('dummy_id', 'new_name', api_token='dummy').put()
+    assert_response_unauthorized(response)
+    print "Success!!!"
 
+
+def test_rename_key_missing_parameter(pretty_print, mist_core, owner_api_token):
+    response = mist_core.edit_key('dummy_id', '', api_token=owner_api_token).put()
+    assert_response_bad_request(response)
+    print "Success!!!"
+
+#########################################################################################################################
 
 def test_002_add_key_with_no_id_and_no_priv(pretty_print, mist_core,
                                             owner_api_token):
