@@ -55,6 +55,18 @@ def test_add_script_wrong_entrypoint(pretty_print, cache, mist_core,
     print "Success!!!"
 
 
+def test_add_ansible_wrong_yaml_format(pretty_print, cache, mist_core,
+                                       owner_api_token):
+    response = mist_core.add_script(api_token=owner_api_token,
+                                    script_data={'name':'test',
+                                    'location_type':'inline',
+                                    'exec_type':'ansible'},
+                                    script=ansible_script_with_error,
+                                    entrypoint='').post()
+    assert_response_server_error(response)
+    print "Success!!!"
+
+
 def test_show_script_wrong_id(pretty_print, mist_core,
                               owner_api_token):
     response = mist_core.show_script(owner_api_token,
@@ -157,30 +169,8 @@ def test_edit_script_no_new_name(pretty_print, cache,
                                      script_id='bla', new_name='').put()
     assert_response_not_found(response)
     print "Success!!!"
-#####################################################################################
 
 
-
-
-
-
-# def test_010_test_add_ansible_wrong_yaml_format(pretty_print, cache, mist_core,
-#                                                 owner_api_token):
-#     response = mist_core.list_scripts(api_token=owner_api_token).get()
-#     assert_response_ok(response)
-#     ansible_script_name = get_random_script_name(json.loads(response.content))
-#     response = mist_core.add_script(api_token=owner_api_token,
-#                                     name=ansible_script_name,
-#                                     location_type='inline',
-#                                     exec_type='ansible',
-#                                     script=ansible_script_with_error,
-#                                     entrypoint='bla').post()
-#     assert_response_server_error(response)
-#     print "Success!!!"
-#
-#
-
-#
 # #############################################################################
 # # Scenarios
 # #############################################################################
