@@ -1,12 +1,11 @@
 import pytest
-import requests
 
 from misttests.api.helpers import *
 
 
-#############################################################################
-# Unit testing
-#############################################################################
+############################################################################
+#                             Unit Testing                                 #
+############################################################################
 
 
 def test_list_keys(pretty_print, mist_core, owner_api_token):
@@ -14,6 +13,13 @@ def test_list_keys(pretty_print, mist_core, owner_api_token):
     assert_response_ok(response)
     assert len(response.json()) == 0
     print "Success!!!"
+
+
+def test_delete_key_wrong_id(pretty_print, mist_core, owner_api_token):
+    response = mist_core.delete_key(key_id='dummy',api_token=owner_api_token).delete()
+    assert_response_not_found(response)
+    print "Success!!!"
+
 
 
 def test_002_add_key_with_no_id_and_no_priv(pretty_print, mist_core,
