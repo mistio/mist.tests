@@ -55,21 +55,6 @@ def test_add_script_wrong_entrypoint(pretty_print, cache, mist_core,
     print "Success!!!"
 
 
-# ask below!!!
-# def test_018_add_bash_script_with_absolute_entrypoint_github(pretty_print,
-#                                                              cache, mist_core,
-#                                                           owner_api_token):
-#
-#     response = mist_core.add_script(api_token=owner_api_token,
-#                                     script_data={'name':'script_tests/bash_script_name',
-#                                     'location_type':'github',
-#                                     'exec_type':'executable'},
-#                                     script='https://github.com/owner/repo',
-#                                     entrypoint='').post()
-#     assert_response_ok(response)
-#     print "Success!!!"
-
-
 def test_show_script_wrong_id(pretty_print, mist_core,
                               owner_api_token):
     response = mist_core.show_script(owner_api_token,
@@ -194,28 +179,7 @@ def test_edit_script_no_new_name(pretty_print, cache,
 #     print "Success!!!"
 #
 #
-# def test_011_test_rename_script_with_wrong_script_id(pretty_print, cache,
-#                                                      mist_core,
-#                                                      owner_api_token):
-#     response = mist_core.edit_script(api_token=owner_api_token,
-#                                      script_id='bla',
-#                                      new_name='bla').put()
-#     assert_response_not_found(response)
-#     print "Success!!!"
-#
-#
-# def test_012_test_rename_script_with_no_name(pretty_print, cache, mist_core,
-#                                              owner_api_token):
-#     response = mist_core.edit_script(api_token=owner_api_token,
-#                                      script_id='blablalba398438',
-#                                      new_name='').put()
-#     assert_response_not_found(response)
-#     print "Success!!!"
-#
-#
-#
 
-#
 #
 # #############################################################################
 # # Scenarios

@@ -77,7 +77,6 @@ def valid_api_token(request):
 @pytest.fixture(scope='module')
 def owner_api_token(request):
     _mist_core = mist_core()
-  #  import ipdb;ipdb.set_trace()
     email = owner_email()
     password = owner_password()
     setup_user_if_not_exists(email, password)
@@ -85,8 +84,6 @@ def owner_api_token(request):
     personal_api_token = common_valid_api_token(request,
                                                 email=email,
                                                 password=password)
-    #_org_name = org_name()
-    #setup_org_if_not_exists(_org_name, email)
     response = _mist_core.list_orgs(api_token=personal_api_token).get()
     assert_response_ok(response)
     org_id = None
