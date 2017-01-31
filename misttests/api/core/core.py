@@ -265,9 +265,9 @@ class MistCoreApi(MistIoApi):
         return req
 
     def download_script(self, api_token, script_id):
-        req = MistRequests(uri=self.uri + '/api/v1/script/filehbjbjh/%s' % script_id,
+        req = MistRequests(uri=self.uri + '/api/v1/script/file/%s' % script_id,
                            api_token=api_token)
-        req.get = req.unavailable_api_call
+        req.delete = req.unavailable_api_call
         req.post = req.unavailable_api_call
         req.put = req.unavailable_api_call
         return req
