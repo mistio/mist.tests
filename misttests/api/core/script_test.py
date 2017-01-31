@@ -112,20 +112,20 @@ def test_download_script_wrong_script_id(pretty_print, cache, mist_core,
     print "Success!!!"
 
 
-def test_url_script_wrong_script_id(pretty_print, cache, mist_core,
-                                    owner_api_token):
-    response = mist_core.url_script(api_token=owner_api_token,
-                                    script_id='bla').get()
-    assert_response_not_found(response)
-    print "Success!!!"
-
-
 # def test_url_script_wrong_api_token(pretty_print, mist_core,
 #                                     owner_api_token):
 #     response = mist_core.url_script(api_token='00' + owner_api_token[:-2],
 #                                     script_id='bla').get()
 #     assert_response_unauthorized(response)
 #     print "Success!!!"
+
+
+def test_url_script_wrong_script_id(pretty_print, cache, mist_core,
+                                    owner_api_token):
+    response = mist_core.url_script(api_token=owner_api_token,
+                                    script_id='bla').get()
+    assert_response_not_found(response)
+    print "Success!!!"
 
 
 def test_delete_multiple_scripts_wrong_api_token(pretty_print, cache,
@@ -137,8 +137,7 @@ def test_delete_multiple_scripts_wrong_api_token(pretty_print, cache,
 
 
 def test_delete_multiple_scripts_no_script_ids(pretty_print, cache,
-                                                        mist_core,
-                                                        owner_api_token):
+                                               mist_core, owner_api_token):
     response = mist_core.delete_scripts(api_token=owner_api_token,
                                         script_ids=[]).delete()
     assert_response_bad_request(response)
@@ -146,13 +145,35 @@ def test_delete_multiple_scripts_no_script_ids(pretty_print, cache,
 
 
 def test_delete_multiple_wrong_script_ids(pretty_print, cache,
-                                              mist_core,
-                                              owner_api_token):
+                                          mist_core, owner_api_token):
     response = mist_core.delete_scripts(api_token=owner_api_token,
                                         script_ids=['bla', 'bla2']).delete()
     assert_response_not_found(response)
     print "Success!!!"
 
+
+def test_edit_script_wrong_id(pretty_print, cache,
+                              mist_core, owner_api_token):
+    response = mist_core.edit_script(api_token=owner_api_token,
+                                     script_id='bad', new_name='dummy').put()
+    assert_response_not_found(response)
+    print "Success!!!"
+
+
+def test_edit_script_wrong_api_token(pretty_print, cache,
+                                     mist_core, owner_api_token):
+    response = mist_core.edit_script(api_token='00' + owner_api_token[:-2],
+                                     script_id='bad', new_name='dummy').put()
+    assert_response_unauthorized(response)
+    print "Success!!!"
+
+
+def test_edit_script_no_new_name(pretty_print, cache,
+                                          mist_core, owner_api_token):
+    response = mist_core.delete_scripts(api_token=owner_api_token,
+                                        script_ids=['bla', 'bla2']).delete()
+    assert_response_not_found(response)
+    print "Success!!!"
 #####################################################################################
 
 
