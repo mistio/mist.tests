@@ -86,13 +86,26 @@ def initialize_rbac_members(context):
 
 @step(u'organization has been created')
 def create_organization(context):
+
+    payload = {
+        'email': context.mist_config['EMAIL'],
+        'password': context.mist_config['PASSWORD1'],
+    }
+
+    re = requests.post("%s/api/v1/tokens" % context.mist_config['MIST_URL'], data=json.dumps(payload))
+
+    api_token = re.json().get('token', None)
+
     context.mist_config['ORG_NAME'] = "rbac_org_%d" % random.randint(1, 200000)
 
     payload = {
-        'name': context.mist_config['ORG_NAME']
+        'name': context.mist_config['ORG_NAME'],
+        'api_token': api_token
     }
 
-    re = requests.post("%s/api/v1/org" % context.mist_config['MIST_URL'], data=json.dumps(payload))
+    import ipdb;ipdb.set_trace()
+
+    re = requests.post("%s/api/v1/org" % context.mist_config['MIST_URL'], data=json.dumps(payload), json={'api_token':api_token})
     return
 
 

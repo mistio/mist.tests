@@ -7,8 +7,10 @@ Feature: RBAC
   @create-org
   Scenario: Owner creates a new organization and adds a Softlayer cloud
     Given rbac members are initialized
-#    And organization has been created
-#    And  team "Test Team" has been created
+    And organization has been created
+    And  team "Test Team" has been created
+
+
     Given I am logged in to mist.core
     And I am in the new UI
     And  I wait for the dashboard to load
