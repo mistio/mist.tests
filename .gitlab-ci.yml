@@ -1,6 +1,5 @@
 stages:
   - test
-  - build
 
 run_mayday_test:
   image: gcr.io/mist-ops/tests_base
@@ -14,7 +13,7 @@ run_mayday_test:
     - export DISPLAY=:1.0
     - pip install -e .
   script:
-    - python prepare_env.py -k --tags=alert,graph,ssh,celery,google_sso_signin,github_sso_signin misttests/gui/core/mayday/features
+    - python prepare_env.py -k --tags=graph,ssh,celery,google_sso_signin,github_sso_signin misttests/gui/core/mayday/features
   artifacts:
     paths:
       - js_console.log
@@ -22,3 +21,10 @@ run_mayday_test:
       - test.mp4
     expire_in: 7 days
     when: always
+
+ssl-check:
+  image: dimrozakis/ssl-check
+  variables:
+    GIT_STRATEGY: none
+  script:
+    - ssl-check -g A+ A A- -e 15 mist.io lifeofbrian.ops.mist.io dogfood.ops.mist.io gitlab.ops.mist.io

@@ -82,8 +82,8 @@ Feature: Rbac
     And "Test Team" team should be present within 5 seconds
     Then I logout
 
-  @delete-member
-  Scenario: Owner deletes a team member
+  @delete-members
+  Scenario: Owner deletes team members
     Given I am logged in to mist.core as rbac_owner
 #    And I am in the new UI
 #    When I wait for the dashboard to load
@@ -92,6 +92,10 @@ Feature: Rbac
     And I expect the "team" edit form to be visible within max 5 seconds
     Then user with email "MEMBER2_EMAIL" should be confirmed
     When I delete user "MEMBER2_EMAIL" from team
+    And I expect the dialog "Delete Member from Team" is open within 4 seconds
+    And I click the "Delete" button in the dialog "Delete Member from Team"
+    And I expect the dialog "Delete Member from Team" is closed within 4 seconds
+    When I delete user "MEMBER1_EMAIL" from team
     And I expect the dialog "Delete Member from Team" is open within 4 seconds
     And I click the "Delete" button in the dialog "Delete Member from Team"
     And I expect the dialog "Delete Member from Team" is closed within 4 seconds
@@ -111,19 +115,6 @@ Feature: Rbac
     And "Rbac Test Team" team should be present within 5 seconds
     Then I logout
 
-#  @delete-team
-#  Scenario: Owner deletes a team
-#    When I click the "Rbac Test Team" "team"
-#    And I expect the "team" edit form to be visible within max 5 seconds
-#    Then I click the button "Delete Team" from the menu of the "team" edit form
-#    And I expect the dialog "Delete Team" is open within 4 seconds
-#    And I click the "Delete" button in the dialog "Delete Team"
-#    Then I expect the dialog "Delete Team" is closed within 4 seconds
-#    Then I visit the Home page
-#    And I wait for 2 seconds
-#    And I visit the Teams page
-#    And "Rbac Test Team" team should be absent within 10 seconds
-#    Then I logout
 
    @verify-delete-member
     Scenario: Member2 has been removed from org
@@ -131,6 +122,25 @@ Feature: Rbac
     And I am in the new UI
     When I wait for the dashboard to load
     Then I should see the form to set name for new organization
+    Then I logout
+
+
+  @delete-team
+  Scenario: Owner deletes a team
+    Given I am logged in to mist.core as rbac_owner
+    And I am in the new UI
+    When I wait for the dashboard to load
+    When I visit the Teams page
+    When I click the "Rbac Test Team" "team"
+    And I expect the "team" edit form to be visible within max 5 seconds
+    Then I click the button "Delete Team" from the menu of the "team" edit form
+    And I expect the dialog "Delete Team" is open within 4 seconds
+    And I click the "Delete" button in the dialog "Delete Team"
+    Then I expect the dialog "Delete Team" is closed within 4 seconds
+    Then I visit the Home page
+    And I wait for 2 seconds
+    And I visit the Teams page
+    And "Rbac Test Team" team should be absent within 10 seconds
     Then I logout
 
 #  @tag-team
