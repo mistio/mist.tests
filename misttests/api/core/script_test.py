@@ -128,6 +128,33 @@ def test_url_script_wrong_api_token(pretty_print, mist_core,
     assert_response_unauthorized(response)
     print "Success!!!"
 
+
+def test_delete_multiple_scripts_wrong_api_token(pretty_print, cache,
+                                                          mist_core,
+                                                          owner_api_token):
+    response = mist_core.delete_scripts(api_token='00' + owner_api_token[:-2],
+                                        script_ids=[]).delete()
+    assert_response_unauthorized(response)
+    print "Success!!!"
+
+
+def test_delete_multiple_scripts_no_script_ids(pretty_print, cache,
+                                                        mist_core,
+                                                        owner_api_token):
+    response = mist_core.delete_scripts(api_token=owner_api_token,
+                                        script_ids=[]).delete()
+    assert_response_bad_request(response)
+    print "Success!!!"
+
+
+def test_delete_multiple_wrong_script_ids(pretty_print, cache,
+                                              mist_core,
+                                              owner_api_token):
+    response = mist_core.delete_scripts(api_token=owner_api_token,
+                                        script_ids=['bla', 'bla2']).delete()
+    assert_response_not_found(response)
+    print "Success!!!"
+
 #####################################################################################
 
 
@@ -170,31 +197,7 @@ def test_url_script_wrong_api_token(pretty_print, mist_core,
 #
 #
 #
-# def test_015_delete_multiple_scripts_with_wrong_api_token(pretty_print, cache,
-#                                                           mist_core,
-#                                                           owner_api_token):
-#     response = mist_core.delete_scripts(api_token='00' + owner_api_token[:-2],
-#                                         script_ids=[]).delete()
-#     assert_response_unauthorized(response)
-#     print "Success!!!"
-#
-#
-# def test_016_delete_multiple_scripts_with_no_script_ids(pretty_print, cache,
-#                                                         mist_core,
-#                                                         owner_api_token):
-#     response = mist_core.delete_scripts(api_token=owner_api_token,
-#                                         script_ids=[]).delete()
-#     assert_response_bad_request(response)
-#     print "Success!!!"
-#
-#
-# def test_017_delete_multiple_wrong_script_ids(pretty_print, cache,
-#                                               mist_core,
-#                                               owner_api_token):
-#     response = mist_core.delete_scripts(api_token=owner_api_token,
-#                                         script_ids=['bla', 'bla2']).delete()
-#     assert_response_not_found(response)
-#     print "Success!!!"
+
 #
 #
 # #############################################################################
