@@ -21,11 +21,11 @@ def test_generate_key(pretty_print, mist_core, owner_api_token):
     print "Success!!!"
 
 
-# TODO: check below... csrf=None is ok but csrf='' is not?
-def test_generate_key_wrong_api_token(pretty_print, mist_core):
-    response = mist_core.generate_keypair(csrf_token='').post()
-    assert_response_bad_request(response)
-    print "Success!!!"
+# # TODO: check below... csrf=None is ok but csrf='' is not?
+# def test_generate_key_wrong_api_token(pretty_print, mist_core):
+#     response = mist_core.generate_keypair(csrf_token='').post()
+#     assert_response_bad_request(response)
+#     print "Success!!!"
 
 
 def test_delete_key_wrong_id(pretty_print, mist_core, owner_api_token):
@@ -64,8 +64,8 @@ def test_rename_key_wrong_id(pretty_print, mist_core, owner_api_token):
     print "Success!!!"
 
 
-def test_rename_key_wrong_api_token(pretty_print, mist_core):
-    response = mist_core.edit_key('dummy_id', 'new_name', api_token='dummy').put()
+def test_rename_key_wrong_api_token(pretty_print, mist_core, owner_api_token):
+    response = mist_core.edit_key('dummy_id', 'new_name', api_token=owner_api_token[:-2]).put()
     assert_response_unauthorized(response)
     print "Success!!!"
 
@@ -166,25 +166,10 @@ def test_set_default_key_wrong_api_token(pretty_print, mist_core, owner_api_toke
 #                                      api_token=owner_api_token).delete()
 #     assert_response_bad_request(response)
 #     print "Success!!!"
-#
-#
-# def test_011_delete_multiple_wrong_key_ids(pretty_print, cache, mist_core,
-#                                            owner_api_token):
-#     response = mist_core.delete_keys(key_ids=['bla', 'bla2'],
-#                                      api_token=owner_api_token).delete()
-#     assert_response_not_found(response)
-#     print "Success!!!"
-#
-#
-# def test_012_delete_multiple_keys_with_wrong_api_token(pretty_print,
-#                                                        mist_core,
-#                                                        owner_api_token):
-#     response = mist_core.delete_keys(key_ids=['bla', 'bla2'],
-#                                      api_token=owner_api_token[:-2]).delete()
-#     assert_response_unauthorized(response)
-#     print "Success!!!"
-#
-#
+
+
+
+
 # #############################################################################
 # # Scenarios
 # #############################################################################
