@@ -57,6 +57,13 @@ def test_rename_key_missing_parameter(pretty_print, mist_core, owner_api_token):
     assert_response_bad_request(response)
     print "Success!!!"
 
+
+def test_set_default_key_wrong_id(pretty_print, mist_core, owner_api_token):
+    response = mist_core.set_default_key(key_id='dummy',api_token=owner_api_token).post()
+    assert_response_not_found(response)
+    print "Success!!!"
+
+
 #########################################################################################################################
 
 def test_002_add_key_with_no_id_and_no_priv(pretty_print, mist_core,
