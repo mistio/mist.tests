@@ -308,9 +308,6 @@ def check_state_of_button(context, button, state):
         shadow_root = get_shadow_root(context, sign_in_class)
         iron_form = shadow_root.find_element_by_css_selector('iron-form')
         form = iron_form.find_element_by_tag_name('form')
-        import ipdb;
-        ipdb.set_trace()
-
         login_popup = form.find_element_by_id('signInSubmit')
         is_not_clickable = login_popup.get_attribute('aria-disabled')
 
