@@ -297,6 +297,15 @@ def check_error_message(context, error_message, button):
                                                   (error_message, text)
 
 
+@step(u'"{button}" button should be "{state}"')
+def check_state_of_button(context, button, state):
+    state = state.lower()
+    if state not in ['clickable', 'not clickable']:
+        raise Exception('Unknown state of button')
+    
+
+
+
 @step(u'I should get an already registered error')
 def already_registered(context):
     try:
