@@ -15,7 +15,7 @@ from mist.io.keys.models import Key
 from mist.io.clouds.models import Cloud
 from mist.io.machines.models import Machine
 
-from mist.core.tag.models import Tag
+from mist.io.tag.models import Tag
 from mist.core.rule.models import Rule
 from mist.io.scripts.models import Script
 
