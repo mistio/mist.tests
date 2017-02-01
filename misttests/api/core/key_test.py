@@ -64,6 +64,12 @@ def test_set_default_key_wrong_id(pretty_print, mist_core, owner_api_token):
     print "Success!!!"
 
 
+def test_set_default_key_wrong_api_token(pretty_print, mist_core, owner_api_token):
+    response = mist_core.set_default_key(key_id='dummy',api_token='dummy').post()
+    assert_response_unauthorized(response)
+    print "Success!!!"
+
+
 #########################################################################################################################
 
 def test_002_add_key_with_no_id_and_no_priv(pretty_print, mist_core,
