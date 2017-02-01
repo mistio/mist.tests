@@ -20,6 +20,7 @@ def get_shadow_root(context,web_element):
 
 @step(u'I open the {kind} popup')
 def open_login_popup(context, kind):
+    import ipdb;ipdb.set_trace()
     kind = kind.lower()
     modals = {'login': 'modalLogin', 'signup': 'modalRegister'}
     if kind.lower() not in modals.keys():
@@ -84,10 +85,10 @@ def click_button_in_landing_page(context, text):
         raise ValueError('This button does not exist in the landing page popup')
     landing_app = context.browser.find_element_by_tag_name("landing-app")
     shadow_root = get_shadow_root(context, landing_app)
-    iron_pages = shadow_root.find_element_by_css_selector("iron-pages")
+    neon_animated_pages = shadow_root.find_element_by_css_selector("neon-animated-pages")
 
     if text == 'sign in':
-            sign_in_class = iron_pages.find_element_by_tag_name('landing-sign-in')
+            sign_in_class = neon_animated_pages.find_element_by_tag_name('landing-sign-in')
             shadow_root = get_shadow_root(context, sign_in_class)
             iron_form = shadow_root.find_element_by_css_selector('iron-form')
             form = iron_form.find_element_by_tag_name('form')
@@ -95,7 +96,7 @@ def click_button_in_landing_page(context, text):
             clicketi_click(context, login_popup)
             return
     elif text.lower() == 'sign up':
-            sign_in_class = iron_pages.find_element_by_tag_name('landing-sign-up')
+            sign_in_class = neon_animated_pages.find_element_by_tag_name('landing-sign-up')
             shadow_root = get_shadow_root(context, sign_in_class)
             iron_form = shadow_root.find_element_by_css_selector('iron-form')
             form = iron_form.find_element_by_tag_name('form')
@@ -157,6 +158,7 @@ def get_mist_config_password(context,kind):
 
 @step(u'I enter my {kind} credentials for {action}')
 def enter_creds(context, kind, action):
+    import ipdb;ipdb.set_trace()
     from .forms import clear_input_and_send_keys
 
     kind = kind.lower()
@@ -170,10 +172,10 @@ def enter_creds(context, kind, action):
         raise ValueError("No idea what %s credentials are" % kind)
     landing_app = context.browser.find_element_by_tag_name("landing-app")
     shadow_root = get_shadow_root(context, landing_app)
-    iron_pages = shadow_root.find_element_by_css_selector("iron-pages")
+    neon_animated_pages = shadow_root.find_element_by_css_selector("neon-animated-pages")
 
     if action == 'login':
-        sign_in_class = iron_pages.find_element_by_tag_name('landing-sign-in')
+        sign_in_class = neon_animated_pages.find_element_by_tag_name('landing-sign-in')
         shadow_root = get_shadow_root(context, sign_in_class)
         iron_form = shadow_root.find_element_by_css_selector('iron-form')
         form = iron_form.find_element_by_tag_name('form')
@@ -185,7 +187,7 @@ def enter_creds(context, kind, action):
         password_input.send_keys(get_mist_config_password(context, kind))
 
     elif action == 'signup':
-        sign_up_class = iron_pages.find_element_by_tag_name('landing-sign-up')
+        sign_up_class = neon_animated_pages.find_element_by_tag_name('landing-sign-up')
         shadow_root = get_shadow_root(context, sign_up_class)
         iron_form = shadow_root.find_element_by_css_selector('iron-form')
         form = iron_form.find_element_by_tag_name('form')
@@ -281,8 +283,8 @@ def check_error_message(context, error_message, button):
     if button == 'sign in':
         landing_app = context.browser.find_element_by_tag_name("landing-app")
         shadow_root = get_shadow_root(context, landing_app)
-        iron_pages = shadow_root.find_element_by_css_selector("iron-pages")
-        sign_in_class = iron_pages.find_element_by_tag_name('landing-sign-in')
+        neon_animated_pages = shadow_root.find_element_by_css_selector("neon-animated-pages")
+        sign_in_class = neon_animated_pages.find_element_by_tag_name('landing-sign-in')
         shadow_root = get_shadow_root(context, sign_in_class)
         iron_form = shadow_root.find_element_by_css_selector('iron-form')
         form = iron_form.find_element_by_tag_name('form')
