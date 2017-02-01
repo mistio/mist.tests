@@ -39,8 +39,8 @@ def open_login_popup(context, kind):
         if sign_in_btn.is_displayed():
             sign_in_btn.click()
     elif kind == 'signup':
-        iron_pages = shadow_root.find_element_by_css_selector('iron-pages')
-        landing_home = iron_pages.find_element_by_tag_name("landing-home")
+        neon_animated_pages = shadow_root.find_element_by_css_selector('neon-animated-pages')
+        landing_home = neon_animated_pages.find_element_by_tag_name("landing-home")
         inner_shadow_root = get_shadow_root(context, landing_home)
         div = inner_shadow_root.find_element_by_css_selector('div')
         a = div.find_element_by_tag_name("a")
