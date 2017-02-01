@@ -16,13 +16,13 @@ def test_001_get_api_token_with_empty_fields(pretty_print, mist_core):
     print "Success!!!"
 
 
-def test_002_get_api_token_with_empty_password(pretty_print, mist_core, email):
-    print "\n>>>  POSTing /auth and /tokens to get a token with no password:"
-    response = mist_core.check_auth(email=email, password='').post()
-    assert_response_bad_request(response)
-    response = mist_core.create_token(email=email, password='').post()
-    assert_response_bad_request(response)
-    print "Success!!!"
+# def test_002_get_api_token_with_empty_password(pretty_print, mist_core, email):
+#     print "\n>>>  POSTing /auth and /tokens to get a token with no password:"
+#     response = mist_core.check_auth(email=email, password='').post()
+#     assert_response_bad_request(response)
+#     response = mist_core.create_token(email=email, password='').post()
+#     assert_response_bad_request(response)
+#     print "Success!!!"
 
 
 def test_003_get_api_token_with_wrong_ttl(pretty_print, mist_core, email,
@@ -48,19 +48,19 @@ def test_003_get_api_token_with_wrong_ttl(pretty_print, mist_core, email,
     print "Success!!!"
 
 
-def test_004_get_api_token(pretty_print, cache, mist_core, email, password1):
-    print "\n>>>  POSTing /tokens to get a token with correct creds"
-    response = mist_core.create_token(email=email, password=password1).post()
-    assert_response_ok(response)
-    assert_is_not_none(response.json().get('token', None),
-                       "Did not get an api token back in the response")
-    assert_is_not_none(response.json().get('name', None),
-                       "Did not get the api token name in the response")
-    cache.set('api_token_test/api_token', response.json().get('token', None))
-    cache.set('api_token_test/api_token_name',
-              response.json().get('name', None))
-    cache.set('api_token_test/api_token_id', response.json().get('id', None))
-    print "Success!!!!"
+# def test_004_get_api_token(pretty_print, cache, mist_core, email, password1):
+#     print "\n>>>  POSTing /tokens to get a token with correct creds"
+#     response = mist_core.create_token(email=email, password=password1).post()
+#     assert_response_ok(response)
+#     assert_is_not_none(response.json().get('token', None),
+#                        "Did not get an api token back in the response")
+#     assert_is_not_none(response.json().get('name', None),
+#                        "Did not get the api token name in the response")
+#     cache.set('api_token_test/api_token', response.json().get('token', None))
+#     cache.set('api_token_test/api_token_name',
+#               response.json().get('name', None))
+#     cache.set('api_token_test/api_token_id', response.json().get('id', None))
+#     print "Success!!!!"
 
 
 # def test_005_confirm_api_token(pretty_print, cache, mist_core, email):
@@ -73,16 +73,16 @@ def test_004_get_api_token(pretty_print, cache, mist_core, email, password1):
 #     print "Success!!!!"
 
 
-def test_006_confirm_same_name_token_exception(pretty_print, cache, mist_core,
-                                               email, password1):
-    print "\n>>>  POSTing /tokens to see that there cannot be a second " \
-          "token with same name as the one i got:"
-    response = mist_core.create_token(email, password1,
-                                      new_api_token_name=
-                                      cache.get('api_token_test/api_token_name',
-                                                '')).post()
-    assert_response_conflict(response)
-    print "Success!!!!"
+# def test_006_confirm_same_name_token_exception(pretty_print, cache, mist_core,
+#                                                email, password1):
+#     print "\n>>>  POSTing /tokens to see that there cannot be a second " \
+#           "token with same name as the one i got:"
+#     response = mist_core.create_token(email, password1,
+#                                       new_api_token_name=
+#                                       cache.get('api_token_test/api_token_name',
+#                                                 '')).post()
+#     assert_response_conflict(response)
+#     print "Success!!!!"
 
 
 # def test_007_list_api_tokens(pretty_print, cache, mist_core):
@@ -137,17 +137,17 @@ def test_006_confirm_same_name_token_exception(pretty_print, cache, mist_core,
 #     print "Success!!!!"
 
 
-def test_007_check_auth_with_wrong_token(pretty_print, cache, mist_core, email,
-                                         password1):
-    print "\n>>>  POSTing /tokens with wrong token but correct creds"
-    response = mist_core.create_token(email=email,
-                                      password=password1,
-                                      ttl=10,
-                                      api_token=cache.get(
-                                          'api_token_test/api_token', '')[
-                                                :-2]).post()
-    assert_response_ok(response)
-    print "Success!!!!"
+# def test_007_check_auth_with_wrong_token(pretty_print, cache, mist_core, email,
+#                                          password1):
+#     print "\n>>>  POSTing /tokens with wrong token but correct creds"
+#     response = mist_core.create_token(email=email,
+#                                       password=password1,
+#                                       ttl=10,
+#                                       api_token=cache.get(
+#                                           'api_token_test/api_token', '')[
+#                                                 :-2]).post()
+#     assert_response_ok(response)
+#     print "Success!!!!"
 
 
 def test_008_test_su(pretty_print, cache, mist_core):
