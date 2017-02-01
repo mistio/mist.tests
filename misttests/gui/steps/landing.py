@@ -27,7 +27,6 @@ def open_login_popup(context, kind):
     popup_id = modals[kind]
     landing_app = context.browser.find_element_by_tag_name("landing-app")
     shadow_root = get_shadow_root(context, landing_app)
-    import ipdb; ipdb.set_trace()
     if kind == 'login':
         app_toolbar = shadow_root.find_element_by_css_selector("app-toolbar")
         sign_in_class = app_toolbar.find_element_by_class_name('signin-btn-container')
