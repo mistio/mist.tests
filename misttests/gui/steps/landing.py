@@ -297,13 +297,24 @@ def check_error_message(context, error_message, button):
                                                   (error_message, text)
 
 
-@step(u'"{button}" button should be "{state}"')
+@step(u'the {button} button should be {state}')
 def check_state_of_button(context, button, state):
+    import ipdb;ipdb.set_trace()
     state = state.lower()
     if state not in ['clickable', 'not clickable']:
         raise Exception('Unknown state of button')
-    
-
+    if button == 'sign in':
+        landing_app = context.browser.find_element_by_tag_name("landing-app")
+        shadow_root = get_shadow_root(context, landing_app)
+        neon_animated_pages = shadow_root.find_element_by_css_selector("neon-animated-pages")
+        sign_in_class = neon_animated_pages.find_element_by_tag_name('landing-sign-in')
+        shadow_root = get_shadow_root(context, sign_in_class)
+        iron_form = shadow_root.find_element_by_css_selector('iron-form')
+        form = iron_form.find_element_by_tag_name('form')
+        login_popup = form.find_element_by_id('signInSubmit')
+        href_data = login_popup.get_attribute('href')
+        if href_data is None:
+            is_clickable = False
 
 
 @step(u'I should get an already registered error')
