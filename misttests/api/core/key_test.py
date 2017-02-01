@@ -40,6 +40,12 @@ def test_delete_key_wrong_api_token(pretty_print, mist_core):
     print "Success!!!"
 
 
+def test_delete_multiple_keys_wrong_id(pretty_print, mist_core, owner_api_token):
+    response = mist_core.delete_keys(key_ids=['dummy','dummy1'], api_token=owner_api_token).delete()
+    assert_response_not_found(response)
+    print "Success!!!"
+
+
 def test_rename_key_wrong_id(pretty_print, mist_core, owner_api_token):
     response = mist_core.edit_key('dummy_id', 'new_name', api_token=owner_api_token).put()
     assert_response_not_found(response)
