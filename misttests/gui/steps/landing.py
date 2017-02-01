@@ -20,7 +20,6 @@ def get_shadow_root(context,web_element):
 
 @step(u'I open the {kind} popup')
 def open_login_popup(context, kind):
-    import ipdb;ipdb.set_trace()
     kind = kind.lower()
     modals = {'login': 'modalLogin', 'signup': 'modalRegister'}
     if kind.lower() not in modals.keys():
@@ -158,7 +157,6 @@ def get_mist_config_password(context,kind):
 
 @step(u'I enter my {kind} credentials for {action}')
 def enter_creds(context, kind, action):
-    import ipdb;ipdb.set_trace()
     from .forms import clear_input_and_send_keys
 
     kind = kind.lower()
@@ -312,9 +310,10 @@ def check_state_of_button(context, button, state):
         iron_form = shadow_root.find_element_by_css_selector('iron-form')
         form = iron_form.find_element_by_tag_name('form')
         login_popup = form.find_element_by_id('signInSubmit')
-        href_data = login_popup.get_attribute('href')
-        if href_data is None:
-            is_clickable = False
+        href_data = login_popup.get_attribute('aria-disabled')
+
+        if href_data == None:
+            return
 
 
 @step(u'I should get an already registered error')

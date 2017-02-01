@@ -13,6 +13,8 @@ Feature: Login Scenarios and Api Token
 
   @invalid-email
   Scenario: 'Unauthorized' message should appear
+    When I visit mist.core
+    When I open the login popup
     When I enter my invalid_email credentials for login
     And I click the sign in button in the landing page popup
     And I wait for 3 seconds
