@@ -6,6 +6,7 @@ Feature: Login Scenarios and Api Token
     When I visit mist.core
     When I open the login popup
     And I enter my alt credentials for login
+    Then the sign in button should be not clickable
     And I click the sign in button in the landing page popup
     And I wait for 3 seconds
     Then there should be an "Unauthorized" error message inside the "sign in" button
@@ -16,19 +17,16 @@ Feature: Login Scenarios and Api Token
     When I visit mist.core
     When I open the login popup
     When I enter my invalid_email credentials for login
-    And I click the sign in button in the landing page popup
-    And I wait for 3 seconds
-    Then the sign in button should be clickable
+    Then the sign in button should be not clickable
     #Then there should be an "Unauthorized" error message inside the "sign in" button
-    When I wait for 1 seconds
 
 #  @no-password-provided
 #  Scenario: 'Please enter your password' message should appear
-#    When I enter my invalid_no_password credentials for login
-#    And I click the sign in button in the landing page popup
+#    When I wait for 1 seconds
+#    And I enter my invalid_no_password credentials for login
+#    #And I click the sign in button in the landing page popup
 #    And I wait for 1 seconds
-#    Then there should be a message saying "Please enter your password" for error in "password"
-#    Then I close the "Login" popup
+#    Then the sign in button should be not clickable
 #    And I wait for 2 seconds
 
  @api-token-test

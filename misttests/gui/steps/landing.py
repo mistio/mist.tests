@@ -310,10 +310,14 @@ def check_state_of_button(context, button, state):
         iron_form = shadow_root.find_element_by_css_selector('iron-form')
         form = iron_form.find_element_by_tag_name('form')
         login_popup = form.find_element_by_id('signInSubmit')
-        href_data = login_popup.get_attribute('aria-disabled')
+        is_not_clickable = login_popup.get_attribute('aria-disabled')
 
-        if href_data == None:
-            return
+    if state == 'clickable' and not login_popup.get_attribute('aria-disabled'):
+        return
+    elif state == 'not clickable' and login_popup.get_attribute('aria-disabled'):
+        return
+    else:
+        assert False, "Desired state of the button %s is %s, but it is not!"
 
 
 @step(u'I should get an already registered error')
