@@ -1,18 +1,17 @@
 @schedulers
 Feature: Schedulers
 
-  Backround:
+  Background:
     Given I am logged in to mist.core
-    And I am in the new UI
 
   @scheduler-add
   Scenario Outline: Add schedule
-    When I wait for the dashboard to load
-    When I visit the Schedulers page
+    When I visit the Schedules page
     When I click the button "+"
-    Then I expected the "scheduler" add form to be visible within max 10 seconds
-    When I set the value "<name>" to field "Name" in "scheduler" add form
-    And I click the "enabled" button
+    Then I expect the "schedule" add form to be visible within max 10 seconds
+    When I set the value "<name>" to field "Name" in "schedule" add form
+    And I click the "task_enabled" button
+    And I select perform action in schedules add form
     # And I click
 
 
