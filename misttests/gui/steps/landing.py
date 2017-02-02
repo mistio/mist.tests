@@ -32,10 +32,6 @@ def open_login_popup(context, kind):
         sign_in_class = app_toolbar.find_element_by_class_name('signin-btn-container')
         a = sign_in_class.find_element_by_tag_name("a")
         sign_in_btn = a.find_element_by_tag_name("paper-button")
-        # click_sign_in(context,sign_in_btn)
-        #button_collapse = context.browser.find_element_by_class_name('button-collapse')
-        # from .buttons import clicketi_click
-        # clicketi_click(context,sign_in_btn)
         if sign_in_btn.is_displayed():
             sign_in_btn.click()
     elif kind == 'signup':
@@ -50,30 +46,6 @@ def open_login_popup(context, kind):
 
         if sign_up_btn.is_displayed():
             sign_up_btn.click()
-    # else:
-    #     button_collection = context.browser.find_elements_by_class_name("btn-large")
-    #     click_button_from_collection(context, "get started", button_collection,
-    #                                  error_message="Could not find get started "
-    #                                                "button in the landing page")
-    # # then wait until the modal is displayed
-    # timeout = time() + 10
-    # dimensions = None
-    # while time() < timeout:
-    #     try:
-    #         popup = context.browser.find_element_by_id(popup_id)
-    #         if dimensions is None:
-    #             dimensions = popup.size
-    #         elif dimensions['width'] == popup.size['width'] and \
-    #                 dimensions['height'] == popup.size['height']:
-    #             sleep(1)
-    #             return True
-    #         else:
-    #             dimensions = popup.size
-    #     except NoSuchElementException:
-    #         pass
-    #     sleep(1)
-    #
-    # assert False, "Modal has not appeared yet on screen"
 
 
 @step("I click the {text} button in the landing page popup")
