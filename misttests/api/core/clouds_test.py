@@ -12,5 +12,5 @@ def test_list_clouds(pretty_print, mist_core, owner_api_token):
 
 
 def test_list_images(pretty_print, mist_core, owner_api_token):
-    response = mist_core.list_images('dummy').get()
+    response = mist_core.list_images('dummy', api_token=owner_api_token).get()
     assert_response_ok(response)
