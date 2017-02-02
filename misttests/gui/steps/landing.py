@@ -161,8 +161,6 @@ def get_mist_config_password(context,kind):
 def enter_creds(context, kind, action):
     from .forms import clear_input_and_send_keys
 
-    import ipdb;ipdb.set_trace()
-
     kind = kind.lower()
     action = action.lower()
     if action not in ['login', 'signup', 'signup_password_set',
@@ -239,6 +237,7 @@ def enter_creds(context, kind, action):
         clear_input_and_send_keys(pass_input, password_to_use)
         clear_input_and_send_keys(pass_confirm_input, password_to_use)
     elif action == 'signup_password_set':
+        import ipdb; ipdb.set_trace()
         #try:
         #     WebDriverWait(context.browser, 4).until(
         #         EC.visibility_of_element_located((By.ID, "password")))
@@ -247,8 +246,16 @@ def enter_creds(context, kind, action):
         #                            "seconds")
         set_password_class = neon_animated_pages.find_element_by_tag_name('landing-set-password')
 
-        first_textfield = context.browser.find_element_by_id("password")
-        second_textfield = context.browser.find_element_by_id("confirm_password")
+        shadow_root = get_shadow_root(context, set_password_class)
+        iron_form = shadow_root.find_element_by_css_selector('iron-form')
+        form = iron_form.find_element_by_tag_name('form')
+        mist_password = form.find_element_by_tag_name('mist-password')
+        shadow_root = get_shadow_root(context, mist_password)
+
+        pass_input = shadow_root.find_element_by_css_selector('paper-input')
+
+        # first_textfield = context.browser.find_element_by_id("password")
+        # second_textfield = context.browser.find_element_by_id("confirm_password")
         if kind == 'alt':
             password_to_use = context.mist_config['PASSWORD2']
         elif kind == 'standard':
@@ -261,8 +268,8 @@ def enter_creds(context, kind, action):
             password_to_use = context.mist_config['MEMBER2_PASSWORD']
         else:
             raise Exception('No such type of creds')
-        clear_input_and_send_keys(first_textfield, password_to_use)
-        clear_input_and_send_keys(second_textfield, password_to_use)
+        clear_input_and_send_keys(pass_input, password_to_use)
+        # clear_input_and_send_keys(second_textfield, password_to_use)
     # elif action == 'demo request':
     #     try:
     #         WebDriverWait(context.browser, 4).until(

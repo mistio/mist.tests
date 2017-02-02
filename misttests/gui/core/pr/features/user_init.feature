@@ -11,9 +11,10 @@ Feature: Login Scenarios
     Then I should receive an email at the address "EMAIL" with subject "[mist.io] Confirm your registration" within 10 seconds
     Then I follow the link inside the email
     And I delete old emails
-
-    # TODO: FIX
     Then I enter my standard credentials for signup_password_set
+
+
+    
     And I click the submit button in the landing page popup
 
 
