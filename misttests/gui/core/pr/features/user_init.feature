@@ -19,13 +19,8 @@ Feature: Login Scenarios
     When I open the signup popup
     And I enter my standard credentials for signup
     And I click the sign up button in the landing page popup
-
-
+    And I wait for 1 seconds
     Then I should get an already registered error
-    Then I close the "Register" popup
-
-
-    And I wait for 2 seconds
 
   @forgot-password
   Scenario: Forgot password
