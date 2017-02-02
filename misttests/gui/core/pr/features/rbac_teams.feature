@@ -6,8 +6,6 @@ Feature: Rbac
   Scenario: Owner creates a new organization
     Given rbac members are initialized
     Given I am logged in to mist.core
-#    And I am in the new UI
-#    And  I wait for the dashboard to load
     When I click the Gravatar
     And I wait for 1 seconds
     Then I click the button "Add Organisation" in the user menu
@@ -18,7 +16,6 @@ Feature: Rbac
     And I wait for 2 seconds
     And I click the "Switch" button in the dialog "Add Organization"
     Then I expect the dialog "Add Organization" is closed within 4 seconds
-#    When I wait for the dashboard to load
 
   @add-team
   Scenario: Owner creates a team
@@ -44,11 +41,9 @@ Feature: Rbac
     Then I logout
     Then I should receive an email at the address "MEMBER1_EMAIL" with subject "[mist.io] Confirm your invitation" within 15 seconds
     And I follow the link inside the email
-#    And I click the email button in the landing page popup
     Then I enter my rbac_member1 credentials for login
     And I click the sign in button in the landing page popup
     Given that I am redirected within 5 seconds
-    #And I am in the new UI
     When I wait for the dashboard to load
     Then I ensure that I am in the "ORG_NAME" organization context
     When I visit the Teams page
@@ -58,8 +53,6 @@ Feature: Rbac
   @add-member2
    Scenario: Add member2
     Given I am logged in to mist.core as rbac_owner
-#    And I am in the new UI
-#    When I wait for the dashboard to load
     And I visit the Teams page
     When I click the "Test team" "team"
     And I expect the "team" edit form to be visible within max 5 seconds
@@ -85,8 +78,6 @@ Feature: Rbac
   @delete-members
   Scenario: Owner deletes team members
     Given I am logged in to mist.core as rbac_owner
-#    And I am in the new UI
-#    When I wait for the dashboard to load
     And I visit the Teams page
     When I click the "Test team" "team"
     And I expect the "team" edit form to be visible within max 5 seconds
@@ -115,7 +106,6 @@ Feature: Rbac
     And "Rbac Test Team" team should be present within 5 seconds
     Then I logout
 
-
    @verify-delete-member
     Scenario: Member2 has been removed from org
     Given I am logged in to mist.core as rbac_member2
@@ -123,7 +113,6 @@ Feature: Rbac
     When I wait for the dashboard to load
     Then I should see the form to set name for new organization
     Then I logout
-
 
   @delete-team
   Scenario: Owner deletes a team

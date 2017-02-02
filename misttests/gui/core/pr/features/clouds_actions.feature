@@ -6,7 +6,6 @@ Feature: Cloud actions for polymer
 
   @cloud-edit-creds
   Scenario: Edit credentials of a cloud
-    When I wait for the dashboard to load
     Given "Openstack" cloud has been added
     When I visit the Networks page
     Then "private_network" network should be present within 10 seconds
