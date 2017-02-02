@@ -126,7 +126,6 @@ def follow_link_in_email(context, email_address, subject):
 @step(u'I should receive an email at the address "{email_address}" with subject'
       u' "{subject}" within {seconds} seconds')
 def check_if_email_arrived_with_delay(context, email_address, subject, seconds):
-    import ipdb; ipdb.set_trace()
     email = context.mist_config[email_address]
     timeout = time() + int(seconds)
     while time() < timeout:

@@ -344,11 +344,23 @@ def check_state_of_button(context, button, state):
 
 @step(u'I should get an already registered error')
 def already_registered(context):
-    try:
-        WebDriverWait(context.browser, int(1)).until(
-            EC.visibility_of_element_located((By.CLASS_NAME, 'center')))
-    except TimeoutException:
-        raise TimeoutException("'Already Registered!' message did not appear.")
+    # try:
+    #     WebDriverWait(context.browser, int(1)).until(
+    #         EC.visibility_of_element_located((By.CLASS_NAME, 'center')))
+    # except TimeoutException:
+    #     raise TimeoutException("'Already Registered!' message did not appear.")
+
+    landing_app = context.browser.find_element_by_tag_name("landing-app")
+    shadow_root = get_shadow_root(context, landing_app)
+    neon_animated_pages = shadow_root.find_element_by_css_selector("neon-animated-pages")
+    sign_up_class = neon_animated_pages.find_element_by_tag_name('landing-sign-up')
+    shadow_root = get_shadow_root(context, sign_up_class)
+    iron_form = shadow_root.find_element_by_css_selector('iron-form')
+    form = iron_form.find_element_by_tag_name('form')
+    error_msg = form.find_element_by_tag_name('div')
+    if safe_get_element_text(error_msg) == 'Conflict':
+        return
+    assert False, 'No conflict message appeared'
 
 
 @step(u'I should see the landing page within {seconds} seconds')

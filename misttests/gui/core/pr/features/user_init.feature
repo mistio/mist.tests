@@ -15,14 +15,12 @@ Feature: Login Scenarios
     And I click the go button in the landing page popup
     Then I wait for the dashboard to load
     And I logout
-
-    
     Given I am not logged in to mist.core
     When I open the signup popup
     And I enter my standard credentials for signup
     And I click the sign up button in the landing page popup
 
-    # TODO: FIX
+
     Then I should get an already registered error
     Then I close the "Register" popup
 
