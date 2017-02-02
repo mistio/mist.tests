@@ -246,7 +246,6 @@ def enter_creds(context, kind, action):
         clear_input_and_send_keys(pass_input, password_to_use)
         clear_input_and_send_keys(pass_confirm_input, password_to_use)
     elif action == 'signup_password_set':
-        import ipdb; ipdb.set_trace()
         #try:
         #     WebDriverWait(context.browser, 4).until(
         #         EC.visibility_of_element_located((By.ID, "password")))
