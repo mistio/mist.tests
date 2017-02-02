@@ -44,38 +44,7 @@ Feature: Login Scenarios
     Then I click the reset_pass_submit button in the landing page popup
     And I wait for the dashboard to load
     Then I logout
-    #Then I logout of legacy gui
-    And I wait for 2 seconds
 
-#  @req-demo
-#  Scenario: Request demo as an already registered member
-#    Given I am not logged in to mist.core
-#    When I open the signup popup
-#    And I click the request demo button in the landing page popup
-#    And I enter my standard credentials for demo request
-#    And I click the request demo button in the landing page popup
-#    Then I should receive an email at the address "EMAIL" with subject "Demo request" within 10 seconds
-#    When I wait for 2 seconds
-#    Then I close the "Success" popup
-
-#  @req-demo-register
-#  Scenario: Request demo and sign up
-#    When I make sure user with email "EMAIL" is absent
-#    Given I am not logged in to mist.core
-#    When I open the signup popup
-#    And I click the request demo button in the landing page popup
-#    And I enter my standard credentials for demo request
-#    And I wait for 1 seconds
-#    And I click the request demo button in the landing page popup
-#    #Then I should receive an email at the address "EMAIL" with subject "Demo request" within 10 seconds
-#    Then I should receive an email at the address "EMAIL" with subject "[mist.io] Confirm your registration" within 10 seconds
-#    And I follow the link inside the email
-#    Then I enter my standard credentials for signup_password_set
-#    And I click the submit button in the landing page popup
-#    And I wait for the mist.io splash page to load
-#    Then I logout of legacy gui
-#    And I wait for 2 seconds
-#
 #  @multiple-login
 #  Scenario: Launch two browsers and try to login from both
 #    Given I am logged in to mist.core
