@@ -20,7 +20,7 @@ Feature: Login Scenarios
     And I enter my standard credentials for signup
     And I click the sign up button in the landing page popup
     And I wait for 1 seconds
-    Then I should get an already registered error
+    Then I should get a conflict error
 
   @forgot-password
   Scenario: Forgot password
