@@ -82,28 +82,37 @@ def click_button_in_landing_page(context, text):
     text = text.lower()
     if text not in ['email', 'google', 'github', 'sign in', 'sign up'
                             , 'submit', 'request demo', 'forgot password',
-                            'reset_password_email_submit', 'reset_pass_submit']:
+                            'reset_password_email_submit', 'reset_pass_submit', 'go']:
         raise ValueError('This button does not exist in the landing page popup')
     landing_app = context.browser.find_element_by_tag_name("landing-app")
     shadow_root = get_shadow_root(context, landing_app)
     neon_animated_pages = shadow_root.find_element_by_css_selector("neon-animated-pages")
 
     if text == 'sign in':
-            sign_in_class = neon_animated_pages.find_element_by_tag_name('landing-sign-in')
-            shadow_root = get_shadow_root(context, sign_in_class)
-            iron_form = shadow_root.find_element_by_css_selector('iron-form')
-            form = iron_form.find_element_by_tag_name('form')
-            login_popup = form.find_element_by_id('signInSubmit')
-            clicketi_click(context, login_popup)
-            return
+        sign_in_class = neon_animated_pages.find_element_by_tag_name('landing-sign-in')
+        shadow_root = get_shadow_root(context, sign_in_class)
+        iron_form = shadow_root.find_element_by_css_selector('iron-form')
+        form = iron_form.find_element_by_tag_name('form')
+        login_popup = form.find_element_by_id('signInSubmit')
+        clicketi_click(context, login_popup)
+        return
     elif text.lower() == 'sign up':
-            sign_in_class = neon_animated_pages.find_element_by_tag_name('landing-sign-up')
-            shadow_root = get_shadow_root(context, sign_in_class)
-            iron_form = shadow_root.find_element_by_css_selector('iron-form')
-            form = iron_form.find_element_by_tag_name('form')
-            signup_popup = form.find_element_by_id('signUpSubmit')
-            clicketi_click(context, signup_popup)
-            return
+        sign_in_class = neon_animated_pages.find_element_by_tag_name('landing-sign-up')
+        shadow_root = get_shadow_root(context, sign_in_class)
+        iron_form = shadow_root.find_element_by_css_selector('iron-form')
+        form = iron_form.find_element_by_tag_name('form')
+        signup_popup = form.find_element_by_id('signUpSubmit')
+        clicketi_click(context, signup_popup)
+        return
+    elif text.lower() == 'go':
+        set_password_class = neon_animated_pages.find_element_by_tag_name('landing-set-password')
+
+        shadow_root = get_shadow_root(context, set_password_class)
+        iron_form = shadow_root.find_element_by_css_selector('iron-form')
+        form = iron_form.find_element_by_tag_name('form')
+        set_password_popup = form.find_element_by_id('setPasswordSubmit')
+        clicketi_click(context, set_password_popup)
+        return
 
     # try:
     #     password_set_popup = context.browser.find_element_by_id('modalPasswordSet')
