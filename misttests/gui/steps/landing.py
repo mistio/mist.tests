@@ -239,12 +239,14 @@ def enter_creds(context, kind, action):
         clear_input_and_send_keys(pass_input, password_to_use)
         clear_input_and_send_keys(pass_confirm_input, password_to_use)
     elif action == 'signup_password_set':
-        try:
-            WebDriverWait(context.browser, 4).until(
-                EC.visibility_of_element_located((By.ID, "password")))
-        except TimeoutException:
-            raise TimeoutException("Password input did not appear after 4 "
-                                   "seconds")
+        #try:
+        #     WebDriverWait(context.browser, 4).until(
+        #         EC.visibility_of_element_located((By.ID, "password")))
+        # except TimeoutException:
+        #     raise TimeoutException("Password input did not appear after 4 "
+        #                            "seconds")
+        set_password_class = neon_animated_pages.find_element_by_tag_name('landing-set-password')
+
         first_textfield = context.browser.find_element_by_id("password")
         second_textfield = context.browser.find_element_by_id("confirm_password")
         if kind == 'alt':
@@ -261,19 +263,19 @@ def enter_creds(context, kind, action):
             raise Exception('No such type of creds')
         clear_input_and_send_keys(first_textfield, password_to_use)
         clear_input_and_send_keys(second_textfield, password_to_use)
-    elif action == 'demo request':
-        try:
-            WebDriverWait(context.browser, 4).until(
-                EC.visibility_of_element_located((By.ID, "demo-email")))
-        except TimeoutException:
-            raise TimeoutException("Email input did not appear after 4 seconds")
-        email_input = context.browser.find_element_by_id("demo-email")
-        if kind == 'standard':
-            clear_input_and_send_keys(email_input, context.mist_config['EMAIL'])
-        elif kind == 'alt':
-            clear_input_and_send_keys(email_input, context.mist_config['DEMO_EMAIL'])
-        name_input = context.browser.find_element_by_id("demo-name")
-        clear_input_and_send_keys(name_input, context.mist_config['NAME'])
+    # elif action == 'demo request':
+    #     try:
+    #         WebDriverWait(context.browser, 4).until(
+    #             EC.visibility_of_element_located((By.ID, "demo-email")))
+    #     except TimeoutException:
+    #         raise TimeoutException("Email input did not appear after 4 seconds")
+    #     email_input = context.browser.find_element_by_id("demo-email")
+    #     if kind == 'standard':
+    #         clear_input_and_send_keys(email_input, context.mist_config['EMAIL'])
+    #     elif kind == 'alt':
+    #         clear_input_and_send_keys(email_input, context.mist_config['DEMO_EMAIL'])
+    #     name_input = context.browser.find_element_by_id("demo-name")
+    #     clear_input_and_send_keys(name_input, context.mist_config['NAME'])
 
 
 @step(u'there should be an "{error_message}" error message inside the "{button}" button')
