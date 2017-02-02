@@ -42,8 +42,10 @@ def open_login_popup(context, kind):
         neon_animated_pages = shadow_root.find_element_by_css_selector('neon-animated-pages')
         landing_home = neon_animated_pages.find_element_by_tag_name("landing-home")
         inner_shadow_root = get_shadow_root(context, landing_home)
-        div = inner_shadow_root.find_element_by_css_selector('div')
-        a = div.find_element_by_tag_name("a")
+        div = inner_shadow_root.find_element_by_id('container')
+
+        inner_div = div.find_element_by_css_selector('div')
+        a = inner_div.find_element_by_tag_name("a")
         sign_up_btn = a.find_element_by_tag_name("paper-button")
 
         if sign_up_btn.is_displayed():
@@ -158,6 +160,8 @@ def get_mist_config_password(context,kind):
 @step(u'I enter my {kind} credentials for {action}')
 def enter_creds(context, kind, action):
     from .forms import clear_input_and_send_keys
+
+    import ipdb;ipdb.set_trace()
 
     kind = kind.lower()
     action = action.lower()

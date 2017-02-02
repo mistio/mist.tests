@@ -48,7 +48,7 @@ Feature: Rbac
     Then I enter my rbac_member1 credentials for login
     And I click the sign in button in the landing page popup
     Given that I am redirected within 5 seconds
-    And I am in the new UI
+    #And I am in the new UI
     When I wait for the dashboard to load
     Then I ensure that I am in the "ORG_NAME" organization context
     When I visit the Teams page
