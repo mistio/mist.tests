@@ -18,9 +18,19 @@ def select_action_for_schedule(context, action):
 @step(u'I select "{option_to_select}" from "{radio_group}" radio-group')
 def select_option_from_radiogroup(context, option_to_select, radio_group):
     paper_radio_group = context.browser.find_element_by_id(radio_group)
-    import ipdb;ipdb.set_trace()
     paper_radio_buttons = paper_radio_group.find_elements_by_tag_name('paper-radio-button')
     for button in paper_radio_buttons:
         if safe_get_element_text(button) == option_to_select:
             clicketi_click(context, button)
+            return
+
+
+@step(u'I select the "{option_to_select}" checkbox')
+def select_checkbox(context, option_to_select):
+    paper_check_boxes = context.browser.find_elements_by_tag_name('paper-checkbox')
+
+    #import ipdb;ipdb.set_trace()
+    for checkbox in paper_check_boxes:
+        if safe_get_element_text(checkbox) == option_to_select:
+            clicketi_click(context, checkbox)
             return
