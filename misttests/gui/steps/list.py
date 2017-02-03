@@ -100,6 +100,8 @@ def click_menu_button_of_list_item(context, button_name, item_name,
         click_button_from_collection(context, button_name, more_buttons)
         return True
     assert False, "Could not click button %s" % button_name
+
+
 @step(u'"{name}" machine state has to be "{state}" within {seconds} seconds')
 def assert_machine_state(context, name, state, seconds):
     if context.mist_config.get(name):

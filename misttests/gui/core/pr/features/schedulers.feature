@@ -5,7 +5,10 @@ Feature: Schedulers
     Given I am logged in to mist.core
 
   @scheduler-add
-  Scenario Outline: Add schedule
+  Scenario: Add schedule
+    Given "Digital Ocean" cloud has been added
+    When I visit the Machines page
+    Then "Spiros-test-scheduler" machine state has to be "running" within 20 seconds
     When I visit the Schedules page
     When I click the button "+"
     Then I expect the "schedule" add form to be visible within max 10 seconds
@@ -19,17 +22,12 @@ Feature: Schedulers
     And I wait for 1 seconds
     And I select the "Spiros-test-scheduler" checkbox
     And I select "secs" from "schedule_entry_interval_period" radio-group
-    When I set the value "2" to field "Maximum Run Count" in "schedule" add form
+    #When I set the value "2" to field "Maximum Run Count" in "schedule" add form
     And I click the button "Add" in "schedule" add form
     And I wait for 1 seconds
     When I visit the Machines page
     Then "Spiros-test-scheduler" machine state has to be "stopped" within 30 seconds
-
-    Examples: Schedule according to
-    | action  | machines | schedule_type | name     |
-    | start   | ba=bi    | Interval      | myInt    |
-    # | stop    | co=ci    | Crontab       | myCron   |
-    # | reboot  | da=di    | One off       | myOneoff |
+  
 
   # @scheduler-rename
   # Scenario: Rename schedule
