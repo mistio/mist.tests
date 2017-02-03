@@ -12,7 +12,7 @@ Feature: Schedulers
     When I visit the Schedules page
     When I click the button "+"
     Then I expect the "schedule" add form to be visible within max 10 seconds
-    When I set the value "<name>" to field "Name" in "schedule" add form
+    When I set the value "TestScheduler" to field "Name" in "schedule" add form
     #And I click the "enabled" button
     And I select "Perform an action" from "script_or_action" radio-group
     Then I open the "Action" drop down
@@ -27,20 +27,22 @@ Feature: Schedulers
     And I wait for 1 seconds
     When I visit the Machines page
     Then "Spiros-test-scheduler" machine state has to be "stopped" within 30 seconds
-  
 
-  # @scheduler-rename
-  # Scenario: Rename schedule
-  #   When I click the "myInt" "schedule"
-  #   And I expect the "schedule" edit form to be visible within max 5 seconds
-  #   Then I click the button "Edit Schedule" from the menu of the "schedule" edit form
-  #   And I expect the dialog "Edit Schedule" is open within 4 seconds
-  #   When I set the value "SecInt" to field "Name" in "Edit Schedule" dialog
-  #   And I click the "Save" button in the dialog "Edit Schedule"
-  #   And I expect the dialog "Edit Schedule"  is closed within 4 seconds
-  #   Then I visit the schedulers page
-  #   And "myInt" schedule should be absent within 5 seconds
-  #   And "SecInt" schedule should be present within 5 seconds
+
+   @scheduler-rename
+   Scenario: Rename schedule
+     When I visit the Schedules page
+     When I click the "TestScheduler" "schedule"
+     And I expect the "schedule" edit form to be visible within max 5 seconds
+     Then I click the button "Edit" from the menu of the "schedule" edit form
+     And I expect the dialog "Edit Schedule" is open within 4 seconds
+     When I set the value "RenamedSchedule" to field "Name" in "Edit Schedule" dialog
+     And I click the "Save" button in the dialog "Edit Schedule"
+     And I expect the dialog "Edit Schedule"  is closed within 4 seconds
+     Then I visit the Home page
+     When I visit the Schedules page
+     Then "TestScheduler" schedule should be absent within 5 seconds
+     And "RenamedSchedule" schedule should be present within 5 seconds
   #
   # @schedule-delete
   # Scenario: Delete schedule
