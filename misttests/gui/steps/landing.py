@@ -138,8 +138,7 @@ def enter_credentials(context, kind, action):
         name_input = form.find_element_by_id("name")
         name_input.send_keys(context.mist_config['NAME'])
 
-        sleep(0.5)
-        email_input = form.find_element_by_id("email")
+        email_input = form.find_element_by_id("signUp-email")
         email_input.send_keys(get_mist_config_email(context, kind))
 
     elif action == 'signup_password_set':
