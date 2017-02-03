@@ -13,17 +13,17 @@ Feature: Schedulers
     #And I click the "enabled" button
     And I select "Perform an action" from "script_or_action" radio-group
     Then I open the "Action" drop down
-    And I click the button "Stop" in the "Action" dropdown
+    And I click the button "Reboot" in the "Action" dropdown
     And I wait for 1 seconds
     And I select "Specific Machines" from "ids_or_tags" radio-group
     And I wait for 1 seconds
     And I select the "Spiros-test-scheduler" checkbox
-    And I select "secs" from "schedule_entry_inter_val_period" radio_group
+    And I select "secs" from "schedule_entry_interval_period" radio-group
     When I set the value "2" to field "Maximum Run Count" in "schedule" add form
     And I click the button "Add" in "schedule" add form
     And I wait for 1 seconds
     When I visit the Machines page
-
+    Then "Spiros-test-scheduler" machine state has to be "stopped" within 30 seconds
 
     Examples: Schedule according to
     | action  | machines | schedule_type | name     |
