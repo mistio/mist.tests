@@ -10,10 +10,12 @@ Feature: Schedulers
     When I click the button "+"
     Then I expect the "schedule" add form to be visible within max 10 seconds
     When I set the value "<name>" to field "Name" in "schedule" add form
-    And I click the "task_enabled" button
-    And I select perform action in schedules add form
-    # And I click
-
+    #And I click the "enabled" button
+    And I select "Perform an action" from "script_or_action" radio-group
+    Then I open the "Action" drop down
+    And I click the button "Stop" in the "Action" dropdown
+    And I wait for 5 seconds
+    
 
     Examples: Schedule according to
     | action  | machines | schedule_type | name     |

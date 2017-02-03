@@ -230,8 +230,8 @@ def click_button_by_id(context,button):
         button_to_click = context.browser.find_element_by_id('Create')
     elif button == 'toggle':
         button_to_click = context.browser.find_element_by_id('enable-disable-cloud')
-    elif button == 'task_enabled':
-        button_to_click = context.browser.find_element_by_id('task_enabled')
+    elif button == 'enabled':
+        button_to_click = context.browser.find_element_by_id('enabled')
     else:
         raise Exception('Unknown type of button')
     assert button_to_click.is_displayed(), "%s button is not displayed" %button

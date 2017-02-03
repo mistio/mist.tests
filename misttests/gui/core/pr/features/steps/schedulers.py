@@ -14,3 +14,13 @@ def select_action_for_schedule(context, action):
     pdb.set_trace()
     clicketi_click(context, buttons[0])
 
+
+@step(u'I select "{option_to_select}" from "{radio_group}" radio-group')
+def select_option_from_radiogroup(context, option_to_select, radio_group):
+    paper_radio_group = context.browser.find_element_by_id(radio_group)
+    import ipdb;ipdb.set_trace()
+    paper_radio_buttons = paper_radio_group.find_elements_by_tag_name('paper-radio-button')
+    for button in paper_radio_buttons:
+        if safe_get_element_text(button) == option_to_select:
+            clicketi_click(context, button)
+            return
