@@ -34,8 +34,8 @@ def open_login_popup(context, kind):
         button_to_click = a.find_element_by_tag_name("paper-button")
 
     elif kind == 'signup':
-        neon_animated_pages = shadow_root.find_element_by_css_selector('neon-animated-pages')
-        landing_home = neon_animated_pages.find_element_by_tag_name("landing-home")
+        landing_pages = shadow_root.find_element_by_css_selector('landing-pages')
+        landing_home = landing_pages.find_element_by_tag_name("landing-home")
         inner_shadow_root = get_shadow_root(context, landing_home)
         div = inner_shadow_root.find_element_by_id('container')
         inner_div = div.find_element_by_css_selector('div')
@@ -57,14 +57,14 @@ def click_button_in_landing_page(context, text):
 
     landing_app = context.browser.find_element_by_tag_name("landing-app")
     shadow_root = get_shadow_root(context, landing_app)
-    neon_animated_pages = shadow_root.find_element_by_css_selector("neon-animated-pages")
+    landing_pages = shadow_root.find_element_by_css_selector("landing-pages")
 
     if text == 'sign in':
-        page = neon_animated_pages.find_element_by_tag_name('landing-sign-in')
+        page = landing_pages.find_element_by_tag_name('landing-sign-in')
     elif text.lower() == 'sign up':
-        page = neon_animated_pages.find_element_by_tag_name('landing-sign-up')
+        page = landing_pages.find_element_by_tag_name('landing-sign-up')
     elif text.lower() == 'go':
-        page = neon_animated_pages.find_element_by_tag_name('landing-set-password')
+        page = landing_pages.find_element_by_tag_name('landing-set-password')
 
     shadow_root = get_shadow_root(context, page)
     iron_form = shadow_root.find_element_by_css_selector('iron-form')
@@ -115,10 +115,10 @@ def enter_credentials(context, kind, action):
 
     landing_app = context.browser.find_element_by_tag_name("landing-app")
     shadow_root = get_shadow_root(context, landing_app)
-    neon_animated_pages = shadow_root.find_element_by_css_selector("neon-animated-pages")
+    landing_pages = shadow_root.find_element_by_css_selector("landing-pages")
 
     if action == 'login':
-        sign_in_class = neon_animated_pages.find_element_by_tag_name('landing-sign-in')
+        sign_in_class = landing_pages.find_element_by_tag_name('landing-sign-in')
         shadow_root = get_shadow_root(context, sign_in_class)
         iron_form = shadow_root.find_element_by_css_selector('iron-form')
         form = iron_form.find_element_by_tag_name('form')
@@ -130,7 +130,7 @@ def enter_credentials(context, kind, action):
         password_input.send_keys(get_mist_config_password(context, kind))
 
     elif action == 'signup':
-        sign_up_class = neon_animated_pages.find_element_by_tag_name('landing-sign-up')
+        sign_up_class = landing_pages.find_element_by_tag_name('landing-sign-up')
         shadow_root = get_shadow_root(context, sign_up_class)
         iron_form = shadow_root.find_element_by_css_selector('iron-form')
         form = iron_form.find_element_by_tag_name('form')
@@ -142,7 +142,7 @@ def enter_credentials(context, kind, action):
         email_input.send_keys(get_mist_config_email(context, kind))
 
     elif action == 'signup_password_set':
-        set_password_class = neon_animated_pages.find_element_by_tag_name('landing-set-password')
+        set_password_class = landing_pages.find_element_by_tag_name('landing-set-password')
 
         shadow_root = get_shadow_root(context, set_password_class)
         iron_form = shadow_root.find_element_by_css_selector('iron-form')
@@ -176,8 +176,8 @@ def check_error_message(context, error_message, button):
     if button == 'sign in':
         landing_app = context.browser.find_element_by_tag_name("landing-app")
         shadow_root = get_shadow_root(context, landing_app)
-        neon_animated_pages = shadow_root.find_element_by_css_selector("neon-animated-pages")
-        sign_in_class = neon_animated_pages.find_element_by_tag_name('landing-sign-in')
+        landing_pages = shadow_root.find_element_by_css_selector("landing-pages")
+        sign_in_class = landing_pages.find_element_by_tag_name('landing-sign-in')
         shadow_root = get_shadow_root(context, sign_in_class)
         iron_form = shadow_root.find_element_by_css_selector('iron-form')
         form = iron_form.find_element_by_tag_name('form')
@@ -198,8 +198,8 @@ def check_state_of_button(context, button, state):
     if button == 'sign in':
         landing_app = context.browser.find_element_by_tag_name("landing-app")
         shadow_root = get_shadow_root(context, landing_app)
-        neon_animated_pages = shadow_root.find_element_by_css_selector("neon-animated-pages")
-        sign_in_class = neon_animated_pages.find_element_by_tag_name('landing-sign-in')
+        landing_pages = shadow_root.find_element_by_css_selector("landing-pages")
+        sign_in_class = landing_pages.find_element_by_tag_name('landing-sign-in')
         shadow_root = get_shadow_root(context, sign_in_class)
         iron_form = shadow_root.find_element_by_css_selector('iron-form')
         form = iron_form.find_element_by_tag_name('form')
@@ -219,8 +219,8 @@ def check_state_of_button(context, button, state):
 def already_registered(context):
     landing_app = context.browser.find_element_by_tag_name("landing-app")
     shadow_root = get_shadow_root(context, landing_app)
-    neon_animated_pages = shadow_root.find_element_by_css_selector("neon-animated-pages")
-    sign_up_class = neon_animated_pages.find_element_by_tag_name('landing-sign-up')
+    landing_pages = shadow_root.find_element_by_css_selector("landing-pages")
+    sign_up_class = landing_pages.find_element_by_tag_name('landing-sign-up')
     shadow_root = get_shadow_root(context, sign_up_class)
     iron_form = shadow_root.find_element_by_css_selector('iron-form')
     form = iron_form.find_element_by_tag_name('form')
