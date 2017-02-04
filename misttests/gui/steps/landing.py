@@ -224,9 +224,8 @@ def already_registered(context):
     shadow_root = get_shadow_root(context, sign_up_class)
     iron_form = shadow_root.find_element_by_css_selector('iron-form')
     form = iron_form.find_element_by_tag_name('form')
-    submit_btn = form.find_element_by_id("signUpSubmit")
-    error_msg = submit_btn.find_element_by_tag_name("div")
-    if safe_get_element_text(error_msg) == 'Conflict':
+    error_msg = form.find_element_by_id("signUpSubmit")
+    if 'conflict' in safe_get_element_text(error_msg).lower():
         return
     assert False, 'No conflict message appeared'
 
