@@ -59,12 +59,14 @@ def click_button_in_landing_page(context, text):
     shadow_root = get_shadow_root(context, landing_app)
     landing_pages = shadow_root.find_element_by_css_selector("landing-pages")
 
-    if text == 'sign in':
+    if text == 'sign in' or text == 'forgot password':
         page = landing_pages.find_element_by_tag_name('landing-sign-in')
     elif text.lower() == 'sign up':
         page = landing_pages.find_element_by_tag_name('landing-sign-up')
     elif text.lower() == 'go':
         page = landing_pages.find_element_by_tag_name('landing-set-password')
+    elif text.lower() == 'reset_password_email_submit':
+        page = landing_pages.find_element_by_tag_name('landing-forgot-password')
 
     shadow_root = get_shadow_root(context, page)
     iron_form = shadow_root.find_element_by_css_selector('iron-form')
@@ -76,6 +78,10 @@ def click_button_in_landing_page(context, text):
         popup = form.find_element_by_id('signUpSubmit')
     elif text == 'go':
         popup = form.find_element_by_id('setPasswordSubmit')
+    elif text == 'forgot password':
+        popup = form.find_element_by_id('forgotPasswordLink')
+    elif text == 'reset_password_email_submit':
+        popup = form.find_element_by_id('forgotPasswordSubmit')
 
     clicketi_click(context, popup)
     return
@@ -139,6 +145,15 @@ def enter_credentials(context, kind, action):
         name_input.send_keys(context.mist_config['NAME'])
 
         email_input = form.find_element_by_id("signUp-email")
+        email_input.send_keys(get_mist_config_email(context, kind))
+
+    elif action == 'password_reset_request':
+        password_reset_class = landing_pages.find_element_by_tag_name('landing-forgot-password')
+        shadow_root = get_shadow_root(context, password_reset_class)
+        iron_form = shadow_root.find_element_by_css_selector('iron-form')
+        form = iron_form.find_element_by_tag_name('form')
+
+        email_input = form.find_element_by_id("forgotPassword-email")
         email_input.send_keys(get_mist_config_email(context, kind))
 
     elif action == 'signup_password_set':
