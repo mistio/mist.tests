@@ -163,7 +163,6 @@ def enter_credentials(context, kind, action):
         email_input.send_keys(get_mist_config_email(context, kind))
 
     elif action == 'password_reset':
-        import ipdb;ipdb.set_trace()
         password_reset_class = landing_pages.find_element_by_tag_name('landing-reset-password')
         shadow_root = get_shadow_root(context, password_reset_class)
         iron_form = shadow_root.find_element_by_css_selector('iron-form')
