@@ -27,6 +27,7 @@ Feature: Login Scenarios
     When I visit mist.core
     When I open the login popup
     And I click the forgot password button in the landing page popup
+    And I wait for 1 seconds
     And I enter my standard credentials for password_reset_request
     And I click the reset_password_email_submit button in the landing page popup
     Then I should receive an email at the address "EMAIL" with subject "[mist.io] Password reset request" within 10 seconds
@@ -35,6 +36,11 @@ Feature: Login Scenarios
     Then I click the reset_pass_submit button in the landing page popup
     And I wait for the dashboard to load
     Then I logout
+    When I open the login popup
+    And I enter my new_creds credentials for login
+    And I click the sign in button in the landing page popup
+    Then I wait for the dashboard to load
+
 
 #  @multiple-login
 #  Scenario: Launch two browsers and try to login from both
