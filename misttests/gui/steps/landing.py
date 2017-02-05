@@ -67,6 +67,8 @@ def click_button_in_landing_page(context, text):
         page = landing_pages.find_element_by_tag_name('landing-set-password')
     elif text.lower() == 'reset_password_email_submit':
         page = landing_pages.find_element_by_tag_name('landing-forgot-password')
+    elif text.lower() == 'reset_pass_submit':
+        page = landing_pages.find_element_by_tag_name('landing-reset-password')
 
     shadow_root = get_shadow_root(context, page)
     iron_form = shadow_root.find_element_by_css_selector('iron-form')
@@ -82,6 +84,8 @@ def click_button_in_landing_page(context, text):
         popup = form.find_element_by_id('forgotPasswordLink')
     elif text == 'reset_password_email_submit':
         popup = form.find_element_by_id('forgotPasswordSubmit')
+    elif text == 'reset_pass_submit':
+        popup = form.find_element_by_id('resetPasswordSubmit')
 
     clicketi_click(context, popup)
     return
@@ -101,6 +105,8 @@ def get_mist_config_password(context,kind):
         return context.mist_config['PASSWORD2']
     elif kind == 'rbac_member1':
         return context.mist_config['MEMBER1_PASSWORD']
+    elif kind == 'new_creds':
+        return context.mist_config['GMAIL_FATBOY_PASSWORD']
     else:
         return context.mist_config['PASSWORD1']
 
@@ -116,7 +122,7 @@ def enter_credentials(context, kind, action):
                       'demo request']:
         raise ValueError("Cannot input %s credentials" % action)
     if kind not in ['standard', 'alt', 'rbac_owner', 'rbac_member1',
-                    'rbac_member2'] and not kind.startswith('invalid'):
+                    'rbac_member2', 'new_creds'] and not kind.startswith('invalid'):
         raise ValueError("No idea what %s credentials are" % kind)
 
     landing_app = context.browser.find_element_by_tag_name("landing-app")
@@ -155,6 +161,19 @@ def enter_credentials(context, kind, action):
 
         email_input = form.find_element_by_id("forgotPassword-email")
         email_input.send_keys(get_mist_config_email(context, kind))
+
+    elif action == 'password_reset':
+        import ipdb;ipdb.set_trace()
+        password_reset_class = landing_pages.find_element_by_tag_name('landing-reset-password')
+        shadow_root = get_shadow_root(context, password_reset_class)
+        iron_form = shadow_root.find_element_by_css_selector('iron-form')
+        form = iron_form.find_element_by_tag_name('form')
+
+        mist_password = form.find_element_by_tag_name('mist-password')
+        shadow_root = get_shadow_root(context, mist_password)
+
+        pass_input = shadow_root.find_element_by_css_selector('paper-input')
+        clear_input_and_send_keys(pass_input, get_mist_config_password(context, kind))
 
     elif action == 'signup_password_set':
         set_password_class = landing_pages.find_element_by_tag_name('landing-set-password')

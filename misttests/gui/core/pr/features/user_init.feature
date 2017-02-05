@@ -31,7 +31,7 @@ Feature: Login Scenarios
     And I click the reset_password_email_submit button in the landing page popup
     Then I should receive an email at the address "EMAIL" with subject "[mist.io] Password reset request" within 10 seconds
     Then I follow the link inside the email
-    And I enter my standard credentials for password_reset
+    And I enter my new_creds credentials for password_reset
     Then I click the reset_pass_submit button in the landing page popup
     And I wait for the dashboard to load
     Then I logout
