@@ -79,6 +79,7 @@ Feature: Rbac
   Scenario: Owner deletes team members
     Given I am logged in to mist.core as rbac_owner
     And I visit the Teams page
+    And I wait for 3 seconds
     When I click the "Test Team" "team"
     And I expect the "team" edit form to be visible within max 5 seconds
     Then user with email "MEMBER2_EMAIL" should be confirmed
