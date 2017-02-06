@@ -129,8 +129,6 @@ def enter_credentials(context, kind, action):
     shadow_root = get_shadow_root(context, landing_app)
     landing_pages = shadow_root.find_element_by_css_selector("landing-pages")
 
-    import ipdb;ipdb.set_trace()
-
     if action == 'login':
         sign_in_class = landing_pages.find_element_by_tag_name('landing-sign-in')
         shadow_root = get_shadow_root(context, sign_in_class)
