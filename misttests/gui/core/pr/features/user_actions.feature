@@ -2,6 +2,30 @@
 Feature: Login Scenarios and Api Token
 
 
+  @api-token-test
+  Scenario: Create api token and test it with API call
+    Given I am logged in to mist.core
+    When I visit the Account page
+    And I wait for 3 seconds
+    Then I click the "API Tokens" button
+    #When I revoke all api tokens # needs to be fixed in the backend
+    Then I click the "Create API Token" button
+    #Create a step that checks if popup with id is open
+    #And I expect for "createTokenDialog" popup to appear within max 4 seconds
+    And I wait for 2 seconds
+    Then I type "Test token" in input with id "tokenName"
+    And I wait for 1 seconds
+    Then I click the button "Never" from the ttl dropdown
+    And I wait for 1 seconds
+    Then I type "PASSWORD1" in input with id "pass"
+    And I wait for 1 seconds
+    And I click the "Create" button
+    And I wait for 5 seconds
+    When I get the new api token value "BLABLA_TOKEN"
+    Then I test the api token "BLABLA_TOKEN". It should work.
+    #When i revoke it, it should fail #needs to be fixed in the backend
+    #Then I test the api token "BLABLA_TOKEN". It should fail.
+
   @signup
   Scenario: Sign Up success
     When I make sure user with email "EMAIL" is absent
@@ -38,28 +62,28 @@ Feature: Login Scenarios and Api Token
     And I enter my invalid_email credentials for login
     Then the sign in button should be not clickable
 
-  @api-token-test
-  Scenario: Create api token and test it with API call
-    Given I am logged in to mist.core
-    When I visit the Account page
-    And I wait for 3 seconds
-    Then I click the "API Tokens" button
-    #When I revoke all api tokens # needs to be fixed in the backend
-    Then I click the "Create API Token" button
-    #Create a step that checks if popup with id is open
-    #And I expect for "createTokenDialog" popup to appear within max 4 seconds
-    And I wait for 2 seconds
-    Then I type "Test token" in input with id "tokenName"
-    And I wait for 1 seconds
-    Then I click the button "Never" from the ttl dropdown
-    And I wait for 1 seconds
-    Then I type "PASSWORD1" in input with id "pass"
-    And I wait for 1 seconds
-    And I click the "Create" button
-    And I wait for 5 seconds
-    When I get the new api token value "BLABLA_TOKEN"
-    Then I test the api token "BLABLA_TOKEN". It should work.
-    And I logout
+#  @api-token-test
+#  Scenario: Create api token and test it with API call
+#    Given I am logged in to mist.core
+#    When I visit the Account page
+#    And I wait for 3 seconds
+#    Then I click the "API Tokens" button
+#    #When I revoke all api tokens # needs to be fixed in the backend
+#    Then I click the "Create API Token" button
+#    #Create a step that checks if popup with id is open
+#    #And I expect for "createTokenDialog" popup to appear within max 4 seconds
+#    And I wait for 2 seconds
+#    Then I type "Test token" in input with id "tokenName"
+#    And I wait for 1 seconds
+#    Then I click the button "Never" from the ttl dropdown
+#    And I wait for 1 seconds
+#    Then I type "PASSWORD1" in input with id "pass"
+#    And I wait for 1 seconds
+#    And I click the "Create" button
+#    And I wait for 5 seconds
+#    When I get the new api token value "BLABLA_TOKEN"
+#    Then I test the api token "BLABLA_TOKEN". It should work.
+#    And I logout
     #When i revoke it, it should fail #needs to be fixed in the backend
     #Then I test the api token "BLABLA_TOKEN". It should fail.
 
