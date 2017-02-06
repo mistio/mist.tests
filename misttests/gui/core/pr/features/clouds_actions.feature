@@ -59,5 +59,8 @@ Feature: Cloud actions for polymer
   Scenario: Delete a cloud
     Then I open the cloud menu for "Docker"
     And I click the "delete cloud" button
+    And I expect the dialog "Delete Docker" is open within 4 seconds
+    And I click the "Delete" button in the dialog "Delete Docker"
+    And I expect the dialog "Delete Docker" is closed within 4 seconds
     And I wait for 2 seconds
     Then the "Docker" cloud should be deleted
