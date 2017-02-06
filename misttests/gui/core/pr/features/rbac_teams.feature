@@ -68,7 +68,7 @@ Feature: Rbac
     Then I should receive an email at the address "MEMBER2_EMAIL" with subject "[mist.io] Confirm your invitation" within 15 seconds
     And I follow the link inside the email
     Then I enter my rbac_member2 credentials for signup_password_set
-    And I click the submit button in the landing page popup
+    And I click the go button in the landing page popup
     When I wait for the dashboard to load
     Then I ensure that I am in the "ORG_NAME" organization context
     When I visit the Teams page

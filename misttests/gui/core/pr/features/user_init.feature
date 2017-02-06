@@ -40,4 +40,3 @@ Feature: Login Scenarios
     And I enter my new_creds credentials for login
     And I click the sign in button in the landing page popup
     Then I wait for the dashboard to load
-    
