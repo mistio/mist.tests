@@ -172,7 +172,8 @@ def enter_credentials(context, kind, action):
         shadow_root = get_shadow_root(context, mist_password)
 
         pass_input = shadow_root.find_element_by_css_selector('paper-input')
-        clear_input_and_send_keys(pass_input, get_mist_config_password(context, kind))
+        pass_input.send_keys(get_mist_config_password(context, kind))
+        #clear_input_and_send_keys(pass_input, get_mist_config_password(context, kind))
 
     elif action == 'signup_password_set':
         set_password_class = landing_pages.find_element_by_tag_name('landing-set-password')
@@ -197,7 +198,9 @@ def enter_credentials(context, kind, action):
             password_to_use = context.mist_config['MEMBER2_PASSWORD']
         else:
             raise Exception('No such type of creds')
-        clear_input_and_send_keys(pass_input, password_to_use)
+
+        pass_input.send_keys(password_to_use)
+        #clear_input_and_send_keys(pass_input, password_to_use)
 
 
 @step(u'there should be an "{error_message}" error message inside the "{button}" button')
