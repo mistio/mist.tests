@@ -107,6 +107,8 @@ def get_mist_config_password(context,kind):
         return context.mist_config['MEMBER1_PASSWORD']
     elif kind == 'new_creds':
         return context.mist_config['GMAIL_FATBOY_PASSWORD']
+    elif kind == 'rbac_member2':
+        return context.mist_config['MEMBER2_PASSWORD']
     else:
         return context.mist_config['PASSWORD1']
 
@@ -185,21 +187,7 @@ def enter_credentials(context, kind, action):
         shadow_root = get_shadow_root(context, mist_password)
 
         pass_input = shadow_root.find_element_by_css_selector('paper-input')
-
-        if kind == 'alt':
-            password_to_use = context.mist_config['PASSWORD2']
-        elif kind == 'standard':
-            password_to_use = context.mist_config['PASSWORD1']
-        elif kind == 'rbac_owner':
-            password_to_use = context.mist_config['PASSWORD1']
-        elif kind == 'rbac_member1':
-            password_to_use = context.mist_config['MEMBER1_PASSWORD']
-        elif kind == 'rbac_member2':
-            password_to_use = context.mist_config['MEMBER2_PASSWORD']
-        else:
-            raise Exception('No such type of creds')
-
-        pass_input.send_keys(password_to_use)
+        pass_input.send_keys(get_mist_config_password(context, kind))
         #clear_input_and_send_keys(pass_input, password_to_use)
 
 
