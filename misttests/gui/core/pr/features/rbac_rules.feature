@@ -10,8 +10,6 @@ Feature: RBAC
 #    And organization has been created
 #    And  team "Test Team" has been created
     Given I am logged in to mist.core
-    And I am in the new UI
-    And  I wait for the dashboard to load
     When I click the Gravatar
     And I wait for 1 seconds
     Then I click the button "Add Organisation" in the user menu
