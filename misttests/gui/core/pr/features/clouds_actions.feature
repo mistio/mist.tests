@@ -63,4 +63,6 @@ Feature: Cloud actions for polymer
     And I click the "Delete" button in the dialog "Delete Docker"
     And I expect the dialog "Delete Docker" is closed within 4 seconds
     And I wait for 2 seconds
-    Then the "Docker" cloud should be deleted
+    Then I should have 1 clouds added
+
+

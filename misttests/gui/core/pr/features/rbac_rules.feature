@@ -197,6 +197,9 @@ Feature: RBAC
     When I wait for 2 seconds
     When I open the cloud menu for "Packet"
     And I click the "delete cloud" button
+    And I expect the dialog "Delete Packet" is open within 4 seconds
+    And I click the "Delete" button in the dialog "Delete Packet"
+    And I expect the dialog "Delete Packet" is closed within 4 seconds
     And I wait for 3 seconds
     Then I visit the Home page
     # deletion did not work
