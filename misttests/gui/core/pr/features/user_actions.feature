@@ -104,4 +104,3 @@ Feature: Login Scenarios and Api Token
 #    When I focus on the "Home" button
 #    Then I logout of legacy gui
 #    And I quit the second browser
-  
