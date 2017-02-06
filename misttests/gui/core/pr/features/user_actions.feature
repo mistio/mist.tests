@@ -16,7 +16,6 @@ Feature: Login Scenarios and Api Token
     When I wait for 1 seconds
     And I enter my invalid_email credentials for login
     Then the sign in button should be not clickable
-    #Then there should be an "Unauthorized" error message inside the "sign in" button
 
   @signup
   Scenario: Sign Up success
@@ -25,7 +24,7 @@ Feature: Login Scenarios and Api Token
     When I open the signup popup
     And I enter my standard credentials for signup
     And I click the sign up button in the landing page popup
-    Then I should receive an email at the address "EMAIL" with subject "[mist.io] Confirm your registration" within 20 seconds
+    Then I should receive an email at the address "EMAIL" with subject "[mist.io] Confirm your registration" within 30 seconds
     Then I follow the link inside the email
     And I delete old emails
     When I enter my standard credentials for signup_password_set
@@ -47,7 +46,7 @@ Feature: Login Scenarios and Api Token
     And I wait for 1 seconds
     And I enter my standard credentials for password_reset_request
     And I click the reset_password_email_submit button in the landing page popup
-    Then I should receive an email at the address "EMAIL" with subject "[mist.io] Password reset request" within 20 seconds
+    Then I should receive an email at the address "EMAIL" with subject "[mist.io] Password reset request" within 30 seconds
     Then I follow the link inside the email
     And I enter my new_creds credentials for password_reset
     Then I click the reset_pass_submit button in the landing page popup
@@ -58,8 +57,7 @@ Feature: Login Scenarios and Api Token
     And I click the sign in button in the landing page popup
     Then I wait for the dashboard to load
 
-
- @api-token-test
+  @api-token-test
   Scenario: Create api token and test it with API call
     Given I am logged in to mist.core
     When I visit the Account page
@@ -83,8 +81,7 @@ Feature: Login Scenarios and Api Token
     #When i revoke it, it should fail #needs to be fixed in the backend
     #Then I test the api token "BLABLA_TOKEN". It should fail.
 
-
-  #  @multiple-login
+#  @multiple-login
 #  Scenario: Launch two browsers and try to login from both
 #    Given I am logged in to mist.core
 #    When I launch a second browser
