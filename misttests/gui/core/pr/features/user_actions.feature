@@ -2,21 +2,6 @@
 Feature: Login Scenarios and Api Token
 
 
-  @invalid-credentials
-  Scenario: 'Unauthorized' message should appear
-    When I visit mist.core
-    When I open the login popup
-    And I enter my alt credentials for login
-    And I click the sign in button in the landing page popup
-    And I wait for 3 seconds
-    Then there should be an "Unauthorized" error message inside the "sign in" button
-
-  @invalid-email
-  Scenario: Sign in button should not become clickable
-    When I wait for 1 seconds
-    And I enter my invalid_email credentials for login
-    Then the sign in button should be not clickable
-
   @signup
   Scenario: Sign Up success
     When I make sure user with email "EMAIL" is absent
@@ -37,6 +22,21 @@ Feature: Login Scenarios and Api Token
     And I click the sign up button in the landing page popup
     And I wait for 1 seconds
     Then I should get a conflict error
+
+  @invalid-credentials
+  Scenario: 'Unauthorized' message should appear
+    When I visit mist.core
+    When I open the login popup
+    And I enter my alt credentials for login
+    And I click the sign in button in the landing page popup
+    And I wait for 3 seconds
+    Then there should be an "Unauthorized" error message inside the "sign in" button
+
+  @invalid-email
+  Scenario: Sign in button should not become clickable
+    When I wait for 1 seconds
+    And I enter my invalid_email credentials for login
+    Then the sign in button should be not clickable
 
   @api-token-test
   Scenario: Create api token and test it with API call
