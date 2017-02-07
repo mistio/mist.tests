@@ -162,48 +162,6 @@ def check_page_is_visible(context, page_title, seconds):
                                    int(seconds), msg)
 
 
-# @step(u'I expect for "{loader_name}" loader to finish within max {seconds} '
-#       u'seconds')
-# def loader_name_waiting_with_timeout(context, loader_name, seconds):
-#     """
-#     Function that wait for loader_name to finish for a maximum amount of time.
-#     First it will wait for up to 2 seconds for loader to appear and then will
-#     wait for {seconds} seconds for the loader to disappear.
-#     If the loader name is key-generate-loader then as an extra precaution
-#     it will check if the loader has already finished by checking the parent
-#     container.
-#     """
-#     if loader_name == 'key-generate-loader':
-#         container = context.browser.find_element_by_id("key-add-private-container")
-#         if 'filled' in container.get_attribute('class'):
-#             return
-#
-#     try:
-#         WebDriverWait(context.browser, 2).until(EC.presence_of_element_located((By.ID, loader_name)))
-#     except TimeoutException:
-#         raise TimeoutException("loader %s did not appear after 2 seconds"
-#                                % loader_name)
-#
-#     end = time() + int(seconds)
-#     while time() < end:
-#         try:
-#             context.browser.find_element_by_id(loader_name)
-#             sleep(1)
-#         except NoSuchElementException:
-#             return
-#     assert False, 'Loader %s did not finish after %s seconds' % (loader_name,
-#                                                                  seconds)
-#
-#
-# @step(u'I should be in the machines page')
-# def check_if_its_machines_page(context):
-#     try:
-#         context.browser.find_element_by_id('machine-list')
-#         return True
-#     except NoSuchElementException:
-#         assert False, ''
-
-
 @step(u'my name should be "{my_name}"')
 def check_user_name(context, my_name):
     user_span = context.browser.find_element_by_class_name('owner')
