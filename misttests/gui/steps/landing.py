@@ -108,7 +108,6 @@ def get_mist_config_password(context,kind):
     elif kind == 'new_creds':
         return context.mist_config['GMAIL_FATBOY_PASSWORD']
     elif kind == 'rbac_member2':
-        import ipdb;ipdb.set_trace()
         return context.mist_config['MEMBER2_PASSWORD']
     else:
         return context.mist_config['PASSWORD1']
