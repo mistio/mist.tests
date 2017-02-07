@@ -105,7 +105,8 @@ def get_button_from_form(form, button_name):
 
 @step(u'I expect the field "{field_name}" in the {title} {form_type} form to'
       u' be visible within max {seconds} seconds')
-def check_that_field_is_visible(context, field_name, title, form_type, seconds):
+def check_that_field_is_visible(context, field_name,
+                                title, form_type, seconds):
     field_name = field_name.lower()
     add_form = get_add_form(context, title) if form_type == 'add' else \
         get_edit_form(context, title)
@@ -135,7 +136,6 @@ def set_value_to_field(context, value, name, title, form_type):
     input = get_input_from_form(form, name.lower())
     assert input, "Could not set value to field %s" % name
     clear_input_and_send_keys(input, value)
-
 
 
 @step(u'I expect for the button "{button_name}" in "{title}" {form_type} form'
@@ -193,15 +193,19 @@ def find_dropdown(context, dropdown_text):
     dropdown_text = dropdown_text.lower()
     if dropdown_text.endswith(' *'):
         dropdown_text = dropdown_text[:-2]
-    all_dropdowns = context.browser.find_elements_by_tag_name('paper-dropdown-menu')
+    all_dropdowns = context.browser.find_elements_by_tag_name\
+                                   ('paper-dropdown-menu')
     all_dropdowns = filter(lambda t: t[0],
-                           map(lambda el: (get_text_of_dropdown(el).strip().lower(), el),
-                               all_dropdowns))
+                           map(lambda el: (get_text_of_dropdown(el).
+                                           strip().lower(), el),
+                           all_dropdowns))
     # find the drop down with the text
-    dropdown = filter(lambda t: t[0] == dropdown_text or t[0][:-2] == dropdown_text,
+    dropdown = filter(lambda t: t[0] == dropdown_text or
+                                t[0][:-2] == dropdown_text,
                       all_dropdowns)
     assert dropdown, 'There is no dropdown with text %s' % dropdown_text
     return dropdown.pop()[1]
+
 
 @step(u'I open the "{dropdown_text}" drop down')
 def open_drop_down(context, dropdown_text):
@@ -221,8 +225,10 @@ def click_menu_button_from_more_menu(context, button_name, title, form_type):
     more_dropdown = form.find_element_by_tag_name('paper-menu-button')
     assert more_dropdown, "Could not find more button"
     clicketi_click(context, more_dropdown)
-    more_dropdown_buttons = more_dropdown.find_elements_by_tag_name('paper-button')
-    assert more_dropdown_buttons, "There are no buttons within the more dropdown"
+    more_dropdown_buttons = more_dropdown.find_elements_by_tag_name\
+                                         ('paper-button')
+    assert more_dropdown_buttons, "There are no buttons " \
+                                  "within the more dropdown"
     timeout = time() + 5
     while time() < timeout:
         displayed_buttons = 0
