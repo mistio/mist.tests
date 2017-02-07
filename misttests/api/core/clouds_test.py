@@ -84,3 +84,9 @@ def test_delete_cloud_no_api_token(pretty_print, mist_core):
     response = mist_core.delete_cloud(cloud_id='dummy').delete()
     assert_response_forbidden(response)
     print "Success!!!"
+
+
+def test_delete_cloud_wrong_api_token(pretty_print, mist_core, owner_api_token):
+    response = mist_core.delete_cloud(cloud_id='dummy', api_token='00' + owner_api_token[:-2]).delete()
+    assert_response_unauthorized(response)
+    print "Success!!!"
