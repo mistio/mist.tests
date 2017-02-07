@@ -1,6 +1,7 @@
 from behave import step
 
 from .utils import safe_get_element_text
+from .navigation import get_gravatar
 from .buttons import click_button_from_collection
 
 
