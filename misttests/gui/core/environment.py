@@ -104,7 +104,9 @@ def after_all(context):
     log.info("USER: %s" % context.mist_config['EMAIL'])
     log.info("PASSWORD1: %s" % context.mist_config['PASSWORD1'])
     log.info("MEMBER_1: %s" % context.mist_config['MEMBER1_EMAIL'])
-    log.info("MEMBER_PASSWORD: %s" % context.mist_config['MEMBER1_PASSWORD'])
+    log.info("MEMBER1_PASSWORD: %s" % context.mist_config['MEMBER1_PASSWORD'])
+    log.info("MEMBER_2: %s" % context.mist_config['MEMBER2_EMAIL'])
+    log.info("MEMBER2_PASSWORD: %s" % context.mist_config['MEMBER2_PASSWORD'])
     log.info("MIST_URL: %s" % context.mist_config['MIST_URL'])
     finish_and_cleanup(context)
 
