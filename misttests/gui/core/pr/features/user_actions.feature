@@ -42,6 +42,7 @@ Feature: Login Scenarios and Api Token
     And I logout
     Given I am not logged in to mist.core
     When I open the signup popup
+    And I wait for 3 seconds
     And I enter my standard credentials for signup
     And I click the sign up button in the landing page popup
     And I wait for 3 seconds
@@ -51,6 +52,7 @@ Feature: Login Scenarios and Api Token
   Scenario: 'Unauthorized' message should appear
     When I visit mist.core
     When I open the login popup
+    And I wait for 3 seconds
     And I enter my alt credentials for login
     And I click the sign in button in the landing page popup
     And I wait for 3 seconds
@@ -66,6 +68,7 @@ Feature: Login Scenarios and Api Token
   Scenario: Forgot password
     When I visit mist.core
     When I open the login popup
+    And I wait for 3 seconds
     And I click the forgot password button in the landing page popup
     And I wait for 3 seconds
     And I enter my standard credentials for password_reset_request

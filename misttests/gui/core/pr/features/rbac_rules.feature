@@ -48,7 +48,7 @@ Feature: RBAC
 
   @view-cloud-fail
   Scenario: Verify that member1 cannot view the cloud added above
-    Then I should receive an email at the address "MEMBER1_EMAIL" with subject "[mist.io] Confirm your invitation" within 15 seconds
+    Then I should receive an email at the address "MEMBER1_EMAIL" with subject "[mist.io] Confirm your invitation" within 30 seconds
     And I follow the link inside the email
 #    Then I click the email button in the landing page popup
     Then I enter my rbac_member1 credentials for login
