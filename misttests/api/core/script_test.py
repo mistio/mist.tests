@@ -192,7 +192,7 @@ class TestSimpleUserScript:
         assert_response_conflict(response)
         script_data['name'] = 'Script2'
         response = mist_core.add_script(api_token=owner_api_token, script_data=script_data,
-                                       script=bash_script).post()
+                                        script=bash_script).post()
         assert_response_ok(response)
         response = mist_core.list_scripts(api_token=owner_api_token).get()
         assert_response_ok(response)
@@ -208,6 +208,34 @@ class TestSimpleUserScript:
 
         response = mist_core.list_scripts(api_token=owner_api_token).get()
         assert_response_ok(response)
+
+    # check below -- 1st give empty name, then valid name and new description
+    # def test_edit_script(self, pretty_print, cache, mist_core, owner_api_token):
+    #     response = mist_core.edit_script(owner_api_token, cache.get('script_id',''),
+    #                                      new_name='').put()
+    #     assert_response_ok(response)
+    #     import ipdb;ipdb.set_trace()
+    #
+    #     response = mist_core.list_scripts(api_token=owner_api_token).get()
+    #     assert_response_ok(response)
+
+    def test_delete_script(self, pretty_print, cache, mist_core, owner_api_token):
+        response = mist_core.delete_script(api_token=owner_api_token,
+                                           script_id=cache.get('script_id','')).delete()
+        assert_response_ok(response)
+        response = mist_core.edit_script(owner_api_token, cache.get('script_id', ''),
+                                         new_name='dummy').put()
+        assert_response_not_found(response)
+        response = mist_core.list_scripts(api_token=owner_api_token).get()
+        assert_response_ok(response)
+        assert len(response.json()) == 1
+
+
+
+
+
+
+
 
 #     def test_show_script(self, pretty_print, cache, mist_core, owner_api_token):
 #         response = mist_core.show_script(owner_api_token,
