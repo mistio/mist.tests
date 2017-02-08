@@ -204,10 +204,14 @@ class TestSimpleUserScript:
         response = mist_core.edit_script(owner_api_token, cache.get('script_id',''),
                                          new_name='Renamed').put()
         assert_response_ok(response)
-        import ipdb;ipdb.set_trace()
-
         response = mist_core.list_scripts(api_token=owner_api_token).get()
         assert_response_ok(response)
+        for script in response.json():
+            if script['name'] == 'Renamed':
+                print "Success!!!"
+                return
+        assert False, "Renaming script did not work!!!"
+
 
     # check below -- 1st give empty name, then valid name and new description
     # def test_edit_script(self, pretty_print, cache, mist_core, owner_api_token):
@@ -218,6 +222,7 @@ class TestSimpleUserScript:
     #
     #     response = mist_core.list_scripts(api_token=owner_api_token).get()
     #     assert_response_ok(response)
+
 
     def test_delete_script(self, pretty_print, cache, mist_core, owner_api_token):
         response = mist_core.delete_script(api_token=owner_api_token,
@@ -272,32 +277,7 @@ class TestSimpleUserScript:
 #         cache.set('script_tests/ansible_script_id', script['id'])
 #         print "Success!!!"
 #
-#     def test_rename_script(self, pretty_print, cache, mist_core,
-#                            owner_api_token):
-#         response = mist_core.list_scripts(api_token=owner_api_token).get()
-#         assert_response_ok(response)
-#         new_script_name = get_random_script_name(json.loads(response.content))
-#         response = mist_core.edit_script(api_token=owner_api_token,
-#                                          script_id=cache.get(
-#                                              'script_tests/bash_script_id', ''),
-#                                          new_name=new_script_name).put()
-#         assert_response_ok(response)
-#         assert_equal(json.loads(response.content)['new_name'], new_script_name)
-#         response = mist_core.list_scripts(api_token=owner_api_token).get()
-#         assert_response_ok(response)
-#         script = get_scripts_with_name(
-#             cache.get('script_tests/bash_script_name', ''),
-#             json.loads(response.content))
-#         assert len(script) == 0, \
-#             "Script with old name is still listed in the scripts"
-#         script = get_scripts_with_name(
-#             new_script_name,
-#             json.loads(response.content))
-#         assert_list_not_empty(script, "Script was renamed but is not visible "
-#                                       "in the list of scripts")
-#         cache.set('script_tests/bash_script_name', new_script_name)
-#         print "Success!!!"
-#
+
 #     def test_delete_script(self, pretty_print, cache, mist_core,
 #                            owner_api_token):
 #         print "Deleting script with id: %s" % cache.get(
