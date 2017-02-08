@@ -202,7 +202,7 @@ class TestSimpleUserScript:
 
     def test_edit_script(self, pretty_print, cache, mist_core, owner_api_token):
         response = mist_core.edit_script(owner_api_token, cache.get('script_id',''),
-                                         new_name='').put()
+                                         new_name='Renamed').put()
         assert_response_ok(response)
         import ipdb;ipdb.set_trace()
 
