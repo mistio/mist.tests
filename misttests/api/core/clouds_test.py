@@ -9,6 +9,13 @@ import pytest
 ############################################################################
 
 
+def test_list_clouds(pretty_print, mist_core, owner_api_token):
+    response = mist_core.list_clouds(api_token=owner_api_token).get()
+    assert_response_ok(response)
+    assert len(response.json()) == 0
+    print "Success!!!"
+
+
 def test_add_cloud_missing_parameter(pretty_print, mist_core, owner_api_token):
     response = mist_core.add_cloud("Openstack", 'openstack',
                                    api_token=owner_api_token).post()
@@ -29,8 +36,8 @@ def test_add_cloud_no_api_token(pretty_print, mist_core):
     print "Success!!!"
 
 
-def test_add_cloud_ok(pretty_print, mist_core, owner_api_token):
-    response = mist_core.add_cloud('Linode', 'linode', api_token=owner_api_token,
+def test_add_cloud_ok(pretty_print, mist_core, owner_api_token, name='Linode'):
+    response = mist_core.add_cloud(name, 'linode', api_token=owner_api_token,
                                    api_key=config.CREDENTIALS['LINODE']['api_key']).post()
     assert_response_ok(response)
     print "Success!!!"
@@ -91,5 +98,15 @@ class TestCloudsFunctionality:
     def test_list_clouds(self, pretty_print, mist_core, owner_api_token):
         response = mist_core.list_clouds(api_token=owner_api_token).get()
         assert_response_ok(response)
-        assert len(response.json()) == 0
+        assert len(response.json()) == 1
+        print "Success!!!"
 
+    def test_add_multiple_clouds(self, pretty_print, mist_core, owner_api_token):
+        test_add_cloud_ok(pretty_print, mist_core, owner_api_token, name='Linode2')
+        response = mist_core.list_clouds(api_token=owner_api_token).get()
+        assert_response_ok(response)
+        assert len(response.json()) == 2
+        test_add_cloud_ok(pretty_print, mist_core, owner_api_token, name='Linode3')
+        response = mist_core.list_clouds(api_token=owner_api_token).get()
+        assert_response_ok(response)
+        assert len(response.json()) == 3
