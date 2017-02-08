@@ -197,9 +197,17 @@ class TestSimpleUserScript:
         response = mist_core.list_scripts(api_token=owner_api_token).get()
         assert_response_ok(response)
         assert len(response.json()) == 2
-        cache.set('script_tests/bash_script_id', response.json()[0]['id'])
+        cache.set('script_id', response.json()[0]['id'])
         print "Success!!!"
 
+    def test_edit_script(self, pretty_print, cache, mist_core, owner_api_token):
+        response = mist_core.edit_script(owner_api_token, cache.get('script_id',''),
+                                         new_name='').put()
+        assert_response_ok(response)
+        import ipdb;ipdb.set_trace()
+
+        response = mist_core.list_scripts(api_token=owner_api_token).get()
+        assert_response_ok(response)
 
 #     def test_show_script(self, pretty_print, cache, mist_core, owner_api_token):
 #         response = mist_core.show_script(owner_api_token,
