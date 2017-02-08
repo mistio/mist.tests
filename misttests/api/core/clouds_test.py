@@ -155,5 +155,12 @@ class TestCloudsFunctionality:
     def test_rename_cloud(self, pretty_print, mist_core, owner_api_token):
         response = mist_core.list_clouds(api_token=owner_api_token).get()
         cloud_id = response.json()[0]['id']
-        response = mist_core.rename_cloud(cloud_id=cloud_id, new_name='Renamed').put()
+        response = mist_core.rename_cloud(cloud_id=cloud_id, new_name='Renamed', api_token=owner_api_token).put()
         assert_response_ok(response)
+        response = mist_core.list_clouds(api_token=owner_api_token).get()
+        import ipdb;ipdb.set_trace()
+        for cloud in response.json():
+            if cloud['title'] == 'Renamed':
+                print "Success!!!"
+                return
+        assert False, "Renaming cloud did not work!!!"
