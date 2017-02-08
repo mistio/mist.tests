@@ -102,7 +102,6 @@ class TestCloudsFunctionality:
         assert len(response.json()) == 1
         print "Success!!!"
 
-
     def test_add_multiple_clouds(self, pretty_print, mist_core, owner_api_token):
         test_add_cloud_ok(pretty_print, mist_core, owner_api_token, name='Linode2')
         response = mist_core.list_clouds(api_token=owner_api_token).get()
@@ -114,7 +113,6 @@ class TestCloudsFunctionality:
         assert len(response.json()) == 3
         print "Success!!!"
 
-
     def test_add_cloud_failures(self, pretty_print, mist_core, owner_api_token):
         test_add_cloud_missing_parameter(pretty_print, mist_core, owner_api_token)
         test_add_cloud_no_api_token(pretty_print, mist_core)
@@ -124,7 +122,6 @@ class TestCloudsFunctionality:
         assert len(response.json()) == 3
         print "Success!!!"
 
-
     def test_delete_cloud(self, pretty_print, mist_core, owner_api_token):
         response = mist_core.list_clouds(api_token=owner_api_token).get()
         linode_id = response.json()[0]['id']
@@ -133,10 +130,15 @@ class TestCloudsFunctionality:
         response = mist_core.list_clouds(api_token=owner_api_token).get()
         assert_response_ok(response)
         assert len(response.json()) == 2
+        response = mist_core.delete_cloud(cloud_id=linode_id, api_token=owner_api_token).delete()
+        assert_response_not_found(response)
+        response = mist_core.list_clouds(api_token=owner_api_token).get()
+        assert_response_ok(response)
+        assert len(response.json()) == 2
         print "Success!!!"
 
+    def test_delete_cloud_failures(self, pretty_print, mist_core, owner_api_token):
 
-    def test_delete_cloud_failure(self, pretty_print, mist_core, owner_api_token):
         response = mist_core.list_clouds(api_token=owner_api_token).get()
         linode_id = response.json()[0]['id']
         response = mist_core.delete_cloud(cloud_id=linode_id+'d', api_token=owner_api_token).delete()
@@ -145,5 +147,4 @@ class TestCloudsFunctionality:
         response = mist_core.list_clouds(api_token=owner_api_token).get()
         assert_response_ok(response)
         assert len(response.json()) == 2
-        
 
