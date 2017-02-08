@@ -1,5 +1,7 @@
 from misttests.api.helpers import *
 
+import pytest
+
 
 ############################################################################
 #                             Unit Testing                                 #
@@ -171,32 +173,42 @@ def test_edit_script_no_new_name(pretty_print, cache,
     print "Success!!!"
 
 
-# #############################################################################
-# # Scenarios
-# #############################################################################
-#
-#
-# @pytest.mark.incremental
-# class TestSimpleUserScript:
-#     def test_add_bash_script(self, pretty_print, cache, mist_core,
-#                              owner_api_token):
-#         script_id, script_name = add_bash_script(mist_core, owner_api_token)
-#         cache.set('script_tests/bash_script_name', script_name)
-#         cache.set('script_tests/bash_script_id', script_id)
-#         print "Success!!!"
-#
-#     def test_add_duplicate_bash_script(self, pretty_print, cache, mist_core,
-#                                        owner_api_token):
-#         response = mist_core.add_script(api_token=owner_api_token,
-#                                         name=cache.get(
-#                                             'script_tests/bash_script_name',
-#                                             ''),
-#                                         location_type='inline',
-#                                         exec_type='executable',
-#                                         script=bash_script).post()
-#         assert_response_conflict(response)
-#         print "Success!!!"
-#
+############################################################################
+#                         Functional Testing                               #
+############################################################################
+
+
+@pytest.mark.incremental
+class TestSimpleUserScript:
+    def test_add_bash_script(self, pretty_print, cache, mist_core,
+                             owner_api_token):
+        import ipdb;ipdb.set_trace()
+        script_data = {'location_type':'inline','exec_type':'executable', 'name': 'Script1'}
+        response = mist_core.add_script(api_token=owner_api_token, script_data=script_data,
+                                        script=bash_script).post()
+        assert_response_ok(response)
+        cache.set('script_name', script_data['name'])
+
+        response = mist_core.list_scripts(api_token=owner_api_token).get()
+        assert_response_ok(response)
+        assert len(response.json()) == 0
+        # cache.set('script_tests/bash_script_id', script_id)
+        print "Success!!!"
+
+    # def test_add_duplicate_bash_script(self, pretty_print, cache, mist_core,
+    #                                    owner_api_token):
+    #     script_data = {'name':cache.get('script_tests/bash_script_name','')}
+    #     response = mist_core.add_script(api_token=owner_api_token,
+    #                                     script_data=script_data,
+    #                                     location_type='inline',
+    #                                     exec_type='executable',
+    #                                     script=bash_script).post()
+    #     assert_response_conflict(response)
+    #     print "Success!!!"
+    #
+    #
+
+        #
 #     def test_show_script(self, pretty_print, cache, mist_core, owner_api_token):
 #         response = mist_core.show_script(owner_api_token,
 #                                          cache.get(
