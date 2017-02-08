@@ -200,6 +200,11 @@ class TestSimpleUserScript:
         cache.set('script_id', response.json()[0]['id'])
         print "Success!!!"
 
+    def test_show_script(self, pretty_print, cache, mist_core, owner_api_token):
+        response = mist_core.show_script(owner_api_token,
+                                         cache.get('script_id', '')).get()
+        assert_response_ok(response)
+
     def test_edit_script(self, pretty_print, cache, mist_core, owner_api_token):
         response = mist_core.edit_script(owner_api_token, cache.get('script_id',''),
                                          new_name='Renamed').put()
@@ -228,6 +233,9 @@ class TestSimpleUserScript:
         response = mist_core.delete_script(api_token=owner_api_token,
                                            script_id=cache.get('script_id','')).delete()
         assert_response_ok(response)
+        response = mist_core.show_script(owner_api_token,
+                                         cache.get('script_id', '')).get()
+        assert_response_not_found(response)
         response = mist_core.edit_script(owner_api_token, cache.get('script_id', ''),
                                          new_name='dummy').put()
         assert_response_not_found(response)
@@ -236,22 +244,6 @@ class TestSimpleUserScript:
         assert len(response.json()) == 1
 
 
-
-
-
-
-
-
-#     def test_show_script(self, pretty_print, cache, mist_core, owner_api_token):
-#         response = mist_core.show_script(owner_api_token,
-#                                          cache.get(
-#                                              'script_tests/bash_script_id',
-#                                              '')).get()
-#         assert_response_ok(response)
-#         script = json.loads(response.content)
-#         assert_equal(script['script'], bash_script, script['script'])
-#         print "Success!!!"
-#
 #     def test_add_ansible_script(self, pretty_print, cache, mist_core,
 #                                      owner_api_token):
 #         response = mist_core.list_scripts(api_token=owner_api_token).get()
