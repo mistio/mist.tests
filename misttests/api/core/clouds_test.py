@@ -151,3 +151,9 @@ class TestCloudsFunctionality:
         assert_response_ok(response)
         assert len(response.json()) == 2
         print "Success!!!"
+
+    def test_rename_cloud(self, pretty_print, mist_core, owner_api_token):
+        response = mist_core.list_clouds(api_token=owner_api_token).get()
+        cloud_id = response.json()[0]['id']
+        response = mist_core.rename_cloud(cloud_id=cloud_id, new_name='Renamed').put()
+        assert_response_ok(response)
