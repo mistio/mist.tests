@@ -94,10 +94,16 @@ def test_toggle_cloud_wrong_api_token(pretty_print, mist_core, owner_api_token):
     print "Success!!!"
 
 
-def test_delete_cloud_no_api_token(pretty_print, mist_core):
+def test_toggle_cloud_no_api_token(pretty_print, mist_core):
     response = mist_core.toggle_cloud(cloud_id='dummy').post()
     assert_response_forbidden(response)
     print "Success!!!"
+
+
+def test_toggle_cloud_wrong_id(pretty_print, mist_core, owner_api_token):
+    response = mist_core.toggle_cloud(cloud_id='dummy',api_token=owner_api_token).post()
+    assert_response_not_found(response)
+    print "Success"
 
 
 ############################################################################
@@ -176,5 +182,41 @@ class TestCloudsFunctionality:
                 return
         assert False, "Renaming cloud did not work!!!"
 
-## toggle
-## update
+    def test_toggle_cloud(self, pretty_print, mist_core, owner_api_token):
+        response = mist_core.list_clouds(api_token=owner_api_token).get()
+        assert response.json()[0]['enabled'] == True, "Cloud is not enabled by default!!!"
+        cloud_id = response.json()[0]['id']
+        test_toggle_cloud_wrong_id(pretty_print, mist_core, owner_api_token)
+        test_toggle_cloud_no_api_token(pretty_print, mist_core)
+        response = mist_core.toggle_cloud(cloud_id=cloud_id, api_token=owner_api_token).post()
+        assert_response_bad_request(response)
+        response = mist_core.toggle_cloud(cloud_id=cloud_id,new_state=0, api_token=owner_api_token).post()
+        assert_response_ok(response)
+        response = mist_core.list_clouds(api_token=owner_api_token).get()
+        assert response.json()[0]['enabled'] == False, "Cloud toggling did not work!!!"
+        test_toggle_cloud_wrong_api_token(pretty_print, mist_core, owner_api_token)
+        response = mist_core.toggle_cloud(cloud_id=cloud_id,new_state=3, api_token=owner_api_token).post()
+        assert_response_bad_request(response)
+        response = mist_core.toggle_cloud(cloud_id=cloud_id, new_state=0, api_token=owner_api_token).post()
+        assert_response_ok(response)
+        response = mist_core.list_clouds(api_token=owner_api_token).get()
+        assert response.json()[0]['enabled'] == False, "Cloud toggling did not work!!!"
+        response = mist_core.toggle_cloud(cloud_id=cloud_id, new_state=1, api_token=owner_api_token).post()
+        assert_response_ok(response)
+        response = mist_core.list_clouds(api_token=owner_api_token).get()
+        assert response.json()[0]['enabled'] == True, "Cloud toggling did not work!!!"
+        response = mist_core.toggle_cloud(cloud_id=cloud_id, new_state='dummy_new_state', api_token=owner_api_token).post()
+        assert_response_bad_request(response)
+
+    def test_toggle_cloud_mini_stress_test(self, pretty_print, mist_core, owner_api_token):
+        response = mist_core.list_clouds(api_token=owner_api_token).get()
+        cloud_id = response.json()[0]['id']
+        for i in range(1,21):
+            if i%2 == 0:
+                response = mist_core.toggle_cloud(cloud_id=cloud_id, new_state=1, api_token=owner_api_token).post()
+                assert_response_ok(response)
+            else:
+                response = mist_core.toggle_cloud(cloud_id=cloud_id, new_state=0, api_token=owner_api_token).post()
+                assert_response_ok(response)
+        response = mist_core.list_clouds(api_token=owner_api_token).get()
+        assert response.json()[0]['enabled'] == True, "Cloud toggling did not work!!!"
