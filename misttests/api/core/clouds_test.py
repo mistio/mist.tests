@@ -89,8 +89,14 @@ def test_delete_cloud_wrong_api_token(pretty_print, mist_core, owner_api_token):
 
 
 def test_toggle_cloud_wrong_api_token(pretty_print, mist_core, owner_api_token):
-    response = mist_core.toggle_cloud(cloud_id='dummy', api_token='00' + owner_api_token[:-2]).delete()
+    response = mist_core.toggle_cloud(cloud_id='dummy', api_token='00' + owner_api_token[:-2]).post()
     assert_response_unauthorized(response)
+    print "Success!!!"
+
+
+def test_delete_cloud_no_api_token(pretty_print, mist_core):
+    response = mist_core.toggle_cloud(cloud_id='dummy').post()
+    assert_response_forbidden(response)
     print "Success!!!"
 
 
@@ -164,7 +170,6 @@ class TestCloudsFunctionality:
         response = mist_core.rename_cloud(cloud_id=cloud_id, new_name='Renamed', api_token=owner_api_token).put()
         assert_response_ok(response)
         response = mist_core.list_clouds(api_token=owner_api_token).get()
-        import ipdb;ipdb.set_trace()
         for cloud in response.json():
             if cloud['title'] == 'Renamed':
                 print "Success!!!"
