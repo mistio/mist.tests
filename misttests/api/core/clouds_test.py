@@ -88,6 +88,12 @@ def test_delete_cloud_wrong_api_token(pretty_print, mist_core, owner_api_token):
     print "Success!!!"
 
 
+def test_toggle_cloud_wrong_api_token(pretty_print, mist_core, owner_api_token):
+    response = mist_core.toggle_cloud(cloud_id='dummy', api_token='00' + owner_api_token[:-2]).delete()
+    assert_response_unauthorized(response)
+    print "Success!!!"
+
+
 ############################################################################
 #                         Functional Testing                               #
 ############################################################################
@@ -164,3 +170,6 @@ class TestCloudsFunctionality:
                 print "Success!!!"
                 return
         assert False, "Renaming cloud did not work!!!"
+
+## toggle
+## update
