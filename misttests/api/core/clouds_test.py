@@ -110,3 +110,11 @@ class TestCloudsFunctionality:
         response = mist_core.list_clouds(api_token=owner_api_token).get()
         assert_response_ok(response)
         assert len(response.json()) == 3
+
+    def test_add_cloud_failures(self, pretty_print, mist_core, owner_api_token):
+        test_add_cloud_missing_parameter(pretty_print, mist_core, owner_api_token)
+        test_add_cloud_no_api_token(pretty_print, mist_core)
+        test_add_cloud_wrong_api_token(pretty_print, mist_core, owner_api_token)
+        response = mist_core.list_clouds(api_token=owner_api_token).get()
+        assert_response_ok(response)
+        assert len(response.json()) == 3
