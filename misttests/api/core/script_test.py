@@ -223,8 +223,6 @@ class TestSimpleUserScript:
         response = mist_core.edit_script(owner_api_token, cache.get('script_id',''),
                                          new_name='').put()
         assert_response_bad_request(response)
-        response = mist_core.list_scripts(api_token=owner_api_token).get()
-        assert_response_ok(response)
         print "Success!!!"
 
     def test_delete_script(self, pretty_print, cache, mist_core, owner_api_token):
@@ -257,7 +255,7 @@ class TestSimpleUserScript:
         print "Success!!!"
 
     def test_add_ansible_script_wrong_format(self, pretty_print, mist_core,
-                                owner_api_token):
+                                             owner_api_token, cache):
         script_data = {'location_type': 'inline', 'exec_type': 'ansible', 'name': 'AnsibleScript2'}
         response = mist_core.add_script(api_token=owner_api_token, script_data=script_data,
                                         script=ansible_script_with_error).post()
@@ -265,6 +263,15 @@ class TestSimpleUserScript:
         response = mist_core.list_scripts(api_token=owner_api_token).get()
         assert_response_ok(response)
         assert len(response.json()) == 2
+        cache.set('script_id', response.json()[0]['id'])
+        print "Success!!!"
+
+    def test_delete_multiple_scripts(self, pretty_print, cache, mist_core, owner_api_token):
+        mist_core.delete_scripts(api_token=owner_api_token,
+                                            script_ids=[cache.get('script_id', ''), 'bla2']).delete()
+        response = mist_core.list_scripts(api_token=owner_api_token).get()
+        assert_response_ok(response)
+        assert len(response.json()) == 1, "Valid script was not deleted!"
         print "Success!!!"
 
     # def test_delete_multiple_scripts(self, pretty_print, cache,
