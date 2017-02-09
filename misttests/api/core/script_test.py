@@ -95,7 +95,6 @@ def test_delete_script_wrong_script_id(pretty_print, cache, mist_core,
 
 def test_download_script_wrong_api_token(pretty_print, mist_core,
                                                 owner_api_token):
-    import ipdb;ipdb.set_trace()
     response = mist_core.download_script(api_token='00' + owner_api_token[:-2],
                                          script_id='bla').get()
     assert_response_unauthorized(response)
@@ -207,6 +206,13 @@ class TestSimpleUserScript:
         assert_response_ok(response)
         print "Success!!!"
 
+    def test_download_script(self, pretty_print, cache, mist_core,
+                             owner_api_token):
+        response = mist_core.download_script(api_token=owner_api_token,
+                                             script_id=cache.get('script_id', '')).get()
+        assert_response_ok(response)
+        print "Success!!!"
+
     def test_edit_script(self, pretty_print, cache, mist_core, owner_api_token):
         response = mist_core.edit_script(owner_api_token, cache.get('script_id',''),
                                          new_name='Renamed').put()
@@ -237,6 +243,9 @@ class TestSimpleUserScript:
         response = mist_core.edit_script(owner_api_token, cache.get('script_id', ''),
                                          new_name='dummy').put()
         assert_response_not_found(response)
+        response = mist_core.delete_script(api_token=owner_api_token,
+                                           script_id=cache.get('script_id', '')).delete()
+        assert_response_not_found(response)
         response = mist_core.list_scripts(api_token=owner_api_token).get()
         assert_response_ok(response)
         assert len(response.json()) == 1
@@ -251,6 +260,7 @@ class TestSimpleUserScript:
         response = mist_core.list_scripts(api_token=owner_api_token).get()
         assert_response_ok(response)
         assert len(response.json()) == 2
+        print "Success!!!"
 
     def test_add_ansible_script_wrong_format(self, pretty_print, cache, mist_core,
                                 owner_api_token):
@@ -261,6 +271,7 @@ class TestSimpleUserScript:
         response = mist_core.list_scripts(api_token=owner_api_token).get()
         assert_response_ok(response)
         assert len(response.json()) == 2
+        print "Success!!!"
 
 
 
