@@ -258,7 +258,7 @@ class MistCoreApi(MistIoApi):
         return req
 
     def url_script(self, api_token, script_id):
-        req = MistRequests(uri=self.uri + '/api/v1/script/url/%s' % script_id,
+        req = MistRequests(uri=self.uri + '/api/v1/scripts/%s/url' % script_id,
                            api_token=api_token)
         req.delete = req.unavailable_api_call
         req.post = req.unavailable_api_call

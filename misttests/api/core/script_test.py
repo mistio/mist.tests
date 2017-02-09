@@ -23,7 +23,7 @@ def test_add_script_missing_parameter(pretty_print, mist_core, owner_api_token,
     print "Success!!!"
 
 
-def test_add_script_missing_script(pretty_print, cache, mist_core,
+def test_add_script_missing_script(pretty_print, mist_core,
                                    owner_api_token, base_exec_inline_script):
     response = mist_core.add_script(api_token=owner_api_token,
                                     script_data=base_exec_inline_script).post()
@@ -48,7 +48,7 @@ def test_add_script_wrong_script(pretty_print, mist_core, owner_api_token,
     print "Success!!!"
 
 
-def test_add_script_wrong_entrypoint(pretty_print, cache, mist_core,
+def test_add_script_wrong_entrypoint(pretty_print, mist_core,
                                      owner_api_token, base_exec_inline_script):
     response = mist_core.add_script(api_token=owner_api_token,
                                     script_data=base_exec_inline_script,
@@ -57,8 +57,7 @@ def test_add_script_wrong_entrypoint(pretty_print, cache, mist_core,
     print "Success!!!"
 
 
-def test_add_ansible_wrong_yaml_format(pretty_print, cache, mist_core,
-                                       owner_api_token):
+def test_add_ansible_wrong_yaml_format(pretty_print, mist_core, owner_api_token):
     response = mist_core.add_script(api_token=owner_api_token,
                                     script_data={'name':'test',
                                     'location_type':'inline',
@@ -69,8 +68,7 @@ def test_add_ansible_wrong_yaml_format(pretty_print, cache, mist_core,
     print "Success!!!"
 
 
-def test_show_script_wrong_id(pretty_print, mist_core,
-                              owner_api_token):
+def test_show_script_wrong_id(pretty_print, mist_core, owner_api_token):
     response = mist_core.show_script(owner_api_token,
                                      script_id='dummy1234').get()
     assert_response_not_found(response)
@@ -85,24 +83,21 @@ def test_delete_script_wrong_api_token(pretty_print, mist_core,
     print "Success!!!"
 
 
-def test_delete_script_wrong_script_id(pretty_print, cache, mist_core,
-                                       owner_api_token):
+def test_delete_script_wrong_script_id(pretty_print, mist_core, owner_api_token):
     response = mist_core.delete_script(api_token=owner_api_token,
                                        script_id='bla').delete()
     assert_response_not_found(response)
     print "Success!!!"
 
 
-def test_download_script_wrong_api_token(pretty_print, mist_core,
-                                                owner_api_token):
+def test_download_script_wrong_api_token(pretty_print, mist_core, owner_api_token):
     response = mist_core.download_script(api_token='00' + owner_api_token[:-2],
                                          script_id='bla').get()
     assert_response_unauthorized(response)
     print "Success!!!"
 
 
-def test_download_script_wrong_script_id(pretty_print, cache, mist_core,
-                                         owner_api_token):
+def test_download_script_wrong_script_id(pretty_print, mist_core, owner_api_token):
     response = mist_core.download_script(api_token=owner_api_token,
                                          script_id='bla').get()
     assert_response_not_found(response)
@@ -117,56 +112,49 @@ def test_download_script_wrong_script_id(pretty_print, cache, mist_core,
 #     print "Success!!!"
 
 
-def test_url_script_wrong_script_id(pretty_print, cache, mist_core,
-                                    owner_api_token):
+def test_url_script_wrong_script_id(pretty_print, mist_core, owner_api_token):
     response = mist_core.url_script(api_token=owner_api_token,
                                     script_id='bla').get()
     assert_response_not_found(response)
     print "Success!!!"
 
 
-def test_delete_multiple_scripts_wrong_api_token(pretty_print, cache,
-                                                 mist_core, owner_api_token):
+def test_delete_multiple_scripts_wrong_api_token(pretty_print, mist_core, owner_api_token):
     response = mist_core.delete_scripts(api_token='00' + owner_api_token[:-2],
                                         script_ids=[]).delete()
     assert_response_unauthorized(response)
     print "Success!!!"
 
 
-def test_delete_multiple_scripts_no_script_ids(pretty_print, cache,
-                                               mist_core, owner_api_token):
+def test_delete_multiple_scripts_no_script_ids(pretty_print, mist_core, owner_api_token):
     response = mist_core.delete_scripts(api_token=owner_api_token,
                                         script_ids=[]).delete()
     assert_response_bad_request(response)
     print "Success!!!"
 
 
-def test_delete_multiple_wrong_script_ids(pretty_print, cache,
-                                          mist_core, owner_api_token):
+def test_delete_multiple_wrong_script_ids(pretty_print, mist_core, owner_api_token):
     response = mist_core.delete_scripts(api_token=owner_api_token,
                                         script_ids=['bla', 'bla2']).delete()
     assert_response_not_found(response)
     print "Success!!!"
 
 
-def test_edit_script_wrong_id(pretty_print, cache,
-                              mist_core, owner_api_token):
+def test_edit_script_wrong_id(pretty_print, mist_core, owner_api_token):
     response = mist_core.edit_script(api_token=owner_api_token,
                                      script_id='bad', new_name='dummy').put()
     assert_response_not_found(response)
     print "Success!!!"
 
 
-def test_edit_script_wrong_api_token(pretty_print, cache,
-                                     mist_core, owner_api_token):
+def test_edit_script_wrong_api_token(pretty_print, mist_core, owner_api_token):
     response = mist_core.edit_script(api_token='00' + owner_api_token[:-2],
                                      script_id='bad', new_name='dummy').put()
     assert_response_unauthorized(response)
     print "Success!!!"
 
 
-def test_edit_script_no_new_name(pretty_print, cache,
-                                 mist_core, owner_api_token):
+def test_edit_script_no_new_name(pretty_print, mist_core, owner_api_token):
     response = mist_core.edit_script(api_token=owner_api_token,
                                      script_id='bla', new_name='').put()
     assert_response_not_found(response)
@@ -251,7 +239,7 @@ class TestSimpleUserScript:
         assert len(response.json()) == 1
         print "Success!!!"
 
-    def test_add_ansible_script(self, pretty_print, cache, mist_core,
+    def test_add_ansible_script(self, pretty_print, mist_core,
                                 owner_api_token):
         script_data = {'location_type': 'inline', 'exec_type': 'ansible', 'name': 'AnsibleScript'}
         response = mist_core.add_script(api_token=owner_api_token, script_data=script_data,
@@ -262,7 +250,7 @@ class TestSimpleUserScript:
         assert len(response.json()) == 2
         print "Success!!!"
 
-    def test_add_ansible_script_wrong_format(self, pretty_print, cache, mist_core,
+    def test_add_ansible_script_wrong_format(self, pretty_print, mist_core,
                                 owner_api_token):
         script_data = {'location_type': 'inline', 'exec_type': 'ansible', 'name': 'AnsibleScript2'}
         response = mist_core.add_script(api_token=owner_api_token, script_data=script_data,
