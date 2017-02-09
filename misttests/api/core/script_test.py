@@ -252,7 +252,7 @@ class TestSimpleUserScript:
         print "Success!!!"
 
     def test_add_ansible_script(self, pretty_print, cache, mist_core,
-                                     owner_api_token):
+                                owner_api_token):
         script_data = {'location_type': 'inline', 'exec_type': 'ansible', 'name': 'AnsibleScript'}
         response = mist_core.add_script(api_token=owner_api_token, script_data=script_data,
                                         script=ansible_script).post()
@@ -272,8 +272,6 @@ class TestSimpleUserScript:
         assert_response_ok(response)
         assert len(response.json()) == 2
         print "Success!!!"
-
-
 
     # def test_delete_multiple_scripts(self, pretty_print, cache,
     #                                 mist_core,
@@ -320,16 +318,3 @@ class TestSimpleUserScript:
     #            assert_equal(report.get(script_id, ''), 'not_found', report)
     #
     #    print "Success!!!"
-
-#     def test_delete_script(self, pretty_print, cache, mist_core,
-#                            owner_api_token):
-#         print "Deleting script with id: %s" % cache.get(
-#             'script_tests/bash_script_id',
-#             '')
-#         response = mist_core.delete_script(api_token=owner_api_token,
-#                                            script_id=cache.get(
-#                                                'script_tests/bash_script_id',
-#                                                '')).delete()
-#         assert_response_ok(response)
-#         print "Success!!!"
-
