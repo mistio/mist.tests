@@ -93,12 +93,13 @@ def test_delete_script_wrong_script_id(pretty_print, cache, mist_core,
     print "Success!!!"
 
 
-# def test_download_script_wrong_api_token(pretty_print, mist_core,
-#                                                 owner_api_token):
-#     response = mist_core.download_script(api_token='00' + owner_api_token[:-2],
-#                                          script_id='bla').get()
-#     assert_response_unauthorized(response)
-#     print "Success!!!"
+def test_download_script_wrong_api_token(pretty_print, mist_core,
+                                                owner_api_token):
+    import ipdb;ipdb.set_trace()
+    response = mist_core.download_script(api_token='00' + owner_api_token[:-2],
+                                         script_id='bla').get()
+    assert_response_unauthorized(response)
+    print "Success!!!"
 
 
 def test_download_script_wrong_script_id(pretty_print, cache, mist_core,
