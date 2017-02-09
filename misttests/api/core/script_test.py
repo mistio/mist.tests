@@ -104,12 +104,12 @@ def test_download_script_wrong_script_id(pretty_print, mist_core, owner_api_toke
     print "Success!!!"
 
 
-# def test_url_script_wrong_api_token(pretty_print, mist_core,
-#                                     owner_api_token):
-#     response = mist_core.url_script(api_token='00' + owner_api_token[:-2],
-#                                     script_id='bla').get()
-#     assert_response_unauthorized(response)
-#     print "Success!!!"
+def test_url_script_wrong_api_token(pretty_print, mist_core,
+                                    owner_api_token):
+    response = mist_core.url_script(api_token='00' + owner_api_token[:-2],
+                                    script_id='bla').get()
+    assert_response_unauthorized(response)
+    print "Success!!!"
 
 
 def test_url_script_wrong_script_id(pretty_print, mist_core, owner_api_token):
@@ -191,6 +191,12 @@ class TestSimpleUserScript:
     def test_show_script(self, pretty_print, cache, mist_core, owner_api_token):
         response = mist_core.show_script(owner_api_token,
                                          cache.get('script_id', '')).get()
+        assert_response_ok(response)
+        print "Success!!!"
+
+    def test_url_script(self, pretty_print, cache, mist_core, owner_api_token):
+        response = mist_core.url_script(owner_api_token,
+                                        cache.get('script_id', '')).get()
         assert_response_ok(response)
         print "Success!!!"
 
