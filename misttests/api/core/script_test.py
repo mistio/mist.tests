@@ -194,11 +194,11 @@ class TestSimpleUserScript:
         assert_response_ok(response)
         print "Success!!!"
 
-    def test_url_script(self, pretty_print, cache, mist_core, owner_api_token):
-        response = mist_core.url_script(owner_api_token,
-                                        cache.get('script_id', '')).get()
-        assert_response_ok(response)
-        print "Success!!!"
+    # def test_url_script(self, pretty_print, cache, mist_core, owner_api_token):
+    #     response = mist_core.url_script(owner_api_token,
+    #                                     cache.get('script_id', '')).get()
+    #     assert_response_ok(response)
+    #     print "Success!!!"
 
     def test_download_script(self, pretty_print, cache, mist_core,
                              owner_api_token):
