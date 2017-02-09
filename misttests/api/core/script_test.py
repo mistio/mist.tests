@@ -266,56 +266,45 @@ class TestSimpleUserScript:
         cache.set('script_id', response.json()[0]['id'])
         print "Success!!!"
 
-    def test_delete_multiple_scripts(self, pretty_print, cache, mist_core, owner_api_token):
+    def test_delete_multiple_scripts_wrong_id(self, pretty_print, cache, mist_core, owner_api_token):
         mist_core.delete_scripts(api_token=owner_api_token,
-                                            script_ids=[cache.get('script_id', ''), 'bla2']).delete()
+                                 script_ids=[cache.get('script_id', ''), 'bla2']).delete()
         response = mist_core.list_scripts(api_token=owner_api_token).get()
         assert_response_ok(response)
+        cache.set('script_id', response.json()[0]['id'])
         assert len(response.json()) == 1, "Valid script was not deleted!"
         print "Success!!!"
 
-    # def test_delete_multiple_scripts(self, pretty_print, cache,
-    #                                 mist_core,
-    #                                 owner_api_token):
-    #    script_ids = [cache.get('script_tests/bash_script_id', ''),
-    #                  cache.get('script_tests/bash_script_id', '')]
-    #    # add 3 more scripts and then delete them along with the scripts
-    #    # created previously
-    #    for i in range(3):
-    #        response = mist_core.list_scripts(api_token=owner_api_token).get()
-    #        assert_response_ok(response)
-    #        new_script_name = get_random_script_name(
-    #            json.loads(response.content))
-    #        response = mist_core.add_script(api_token=owner_api_token,
-    #                                        name=new_script_name,
-    #                                        location_type='inline',
-    #                                        exec_type='executable',
-    #                                        script=bash_script).post()
-    #        assert_response_ok(response)
-    #        response = mist_core.list_scripts(api_token=owner_api_token).get()
-    #        assert_response_ok(response)
-    #        script = get_scripts_with_name(new_script_name,
-    #                                       json.loads(response.content))
-    #        assert_list_not_empty(script, "Script was added but is not visible"
-    #                                      " in the list of scripts")
-    #        script_ids.append(script[0]['id'])
-    #
-    #    script_ids.append('bla')
-    #    script_ids.append('bla2')
-    #
-    #    script_ids.append(cache.get('script_tests/ansible_script_id', ''))
-    #    script_ids.append(cache.get('script_tests/ansible_script_id', ''))
-    #
-    #    print "Deleting scripts with id %s" % script_ids
-    #
-    #    response = mist_core.delete_scripts(api_token=owner_api_token,
-    #                                        script_ids=script_ids).delete()
-    #    assert_response_ok(response)
-    #    report = json.loads(response.content)
-    #    for script_id in script_ids:
-    #        if 'bla' not in script_id:
-    #            assert_equal(report.get(script_id, ''), 'deleted', report)
-    #        if 'bla' in script_id:
-    #            assert_equal(report.get(script_id, ''), 'not_found', report)
-    #
-    #    print "Success!!!"
+    def test_delete_multiple_scripts_duplicate_script_ids(self, pretty_print, cache,
+                                                          mist_core, owner_api_token):
+        mist_core.delete_scripts(api_token=owner_api_token,
+                                 script_ids=[cache.get('script_id', ''), cache.get('script_id', ''),
+                                             cache.get('script_id', ''), 'bla2']).delete()
+        response = mist_core.list_scripts(api_token=owner_api_token).get()
+        assert_response_ok(response)
+        assert len(response.json()) == 0, "Valid script was not deleted!"
+        print "Success!!!"
+
+    def test_delete_multiple_scripts(self, pretty_print, cache,
+                                     mist_core, owner_api_token):
+        script_data = {'location_type':'inline','exec_type':'executable', 'name': 'Script5'}
+        response = mist_core.add_script(api_token=owner_api_token, script_data=script_data,
+                                        script=bash_script).post()
+        assert_response_ok(response)
+
+        script_data = {'location_type':'inline','exec_type':'executable', 'name': 'Script6'}
+        response = mist_core.add_script(api_token=owner_api_token, script_data=script_data,
+                                        script=bash_script).post()
+        assert_response_ok(response)
+
+        response = mist_core.list_scripts(api_token=owner_api_token).get()
+        assert len(response.json()) == 2
+        assert_response_ok(response)
+        cache.set('script_id', response.json()[0]['id'])
+        cache.set('script_id_2', response.json()[1]['id'])
+        mist_core.delete_scripts(api_token=owner_api_token,
+                                 script_ids=[cache.get('script_id', ''), cache.get('script_id_2', '')]).delete()
+        response = mist_core.list_scripts(api_token=owner_api_token).get()
+        assert_response_ok(response)
+        assert len(response.json()) == 0, "Not all of the scripts were deleted!"
+        print "Success!!!"
