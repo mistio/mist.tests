@@ -64,5 +64,3 @@ Feature: Cloud actions for polymer
     And I expect the dialog "Delete Docker" is closed within 4 seconds
     And I wait for 2 seconds
     Then I should have 1 clouds added
-
-
