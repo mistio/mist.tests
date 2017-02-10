@@ -16,13 +16,13 @@ def test_001_get_api_token_with_empty_fields(pretty_print, mist_core):
     print "Success!!!"
 
 
-# def test_002_get_api_token_with_empty_password(pretty_print, mist_core, email):
-#     print "\n>>>  POSTing /auth and /tokens to get a token with no password:"
-#     response = mist_core.check_auth(email=email, password='').post()
-#     assert_response_bad_request(response)
-#     response = mist_core.create_token(email=email, password='').post()
-#     assert_response_bad_request(response)
-#     print "Success!!!"
+def test_002_get_api_token_with_empty_password(pretty_print, mist_core, email):
+    print "\n>>>  POSTing /auth and /tokens to get a token with no password:"
+    response = mist_core.check_auth(email=email, password='').post()
+    assert_response_bad_request(response)
+    response = mist_core.create_token(email=email, password='').post()
+    assert_response_bad_request(response)
+    print "Success!!!"
 
 
 def test_003_get_api_token_with_wrong_ttl(pretty_print, mist_core, email,
