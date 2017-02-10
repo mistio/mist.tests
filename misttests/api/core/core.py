@@ -275,6 +275,15 @@ class MistCoreApi(MistIoApi):
         req.put = req.unavailable_api_call
         return req
 
+    def list_networks(self, cloud_id, api_token):
+        req = MistRequests(uri=self.uri + 'api/v1/clouds/%s/networks' % cloud_id, api_token=api_token )
+
+        req.post = req.unavailable_api_call
+        req.put = req.unavailable_api_call
+        req.delete = req.unavailable_api_call
+        return req
+    
+
     def create_org(self, api_token, name=''):
         req = MistRequests(uri=self.uri + '/api/v1/org',
                            json={'name': name},
