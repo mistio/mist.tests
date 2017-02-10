@@ -41,7 +41,6 @@ Feature: Production
     And I click the "Load" button in the dropdown with id "metricName"
     When I fill "0" as metric value
     And I save the rule
-    And I wait for 2 seconds
     Then I should receive an email within 200 seconds
     When I remove previous rules
 
