@@ -6,9 +6,17 @@ import pprint
 from misttests.api.utils import *
 
 
+# name ttl org_id
+
 def test_create_api_token_empty_fields(pretty_print, mist_core):
     response = mist_core.create_token(email='', password='').post()
     assert_response_bad_request(response)
+    print "Success!!!"
+
+
+def test_create_api_token_wrong_email(pretty_print, mist_core, password1):
+    response = mist_core.create_token(email='non-existing', password=password1).post()
+    assert_response_unauthorized(response)
     print "Success!!!"
 
 
@@ -16,6 +24,13 @@ def test_create_api_token_empty_password(pretty_print, mist_core, email):
     response = mist_core.create_token(email=email, password='').post()
     assert_response_bad_request(response)
     print "Success!!!"
+
+
+# below returns bad request, shouldn't it be unauthorized?
+# def test_create_api_token_wrong_password(pretty_print, mist_core, email):
+#     response = mist_core.create_token(email=email, password='wrong').post()
+#     assert_response_unauthorized(response)
+#     print "Success!!!"
 
 
 def test_create_api_token_wrong_ttl(pretty_print, mist_core, email,
@@ -26,17 +41,10 @@ def test_create_api_token_wrong_ttl(pretty_print, mist_core, email,
     response = mist_core.check_auth(email=email, password=password1,
                                     ttl='10a').post()
     assert_response_bad_request(response)
-    response = mist_core.create_token(email=email, password=password1,
-                                      ttl='bla').post()
-    assert_response_bad_request(response)
-    response = mist_core.create_token(email=email, password=password1,
-                                      ttl='10a').post()
-    assert_response_bad_request(response)
     print "Success!!!"
 
 
 def test_create_api_token_ok(pretty_print, cache, mist_core, email, password1):
-    print "\n>>>  POSTing /tokens to get a token with correct creds"
     response = mist_core.create_token(email=email, password=password1).post()
     assert_response_ok(response)
     assert_is_not_none(response.json().get('token', None),
