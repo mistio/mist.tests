@@ -17,7 +17,7 @@ def test_create_api_token_wrong_email(pretty_print, mist_core, password1):
     print "Success!!!"
 
 
-def test_create_api_token_empty_password(pretty_print, mist_core, email):
+def test_create_api_token_empty_password(pretty_print, mist_core, email, owner_api_token):
     response = mist_core.create_token(email=email, password='').post()
     assert_response_bad_request(response)
     print "Success!!!"
@@ -32,11 +32,19 @@ def test_create_api_token_empty_password(pretty_print, mist_core, email):
 
 def test_create_api_token_wrong_ttl(pretty_print, mist_core, email,
                                     password1):
-    response = mist_core.check_auth(email=email, password=password1,
+    response = mist_core.create_token(email=email, password=password1,
                                     ttl='bla').post()
     assert_response_bad_request(response)
-    response = mist_core.check_auth(email=email, password=password1,
+    response = mist_core.create_token(email=email, password=password1,
                                     ttl='10a').post()
+    assert_response_bad_request(response)
+    print "Success!!!"
+
+
+def test_create_api_token_wrong_org_id(pretty_print, mist_core, email,
+                                       password1):
+    response = mist_core.create_token(email=email, password=password1,
+                                    org_id='bla').post()
     assert_response_bad_request(response)
     print "Success!!!"
 
@@ -48,6 +56,13 @@ def test_create_api_token_ttl_ok(pretty_print, cache, mist_core, email, password
                        "Did not get an api token back in the response")
     assert_is_not_none(response.json().get('name', None),
                        "Did not get the api token name in the response")
+    response = mist_core.create_token(email=email, password=password1, ttl='300', new_api_token_name='testToken').post()
+    assert_response_ok(response)
+    assert_is_not_none(response.json().get('token', None),
+                       "Did not get an api token back in the response")
+    assert_is_not_none(response.json().get('name', None),
+                       "Did not get the api token name in the response")
+
     print "Success!!!!"
 
 
@@ -97,14 +112,6 @@ class TestApiTokenFunctionality:
         print "Success!!!!"
 
 
-#######################################
-
-# name
-# org_id
-
-#######################################
-
-
 # def test_007_list_api_tokens(pretty_print, cache, mist_core):
 #     print "\n>>>  GETing /tokens to get a list of all ApiTokens"
 #     response = mist_core.list_tokens(
@@ -121,8 +128,9 @@ class TestApiTokenFunctionality:
 #     assert_is_not_none(my_token,
 #                        "Token was not present in the list of tokens returned")
 #     print "Success!!!!"
-#
-#
+
+
+
 # def test_008_create_short_lived_api_token(pretty_print, cache, mist_core, email,
 #                                           password1):
 #     print "\n>>>  POSTing /tokens to create another short lived ApiToken"
