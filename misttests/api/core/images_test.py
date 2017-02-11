@@ -71,5 +71,13 @@ def test_star_image_ok(pretty_print, mist_core, cache, owner_api_token):
         if image['id'] == cache.get('image_id', ''):
             assert not image['star'], "Image was not unstarred!"
             break
+    response = mist_core.star_image(cloud_id=cache.get('cloud_id', ''), image_id=cache.get('image_id', ''),
+                                    api_token=owner_api_token).post()
+    assert_response_ok(response)
+    response = mist_core.list_images(cloud_id=cache.get('cloud_id', ''), api_token=owner_api_token).post()
+    assert_response_ok(response)
+    for image in response.json():
+        if image['id'] == cache.get('image_id', ''):
+            assert image['star'], "Image was not starred!"
+            break
     print "Success!!!"
-
