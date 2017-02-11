@@ -23,8 +23,6 @@ Feature: Production
   @alert
   Scenario: Production rule and alert testing
     Given I am logged in to mist.core
-    Then I visit the Home page
-    When I wait for the dashboard to load
     When I visit the Machines page after the counter has loaded
     Then I search for the mayday machine
     When I click the mayday machine
@@ -38,7 +36,7 @@ Feature: Production
     And I click the button "add new rule"
     Then I expect for "newrule" to be visible within max 20 seconds
     And I click the "metricName" rule
-    And I click the "RAM" button in the dropdown with id "metricName"
+#    And I click the "RAM" button in the dropdown with id "metricName"
     When I fill "0" as metric value
     And I save the rule
     Then I should receive an email within 200 seconds
@@ -47,8 +45,6 @@ Feature: Production
   @ssh
   Scenario: Production ssh testing
     Given I am logged in to mist.core
-    Then I visit the Home page
-    When I wait for the dashboard to load
     When I visit the Machines page after the counter has loaded
     Then I search for the mayday machine
     When I click the mayday machine
@@ -60,8 +56,6 @@ Feature: Production
   @celery
   Scenario: Production machine reboot testing
     Given I am logged in to mist.core
-    Then I visit the Home page
-    When I wait for the dashboard to load
     When I visit the Machines page after the counter has loaded
     Then I search for the mayday machine
     And I open the actions dialog
@@ -79,7 +73,6 @@ Feature: Production
     When I open the login popup
     Then I click the google button in the landing page popup
     Then I do the Google login
-    And I am in the new UI
     When I wait for the dashboard to load
     Then I logout
 
@@ -89,6 +82,5 @@ Feature: Production
     When I open the login popup
     Then I click the github button in the landing page popup
     Then I do the Github login
-    And I am in the new UI
     When I wait for the dashboard to load
     Then I logout
