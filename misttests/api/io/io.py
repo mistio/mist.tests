@@ -56,15 +56,7 @@ class MistIoApi(object):
         req.put = req.unavailable_api_call
         return req
 
-    def toggle_cloud(self, cloud_id, api_token=None, new_state=None):
-        req = MistRequests(uri=self.uri + '/api/v1/clouds/' + cloud_id,
-                           data={'new_state': new_state}, api_token=api_token)
-        req.get = req.unavailable_api_call
-        req.delete = req.unavailable_api_call
-        req.put = req.unavailable_api_call
-        return req
-
-    #needs to be fixed in the backend first!
+    # needs to be fixed in the backend first!
     def list_images(self, cloud_id, search_term=None, cookie=None,
                     csrf_token=None, api_token=None):
         kwargs = {
@@ -80,6 +72,14 @@ class MistIoApi(object):
         req = MistRequests(**kwargs)
         req.put = req.unavailable_api_call
         req.delete = req.unavailable_api_call
+        return req
+
+    def star_image(self, cloud_id, image_id, api_token=None):
+        req = MistRequests(uri=self.uri + '/api/v1/clouds/' + cloud_id + '/images/' + image_id,
+                           api_token=api_token)
+        req.get = req.unavailable_api_call
+        req.delete = req.unavailable_api_call
+        req.put = req.unavailable_api_call
         return req
 
     def list_sizes(self, cloud_id, cookie=None, csrf_token=None,
