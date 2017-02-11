@@ -23,9 +23,10 @@ Feature: Production
   @alert
   Scenario: Production rule and alert testing
     Given I am logged in to mist.core
-    Then I visit the Home page
-    When I wait for the dashboard to load
-    When I visit the Machines page after the counter has loaded
+#    Then I visit the Home page
+#    When I wait for the dashboard to load
+#    When I visit the Machines page after the counter has loaded
+    When I visit the Machines page
     Then I search for the mayday machine
     When I click the mayday machine
     And I clear the machines search bar
