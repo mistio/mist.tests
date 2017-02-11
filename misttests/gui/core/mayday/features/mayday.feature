@@ -39,8 +39,7 @@ Feature: Production
     And I click the "RAM" button in the dropdown with id "metricName"
     When I fill "0" as metric value
     And I save the rule
-    Then I should receive an email within 200 seconds
-    When I remove previous rules
+#    When I remove previous rules
 
   @ssh
   Scenario: Production ssh testing
@@ -84,3 +83,7 @@ Feature: Production
     Then I do the Github login
     When I wait for the dashboard to load
     Then I logout
+
+  @confirm_alert_email
+  Scenario: Confirm that alert email arrived
+    Then I should receive an email within 200 seconds
