@@ -35,8 +35,8 @@ Feature: Production
     And I focus on the "add new rule" button
     And I click the button "add new rule"
     Then I expect for "newrule" to be visible within max 20 seconds
-#    And I click the "metricName" rule
-    And I click the "RAM" button in the dropdown with id "metricName"
+    And I click the "metricName" rule
+#    And I click the "RAM" button in the dropdown with id "metricName"
     When I fill "0" as metric value
     And I save the rule
 #    When I remove previous rules
