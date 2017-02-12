@@ -205,11 +205,14 @@ class MistIoApi(object):
         return req
 
     def add_key(self, name, private, cookie=None, csrf_token=None,
-                 api_token=None):
+                api_token=None, isDefault = ''):
         payload = {
             'name': name,
             'priv': private
         }
+
+        if isDefault:
+            payload.update({'isDefault': isDefault})
         req = MistRequests(uri=self.uri + '/api/v1/keys', cookie=cookie,
                            data=json.dumps(payload),
                            csrf_token=csrf_token, api_token=api_token)

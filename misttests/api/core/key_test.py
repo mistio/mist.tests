@@ -95,7 +95,7 @@ def test_add_key_no_private(pretty_print, cache, mist_core,
     response = mist_core.list_keys(api_token=owner_api_token).get()
     assert_response_ok(response)
     keys_list = json.loads(response.content)
-    cache.set('keys_tests/key_name', get_random_key_id(keys_list))
+    cache.set('keys_tests/key_name', get_random_key_name(keys_list))
     response = mist_core.add_key(name=cache.get('keys_tests/key_name', ''),
                                  private='',
                                  api_token=owner_api_token).put()
@@ -219,7 +219,7 @@ class TestSimpleUserKeyCycle:
     def test_set_default_key(self, pretty_print, cache, mist_core, owner_api_token,
                              private_key):
         response = mist_core.add_key(
-            name='TestKey',
+            name='TestKey2',
             private=private_key,
             api_token=owner_api_token).put()
         assert_response_ok(response)
@@ -240,38 +240,36 @@ class TestSimpleUserKeyCycle:
                 assert key['isDefault'] == False, "More than one keys are set as default!"
         print "Success!!!"
 
-        # delete keys
+    def test_delete_multiple_keys(self, pretty_print, mist_core,
+                                  owner_api_token, private_key):
+        key_ids = []
+        # add 3 more keys and then delete them
+        for i in range(3):
+            response = mist_core.list_keys(api_token=owner_api_token).get()
+            assert_response_ok(response)
+            new_key_name = get_random_key_name(json.loads(response.content))
+            response = mist_core.add_key(name=new_key_name, private=private_key,
+                                         api_token=owner_api_token).put()
+            assert_response_ok(response)
+            response = mist_core.list_keys(api_token=owner_api_token).get()
+            assert_response_ok(response)
+            script = get_keys_with_id(new_key_name,
+                                      json.loads(response.content))
+            new_key_id = script[0]['id']
+            assert_list_not_empty(script, "Key was added but is not visible in"
+                                          " the list of keys")
+            key_ids.append(new_key_id)
 
-#     def test_delete_multiple_keys(self, pretty_print, mist_core,
-#                                   owner_api_token, private_key):
-#         key_ids = []
-#         # add 3 more keys and then delete them
-#         for i in range(3):
-#             response = mist_core.list_keys(api_token=owner_api_token).get()
-#             assert_response_ok(response)
-#             new_key_name = get_random_key_id(json.loads(response.content))
-#             response = mist_core.add_key(name=new_key_name, private=private_key,
-#                                          api_token=owner_api_token).put()
-#             assert_response_ok(response)
-#             response = mist_core.list_keys(api_token=owner_api_token).get()
-#             assert_response_ok(response)
-#             script = get_keys_with_id(new_key_name,
-#                                       json.loads(response.content))
-#             new_key_id = script[0]['id']
-#             assert_list_not_empty(script, "Key was added but is not visible in"
-#                                           " the list of keys")
-#             key_ids.append(new_key_id)
-#
-#         key_ids.append('bla')
-#         key_ids.append('bla2')
-#
-#         response = mist_core.delete_keys(key_ids=key_ids,
-#                                          api_token=owner_api_token).delete()
-#         assert_response_ok(response)
-#         report = json.loads(response.content)
-#         for key_id in key_ids:
-#             if 'bla' not in key_id:
-#                 assert_equal(report.get(key_id, ''), 'deleted', report)
-#             if 'bla' in key_id:
-#                 assert_equal(report.get(key_id, ''), 'not_found', report)
-#         print "Success!!!"
+        key_ids.append('bla')
+        key_ids.append('bla2')
+
+        response = mist_core.delete_keys(key_ids=key_ids,
+                                         api_token=owner_api_token).delete()
+        assert_response_ok(response)
+        report = json.loads(response.content)
+        for key_id in key_ids:
+            if 'bla' not in key_id:
+                assert_equal(report.get(key_id, ''), 'deleted', report)
+            if 'bla' in key_id:
+                assert_equal(report.get(key_id, ''), 'not_found', report)
+        print "Success!!!"
