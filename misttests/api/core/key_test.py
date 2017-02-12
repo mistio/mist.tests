@@ -15,14 +15,6 @@ def test_list_keys(pretty_print, mist_core, owner_api_token):
     print "Success!!!"
 
 
-def test_generate_key(pretty_print, mist_core, owner_api_token):
-    response = mist_core.generate_keypair(api_token=owner_api_token).post()
-    assert_response_ok(response)
-    if 'public' not in response.json().keys() or 'priv' not in response.json().keys():
-        assert False, "Public key was not generated!"
-    print "Success!!!"
-
-
 # # # TODO: check below... csrf=None is ok but csrf='' is not?
 # # def test_generate_key_wrong_api_token(pretty_print, mist_core):
 # #     response = mist_core.generate_keypair(csrf_token='').post()
@@ -145,7 +137,6 @@ def test_set_default_key_wrong_id(pretty_print, cache, mist_core,
 # set default
 # get private
 # get public
-# generate
 
 @pytest.mark.incremental
 class TestSimpleUserKeyCycle:
@@ -168,7 +159,7 @@ class TestSimpleUserKeyCycle:
     def test_add_key_duplicate_name(self, pretty_print, cache, mist_core,
                                     owner_api_token, private_key):
         response = mist_core.add_key(
-            name='Key1',
+            name='TestKey',
             private=private_key,
             api_token=owner_api_token).put()
         assert_response_conflict(response)
@@ -186,45 +177,34 @@ class TestSimpleUserKeyCycle:
         assert 'Key1' == response.json()[0]['name'], "Although response was 200, key was not renamed"
         print "Success"
 
-#
-#     def test_edit_key(self, pretty_print, cache, mist_core, owner_api_token):
-#         response = mist_core.list_keys(api_token=owner_api_token).get()
-#         assert_response_ok(response)
-#         new_key_name = get_random_key_id(json.loads(response.content))
-#         response = mist_core.edit_key(
-#             id=cache.get('keys_tests/simple_key_id', ''),
-#             new_name=new_key_name,
-#             api_token=owner_api_token).put()
-#         assert_response_ok(response)
-#         response = mist_core.list_keys(api_token=owner_api_token).get()
-#         assert_response_ok(response)
-#         script = get_keys_with_id(new_key_name,
-#                                   json.loads(response.content))
-#         assert_list_not_empty(script,
-#                               "Key was added through the api but is not "
-#                               "visible in the list of keys")
-#         cache.set('keys_tests/simple_key_name', new_key_name)
-#         print "Success!!!"
-#
-#     def test_edit_key_with_no_new_id(self, pretty_print, cache, mist_core,
-#                                      owner_api_token):
-#         response = mist_core.edit_key(
-#             id=cache.get('keys_tests/simple_key_id', ''),
-#             new_name='',
-#             api_token=owner_api_token).put()
-#         assert_response_bad_request(response)
-#         print "Success!!!"
-#
-#     def test_edit_key_with_same_id(self, pretty_print, cache, mist_core,
-#                                    owner_api_token):
-#         key_id = cache.get('keys_tests/simple_key_id', '')
-#         key_name = cache.get('keys_tests/simple_key_name', '')
-#         response = mist_core.edit_key(id=key_id,
-#                                       new_name=key_name,
-#                                       api_token=owner_api_token).put()
-#         assert_response_ok(response)
-#         print "Success!!!"
-#
+    def test_rename_key_no_name(self, pretty_print, cache, mist_core,
+                                owner_api_token):
+        response = mist_core.edit_key(
+                    id=cache.get('key_id', ''),
+                    new_name='',
+                    api_token=owner_api_token).put()
+        assert_response_bad_request(response)
+        response = mist_core.list_keys(api_token=owner_api_token).get()
+        assert_response_ok(response)
+        assert 'Key1' == response.json()[0]['name']
+        print "Success"
+
+    def test_generate_key(self, pretty_print, cache, mist_core, owner_api_token):
+        response = mist_core.generate_keypair(api_token=owner_api_token).post()
+        assert_response_ok(response)
+        if 'public' not in response.json().keys() or 'priv' not in response.json().keys():
+            assert False, "Public key was not generated!"
+        cache.set('key_priv', response.json()['priv'])
+        response = mist_core.add_key(
+            name='Key2',
+            private=cache.get('key_priv', ''),
+            api_token=owner_api_token).put()
+        assert_response_ok(response)
+        response = mist_core.list_keys(api_token=owner_api_token).get()
+        assert_response_ok(response)
+        assert len(response.json()) == 2
+        print "Success!!!"
+
 #     def test_get_private_key(self, pretty_print, cache, mist_core,
 #                              owner_api_token, private_key):
 #         response = mist_core.get_private_key(
