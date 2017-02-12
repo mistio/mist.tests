@@ -132,11 +132,6 @@ def test_set_default_key_wrong_id(pretty_print, cache, mist_core,
 #                          Functional Testing                              #
 ############################################################################
 
-# delete key
-# delete keys
-# set default
-# get private
-# get public
 
 @pytest.mark.incremental
 class TestSimpleUserKeyCycle:
@@ -205,25 +200,26 @@ class TestSimpleUserKeyCycle:
         assert len(response.json()) == 2
         print "Success!!!"
 
-#     def test_get_private_key(self, pretty_print, cache, mist_core,
-#                              owner_api_token, private_key):
-#         response = mist_core.get_private_key(
-#             cache.get('keys_tests/simple_key_id', ''),
-#             api_token=owner_api_token).get()
-#         assert_response_ok(response)
-#         assert_equal(private_key, json.loads(response.content),
-#                      response.content)
-#         print "Success!!!"
-#
-#     def test_get_public_key(self, pretty_print, cache, mist_core,
-#                             owner_api_token, public_key):
-#         response = mist_core.get_public_key(
-#             cache.get('keys_tests/simple_key_id', ''),
-#             api_token=owner_api_token).get()
-#         assert_response_ok(response)
-#         assert_equal(public_key, json.loads(response.content), response.content)
-#         print "Success!!!"
-#
+    def test_get_private_key(self, pretty_print, private_key, cache, mist_core, owner_api_token):
+        response = mist_core.get_private_key(key_id=cache.get('key_id', ''),
+                                             api_token=owner_api_token).get()
+        assert_response_ok(response)
+        assert response.json() == private_key
+        print "Success!!!"
+
+    def test_delete_key(self, pretty_print, cache, mist_core, owner_api_token):
+        response = mist_core.delete_key(key_id=cache.get('key_id', ''),
+                                        api_token=owner_api_token).delete()
+        assert_response_ok(response)
+        response = mist_core.delete_key(key_id=cache.get('key_id', ''),
+                                        api_token=owner_api_token).delete()
+        assert_response_not_found(response)
+        print "Success"
+
+        # set default
+        # delete keys
+
+
 #     def test_add_second_key_and_set_default(self, pretty_print, cache,
 #                                             mist_core, owner_api_token,
 #                                             private_key):
@@ -259,26 +255,8 @@ class TestSimpleUserKeyCycle:
 #                               "visible in the list of keys")
 #         assert script[0]['isDefault'], 'Key is not default'
 #         print "Success!!!"
-#
-#     def test_delete_key(self, pretty_print, cache, mist_core, owner_api_token):
-#         response = mist_core.delete_key(
-#             key_id=cache.get('keys_tests/simple_key_id', ''),
-#             api_token=owner_api_token).delete()
-#         assert response.status_code == requests.codes.ok, response.content
-#         response = mist_core.delete_key(
-#             key_id=cache.get('keys_tests/other_key_id', ''),
-#             api_token=owner_api_token).delete()
-#         assert_response_ok(response)
-#         print "Success!!!"
-#
-#     def test_redelete_key(self, pretty_print, cache, mist_core,
-#                           owner_api_token):
-#         response = mist_core.delete_key(
-#             key_id=cache.get('keys_tests/other_key_id', '')[:-2],
-#             api_token=owner_api_token).delete()
-#         assert_response_not_found(response)
-#         print "Success!!!"
-#
+
+
 #     def test_delete_multiple_keys(self, pretty_print, mist_core,
 #                                   owner_api_token, private_key):
 #         key_ids = []
