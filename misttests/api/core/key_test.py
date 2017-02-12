@@ -216,46 +216,34 @@ class TestSimpleUserKeyCycle:
         assert_response_not_found(response)
         print "Success"
 
-        # set default
+    def test_add_second_key_and_set_default(self, pretty_print, cache,
+                                            mist_core, owner_api_token,
+                                            private_key):
+        response = mist_core.add_key(
+            name='TestKey',
+            private=private_key,
+            api_token=owner_api_token).put()
+        assert_response_ok(response)
+        cache.set('key_id', response.json()['id'])
+        assert response.json()['isDefault'] == False, "Key was added as default although it shouldn't be!"
+        response = mist_core.list_keys(api_token=owner_api_token).get()
+        assert_response_ok(response)
+        assert len(response.json()) == 2
+        import ipdb;ipdb.set_trace()
+        response = mist_core.set_default_key(
+            key_id=cache.get('key_id', ''),
+            api_token=owner_api_token).post()
+        assert_response_ok(response)
+        response = mist_core.list_keys(api_token=owner_api_token).get()
+        for key in response.json():
+            if key['id'] == cache.get('key_id', ''):
+                assert key['isDefault'] == True, "Key is not default although response was 200"
+            else:
+                assert key['isDefault'] == False, "More than one keys are set as default!"
+        print "Success!!!"
+
+
         # delete keys
-
-
-#     def test_add_second_key_and_set_default(self, pretty_print, cache,
-#                                             mist_core, owner_api_token,
-#                                             private_key):
-#         response = mist_core.list_keys(api_token=owner_api_token).get()
-#         assert_response_ok(response)
-#         keys_list = json.loads(response.content)
-#         cache.set('keys_tests/other_key_name', get_random_key_id(keys_list))
-#         response = mist_core.add_key(
-#             name=cache.get('keys_tests/other_key_name', ''),
-#             private=private_key,
-#             api_token=owner_api_token).put()
-#         assert_response_ok(response)
-#         response = mist_core.list_keys(api_token=owner_api_token).get()
-#         assert_response_ok(response)
-#         script = get_keys_with_id(cache.get('keys_tests/other_key_name', ''),
-#                                   json.loads(response.content))
-#         assert_list_not_empty(script,
-#                               "Key was added through the api but is not "
-#                               "visible in the list of keys")
-#
-#         cache.set('keys_tests/other_key_id', script[0]['id'])
-#         other_key_id = cache.get('keys_tests/other_key_id', '')
-#         response = mist_core.set_default_key(
-#             key_id=other_key_id,
-#             api_token=owner_api_token).post()
-#         assert_response_ok(response)
-#         response = mist_core.list_keys(api_token=owner_api_token).get()
-#         assert_response_ok(response)
-#         script = get_keys_with_id(cache.get('keys_tests/other_key_name', ''),
-#                                   json.loads(response.content))
-#         assert_list_not_empty(script,
-#                               "Key was added through the api but is not "
-#                               "visible in the list of keys")
-#         assert script[0]['isDefault'], 'Key is not default'
-#         print "Success!!!"
-
 
 #     def test_delete_multiple_keys(self, pretty_print, mist_core,
 #                                   owner_api_token, private_key):
