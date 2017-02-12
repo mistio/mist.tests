@@ -35,6 +35,7 @@ def test_delete_key_wrong_id(pretty_print, mist_core, owner_api_token):
     assert_response_not_found(response)
     print "Success!!!"
 
+
 def test_delete_key_wrong_api_token(pretty_print, mist_core):
     response = mist_core.delete_key(key_id='dummy',api_token='dummy').delete()
     assert_response_unauthorized(response)
@@ -143,44 +144,43 @@ def test_set_default_key_wrong_id(pretty_print, cache, mist_core,
     print "Success!!!"
 
 
+############################################################################
+#                          Functional Testing                              #
+############################################################################
 
-# #############################################################################
-# # Scenarios
-# #############################################################################
-#
-#
-# @pytest.mark.incremental
-# class TestSimpleUserKeyCycle:
-#     def test_add_key(self, pretty_print, cache, mist_core, owner_api_token,
-#                      private_key):
-#         response = mist_core.list_keys(api_token=owner_api_token).get()
-#         assert_response_ok(response)
-#         keys_list = json.loads(response.content)
-#         cache.set('keys_tests/simple_key_name', get_random_key_id(keys_list))
-#         response = mist_core.add_key(
-#             name=cache.get('keys_tests/simple_key_name', ''),
-#             private=private_key,
-#             api_token=owner_api_token).put()
-#         assert_response_ok(response)
-#         response = mist_core.list_keys(api_token=owner_api_token).get()
-#         assert_response_ok(response)
-#         script = get_keys_with_id(cache.get('keys_tests/simple_key_name', ''),
-#                                   json.loads(response.content))
-#         assert_list_not_empty(script,
-#                               "Key was added through the api but is not "
-#                               "visible in the list of keys")
-#
-#         cache.set('keys_tests/simple_key_id', script[0]['id'])
-#         print "Success!!!"
-#
-#     def test_add_key_with_duplicate_id(self, pretty_print, cache, mist_core,
-#                                        owner_api_token, private_key):
-#         response = mist_core.add_key(
-#             name=cache.get('keys_tests/simple_key_name', ''),
-#             private=private_key,
-#             api_token=owner_api_token).put()
-#         assert_response_conflict(response)
-#         print "Success!!!"
+
+@pytest.mark.incremental
+class TestSimpleUserKeyCycle:
+    def test_add_key(self, pretty_print, cache, mist_core, owner_api_token,
+                     private_key):
+        response = mist_core.list_keys(api_token=owner_api_token).get()
+        assert_response_ok(response)
+        keys_list = json.loads(response.content)
+        cache.set('keys_tests/simple_key_name', get_random_key_id(keys_list))
+        response = mist_core.add_key(
+            name=cache.get('keys_tests/simple_key_name', ''),
+            private=private_key,
+            api_token=owner_api_token).put()
+        assert_response_ok(response)
+        response = mist_core.list_keys(api_token=owner_api_token).get()
+        assert_response_ok(response)
+        script = get_keys_with_id(cache.get('keys_tests/simple_key_name', ''),
+                                  json.loads(response.content))
+        assert_list_not_empty(script,
+                              "Key was added through the api but is not "
+                              "visible in the list of keys")
+
+        cache.set('keys_tests/simple_key_id', script[0]['id'])
+        print "Success!!!"
+
+    def test_add_key_with_duplicate_id(self, pretty_print, cache, mist_core,
+                                       owner_api_token, private_key):
+        response = mist_core.add_key(
+            name=cache.get('keys_tests/simple_key_name', ''),
+            private=private_key,
+            api_token=owner_api_token).put()
+        assert_response_conflict(response)
+        print "Success!!!"
 #
 #     def test_edit_key(self, pretty_print, cache, mist_core, owner_api_token):
 #         response = mist_core.list_keys(api_token=owner_api_token).get()
