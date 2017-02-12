@@ -216,9 +216,8 @@ class TestSimpleUserKeyCycle:
         assert_response_not_found(response)
         print "Success"
 
-    def test_add_second_key_and_set_default(self, pretty_print, cache,
-                                            mist_core, owner_api_token,
-                                            private_key):
+    def test_set_default_key(self, pretty_print, cache, mist_core, owner_api_token,
+                             private_key):
         response = mist_core.add_key(
             name='TestKey',
             private=private_key,
@@ -229,7 +228,6 @@ class TestSimpleUserKeyCycle:
         response = mist_core.list_keys(api_token=owner_api_token).get()
         assert_response_ok(response)
         assert len(response.json()) == 2
-        import ipdb;ipdb.set_trace()
         response = mist_core.set_default_key(
             key_id=cache.get('key_id', ''),
             api_token=owner_api_token).post()
@@ -237,11 +235,10 @@ class TestSimpleUserKeyCycle:
         response = mist_core.list_keys(api_token=owner_api_token).get()
         for key in response.json():
             if key['id'] == cache.get('key_id', ''):
-                assert key['isDefault'] == True, "Key is not default although response was 200"
+                assert key['isDefault'], "Key is not default although response was 200"
             else:
                 assert key['isDefault'] == False, "More than one keys are set as default!"
         print "Success!!!"
-
 
         # delete keys
 
