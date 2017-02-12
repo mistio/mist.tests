@@ -156,7 +156,7 @@ class TestSimpleUserKeyCycle:
                      private_key):
         response = mist_core.list_keys(api_token=owner_api_token).get()
         assert_response_ok(response)
-        assert len(response.json() == 0)
+        assert len(response.json()) == 0
         # keys_list = json.loads(response.content)
         # cache.set('keys_tests/simple_key_name', get_random_key_id(keys_list))
         response = mist_core.add_key(
@@ -166,7 +166,7 @@ class TestSimpleUserKeyCycle:
         assert_response_ok(response)
         response = mist_core.list_keys(api_token=owner_api_token).get()
         assert_response_ok(response)
-        assert len(response.json() == 1)
+        assert len(response.json()) == 1
         print "Success!!!"
 
     def test_add_key_duplicate_name(self, pretty_print, cache, mist_core,
