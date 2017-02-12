@@ -111,15 +111,6 @@ def test_add_key_no_private(pretty_print, cache, mist_core,
     print "Success!!!"
 
 
-def test_add_key_wrong_private(pretty_print, cache, mist_core,
-                                        owner_api_token, private_key):
-    response = mist_core.add_key(name=cache.get('keys_tests/key_name', ''),
-                                 private=private_key[:-40],
-                                 api_token=owner_api_token).put()
-    assert_response_bad_request(response)
-    print "Success!!!"
-
-
 def test_get_private_key_wrong_id(pretty_print, cache, mist_core,
                                   owner_api_token):
     response = mist_core.get_private_key('bla', api_token=owner_api_token).get()
@@ -149,6 +140,12 @@ def test_set_default_key_wrong_id(pretty_print, cache, mist_core,
 #                          Functional Testing                              #
 ############################################################################
 
+# delete key
+# delete keys
+# set default
+# get private
+# get public
+# generate
 
 @pytest.mark.incremental
 class TestSimpleUserKeyCycle:
@@ -157,13 +154,12 @@ class TestSimpleUserKeyCycle:
         response = mist_core.list_keys(api_token=owner_api_token).get()
         assert_response_ok(response)
         assert len(response.json()) == 0
-        # keys_list = json.loads(response.content)
-        # cache.set('keys_tests/simple_key_name', get_random_key_id(keys_list))
         response = mist_core.add_key(
-            name='Key1',
+            name='TestKey',
             private=private_key,
             api_token=owner_api_token).put()
         assert_response_ok(response)
+        cache.set('key_id', response.json()['id'])
         response = mist_core.list_keys(api_token=owner_api_token).get()
         assert_response_ok(response)
         assert len(response.json()) == 1
@@ -177,6 +173,19 @@ class TestSimpleUserKeyCycle:
             api_token=owner_api_token).put()
         assert_response_conflict(response)
         print "Success!!!"
+
+    def test_rename_key(self, pretty_print, cache, mist_core,
+                        owner_api_token):
+        response = mist_core.edit_key(
+                    id=cache.get('key_id', ''),
+                    new_name='Key1',
+                    api_token=owner_api_token).put()
+        assert_response_ok(response)
+        response = mist_core.list_keys(api_token=owner_api_token).get()
+        assert_response_ok(response)
+        assert 'Key1' == response.json()[0]['name'], "Although response was 200, key was not renamed"
+        print "Success"
+
 #
 #     def test_edit_key(self, pretty_print, cache, mist_core, owner_api_token):
 #         response = mist_core.list_keys(api_token=owner_api_token).get()
