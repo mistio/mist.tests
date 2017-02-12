@@ -47,6 +47,7 @@ def test_delete_multiple_keys_wrong_id(pretty_print, mist_core, owner_api_token)
     assert_response_not_found(response)
     print "Success!!!"
 
+
 def test_delete_multiple_keys_no_ids(pretty_print, mist_core, owner_api_token):
     response = mist_core.delete_keys(key_ids=[], api_token=owner_api_token).delete()
     assert_response_bad_request(response)
@@ -98,7 +99,7 @@ def test_add_key_no_name_no_private(pretty_print, mist_core,
 
 
 def test_add_key_no_private(pretty_print, cache, mist_core,
-                                     owner_api_token):
+                            owner_api_token):
     response = mist_core.list_keys(api_token=owner_api_token).get()
     assert_response_ok(response)
     keys_list = json.loads(response.content)
@@ -155,28 +156,23 @@ class TestSimpleUserKeyCycle:
                      private_key):
         response = mist_core.list_keys(api_token=owner_api_token).get()
         assert_response_ok(response)
-        keys_list = json.loads(response.content)
-        cache.set('keys_tests/simple_key_name', get_random_key_id(keys_list))
+        assert len(response.json() == 0)
+        # keys_list = json.loads(response.content)
+        # cache.set('keys_tests/simple_key_name', get_random_key_id(keys_list))
         response = mist_core.add_key(
-            name=cache.get('keys_tests/simple_key_name', ''),
+            name='Key1',
             private=private_key,
             api_token=owner_api_token).put()
         assert_response_ok(response)
         response = mist_core.list_keys(api_token=owner_api_token).get()
         assert_response_ok(response)
-        script = get_keys_with_id(cache.get('keys_tests/simple_key_name', ''),
-                                  json.loads(response.content))
-        assert_list_not_empty(script,
-                              "Key was added through the api but is not "
-                              "visible in the list of keys")
-
-        cache.set('keys_tests/simple_key_id', script[0]['id'])
+        assert len(response.json() == 1)
         print "Success!!!"
 
-    def test_add_key_with_duplicate_id(self, pretty_print, cache, mist_core,
-                                       owner_api_token, private_key):
+    def test_add_key_duplicate_name(self, pretty_print, cache, mist_core,
+                                    owner_api_token, private_key):
         response = mist_core.add_key(
-            name=cache.get('keys_tests/simple_key_name', ''),
+            name='Key1',
             private=private_key,
             api_token=owner_api_token).put()
         assert_response_conflict(response)
