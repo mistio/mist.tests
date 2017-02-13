@@ -284,6 +284,14 @@ class MistCoreApi(MistIoApi):
         req.delete = req.unavailable_api_call
         return req
 
+    def list_subnets(self, cloud_id, network_id, api_token):
+        req = MistRequests(uri=self.uri + '/api/v1/clouds/' + cloud_id + '/networks/' +
+                           network_id + '/subnets', api_token=api_token)
+        req.post = req.unavailable_api_call
+        req.put = req.unavailable_api_call
+        req.delete = req.unavailable_api_call
+        return req
+
     def create_network(self, cloud_id, network_params, api_token):
         req = MistRequests(uri=self.uri + 'api/v1/clouds/%s/networks' % cloud_id, api_token=api_token)
 

@@ -32,8 +32,27 @@ def test_list_networks_no_api_token(pretty_print, mist_core):
     print "Success!!!"
 
 
+def test_list_subnets_wrong_cloud_id(pretty_print, mist_core, owner_api_token):
+    response = mist_core.list_subnets(api_token=owner_api_token,
+                                      cloud_id='dummy', network_id='dummy').get()
+    assert_response_not_found(response)
+    print "Success!!!"
 
-# list_subnets
+
+def test_list_subnets_wrong_api_token(pretty_print, mist_core):
+    response = mist_core.list_subnets(api_token='dummy', network_id='dummy',
+                                      cloud_id='dummy').get()
+    assert_response_unauthorized(response)
+    print "Success!!!"
+
+
+def test_list_subnets_no_api_token(pretty_print, mist_core):
+    response = mist_core.list_networks(api_token='',
+                                       cloud_id='dummy').get()
+    assert_response_unauthorized(response)
+    print "Success!!!"
+
+
 # create_network
 # create_subnet
 # delete_network
