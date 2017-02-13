@@ -320,6 +320,14 @@ class MistCoreApi(MistIoApi):
         req.delete = req.unavailable_api_call
         return req
 
+    def delete_subnet(self, cloud_id, network_id, subnet_id, api_token):
+        req = MistRequests(uri=self.uri + '/api/v1/clouds/' + cloud_id + '/networks/' + network_id +
+                           '/subnets/' + subnet_id, api_token=api_token)
+        req.get = req.unavailable_api_call
+        req.post = req.unavailable_api_call
+        req.put = req.unavailable_api_call
+        return req
+
     def create_org(self, api_token, name=''):
         req = MistRequests(uri=self.uri + '/api/v1/org',
                            json={'name': name},

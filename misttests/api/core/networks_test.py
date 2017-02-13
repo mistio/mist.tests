@@ -125,4 +125,24 @@ def test_delete_network_wrong_cloud_id(pretty_print, mist_core, owner_api_token)
     print "Success!!!"
 
 
-# delete subnet
+def test_delete_subnet_wrong_api_token(pretty_print, mist_core, owner_api_token):
+    response = mist_core.delete_subnet(api_token='dummy', network_id='dummy',
+                                       cloud_id='dummy', subnet_id='dummy').delete()
+    assert_response_unauthorized(response)
+    print "Success!!!"
+
+
+# check - it should get forbidden?
+
+def test_delete_subnet_no_api_token(pretty_print, mist_core):
+    response = mist_core.delete_subnet(api_token='dummy', network_id='dummy',
+                                       cloud_id='dummy', subnet_id='dummy').delete()
+    assert_response_unauthorized(response)
+    print "Success!!!"
+
+
+def test_delete_subnet_wrong_cloud_id(pretty_print, mist_core, owner_api_token):
+    response = mist_core.delete_subnet(api_token=owner_api_token, network_id='dummy',
+                                       cloud_id='dummy', subnet_id='dummy').delete()
+    assert_response_not_found(response)
+    print "Success!!!"
