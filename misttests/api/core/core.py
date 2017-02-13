@@ -311,8 +311,8 @@ class MistCoreApi(MistIoApi):
         req.put = req.unavailable_api_call
         return req
 
-    def create_subnet(self, cloud_id, network_id, subnet_params, api_token):
-        req = MistRequests(uri=self.uri + 'api/v1/clouds/%s/networks/%s' % cloud_id % network_id,
+    def create_subnet(self, cloud_id, network_id, api_token):
+        req = MistRequests(uri=self.uri + '/api/v1/clouds/' + cloud_id + '/networks/' + network_id + '/subnets',
                            api_token=api_token)
 
         req.get = req.unavailable_api_call

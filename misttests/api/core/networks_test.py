@@ -80,7 +80,29 @@ def test_create_network_no_api_token(pretty_print, mist_core):
     print "Success!!!"
 
 
+# create_subnet_missing_parameter -- isn't 'subnet' or sth required???
 
-# create_subnet
+
+def test_create_subnet_wrong_cloud_id(pretty_print, mist_core, owner_api_token):
+    response = mist_core.create_subnet(api_token=owner_api_token,
+                                       cloud_id='dummy', network_id='dummy').post()
+    assert_response_not_found(response)
+    print "Success!!!"
+
+
+def test_create_subnet_wrong_api_token(pretty_print, mist_core):
+    response = mist_core.create_subnet(api_token='dummy', network_id='dummy',
+                                       cloud_id='dummy').post()
+    assert_response_unauthorized(response)
+    print "Success!!!"
+
+
+def test_create_subnet_no_api_token(pretty_print, mist_core):
+    response = mist_core.create_subnet(api_token='', network_id='dummy',
+                                       cloud_id='dummy').post()
+    assert_response_forbidden(response)
+    print "Success!!!"
+
+
 # delete_network
 # delete subnet
