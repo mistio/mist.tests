@@ -3,6 +3,7 @@ Feature: Login Scenarios and Api Token
 
   @github_sso_signin
   Scenario: Sign in testing with github
+    Given sso members are initialized
     Given I am not logged in to mist.core
     When I open the login popup
     Then I click the github button in the landing page popup
