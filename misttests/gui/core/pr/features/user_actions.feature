@@ -1,6 +1,17 @@
 @user-actions
 Feature: Login Scenarios and Api Token
 
+  @github_sso_signin
+  Scenario: Production sign in testing with github
+    Given I am not logged in to mist.core
+    When I open the login popup
+    Then I click the github button in the landing page popup
+    Then I input my "GITHUB_TEST_EMAIL" in the field with id "login_field"
+    Then I input my "GITHUB_TEST_PASSWORD" in the field with id "password"
+    And I click the Sign In button in the Github form
+    And I wait for 5 seconds
+    Then I wait for the dashboard to load
+    Then I logout
 
   @api-token-test
   Scenario: Create api token and test it with API call
