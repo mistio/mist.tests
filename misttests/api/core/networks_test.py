@@ -53,7 +53,34 @@ def test_list_subnets_no_api_token(pretty_print, mist_core):
     print "Success!!!"
 
 
-# create_network
+def test_create_network_missing_parameter(pretty_print, mist_core, owner_api_token):
+    response = mist_core.create_network(api_token=owner_api_token,
+                                        cloud_id='dummy').post()
+    assert_response_bad_request(response)
+    print "Success!!!"
+
+
+def test_create_network_wrong_api_token(pretty_print, mist_core):
+    response = mist_core.create_network(api_token='dummy',
+                                        cloud_id='dummy').post()
+    assert_response_unauthorized(response)
+    print "Success!!!"
+
+
+def test_create_network_wrong_cloud_id(pretty_print, mist_core, owner_api_token):
+    response = mist_core.create_network(api_token=owner_api_token, network='Net1',
+                                        cloud_id='dummy').post()
+    assert_response_not_found(response)
+    print "Success!!!"
+
+
+def test_create_network_no_api_token(pretty_print, mist_core):
+    response = mist_core.create_network(api_token='', cloud_id='dummy').post()
+    assert_response_forbidden(response)
+    print "Success!!!"
+
+
+
 # create_subnet
 # delete_network
 # delete subnet
