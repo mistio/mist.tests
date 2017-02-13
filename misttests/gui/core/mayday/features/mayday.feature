@@ -10,7 +10,7 @@ Feature: Production
     And I expect the "machine" edit form to be visible within max 5 seconds
     And I clear the machines search bar
     Then I wait for the graphs to appear
-    And I click the button "Add Graph"
+    And I click the button "Add Graph12312"
     Then I expect for "selectTarget" modal to appear within max 30 seconds
     And I expect the metric buttons to appear within 30 seconds
     When I click the "entropy" button inside the popup with id "selectTarget"
