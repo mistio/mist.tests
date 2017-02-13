@@ -13,16 +13,17 @@ Feature: Login Scenarios and Api Token
     Then I wait for the dashboard to load
     Then I logout
 
-#  @google_sso_signin
-#  Scenario: Sign in testing with google oauth2
-#    Given I am not logged in to mist.core
-#    When I open the login popup
-#    Then I click the google button in the landing page popup
-#    Then I input my "GOOGLE_TEST_EMAIL" in the field with id "Email"
-#    Then I input my "GOOGLE_TEST_PASSWORD" in the field with id "Passwd"
-#    And I press the button with id "signIn"
-#    When I wait for the dashboard to load
-#    Then I logout
+  @google_sso_signin
+  Scenario: Sign in testing with google oauth2
+    Given I am not logged in to mist.core
+    When I open the login popup
+    Then I click the google button in the landing page popup
+    Then I input my "GOOGLE_TEST_EMAIL" in the field with id "Email"
+    And I click the "next" button
+    Then I input my "GOOGLE_TEST_PASSWORD" in the field with id "Passwd"
+    And I press the button with id "signIn"
+    When I wait for the dashboard to load
+    Then I logout
 
   @api-token-test
   Scenario: Create api token and test it with API call
