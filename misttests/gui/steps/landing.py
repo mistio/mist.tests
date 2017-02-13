@@ -59,7 +59,7 @@ def click_button_in_landing_page(context, text):
     shadow_root = get_shadow_root(context, landing_app)
     landing_pages = shadow_root.find_element_by_css_selector("landing-pages")
 
-    if text == 'sign in' or text == 'forgot password':
+    if text in ['sign in', 'forgot password', 'google', 'github']:
         page = landing_pages.find_element_by_tag_name('landing-sign-in')
     elif text.lower() == 'sign up':
         page = landing_pages.find_element_by_tag_name('landing-sign-up')
@@ -86,6 +86,10 @@ def click_button_in_landing_page(context, text):
         popup = form.find_element_by_id('forgotPasswordSubmit')
     elif text == 'reset_pass_submit':
         popup = form.find_element_by_id('resetPasswordSubmit')
+    elif text == 'google':
+        popup = form.find_element_by_id('signInBtnGoogle')
+    elif text == 'github':
+        popup = form.find_element_by_id('signInBtnGithub')
 
     clicketi_click(context, popup)
     return
