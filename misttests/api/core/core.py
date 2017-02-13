@@ -303,7 +303,7 @@ class MistCoreApi(MistIoApi):
         return req
 
     def delete_network(self, cloud_id, network_id, api_token):
-        req = MistRequests(uri=self.uri + 'api/v1/clouds/%s/networks/%s' % cloud_id %network_id,
+        req = MistRequests(uri=self.uri + '/api/v1/clouds/' + cloud_id + '/networks/' + network_id,
                            api_token=api_token)
 
         req.get = req.unavailable_api_call
