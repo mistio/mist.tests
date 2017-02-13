@@ -87,9 +87,9 @@ def click_button_in_landing_page(context, text):
     elif text == 'reset_pass_submit':
         popup = form.find_element_by_id('resetPasswordSubmit')
     elif text == 'google':
-        popup = form.find_element_by_id('signInBtnGoogle')
+        popup = page.find_element_by_id('signInBtnGoogle')
     elif text == 'github':
-        popup = form.find_element_by_id('signInBtnGithub')
+        popup = page.find_element_by_id('signInBtnGithub')
 
     clicketi_click(context, popup)
     return
