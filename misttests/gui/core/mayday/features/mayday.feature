@@ -80,8 +80,11 @@ Feature: Production
     Given I am not logged in to mist.core
     When I open the login popup
     Then I click the github button in the landing page popup
-    Then I do the Github login
-    When I wait for the dashboard to load
+    Then I input my "GITHUB_TEST_EMAIL" in the field with id "login_field"
+    Then I input my "GITHUB_TEST_PASSWORD" in the field with id "password"
+    And I click the Sign In button in the Github form
+    And I wait for 5 seconds
+    Then I wait for the dashboard to load
     Then I logout
 
   @confirm_alert_email
