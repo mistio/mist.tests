@@ -292,11 +292,13 @@ class MistCoreApi(MistIoApi):
         req.delete = req.unavailable_api_call
         return req
 
-    def create_network(self, cloud_id, api_token, network=''):
-        data = {'network': network}
+    def create_network(self, cloud_id, api_token, network_params=''):
+        data = {}
+        if network_params:
+            data.update(network_params)
 
         req = MistRequests(uri=self.uri + '/api/v1/clouds/' + cloud_id + '/networks',
-                           api_token=api_token, data=data)
+                           api_token=api_token, data=json.dumps(data))
         req.get = req.unavailable_api_call
         req.put = req.unavailable_api_call
         req.delete = req.unavailable_api_call

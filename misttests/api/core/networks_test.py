@@ -1,7 +1,7 @@
 from misttests.api.helpers import *
+from misttests import config
 
-
-#     configurator.add_route('api_v1_network','/api/v1/clouds/{cloud}/networks/{network}')
+import pytest
 
 
 ############################################################################
@@ -68,7 +68,7 @@ def test_create_network_wrong_api_token(pretty_print, mist_core):
 
 
 def test_create_network_wrong_cloud_id(pretty_print, mist_core, owner_api_token):
-    response = mist_core.create_network(api_token=owner_api_token, network='Net1',
+    response = mist_core.create_network(api_token=owner_api_token, network_params={'network': {}},
                                         cloud_id='dummy').post()
     assert_response_not_found(response)
     print "Success!!!"
@@ -146,3 +146,39 @@ def test_delete_subnet_wrong_cloud_id(pretty_print, mist_core, owner_api_token):
                                        cloud_id='dummy', subnet_id='dummy').delete()
     assert_response_not_found(response)
     print "Success!!!"
+
+
+############################################################################
+#                          Functional Testing                              #
+############################################################################
+
+@pytest.mark.incremental
+class TestNetworksFunctionality:
+    # def test_create_network_openstack(self, mist_core, cache, owner_api_token):
+    #     response = mist_core.add_cloud(provider='openstack', title='Openstack', api_token=owner_api_token,
+    #                                    username=config.CREDENTIALS['OPENSTACK']['username'],
+    #                                    tenant=config.CREDENTIALS['OPENSTACK']['tenant'],
+    #                                    password=config.CREDENTIALS['OPENSTACK']['password'],
+    #                                    auth_url=config.CREDENTIALS['OPENSTACK']['auth_url']
+    #                                    ).post()
+    #     assert_response_ok(response)
+    #     cache.set('cloud_ids/openstack', response.json()['id'])
+    #     response = mist_core.create_network(api_token=owner_api_token, network_params={'network':{'name':'openstack_net',
+    #                                         'admin_state_up': True}},
+    #                                         cloud_id=cache.get('cloud_ids/openstack', '')).post()
+    #     assert_response_ok(response)
+    #     print "Success!!!"
+
+    def test_create_network_ec2(self, mist_core, cache, owner_api_token):
+        response = mist_core.add_cloud(provider='ec2', title='AWS', api_token=owner_api_token,
+                                       api_key=config.CREDENTIALS['AWS']['api_key'],
+                                       api_secret=config.CREDENTIALS['AWS']['api_secret'],
+                                       region='ec2_ap_northeast'
+                                       ).post()
+        assert_response_ok(response)
+        cache.set('cloud_ids/ec2', response.json()['id'])
+        response = mist_core.create_network(api_token=owner_api_token,
+                                            network_params={'network': {'name': 'ec2_api_test_network',
+                                            'cidr': '10.1.0.0/16'}}, cloud_id=cache.get('cloud_ids/ec2', '')).post()
+        assert_response_ok(response)
+        print "Success!!!"
