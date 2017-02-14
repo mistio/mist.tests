@@ -91,8 +91,6 @@ def initialize_rbac_members(context):
     context.mist_config['MEMBER1_EMAIL'] = "%s+%d@gmail.com" % (BASE_EMAIL, random.randint(1,200000))
     context.mist_config['MEMBER2_EMAIL'] = "%s+%d@gmail.com" % (BASE_EMAIL, random.randint(1,200000))
 
-    context.mist_config['ORG_NAME'] = "rbac_org_%d" % random.randint(1,200000)
-
     payload = {
         'email': context.mist_config['MEMBER1_EMAIL'],
         'password': context.mist_config['MEMBER1_PASSWORD'],
