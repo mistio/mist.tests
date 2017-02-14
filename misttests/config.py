@@ -187,6 +187,8 @@ API_TESTING_CLOUD_PROVIDER = get_setting('API_TESTING_CLOUD_PROVIDER', '')
 
 ORG_NAME = get_setting('ORG_NAME', '')
 
+ORG_ID = get_setting('ORG_ID', '')
+
 # TODO: This should maybe set to True for api tests
 SETUP_ENVIRONMENT = get_setting("SETUP_ENVIRONMENT", False)
 

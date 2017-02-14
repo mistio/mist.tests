@@ -73,6 +73,7 @@ def before_all(context):
     context.mist_config['GMAIL_FATBOY_PASSWORD'] = config.GMAIL_FATBOY_PASSWORD
     context.mist_config['recording_session'] = config.RECORD_SELENIUM
     context.link_inside_email = ''
+    context.mist_config['ORG_ID'] = ''
 
     log.info("Finished with the bulk of the test settings")
     if config.LOCAL:
@@ -98,6 +99,8 @@ def before_feature(context, feature):
         }
 
         re = requests.post("%s/api/v1/dev/register" % context.mist_config['MIST_URL'], data=json.dumps(payload))
+
+        context.mist_config['ORG_ID'] = re.json()
 
 
 def after_all(context):

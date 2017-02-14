@@ -81,11 +81,53 @@ def initialize_rbac_members(context):
     }
 
     re = requests.post("%s/api/v1/dev/register" % context.mist_config['MIST_URL'], data=json.dumps(payload))
+
+    return
+
+
+@step(u'rbac members, organization and team are initialized')
+def initialize_rbac_members(context):
+    BASE_EMAIL = context.mist_config['BASE_EMAIL']
+    context.mist_config['MEMBER1_EMAIL'] = "%s+%d@gmail.com" % (BASE_EMAIL, random.randint(1,200000))
+    context.mist_config['MEMBER2_EMAIL'] = "%s+%d@gmail.com" % (BASE_EMAIL, random.randint(1,200000))
+
+    context.mist_config['ORG_NAME'] = "rbac_org_%d" % random.randint(1,200000)
+
+    payload = {
+        'email': context.mist_config['MEMBER1_EMAIL'],
+        'password': context.mist_config['MEMBER1_PASSWORD'],
+        'name': "Atheofovos Gkikas"
+    }
+
+    re = requests.post("%s/api/v1/dev/register" % context.mist_config['MIST_URL'], data=json.dumps(payload))
+
+    payload = {
+        'email': context.mist_config['EMAIL'],
+        'password': context.mist_config['PASSWORD1'],
+        'org_id': context.mist_config['ORG_ID']
+    }
+
+    re = requests.post("%s/api/v1/tokens" % context.mist_config['MIST_URL'], data=json.dumps(payload))
+
+    api_token = re.json()['token']
+
+    headers = {'Authorization': api_token}
+
+    payload = {
+        'name': "Test Team"
+    }
+
+    re = requests.post(context.mist_config['MIST_URL'] + "/api/v1/org/" + context.mist_config['ORG_ID'] + "/teams", data=json.dumps(payload), headers=headers)
+
     return
 
 
 @step(u'organization has been created')
 def create_organization(context):
+    import ipdb;
+    ipdb.set_trace()
+
+    re = requests.get("%s/api/v1/orgs" % context.mist_config['MIST_URL'])
 
     payload = {
         'email': context.mist_config['EMAIL'],
@@ -94,18 +136,34 @@ def create_organization(context):
 
     re = requests.post("%s/api/v1/tokens" % context.mist_config['MIST_URL'], data=json.dumps(payload))
 
-    api_token = re.json().get('token', None)
-
-    context.mist_config['ORG_NAME'] = "rbac_org_%d" % random.randint(1, 200000)
+    api_token = re.json()['token']
 
     payload = {
-        'name': context.mist_config['ORG_NAME'],
-        'api_token': api_token
+        'email': context.mist_config['EMAIL'],
+        'password': context.mist_config['PASSWORD1'],
+    }
+
+    # headers = {'Authorization': api_token}
+    #
+    # re = requests.post("%s/login" % context.mist_config['MIST_URL'], data=json.dumps(payload), headers=headers)
+
+
+    payload = {
+        'name': context.mist_config['ORG_NAME']
     }
 
     import ipdb;ipdb.set_trace()
 
-    re = requests.post("%s/api/v1/org" % context.mist_config['MIST_URL'], data=json.dumps(payload), json={'api_token':api_token})
+    headers = {'Authorization': api_token}
+
+    re = requests.get("%s/api/v1/orgs" % context.mist_config['MIST_URL'], headers=headers)
+    org_id = re.json()[0].get('id')
+
+    context.mist_config['ORG_NAME'] = re.json()[0].get('name')
+
+    re = requests.post(context.mist_config['MIST_URL'] + "/api/v1/org/" + org_id + "/teams", data=json.dumps(payload), headers=headers)
+
+    # re = requests.post(context.mist_config['MIST_URL'] + "/api/v1/org", data=json.dumps(payload), headers=headers)
     return
 
 
