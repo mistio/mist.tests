@@ -1,42 +1,15 @@
 @rbac-rules
 Feature: RBAC
 
-
-  # TODO: first 3 steps can be replaced with an API request since they are checked at rbac-teams
-
-  @create-org
+  @create-users-org-team
   Scenario: Owner creates a new organization and adds a Softlayer cloud
-    Given rbac members are initialized
-#    And organization has been created
-#    And  team "Test Team" has been created
+    Given rbac members, organization and team are initialized
     Given I am logged in to mist.core
-    And I am in the new UI
-    And  I wait for the dashboard to load
-    When I click the Gravatar
-    And I wait for 1 seconds
-    Then I click the button "Add Organisation" in the user menu
-    And I expect the dialog "Add Organization" is open within 4 seconds
-    And I wait for 1 seconds
-    When I set the value "ORG_NAME" to field "Name" in "Add Organization" dialog
-    And I click the "Add" button in the dialog "Add Organization"
-    And I wait for 2 seconds
-    And I click the "Switch" button in the dialog "Add Organization"
-    Then I expect the dialog "Add Organization" is closed within 4 seconds
-    When I wait for the dashboard to load
     Given "Packet" cloud has been added
-
-  @add-team
-  Scenario: Owner creates a team
-    When I visit the Teams page
-    When I click the button "+"
-    And I expect the dialog "Add Team" is open within 4 seconds
-    When I set the value "Test Team" to field "Name" in "Add Team" dialog
-    And I click the "Add" button in the dialog "Add Team"
-    When I visit the Teams page
-    And "Test Team" team should be present within 5 seconds
 
   @add-member1
   Scenario: Add member1
+    When I visit the Teams page
     When I click the "Test team" "team"
     And I expect the "team" edit form to be visible within max 5 seconds
     Then I click the button "Invite Members" in "team" edit form
@@ -50,7 +23,7 @@ Feature: RBAC
 
   @view-cloud-fail
   Scenario: Verify that member1 cannot view the cloud added above
-    Then I should receive an email at the address "MEMBER1_EMAIL" with subject "[mist.io] Confirm your invitation" within 15 seconds
+    Then I should receive an email at the address "MEMBER1_EMAIL" with subject "[mist.io] Confirm your invitation" within 30 seconds
     And I follow the link inside the email
     Then I click the email button in the landing page popup
     Then I enter my rbac_member1 credentials for login
