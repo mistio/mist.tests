@@ -161,25 +161,45 @@ class MistCoreApi(MistIoApi):
         req.put = req.unavailable_api_call
         return req
 
-    def add_script(self, api_token, name, exec_type, location_type, script=None,
+    def add_script(self, api_token, script_data, script=None,
                    entrypoint=None, description=None):
-        data = {
-            'name': name,
-            'exec_type': exec_type,
-            'location_type': location_type
-        }
+        data = {}
+        data.update(script_data)
+
         if script is not None:
             data['script'] = script
         if entrypoint is not None:
             data['entrypoint'] = entrypoint
         if description is not None:
             data['description'] = description
+
         req = MistRequests(uri=self.uri + '/api/v1/scripts', api_token=api_token,
                            data=data)
         req.get = req.unavailable_api_call
         req.delete = req.unavailable_api_call
         req.put = req.unavailable_api_call
         return req
+
+
+    # def add_script(self, api_token, name, exec_type, location_type, script=None,
+    #                entrypoint=None, description=None):
+    #     data = {
+    #         'name': name,
+    #         'exec_type': exec_type,
+    #         'location_type': location_type
+    #     }
+    #     if script is not None:
+    #         data['script'] = script
+    #     if entrypoint is not None:
+    #         data['entrypoint'] = entrypoint
+    #     if description is not None:
+    #         data['description'] = description
+    #     req = MistRequests(uri=self.uri + '/api/v1/scripts', api_token=api_token,
+    #                        data=data)
+    #     req.get = req.unavailable_api_call
+    #     req.delete = req.unavailable_api_call
+    #     req.put = req.unavailable_api_call
+    #     return req
 
     def show_script(self, api_token, script_id):
         req = MistRequests(uri=self.uri + '/api/v1/scripts/%s' % script_id,
@@ -225,6 +245,22 @@ class MistCoreApi(MistIoApi):
         req = MistRequests(uri=self.uri + '/api/v1/scripts/%s' % script_id,
                            api_token=api_token)
         req.get = req.unavailable_api_call
+        req.post = req.unavailable_api_call
+        req.put = req.unavailable_api_call
+        return req
+
+    def download_script(self, api_token, script_id):
+        req = MistRequests(uri=self.uri + '/api/v1/scripts/%s/file' % script_id,
+                           api_token=api_token)
+        req.delete = req.unavailable_api_call
+        req.post = req.unavailable_api_call
+        req.put = req.unavailable_api_call
+        return req
+
+    def url_script(self, api_token, script_id):
+        req = MistRequests(uri=self.uri + '/api/v1/scripts/%s/url' % script_id,
+                           api_token=api_token)
+        req.delete = req.unavailable_api_call
         req.post = req.unavailable_api_call
         req.put = req.unavailable_api_call
         return req

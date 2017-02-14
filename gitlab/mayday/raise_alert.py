@@ -66,6 +66,8 @@ for i, data_dict in enumerate(data):
     if not str(data[i]['ref']) == 'master':
         continue
     log.info("looking at result %s" % data_dict)
+    if not str(data[i]['name']) == 'run_mayday_test':
+        continue
     if data[i]['status'] == 'pending' or data[i]['status'] == 'canceled' or data[i]['status'] == 'running':
         continue
     elif data[i]['status'] == 'failed':
