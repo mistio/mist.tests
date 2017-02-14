@@ -100,7 +100,8 @@ def before_feature(context, feature):
 
         re = requests.post("%s/api/v1/dev/register" % context.mist_config['MIST_URL'], data=json.dumps(payload))
 
-        context.mist_config['ORG_ID'] = re.json()
+        context.mist_config['ORG_ID'] = re.json().get('org_id')
+        context.mist_config['ORG_NAME'] = re.json().get('org_name')
 
 
 def after_all(context):
