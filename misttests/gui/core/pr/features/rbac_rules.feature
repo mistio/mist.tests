@@ -1,9 +1,6 @@
 @rbac-rules
 Feature: RBAC
 
-
-  # TODO: first 3 steps can be replaced with an API request since they are checked at rbac-teams
-
   @create-users-org-team
   Scenario: Owner creates a new organization and adds a Softlayer cloud
     Given rbac members, organization and team are initialized
