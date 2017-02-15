@@ -171,6 +171,10 @@ class TestNetworksFunctionality:
                                             cloud_id=cache.get('cloud_ids/openstack', '')).post()
         assert_response_ok(response)
 
+        import ipdb;ipdb.set_trace()
+
+        cache.set('network_ids/openstack', response.json()['id'])
+
         response = mist_core.list_networks(api_token=owner_api_token,
                                            cloud_id=cache.get('cloud_ids/openstack', '')).get()
         assert_response_ok(response)
@@ -179,13 +183,16 @@ class TestNetworksFunctionality:
     def test_create_subnet_openstack(self, mist_core, cache, owner_api_token):
         params = {'name  ': ' openstackapitestsubnet ',
                   'cidr': '10.1.1.0/24',
-                  'description': 'api-test-subnet',
-                  'enable_dhcp': True,
                   'gateway_ip': '10.1.1.1',
                   'allocation_pools': [{'start': '10.1.1.2',
                                         'end': '10.1.1.100'}]
                  }
 
+        response = mist_core.create_subnet(cloud_id=cache.get('cloud_ids/openstack', ''),
+                                           network_id=cache.get('network_ids/openstack', ''),
+                                           api_token=owner_api_token).post()
+        assert_response_ok(response)
+        print "Success!!!"
 
     # def test_create_network_ec2(self, mist_core, cache, owner_api_token):
     #     response = mist_core.add_cloud(provider='ec2', title='AWS', api_token=owner_api_token,
