@@ -163,11 +163,29 @@ class TestNetworksFunctionality:
                                        ).post()
         assert_response_ok(response)
         cache.set('cloud_ids/openstack', response.json()['id'])
-        response = mist_core.create_network(api_token=owner_api_token, network_params={'network':{'name':'openstack_net%d' % random.randint(1,200),
-                                            'admin_state_up': True}},
+
+        network_params = {'network':{'name':'openstack_net%d' % random.randint(1,200),
+                                     'admin_state_up': True}}
+
+        response = mist_core.create_network(api_token=owner_api_token, network_params= network_params,
                                             cloud_id=cache.get('cloud_ids/openstack', '')).post()
         assert_response_ok(response)
+
+        response = mist_core.list_networks(api_token=owner_api_token,
+                                           cloud_id=cache.get('cloud_ids/openstack', '')).get()
+        assert_response_ok(response)
         print "Success!!!"
+
+    def test_create_subnet_openstack(self, mist_core, cache, owner_api_token):
+        params = {'name  ': ' openstackapitestsubnet ',
+                  'cidr': '10.1.1.0/24',
+                  'description': 'api-test-subnet',
+                  'enable_dhcp': True,
+                  'gateway_ip': '10.1.1.1',
+                  'allocation_pools': [{'start': '10.1.1.2',
+                                        'end': '10.1.1.100'}]
+                 }
+
 
     # def test_create_network_ec2(self, mist_core, cache, owner_api_token):
     #     response = mist_core.add_cloud(provider='ec2', title='AWS', api_token=owner_api_token,
@@ -181,15 +199,30 @@ class TestNetworksFunctionality:
     #                                         network_params={'network': {'name': 'ec2_api_test_network',
     #                                         'cidr': '10.1.0.0/16'}}, cloud_id=cache.get('cloud_ids/ec2', '')).post()
     #     assert_response_ok(response)
+    #
+    #     response = mist_core.list_networks(api_token=owner_api_token,
+    #                                        cloud_id=cache.get('cloud_ids/ec2', '')).get()
+    #     assert_response_ok(response)
     #     print "Success!!!"
 
 
 
-
-
-
-# list_networks
 # list_subnets
-# create_subnets
+
+
+# create_subnet_ec2
+# list_subnets
+
+# create_network_gce
+
+# list_networks_gce
+
+# create_subnet_gce
+# list_subnets
+
+
+
+####################
 # delete network
 # delete subnet
+# remove resources
