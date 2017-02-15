@@ -80,9 +80,6 @@ def test_create_network_no_api_token(pretty_print, mist_core):
     print "Success!!!"
 
 
-# create_subnet_missing_parameter -- isn't 'subnet' or sth required???
-
-
 def test_create_subnet_wrong_cloud_id(pretty_print, mist_core, owner_api_token):
     response = mist_core.create_subnet(api_token=owner_api_token,
                                        cloud_id='dummy', network_id='dummy').post()
@@ -133,7 +130,6 @@ def test_delete_subnet_wrong_api_token(pretty_print, mist_core, owner_api_token)
 
 
 # check - it should get forbidden?
-
 def test_delete_subnet_no_api_token(pretty_print, mist_core):
     response = mist_core.delete_subnet(api_token='dummy', network_id='dummy',
                                        cloud_id='dummy', subnet_id='dummy').delete()
@@ -192,20 +188,10 @@ def test_delete_subnet_wrong_cloud_id(pretty_print, mist_core, owner_api_token):
     #     assert_response_ok(response)
     #
     #     cache.set('network_ids/ec2', response.json()['network_id'])
-    #     import ipdb;ipdb.set_trace()
     #
     #     response = mist_core.list_networks(api_token=owner_api_token,
     #                                        cloud_id=cache.get('cloud_ids/ec2', '')).get()
     #     assert_response_ok(response)
     #     print "Success!!!"
 
-
-
-
-#delete_network
-# list_networks_gce
-# create_subnet_gce
-# list_subnets
-####################
-# delete subnet
 # remove resources
