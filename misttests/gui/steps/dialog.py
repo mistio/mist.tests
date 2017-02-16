@@ -17,7 +17,8 @@ def get_dialog(context, title):
     for dialog in dialogs:
         if dialog.is_displayed():
             try:
-                t = safe_get_element_text(dialog.find_element_by_tag_name('h2')).strip().lower()
+                t = safe_get_element_text(dialog.find_element_by_tag_name(
+                    'h2')).strip().lower()
                 if title in t:
                     return dialog
             except:

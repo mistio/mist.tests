@@ -1,8 +1,6 @@
-import re
 import shutil
 import logging
 import imaplib
-
 import gmail
 
 from time import sleep
@@ -176,7 +174,6 @@ def receive_mail(context, seconds):
 
     assert False, u'Did not receive an email within %s seconds. %s' % (seconds,
                                                                        error)
-
 
 
 def email_find(context, email, subject):

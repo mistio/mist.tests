@@ -66,21 +66,30 @@ Feature: Production
     And I wait for 4 seconds
     Then Mayday machine state should be "running" within 200 seconds
 
-  @google_sso_signin
-  Scenario: Production sign in testing with google oauth2
+  @github_sso_signin
+  Scenario: Sign in testing with github
+    Given sso members are initialized
     Given I am not logged in to mist.core
     When I open the login popup
-    Then I click the google button in the landing page popup
-    Then I do the Google login
-    When I wait for the dashboard to load
+    And I wait for 2 seconds
+    Then I click the github button in the landing page popup
+    Then I input my "GITHUB_TEST_EMAIL" in the field with id "login_field"
+    Then I input my "GITHUB_TEST_PASSWORD" in the field with id "password"
+    And I click the Sign In button in the Github form
+    And I wait for 5 seconds
+    Then I wait for the dashboard to load
     Then I logout
 
-  @github_sso_signin
-  Scenario: Production sign in testing with github
+  @google_sso_signin
+  Scenario: Sign in testing with google oauth2
     Given I am not logged in to mist.core
     When I open the login popup
-    Then I click the github button in the landing page popup
-    Then I do the Github login
+    And I wait for 2 seconds
+    Then I click the google button in the landing page popup
+    Then I input my "GOOGLE_TEST_EMAIL" in the field with id "Email"
+    And I click the "next" button
+    Then I input my "GOOGLE_TEST_PASSWORD" in the field with id "Passwd"
+    And I press the button with id "signIn"
     When I wait for the dashboard to load
     Then I logout
 
