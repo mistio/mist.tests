@@ -82,4 +82,8 @@ def set_value_to_field(context, value, name, title):
 @step(u'there should be a "{error_code}" error message in "{dialog_title}" dialog')
 def check_errormsg_in_dialog(context, error_code, dialog_title):
     dialog = get_dialog(context, dialog_title)
-    return
+    error_msg = dialog.find_element_by_id('errormsg')
+    if error_code in safe_get_element_text(error_msg):
+        return
+    assert False, "%s is not part of the error message" % error_code
+
