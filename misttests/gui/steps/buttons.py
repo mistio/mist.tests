@@ -41,21 +41,6 @@ def clicketi_click(context, button):
     try:
         button.click()
     except WebDriverException:
-        from selenium.webdriver.common import action_chains, keys        # action_chain.move_to_element(button)
-        # action_chain.click()
-        # action_chain.perform()
-        # action = ActionChains(context.browser)
-        #
-        # # open up the developer console, mine on MAC, yours may be diff key combo
-        # action.send_keys(keys.Keys.SHIFT + keys.Keys.CONTROL + 'i')
-        # action.perform()
-        # sleep(3)
-        # # this below ENTER is to rid of the above "i"
-        # action.send_keys(keys.Keys.ENTER)
-        # # inject the JavaScript...
-        # action.send_keys("document.querySelectorAll('landing-sign-in').click()" + keys.Keys.ENTER)
-        # action.perform()
-
         action_chain = ActionChains(context.browser)
         action_chain.move_to_element(button)
         action_chain.click()
@@ -245,8 +230,6 @@ def click_button_by_id(context,button):
         button_to_click = context.browser.find_element_by_id('Create')
     elif button == 'toggle':
         button_to_click = context.browser.find_element_by_id('enable-disable-cloud')
-    elif button == 'next':
-        button_to_click = context.browser.find_element_by_id('next')
     else:
         raise Exception('Unknown type of button')
     assert button_to_click.is_displayed(), "%s button is not displayed" %button

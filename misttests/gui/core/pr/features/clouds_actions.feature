@@ -3,9 +3,11 @@ Feature: Cloud actions for polymer
 
   Background:
     Given I am logged in to mist.core
+    And I am in the new UI
 
   @cloud-edit-creds
   Scenario: Edit credentials of a cloud
+    When I wait for the dashboard to load
     Given "Openstack" cloud has been added
     When I visit the Networks page
     Then "private_network" network should be present within 10 seconds
@@ -31,7 +33,7 @@ Feature: Cloud actions for polymer
     And I wait for the dashboard to load
     Then cloud "Docker" should be "disabled"
     When I visit the Machines page
-    Then "yolomachine" machine should be absent within 60 seconds
+    Then "yolomachine" machine should be absent within 120 seconds
     Then I visit the Home page
     And I wait for the dashboard to load
     When I open the cloud menu for "Docker"
@@ -41,7 +43,7 @@ Feature: Cloud actions for polymer
     And I wait for the dashboard to load
     Then cloud "Docker" should be "enabled"
     When I visit the Machines page
-    Then "yolomachine" machine should be present within 60 seconds
+    Then "yolomachine" machine should be present within 120 seconds
     Then I visit the Home page
 
 #  @cloud-rename
@@ -59,8 +61,5 @@ Feature: Cloud actions for polymer
   Scenario: Delete a cloud
     Then I open the cloud menu for "Docker"
     And I click the "delete cloud" button
-    And I expect the dialog "Delete Docker" is open within 4 seconds
-    And I click the "Delete" button in the dialog "Delete Docker"
-    And I expect the dialog "Delete Docker" is closed within 4 seconds
     And I wait for 2 seconds
-    Then I should have 1 clouds added
+    Then the "Docker" cloud should be deleted

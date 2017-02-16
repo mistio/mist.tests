@@ -1,12 +1,16 @@
 import json
 import requests
-import logging
 
 from behave import step
+
+import logging
 
 from misttests.helpers.setup import setup_user_if_not_exists
 from misttests.helpers.setup import remove_user_if_exists
 
+from selenium.common.exceptions import NoSuchElementException
+
+from time import sleep
 
 log = logging.getLogger(__name__)
 
@@ -35,5 +39,4 @@ def register_user(context, user_email):
         'name': "Atheofovos Gkikas"
     }
 
-    requests.post("%s/api/v1/dev/register" % context.mist_config['MIST_URL'],
-                  data=json.dumps(payload))
+    re = requests.post("%s/api/v1/dev/register" % context.mist_config['MIST_URL'], data=json.dumps(payload))

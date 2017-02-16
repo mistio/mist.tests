@@ -25,7 +25,7 @@ Feature: RBAC
   Scenario: Verify that member1 cannot view the cloud added above
     Then I should receive an email at the address "MEMBER1_EMAIL" with subject "[mist.io] Confirm your invitation" within 30 seconds
     And I follow the link inside the email
-#    Then I click the email button in the landing page popup
+    Then I click the email button in the landing page popup
     Then I enter my rbac_member1 credentials for login
     And I click the sign in button in the landing page popup
     Given that I am redirected within 10 seconds
@@ -172,9 +172,6 @@ Feature: RBAC
     When I wait for 2 seconds
     When I open the cloud menu for "Packet"
     And I click the "delete cloud" button
-    And I expect the dialog "Delete Packet" is open within 4 seconds
-    And I click the "Delete" button in the dialog "Delete Packet"
-    And I expect the dialog "Delete Packet" is closed within 4 seconds
     And I wait for 3 seconds
     Then I visit the Home page
     # deletion did not work

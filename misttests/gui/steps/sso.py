@@ -10,8 +10,6 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 
-import requests
-import json
 
 @step(u'I input my "{email}" in the field with id "{element_id}"')
 def give_input_to_a_field(context, email, element_id):
@@ -51,27 +49,6 @@ def press_button_with_id(context):
         button.click()
     except:
         raise ValueError("Could not find Sign In button in github form")
-
-
-@step(u'sso members are initialized')
-def initialize_rbac_members(context):
-
-    payload = {
-        'email': context.mist_config['GOOGLE_TEST_EMAIL'],
-        'password': context.mist_config['GOOGLE_TEST_PASSWORD'],
-        'name': "Atheofovos Gkikas"
-    }
-
-    re = requests.post("%s/api/v1/dev/register" % context.mist_config['MIST_URL'], data=json.dumps(payload))
-
-    payload = {
-        'email': context.mist_config['GITHUB_TEST_EMAIL'],
-        'password': context.mist_config['GITHUB_TEST_PASSWORD'],
-        'name': "Atheofovos Gkikas"
-    }
-
-    re = requests.post("%s/api/v1/dev/register" % context.mist_config['MIST_URL'], data=json.dumps(payload))
-    return
 
 
 @step(u'I do the Google login')
