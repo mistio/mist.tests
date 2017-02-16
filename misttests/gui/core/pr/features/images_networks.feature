@@ -3,9 +3,11 @@ Feature: Images and Networks
 
   Background:
     Given I am logged in to mist.core
+    And I am in the new UI
 
   @image-search
   Scenario: Search image
+    When I wait for the dashboard to load
     Given "OpenStack" cloud has been added
     When I visit the Images page
     When I search for "CoreOS"

@@ -3,6 +3,8 @@ Feature: Add second-tier clouds in Polymist
 
   Background:
     Given I am logged in to mist.core
+    And I am in the new UI
+    When I wait for the dashboard to load
 
   @cloud-add
   Scenario Outline:
@@ -27,3 +29,4 @@ Feature: Add second-tier clouds in Polymist
     | GCE            |
     | SoftLayer      |
 #    | Packet         | -- tested @ rbac-rules
+  
