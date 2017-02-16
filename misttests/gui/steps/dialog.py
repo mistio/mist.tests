@@ -77,3 +77,9 @@ def set_value_to_field(context, value, name, title):
     input = get_input_from_form(dialog, name.lower())
     assert input, "Could not set value to field %s" % name
     clear_input_and_send_keys(input, value)
+
+
+@step(u'there should be a "{error_code}" error message in "{dialog_title}" dialog')
+def check_errormsg_in_dialog(context, error_code, dialog_title):
+    dialog = get_dialog(context, dialog_title)
+    return
