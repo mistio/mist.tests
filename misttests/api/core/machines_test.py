@@ -52,8 +52,35 @@ def test_create_machine_no_api_token(pretty_print, mist_core):
 #     print "Success!!!"
 
 
-def test_add_cloud_missing_parameter(pretty_print, mist_core, owner_api_token):
-    response = mist_core.add_cloud("Openstack", 'openstack',
-                                   api_token=owner_api_token).post()
+def test_create_machine_missing_parameter(pretty_print, mist_core, owner_api_token):
+    response = mist_core.create_machine(cloud_id='dummy', key_id='', api_token=owner_api_token,
+                                        name='', provider='', location='',
+                                        image='', size='',).post()
     assert_response_bad_request(response)
     print "Success!!!"
+
+
+def test_destroy_machine_wrong_api_token(pretty_print, mist_core):
+    response = mist_core.destroy_machine(cloud_id='dummy', api_token='dummy',
+                                         machine_id='dummy',).post()
+    assert_response_unauthorized(response)
+    print "Success!!!"
+
+
+def test_destroy_machine_no_api_token(pretty_print, mist_core):
+    response = mist_core.destroy_machine(cloud_id='dummy',
+                                         machine_id='dummy',).post()
+    assert_response_forbidden(response)
+    print "Success!!!"
+
+
+def test_destroy_machine_wrong_ids(pretty_print, mist_core, owner_api_token):
+    response = mist_core.destroy_machine(cloud_id='dummy',api_token=owner_api_token,
+                                         machine_id='dummy',).post()
+    assert_response_not_found(response)
+    print "Success!!!"
+
+
+# machine actions
+# associate key
+# machine_test
