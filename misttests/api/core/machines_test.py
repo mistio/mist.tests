@@ -81,6 +81,43 @@ def test_destroy_machine_wrong_ids(pretty_print, mist_core, owner_api_token):
     print "Success!!!"
 
 
-# machine actions
-# associate key
-# machine_test
+def test_machine_action_wrong_api_token(pretty_print, mist_core):
+    response = mist_core.machine_action(cloud_id='dummy', api_token='dummy',
+                                        machine_id='dummy',).post()
+    assert_response_unauthorized(response)
+    print "Success!!!"
+
+
+def test_machine_action_no_api_token(pretty_print, mist_core):
+    response = mist_core.machine_action(cloud_id='dummy',
+                                         machine_id='dummy',).post()
+    assert_response_forbidden(response)
+    print "Success!!!"
+
+
+def test_machine_action_wrong_ids(pretty_print, mist_core, owner_api_token):
+    response = mist_core.machine_action(cloud_id='dummy',api_token=owner_api_token,
+                                        machine_id='dummy',).post()
+    assert_response_not_found(response)
+    print "Success!!!"
+
+
+def test_associate_key_wrong_api_token(pretty_print, mist_core):
+    response = mist_core.associate_key(cloud_id='dummy', api_token='dummy',
+                                       machine_id='dummy',key_id='dummy').put()
+    assert_response_unauthorized(response)
+    print "Success!!!"
+
+
+def test_associate_key_no_api_token(pretty_print, mist_core):
+    response = mist_core.associate_key(cloud_id='dummy', api_token='',
+                                       machine_id='dummy',key_id='dummy').put()
+    assert_response_forbidden(response)
+    print "Success!!!"
+
+#
+# def test_machine_action_wrong_ids(pretty_print, mist_core, owner_api_token):
+#     response = mist_core.machine_action(cloud_id='dummy',api_token=owner_api_token,
+#                                         machine_id='dummy',).post()
+#     assert_response_not_found(response)
+#     print "Success!!!"
