@@ -68,7 +68,6 @@ Feature: Production
 
   @github_sso_signin
   Scenario: Sign in testing with github
-    Given sso members are initialized
     Given I am not logged in to mist.core
     When I open the login popup
     And I wait for 2 seconds
@@ -76,7 +75,7 @@ Feature: Production
     Then I input my "GITHUB_TEST_EMAIL" in the field with id "login_field"
     Then I input my "GITHUB_TEST_PASSWORD" in the field with id "password"
     And I click the Sign In button in the Github form
-    And I wait for 5 seconds
+    And I wait for 3 seconds
     Then I wait for the dashboard to load
     Then I logout
 
