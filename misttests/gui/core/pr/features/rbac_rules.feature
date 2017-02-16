@@ -195,7 +195,6 @@ Feature: RBAC
     Then I visit the Scripts page
     And "TestScript" script should be absent within 5 seconds
     And "Second" script should be present within 5 seconds
-    Then I logout
 
 #  @manage-rules
 #  Scenario: Manage team rules
