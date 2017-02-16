@@ -115,9 +115,10 @@ def test_associate_key_no_api_token(pretty_print, mist_core):
     assert_response_forbidden(response)
     print "Success!!!"
 
-#
-# def test_machine_action_wrong_ids(pretty_print, mist_core, owner_api_token):
-#     response = mist_core.machine_action(cloud_id='dummy',api_token=owner_api_token,
-#                                         machine_id='dummy',).post()
+
+# below gets internal server error...
+# def test_associate_key_no_wrong_ids(pretty_print, mist_core, owner_api_token):
+#     response = mist_core.associate_key(cloud_id='dummy', api_token=owner_api_token,
+#                                        machine_id='dummy',key_id='dummy').put()
 #     assert_response_not_found(response)
 #     print "Success!!!"
