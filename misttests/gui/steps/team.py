@@ -81,27 +81,35 @@ def initialize_rbac_members(context):
     }
 
     re = requests.post("%s/api/v1/dev/register" % context.mist_config['MIST_URL'], data=json.dumps(payload))
+
     return
 
 
-@step(u'organization has been created')
-def create_organization(context):
-    context.mist_config['ORG_NAME'] = "rbac_org_%d" % random.randint(1, 200000)
+@step(u'rbac members, organization and team are initialized')
+def initialize_rbac_members(context):
+    BASE_EMAIL = context.mist_config['BASE_EMAIL']
+    context.mist_config['MEMBER1_EMAIL'] = "%s+%d@gmail.com" % (BASE_EMAIL, random.randint(1,200000))
 
     payload = {
-        'name': context.mist_config['ORG_NAME']
+        'email': context.mist_config['MEMBER1_EMAIL'],
+        'password': context.mist_config['MEMBER1_PASSWORD'],
+        'name': "Atheofovos Gkikas"
     }
-
-    re = requests.post("%s/api/v1/org" % context.mist_config['MIST_URL'], data=json.dumps(payload))
-    return
-
-
-@step(u'team "{team_name}" has been created')
-def create_organization(context, team_name):
+    re = requests.post("%s/api/v1/dev/register" % context.mist_config['MIST_URL'], data=json.dumps(payload))
 
     payload = {
-        'name': context.mist_config['ORG_NAME']
+        'email': context.mist_config['EMAIL'],
+        'password': context.mist_config['PASSWORD1'],
+        'org_id': context.mist_config['ORG_ID']
     }
+    re = requests.post("%s/api/v1/tokens" % context.mist_config['MIST_URL'], data=json.dumps(payload))
 
-    re = requests.post("%s/api/v1/org" % context.mist_config['MIST_URL'], data=json.dumps(payload))
+    api_token = re.json()['token']
+    headers = {'Authorization': api_token}
+
+    payload = {
+        'name': "Test Team"
+    }
+    re = requests.post(context.mist_config['MIST_URL'] + "/api/v1/org/" + context.mist_config['ORG_ID'] + "/teams", data=json.dumps(payload), headers=headers)
+
     return
