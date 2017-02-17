@@ -149,16 +149,22 @@ class TestMachinesFunctionality:
     def test_create_machine(self, pretty_print, mist_core, cache, owner_api_token):
         response = mist_core.list_images(cloud_id=cache.get('cloud_id', ''), api_token=owner_api_token).post()
         assert_response_ok(response)
-        import ipdb;ipdb.set_trace()
         for image in response.json():
             if 'Ubuntu 14.04' in image['name']:
                 cache.set('image_id', image['id'])
                 break;
+        name = 'api_test_machine_%d' % random.randint(1,200)
+        cache.set('machine_name', name)
         response = mist_core.create_machine(cloud_id=cache.get('cloud_id', ''), api_token=owner_api_token,
-                                            key_id='', name='api_test_machine_%d' % random.randint(1,200), provider='', location='',
-                                            image=cache.get('image_id', ''), size='',).post()
-        assert_response_forbidden(response)
-        print "Success!!!"
+                                            key_id='', name=name, provider='', location='',
+                                            image=cache.get('image_id', ''), size='').post()
+        assert_response_ok(response)
+        response = mist_core.list_machines(cloud_id=cache.get('cloud_id', ''), api_token=owner_api_token).get()
+        assert_response_ok(response)
+        import ipdb;ipdb.set_trace()
+        for machine in response.json():
+
+            print "Success!!!"
 
 # destroy_machine
 # wrong action
