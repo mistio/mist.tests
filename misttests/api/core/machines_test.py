@@ -159,6 +159,7 @@ class TestMachinesFunctionality:
                                             key_id='', name=name, provider='', location='',
                                             image=cache.get('image_id', ''), size='').post()
         assert_response_ok(response)
+        cache.set('machine_id', response.json()['id'])
         response = mist_core.list_machines(cloud_id=cache.get('cloud_id', ''), api_token=owner_api_token).get()
         assert_response_ok(response)
         for machine in response.json():
@@ -167,14 +168,31 @@ class TestMachinesFunctionality:
                 break
             assert False, "The machine that was added above is not present in list_machines"
 
-    def test_machine_wrong_action(self, pretty_print, mist_core, cache, owner_api_token):
+    def test_machine_wrong_machine_id(self, pretty_print, mist_core, cache, owner_api_token):
         response = mist_core.machine_action(cloud_id=cache.get('cloud_id', ''), api_token=owner_api_token,
                                             machine_id='dummy').post()
         assert_response_not_found(response)
         print "Success!!!"
 
-# wrong action
-# stop , start machine
+    def test_machine_wrong_action(self, pretty_print, mist_core, cache, owner_api_token):
+        response = mist_core.machine_action(cloud_id=cache.get('cloud_id', ''), api_token=owner_api_token,
+                                            machine_id=cache.get('machine_id', '')).post()
+        assert_response_bad_request(response)
+        print "Success!!!"
+
+    def test_machine_stop_machine(self, pretty_print, mist_core, cache, owner_api_token):
+        response = mist_core.machine_action(cloud_id=cache.get('cloud_id', ''), api_token=owner_api_token,
+                                            machine_id=cache.get('machine_id', ''), action='stop').post()
+        assert_response_ok(response)
+        for machine in response.json():
+            if machine['name'] == cache.get('machine_name', ''):
+                assert machine['state'] == 'stopped', "Machine's state is not stopped!"
+                print "Success!!!"
+                break
+
+# do sth in stopped machine
+# start machine
+
 # associate key
 # destroy machine
 # cleanup

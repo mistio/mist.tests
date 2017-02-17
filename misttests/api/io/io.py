@@ -197,7 +197,7 @@ class MistIoApi(object):
                        csrf_token=None, api_token=None, action = ''):
         data={}
         if action:
-            data.update(action)
+            data= {'action': action}
         uri = self.uri + '/api/v1/clouds/' + cloud_id + '/machines/' + machine_id
         req = MistRequests(uri=uri, cookie=cookie, data=data,
                            csrf_token=csrf_token, api_token=api_token)
