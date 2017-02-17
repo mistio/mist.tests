@@ -162,10 +162,13 @@ class TestMachinesFunctionality:
         cache.set('machine_id', response.json()['id'])
         response = mist_core.list_machines(cloud_id=cache.get('cloud_id', ''), api_token=owner_api_token).get()
         assert_response_ok(response)
+        found = False
         for machine in response.json():
             if machine['name'] == cache.get('machine_name', ''):
+                found = True
                 print "Success!!!"
                 break
+        if not found:
             assert False, "The machine that was added above is not present in list_machines"
 
     def test_machine_wrong_machine_id(self, pretty_print, mist_core, cache, owner_api_token):
@@ -216,9 +219,10 @@ class TestMachinesFunctionality:
             api_token=owner_api_token).put()
         assert_response_ok(response)
         cache.set('key_id', response.json()['id'])
-        response = mist_core.associate_key(cache.get('cloud_id', ''), cache.get('machine_id', ''),
-                                           cache.get('key_id', ''), api_token=owner_api_token).put()
+        response = mist_core.associate_key(cloud_id=cache.get('cloud_id', ''), machine_id=cache.get('machine_id', ''),
+                                           key_id=cache.get('key_id', ''), api_token=owner_api_token).put()
         assert_response_ok(response)
+        print "Success!!!"
 
     def test_destroy_machine(self, pretty_print, mist_core, cache, owner_api_token):
         response = mist_core.destroy_machine(cloud_id=cache.get('cloud_id', ''), api_token=owner_api_token,
@@ -231,12 +235,7 @@ class TestMachinesFunctionality:
 
 
 
-
-
-
 # cleanup
-
-# assert False, bug...
 
 # should get forbidden..
 
