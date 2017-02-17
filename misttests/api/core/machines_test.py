@@ -209,9 +209,18 @@ class TestMachinesFunctionality:
         assert_response_ok(response)
         print "Success!!!"
 
+    def test_destroy_machine(pretty_print, mist_core, cache, owner_api_token):
+        response = mist_core.destroy_machine(cloud_id=cache.get('cloud_id', ''), api_token=owner_api_token,
+                                             machine_id='dummy', ).post()
+        assert_response_not_found(response)
+        response = mist_core.destroy_machine(cloud_id=cache.get('cloud_id', ''), api_token=owner_api_token,
+                                             machine_id=cache.get('machine_id', ''), ).post()
+        assert_response_not_found(response)
+        print "Success!!!"
 
 
 # monitoring_metrics
+
 # associate key
-# destroy machine
+
 # cleanup
