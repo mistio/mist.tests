@@ -7,7 +7,7 @@ from misttests.helpers.setup import setup_user_if_not_exists
 
 from misttests import config
 
-# delete tunnel
+
 # edit tunnel
 
 ############################################################################
@@ -50,6 +50,14 @@ def test_add_tunnel_missing_parameter(pretty_print, mist_core, owner_api_token):
     assert_response_bad_request(response)
 
     print "Success!!!"
+
+
+def test_delete_tunnel_no_api_token(pretty_print, mist_core):
+    response = mist_core.add_vpn_tunnel(api_token='', name='dummy',
+                                       cidrs=[], excluded_cidrs=[]).post()
+    assert_response_forbidden(response)
+    print "Success!!!"
+
 
 
 
