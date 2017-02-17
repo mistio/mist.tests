@@ -2,6 +2,7 @@ import sys
 import json
 import requests
 import logging
+import random
 
 from .requirements import chrome_driver_setup
 
@@ -50,7 +51,7 @@ def before_all(context):
     context.mist_config['MEMBER2_PASSWORD'] = config.MEMBER2_PASSWORD
     context.mist_config['LOCAL'] = config.LOCAL
     context.mist_config['DEBUG'] = config.DEBUG
-    context.mist_config['ORG_NAME'] = config.ORG_NAME
+    context.mist_config['ORG_NAME'] = config.ORG_NAME + str(random.randint(1, 10000000))
     context.mist_config['NON_STOP'] = '--stop' not in sys.argv
     context.mist_config['ERROR_NUM'] = 0
     context.mist_config['MIST_URL'] = config.MIST_URL
@@ -72,6 +73,7 @@ def before_all(context):
     context.mist_config['GMAIL_FATBOY_PASSWORD'] = config.GMAIL_FATBOY_PASSWORD
     context.mist_config['recording_session'] = config.RECORD_SELENIUM
     context.link_inside_email = ''
+    context.mist_config['ORG_ID'] = ''
 
     log.info("Finished with the bulk of the test settings")
     if config.LOCAL:
@@ -98,21 +100,32 @@ def before_feature(context, feature):
 
         re = requests.post("%s/api/v1/dev/register" % context.mist_config['MIST_URL'], data=json.dumps(payload))
 
+        context.mist_config['ORG_ID'] = re.json().get('org_id')
+        context.mist_config['ORG_NAME'] = re.json().get('org_name')
+
+
+def after_step(context, step):
+    if step.status == "failed":
+        try:
+            get_screenshot(context)
+        except Exception as e:
+            log.error("Could not get screen shot: %s" % repr(e))
+            pass
+
 
 def after_all(context):
     log.info("USER: %s" % context.mist_config['EMAIL'])
     log.info("PASSWORD1: %s" % context.mist_config['PASSWORD1'])
+    log.info("MEMBER_1: %s" % context.mist_config['MEMBER1_EMAIL'])
+    log.info("MEMBER1_PASSWORD: %s" % context.mist_config['MEMBER1_PASSWORD'])
+    log.info("MEMBER_2: %s" % context.mist_config['MEMBER2_EMAIL'])
+    log.info("MEMBER2_PASSWORD: %s" % context.mist_config['MEMBER2_PASSWORD'])
     log.info("MIST_URL: %s" % context.mist_config['MIST_URL'])
     finish_and_cleanup(context)
 
 
 def finish_and_cleanup(context):
     dump_js_console_log(context)
-    try:
-        get_screenshot(context)
-    except Exception as e:
-        log.error("Could not get screen shot: %s" % repr(e))
-        pass
     context.mist_config['browser'].quit()
     if context.mist_config.get('browser2'):
         context.mist_config['browser2'].quit()

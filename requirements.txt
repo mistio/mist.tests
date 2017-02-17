@@ -7,3 +7,4 @@ python-jose
 PyYAML
 requests
 selenium==2.52.0
+flake8
