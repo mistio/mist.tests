@@ -190,36 +190,34 @@ class TestMachinesFunctionality:
                 print "Success!!!"
                 break
 
-    def test_machine_monitoring_wrong_action(self, pretty_print, mist_core, cache, owner_api_token):
-        response = mist_core.machine_monitoring(cloud_id=cache.get('cloud_id', ''), api_token=owner_api_token,
-                                                machine_id=cache.get('machine_id', '')).post()
-        assert_response_bad_request(response)
-        print "Success!!!"
+    # def test_machine_monitoring_wrong_action(self, pretty_print, mist_core, cache, owner_api_token):
+    #     response = mist_core.machine_monitoring(cloud_id=cache.get('cloud_id', ''), api_token=owner_api_token,
+    #                                             machine_id=cache.get('machine_id', '')).post()
+    #     assert_response_bad_request(response)
+    #     print "Success!!!"
+    #
+    # def test_machine_enable_monitoring(self, pretty_print, mist_core, cache, owner_api_token):
+    #     response = mist_core.machine_action(cloud_id=cache.get('cloud_id', ''), api_token=owner_api_token,
+    #                                         machine_id=cache.get('machine_id', ''), action='start').post()
+    #     assert_response_ok(response)
+    #     for machine in response.json():
+    #         if machine['name'] == cache.get('machine_name', ''):
+    #             assert machine['state'] == 'running', "Machine's state is not running!"
+    #             break
+    #     response = mist_core.machine_monitoring(cloud_id=cache.get('cloud_id', ''), api_token=owner_api_token,
+    #                                             machine_id=cache.get('machine_id', ''), action='enable').post()
+    #     assert_response_ok(response)
+    #     print "Success!!!"
 
-    def test_machine_enable_monitoring(self, pretty_print, mist_core, cache, owner_api_token):
-        response = mist_core.machine_action(cloud_id=cache.get('cloud_id', ''), api_token=owner_api_token,
-                                            machine_id=cache.get('machine_id', ''), action='start').post()
-        assert_response_ok(response)
-        for machine in response.json():
-            if machine['name'] == cache.get('machine_name', ''):
-                assert machine['state'] == 'running', "Machine's state is not running!"
-                break
-        response = mist_core.machine_monitoring(cloud_id=cache.get('cloud_id', ''), api_token=owner_api_token,
-                                                machine_id=cache.get('machine_id', ''), action='enable').post()
-        assert_response_ok(response)
-        print "Success!!!"
-
-    def test_destroy_machine(pretty_print, mist_core, cache, owner_api_token):
+    def test_destroy_machine(self, pretty_print, mist_core, cache, owner_api_token):
         response = mist_core.destroy_machine(cloud_id=cache.get('cloud_id', ''), api_token=owner_api_token,
                                              machine_id='dummy', ).post()
         assert_response_not_found(response)
         response = mist_core.destroy_machine(cloud_id=cache.get('cloud_id', ''), api_token=owner_api_token,
                                              machine_id=cache.get('machine_id', ''), ).post()
-        assert_response_not_found(response)
+        assert_response_ok(response)
         print "Success!!!"
 
-
-# monitoring_metrics
 
 # associate key
 
