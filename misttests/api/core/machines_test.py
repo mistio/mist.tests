@@ -143,4 +143,17 @@ class TestMachinesFunctionality:
         cache.set('cloud_id', response.json()['id'])
         response = mist_core.list_machines(cloud_id=cache.get('cloud_id', ''), api_token=owner_api_token).get()
         assert_response_ok(response)
+        assert len(response.json()) > 0, "List machines did not return any machines"
         print "Success!!!"
+
+    def test_create_machine(self, pretty_print, mist_core, cache, owner_api_token):
+        response = mist_core.create_machine(cloud_id=cache.get('cloud_id', ''), api_token=owner_api_token,
+                                            key_id='', name='api_test_machine_%d' % random.randint(1,200), provider='', location='',
+                                            image='dummy', size='',).post()
+        assert_response_forbidden(response)
+        print "Success!!!"
+
+# destroy_machine
+# wrong action
+# stop , start machine
+# associate key
