@@ -21,7 +21,7 @@ def test_list_tunnels_no_api_token(pretty_print, mist_core):
     print "Success!!!"
 
 
-def test_list_tunnels_no_api_token(pretty_print, mist_core):
+def test_list_tunnels_wrong_api_token(pretty_print, mist_core):
     response = mist_core.list_vpn_tunnels(api_token='dummy').get()
     assert_response_unauthorized(response)
     print "Success!!!"
@@ -53,11 +53,16 @@ def test_add_tunnel_missing_parameter(pretty_print, mist_core, owner_api_token):
 
 
 def test_delete_tunnel_no_api_token(pretty_print, mist_core):
-    response = mist_core.add_vpn_tunnel(api_token='', name='dummy',
-                                       cidrs=[], excluded_cidrs=[]).post()
+    response = mist_core.del_vpn_tunnel(api_token='', tunnel_id='dummy').delete()
     assert_response_forbidden(response)
     print "Success!!!"
 
+
+# wtf????
+# def test_delete_tunnel_wrong_api_token(pretty_print, mist_core):
+#     response = mist_core.del_vpn_tunnel(api_token='dummy', tunnel_id='dummy').delete()
+#     assert_response_unauthorized(response)
+#     print "Success!!!"
 
 
 
