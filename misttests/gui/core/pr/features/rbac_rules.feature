@@ -29,8 +29,7 @@ Feature: RBAC
     Then I enter my rbac_member1 credentials for login
     And I click the sign in button in the landing page popup
     Given that I am redirected within 10 seconds
-    And I am in the new UI
-    When I wait for the dashboard to load
+    And I wait for the dashboard to load
     Then I ensure that I am in the "ORG_NAME" organization context
     When I visit the Teams page
     And "Test Team" team should be present within 5 seconds
@@ -41,8 +40,6 @@ Feature: RBAC
    @allow-read-cloud
    Scenario: Allow reading a cloud
     Given I am logged in to mist.core as rbac_owner
-    And I am in the new UI
-    When I wait for the dashboard to load
     And I visit the Teams page
     When I click the "Test team" "team"
     And I expect the "team" edit form to be visible within max 5 seconds
@@ -61,23 +58,7 @@ Feature: RBAC
     Then I add the rule always "ALLOW" "script" "read"
     And I click the button "Save Policy" in "policy" edit form
     And I wait for 2 seconds
-    # TODO: Below can be replaced with an API request
-    When I visit the Scripts page
-    When I click the button "+"
-    Then I expect the "Script" add form to be visible within max 10 seconds
-    When I set the value "TestScript" to field "Script Name" in "script" add form
-    And I open the "Type" drop down
-    And I wait for 2 seconds
-    When I click the button "Executable" in the "Type" dropdown
-    And I wait for 2 seconds
-    And I open the "Source" drop down
-    And I wait for 2 seconds
-    And I click the button "Inline" in the "Source" dropdown
-    When I set the value "#!/bin/bash\necho bla > ~/kati" to field "Script" in "script" add form
-    When I focus on the button "Add" in "script" add form
-    And I expect for the button "Add" in "script" add form to be clickable within 3 seconds
-    And I click the button "Add" in "script" add form
-    And I wait for 3 seconds
+    Given script "TestScript" is added
     Then I logout
 
   @member1-view-cloud-success
@@ -127,8 +108,6 @@ Feature: RBAC
   @allow-add-cloud
   Scenario: Allow adding a cloud
     Given I am logged in to mist.core as rbac_owner
-    And I am in the new UI
-    When I wait for the dashboard to load
     And I visit the Teams page
     When I click the "Test team" "team"
     And I expect the "team" edit form to be visible within max 5 seconds
@@ -195,7 +174,6 @@ Feature: RBAC
     Then I visit the Scripts page
     And "TestScript" script should be absent within 5 seconds
     And "Second" script should be present within 5 seconds
-    Then I logout
 
 #  @manage-rules
 #  Scenario: Manage team rules
