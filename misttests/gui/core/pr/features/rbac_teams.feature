@@ -17,6 +17,18 @@ Feature: Rbac
     And I click the "Switch" button in the dialog "Add Organization"
     Then I expect the dialog "Add Organization" is closed within 4 seconds
 
+  @create-dup-org
+  Scenario: Creating an org with the name used above, should bring a 409 error
+    When I click the Gravatar
+    And I wait for 1 seconds
+    And I click the button "Add Organisation" in the user menu
+    Then I expect the dialog "Add Organization" is open within 4 seconds
+    And I wait for 1 seconds
+    When I set the value "ORG_NAME" to field "Name" in "Add Organization" dialog
+    And I click the "Add" button in the dialog "Add Organization"
+    And I wait for 2 seconds
+    Then there should be a "409" error message in "Add Organization" dialog
+
   @add-team
   Scenario: Owner creates a team
     When I visit the Teams page

@@ -81,6 +81,14 @@ class MistIoApi(object):
         req.delete = req.unavailable_api_call
         return req
 
+    def star_image(self, cloud_id, image_id, api_token=None):
+        req = MistRequests(uri=self.uri + '/api/v1/clouds/' + cloud_id + '/images/' + image_id,
+                           api_token=api_token)
+        req.get = req.unavailable_api_call
+        req.delete = req.unavailable_api_call
+        req.put = req.unavailable_api_call
+        return req
+
     def list_sizes(self, cloud_id, cookie=None, csrf_token=None,
                    api_token=None):
         req = MistRequests(uri=self.uri + '/api/v1/clouds/' + cloud_id + '/sizes',

@@ -113,3 +113,27 @@ def initialize_rbac_members(context):
     re = requests.post(context.mist_config['MIST_URL'] + "/api/v1/org/" + context.mist_config['ORG_ID'] + "/teams", data=json.dumps(payload), headers=headers)
 
     return
+
+
+@step(u'script "{script_name}" is added')
+def create_script_api_request(context, script_name):
+    script_data = {'location_type':'inline','exec_type':'executable', 'name': script_name}
+    bash_script = """#!/bin/bash
+    touch ~/bla
+    echo "whatever" > ~/bla
+    echo "what else" >> ~/bla
+    """
+    payload = {
+        'email': context.mist_config['EMAIL'],
+        'password': context.mist_config['PASSWORD1'],
+        'org_id': context.mist_config['ORG_ID']
+    }
+
+    re = requests.post("%s/api/v1/tokens" % context.mist_config['MIST_URL'], data=json.dumps(payload))
+
+    api_token = re.json()['token']
+    headers = {'Authorization': api_token}
+
+    script_data['script'] = bash_script
+
+    re = requests.post(context.mist_config['MIST_URL'] + "/api/v1/scripts" , data=json.dumps(script_data), headers=headers)
