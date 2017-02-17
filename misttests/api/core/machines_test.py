@@ -190,9 +190,28 @@ class TestMachinesFunctionality:
                 print "Success!!!"
                 break
 
-# do sth in stopped machine
-# start machine
+    def test_machine_monitoring_wrong_action(self, pretty_print, mist_core, cache, owner_api_token):
+        response = mist_core.machine_monitoring(cloud_id=cache.get('cloud_id', ''), api_token=owner_api_token,
+                                                machine_id=cache.get('machine_id', '')).post()
+        assert_response_bad_request(response)
+        print "Success!!!"
 
+    def test_machine_enable_monitoring(self, pretty_print, mist_core, cache, owner_api_token):
+        response = mist_core.machine_action(cloud_id=cache.get('cloud_id', ''), api_token=owner_api_token,
+                                            machine_id=cache.get('machine_id', ''), action='start').post()
+        assert_response_ok(response)
+        for machine in response.json():
+            if machine['name'] == cache.get('machine_name', ''):
+                assert machine['state'] == 'running', "Machine's state is not running!"
+                break
+        response = mist_core.machine_monitoring(cloud_id=cache.get('cloud_id', ''), api_token=owner_api_token,
+                                                machine_id=cache.get('machine_id', ''), action='enable').post()
+        assert_response_ok(response)
+        print "Success!!!"
+
+
+
+# monitoring_metrics
 # associate key
 # destroy machine
 # cleanup

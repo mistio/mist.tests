@@ -162,43 +162,26 @@ class MistIoApi(object):
         req.delete = req.unavailable_api_call
         return req
 
-    def start_machine(self, cloud_id, machine_id, cookie=None,
-                      csrf_token=None, api_token=None):
-        uri = self.uri + '/api/v1/clouds/' + cloud_id + '/machines/' + machine_id
-        req = MistRequests(uri=uri, data={'action': 'start'}, cookie=cookie,
-                           csrf_token=csrf_token, api_token=api_token)
-        req.get = req.unavailable_api_call
-        req.put = req.unavailable_api_call
-        req.delete = req.unavailable_api_call
-        return req
-
-    def stop_machine(self, cloud_id, machine_id, cookie=None, csrf_token=None,
-                     api_token=None):
-        uri = self.uri + '/api/v1/clouds/' + cloud_id + '/machines/' + machine_id
-        req = MistRequests(uri - uri, data={'action': 'stop'}, cookie=cookie,
-                           csrf_token=csrf_token, api_token=api_token)
-        req.get = req.unavailable_api_call
-        req.put = req.unavailable_api_call
-        req.delete = req.unavailable_api_call
-        return req
-
-    def reboot_machine(self, cloud_id, machine_id, cookie=None,
-                       csrf_token=None, api_token=None):
-        uri = self.uri + '/api/v1/clouds/' + cloud_id + '/machines/' + machine_id
-        req = MistRequests(uri=uri, cookie=cookie, data={'action': 'reboot'},
-                           csrf_token=csrf_token, api_token=api_token)
-
-        req.get = req.unavailable_api_call
-        req.put = req.unavailable_api_call
-        req.delete = req.unavailable_api_call
-        return req
-
     def machine_action(self, cloud_id, machine_id, cookie=None,
                        csrf_token=None, api_token=None, action = ''):
         data={}
         if action:
             data= {'action': action}
         uri = self.uri + '/api/v1/clouds/' + cloud_id + '/machines/' + machine_id
+        req = MistRequests(uri=uri, cookie=cookie, data=data,
+                           csrf_token=csrf_token, api_token=api_token)
+
+        req.get = req.unavailable_api_call
+        req.put = req.unavailable_api_call
+        req.delete = req.unavailable_api_call
+        return req
+
+    def machine_monitoring(self, cloud_id, machine_id, cookie=None,
+                           csrf_token=None, api_token=None, action = ''):
+        data={}
+        if action:
+            data= {'action': action}
+        uri = self.uri + '/api/v1/clouds/' + cloud_id + '/machines/' + machine_id + '/monitoring'
         req = MistRequests(uri=uri, cookie=cookie, data=data,
                            csrf_token=csrf_token, api_token=api_token)
 
