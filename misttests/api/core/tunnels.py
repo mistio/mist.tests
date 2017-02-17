@@ -8,8 +8,6 @@ from misttests.helpers.setup import setup_user_if_not_exists
 from misttests import config
 
 
-# edit tunnel
-
 ############################################################################
 #                             Unit Testing                                 #
 ############################################################################
@@ -64,6 +62,25 @@ def test_delete_tunnel_no_api_token(pretty_print, mist_core):
 #     assert_response_unauthorized(response)
 #     print "Success!!!"
 
+
+def test_delete_tunnel_wrong_id(pretty_print, mist_core, owner_api_token):
+    response = mist_core.del_vpn_tunnel(api_token=owner_api_token, tunnel_id='dummy').delete()
+    assert_response_not_found(response)
+    print "Success!!!"
+
+
+def test_edit_tunnel_no_api_token(pretty_print, mist_core):
+    response = mist_core.edit_vpn_tunnel(api_token='', name='dummy',
+                                       cidrs=[], excluded_cidrs=[]).post()
+    assert_response_forbidden(response)
+    print "Success!!!"
+
+
+# def test_add_tunnel_wrong_api_token(pretty_print, mist_core):
+#     response = mist_core.add_vpn_tunnel(api_token='dummy', name='dummy',
+#                                        cidrs=[], excluded_cidrs=[]).post()
+#     assert_response_unauthorized(response)
+#     print "Success!!!"
 
 
 # def test_vpn_tunnels(pretty_print, mist_core, cache, owner_api_token):
