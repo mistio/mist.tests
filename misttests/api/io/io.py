@@ -176,6 +176,18 @@ class MistIoApi(object):
         req.delete = req.unavailable_api_call
         return req
 
+    def associate_key(self, cloud_id, machine_id, key_id, cookie=None,
+                      csrf_token=None, api_token=None):
+
+        uri = self.uri + '/api/v1/clouds/' + cloud_id + '/machines/' + machine_id + '/keys/' + key_id
+        req = MistRequests(uri=uri, cookie=cookie,
+                           csrf_token=csrf_token, api_token=api_token)
+
+        req.get = req.unavailable_api_call
+        req.post = req.unavailable_api_call
+        req.delete = req.unavailable_api_call
+        return req
+
     def machine_monitoring(self, cloud_id, machine_id, cookie=None,
                            csrf_token=None, api_token=None, action = ''):
         data={}
