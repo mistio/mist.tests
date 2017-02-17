@@ -61,6 +61,8 @@ Feature: RBAC
     Then I add the rule always "ALLOW" "script" "read"
     And I click the button "Save Policy" in "policy" edit form
     And I wait for 2 seconds
+
+    Given script "TestScript" is added
     # TODO: Below can be replaced with an API request
     When I visit the Scripts page
     When I click the button "+"
