@@ -161,12 +161,20 @@ class TestMachinesFunctionality:
         assert_response_ok(response)
         response = mist_core.list_machines(cloud_id=cache.get('cloud_id', ''), api_token=owner_api_token).get()
         assert_response_ok(response)
-        import ipdb;ipdb.set_trace()
         for machine in response.json():
+            if machine['name'] == cache.get('machine_name', ''):
+                print "Success!!!"
+                break
+            assert False, "The machine that was added above is not present in list_machines"
 
-            print "Success!!!"
+    def test_machine_wrong_action(self, pretty_print, mist_core, cache, owner_api_token):
+        response = mist_core.machine_action(cloud_id=cache.get('cloud_id', ''), api_token=owner_api_token,
+                                            machine_id='dummy').post()
+        assert_response_not_found(response)
+        print "Success!!!"
 
-# destroy_machine
 # wrong action
 # stop , start machine
 # associate key
+# destroy machine
+# cleanup
