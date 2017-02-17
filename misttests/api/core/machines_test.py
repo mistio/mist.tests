@@ -8,7 +8,7 @@ import pytest
 #                             Unit Testing                                 #
 ############################################################################
 
-# should get forbidden?
+
 def test_list_machines_no_api_token(pretty_print, mist_core):
     response = mist_core.list_machines(cloud_id='dummy').get()
     assert_response_unauthorized(response)
@@ -20,14 +20,13 @@ def test_list_machines_wrong_api_token(pretty_print, mist_core):
     assert_response_unauthorized(response)
     print "Success!!!"
 
-# internal server error? wtf????
+# below gets internal server error...
 # def test_list_machines_wrong_cloud_id(pretty_print, mist_core, owner_api_token):
 #     response = mist_core.list_machines(cloud_id='dummy', api_token=owner_api_token).get()
 #     assert_response_not_found(response)
 #     print "Success!!!"
 
 
-# ask below, if image == '', then not found...
 def test_create_machine_wrong_api_token(pretty_print, mist_core):
     response = mist_core.create_machine(cloud_id='dummy', api_token='dummy',
                                         key_id='', name='', provider='', location='',
@@ -43,7 +42,7 @@ def test_create_machine_no_api_token(pretty_print, mist_core):
     assert_response_forbidden(response)
     print "Success!!!"
 
-# internal server error? wtf????
+# below gets internal server error...
 # def test_create_machine_wrong_cloud_id(pretty_print, mist_core, owner_api_token):
 #     response = mist_core.create_machine(cloud_id='dummy', key_id='', api_token=owner_api_token,
 #                                         name='', provider='', location='',
@@ -117,7 +116,7 @@ def test_associate_key_no_api_token(pretty_print, mist_core):
 
 
 # below gets internal server error...
-# def test_associate_key_no_wrong_ids(pretty_print, mist_core, owner_api_token):
+# def test_associate_key_wrong_ids(pretty_print, mist_core, owner_api_token):
 #     response = mist_core.associate_key(cloud_id='dummy', api_token=owner_api_token,
 #                                        machine_id='dummy',key_id='dummy').put()
 #     assert_response_not_found(response)
@@ -224,7 +223,7 @@ class TestMachinesFunctionality:
         assert_response_ok(response)
         print "Success!!!"
 
-    def test_destroy_machine(self, pretty_print, mist_core, cache, owner_api_token):
+    def test_destroy_machine(self, pretty_print, mist_core, cache, owner_api_token, machines_cleanup):
         response = mist_core.destroy_machine(cloud_id=cache.get('cloud_id', ''), api_token=owner_api_token,
                                              machine_id='dummy', ).post()
         assert_response_not_found(response)
@@ -232,13 +231,5 @@ class TestMachinesFunctionality:
                                              machine_id=cache.get('machine_id', ''), ).post()
         assert_response_ok(response)
         print "Success!!!"
-
-
-
-# cleanup
-
-# should get forbidden..
-
-# INTERN_SERV_ERROR_WTF
 
 # MR
