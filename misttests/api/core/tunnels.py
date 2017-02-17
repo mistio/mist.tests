@@ -71,8 +71,23 @@ def test_delete_tunnel_wrong_id(pretty_print, mist_core, owner_api_token):
 
 def test_edit_tunnel_no_api_token(pretty_print, mist_core):
     response = mist_core.edit_vpn_tunnel(api_token='', name='dummy',
-                                       cidrs=[], excluded_cidrs=[]).post()
+                                         cidrs=[], tunnel_id='dummy').put()
     assert_response_forbidden(response)
+    print "Success!!!"
+
+
+# wtf????
+# def test_edit_tunnel_wrong_api_token(pretty_print, mist_core):
+#     response = mist_core.edit_vpn_tunnel(api_token='dummy', name='dummy',
+#                                          cidrs=[], tunnel_id='dummy').put()
+#     assert_response_forbidden(response)
+#     print "Success!!!"
+
+
+def test_edit_tunnel_wrong_id(pretty_print, mist_core, owner_api_token):
+    response = mist_core.edit_vpn_tunnel(api_token=owner_api_token, tunnel_id='dummy',
+                                         cidrs=[], name='').put()
+    assert_response_not_found(response)
     print "Success!!!"
 
 

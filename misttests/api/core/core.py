@@ -568,7 +568,7 @@ class MistCoreApi(MistIoApi):
         req.get = req.unavailable_api_call
         return req
 
-    def edit_vpn_tunnel(self, api_token, tunnel_id, cidrs, name, description):
+    def edit_vpn_tunnel(self, api_token, tunnel_id, cidrs, name, description=''):
         data = {
             'cidrs': cidrs,
             'name': name,
