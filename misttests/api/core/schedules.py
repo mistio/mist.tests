@@ -25,6 +25,6 @@ def test_list_schedules_no_api_token(pretty_print, mist_core):
 
 
 def test_list_schedules_wrong_api_token(pretty_print, mist_core):
-    response = mist_core.list_schedules(api_token='').get()
+    response = mist_core.list_schedules(api_token='dummy').get()
     assert_response_unauthorized(response)
     print "Success!!!"
