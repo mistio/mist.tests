@@ -110,3 +110,12 @@ def test_show_schedule_wrong_schedule_id(pretty_print, mist_core, owner_api_toke
 
 # @pytest.mark.incremental
 # class TestSchedulesFunctionality:
+
+
+# fix add_schedule_core.py
+# create_machine_docker
+# add schedule_ok_ stop
+# create 2nd machine and tag
+# add schedule_start_run_immediately
+# add schedule for tagged_machine
+# add schedule_script_date
