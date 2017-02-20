@@ -595,3 +595,11 @@ class MistCoreApi(MistIoApi):
         req.get = req.unavailable_api_call
         req.put = req.unavailable_api_call
         return req
+
+    def edit_schedule(self, api_token, schedule_id, data=''):
+        req = MistRequests(uri=self.uri + '/api/v1/schedules/' + schedule_id, api_token=api_token, data=data)
+        req.post = req.unavailable_api_call
+        req.get = req.unavailable_api_call
+        req.put = req.unavailable_api_call
+        req.delete = req.unavailable_api_call
+        return req
