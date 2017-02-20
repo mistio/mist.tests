@@ -1,5 +1,7 @@
 from misttests.api.helpers import *
 
+import pytest
+
 
 ############################################################################
 #                             Unit Testing                                 #
@@ -95,3 +97,16 @@ def test_show_schedule_wrong_schedule_id(pretty_print, mist_core, owner_api_toke
     response = mist_core.show_schedule(api_token=owner_api_token, schedule_id='').get()
     assert_response_not_found(response)
     print "Success!!!"
+
+
+# add_expired_date
+# add_wrong_cronjob_entry
+
+
+############################################################################
+#                         Functional Testing                               #
+############################################################################
+
+
+# @pytest.mark.incremental
+# class TestSchedulesFunctionality:
