@@ -52,6 +52,12 @@ def test_edit_schedule_no_api_token(pretty_print, mist_core):
     print "Success!!!"
 
 
+def test_edit_schedule_wrong_api_token(pretty_print, mist_core):
+    response = mist_core.edit_schedule(api_token='dummy', schedule_id='dummy').patch()
+    assert_response_unauthorized(response)
+    print "Success!!!"
+
+
 def test_edit_schedule_wrong_schedule_id(pretty_print, mist_core, owner_api_token):
     response = mist_core.edit_schedule(api_token=owner_api_token, schedule_id='dummy').patch()
     assert_response_not_found(response)
