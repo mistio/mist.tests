@@ -1,11 +1,4 @@
-from misttests.api.helpers import *
 from misttests.api.utils import *
-
-from misttests.helpers.setup import setup_team
-from misttests.helpers.setup import setup_org_if_not_exists
-from misttests.helpers.setup import setup_user_if_not_exists
-
-from misttests import config
 
 
 ############################################################################
@@ -46,7 +39,6 @@ def test_add_tunnel_missing_parameter(pretty_print, mist_core, owner_api_token):
     response = mist_core.add_vpn_tunnel(api_token=owner_api_token, name='dummy',
                                         cidrs=[], excluded_cidrs=[]).post()
     assert_response_bad_request(response)
-
     print "Success!!!"
 
 
@@ -56,7 +48,6 @@ def test_delete_tunnel_no_api_token(pretty_print, mist_core):
     print "Success!!!"
 
 
-# wtf????
 # def test_delete_tunnel_wrong_api_token(pretty_print, mist_core):
 #     response = mist_core.del_vpn_tunnel(api_token='dummy', tunnel_id='dummy').delete()
 #     assert_response_unauthorized(response)
@@ -76,7 +67,6 @@ def test_edit_tunnel_no_api_token(pretty_print, mist_core):
     print "Success!!!"
 
 
-# wtf????
 # def test_edit_tunnel_wrong_api_token(pretty_print, mist_core):
 #     response = mist_core.edit_vpn_tunnel(api_token='dummy', name='dummy',
 #                                          cidrs=[], tunnel_id='dummy').put()
