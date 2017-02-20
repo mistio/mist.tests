@@ -30,11 +30,10 @@ def test_list_images_no_api_token(pretty_print, cache, mist_core):
     print "Success!!!"
 
 
-# needs to change in the backend: return 404instead of 500....
-# def test_list_images_wrong_cloud_id(pretty_print, mist_core, owner_api_token):
-#     response = mist_core.list_images(cloud_id='dummy', api_token=owner_api_token).post()
-#     assert_response_not_found(response)
-#     print "Success!!!"
+def test_list_images_wrong_cloud_id(pretty_print, mist_core, owner_api_token):
+    response = mist_core.list_images(cloud_id='dummy', api_token=owner_api_token).post()
+    assert_response_not_found(response)
+    print "Success!!!"
 
 
 # def test_list_images_after_deleting_cloud(pretty_print, cache, mist_core, owner_api_token):
