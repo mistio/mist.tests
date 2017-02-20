@@ -26,8 +26,20 @@ def test_list_schedules_wrong_api_token(pretty_print, mist_core):
 
 
 def test_add_schedule_no_api_token(pretty_print, mist_core):
-    response = mist_core.add_schedule(api_token='', name='dummy').delete()
+    response = mist_core.add_schedule(api_token='', name='dummy').post()
     assert_response_forbidden(response)
+    print "Success!!!"
+
+
+def test_add_schedule_wrong_api_token(pretty_print, mist_core):
+    response = mist_core.add_schedule(api_token='dummy', name='dummy').post()
+    assert_response_unauthorized(response)
+    print "Success!!!"
+
+
+def test_add_schedule_wrong_api_token(pretty_print, mist_core):
+    response = mist_core.add_schedule(api_token='dummy', name='dummy').post()
+    assert_response_unauthorized(response)
     print "Success!!!"
 
 
