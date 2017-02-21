@@ -100,10 +100,6 @@ def test_show_schedule_wrong_schedule_id(pretty_print, mist_core, owner_api_toke
     print "Success!!!"
 
 
-# add_expired_date
-# add_wrong_cronjob_entry
-
-
 ############################################################################
 #                         Functional Testing                               #
 ############################################################################
@@ -112,7 +108,7 @@ def test_show_schedule_wrong_schedule_id(pretty_print, mist_core, owner_api_toke
 @pytest.mark.incremental
 class TestSchedulesFunctionality:
 
-    def test_schedule_action(self, pretty_print, mist_core, owner_api_token, cache):
+    def test_schedule_one_off__missing_schedule_entry(self, pretty_print, mist_core, owner_api_token, cache):
         response = mist_core.add_cloud(title='Docker', provider= 'docker', api_token=owner_api_token,
                                        docker_host=config.CREDENTIALS['DOCKER']['host'],
                                        docker_port=config.CREDENTIALS['DOCKER']['port'],
@@ -138,16 +134,34 @@ class TestSchedulesFunctionality:
         machines_uuids = []
         machines_uuids.append(cache.get('machine_id',''))
         response = mist_core.add_schedule(api_token=owner_api_token, name='TestSchedule1',
-                                          action='stop', schedule_type='one_off').post()
+                                          action='stop', schedule_type='one_off',
+                                          machines_uuids = machines_uuids).post()
+        assert_response_bad_request(response)
+
+    # def test_schedule_one_off_ok(self, pretty_print, mist_core, owner_api_token, cache):
+    #     machines_uuids = []
+    #     machines_uuids.append(cache.get('machine_id', ''))
+    #     response = mist_core.add_schedule(api_token=owner_api_token, name='TestSchedule1',
+    #                                       action='stop', schedule_type='one_off',
+    #                                       machines_uuids=machines_uuids).post()
 
 
 
-# add schedule_ok_ stop
+# add schedule_one_off_ok_ stop
+
+# add schedule run_immediately
+
+# delete schedule
+
+# check uni_Tests
 
 # create 2nd machine and tag
 
-# add schedule_start_run_immediately
+# add_expired_date
+# add_wrong_cronjob_entry
 
 # add schedule for tagged_machine
 
 # add schedule_script_date
+
+# edit-make it start, and check
