@@ -160,23 +160,33 @@ class TestSchedulesFunctionality:
     #                                       machines_uuids=machines_uuids, run_immediately=True,
     #                                       schedule_entry={'every':2, 'period':'minutes'}).post()
 
-    def test_add_schedule_one_off_expired_date(self, pretty_print, mist_core, owner_api_token, cache):
+    def test_add_schedule_one_off_wrong_date(self, pretty_print, mist_core, owner_api_token, cache):
         machines_uuids = []
         machines_uuids.append(cache.get('machine_id', ''))
         response = mist_core.add_schedule(api_token=owner_api_token, name='TestSchedule1',
                                           action='stop', schedule_type='one_off',
                                           machines_uuids=machines_uuids, schedule_entry='2016-02-21 14:59:00').post()
         assert_response_bad_request(response)
+        response = mist_core.add_schedule(api_token=owner_api_token, name='TestSchedule1',
+                                          action='stop', schedule_type='one_off',
+                                          machines_uuids=machines_uuids, schedule_entry='dummy').post()
+        assert_response_bad_request(response)
+        print "Success!!!"
+
+    def test_add_schedule_one_off_ok(self, pretty_print, mist_core, owner_api_token, cache):
+        machines_uuids = []
+        machines_uuids.append(cache.get('machine_id', ''))
+        response = mist_core.add_schedule(api_token=owner_api_token, name='TestSchedule1',
+                                          action='stop', schedule_type='one_off',
+                                          machines_uuids=machines_uuids, schedule_entry='2017-02-22 14:59:00').post()
+        assert_response_ok(response)
         print "Success!!!"
 
 
-# add schedule_one_off_ok_ stop
-
-# delete schedule
 
 # create 2nd machine and tag
 
-# add_wrong_cronjob_entry
+# delete schedule
 
 # add schedule for tagged_machine
 
