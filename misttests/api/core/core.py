@@ -589,7 +589,7 @@ class MistCoreApi(MistIoApi):
         req.put = req.unavailable_api_call
         return req
 
-    def add_schedule(self, api_token, name, schedule_type, schedule_entry, description='', machines_uuids=[],
+    def add_schedule(self, api_token, name, schedule_type, schedule_entry='', description='', machines_uuids=[],
                      machines_tags=[], task_enabled=True, expires='', script_id='', action='', max_run_count='',
                      run_immediately=False):
         data = {
@@ -603,9 +603,10 @@ class MistCoreApi(MistIoApi):
             'action': action,
             'script_id': script_id,
             'expires': expires,
-            'max_run_count': max_run_count
+            'max_run_count': max_run_count,
+            'run_immediately': run_immediately
         }
-        req = MistRequests(uri=self.uri + '/api/v1/schedules', api_token=api_token, data=data)
+        req = MistRequests(uri=self.uri + '/api/v1/schedules', api_token=api_token, data=json.dumps(data))
         req.delete = req.unavailable_api_call
         req.get = req.unavailable_api_call
         req.put = req.unavailable_api_call

@@ -135,12 +135,19 @@ class TestSchedulesFunctionality:
                                             image=cache.get('image_id', ''), size='').post()
         assert_response_ok(response)
         cache.set('machine_id', response.json()['id'])
-
+        machines_uuids = []
+        machines_uuids.append(cache.get('machine_id',''))
+        response = mist_core.add_schedule(api_token=owner_api_token, name='TestSchedule1',
+                                          action='stop', schedule_type='one_off').post()
 
 
 
 # add schedule_ok_ stop
+
 # create 2nd machine and tag
+
 # add schedule_start_run_immediately
+
 # add schedule for tagged_machine
+
 # add schedule_script_date
