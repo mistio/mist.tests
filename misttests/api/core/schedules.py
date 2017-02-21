@@ -108,8 +108,14 @@ def test_show_schedule_wrong_schedule_id(pretty_print, mist_core, owner_api_toke
 ############################################################################
 
 
-# @pytest.mark.incremental
-# class TestSchedulesFunctionality:
+@pytest.mark.incremental
+class TestSchedulesFunctionality:
+
+    def test_schedule_action(self, pretty_print, mist_core, owner_api_token):
+        response = mist_core.add_cloud(title='Docker', provider='docker', api_token=owner_api_token,
+                                       api_key=config.CREDENTIALS['LINODE']['api_key']).post()
+        assert_response_ok(response)
+        print "Success!!!"
 
 
 # fix add_schedule_core.py
