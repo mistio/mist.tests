@@ -141,8 +141,6 @@ class TestSchedulesFunctionality:
         assert_response_bad_request(response)
         print "Success!!!"
 
-    # to check with yanniz
-
     # def test_add_schedule_interval_ok(self, pretty_print, mist_core, owner_api_token, cache):
     #     response = mist_core.list_machines(cloud_id=cache.get('cloud_id', ''), api_token=owner_api_token).get()
     #     assert_response_ok(response)
@@ -173,16 +171,19 @@ class TestSchedulesFunctionality:
         assert_response_bad_request(response)
         print "Success!!!"
 
-    def test_add_schedule_one_off_ok(self, pretty_print, mist_core, owner_api_token, cache):
-        machines_uuids = []
-        machines_uuids.append(cache.get('machine_id', ''))
-        now = datetime.datetime.now()
-        import ipdb;ipdb.set_trace()
-        response = mist_core.add_schedule(api_token=owner_api_token, name='TestSchedule1',
-                                          action='stop', schedule_type='one_off',
-                                          machines_uuids=machines_uuids, schedule_entry=str(now)).post()
-        assert_response_ok(response)
-        print "Success!!!"
+    # def test_add_schedule_one_off_ok(self, pretty_print, mist_core, owner_api_token, cache):
+    #     machines_uuids = []
+    #     machines_uuids.append(cache.get('machine_id', ''))
+    #     now = datetime.datetime.now()
+    #     import ipdb;ipdb.set_trace()
+    #     response = mist_core.add_schedule(api_token=owner_api_token, name='TestSchedule1',
+    #                                       action='stop', schedule_type='one_off',
+    #                                       machines_uuids=machines_uuids, schedule_entry=str(now)).post()
+    #     assert_response_ok(response)
+    #     print "Success!!!"
+
+
+
 
 
 
