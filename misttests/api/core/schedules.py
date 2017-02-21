@@ -2,7 +2,7 @@ from misttests.api.helpers import *
 from misttests import config
 
 import pytest
-
+import datetime
 
 ############################################################################
 #                             Unit Testing                                 #
@@ -176,9 +176,11 @@ class TestSchedulesFunctionality:
     def test_add_schedule_one_off_ok(self, pretty_print, mist_core, owner_api_token, cache):
         machines_uuids = []
         machines_uuids.append(cache.get('machine_id', ''))
+        now = datetime.datetime.now()
+        import ipdb;ipdb.set_trace()
         response = mist_core.add_schedule(api_token=owner_api_token, name='TestSchedule1',
                                           action='stop', schedule_type='one_off',
-                                          machines_uuids=machines_uuids, schedule_entry='2017-02-22 14:59:00').post()
+                                          machines_uuids=machines_uuids, schedule_entry=str(now)).post()
         assert_response_ok(response)
         print "Success!!!"
 
