@@ -136,8 +136,10 @@ class TestSchedulesFunctionality:
         assert_response_ok(response)
         cache.set('machine_id', response.json()['id'])
 
+
+
+
 # fix add_schedule_core.py
-# create_machine_docker
 # add schedule_ok_ stop
 # create 2nd machine and tag
 # add schedule_start_run_immediately
