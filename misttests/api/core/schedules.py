@@ -108,7 +108,7 @@ def test_show_schedule_wrong_schedule_id(pretty_print, mist_core, owner_api_toke
 @pytest.mark.incremental
 class TestSchedulesFunctionality:
 
-    def test_schedule_one_off__missing_schedule_entry(self, pretty_print, mist_core, owner_api_token, cache):
+    def test_add_schedule_one_off__missing_schedule_entry(self, pretty_print, mist_core, owner_api_token, cache):
         response = mist_core.add_cloud(title='Docker', provider= 'docker', api_token=owner_api_token,
                                        docker_host=config.CREDENTIALS['DOCKER']['host'],
                                        docker_port=config.CREDENTIALS['DOCKER']['port'],
@@ -138,26 +138,45 @@ class TestSchedulesFunctionality:
                                           machines_uuids = machines_uuids).post()
         assert_response_bad_request(response)
 
-    # def test_schedule_one_off_ok(self, pretty_print, mist_core, owner_api_token, cache):
+
+    # to check with yanniz
+
+    # def test_add_schedule_interval_ok(self, pretty_print, mist_core, owner_api_token, cache):
+    #     response = mist_core.list_machines(cloud_id=cache.get('cloud_id', ''), api_token=owner_api_token).get()
+    #     assert_response_ok(response)
+    #     for machine in response.json():
+    #         if machine['id'] == cache.get('machine_id', ''):
+    #             import ipdb;
+    #             ipdb.set_trace()
+    #             print machine['state']
+    #             break
+    #
     #     machines_uuids = []
     #     machines_uuids.append(cache.get('machine_id', ''))
     #     response = mist_core.add_schedule(api_token=owner_api_token, name='TestSchedule1',
-    #                                       action='stop', schedule_type='one_off',
-    #                                       machines_uuids=machines_uuids).post()
+    #                                       action='stop', schedule_type='interval',
+    #                                       machines_uuids=machines_uuids, run_immediately=True,
+    #                                       schedule_entry={'every':2, 'period':'minutes'}).post()
 
+
+    def test_add_schedule_one_off_ok(self, pretty_print, mist_core, owner_api_token, cache):
+        machines_uuids = []
+        machines_uuids.append(cache.get('machine_id', ''))
+        response = mist_core.add_schedule(api_token=owner_api_token, name='TestSchedule1',
+                                          action='stop', schedule_type='one_off',
+                                          machines_uuids=machines_uuids).post()
 
 
 # add schedule_one_off_ok_ stop
 
-# add schedule run_immediately
-
 # delete schedule
 
-# check uni_Tests
+# check unit_tests
 
 # create 2nd machine and tag
 
 # add_expired_date
+
 # add_wrong_cronjob_entry
 
 # add schedule for tagged_machine
@@ -165,3 +184,5 @@ class TestSchedulesFunctionality:
 # add schedule_script_date
 
 # edit-make it start, and check
+
+# destroy_resources
