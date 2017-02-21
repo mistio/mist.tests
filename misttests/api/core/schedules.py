@@ -139,7 +139,7 @@ class TestSchedulesFunctionality:
                                           action='stop', schedule_type='one_off',
                                           machines_uuids = machines_uuids).post()
         assert_response_bad_request(response)
-
+        print "Success!!!"
 
     # to check with yanniz
 
@@ -166,8 +166,8 @@ class TestSchedulesFunctionality:
         response = mist_core.add_schedule(api_token=owner_api_token, name='TestSchedule1',
                                           action='stop', schedule_type='one_off',
                                           machines_uuids=machines_uuids, schedule_entry='2016-02-21 14:59:00').post()
-
-
+        assert_response_bad_request(response)
+        print "Success!!!"
 
 
 # add schedule_one_off_ok_ stop
