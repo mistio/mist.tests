@@ -589,32 +589,21 @@ class MistCoreApi(MistIoApi):
         req.put = req.unavailable_api_call
         return req
 
-    #                       cronjob_type, cronjob_entry, api_token,
-    #                       expires='', script_id='', action=''):
-    #     data = {
-    #         'name': name,
-    #         'script_id': script_id,
-    #         'action': action,
-    #         'machines_per_cloud': machines_per_cloud,
-    #         'enabled': enabled,
-    #         'expires': expires,
-    #         'cronjob_type': cronjob_type,
-    #         'cronjob_entry': cronjob_entry
-    #     }
-    #     req = MistRequests(uri=self.uri + '/api/v1/cronjobs',
-    #                        data=json.dumps(data), api_token=api_token)
-    #     req.get = req.unavailable_api_call
-    #     req.delete = req.unavailable_api_call
-    #     req.put = req.unavailable_api_call
-    #     return req
-
     def add_schedule(self, api_token, name, schedule_type, schedule_entry, description='', machines_uuids=[],
-                     machines_tags=[], task_enabled=True):
+                     machines_tags=[], task_enabled=True, expires='', script_id='', action='', max_run_count='',
+                     run_immediately=False):
         data = {
             'machines_uuids': machines_uuids,
             'name': name,
             'description': description,
-            'machines_tags': machines_tags
+            'machines_tags': machines_tags,
+            'schedule_type': schedule_type,
+            'schedule_enry': schedule_entry,
+            'task_enabled': task_enabled,
+            'action': action,
+            'script_id': script_id,
+            'expires': expires,
+            'max_run_count': max_run_count
         }
         req = MistRequests(uri=self.uri + '/api/v1/schedules', api_token=api_token, data=data)
         req.delete = req.unavailable_api_call
@@ -622,9 +611,8 @@ class MistCoreApi(MistIoApi):
         req.put = req.unavailable_api_call
         return req
 
-    # {u'machines_uuids': [u'93abfa61852c400199e2581c02ca93e3'], u'name': u'test', u'max_run_count': 1,
-    #  u'description': u'', u'schedule_type': u'interval', u'params': u'', u'start_after': u'', u'run_immediately': False,
-    #  u'action': u'stop', u'schedule_entry': {u'every': u'10', u'period': u'minutes'}, u'task_enabled': True}
+    # 'params': '', u'start_after': u''
+    # 'schedule_entry': {'every': 10, 'period': 'minutes'}
 
     def delete_schedule(self, api_token, schedule_id):
         req = MistRequests(uri=self.uri + '/api/v1/schedules/' + schedule_id, api_token=api_token)

@@ -139,7 +139,6 @@ class TestSchedulesFunctionality:
 
 
 
-# fix add_schedule_core.py
 # add schedule_ok_ stop
 # create 2nd machine and tag
 # add schedule_start_run_immediately
