@@ -1,4 +1,5 @@
 from misttests.api.helpers import *
+from misttests import config
 
 import pytest
 
@@ -111,12 +112,29 @@ def test_show_schedule_wrong_schedule_id(pretty_print, mist_core, owner_api_toke
 @pytest.mark.incremental
 class TestSchedulesFunctionality:
 
-    def test_schedule_action(self, pretty_print, mist_core, owner_api_token):
-        response = mist_core.add_cloud(title='Docker', provider='docker', api_token=owner_api_token,
-                                       api_key=config.CREDENTIALS['LINODE']['api_key']).post()
+    def test_schedule_action(self, pretty_print, mist_core, owner_api_token, cache):
+        response = mist_core.add_cloud(title='Docker', provider= 'docker', api_token=owner_api_token,
+                                       docker_host=config.CREDENTIALS['DOCKER']['host'],
+                                       docker_port=config.CREDENTIALS['DOCKER']['port'],
+                                       authentication=config.CREDENTIALS['DOCKER']['authentication'],
+                                       ca_cert_file=config.CREDENTIALS['DOCKER']['ca'],
+                                       key_file=config.CREDENTIALS['DOCKER']['key'],
+                                       cert_file=config.CREDENTIALS['DOCKER']['cert']).post()
         assert_response_ok(response)
-        print "Success!!!"
-
+        cache.set('cloud_id', response.json()['id'])
+        response = mist_core.list_images(cloud_id=cache.get('cloud_id', ''), api_token=owner_api_token).post()
+        assert_response_ok(response)
+        for image in response.json():
+            if 'Ubuntu 14.04' in image['name']:
+                cache.set('image_id', image['id'])
+                break;
+        name = 'api_test_machine_%d' % random.randint(1, 200)
+        cache.set('machine_name', name)
+        response = mist_core.create_machine(cloud_id=cache.get('cloud_id', ''), api_token=owner_api_token,
+                                            key_id='', name=name, provider='', location='',
+                                            image=cache.get('image_id', ''), size='').post()
+        assert_response_ok(response)
+        cache.set('machine_id', response.json()['id'])
 
 # fix add_schedule_core.py
 # create_machine_docker
