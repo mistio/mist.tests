@@ -39,7 +39,7 @@ Feature: Tests for orchestration feature
     When I set the value "TestKey2" to field "Name" in "key" add form
     Then I click the button "Generate" in "key" add form
     And I wait for 5 seconds
-    And I expect for the button "Add" in "key" add form to be clickable within 9 seconds
+    And I expect for the button "Add" in "key" add form to be clickable within 5 seconds
     When I focus on the button "Add" in "key" add form
     And I click the button "Add" in "key" add form
     Then I expect the "key" edit form to be visible within max 15 seconds
@@ -83,11 +83,11 @@ Feature: Tests for orchestration feature
   Scenario: Filter a template
     When I visit the Templates page
     When I search for "Simple Python Template"
-    Then "Simple Python Template" template should be present within 15 seconds
+    Then "Simple Python Template" template should be present within 10 seconds
     When I clear the search bar
-    Then "Simple Python Template" template should be present within 15 seconds
+    Then "Simple Python Template" template should be present within 10 seconds
     When I search for "Non-existing Template"
-    Then "Simple Python Template" template should be absent within 15 seconds
+    Then "Simple Python Template" template should be absent within 10 seconds
     When I clear the search bar
 
   @template-tags
@@ -118,11 +118,11 @@ Feature: Tests for orchestration feature
   Scenario: Filter a stack
     When I visit the Stacks page
     When I search for "Test Stack"
-    Then "Test Stack" stack should be present within 15 seconds
+    Then "Test Stack" stack should be present within 10 seconds
     When I clear the search bar
-    Then "Test Stack" stack should be present within 15 seconds
+    Then "Test Stack" stack should be present within 10 seconds
     When I search for "Non-existing Stack"
-    Then "Test Stack" stack should be absent within 15 seconds
+    Then "Test Stack" stack should be absent within 10 seconds
     When I clear the search bar
 
   @stack-tags
