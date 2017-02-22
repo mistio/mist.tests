@@ -598,7 +598,7 @@ class MistCoreApi(MistIoApi):
             'description': description,
             'machines_tags': machines_tags,
             'schedule_type': schedule_type,
-            'schedule_enry': schedule_entry,
+            'schedule_entry': schedule_entry,
             'task_enabled': task_enabled,
             'action': action,
             'script_id': script_id,
