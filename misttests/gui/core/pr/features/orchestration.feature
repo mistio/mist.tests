@@ -161,15 +161,10 @@ Feature: Tests for orchestration feature
     And "Renamed Template" template should be present within 5 seconds
 
   @stack-is-deployed
-  Scenario: Ensure that a stack has been deployed
-    When I visit the Stacks page
-    And I wait for 1 seconds
-    When I click the "TestStack" "stack"
-    Then I ensure that there is at least one machine in the resources list
+  Scenario: Ensure that the machine has been deployed
     When I visit the Machines page
-    And I wait for 3 seconds
-    And "yolomachine" machine should be present within 30 seconds
-
+    And I wait for 5 seconds
+    Then "yolomachine" machine should be present within 20 seconds
 
   @template-delete
   Scenario: Delete a template
