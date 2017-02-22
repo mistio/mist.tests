@@ -150,12 +150,15 @@ class TestSchedulesFunctionality:
                 cache.set('image_id', image['id'])
                 break;
         name = 'api_test_machine_%d' % random.randint(1, 200)
+
         cache.set('machine_name', name)
         response = mist_core.create_machine(cloud_id=cache.get('cloud_id', ''), api_token=owner_api_token,
                                             key_id='', name=name, provider='', location='',
                                             image=cache.get('image_id', ''), size='').post()
         assert_response_ok(response)
+        response = mist_core.list_machines(cloud_id=cache.get('cloud_id', ''), api_token=owner_api_token).get()
         cache.set('machine_id', response.json()['id'])
+        # for
         machines_uuids = []
         machines_uuids.append(cache.get('machine_id',''))
         response = mist_core.add_schedule(api_token=owner_api_token, name='TestSchedule1',
