@@ -613,7 +613,6 @@ class MistCoreApi(MistIoApi):
         return req
 
     # 'params': '', u'start_after': u''
-    # 'schedule_entry': {'every': 10, 'period': 'minutes'}
 
     def delete_schedule(self, api_token, schedule_id):
         req = MistRequests(uri=self.uri + '/api/v1/schedules/' + schedule_id, api_token=api_token)
