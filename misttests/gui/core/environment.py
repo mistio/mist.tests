@@ -15,6 +15,7 @@ from misttests.helpers.selenium_utils import dump_js_console_log
 from misttests.helpers.recording import start_recording
 from misttests.helpers.recording import stop_recording
 
+
 log = logging.getLogger(__name__)
 
 logging.basicConfig(level=logging.INFO)
@@ -124,6 +125,16 @@ def after_all(context):
     finish_and_cleanup(context)
 
 
+#def kill_orchestration_machines():
+
+   # payload = {
+   #      'email': context.mist_config['EMAIL'],
+   #      'password': context.mist_config['PASSWORD1'],
+   #      'name': "Atheofovos Gkikas"
+   #  }
+   #
+   #  re = requests.post("%s/api/v1/dev/register" % context.mist_config['MIST_URL'], data=json.dumps(payload))
+
 def finish_and_cleanup(context):
     dump_js_console_log(context)
     context.mist_config['browser'].quit()
@@ -131,3 +142,5 @@ def finish_and_cleanup(context):
         context.mist_config['browser2'].quit()
     if context.mist_config.get('recording_session', False):
         stop_recording()
+#    kill_orchestration_machines()
+
