@@ -24,16 +24,15 @@ from misttests.api.core.core import MistCoreApi
 
 def setup_user_if_not_exists(email, password):
 
-    #import ipdb;ipdb.set_trace()
     payload = {
-        'email': config.OWNER_EMAIL,
-        'password': config.OWNER_PASSWORD,
+        'email': email,
+        'password': password,
         'name': "Atheofovos Gkikas",
         'request_demo': False
     }
 
-    print "The user used for API tests is " + config.OWNER_EMAIL
-    print "The password used for API tests is " + config.OWNER_PASSWORD
+    print "The user used for API tests is " + email
+    print "The password used for API tests is " + password
 
     re = requests.post("%s/api/v1/dev/register" % config.MIST_URL, data=json.dumps(payload))
     return
