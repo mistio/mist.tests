@@ -150,7 +150,6 @@ class TestSchedulesFunctionality:
     def test_add_schedule_interval_ok(self, pretty_print, mist_core, owner_api_token, cache):
         response = mist_core.list_machines(cloud_id=cache.get('cloud_id', ''), api_token=owner_api_token).get()
         assert_response_ok(response)
-
         machines_uuids = []
         machines_uuids.append(cache.get('machine_id', ''))
         response = mist_core.add_schedule(api_token=owner_api_token, name='TestSchedule1',
@@ -158,8 +157,12 @@ class TestSchedulesFunctionality:
                                           machines_uuids=machines_uuids, run_immediately=True,
                                           schedule_entry={'every':2, 'period':'minutes'}).post()
         assert_response_ok(response)
+        response = mist_core.list_schedules(api_token=owner_api_token).get()
+        assert_response_ok(response)
+        assert len(response.json()) == 1
+        print "Success"
 
-    def test_add_dup_schedule(self, pretty_print, mist_core, owner_api_token, cache):
+    def test_add_schedule_dup_name(self, pretty_print, mist_core, owner_api_token, cache):
         machines_uuids = []
         machines_uuids.append(cache.get('machine_id', ''))
         now = datetime.datetime.now()
@@ -169,21 +172,24 @@ class TestSchedulesFunctionality:
         assert_response_conflict(response)
         print "Success!!!"
 
-    # def test_add_schedule_one_off_wrong_date(self, pretty_print, mist_core, owner_api_token, cache):
-    #     machines_uuids = []
-    #     machines_uuids.append(cache.get('machine_id', ''))
-    #     response = mist_core.add_schedule(api_token=owner_api_token, name='TestSchedule1',
-    #                                       action='stop', schedule_type='one_off',
-    #                                       machines_uuids=machines_uuids, schedule_entry='2016-02-21 14:59:00').post()
-    #     assert_response_bad_request(response)
-    #     response = mist_core.add_schedule(api_token=owner_api_token, name='TestSchedule1',
-    #                                       action='stop', schedule_type='one_off',
-    #                                       machines_uuids=machines_uuids, schedule_entry='dummy').post()
-    #     assert_response_bad_request(response)
-    #     print "Success!!!"
+    def test_add_schedule_wrong_date(self, pretty_print, mist_core, owner_api_token, cache):
+        machines_uuids = []
+        machines_uuids.append(cache.get('machine_id', ''))
+        date_now = str(datetime.datetime.now())
+        response = mist_core.add_schedule(api_token=owner_api_token, name='TestSchedule2',
+                                          action='stop', schedule_type='one_off',
+                                          machines_uuids=machines_uuids, schedule_entry=date_now).post()
+        assert_response_bad_request(response)
+        # response = mist_core.add_schedule(api_token=owner_api_token, name='TestSchedule1',
+        #                                   action='stop', schedule_type='one_off',
+        #                                   machines_uuids=machines_uuids, schedule_entry='dummy').post()
+        # assert_response_bad_request(response)
+        print "Success!!!"
 
 
 # create 2nd machine and tag
+
+# past date
 
 # delete schedule
 
@@ -194,3 +200,5 @@ class TestSchedulesFunctionality:
 # edit-make it start, and check
 
 # destroy_resources
+
+# check that acion is actually performed
