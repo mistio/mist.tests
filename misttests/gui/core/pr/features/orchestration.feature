@@ -1,6 +1,14 @@
 @orchestration
 Feature: Tests for orchestration feature
 
+  # check if possible in docker...
+  # decrease exec time
+  # reproduce dig_ocean
+  # give machine a random name
+  # kill all machines -- after-all
+  # stack-is-deployed
+
+
   @template-add
   Scenario: Add a template
     Given I am logged in to mist.core
@@ -180,13 +188,3 @@ Feature: Tests for orchestration feature
     When I visit the Home page
     And I visit the templates page
     Then "Renamed Template" template should be absent within 15 seconds
-
-  @stack-delete
-  Scenario: Delete a stack
-    When I visit the Stacks page
-    And I wait for 1 seconds
-    When I click the button "Delete" from the menu of the "TestStack" stack
-    And I expect the dialog "Delete Stack" is open within 4 seconds
-    When I click the "Delete" button in the dialog "Delete Stack"
-    Then I expect the dialog "Delete Stack" is closed within 4 seconds
-    And "TestStack" stack should be absent within 5 seconds
