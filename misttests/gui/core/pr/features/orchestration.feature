@@ -1,7 +1,6 @@
 @orchestration
 Feature: Tests for orchestration feature
 
-
   @template-add
   Scenario: Add a template
     Given I am logged in to mist.core
