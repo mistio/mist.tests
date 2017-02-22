@@ -1,8 +1,6 @@
 @orchestration
 Feature: Tests for orchestration feature
 
-  # check if possible in docker...
-  # decrease exec time
   # reproduce dig_ocean
   # give machine a random name
   # kill all machines -- after-all
@@ -26,7 +24,6 @@ Feature: Tests for orchestration feature
     And I click the button "Add" in "template" add form
     Then I expect the "template" edit form to be visible within max 20 seconds
     When I visit the Home page
-    When I wait for the dashboard to load
     When I visit the Templates page
     Then "Simple Python Template" template should be present within 30 seconds
     Then I visit the Home page
@@ -34,8 +31,7 @@ Feature: Tests for orchestration feature
 
 
   @stack-add
-  Scenario: First add Docker and key and then create a stack from the template added above
-    Given I am logged in to mist.core
+  Scenario: First add Digital Ocean and key and then create a stack from the template added above
     Given "Digital Ocean" cloud has been added
     Then I visit the keys page
     When I click the button "+"
