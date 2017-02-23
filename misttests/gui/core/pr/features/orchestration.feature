@@ -1,5 +1,5 @@
 @orchestration
-Feature: Tests for orchestration feature
+Feature: Orchestration
 
   @template-add
   Scenario: Add a template

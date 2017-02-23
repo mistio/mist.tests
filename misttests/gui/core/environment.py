@@ -145,6 +145,7 @@ def kill_yolomachine(context, machines, headers, cloud_id):
 
 
 def kill_orchestration_machines(context):
+    import ipdb;ipdb.set_trace()
     api_token = get_api_token(context)
     headers = {'Authorization': api_token}
 
@@ -164,5 +165,8 @@ def finish_and_cleanup(context):
         context.mist_config['browser2'].quit()
     if context.mist_config.get('recording_session', False):
         stop_recording()
-    kill_orchestration_machines(context)
 
+
+def after_feature(context, feature):
+    if 'Orchestration' in feature.name:
+        kill_orchestration_machines(context)
