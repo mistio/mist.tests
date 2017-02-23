@@ -182,17 +182,17 @@ class TestSchedulesFunctionality:
         assert_response_bad_request(response)
         print "Success!!!"
 
-    def test_add_schedule_wrong_date(self, pretty_print, mist_core, owner_api_token, cache):
-        machines_uuids = []
-        machines_uuids.append(cache.get('machine_id', ''))
-        now = datetime.datetime.now()
-        delta = datetime.timedelta(hours=12)
-        sched_time = ((datetime.datetime.combine(datetime.date(1, 1, 1), now.time()) + delta).time())
-        response = mist_core.add_schedule(api_token=owner_api_token, name='TestSchedule2',
-                                          action='stop', schedule_type='one_off',
-                                          machines_uuids=machines_uuids, schedule_entry=sched_time).post()
-        assert_response_bad_request(response)
-        print "Success!!!"
+    # def test_add_schedule_wrong_date(self, pretty_print, mist_core, owner_api_token, cache):
+    #     machines_uuids = []
+    #     machines_uuids.append(cache.get('machine_id', ''))
+    #     now = datetime.datetime.now()
+    #     delta = datetime.timedelta(hours=12)
+    #     sched_time = ((datetime.datetime.combine(datetime.date(1, 1, 1), now.time()) + delta).time())
+    #     response = mist_core.add_schedule(api_token=owner_api_token, name='TestSchedule2',
+    #                                       action='stop', schedule_type='one_off',
+    #                                       machines_uuids=machines_uuids, schedule_entry=sched_time).post()
+    #     assert_response_bad_request(response)
+    #     print "Success!!!"
 
     def test_add_schedule_tagged_machine(self, pretty_print, mist_core, owner_api_token, cache):
         name = 'api_test_machine_%d' % random.randint(1, 200)
@@ -210,22 +210,12 @@ class TestSchedulesFunctionality:
                 break
         machines_uuids = []
         machines_uuids.append(cache.get('tagged_machine_id', ''))
+        tags = ['api_test']
+        mist_core.set_machine_tags(tags=tags, api_token=owner_api_token,cloud_id=cache.get('cloud_id', ''),
+                                   machine_id=cache.get('tagged_machine_id', '')).post()
+        import ipdb;ipdb.set_trace()
         response = mist_core.add_schedule(api_token=owner_api_token, name='TestSchedule1',
                                           action='stop', schedule_type='one_off',
                                           machines_uuids=machines_uuids).post()
         assert_response_bad_request(response)
         print "Success!!!"
-
-# tag
-
-# delete schedule
-
-# add schedule for tagged_machine
-
-# add schedule_script_date
-
-# edit-make it start, and check
-
-# destroy_resources
-
-# check that acion is actually performed
