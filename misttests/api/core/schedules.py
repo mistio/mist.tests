@@ -180,16 +180,43 @@ class TestSchedulesFunctionality:
                                           action='stop', schedule_type='one_off',
                                           machines_uuids=machines_uuids, schedule_entry=date_now).post()
         assert_response_bad_request(response)
-        # response = mist_core.add_schedule(api_token=owner_api_token, name='TestSchedule1',
-        #                                   action='stop', schedule_type='one_off',
-        #                                   machines_uuids=machines_uuids, schedule_entry='dummy').post()
-        # assert_response_bad_request(response)
         print "Success!!!"
 
+    def test_add_schedule_wrong_date(self, pretty_print, mist_core, owner_api_token, cache):
+        machines_uuids = []
+        machines_uuids.append(cache.get('machine_id', ''))
+        now = datetime.datetime.now()
+        delta = datetime.timedelta(hours=12)
+        sched_time = ((datetime.datetime.combine(datetime.date(1, 1, 1), now.time()) + delta).time())
+        response = mist_core.add_schedule(api_token=owner_api_token, name='TestSchedule2',
+                                          action='stop', schedule_type='one_off',
+                                          machines_uuids=machines_uuids, schedule_entry=sched_time).post()
+        assert_response_bad_request(response)
+        print "Success!!!"
 
-# create 2nd machine and tag
+    def test_add_schedule_tagged_machine(self, pretty_print, mist_core, owner_api_token, cache):
+        name = 'api_test_machine_%d' % random.randint(1, 200)
 
-# past date
+        cache.set('machine_name', name)
+        response = mist_core.create_machine(cloud_id=cache.get('cloud_id', ''), api_token=owner_api_token,
+                                            key_id='', name=name, provider='', location='',
+                                            image=cache.get('image_id', ''), size='').post()
+        assert_response_ok(response)
+        response = mist_core.list_machines(cloud_id=cache.get('cloud_id', ''), api_token=owner_api_token).get()
+
+        for machine in response.json():
+            if machine['name'] == cache.get('machine_name', ''):
+                cache.set('tagged_machine_id', machine['uuid'])
+                break
+        machines_uuids = []
+        machines_uuids.append(cache.get('tagged_machine_id', ''))
+        response = mist_core.add_schedule(api_token=owner_api_token, name='TestSchedule1',
+                                          action='stop', schedule_type='one_off',
+                                          machines_uuids=machines_uuids).post()
+        assert_response_bad_request(response)
+        print "Success!!!"
+
+# tag
 
 # delete schedule
 
