@@ -120,19 +120,6 @@ class TestSchedulesFunctionality:
                                        cert_file=config.CREDENTIALS['DOCKER']['cert']).post()
         assert_response_ok(response)
         cache.set('cloud_id', response.json()['id'])
-        response = mist_core.list_images(cloud_id=cache.get('cloud_id', ''), api_token=owner_api_token).post()
-        assert_response_ok(response)
-        for image in response.json():
-            if 'Ubuntu 14.04' in image['name']:
-                cache.set('image_id', image['id'])
-                break;
-        name = 'api_test_machine_2'
-
-        cache.set('machine_name', name)
-        response = mist_core.create_machine(cloud_id=cache.get('cloud_id', ''), api_token=owner_api_token,
-                                            key_id='', name=name, provider='', location='',
-                                            image=cache.get('image_id', ''), size='').post()
-        assert_response_ok(response)
         response = mist_core.list_machines(cloud_id=cache.get('cloud_id', ''), api_token=owner_api_token).get()
 
         for machine in response.json():
@@ -194,28 +181,28 @@ class TestSchedulesFunctionality:
     #     assert_response_bad_request(response)
     #     print "Success!!!"
 
-    def test_add_schedule_tagged_machine(self, pretty_print, mist_core, owner_api_token, cache):
-        name = 'api_test_machine_%d' % random.randint(1, 200)
-
-        cache.set('machine_name', name)
-        response = mist_core.create_machine(cloud_id=cache.get('cloud_id', ''), api_token=owner_api_token,
-                                            key_id='', name=name, provider='', location='',
-                                            image=cache.get('image_id', ''), size='').post()
-        assert_response_ok(response)
-        response = mist_core.list_machines(cloud_id=cache.get('cloud_id', ''), api_token=owner_api_token).get()
-
-        for machine in response.json():
-            if machine['name'] == cache.get('machine_name', ''):
-                cache.set('tagged_machine_id', machine['uuid'])
-                break
-        machines_uuids = []
-        machines_uuids.append(cache.get('tagged_machine_id', ''))
-        tags = ['api_test']
-        mist_core.set_machine_tags(tags=tags, api_token=owner_api_token,cloud_id=cache.get('cloud_id', ''),
-                                   machine_id=cache.get('tagged_machine_id', '')).post()
-        import ipdb;ipdb.set_trace()
-        response = mist_core.add_schedule(api_token=owner_api_token, name='TestSchedule1',
-                                          action='stop', schedule_type='one_off',
-                                          machines_uuids=machines_uuids).post()
-        assert_response_bad_request(response)
-        print "Success!!!"
+    # def test_add_schedule_tagged_machine(self, pretty_print, mist_core, owner_api_token, cache):
+    #     name = 'api_test_machine_%d' % random.randint(1, 200)
+    #
+    #     cache.set('machine_name', name)
+    #     response = mist_core.create_machine(cloud_id=cache.get('cloud_id', ''), api_token=owner_api_token,
+    #                                         key_id='', name=name, provider='', location='',
+    #                                         image=cache.get('image_id', ''), size='').post()
+    #     assert_response_ok(response)
+    #     response = mist_core.list_machines(cloud_id=cache.get('cloud_id', ''), api_token=owner_api_token).get()
+    #
+    #     for machine in response.json():
+    #         if machine['name'] == cache.get('machine_name', ''):
+    #             cache.set('tagged_machine_id', machine['uuid'])
+    #             break
+    #     machines_uuids = []
+    #     machines_uuids.append(cache.get('tagged_machine_id', ''))
+    #     tags = ['api_test']
+    #     mist_core.set_machine_tags(tags=tags, api_token=owner_api_token,cloud_id=cache.get('cloud_id', ''),
+    #                                machine_id=cache.get('tagged_machine_id', '')).post()
+    #     import ipdb;ipdb.set_trace()
+    #     response = mist_core.add_schedule(api_token=owner_api_token, name='TestSchedule1',
+    #                                       action='stop', schedule_type='one_off',
+    #                                       machines_uuids=machines_uuids).post()
+    #     assert_response_bad_request(response)
+    #     print "Success!!!"
