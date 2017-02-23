@@ -145,7 +145,6 @@ def kill_yolomachine(context, machines, headers, cloud_id):
 
 
 def kill_orchestration_machines(context):
-    import ipdb;ipdb.set_trace()
     api_token = get_api_token(context)
     headers = {'Authorization': api_token}
 
