@@ -136,10 +136,11 @@ def get_api_token(context):
 
 
 def kill_yolomachine(context, machines, headers, cloud_id):
+    import ipdb;ipdb.set_trace()
     for machine in machines:
         if 'yolomachine' in machine['name']:
             payload= {'action': 'destroy'}
-            uri = context.mist_config['MIST_URL'] + '/api/v1/clouds/' + cloud_id + '/machines/' + machine['uuid']
+            uri = context.mist_config['MIST_URL'] + '/api/v1/clouds/' + cloud_id + '/machines/' + machine['id']
             re = requests.post(uri, data=json.dumps(payload), headers=headers)
 
 
