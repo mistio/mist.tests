@@ -497,25 +497,6 @@ class MistCoreApi(MistIoApi):
         req.delete = req.unavailable_api_call
         return req
 
-    # def patch_rule_to_policy(self, api_token, org_id, team_id, index_id, operator,
-    #                           action, rtype, rid, rtags, pos):
-    #     data={'operator':operator,
-    #           'action':action,
-    #           'rtype':rtype,
-    #           'rid':rid,
-    #           'rtags':rtags,
-    #           'pos':pos,
-    #     }
-    #     req = MistRequests(uri=self.uri + '/org/%s/teams/%s/policy/rules/%s'
-    #                                       % (org_id, team_id, index_id), data=data,
-    #                        api_token=api_token)
-    #
-    #     req.post = req.unavailable_api_call
-    #     req.put = req.unavailable_api_call
-    #     req.delete = req.unavailable_api_call
-    #     req.get = req.unavailable_api_call
-    #     return req
-
     def set_machine_tags(self, api_token, cloud_id, machine_id, **tags):
         data = {
             'tags': tags
@@ -536,7 +517,7 @@ class MistCoreApi(MistIoApi):
         req.put = req.unavailable_api_call
         return req
 
-    def add_vpn_tunnel(self, api_token, cidrs, excluded_cidrs, name, description):
+    def add_vpn_tunnel(self, api_token, cidrs, excluded_cidrs, name, description=''):
         data = {
             'name': name,
             'cidrs': cidrs,
@@ -568,7 +549,7 @@ class MistCoreApi(MistIoApi):
         req.get = req.unavailable_api_call
         return req
 
-    def edit_vpn_tunnel(self, api_token, tunnel_id, cidrs, name, description):
+    def edit_vpn_tunnel(self, api_token, tunnel_id, cidrs, name, description=''):
         data = {
             'cidrs': cidrs,
             'name': name,
