@@ -28,7 +28,7 @@ Feature: Tests for orchestration feature
   Scenario: First add Digital Ocean and key and then create a stack from the template added above
     Given "Digital Ocean" cloud has been added
     Then I visit the keys page
-    When I click the button "+"
+    When I click the button "fghdf"
     Then I expect the "Key" add form to be visible within max 10 seconds
     When I set the value "TestKey2" to field "Name" in "key" add form
     Then I click the button "Generate" in "key" add form

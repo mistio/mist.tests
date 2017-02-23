@@ -125,19 +125,36 @@ def after_all(context):
     finish_and_cleanup(context)
 
 
-def kill_orchestration_machines(context):
-
+def get_api_token(context):
     payload = {
         'email': context.mist_config['EMAIL'],
         'password': context.mist_config['PASSWORD1'],
         'org_id': context.mist_config['ORG_ID']
     }
     re = requests.post("%s/api/v1/tokens" % context.mist_config['MIST_URL'], data=json.dumps(payload))
+    return re.json()['token']
 
-    api_token = re.json()['token']
+
+def kill_yolomachine(context, machines, headers, cloud_id):
+    for machine in machines:
+        if 'yolomachine' in machine['name']:
+            payload= {'action': 'destroy'}
+            uri = context.mist_config['MIST_URL'] + '/api/v1/clouds/' + cloud_id + '/machines/' + machine['uuid']
+            re = requests.post(uri, data=json.dumps(payload), headers=headers)
+
+
+def kill_orchestration_machines(context):
+    api_token = get_api_token(context)
     headers = {'Authorization': api_token}
 
-    re = requests.get("%s/api/v1/clouds" % context.mist_config['MIST_URL'], data=json.dumps(payload))
+    response = requests.get("%s/api/v1/clouds" % context.mist_config['MIST_URL'], headers=headers)
+    for cloud in response.json():
+        if 'digitalocean' in cloud['provider']:
+            cloud_id = cloud['id']
+            uri = context.mist_config['MIST_URL'] + '/api/v1/clouds/' + cloud_id + '/machines'
+            response = requests.get(uri, headers=headers)
+            kill_yolomachine(context, response.json(), headers, cloud_id)
+
 
 def finish_and_cleanup(context):
     dump_js_console_log(context)
