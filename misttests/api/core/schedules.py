@@ -126,7 +126,7 @@ class TestSchedulesFunctionality:
             if 'Ubuntu 14.04' in image['name']:
                 cache.set('image_id', image['id'])
                 break;
-        name = 'api_test_machine_%d' % random.randint(1, 200)
+        name = 'api_test_machine_2'
 
         cache.set('machine_name', name)
         response = mist_core.create_machine(cloud_id=cache.get('cloud_id', ''), api_token=owner_api_token,
