@@ -125,15 +125,19 @@ def after_all(context):
     finish_and_cleanup(context)
 
 
-#def kill_orchestration_machines():
+def kill_orchestration_machines(context):
 
-   # payload = {
-   #      'email': context.mist_config['EMAIL'],
-   #      'password': context.mist_config['PASSWORD1'],
-   #      'name': "Atheofovos Gkikas"
-   #  }
-   #
-   #  re = requests.post("%s/api/v1/dev/register" % context.mist_config['MIST_URL'], data=json.dumps(payload))
+    payload = {
+        'email': context.mist_config['EMAIL'],
+        'password': context.mist_config['PASSWORD1'],
+        'org_id': context.mist_config['ORG_ID']
+    }
+    re = requests.post("%s/api/v1/tokens" % context.mist_config['MIST_URL'], data=json.dumps(payload))
+
+    api_token = re.json()['token']
+    headers = {'Authorization': api_token}
+
+    re = requests.get("%s/api/v1/clouds" % context.mist_config['MIST_URL'], data=json.dumps(payload))
 
 def finish_and_cleanup(context):
     dump_js_console_log(context)
@@ -142,5 +146,5 @@ def finish_and_cleanup(context):
         context.mist_config['browser2'].quit()
     if context.mist_config.get('recording_session', False):
         stop_recording()
-#    kill_orchestration_machines()
+    kill_orchestration_machines(context)
 
