@@ -3,7 +3,6 @@ Feature: Scripts
 
   Background:
     Given I am logged in to mist.core
-    And I am in the new UI
 
   @script-add
   Scenario Outline: Add script

@@ -97,7 +97,7 @@ def get_keys_with_id(name, keys):
     return filter(lambda x: x['name'] == name, keys)
 
 
-def get_random_key_id(existing_keys):
+def get_random_key_name(existing_keys):
      while True:
         random_key_name = get_random_str()
         keys = get_keys_with_id(random_key_name, existing_keys)
