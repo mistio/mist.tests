@@ -235,7 +235,6 @@ class TestSchedulesFunctionality:
         assert response.json()['total_run_count'] == 0, "Schedule run although it was disabled!!!"
         print "Success!!!"
 
-
 # add schedule and run immediately
 # add one-off schedule with past date
 # destroy resources created during the tests
