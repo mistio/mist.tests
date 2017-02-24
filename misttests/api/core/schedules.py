@@ -125,7 +125,10 @@ class TestSchedulesFunctionality:
         for machine in response.json():
             if 'api_test_machine_1' in machine['name']:
                 cache.set('machine_id', machine['uuid'])
-                break
+            if 'api_test_machine_2' in machine['name']:
+                response = mist_core.set_machine_tags(api_token=owner_api_token, cloud_id=cache.get('cloud_id', ''),
+                                                      machine_id=machine['uuid'], tags=['wtf']).post()
+                assert_response_ok(response)
         machines_uuids = []
         machines_uuids.append(cache.get('machine_id',''))
         response = mist_core.add_schedule(api_token=owner_api_token, name='TestSchedule1',
@@ -225,6 +228,8 @@ class TestSchedulesFunctionality:
         assert_response_ok(response)
         assert response.json()['total_run_count'] == 0, "Schedule run although it was disabled!!!"
         print "Success!!!"
+
+
 
 
 # add schedule and run immediately
