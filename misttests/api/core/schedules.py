@@ -189,13 +189,18 @@ class TestSchedulesFunctionality:
         assert_response_conflict(response)
         print "Success!!!"
 
-    def test_add_schedule_wrong_date(self, pretty_print, mist_core, owner_api_token, cache):
+    def test_add_one_off_schedule_wrong_date(self, pretty_print, mist_core, owner_api_token, cache):
         machines_uuids = []
         machines_uuids.append(cache.get('machine_id', ''))
-        date_now = str(datetime.datetime.now())
+        date_now = datetime.datetime.now().replace(microsecond=0)
         response = mist_core.add_schedule(api_token=owner_api_token, name='TestSchedule4',
                                           action='stop', schedule_type='one_off',
-                                          machines_uuids=machines_uuids, schedule_entry=date_now).post()
+                                          machines_uuids=machines_uuids, schedule_entry=str(date_now)).post()
+        assert_response_bad_request(response)
+        past_date = date_now - datetime.timedelta(seconds=10)
+        response = mist_core.add_schedule(api_token=owner_api_token, name='TestSchedule4',
+                                          action='stop', schedule_type='one_off',
+                                          machines_uuids=machines_uuids, schedule_entry=str(past_date)).post()
         assert_response_bad_request(response)
         print "Success!!!"
 
@@ -235,6 +240,6 @@ class TestSchedulesFunctionality:
         assert response.json()['total_run_count'] == 0, "Schedule run although it was disabled!!!"
         print "Success!!!"
 
+
 # add schedule and run immediately
-# add one-off schedule with past date
 # destroy resources created during the tests
