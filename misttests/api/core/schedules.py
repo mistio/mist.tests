@@ -160,6 +160,17 @@ class TestSchedulesFunctionality:
         assert_response_conflict(response)
         print "Success!!!"
 
+    def test_add_disabled_schedule(self, pretty_print, mist_core, owner_api_token, cache):
+        machines_uuids = []
+        machines_uuids.append(cache.get('machine_id', ''))
+        response = mist_core.add_schedule(api_token=owner_api_token, name='DisabledSchedule',
+                                          action='stop', schedule_type='interval', task_enabled=False,
+                                          machines_uuids=machines_uuids, run_immediately=True,
+                                          schedule_entry={'every': 2, 'period': 'minutes'}).post()
+        assert_response_ok(response)
+        print "Success"
+
+
     def test_add_schedule_wrong_date(self, pretty_print, mist_core, owner_api_token, cache):
         machines_uuids = []
         machines_uuids.append(cache.get('machine_id', ''))
@@ -209,11 +220,12 @@ class TestSchedulesFunctionality:
         assert_response_not_found(response)
         print "Success!!!"
 
+
+# add disabled schedule (make sure it won't run)
+
 # add schedule and run immediately
 
 # tag machine
 # add one-off for tagged machine
-# add disabled schedule (make sure it won't run)
-
 # add one-off schedule with past date
 # destroy resources created during the tests
