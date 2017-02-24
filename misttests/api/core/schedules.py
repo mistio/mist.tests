@@ -137,6 +137,27 @@ class TestSchedulesFunctionality:
         assert_response_bad_request(response)
         print "Success!!!"
 
+    def test_add_one_off_schedule_run_immediately_ok(self, pretty_print, mist_core, owner_api_token, cache):
+        machines_uuids = []
+        machines_uuids.append(cache.get('machine_id', ''))
+        date_now = datetime.datetime.now().replace(microsecond=0)
+        scheduled_date = date_now + datetime.timedelta(seconds=3)
+        response = mist_core.add_schedule(api_token=owner_api_token, name='RunImmediatelySchedule',
+                                          action='stop', schedule_type='one_off',
+                                          machines_uuids=machines_uuids,
+                                          run_immediately=True,
+                                          schedule_entry=str(scheduled_date)).post()
+        assert_response_ok(response)
+        cache.set('schedule_id', response.json()['id'])
+        print "Success"
+
+    def test_delete_schedule_ok(self, pretty_print, mist_core, owner_api_token, cache):
+        response = mist_core.delete_schedule(api_token=owner_api_token, schedule_id=cache.get('schedule_id', '')).delete()
+        assert_response_ok(response)
+        response = mist_core.delete_schedule(api_token=owner_api_token, schedule_id=cache.get('schedule_id', '')).delete()
+        assert_response_not_found(response)
+        print "Success!!!"
+
     def test_add_interval_schedule_ok(self, pretty_print, mist_core, owner_api_token, cache):
         response = mist_core.list_machines(cloud_id=cache.get('cloud_id', ''), api_token=owner_api_token).get()
         assert_response_ok(response)
@@ -215,25 +236,6 @@ class TestSchedulesFunctionality:
         cache.set('disabled_schedule_id', response.json()['id'])
         print "Success"
 
-    # def test_add_schedule_wrong_date(self, pretty_print, mist_core, owner_api_token, cache):
-    #     machines_uuids = []
-    #     machines_uuids.append(cache.get('machine_id', ''))
-    #     now = datetime.datetime.now()
-    #     delta = datetime.timedelta(hours=12)
-    #     sched_time = ((datetime.datetime.combine(datetime.date(1, 1, 1), now.time()) + delta).time())
-    #     response = mist_core.add_schedule(api_token=owner_api_token, name='TestSchedule2',
-    #                                       action='stop', schedule_type='one_off',
-    #                                       machines_uuids=machines_uuids, schedule_entry=sched_time).post()
-    #     assert_response_bad_request(response)
-    #     print "Success!!!"
-
-    def test_delete_schedule_ok(self, pretty_print, mist_core, owner_api_token, cache):
-        response = mist_core.delete_schedule(api_token=owner_api_token, schedule_id=cache.get('schedule_id', '')).delete()
-        assert_response_ok(response)
-        response = mist_core.delete_schedule(api_token=owner_api_token, schedule_id=cache.get('schedule_id', '')).delete()
-        assert_response_not_found(response)
-        print "Success!!!"
-
     def test_total_run_counts(self, pretty_print, mist_core, owner_api_token, cache):
         response = mist_core.show_schedule(api_token=owner_api_token, schedule_id=cache.get('disabled_schedule_id', '')).get()
         assert_response_ok(response)
@@ -241,5 +243,11 @@ class TestSchedulesFunctionality:
         print "Success!!!"
 
 
-# add schedule and run immediately
+# add schedule and run immediately (sto telos...make machine start..)
+
 # destroy resources created during the tests
+
+# Add script, and then add a schedule with the script to run in a machine
+# Edit a schedule (make it stop--> start and check that the machine is running)
+# Check that actions were performed and scripts run
+# Make sure that the machines are in the proper state after the tests'execution
