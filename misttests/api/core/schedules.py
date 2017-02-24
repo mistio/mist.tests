@@ -209,26 +209,6 @@ class TestSchedulesFunctionality:
     #     assert_response_bad_request(response)
     #     print "Success!!!"
 
-    # def test_add_schedule_tagged_machine(self, pretty_print, mist_core, owner_api_token, cache):
-    #     response = mist_core.list_machines(cloud_id=cache.get('cloud_id', ''), api_token=owner_api_token).get()
-    #
-    #     for machine in response.json():
-    #         if 'api_test_machine_2' in machine['name']:
-    #             import ipdb;ipdb.set_trace()
-    #             cache.set('tagged_machine_id', machine['uuid'])
-    #             break
-    #     machines_uuids = []
-    #     machines_uuids.append(cache.get('tagged_machine_id', ''))
-    #     tags = ['api_test']
-    #     mist_core.set_machine_tags(tags=tags, api_token=owner_api_token,cloud_id=cache.get('cloud_id', ''),
-    #                                machine_id=cache.get('tagged_machine_id', '')).post()
-    #     import ipdb;ipdb.set_trace()
-    #     response = mist_core.add_schedule(api_token=owner_api_token, name='TestSchedule1',
-    #                                       action='stop', schedule_type='one_off',
-    #                                       machines_uuids=machines_uuids).post()
-    #     assert_response_bad_request(response)
-    #     print "Success!!!"
-
     def test_delete_schedule_ok(self, pretty_print, mist_core, owner_api_token, cache):
         response = mist_core.delete_schedule(api_token=owner_api_token, schedule_id=cache.get('schedule_id', '')).delete()
         assert_response_ok(response)
@@ -243,10 +223,7 @@ class TestSchedulesFunctionality:
         print "Success!!!"
 
 
-
-
 # add schedule and run immediately
 # add one-off for tagged machine
-
 # add one-off schedule with past date
 # destroy resources created during the tests
