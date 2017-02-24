@@ -123,7 +123,7 @@ class TestSchedulesFunctionality:
         response = mist_core.list_machines(cloud_id=cache.get('cloud_id', ''), api_token=owner_api_token).get()
 
         for machine in response.json():
-            if machine['name'] == cache.get('machine_name',''):
+            if 'api_test_machine_1' in machine['name']:
                 cache.set('machine_id', machine['uuid'])
                 break
         machines_uuids = []
