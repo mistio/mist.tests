@@ -185,7 +185,7 @@ class TestSchedulesFunctionality:
         response = mist_core.list_machines(cloud_id=cache.get('cloud_id', ''), api_token=owner_api_token).get()
 
         for machine in response.json():
-            if machine['name'] == cache.get('machine_name', ''):
+            if 'api_test_machine_2' in machine['name']:
                 cache.set('tagged_machine_id', machine['uuid'])
                 break
         machines_uuids = []
@@ -199,3 +199,12 @@ class TestSchedulesFunctionality:
                                           machines_uuids=machines_uuids).post()
         assert_response_bad_request(response)
         print "Success!!!"
+
+
+# tag machine in last test
+# add one-off for tagged machine
+# add disabled schedule (make sure it won't run)
+# add schedule and run immediately
+# delete schedule (response OK)
+# add one-off schedule with past date
+# destroy resources created during the tests
