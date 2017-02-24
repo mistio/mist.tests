@@ -166,6 +166,19 @@ class TestSchedulesFunctionality:
         assert len(response.json()) == 2
         print "Success"
 
+    def test_add_one_off_schedule_tags_ok(self, pretty_print, mist_core, owner_api_token, cache):
+        response = mist_core.add_schedule(api_token=owner_api_token, name='TestSchedule2',
+                                          action='stop', schedule_type='interval',
+                                          machines_tags={'schedule_test': ''},
+                                          run_immediately=True,
+                                          schedule_entry={'every': 2, 'period':'minutes'}).post()
+        assert_response_ok(response)
+        cache.set('schedule_id', response.json()['id'])
+        response = mist_core.list_schedules(api_token=owner_api_token).get()
+        assert_response_ok(response)
+        assert len(response.json()) == 2
+        print "Success"
+
     def test_add_schedule_dup_name(self, pretty_print, mist_core, owner_api_token, cache):
         machines_uuids = []
         machines_uuids.append(cache.get('machine_id', ''))
@@ -224,6 +237,5 @@ class TestSchedulesFunctionality:
 
 
 # add schedule and run immediately
-# add one-off for tagged machine
 # add one-off schedule with past date
 # destroy resources created during the tests
