@@ -144,6 +144,7 @@ class TestSchedulesFunctionality:
                                           machines_uuids=machines_uuids, run_immediately=True,
                                           schedule_entry={'every':2, 'period':'minutes'}).post()
         assert_response_ok(response)
+        import ipdb;ipdb.set_trace()
         response = mist_core.list_schedules(api_token=owner_api_token).get()
         assert_response_ok(response)
         assert len(response.json()) == 1
@@ -181,30 +182,50 @@ class TestSchedulesFunctionality:
     #     assert_response_bad_request(response)
     #     print "Success!!!"
 
-    def test_add_schedule_tagged_machine(self, pretty_print, mist_core, owner_api_token, cache):
-        response = mist_core.list_machines(cloud_id=cache.get('cloud_id', ''), api_token=owner_api_token).get()
+    # def test_add_schedule_tagged_machine(self, pretty_print, mist_core, owner_api_token, cache):
+    #     response = mist_core.list_machines(cloud_id=cache.get('cloud_id', ''), api_token=owner_api_token).get()
+    #
+    #     for machine in response.json():
+    #         if 'api_test_machine_2' in machine['name']:
+    #             import ipdb;ipdb.set_trace()
+    #             cache.set('tagged_machine_id', machine['uuid'])
+    #             break
+    #     machines_uuids = []
+    #     machines_uuids.append(cache.get('tagged_machine_id', ''))
+    #     tags = ['api_test']
+    #     mist_core.set_machine_tags(tags=tags, api_token=owner_api_token,cloud_id=cache.get('cloud_id', ''),
+    #                                machine_id=cache.get('tagged_machine_id', '')).post()
+    #     import ipdb;ipdb.set_trace()
+    #     response = mist_core.add_schedule(api_token=owner_api_token, name='TestSchedule1',
+    #                                       action='stop', schedule_type='one_off',
+    #                                       machines_uuids=machines_uuids).post()
+    #     assert_response_bad_request(response)
+    #     print "Success!!!"
 
-        for machine in response.json():
-            if 'api_test_machine_2' in machine['name']:
-                cache.set('tagged_machine_id', machine['uuid'])
-                break
-        machines_uuids = []
-        machines_uuids.append(cache.get('tagged_machine_id', ''))
-        tags = ['api_test']
-        mist_core.set_machine_tags(tags=tags, api_token=owner_api_token,cloud_id=cache.get('cloud_id', ''),
-                                   machine_id=cache.get('tagged_machine_id', '')).post()
-        import ipdb;ipdb.set_trace()
-        response = mist_core.add_schedule(api_token=owner_api_token, name='TestSchedule1',
-                                          action='stop', schedule_type='one_off',
-                                          machines_uuids=machines_uuids).post()
-        assert_response_bad_request(response)
+    def test_delete_schedule_ok(self, pretty_print, mist_core, owner_api_token, cache):
+        response = mist_core.delete_schedule(api_token=owner_api_token, schedule_id='dummy').delete()
+        assert_response_not_found(response)
         print "Success!!!"
 
+        response = mist_core.list_machines(cloud_id=cache.get('cloud_id', ''), api_token=owner_api_token).get()
+        assert_response_ok(response)
+        machines_uuids = []
+        machines_uuids.append(cache.get('machine_id', ''))
+        response = mist_core.add_schedule(api_token=owner_api_token, name='TestSchedule1',
+                                          action='stop', schedule_type='interval',
+                                          machines_uuids=machines_uuids, run_immediately=True,
+                                          schedule_entry={'every':2, 'period':'minutes'}).post()
+        assert_response_ok(response)
+        response = mist_core.list_schedules(api_token=owner_api_token).get()
+        assert_response_ok(response)
+        assert len(response.json()) == 1
+        print "Success"
 
-# tag machine in last test
+
+# tag machine
 # add one-off for tagged machine
 # add disabled schedule (make sure it won't run)
 # add schedule and run immediately
-# delete schedule (response OK)
+
 # add one-off schedule with past date
 # destroy resources created during the tests
