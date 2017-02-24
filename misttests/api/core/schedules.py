@@ -166,7 +166,7 @@ class TestSchedulesFunctionality:
         print "Success"
 
     def test_add_one_off_schedule_tags_ok(self, pretty_print, mist_core, owner_api_token):
-        date_now = datetime.datetime.now()
+        date_now = datetime.datetime.now().replace(microsecond=0)
         scheduled_date = date_now + datetime.timedelta(seconds=10)
         response = mist_core.add_schedule(api_token=owner_api_token, name='TestSchedule3',
                                           action='stop', schedule_type='one_off',
