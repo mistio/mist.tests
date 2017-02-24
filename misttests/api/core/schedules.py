@@ -178,7 +178,7 @@ class TestSchedulesFunctionality:
                                           machines_uuids=machines_uuids, run_immediately=True,
                                           schedule_entry={'every': 2, 'period': 'minutes'}).post()
         assert_response_ok(response)
-        cache.set('disabled_schedule_id', response.json('id'))
+        cache.set('disabled_schedule_id', response.json()['id'])
         print "Success"
 
     # def test_add_schedule_wrong_date(self, pretty_print, mist_core, owner_api_token, cache):
@@ -226,8 +226,6 @@ class TestSchedulesFunctionality:
         assert response.json()['total_run_count'] == 0, "Schedule run although it was disabled!!!"
         print "Success!!!"
 
-
-# (make sure it won't run)
 
 # add schedule and run immediately
 
