@@ -509,12 +509,6 @@ class MistCoreApi(MistIoApi):
             'tags': tags_data,
             'resource': resource_data
         }]
-        # data.append({'tags': tags_data})
-        # data.append({'resource':resource_data})
-        # data = {
-        #     'tags': tags_data,
-        #     'resource':resource_data
-        # }
         payload = json.dumps(data)
         req = MistRequests(uri=self.uri + '/api/v1/tags',
                            data=payload, api_token=api_token)
