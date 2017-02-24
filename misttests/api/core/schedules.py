@@ -160,17 +160,6 @@ class TestSchedulesFunctionality:
         assert_response_conflict(response)
         print "Success!!!"
 
-    def test_add_disabled_schedule(self, pretty_print, mist_core, owner_api_token, cache):
-        machines_uuids = []
-        machines_uuids.append(cache.get('machine_id', ''))
-        response = mist_core.add_schedule(api_token=owner_api_token, name='DisabledSchedule',
-                                          action='stop', schedule_type='interval', task_enabled=False,
-                                          machines_uuids=machines_uuids, run_immediately=True,
-                                          schedule_entry={'every': 2, 'period': 'minutes'}).post()
-        assert_response_ok(response)
-        print "Success"
-
-
     def test_add_schedule_wrong_date(self, pretty_print, mist_core, owner_api_token, cache):
         machines_uuids = []
         machines_uuids.append(cache.get('machine_id', ''))
@@ -180,6 +169,17 @@ class TestSchedulesFunctionality:
                                           machines_uuids=machines_uuids, schedule_entry=date_now).post()
         assert_response_bad_request(response)
         print "Success!!!"
+
+    def test_add_disabled_schedule(self, pretty_print, mist_core, owner_api_token, cache):
+        machines_uuids = []
+        machines_uuids.append(cache.get('machine_id', ''))
+        response = mist_core.add_schedule(api_token=owner_api_token, name='DisabledSchedule',
+                                          action='stop', schedule_type='interval', task_enabled=False,
+                                          machines_uuids=machines_uuids, run_immediately=True,
+                                          schedule_entry={'every': 2, 'period': 'minutes'}).post()
+        assert_response_ok(response)
+        cache.set('disabled_schedule_id', response.json('id'))
+        print "Success"
 
     # def test_add_schedule_wrong_date(self, pretty_print, mist_core, owner_api_token, cache):
     #     machines_uuids = []
@@ -220,8 +220,14 @@ class TestSchedulesFunctionality:
         assert_response_not_found(response)
         print "Success!!!"
 
+    def test_total_run_counts(self, pretty_print, mist_core, owner_api_token, cache):
+        response = mist_core.show_schedule(api_token=owner_api_token, schedule_id=cache.get('disabled_schedule_id', '')).get()
+        assert_response_ok(response)
+        assert response.json()['total_run_count'] == 0, "Schedule run although it was disabled!!!"
+        print "Success!!!"
 
-# add disabled schedule (make sure it won't run)
+
+# (make sure it won't run)
 
 # add schedule and run immediately
 
