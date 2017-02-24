@@ -205,6 +205,8 @@ class TestSchedulesFunctionality:
     def test_delete_schedule_ok(self, pretty_print, mist_core, owner_api_token, cache):
         response = mist_core.delete_schedule(api_token=owner_api_token, schedule_id=cache.get('schedule_id', '')).delete()
         assert_response_ok(response)
+        response = mist_core.delete_schedule(api_token=owner_api_token, schedule_id=cache.get('schedule_id', '')).delete()
+        assert_response_not_found(response)
         print "Success!!!"
 
         # response = mist_core.list_machines(cloud_id=cache.get('cloud_id', ''), api_token=owner_api_token).get()
