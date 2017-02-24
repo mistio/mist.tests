@@ -3,6 +3,7 @@ from misttests import config
 
 import pytest
 import datetime
+import time
 
 ############################################################################
 #                             Unit Testing                                 #
@@ -124,6 +125,8 @@ class TestSchedulesFunctionality:
         for machine in response.json():
             if 'api_test_machine_1' in machine['name']:
                 cache.set('machine_id', machine['uuid'])
+                # need this check for test below
+                assert machine['state'] == 'running', "Machine'state is not running in he beginning of the tests"
             if 'api_test_machine_2' in machine['name']:
                 response = mist_core.set_machine_tags(api_token=owner_api_token, cloud_id=cache.get('cloud_id', ''),
                                                       machine_id=machine['uuid'],
@@ -149,6 +152,7 @@ class TestSchedulesFunctionality:
                                           schedule_entry=str(scheduled_date)).post()
         assert_response_ok(response)
         cache.set('schedule_id', response.json()['id'])
+        sleep(3)
         print "Success"
 
     def test_delete_schedule_ok(self, pretty_print, mist_core, owner_api_token, cache):
