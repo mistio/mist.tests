@@ -505,13 +505,18 @@ class MistCoreApi(MistIoApi):
         }
         tags_data = []
         tags_data.append(tags)
-        data = {
+        data = [{
             'tags': tags_data,
-            'resource':resource_data
-        }
+            'resource': resource_data
+        }]
+        # data.append({'tags': tags_data})
+        # data.append({'resource':resource_data})
+        # data = {
+        #     'tags': tags_data,
+        #     'resource':resource_data
+        # }
         payload = json.dumps(data)
-        req = MistRequests(uri=self.uri + '/api/v1/clouds/' + cloud_id +
-                           '/machines/' + machine_id + '/tags',
+        req = MistRequests(uri=self.uri + '/api/v1/tags',
                            data=payload, api_token=api_token)
         req.get = req.unavailable_api_call
         req.put = req.unavailable_api_call
