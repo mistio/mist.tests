@@ -107,6 +107,10 @@ def test_show_schedule_wrong_schedule_id(pretty_print, mist_core, owner_api_toke
 ############################################################################
 
 
+# add schedule and run immediately
+# add crontab schedule
+# edit a schedule (make it stop--> start and check that the machine is running)
+
 @pytest.mark.incremental
 class TestSchedulesFunctionality:
 
@@ -281,11 +285,6 @@ class TestSchedulesFunctionality:
         for machine in response.json():
             if 'api_test_machine_1' in machine['name']:
                 assert machine['state'] == 'stopped', "Machine'state is not stopped after schedule run"
-            if 'api_test_machine_1' in machine['name']:
-                assert machine['state'] == 'stopped', "Machine'state is not stopped after schedule run"
+            # if 'api_test_machine_2' in machine['name']:
+            #     assert machine['state'] == 'stopped', "Machine'state is not stopped after schedule run"
         print "Success"
-
-
-# add schedule and run immediately
-# add crontab schedule
-# edit a schedule (make it stop--> start and check that the machine is running)
