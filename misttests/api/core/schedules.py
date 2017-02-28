@@ -269,16 +269,15 @@ class TestSchedulesFunctionality:
         assert_response_not_found(response)
         print "Success!!!"
 
-    # def test_total_run_counts(self, pretty_print, mist_core, owner_api_token, cache):
-    #     response = mist_core.show_schedule(api_token=owner_api_token, schedule_id=cache.get('disabled_schedule_id', '')).get()
-    #     assert_response_ok(response)
-    #     assert response.json()['total_run_count'] == 0, "Schedule run although it was disabled!!!"
-    #     print "Success!!!"
-    #
+    def test_total_run_counts_disabled_schedule(self, pretty_print, mist_core, owner_api_token, cache):
+        response = mist_core.show_schedule(api_token=owner_api_token, schedule_id=cache.get('disabled_schedule_id', '')).get()
+        assert_response_ok(response)
+        assert response.json()['total_run_count'] == 0, "Schedule run although it was disabled!!!"
+        print "Success!!!"
+
     def test_check_schedules(self, pretty_print, mist_core, owner_api_token, cache, schedules_cleanup):
         sleep(15)
         response = mist_core.list_machines(cloud_id=cache.get('cloud_id', ''), api_token=owner_api_token).get()
-
         for machine in response.json():
             if 'api_test_machine_1' in machine['name']:
                 assert machine['state'] == 'stopped', "Machine'state is not stopped after script executed"
