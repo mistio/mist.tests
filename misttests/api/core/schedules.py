@@ -285,8 +285,5 @@ class TestSchedulesFunctionality:
         print "Success"
 
 
-
-# Check that actions were performed and scripts run
-
-# Add script, and then add a schedule with the script to run in a machine
-# Make sure that the machines are in the proper state after the tests'execution
+# add schedule and run immediately
+# add crontab schedule
