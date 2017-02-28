@@ -296,8 +296,8 @@ def base_exec_inline_script(request):
 @pytest.fixture()
 def schedules_cleanup(mist_core, owner_api_token):
     yield
-    import ipdb;ipdb.set_trace()
     response = mist_core.list_schedules(api_token=owner_api_token).get()
     assert_response_ok(response)
     for schedule in response.json():
-        print "yes!"
+        response = mist_core.delete_schedule(api_token=owner_api_token, schedule_id=schedule['id']).delete()
+
