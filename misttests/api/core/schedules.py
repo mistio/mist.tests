@@ -250,14 +250,13 @@ class TestSchedulesFunctionality:
         assert_response_not_found(response)
         print "Success!!!"
 
-    def test_total_run_counts(self, pretty_print, mist_core, owner_api_token, cache):
+    def test_total_run_counts(self, pretty_print, mist_core, owner_api_token, cache, schedules_cleanup):
         response = mist_core.show_schedule(api_token=owner_api_token, schedule_id=cache.get('disabled_schedule_id', '')).get()
         assert_response_ok(response)
         assert response.json()['total_run_count'] == 0, "Schedule run although it was disabled!!!"
         print "Success!!!"
 
 
-# destroy resources created during the tests
 # Add script, and then add a schedule with the script to run in a machine
 # Check that actions were performed and scripts run
 # Make sure that the machines are in the proper state after the tests'execution

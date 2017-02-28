@@ -291,3 +291,13 @@ def script_wrong_script(request):
 @pytest.fixture(scope='module')
 def base_exec_inline_script(request):
     return {'name': 'dummy', 'location': 'inline', 'exec_type': 'executable'}
+
+
+@pytest.fixture()
+def schedules_cleanup(mist_core, owner_api_token):
+    yield
+    import ipdb;ipdb.set_trace()
+    response = mist_core.list_schedules(api_token=owner_api_token).get()
+    assert_response_ok(response)
+    for schedule in response.json():
+        print "yes!"
