@@ -167,6 +167,7 @@ class TestSchedulesFunctionality:
     #             break
     #     print "Success"
 
+# below test should write to a file...
     def test_add_interval_schedule_ok(self, pretty_print, mist_core, owner_api_token, cache):
         response = mist_core.list_machines(cloud_id=cache.get('cloud_id', ''), api_token=owner_api_token).get()
         assert_response_ok(response)
@@ -175,8 +176,7 @@ class TestSchedulesFunctionality:
         response = mist_core.add_schedule(api_token=owner_api_token, name='TestSchedule1',
                                           action='stop', schedule_type='interval',
                                           machines_uuids=machines_uuids, run_immediately=True,
-                                          schedule_entry={'every': 10, 'period':'seconds'}).post()
-        import ipdb;ipdb.set_trace()
+                                          schedule_entry={'every': 10, 'period':'hours'}).post()
         assert_response_ok(response)
         cache.set('schedule_id', response.json()['id'])
         response = mist_core.list_schedules(api_token=owner_api_token).get()
@@ -189,7 +189,7 @@ class TestSchedulesFunctionality:
                                           action='stop', schedule_type='interval',
                                           machines_tags={'schedule_test': ''},
                                           run_immediately=True,
-                                          schedule_entry={'every': 2, 'period':'minutes'}).post()
+                                          schedule_entry={'every': 20, 'period':'minutes'}).post()
         assert_response_ok(response)
         response = mist_core.list_schedules(api_token=owner_api_token).get()
         assert_response_ok(response)
@@ -209,10 +209,9 @@ class TestSchedulesFunctionality:
         assert_response_ok(response)
         response = mist_core.list_schedules(api_token=owner_api_token).get()
         assert_response_ok(response)
-        # assert len(response.json()) == 3
+        assert len(response.json()) == 3
         print "Success"
 
-    #
     # def test_add_one_off_schedule_tags_ok(self, pretty_print, mist_core, owner_api_token):
     #     date_now = datetime.datetime.now().replace(microsecond=0)
     #     scheduled_date = date_now + datetime.timedelta(seconds=10)
@@ -227,49 +226,49 @@ class TestSchedulesFunctionality:
     #     assert len(response.json()) == 3
     #     print "Success"
     #
-    # def test_add_schedule_dup_name(self, pretty_print, mist_core, owner_api_token, cache):
-    #     machines_uuids = []
-    #     machines_uuids.append(cache.get('machine_id', ''))
-    #     now = datetime.datetime.now()
-    #     response = mist_core.add_schedule(api_token=owner_api_token, name='TestSchedule1',
-    #                                       action='stop', schedule_type='one_off',
-    #                                       machines_uuids=machines_uuids, schedule_entry=str(now)).post()
-    #     assert_response_conflict(response)
-    #     print "Success!!!"
-    #
-    # def test_add_one_off_schedule_wrong_date(self, pretty_print, mist_core, owner_api_token, cache):
-    #     machines_uuids = []
-    #     machines_uuids.append(cache.get('machine_id', ''))
-    #     date_now = datetime.datetime.now().replace(microsecond=0)
-    #     response = mist_core.add_schedule(api_token=owner_api_token, name='TestSchedule4',
-    #                                       action='stop', schedule_type='one_off',
-    #                                       machines_uuids=machines_uuids, schedule_entry=str(date_now)).post()
-    #     assert_response_bad_request(response)
-    #     past_date = date_now - datetime.timedelta(seconds=10)
-    #     response = mist_core.add_schedule(api_token=owner_api_token, name='TestSchedule4',
-    #                                       action='stop', schedule_type='one_off',
-    #                                       machines_uuids=machines_uuids, schedule_entry=str(past_date)).post()
-    #     assert_response_bad_request(response)
-    #     print "Success!!!"
-    #
-    # def test_add_disabled_schedule(self, pretty_print, mist_core, owner_api_token, cache):
-    #     machines_uuids = []
-    #     machines_uuids.append(cache.get('machine_id', ''))
-    #     response = mist_core.add_schedule(api_token=owner_api_token, name='DisabledSchedule',
-    #                                       action='stop', schedule_type='interval', task_enabled=False,
-    #                                       machines_uuids=machines_uuids, run_immediately=True,
-    #                                       schedule_entry={'every': 2, 'period': 'minutes'}).post()
-    #     assert_response_ok(response)
-    #     cache.set('disabled_schedule_id', response.json()['id'])
-    #     print "Success"
-    #
-    # def test_delete_schedule_ok(self, pretty_print, mist_core, owner_api_token, cache):
-    #     response = mist_core.delete_schedule(api_token=owner_api_token, schedule_id=cache.get('schedule_id', '')).delete()
-    #     assert_response_ok(response)
-    #     response = mist_core.delete_schedule(api_token=owner_api_token, schedule_id=cache.get('schedule_id', '')).delete()
-    #     assert_response_not_found(response)
-    #     print "Success!!!"
-    #
+    def test_add_schedule_dup_name(self, pretty_print, mist_core, owner_api_token, cache):
+        machines_uuids = []
+        machines_uuids.append(cache.get('machine_id', ''))
+        now = datetime.datetime.now()
+        response = mist_core.add_schedule(api_token=owner_api_token, name='TestSchedule1',
+                                          action='stop', schedule_type='one_off',
+                                          machines_uuids=machines_uuids, schedule_entry=str(now)).post()
+        assert_response_conflict(response)
+        print "Success!!!"
+
+    def test_add_one_off_schedule_wrong_date(self, pretty_print, mist_core, owner_api_token, cache):
+        machines_uuids = []
+        machines_uuids.append(cache.get('machine_id', ''))
+        date_now = datetime.datetime.now().replace(microsecond=0)
+        response = mist_core.add_schedule(api_token=owner_api_token, name='TestSchedule4',
+                                          action='stop', schedule_type='one_off',
+                                          machines_uuids=machines_uuids, schedule_entry=str(date_now)).post()
+        assert_response_bad_request(response)
+        past_date = date_now - datetime.timedelta(seconds=10)
+        response = mist_core.add_schedule(api_token=owner_api_token, name='TestSchedule4',
+                                          action='stop', schedule_type='one_off',
+                                          machines_uuids=machines_uuids, schedule_entry=str(past_date)).post()
+        assert_response_bad_request(response)
+        print "Success!!!"
+
+    def test_add_disabled_schedule(self, pretty_print, mist_core, owner_api_token, cache):
+        machines_uuids = []
+        machines_uuids.append(cache.get('machine_id', ''))
+        response = mist_core.add_schedule(api_token=owner_api_token, name='DisabledSchedule',
+                                          action='stop', schedule_type='interval', task_enabled=False,
+                                          machines_uuids=machines_uuids, run_immediately=True,
+                                          schedule_entry={'every': 2, 'period': 'minutes'}).post()
+        assert_response_ok(response)
+        cache.set('disabled_schedule_id', response.json()['id'])
+        print "Success"
+
+    def test_delete_schedule_ok(self, pretty_print, mist_core, owner_api_token, cache):
+        response = mist_core.delete_schedule(api_token=owner_api_token, schedule_id=cache.get('schedule_id', '')).delete()
+        assert_response_ok(response)
+        response = mist_core.delete_schedule(api_token=owner_api_token, schedule_id=cache.get('schedule_id', '')).delete()
+        assert_response_not_found(response)
+        print "Success!!!"
+
     # def test_total_run_counts(self, pretty_print, mist_core, owner_api_token, cache):
     #     response = mist_core.show_schedule(api_token=owner_api_token, schedule_id=cache.get('disabled_schedule_id', '')).get()
     #     assert_response_ok(response)
