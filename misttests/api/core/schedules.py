@@ -280,8 +280,9 @@ class TestSchedulesFunctionality:
         response = mist_core.list_machines(cloud_id=cache.get('cloud_id', ''), api_token=owner_api_token).get()
         for machine in response.json():
             if 'api_test_machine_1' in machine['name']:
-                assert machine['state'] == 'stopped', "Machine'state is not stopped after script executed"
-                break
+                assert machine['state'] == 'stopped', "Machine'state is not stopped after schedule run"
+            if 'api_test_machine_1' in machine['name']:
+                assert machine['state'] == 'stopped', "Machine'state is not stopped after schedule run"
         print "Success"
 
 
