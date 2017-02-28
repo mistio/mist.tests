@@ -125,7 +125,6 @@ class TestSchedulesFunctionality:
         for machine in response.json():
             if 'api_test_machine_1' in machine['name']:
                 cache.set('machine_id', machine['uuid'])
-                import ipdb;ipdb.set_trace()
                 # need this check for test below
                 assert machine['state'] == 'running', "Machine'state is not running in the beginning of the tests"
             if 'api_test_machine_2' in machine['name']:
