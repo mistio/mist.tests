@@ -257,11 +257,7 @@ class TestSchedulesFunctionality:
         print "Success!!!"
 
 
-# add schedule and run immediately (sto telos...make machine start..)
-
 # destroy resources created during the tests
-
 # Add script, and then add a schedule with the script to run in a machine
-# Edit a schedule (make it stop--> start and check that the machine is running)
 # Check that actions were performed and scripts run
 # Make sure that the machines are in the proper state after the tests'execution
