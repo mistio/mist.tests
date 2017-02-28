@@ -110,7 +110,7 @@ def test_show_schedule_wrong_schedule_id(pretty_print, mist_core, owner_api_toke
 @pytest.mark.incremental
 class TestSchedulesFunctionality:
 
-    def test_add_schedule_one_off__missing_schedule_entry(self, pretty_print, mist_core, owner_api_token, cache):
+    def test_check_machines_state(self, pretty_print, mist_core, owner_api_token, cache):
         response = mist_core.add_cloud(title='Docker', provider= 'docker', api_token=owner_api_token,
                                        docker_host=config.CREDENTIALS['DOCKER']['host'],
                                        docker_port=config.CREDENTIALS['DOCKER']['port'],
@@ -125,13 +125,15 @@ class TestSchedulesFunctionality:
         for machine in response.json():
             if 'api_test_machine_1' in machine['name']:
                 cache.set('machine_id', machine['uuid'])
-                # need this check for test below
-                assert machine['state'] == 'running', "Machine'state is not running in the beginning of the tests"
+                assert machine['state'] == 'running', "Machine's state is not running in the beginning of the tests"
             if 'api_test_machine_2' in machine['name']:
+                assert machine['state'] == 'running', "Machine's state is not running in the beginning of the tests"
                 response = mist_core.set_machine_tags(api_token=owner_api_token, cloud_id=cache.get('cloud_id', ''),
                                                       machine_id=machine['uuid'],
                                                       tags={'key': 'schedule_test', 'value': ''}).post()
                 assert_response_ok(response)
+
+    def test_add_one_off_schedule_missing_schedule_entry(self, pretty_print, mist_core, owner_api_token, cache):
         machines_uuids = []
         machines_uuids.append(cache.get('machine_id',''))
         response = mist_core.add_schedule(api_token=owner_api_token, name='TestSchedule1',
@@ -165,6 +167,35 @@ class TestSchedulesFunctionality:
     #             break
     #     print "Success"
 
+    def test_add_interval_schedule_ok(self, pretty_print, mist_core, owner_api_token, cache):
+        response = mist_core.list_machines(cloud_id=cache.get('cloud_id', ''), api_token=owner_api_token).get()
+        assert_response_ok(response)
+        machines_uuids = []
+        machines_uuids.append(cache.get('machine_id', ''))
+        response = mist_core.add_schedule(api_token=owner_api_token, name='TestSchedule1',
+                                          action='stop', schedule_type='interval',
+                                          machines_uuids=machines_uuids, run_immediately=True,
+                                          schedule_entry={'every': 10, 'period':'seconds'}).post()
+        import ipdb;ipdb.set_trace()
+        assert_response_ok(response)
+        cache.set('schedule_id', response.json()['id'])
+        response = mist_core.list_schedules(api_token=owner_api_token).get()
+        assert_response_ok(response)
+        assert len(response.json()) == 1
+        print "Success"
+
+    def test_add_interval_schedule_tags_ok(self, pretty_print, mist_core, owner_api_token):
+        response = mist_core.add_schedule(api_token=owner_api_token, name='TestSchedule2',
+                                          action='stop', schedule_type='interval',
+                                          machines_tags={'schedule_test': ''},
+                                          run_immediately=True,
+                                          schedule_entry={'every': 2, 'period':'minutes'}).post()
+        assert_response_ok(response)
+        response = mist_core.list_schedules(api_token=owner_api_token).get()
+        assert_response_ok(response)
+        assert len(response.json()) == 2
+        print "Success"
+
     def test_add_one_off_schedule_ok(self, pretty_print, mist_core, cache, owner_api_token):
         date_now = datetime.datetime.now().replace(microsecond=0)
         scheduled_date = date_now + datetime.timedelta(seconds=10)
@@ -181,34 +212,6 @@ class TestSchedulesFunctionality:
         # assert len(response.json()) == 3
         print "Success"
 
-    # def test_add_interval_schedule_ok(self, pretty_print, mist_core, owner_api_token, cache):
-    #     response = mist_core.list_machines(cloud_id=cache.get('cloud_id', ''), api_token=owner_api_token).get()
-    #     assert_response_ok(response)
-    #     machines_uuids = []
-    #     machines_uuids.append(cache.get('machine_id', ''))
-    #     response = mist_core.add_schedule(api_token=owner_api_token, name='TestSchedule1',
-    #                                       action='stop', schedule_type='interval',
-    #                                       machines_uuids=machines_uuids, run_immediately=True,
-    #                                       schedule_entry={'every': 10, 'period':'seconds'}).post()
-    #     import ipdb;ipdb.set_trace()
-    #     assert_response_ok(response)
-    #     cache.set('schedule_id', response.json()['id'])
-    #     response = mist_core.list_schedules(api_token=owner_api_token).get()
-    #     assert_response_ok(response)
-    #     assert len(response.json()) == 1
-    #     print "Success"
-
-    # def test_add_interval_schedule_tags_ok(self, pretty_print, mist_core, owner_api_token):
-    #     response = mist_core.add_schedule(api_token=owner_api_token, name='TestSchedule2',
-    #                                       action='stop', schedule_type='interval',
-    #                                       machines_tags={'schedule_test': ''},
-    #                                       run_immediately=True,
-    #                                       schedule_entry={'every': 2, 'period':'minutes'}).post()
-    #     assert_response_ok(response)
-    #     response = mist_core.list_schedules(api_token=owner_api_token).get()
-    #     assert_response_ok(response)
-    #     assert len(response.json()) == 2
-    #     print "Success"
     #
     # def test_add_one_off_schedule_tags_ok(self, pretty_print, mist_core, owner_api_token):
     #     date_now = datetime.datetime.now().replace(microsecond=0)
