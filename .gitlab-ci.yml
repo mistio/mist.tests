@@ -13,7 +13,7 @@ run_mayday_test:
     - export DISPLAY=:1.0
     - pip install -e .
   script:
-    - python prepare_env.py -k --tags=graph,ssh,alert,celery,google_sso_signin,github_sso_signin misttests/gui/core/mayday/features
+    - python prepare_env.py -k --tags=graph,ssh,alert,celery,google_sso_signin,github_sso_signin,confirm_alert_email misttests/gui/core/mayday/features
   artifacts:
     paths:
       - js_console.log

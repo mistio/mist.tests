@@ -56,6 +56,14 @@ class MistIoApi(object):
         req.put = req.unavailable_api_call
         return req
 
+    def toggle_cloud(self, cloud_id, api_token=None, new_state=None):
+        req = MistRequests(uri=self.uri + '/api/v1/clouds/' + cloud_id,
+                           data={'new_state':new_state}, api_token=api_token)
+        req.get = req.unavailable_api_call
+        req.delete = req.unavailable_api_call
+        req.put = req.unavailable_api_call
+        return req
+
     def list_images(self, cloud_id, search_term=None, cookie=None,
                     csrf_token=None, api_token=None):
         kwargs = {
@@ -71,6 +79,14 @@ class MistIoApi(object):
         req = MistRequests(**kwargs)
         req.put = req.unavailable_api_call
         req.delete = req.unavailable_api_call
+        return req
+
+    def star_image(self, cloud_id, image_id, api_token=None):
+        req = MistRequests(uri=self.uri + '/api/v1/clouds/' + cloud_id + '/images/' + image_id,
+                           api_token=api_token)
+        req.get = req.unavailable_api_call
+        req.delete = req.unavailable_api_call
+        req.put = req.unavailable_api_call
         return req
 
     def list_sizes(self, cloud_id, cookie=None, csrf_token=None,
@@ -154,30 +170,39 @@ class MistIoApi(object):
         req.delete = req.unavailable_api_call
         return req
 
-    def start_machine(self, cloud_id, machine_id, cookie=None,
+    def machine_action(self, cloud_id, machine_id, cookie=None,
+                       csrf_token=None, api_token=None, action = ''):
+        data={}
+        if action:
+            data= {'action': action}
+        uri = self.uri + '/api/v1/clouds/' + cloud_id + '/machines/' + machine_id
+        req = MistRequests(uri=uri, cookie=cookie, data=data,
+                           csrf_token=csrf_token, api_token=api_token)
+
+        req.get = req.unavailable_api_call
+        req.put = req.unavailable_api_call
+        req.delete = req.unavailable_api_call
+        return req
+
+    def associate_key(self, cloud_id, machine_id, key_id, cookie=None,
                       csrf_token=None, api_token=None):
-        uri = self.uri + '/api/v1/clouds/' + cloud_id + '/machines/' + machine_id
-        req = MistRequests(uri=uri, data={'action': 'start'}, cookie=cookie,
+
+        uri = self.uri + '/api/v1/clouds/' + cloud_id + '/machines/' + machine_id + '/keys/' + key_id
+        req = MistRequests(uri=uri, cookie=cookie,
                            csrf_token=csrf_token, api_token=api_token)
+
         req.get = req.unavailable_api_call
-        req.put = req.unavailable_api_call
+        req.post = req.unavailable_api_call
         req.delete = req.unavailable_api_call
         return req
 
-    def stop_machine(self, cloud_id, machine_id, cookie=None, csrf_token=None,
-                     api_token=None):
-        uri = self.uri + '/api/v1/clouds/' + cloud_id + '/machines/' + machine_id
-        req = MistRequests(uri - uri, data={'action': 'stop'}, cookie=cookie,
-                           csrf_token=csrf_token, api_token=api_token)
-        req.get = req.unavailable_api_call
-        req.put = req.unavailable_api_call
-        req.delete = req.unavailable_api_call
-        return req
-
-    def reboot_machine(self, cloud_id, machine_id, cookie=None,
-                       csrf_token=None, api_token=None):
-        uri = self.uri + '/api/v1/clouds/' + cloud_id + '/machines/' + machine_id
-        req = MistRequests(uri=uri, cookie=cookie, data={'action': 'reboot'},
+    def machine_monitoring(self, cloud_id, machine_id, cookie=None,
+                           csrf_token=None, api_token=None, action = ''):
+        data={}
+        if action:
+            data= {'action': action}
+        uri = self.uri + '/api/v1/clouds/' + cloud_id + '/machines/' + machine_id + '/monitoring'
+        req = MistRequests(uri=uri, cookie=cookie, data=data,
                            csrf_token=csrf_token, api_token=api_token)
 
         req.get = req.unavailable_api_call
@@ -205,11 +230,14 @@ class MistIoApi(object):
         return req
 
     def add_key(self, name, private, cookie=None, csrf_token=None,
-                 api_token=None):
+                api_token=None, isDefault = ''):
         payload = {
             'name': name,
             'priv': private
         }
+
+        if isDefault:
+            payload.update({'isDefault': isDefault})
         req = MistRequests(uri=self.uri + '/api/v1/keys', cookie=cookie,
                            data=json.dumps(payload),
                            csrf_token=csrf_token, api_token=api_token)

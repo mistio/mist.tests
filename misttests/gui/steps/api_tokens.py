@@ -4,6 +4,7 @@ from .utils import focus_on_element
 from .utils import safe_get_element_text
 from .buttons import clicketi_click
 
+
 @step(u'I revoke all api tokens')
 def revoke_all_api_tokens(context):
     token_items = context.browser.find_elements_by_class_name('token-item')
