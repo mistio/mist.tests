@@ -111,6 +111,8 @@ def test_show_schedule_wrong_schedule_id(pretty_print, mist_core, owner_api_toke
 # add crontab schedule
 # edit a schedule (make it stop--> start and check that the machine is running)
 
+##### CHECK WHY MACHINE IS NOT TAGGED!!!!!
+
 @pytest.mark.incremental
 class TestSchedulesFunctionality:
 
