@@ -53,11 +53,16 @@ def test_create_api_token_wrong_org_id(pretty_print, mist_core, email,
                                        password1):
     response = mist_core.create_token(email=email, password=password1,
                                       org_id='bla').post()
-    assert_response_bad_request(response)
+    assert_response_unauthorized(response)
     print "Success!!!"
 
 
-### CHECK BELOW AGAIN!!!
+def test_008_test_su(pretty_print, cache, mist_core):
+    response = mist_core.su(
+        api_token=cache.get('api_token_test/api_token', '')).get()
+    assert_response_unauthorized(response)
+    print "Success!!!!"
+
 
 # def test_create_api_token_ttl_ok(pretty_print, cache, mist_core, email, password1, owner_api_token):
 #     response = mist_core.create_token(email=email, password=password1,
@@ -170,14 +175,6 @@ def test_create_api_token_wrong_org_id(pretty_print, mist_core, email,
 #                                           'api_token_test/api_token', '')[
 #                                                 :-2]).post()
 #     assert_response_ok(response)
-#     print "Success!!!!"
-
-
-# def test_008_test_su(pretty_print, cache, mist_core):
-#     print "\n>>>  POSTing /su with api token. Should get forbidden error"
-#     response = mist_core.su(
-#         api_token=cache.get('api_token_test/api_token', '')).get()
-#     assert_response_unauthorized(response)
 #     print "Success!!!!"
 
 
