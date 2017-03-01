@@ -54,9 +54,9 @@ def expired():
 
 @pytest.fixture
 def owner_email():
-    BASE_EMAIL = config.BASE_EMAIL
-    return "%s+%d@gmail.com" % (BASE_EMAIL, random.randint(1, 200000))
-
+    # BASE_EMAIL = config.BASE_EMAIL
+    # return "%s+%d@gmail.com" % (BASE_EMAIL, random.randint(1, 200000))
+    return config.OWNER_EMAIL
 
 @pytest.fixture
 def owner_password():
