@@ -107,7 +107,7 @@ def test_show_schedule_wrong_schedule_id(pretty_print, mist_core, owner_api_toke
 ############################################################################
 
 
-# 
+#
 
 @pytest.mark.incremental
 class TestSchedulesFunctionality:
