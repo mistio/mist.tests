@@ -47,7 +47,7 @@ def get_edit_form(context, title):
     # if title == 'cloud':
     #     raise Exception
     if title not in ['machine', 'image', 'key', 'network', 'tunnel', 'script',
-                     'template', 'stack', 'team', 'policy', 'cloud']:
+                     'template', 'stack', 'team', 'policy', 'cloud', 'schedule']:
         raise Exception('The title given is unknown')
     try:
         if title == 'policy':
