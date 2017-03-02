@@ -63,8 +63,8 @@ def visit(context):
     timeout = time() + 4
     while time() < timeout:
         try:
-            context.browser.find_element_by_id("top-signup-button")
-            wait_for_log_in_page_to_load(context)
+            elements = context.browser.find_element_by_tag_name("landing-app")
+            #wait_for_log_in_page_to_load(context)
             return
         except NoSuchElementException:
             try:
@@ -75,47 +75,6 @@ def visit(context):
                 pass
         sleep(1)
     assert False, "Do not know if I am at the landing page or the home page"
-
-
-@step(u'I wait for the mist.io splash page to load')
-def standard_splash_waiting(context):
-    """
-    Function that waits for the splash to load. The maximum time for the page
-    to load is 60 seconds in this case
-    """
-    wait_for_splash_to_appear(context)
-    wait_for_splash_to_load(context)
-
-
-def wait_for_splash_to_appear(context, timeout=20):
-    end = time() + timeout
-    while time() < end:
-        try:
-            context.browser.find_element_by_id("splash")
-            return
-        except NoSuchElementException:
-            try:
-                context.browser.find_element_by_id("edit-org-form")
-                return
-            except:
-                sleep(1)
-    assert False, 'Splash did not appear after %s seconds' % timeout
-
-
-def wait_for_splash_to_load(context, timeout=60):
-    end = time() + timeout
-    while time() < end:
-        splash_page = context.browser.find_element_by_id("splash")
-        display = splash_page.value_of_css_property("display")
-        try:
-            context.browser.find_element_by_id("edit-org-form")
-            org_button = search_for_button(context, 'OK')
-            org_button.click()
-            return
-        except:
-            if 'none' in display:
-                return
-    assert False, 'Page took longer than %s seconds to load' % timeout
 
 
 @step(u'I am in the new UI')
@@ -151,6 +110,7 @@ def make_sure_menu_is_open(context):
             assert time() + 1 < end_time, "Menu button has not" \
                                           " appeared after 10 seconds"
             sleep(1)
+
 
 @step(u'I wait for the links in homepage to appear')
 def wait_for_buttons_to_appear(context):
@@ -286,22 +246,12 @@ def given_logged_in(context):
     if not i_am_in_homepage(context):
         context.execute_steps(u'When I visit mist.core')
 
-    try:
-        context.browser.find_element_by_id("top-signup-button")
-        context.execute_steps(u"""
-            When I open the login popup
-            Then I click the email button in the landing page popup
-            And I enter my standard credentials for login
-            And I click the sign in button in the landing page popup
-        """)
-    except NoSuchElementException:
-        try:
-            context.browser.find_element_by_tag_name('mist-app')
-        except NoSuchElementException:
-            raise NoSuchElementException("I am not in the landing page or the"
-                                         " home page")
-
-    context.execute_steps(u'Then I wait for the dashboard to load')
+    context.execute_steps(u"""
+        When I open the login popup
+        And I enter my standard credentials for login
+        And I click the sign in button in the landing page popup
+        Then I wait for the dashboard to load
+    """)
 
 
 def found_one(context):
@@ -333,46 +283,20 @@ def found_one(context):
 
 @step(u'I am logged in to mist.core as {kind}')
 def given_logged_in(context, kind):
-    if not i_am_in_homepage(context):
-        context.execute_steps(u'When I visit mist.core')
-    assert found_one(context), "No idea where I am now"
-    try:
-        context.browser.find_element_by_id("top-signup-button")
-        if kind in ['rbac_owner', 'rbac_member1', 'rbac_member2']:
-            context.execute_steps(u"""
-                When I open the login popup
-                Then I click the email button in the landing page popup
-                And I enter my %s credentials for login
-                And I click the sign in button in the landing page popup
-            """ % kind)
-        elif kind == 'reg_member':
-            context.execute_steps(u"""
-                When I open the login popup
-                Then I click the email button in the landing page popup
-                And I enter my standard credentials for login
-                And I click the sign in button in the landing page popup
-            """)
-    except NoSuchElementException:
-        pass
-    try:
-        context.browser.find_element_by_tag_name("mist-app")
-        context.execute_steps(u'Then I wait for the dashboard to load')
-        return
-    except NoSuchElementException:
-        pass
-    try:
-        context.browser.find_element_by_id("app")
-        context.execute_steps(u'Then I wait for the dashboard to load')
-        return
-    except NoSuchElementException:
-        pass
-    try:
-        context.browser.find_element_by_id("splash")
-        context.execute_steps(
-            u'Then I wait for the mist.io splash page to load')
-    except NoSuchElementException:
-        raise NoSuchElementException("I am not in the landing page or the "
-                                     "home page")
+    if kind in ['rbac_owner', 'rbac_member1', 'rbac_member2']:
+        context.execute_steps(u"""
+            When I open the login popup
+            And I enter my %s credentials for login
+            And I click the sign in button in the landing page popup
+            Then I wait for the dashboard to load
+        """ % kind)
+    elif kind == 'reg_member':
+        context.execute_steps(u"""
+            When I open the login popup
+            And I enter my standard credentials for login
+            And I click the sign in button in the landing page popup
+            Then I wait for the dashboard to load
+        """)
 
 
 @step(u'I am not logged in to mist.core')
@@ -380,7 +304,7 @@ def given_not_logged_in(context):
     if not i_am_in_homepage(context):
         context.execute_steps(u'When I visit mist.core')
     try:
-        context.browser.find_element_by_id("top-signup-button")
+        context.browser.find_element_by_tag_name("landing-app")
         return
     except:
         try:
@@ -438,54 +362,6 @@ def logout(context):
         sleep(1)
 
     assert False, "User menu has not appeared yet"
-
-
-@step(u'I logout of legacy gui')
-def logout_of_legacy(context):
-    from .popups import popup_waiting_with_timeout
-    msg = ""
-    me_button = context.browser.find_element_by_id('me-btn')
-    position = me_button.location
-    context.browser.execute_script("window.scrollTo(0, %s)" % position['y'])
-    clicketi_click(context, me_button)
-
-    for _ in range(2):
-        try:
-            try:
-                WebDriverWait(context.browser, int(4)).until(
-                    EC.visibility_of_element_located((By.ID,
-                                                      'user-menu-popup-screen')))
-                try:
-                    popup_waiting_with_timeout(context, 'user-menu-popup-popup',
-                                               'appear', 4)
-                    sleep(2)
-
-                    container = context.browser.find_element_by_id(
-                        "user-menu-popup")
-                    clicketi_click(context,
-                                   container.find_element_by_class_name(
-                                       'icon-x'))
-
-                    try:
-                        WebDriverWait(context.browser, 10).until(
-                            EC.element_to_be_clickable(
-                                (By.ID, "top-signup-button")))
-                        return
-                    except TimeoutException:
-                        raise TimeoutException(
-                            "Landing page has not appeared after 10 seconds")
-                except Exception as e:
-                    msg = "After clicking the gravatar the grey background " \
-                          "appeared but not the popup.(%s)" % type(e)
-            except Exception as e:
-                msg = "Grey background did not appear after 2 seconds." \
-                      "(%s)" % type(e)
-        except Exception as e:
-            msg = "There was an exception(%s) when trying to click the Gravatar" \
-                  " image" % type(e)
-        sleep(1)
-    assert False, "I tried clicking the Gravatar but it did not work :(." \
-                  "\n%s" % msg
 
 
 @step(u'I wait for "{title}" list page to load')
