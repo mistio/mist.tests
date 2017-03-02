@@ -107,7 +107,6 @@ def test_show_schedule_wrong_schedule_id(pretty_print, mist_core, owner_api_toke
 ############################################################################
 
 
-#
 
 @pytest.mark.incremental
 class TestSchedulesFunctionality:
@@ -127,10 +126,13 @@ class TestSchedulesFunctionality:
         for machine in response.json():
             if 'api_test_machine_1' in machine['name']:
                 cache.set('machine_id', machine['uuid'])
-                assert machine['state'] == 'running', "Machine's state is not running in the beginning of the tests"
+                assert machine['state'] == 'running',\
+                    "Machine's state is not running in the beginning of the tests"
             if 'api_test_machine_2' in machine['name']:
-                assert machine['state'] == 'running', "Machine's state is not running in the beginning of the tests"
-                response = mist_core.set_machine_tags(api_token=owner_api_token, cloud_id=cache.get('cloud_id', ''),
+                assert machine['state'] == 'running',\
+                    "Machine's state is not running in the beginning of the tests"
+                response = mist_core.set_machine_tags(api_token=owner_api_token,
+                                                      cloud_id=cache.get('cloud_id', ''),
                                                       machine_id=machine['uuid'],
                                                       tags={'key': 'schedule_test', 'value': ''}).post()
                 assert_response_ok(response)
@@ -265,14 +267,17 @@ class TestSchedulesFunctionality:
         print "Success"
 
     def test_delete_schedule_ok(self, pretty_print, mist_core, owner_api_token, cache):
-        response = mist_core.delete_schedule(api_token=owner_api_token, schedule_id=cache.get('schedule_id', '')).delete()
+        response = mist_core.delete_schedule(api_token=owner_api_token,
+                                             schedule_id=cache.get('schedule_id', '')).delete()
         assert_response_ok(response)
-        response = mist_core.delete_schedule(api_token=owner_api_token, schedule_id=cache.get('schedule_id', '')).delete()
+        response = mist_core.delete_schedule(api_token=owner_api_token,
+                                             schedule_id=cache.get('schedule_id', '')).delete()
         assert_response_not_found(response)
         print "Success!!!"
 
     def test_total_run_counts_disabled_schedule(self, pretty_print, mist_core, owner_api_token, cache):
-        response = mist_core.show_schedule(api_token=owner_api_token, schedule_id=cache.get('disabled_schedule_id', '')).get()
+        response = mist_core.show_schedule(api_token=owner_api_token,
+                                           schedule_id=cache.get('disabled_schedule_id', '')).get()
         assert_response_ok(response)
         assert response.json()['total_run_count'] == 0, "Schedule run although it was disabled!!!"
         print "Success!!!"
