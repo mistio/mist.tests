@@ -33,7 +33,6 @@ Feature: Schedulers
      When I click the "TestScheduler" "schedule"
      And I expect the "schedule" edit form to be visible within max 5 seconds
      And I click the button "Edit" in "schedule" edit form
-#     Then I click the button "Edit" from the menu of the "schedule" edit form
      And I expect the dialog "Edit Schedule" is open within 4 seconds
      When I set the value "RenamedSchedule" to field "Name" in "Edit Schedule" dialog
      And I click the "Save" button in the dialog "Edit Schedule"
@@ -43,23 +42,20 @@ Feature: Schedulers
      Then "TestScheduler" schedule should be absent within 5 seconds
      And "RenamedSchedule" schedule should be present within 5 seconds
 
-   @schedule-delete
-   Scenario: Delete schedule
-     When I visit the Schedules page
-     Then I click the button "Delete" from the menu of the "SecInt" scheduler
-     And I expect the dialog "Delete Schedule" is open within 4 seconds
-     And I click the "Delete" button in the dialog "Delete Scheduler"
-     And I expect the dialog "Delete Scheduler" is closed within 4 seconds
-     Then "SecInt" script should be absent within 5 seconds
-     When I click the "myCron" "script"
-     And I expect the "scheduler" edit form to be visible within max 5 seconds
-     Then I click the button "Delete Scheduler" from the menu of the "schedule" edit form
-     And I expect the dialog "Delete Scheduler" is open within 4 seconds
-     And I click the "Delete" button in the dialog "Delete Scheduler"
-     And I expect the dialog "Delete Scheduler" is closed within 4 seconds
-     Then "myCron" script should be absent within 5 seconds
-
     @check-machines-state
     Scenario: Check machine's state
       When I visit the Machines page
-      Then "ui-testing-machine" machine state has to be "stopped" within 30 seconds
+      Then "ui-testing-machine" machine state has to be "stopped" within 60 seconds
+
+   @schedule-delete
+   Scenario: Delete schedule
+     When I visit the Schedules page
+     And I click the "RenamedSchedule" "schedule"
+     And I click the button "Delete" in "schedule" edit form
+     And I expect the dialog "Delete Schedule" is open within 4 seconds
+     And I click the "Delete" button in the dialog "Delete Schedule"
+     Then I expect the dialog "Delete Schedule" is closed within 4 seconds
+     When I visit the Home page
+     And I visit the Schedules page
+     Then "RenamedSchedule" schedule should be absent within 5 seconds
+     
