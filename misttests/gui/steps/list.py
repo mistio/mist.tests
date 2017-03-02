@@ -20,7 +20,7 @@ def get_list_item(context, resource_type, name):
     item_name = name.lower()
     if resource_type not in ['machine', 'image', 'key', 'network',
                              'tunnel', 'script', 'template', 'stack',
-                             'team']:
+                             'team', 'schedule']:
         raise ValueError('The resource type given is unknown')
     try:
         items = get_list(context, resource_type)
@@ -119,6 +119,8 @@ def assert_machine_state(context, name, state, seconds):
                 pass
         sleep(2)
     assert False, u'%s state is not "%s"' % (name, state)
+
+
 @step(u'"{expected_name}" {resource_type} should be {state} within {seconds}'
       u' seconds')
 def wait_for_item_show(context, expected_name, resource_type, state, seconds):

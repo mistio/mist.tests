@@ -39,13 +39,14 @@ Feature: Schedulers
      And I expect the dialog "Edit Schedule" is open within 4 seconds
      When I set the value "RenamedSchedule" to field "Name" in "Edit Schedule" dialog
      And I click the "Save" button in the dialog "Edit Schedule"
-     And I expect the dialog "Edit Schedule"  is closed within 4 seconds
+     And I expect the dialog "Edit Schedule" is closed within 4 seconds
      Then I visit the Home page
      When I visit the Schedules page
      Then "TestScheduler" schedule should be absent within 5 seconds
      And "RenamedSchedule" schedule should be present within 5 seconds
-      When I visit the Machines page
-    Then "ui-testing-machine" machine state has to be "running" within 30 seconds
+     When I visit the Machines page
+     Then "ui-testing-machine" machine state has to be "running" within 30 seconds
+
   #
   # @schedule-delete
   # Scenario: Delete schedule
