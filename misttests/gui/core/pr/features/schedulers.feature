@@ -45,7 +45,7 @@ Feature: Schedulers
     @check-machines-state
     Scenario: Check machine's state
       When I visit the Machines page
-      Then "ui-testing-machine" machine state has to be "stopped" within 60 seconds
+      Then "ui-testing-machine" machine state has to be "stopped" within 70 seconds
 
    @schedule-delete
    Scenario: Delete schedule
@@ -58,4 +58,3 @@ Feature: Schedulers
      When I visit the Home page
      And I visit the Schedules page
      Then "RenamedSchedule" schedule should be absent within 5 seconds
-     
