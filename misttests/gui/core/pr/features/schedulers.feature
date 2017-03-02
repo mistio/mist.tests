@@ -42,21 +42,24 @@ Feature: Schedulers
      When I visit the Schedules page
      Then "TestScheduler" schedule should be absent within 5 seconds
      And "RenamedSchedule" schedule should be present within 5 seconds
-     When I visit the Machines page
-     Then "ui-testing-machine" machine state has to be "running" within 30 seconds
 
-  # @schedule-delete
-  # Scenario: Delete schedule
-  #   When I visit the Schedulers page
-  #   Then I click the button "Delete" from the menu of the "SecInt" scheduler
-  #   And I expect the dialog "Delete Schedule" is open within 4 seconds
-  #   And I click the "Delete" button in the dialog "Delete Scheduler"
-  #   And I expect the dialog "Delete Scheduler" is closed within 4 seconds
-  #   Then "SecInt" script should be absent within 5 seconds
-  #   When I click the "myCron" "script"
-  #   And I expect the "scheduler" edit form to be visible within max 5 seconds
-  #   Then I click the button "Delete Scheduler" from the menu of the "schedule" edit form
-  #   And I expect the dialog "Delete Scheduler" is open within 4 seconds
-  #   And I click the "Delete" button in the dialog "Delete Scheduler"
-  #   And I expect the dialog "Delete Scheduler" is closed within 4 seconds
-  #   Then "myCron" script should be absent within 5 seconds
+   @schedule-delete
+   Scenario: Delete schedule
+     When I visit the Schedules page
+     Then I click the button "Delete" from the menu of the "SecInt" scheduler
+     And I expect the dialog "Delete Schedule" is open within 4 seconds
+     And I click the "Delete" button in the dialog "Delete Scheduler"
+     And I expect the dialog "Delete Scheduler" is closed within 4 seconds
+     Then "SecInt" script should be absent within 5 seconds
+     When I click the "myCron" "script"
+     And I expect the "scheduler" edit form to be visible within max 5 seconds
+     Then I click the button "Delete Scheduler" from the menu of the "schedule" edit form
+     And I expect the dialog "Delete Scheduler" is open within 4 seconds
+     And I click the "Delete" button in the dialog "Delete Scheduler"
+     And I expect the dialog "Delete Scheduler" is closed within 4 seconds
+     Then "myCron" script should be absent within 5 seconds
+
+    @check-machines-state
+    Scenario: Check machine's state
+      When I visit the Machines page
+      Then "ui-testing-machine" machine state has to be "stopped" within 30 seconds
