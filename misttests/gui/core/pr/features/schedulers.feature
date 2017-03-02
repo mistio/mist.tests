@@ -8,21 +8,26 @@ Feature: Schedulers
   Scenario: Add schedule
     Given "Digital Ocean" cloud has been added
     When I visit the Machines page
-    Then "Spiros-test-scheduler" machine state has to be "running" within 20 seconds
+    Then "ui-testing-machine" machine state has to be "running" within 20 seconds
     When I visit the Schedules page
     When I click the button "+"
     Then I expect the "schedule" add form to be visible within max 10 seconds
     When I set the value "TestScheduler" to field "Name" in "schedule" add form
     #And I click the "enabled" button
-    And I select "Perform an action" from "script_or_action" radio-group
-    Then I open the "Action" drop down
-    And I click the button "Reboot" in the "Action" dropdown
-    And I wait for 1 seconds
+    And I open the "Task" drop down
+    And I wait for 2 seconds
+    When I click the button "stop" in the "Task" dropdown
+    And I wait for 2 seconds
+#    And I select "Perform an action" from "script_or_action" radio-group
+#    Then I open the "Action" drop down
+#    And I click the button "Reboot" in the "Action" dropdown
+#    And I wait for 1 seconds
     And I select "Specific Machines" from "ids_or_tags" radio-group
     And I wait for 1 seconds
-    And I select the "Spiros-test-scheduler" checkbox
-    And I select "secs" from "schedule_entry_interval_period" radio-group
+    And I select the "ui-testing-machine" checkbox
+    And I select "repeat" from "schedule_type" radio-group
     #When I set the value "2" to field "Maximum Run Count" in "schedule" add form
+    When I set the value "<script>" to field "<field>" in "script" add form
     And I click the button "Add" in "schedule" add form
     And I wait for 1 seconds
     When I visit the Machines page
