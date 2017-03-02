@@ -23,7 +23,7 @@ Feature: Add second-tier clouds in Polymist
     | Azure ARM      |
     | Linode         |
     | AWS            |
-    | Digital Ocean  |
+#    | Digital Ocean  | tested @ orchestration
 
 #    | Vmware         |
 #    | Indonesian     |
