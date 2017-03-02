@@ -33,7 +33,6 @@ Feature: Schedulers
 
    @scheduler-rename
    Scenario: Rename schedule
-     When I visit the Schedules page
      When I click the "TestScheduler" "schedule"
      And I expect the "schedule" edit form to be visible within max 5 seconds
      Then I click the button "Edit" from the menu of the "schedule" edit form
@@ -45,6 +44,8 @@ Feature: Schedulers
      When I visit the Schedules page
      Then "TestScheduler" schedule should be absent within 5 seconds
      And "RenamedSchedule" schedule should be present within 5 seconds
+      When I visit the Machines page
+    Then "ui-testing-machine" machine state has to be "running" within 30 seconds
   #
   # @schedule-delete
   # Scenario: Delete schedule
