@@ -45,7 +45,7 @@ Feature: Schedulers
     @check-machines-state
     Scenario: Check machine's state
       When I visit the Machines page
-      Then "ui-testing-machine" machine state has to be "stopped" within 70 seconds
+      Then "ui-testing-machine" machine state has to be "stopped" within 75 seconds
 
    @schedule-delete
    Scenario: Delete schedule
