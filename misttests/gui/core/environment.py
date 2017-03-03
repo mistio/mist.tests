@@ -15,6 +15,7 @@ from misttests.helpers.selenium_utils import dump_js_console_log
 from misttests.helpers.recording import start_recording
 from misttests.helpers.recording import stop_recording
 
+
 log = logging.getLogger(__name__)
 
 logging.basicConfig(level=logging.INFO)
@@ -124,6 +125,38 @@ def after_all(context):
     finish_and_cleanup(context)
 
 
+def get_api_token(context):
+    payload = {
+        'email': context.mist_config['EMAIL'],
+        'password': context.mist_config['PASSWORD1'],
+        'org_id': context.mist_config['ORG_ID']
+    }
+    re = requests.post("%s/api/v1/tokens" % context.mist_config['MIST_URL'], data=json.dumps(payload))
+    return re.json()['token']
+
+
+def kill_yolomachine(context, machines, headers, cloud_id):
+    for machine in machines:
+        if 'yolomachine' in machine['name']:
+            log.info('Killing yolomachine...')
+            payload= {'action': 'destroy'}
+            uri = context.mist_config['MIST_URL'] + '/api/v1/clouds/' + cloud_id + '/machines/' + machine['id']
+            re = requests.post(uri, data=json.dumps(payload), headers=headers)
+
+
+def kill_orchestration_machines(context):
+    api_token = get_api_token(context)
+    headers = {'Authorization': api_token}
+
+    response = requests.get("%s/api/v1/clouds" % context.mist_config['MIST_URL'], headers=headers)
+    for cloud in response.json():
+        if 'digitalocean' in cloud['provider']:
+            cloud_id = cloud['id']
+            uri = context.mist_config['MIST_URL'] + '/api/v1/clouds/' + cloud_id + '/machines'
+            response = requests.get(uri, headers=headers)
+            kill_yolomachine(context, response.json(), headers, cloud_id)
+
+
 def finish_and_cleanup(context):
     dump_js_console_log(context)
     context.mist_config['browser'].quit()
@@ -131,3 +164,8 @@ def finish_and_cleanup(context):
         context.mist_config['browser2'].quit()
     if context.mist_config.get('recording_session', False):
         stop_recording()
+
+
+def after_feature(context, feature):
+    if 'Orchestration' in feature.name:
+        kill_orchestration_machines(context)
