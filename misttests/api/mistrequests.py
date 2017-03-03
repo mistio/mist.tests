@@ -37,6 +37,11 @@ class MistRequests(object):
                                 headers=self.headers, timeout=self.timeout)
         return response
 
+    def patch(self):
+        response = requests.patch(self.uri, data=self.data,
+                                headers=self.headers, timeout=self.timeout)
+        return response
+
     def delete(self):
         response = requests.delete(self.uri, params=self.params, data=self.data,
                                    json=self.json, headers=self.headers,
