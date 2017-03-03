@@ -47,8 +47,8 @@ Feature: Schedulers
     When I visit the Machines page
     Then "ui-testing-machine" machine state has to be "stopped" within 75 seconds
 
-  @scheduler-add
-  Scenario: Add schedule
+  @scheduler-add-run-immediately
+  Scenario: Add schedule and run immediately
     When I visit the Schedules page
     And I click the button "+"
     Then I expect the "schedule" add form to be visible within max 10 seconds
@@ -63,11 +63,12 @@ Feature: Schedulers
     And I select "Repeat" from "schedule_type" radio-group
     #When I set the value "2" to field "Maximum Run Count" in "schedule" add form
     And I set the value "1" to field "interval" in "schedule" add form
+    And I click the "run_immediately" button
     And I click the button "Add" in "schedule" add form
     And I wait for 1 seconds
     When I visit the Home page
     And I visit the Schedules page
-    Then "TestScheduler" schedule should be present within 3 seconds
+    Then "TestScheduler_2" schedule should be present within 3 seconds
 
    @schedule-delete
    Scenario: Delete schedule
