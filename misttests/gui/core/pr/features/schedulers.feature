@@ -49,6 +49,7 @@ Feature: Schedulers
 
   @scheduler-add-run-immediately
   Scenario: Add schedule and run immediately
+    Given I am logged in to mist.core
     When I visit the Schedules page
     And I click the button "+"
     Then I expect the "schedule" add form to be visible within max 10 seconds
@@ -69,6 +70,11 @@ Feature: Schedulers
     When I visit the Home page
     And I visit the Schedules page
     Then "TestScheduler_2" schedule should be present within 3 seconds
+
+  @check-machines-state
+  Scenario: Check machine's state
+    When I visit the Machines page
+    Then "ui-testing-machine" machine state has to be "running" within 15 seconds
 
    @schedule-delete
    Scenario: Delete schedule
