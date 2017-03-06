@@ -92,6 +92,6 @@ Feature: Production
     When I wait for the dashboard to load
     Then I logout
 
-#  @confirm_alert_email
-#  Scenario: Confirm that alert email arrived
-#    Then I should receive an email within 200 seconds
+  @confirm_alert_email
+  Scenario: Confirm that alert email arrived
+    Then I should receive an email within 200 seconds
