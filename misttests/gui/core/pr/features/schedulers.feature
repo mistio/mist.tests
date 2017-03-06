@@ -2,7 +2,7 @@
 Feature: Schedulers
 
 
-  @scheduler-add
+  @scheduler-add-interval
   Scenario: Add schedule
     Given I am logged in to mist.core
     And "Docker" cloud has been added
@@ -74,7 +74,7 @@ Feature: Schedulers
   @check-machines-state
   Scenario: Check machine's state
     When I visit the Machines page
-    Then "ui-testing-machine" machine state has to be "running" within 15 seconds
+    Then "ui-testing-machine" machine state has to be "running" within 20 seconds
 
    @schedule-delete
    Scenario: Delete schedule
@@ -96,10 +96,5 @@ Feature: Schedulers
 # run script
 # machines-with tags
 # just check clock
-
-
-  # machines-id
-
-  # crontab
-  # one-off
-  # interval
+# crontab
+# just check starts and expires
