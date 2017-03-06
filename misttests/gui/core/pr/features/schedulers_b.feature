@@ -17,10 +17,10 @@ Feature: Schedulers
     And I wait for 1 seconds
     And I select "Specific Machines" from "ids_or_tags" radio-group
     And I wait for 1 seconds
-    And I select the "ui-testing-machine" checkbox
+    And I select the "ui-testing-machine-2" checkbox
     And I select "Crontab" from "schedule_type" radio-group
     #When I set the value "2" to field "Maximum Run Count" in "schedule" add form
-    And I set the value "*****" to field "interval" in "schedule" add form
+    And I set the value "*****" to field "Crontab" in "schedule" add form
     And I click the button "Add" in "schedule" add form
     And I wait for 1 seconds
     When I visit the Home page
@@ -33,10 +33,13 @@ Feature: Schedulers
     Then "ui-testing-machine" machine state has to be "stopped" within 75 seconds
 
 
+# just check change-schedule
+# machines-with tags
+
 # just check starts and expires
+# run script
+
+
 # enable-disable
 # schedule with max run
 # update -machine (from api-test-1 to api-test-2)
-# just check change-schedule
-# run script
-# machines-with tags
