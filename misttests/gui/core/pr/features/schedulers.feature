@@ -1,7 +1,6 @@
 @schedulers
 Feature: Schedulers
 
-
   @scheduler-add-interval
   Scenario: Add schedule
     Given I am logged in to mist.core
