@@ -170,7 +170,8 @@ def go_to_some_page_without_waiting(context, title):
     """
     title = title.lower()
     if title not in ['machines', 'images', 'keys', 'networks', 'tunnels',
-                     'scripts', 'templates', 'stacks', 'teams', 'account',
+                     'scripts', 'schedules', 'templates', 'stacks', 'teams',
+                     'account',
                      'home']:
         raise ValueError('The page given is unknown')
     if title.lower() == 'home':
