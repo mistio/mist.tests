@@ -88,6 +88,7 @@ Feature: Schedulers
      And I visit the Schedules page
      Then "RenamedSchedule" schedule should be absent within 5 seconds
 
+  
 # crontab
 # just check starts and expires
 # enable-disable
