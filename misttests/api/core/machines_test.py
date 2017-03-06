@@ -20,11 +20,11 @@ def test_list_machines_wrong_api_token(pretty_print, mist_core):
     assert_response_unauthorized(response)
     print "Success!!!"
 
-# below gets internal server error...
-# def test_list_machines_wrong_cloud_id(pretty_print, mist_core, owner_api_token):
-#     response = mist_core.list_machines(cloud_id='dummy', api_token=owner_api_token).get()
-#     assert_response_not_found(response)
-#     print "Success!!!"
+
+def test_list_machines_wrong_cloud_id(pretty_print, mist_core, owner_api_token):
+    response = mist_core.list_machines(cloud_id='dummy', api_token=owner_api_token).get()
+    assert_response_not_found(response)
+    print "Success!!!"
 
 
 def test_create_machine_wrong_api_token(pretty_print, mist_core):
@@ -42,13 +42,13 @@ def test_create_machine_no_api_token(pretty_print, mist_core):
     assert_response_forbidden(response)
     print "Success!!!"
 
-# below gets internal server error...
-# def test_create_machine_wrong_cloud_id(pretty_print, mist_core, owner_api_token):
-#     response = mist_core.create_machine(cloud_id='dummy', key_id='', api_token=owner_api_token,
-#                                         name='', provider='', location='',
-#                                         image='dummy', size='',).post()
-#     assert_response_not_found(response)
-#     print "Success!!!"
+
+def test_create_machine_wrong_cloud_id(pretty_print, mist_core, owner_api_token):
+    response = mist_core.create_machine(cloud_id='dummy', key_id='', api_token=owner_api_token,
+                                        name='', provider='', location='',
+                                        image='dummy', size='',).post()
+    assert_response_not_found(response)
+    print "Success!!!"
 
 
 def test_create_machine_missing_parameter(pretty_print, mist_core, owner_api_token):
@@ -115,12 +115,11 @@ def test_associate_key_no_api_token(pretty_print, mist_core):
     print "Success!!!"
 
 
-# below gets internal server error...
-# def test_associate_key_wrong_ids(pretty_print, mist_core, owner_api_token):
-#     response = mist_core.associate_key(cloud_id='dummy', api_token=owner_api_token,
-#                                        machine_id='dummy',key_id='dummy').put()
-#     assert_response_not_found(response)
-#     print "Success!!!"
+def test_associate_key_wrong_ids(pretty_print, mist_core, owner_api_token):
+    response = mist_core.associate_key(cloud_id='dummy', api_token=owner_api_token,
+                                       machine_id='dummy',key_id='dummy').put()
+    assert_response_not_found(response)
+    print "Success!!!"
 
 ############################################################################
 #                         Functional Testing                               #
