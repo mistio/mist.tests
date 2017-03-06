@@ -87,3 +87,19 @@ Feature: Schedulers
      When I visit the Home page
      And I visit the Schedules page
      Then "RenamedSchedule" schedule should be absent within 5 seconds
+
+# run now
+# enable-disable
+# schedule with max run
+# update -machine (from api-test-1 to api-test-2)
+# just check change-schedule
+# run script
+# machines-with tags
+# just check clock
+
+
+  # machines-id
+
+  # crontab
+  # one-off
+  # interval
