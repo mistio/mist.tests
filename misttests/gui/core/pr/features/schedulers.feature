@@ -88,13 +88,11 @@ Feature: Schedulers
      And I visit the Schedules page
      Then "RenamedSchedule" schedule should be absent within 5 seconds
 
-# run now
+# crontab
+# just check starts and expires
 # enable-disable
 # schedule with max run
 # update -machine (from api-test-1 to api-test-2)
 # just check change-schedule
 # run script
 # machines-with tags
-# just check clock
-# crontab
-# just check starts and expires
