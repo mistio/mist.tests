@@ -82,6 +82,7 @@ Feature: Schedulers
     When I visit the Machines page
     Then "ui-testing-machine" machine state has to be "stopped" within 75 seconds
 
+  # here verify that by doing ls 'kati' will be at the output
 
 
 # just check starts and expires
