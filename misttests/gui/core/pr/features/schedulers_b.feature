@@ -66,10 +66,11 @@ Feature: Schedulers
     And I wait for 1 seconds
     And I select "Specific Machines" from "ids_or_tags" radio-group
     And I wait for 1 seconds
-    And I select the "ui-testing-machine-2" checkbox
+    And I select the "ui-testing-machine-3" checkbox
     And I select "Crontab" from "schedule_type" radio-group
     #When I set the value "2" to field "Maximum Run Count" in "schedule" add form
     And I set the value "*****" to field "Crontab" in "schedule" add form
+    And I click the "run_immediately" button
     And I click the button "Add" in "schedule" add form
     And I wait for 1 seconds
     When I visit the Home page
@@ -85,7 +86,6 @@ Feature: Schedulers
 
 # just check starts and expires
 # enable-disable
-
 # run script
 # machines-with tags
 # update -machine (from api-test-1 to api-test-2)
