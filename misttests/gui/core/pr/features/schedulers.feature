@@ -75,14 +75,14 @@ Feature: Schedulers
     When I visit the Machines page
     Then "ui-testing-machine" machine state has to be "running" within 20 seconds
 
-   @schedule-delete
-   Scenario: Delete schedule
-     When I visit the Schedules page
-     And I click the "RenamedSchedule" "schedule"
-     And I click the button "Delete" in "schedule" edit form
-     And I expect the dialog "Delete Schedule" is open within 4 seconds
-     And I click the "Delete" button in the dialog "Delete Schedule"
-     Then I expect the dialog "Delete Schedule" is closed within 4 seconds
-     When I visit the Home page
-     And I visit the Schedules page
-     Then "RenamedSchedule" schedule should be absent within 5 seconds
+  @schedule-delete
+  Scenario: Delete schedule
+    When I visit the Schedules page
+    And I click the "RenamedSchedule" "schedule"
+    And I click the button "Delete" in "schedule" edit form
+    And I expect the dialog "Delete Schedule" is open within 4 seconds
+    And I click the "Delete" button in the dialog "Delete Schedule"
+    Then I expect the dialog "Delete Schedule" is closed within 4 seconds
+    When I visit the Home page
+    And I visit the Schedules page
+    Then "RenamedSchedule" schedule should be absent within 5 seconds

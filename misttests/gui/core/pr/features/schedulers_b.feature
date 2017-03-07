@@ -34,12 +34,9 @@ Feature: Schedulers
 
 
 # just check change-schedule
-# machines-with tags
-
 # just check starts and expires
 # run script
 
-
 # enable-disable
-# schedule with max run
+# machines-with tags
 # update -machine (from api-test-1 to api-test-2)
