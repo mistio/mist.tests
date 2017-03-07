@@ -33,26 +33,24 @@ Feature: Schedulers
     When I visit the Scripts page
     When I click the button "+"
     Then I expect the "Script" add form to be visible within max 10 seconds
-    When I set the value "<name>" to field "Script Name" in "script" add form
+    When I set the value "TestScript" to field "Script Name" in "script" add form
     And I open the "Type" drop down
     And I wait for 2 seconds
-    When I click the button "<type>" in the "Type" dropdown
+    When I click the button "Executable" in the "Type" dropdown
     And I wait for 2 seconds
     And I open the "Source" drop down
     And I wait for 2 seconds
-    And I click the button "<source>" in the "Source" dropdown
-    When I set the value "<script>" to field "<field>" in "script" add form
+    And I click the button "Inline" in the "Source" dropdown
+    When I set the value "<script>" to field "Script" in "script" add form
     When I focus on the button "Add" in "script" add form
     And I expect for the button "Add" in "script" add form to be clickable within 3 seconds
     And I click the button "Add" in "script" add form
     And I wait for 3 seconds
     When I visit the Scripts page after the counter has loaded
-    # FIXME: below has been commented out because script is not available immediately..need for redirection to another page first...
-    # FIXME: instead of redirecting to home, an option is to sort the items...
     Then I visit the Home page
     When I wait for the dashboard to load
     When I visit the Scripts page
-    Then "<name>" script should be present within 3 seconds
+    Then "TestScript" script should be present within 3 seconds
 
   @check-machines-state
   Scenario: Check machine's state
