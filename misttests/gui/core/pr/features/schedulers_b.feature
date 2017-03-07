@@ -59,12 +59,10 @@ Feature: Schedulers
     When I visit the Machines page
     Then "ui-testing-machine" machine state has to be "stopped" within 75 seconds
 
-
-# just check change-schedule
 # run script
 
 # just check starts and expires
-
 # enable-disable
+
 # machines-with tags
 # update -machine (from api-test-1 to api-test-2)
