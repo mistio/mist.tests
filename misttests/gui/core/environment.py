@@ -156,6 +156,15 @@ def kill_orchestration_machines(context):
             response = requests.get(uri, headers=headers)
             kill_yolomachine(context, response.json(), headers, cloud_id)
 
+def delete_s
+    chedules(context):
+    api_token = get_api_token(context)
+    headers = {'Authorization': api_token}
+
+    response = requests.get("%s/api/v1/schedules" % context.mist_config['MIST_URL'], headers=headers)
+    for schedule in response.json():
+        uri = context.mist_config['MIST_URL'] + '/api/v1/schedules/' + schedule['id']
+        requests.delete(uri, headers=headers)
 
 def finish_and_cleanup(context):
     dump_js_console_log(context)
@@ -169,3 +178,5 @@ def finish_and_cleanup(context):
 def after_feature(context, feature):
     if 'Orchestration' in feature.name:
         kill_orchestration_machines(context)
+    if 'Schedulers' in feature.name:
+        delete_schedules(context)
