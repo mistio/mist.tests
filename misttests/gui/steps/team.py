@@ -137,3 +137,17 @@ def create_script_api_request(context, script_name):
     script_data['script'] = bash_script
 
     re = requests.post(context.mist_config['MIST_URL'] + "/api/v1/scripts" , data=json.dumps(script_data), headers=headers)
+
+
+@step(u'cloud Docker has been added')
+def add_docker_api_request(context):
+    payload = {
+        'email': context.mist_config['EMAIL'],
+        'password': context.mist_config['PASSWORD1'],
+        'org_id': context.mist_config['ORG_ID']
+    }
+
+    re = requests.post("%s/api/v1/tokens" % context.mist_config['MIST_URL'], data=json.dumps(payload))
+
+    api_token = re.json()['token']
+    headers = {'Authorization': api_token}

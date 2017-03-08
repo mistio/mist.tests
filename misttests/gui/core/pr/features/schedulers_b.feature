@@ -62,7 +62,7 @@ Feature: Schedulers
 
   # here verify that by doing ls 'kati' will be at the output
 
-# add_script and add_docker via API calls
+#add_docker via API call
 
 
 # just check starts and expires
