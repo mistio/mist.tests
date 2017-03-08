@@ -5,7 +5,6 @@ Feature: Schedulers
   Scenario: Add schedule
     Given I am logged in to mist.core
     And cloud Docker has been added
-    And "Docker" cloud has been added
     When I visit the Machines page
     Then "ui-testing-machine-2" machine state has to be "running" within 10 seconds
     When I visit the Schedules page
@@ -59,14 +58,11 @@ Feature: Schedulers
   @check-machines-state
   Scenario: Check machine's state
     When I visit the Machines page
-    Then "ui-testing-machine" machine state has to be "stopped" within 75 seconds
+    Then "ui-testing-machine-2" machine state has to be "stopped" within 75 seconds
 
   # here verify that by doing ls 'kati' will be at the output
 
-#add_docker via API call
 
-
-# just check starts and expires
 # enable-disable
 # run script
 # machines-with tags
