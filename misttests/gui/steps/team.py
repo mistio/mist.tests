@@ -110,7 +110,7 @@ def initialize_rbac_members(context):
     payload = {
         'name': "Test Team"
     }
-    re = requests.post(context.mist_config['MIST_URL'] + "/api/v1/org/" + context.mist_config['ORG_ID'] + "/teams", data=json.dumps(payload), headers=headers)
+    requests.post(context.mist_config['MIST_URL'] + "/api/v1/org/" + context.mist_config['ORG_ID'] + "/teams", data=json.dumps(payload), headers=headers)
 
     return
 
@@ -136,7 +136,7 @@ def create_script_api_request(context, script_name):
 
     script_data['script'] = bash_script
 
-    re = requests.post(context.mist_config['MIST_URL'] + "/api/v1/scripts" , data=json.dumps(script_data), headers=headers)
+    requests.post(context.mist_config['MIST_URL'] + "/api/v1/scripts" , data=json.dumps(script_data), headers=headers)
 
 
 @step(u'cloud Docker has been added')
@@ -151,3 +151,16 @@ def add_docker_api_request(context):
 
     api_token = re.json()['token']
     headers = {'Authorization': api_token}
+
+    payload = {
+        'title' : "Docker",
+        'provider' : "docker",
+        'docker_host' : context.mist_config['DOCKER']['host'],
+        'docker_port' : context.mist_config['DOCKER']['port'],
+        'authentication' : context.mist_config['DOCKER']['authentication'],
+        'ca_cert_file' : context.mist_config['DOCKER']['ca'],
+        'key_file' : context.mist_config['DOCKER']['key'],
+        'cert_file' : context.mist_config['DOCKER']['cert']
+    }
+
+    requests.post(context.mist_config['MIST_URL'] + "/api/v1/clouds", data=json.dumps(payload), headers=headers)

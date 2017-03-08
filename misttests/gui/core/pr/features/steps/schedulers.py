@@ -1,7 +1,3 @@
-from misttests.gui.steps.modals import *
-from misttests.gui.steps.navigation import *
-from misttests.gui.steps.setup import *
-from misttests.gui.steps.buttons import *
 from misttests.gui.steps.team import *
 
 
