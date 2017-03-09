@@ -3,8 +3,8 @@ Feature: Schedulers
 
   @scheduler-add-crontab
   Scenario: Add schedule
-    Given I am logged in to mist.core
-    And cloud Docker has been added
+    #Given I am logged in to mist.core
+    Given cloud Docker has been added
     When I visit the Machines page
     Then "machine2-ui-testing" machine state has to be "running" within 10 seconds
     When I visit the Schedules page
