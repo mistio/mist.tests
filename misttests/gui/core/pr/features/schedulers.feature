@@ -6,7 +6,7 @@ Feature: Schedulers
     Given I am logged in to mist.core
     And "Docker" cloud has been added
     When I visit the Machines page
-    Then "ui-testing-machine" machine state has to be "running" within 10 seconds
+    Then "machine1-ui-testing" machine state has to be "running" within 10 seconds
     When I visit the Schedules page
     And I click the button "+"
     Then I expect the "schedule" add form to be visible within max 10 seconds
@@ -44,7 +44,7 @@ Feature: Schedulers
   @check-machines-state
   Scenario: Check machine's state
     When I visit the Machines page
-    Then "ui-testing-machine" machine state has to be "stopped" within 75 seconds
+    Then "machine1-ui-testing" machine state has to be "stopped" within 75 seconds
 
   @scheduler-add-run-immediately
   Scenario: Add schedule and run immediately
@@ -59,7 +59,7 @@ Feature: Schedulers
     And I wait for 1 seconds
     And I select "Specific Machines" from "ids_or_tags" radio-group
     And I wait for 1 seconds
-    And I select the "ui-testing-machine" checkbox
+    And I select the "machine1-ui-testing" checkbox
     And I select "Repeat" from "schedule_type" radio-group
     #When I set the value "2" to field "Maximum Run Count" in "schedule" add form
     And I set the value "1" to field "interval" in "schedule" add form
@@ -73,7 +73,7 @@ Feature: Schedulers
   @check-machines-state
   Scenario: Check machine's state
     When I visit the Machines page
-    Then "ui-testing-machine" machine state has to be "running" within 20 seconds
+    Then "machine1-ui-testing" machine state has to be "running" within 20 seconds
 
   @schedule-delete
   Scenario: Delete schedule
