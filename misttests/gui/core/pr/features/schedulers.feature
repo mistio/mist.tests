@@ -17,7 +17,7 @@ Feature: Schedulers
     And I wait for 1 seconds
     And I select "Specific Machines" from "ids_or_tags" radio-group
     And I wait for 1 seconds
-    And I select the "ui-testing-machine" checkbox
+    And I select the "machine1-ui-testing" checkbox
     And I select "Repeat" from "schedule_type" radio-group
     #When I set the value "2" to field "Maximum Run Count" in "schedule" add form
     And I set the value "1" to field "interval" in "schedule" add form
