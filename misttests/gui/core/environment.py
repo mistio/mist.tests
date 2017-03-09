@@ -158,6 +158,7 @@ def kill_orchestration_machines(context):
 
 
 def delete_schedules(context):
+    log.info('Deleting schedule...')
     api_token = get_api_token(context)
     headers = {'Authorization': api_token}
 
