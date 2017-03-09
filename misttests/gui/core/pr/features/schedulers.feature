@@ -4,7 +4,7 @@ Feature: Schedulers
   @scheduler-add-interval
   Scenario: Add schedule
     Given I am logged in to mist.core
-    And "Docker" cloud has been added
+    And cloud Docker has been added
     When I visit the Machines page
     Then "machine1-ui-testing" machine state has to be "running" within 10 seconds
     When I visit the Schedules page
