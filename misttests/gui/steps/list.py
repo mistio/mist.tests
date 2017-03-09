@@ -76,7 +76,7 @@ def get_machine(context, name):
         machines = placeholder.find_elements_by_tag_name("list-item")
         for machine in machines:
             machine_text = safe_get_element_text(machine)
-            if name == machine_text:
+            if name in machine_text:
                 return machine
         return None
     except NoSuchElementException:
