@@ -64,4 +64,3 @@ Feature: Schedulers
 
 
 # machines-with tags
-# update -machine (from api-test-1 to api-test-2)
