@@ -1,6 +1,5 @@
 Feature: Production-sso-testing
 
-
   @github_sso_signin
   Scenario: Sign in testing with github
     Given I am not logged in to mist.core

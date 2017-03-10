@@ -22,7 +22,6 @@ alert:
     expire_in: 7 days
     when: always
 
-
 sso_logins:
   image: gcr.io/mist-ops/tests_base
   stage: test
@@ -36,6 +35,69 @@ sso_logins:
     - pip install -e .
   script:
     - python prepare_env.py -k --tags=google_sso_signin,github_sso_signin misttests/gui/core/mayday/features
+  artifacts:
+    paths:
+      - js_console.log
+      - error*
+      - test.mp4
+    expire_in: 7 days
+    when: always
+
+celery:
+  image: gcr.io/mist-ops/tests_base
+  stage: test
+  tags:
+    - shm
+  only:
+    - triggers
+  before_script:
+    - echo $MAYDAY_SETTINGS | base64 -d > test_settings.py
+    - export DISPLAY=:1.0
+    - pip install -e .
+  script:
+    - python prepare_env.py -k --tags=celery misttests/gui/core/mayday/features
+  artifacts:
+    paths:
+      - js_console.log
+      - error*
+      - test.mp4
+    expire_in: 7 days
+    when: always
+
+ssh:
+  image: gcr.io/mist-ops/tests_base
+  stage: test
+  tags:
+    - shm
+  only:
+    - triggers
+  before_script:
+    - echo $MAYDAY_SETTINGS | base64 -d > test_settings.py
+    - export DISPLAY=:1.0
+    - pip install -e .
+  script:
+    - python prepare_env.py -k --tags=ssh misttests/gui/core/mayday/features
+  artifacts:
+    paths:
+      - js_console.log
+      - error*
+      - test.mp4
+    expire_in: 7 days
+    when: always
+
+graph:
+  image: gcr.io/mist-ops/tests_base
+  stage: test
+  tags:
+    - shm
+  only:
+    - triggers
+  before_script:
+    - echo $MAYDAY_SETTINGS | base64 -d > test_settings.py
+    - export DISPLAY=:1.0
+    - pip install -e .
+  script:
+    - python prepare_env.py -k --tags=graph misttests/gui/core/mayday/features
   artifacts:
     paths:
       - js_console.log
