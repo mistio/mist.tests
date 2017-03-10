@@ -1,9 +1,9 @@
 stages:
   - test
 
-run_mayday_test:
-  image: gcr.io/mist-ops/tests_base
+.mayday_tests_template: &mayday_tests_template
   stage: test
+  image: gcr.io/mist-ops/tests_base
   tags:
     - shm
   only:
@@ -12,8 +12,6 @@ run_mayday_test:
     - echo $MAYDAY_SETTINGS | base64 -d > test_settings.py
     - export DISPLAY=:1.0
     - pip install -e .
-  script:
-    - python prepare_env.py -k --tags=graph,ssh,alert,celery,google_sso_signin,github_sso_signin,confirm_alert_email misttests/gui/core/mayday/features
   artifacts:
     paths:
       - js_console.log
@@ -21,3 +19,29 @@ run_mayday_test:
       - test.mp4
     expire_in: 7 days
     when: always
+
+
+alert:
+  <<: *mayday_tests_template
+  script:
+    - python prepare_env.py -k --tags=alert misttests/gui/core/mayday/features
+
+celery:
+  <<: *mayday_tests_template
+  script:
+    - python prepare_env.py -k --tags=celery misttests/gui/core/mayday/features
+
+graph:
+  <<: *mayday_tests_template
+  script:
+    - python prepare_env.py -k --tags=graph misttests/gui/core/mayday/features
+
+sso_logins:
+  <<: *mayday_tests_template
+  script:
+    - python prepare_env.py -k --tags=sso_logins misttests/gui/core/mayday/features
+
+ssh:
+  <<: *mayday_tests_template
+  script:
+    - python prepare_env.py -k --tags=ssh misttests/gui/core/mayday/features
