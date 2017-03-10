@@ -83,4 +83,4 @@ Feature: Schedulers
   Scenario: Check machine's state
     When I visit the Machines page
     Then "machine1-ui-testing" machine state has to be "running" within 20 seconds
-    
+
