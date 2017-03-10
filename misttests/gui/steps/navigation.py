@@ -171,8 +171,7 @@ def go_to_some_page_without_waiting(context, title):
     title = title.lower()
     if title not in ['machines', 'images', 'keys', 'networks', 'tunnels',
                      'scripts', 'schedules', 'templates', 'stacks', 'teams',
-                     'account',
-                     'home']:
+                     'zones', 'account', 'home']:
         raise ValueError('The page given is unknown')
     if title.lower() == 'home':
         context.execute_steps(u'When I click the mist.io button')
@@ -194,7 +193,7 @@ def go_to_some_page_without_waiting(context, title):
 @step(u'I visit the {title} page after the counter has loaded')
 def go_to_some_page_after_loading(context, title):
     """
-    WIll visit one of the basic pages(Machines, Images, Keys, Scripts ,Teams) and has
+    WIll visit one of the basic pages(Machines, Images, Keys, Scripts ,Teams, Zones) and has
     the choice of waiting for the counter to load.
     For now the code will not be very accurate for keys page
     """
@@ -213,11 +212,11 @@ def go_to_some_page_after_counter_loading(context, title, counter_title):
     counter_title = counter_title.lower()
     if title not in ['machines', 'images', 'keys', 'networks', 'tunnels',
                      'scripts', 'templates', 'stacks', 'teams', 'account',
-                     'home']:
+                     'home', 'zones']:
         raise ValueError('The page given is unknown')
     if counter_title not in ['machines', 'images', 'keys', 'networks',
                              'tunnels', 'scripts', 'templates', 'stacks',
-                             'teams']:
+                             'teams', 'zones']:
         raise ValueError('The counter given is unknown')
     context.execute_steps(u'''
         Then I wait for the links in homepage to appear

@@ -79,7 +79,7 @@ def some_counter_loaded(context, counter_title, counter_number, seconds):
     counter_title = counter_title.lower()
     if counter_title not in ['machines', 'images', 'keys', 'networks',
                              'tunnels', 'scripts', 'templates', 'stacks',
-                             'teams']:
+                             'teams', 'zones']:
         raise ValueError('The counter given is unknown')
     try:
         counter = context.browser.find_element_by_css_selector('a#%s.app-sidebar'
@@ -154,7 +154,7 @@ def become_visible_waiting_with_timeout(context, element_id, seconds):
 def check_page_is_visible(context, page_title, seconds):
     page = page_title.lower()
     if page not in ['machines', 'images', 'keys', 'networks', 'tunnels',
-                    'scripts', 'schedules', 'templates', 'stacks', 'teams']:
+                    'scripts', 'schedules', 'templates', 'stacks', 'teams', 'zones']:
         raise ValueError('The page given is unknown')
     element = 'page-%s > page-items > div#content.page-items' % page
     msg = "%s page is not visible after %s seconds" % (page, seconds)
