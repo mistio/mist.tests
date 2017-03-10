@@ -15,3 +15,18 @@ from selenium.webdriver import ActionChains
 from selenium.webdriver.common.keys import Keys
 from behave import step
 from time import sleep, time
+
+
+@step(u'I fill "{value}" as metric value')
+def rule_value(context, value):
+    value_input = context.browser.find_element_by_xpath("//paper-input[@id='metricValue']")
+    actions = ActionChains(context.browser)
+    actions.move_to_element(value_input)
+    actions.click()
+    actions.send_keys(Keys.BACK_SPACE)
+    actions.perform()
+
+    actions.move_to_element(value_input)
+    actions.click()
+    actions.send_keys("0")
+    actions.perform()
