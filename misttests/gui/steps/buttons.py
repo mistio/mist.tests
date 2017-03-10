@@ -251,6 +251,8 @@ def click_button_by_id(context,button):
         button_to_click = context.browser.find_element_by_id('next')
     elif button == 'run_immediately':
         button_to_click = context.browser.find_element_by_id('run_immediately')
+    elif button == 'editTask':
+        button_to_click = context.browser.find_element_by_id('editTask')
     else:
         raise Exception('Unknown type of button')
     assert button_to_click.is_displayed(), "%s button is not displayed" %button

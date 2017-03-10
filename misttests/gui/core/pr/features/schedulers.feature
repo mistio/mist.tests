@@ -59,9 +59,7 @@ Feature: Schedulers
 
   @scheduler-add-run-immediately
   Scenario: Add schedule and run immediately
-    Given I am logged in to mist.core
-    When I visit the Schedules page
-    And I click the button "+"
+    When I click the button "+"
     Then I expect the "schedule" add form to be visible within max 10 seconds
     When I set the value "TestScheduler_2" to field "Name" in "schedule" add form
     And I open the "Task" drop down
@@ -85,4 +83,4 @@ Feature: Schedulers
   Scenario: Check machine's state
     When I visit the Machines page
     Then "machine1-ui-testing" machine state has to be "running" within 20 seconds
-
+    
