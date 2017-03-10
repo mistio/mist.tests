@@ -30,3 +30,17 @@ def rule_value(context, value):
     actions.click()
     actions.send_keys("0")
     actions.perform()
+
+
+@step(u'I delete old mayday emails')
+def delete_old_mayday_emails(context):
+    box = login_email(context)
+    box.select("INBOX")
+    typ, data = box.search(None, 'ALL')
+    if not data[0].split():
+        return
+
+    for num in data[0].split():
+        box.store(num, '+FLAGS', '\\Deleted')
+    box.expunge()
+    logout_email(box)
