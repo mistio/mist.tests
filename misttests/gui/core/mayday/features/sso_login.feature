@@ -1,3 +1,4 @@
+@sso_logins
 Feature: Production-sso-testing
 
   @github_sso_signin
