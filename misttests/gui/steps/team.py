@@ -153,14 +153,14 @@ def add_docker_api_request(context):
     headers = {'Authorization': api_token}
 
     payload = {
-        'title' : "Docker",
-        'provider' : "docker",
-        'docker_host' : context.mist_config['CREDENTIALS']['DOCKER']['host'],
-        'docker_port' : context.mist_config['CREDENTIALS']['DOCKER']['port'],
-        'authentication' : context.mist_config['CREDENTIALS']['DOCKER']['authentication'],
-        'ca_cert_file' : context.mist_config['CREDENTIALS']['DOCKER']['ca'],
-        'key_file' : context.mist_config['CREDENTIALS']['DOCKER']['key'],
-        'cert_file' : context.mist_config['CREDENTIALS']['DOCKER']['cert']
+        'title': "Docker",
+        'provider': "docker",
+        'docker_host': context.mist_config['CREDENTIALS']['DOCKER']['host'],
+        'docker_port': context.mist_config['CREDENTIALS']['DOCKER']['port'],
+        'authentication': context.mist_config['CREDENTIALS']['DOCKER']['authentication'],
+        'ca_cert_file': context.mist_config['CREDENTIALS']['DOCKER']['ca'],
+        'key_file': context.mist_config['CREDENTIALS']['DOCKER']['key'],
+        'cert_file': context.mist_config['CREDENTIALS']['DOCKER']['cert']
     }
 
-    requests.post(context.mist_config['MIST_URL'] + "/api/v1/clouds", data=json.dumps(payload), headers=headers)
+    response = requests.post(context.mist_config['MIST_URL'] + "/api/v1/clouds", data=json.dumps(payload), headers=headers)
