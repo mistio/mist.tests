@@ -5,8 +5,8 @@ Feature: Schedulers
   Scenario: Add schedule
     Given I am logged in to mist.core
 #    Given cloud Docker has been added
-    When I visit the Machines page
-    Then "machine2-ui-testing" machine state has to be "running" within 10 seconds
+#    When I visit the Machines page
+#    Then "machine2-ui-testing" machine state has to be "running" within 10 seconds
     When I visit the Schedules page
     And I click the button "+"
     Then I expect the "schedule" add form to be visible within max 10 seconds
@@ -20,12 +20,12 @@ Feature: Schedulers
     And I select the "machine2-ui-testing" checkbox
     And I select "Crontab" from "schedule_type" radio-group
     #When I set the value "2" to field "Maximum Run Count" in "schedule" add form
-    And I set the value "*****" to field "Crontab" in "schedule" add form
+    And I set the value "* * * * *" to field "Crontab" in "schedule" add form
     And I click the button "Add" in "schedule" add form
     And I wait for 1 seconds
     When I visit the Home page
     And I visit the Schedules page
-    Then "TestScheduler" schedule should be present within 3 seconds
+    Then "TestScheduler" schedule should be present within 5 seconds
 
 #  @scheduler-add-run-script
 #  Scenario: Add a script that will be used for the scheduler
