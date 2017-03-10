@@ -1,14 +1,7 @@
-from misttests.gui.steps.graphs import *
-from misttests.gui.steps.machines import *
-from misttests.gui.steps.popups import *
-from misttests.gui.steps.modals import *
 from misttests.gui.steps.ssh import *
-from misttests.gui.steps.utils import focus_on_element
 
-from selenium.webdriver import ActionChains
-from selenium.webdriver.common.keys import Keys
 from behave import step
-from time import sleep, time
+from time import sleep
 
 
 @step(u'I search for the mayday machine')
