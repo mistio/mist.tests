@@ -163,7 +163,6 @@ def delete_schedules(context):
     headers = {'Authorization': api_token}
 
     response = requests.get("%s/api/v1/schedules" % context.mist_config['MIST_URL'], headers=headers)
-    import ipdb;ipdb.set_trace()
     for schedule in response.json():
         uri = context.mist_config['MIST_URL'] + '/api/v1/schedules/' + schedule['id']
         requests.delete(uri, headers=headers)
