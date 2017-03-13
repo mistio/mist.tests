@@ -25,5 +25,5 @@ Feature: Add second-tier clouds in Polymist
     | NephoScale     |
     | Rackspace      |
     | GCE            |
-    | SoftLayer      |
 #    | Packet         | -- tested @ rbac-rules
+#    | Softlayer         | -- tested @ rbac-rules
