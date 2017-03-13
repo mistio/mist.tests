@@ -3,12 +3,7 @@ from behave import step
 from time import time
 from time import sleep
 
-from .machines import comparisons
-
-from .utils import safe_get_element_text
-
 from selenium.webdriver.common.by import By
-from selenium.webdriver.common.action_chains import ActionChains
 
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.support.ui import WebDriverWait
@@ -63,9 +58,6 @@ def wait_for_graph_to_appear(context, graph_title, seconds):
 
 @step(u'"{graph_title}" graph should have some values')
 def graph_some_value(context, graph_title):
-    """
-     Checks the graph to see if there is anything drawn
-    """
     graph_title = graph_title.lower()
     graph_xpath = '[id^="%s-"]' % graph_title
 
