@@ -5,7 +5,7 @@ Feature: RBAC
   Scenario: Owner creates a new organization and adds a Softlayer cloud
     Given rbac members, organization and team are initialized
     Given I am logged in to mist.core
-    Given "Packet" cloud has been added
+    Given "SoftLayer" cloud has been added
 
   @add-member1
   Scenario: Add member1
