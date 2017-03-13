@@ -9,19 +9,11 @@ from random import randrange
 from .utils import safe_get_element_text
 
 from .buttons import clicketi_click
-from .buttons import click_button_from_collection
 
-# from .tags import check_the_tags
-
-from selenium.webdriver.common.by import By
 from selenium.webdriver.common.keys import Keys
 
 from selenium.webdriver import ActionChains
 
-from selenium.webdriver.support import expected_conditions as EC
-from selenium.webdriver.support.ui import WebDriverWait
-
-from selenium.common.exceptions import TimeoutException
 from selenium.common.exceptions import NoSuchElementException
 from selenium.common.exceptions import StaleElementReferenceException
 
@@ -67,92 +59,16 @@ def key_appears(context, key, seconds):
     assert False, "Key %s did not appear after %s seconds" % (key,seconds)
 
 
-@step(u'I wait for max {seconds} seconds until tag with key "{key}" and value'
-      u' "{value}" is available')
-def wait_for_tags(context, seconds, key,value):
-    timeout = time() + int(seconds)
-    while time() < timeout:
-        try:
-            check_the_tags(context, key, value)
-            return
-        except:
-            sleep(1)
-    assert False, "Tag with key %s and value %s was not available after %s" \
-                  " seconds" % (key. value, seconds)
-
-
-@step(u'I check the sorting by "{sorting_field}"')
-def check_sorting(context, sorting_field):
-    """
-    Check the sorting for name, state or cloud in the machines list. This
-    function checks basically if the machines have the desired vertical
-
-    """
-    sorting_field = sorting_field.lower()
-    machines_elements = context.browser.find_elements_by_css_selector(
-        '#machine-list li.checkbox-link ')
-    machines = []
-    for machine in machines_elements:
-        name = safe_get_element_text(
-            machine.find_element_by_class_name('machine-name')).lower()
-        state = safe_get_element_text(
-            machine.find_element_by_class_name('machine-state')).lower()
-        if state == '':
-            state = 'unknown'
-        cloud = safe_get_element_text(machine.find_element_by_css_selector(
-            '.machine-tags .tag:first-child')).lower()
-        machines.append((name, state, cloud, machine.location['y']))
-
-    # sort the list of machine tuples
-    if sorting_field == 'name':
-        machines = sorted(machines, key=lambda x: x[0])
-    elif sorting_field == 'state':
-        machines = sorted(machines, key=lambda x: x[1],
-                          cmp=lambda x, y: machine_states_ordering[y] -
-                                           machine_states_ordering[x])
-    elif sorting_field == 'cloud':
-        machines = sorted(machines, key=lambda x: x[2])
-
-    # make sure that the list is also sorted by element height
-    for i in range(len(machines) - 1):
-        assert machines[i][3] < machines[i + 1][3], "Machine list is not" \
-                                                    " properly sorted by %s." \
-                                                    " Expected field was %s " \
-                                                    "and actual field was " \
-                                                    "%s" % (sorting_field,
-                                                            machines[i],
-                                                            machines[i + 1])
-
-
 @step(u'I clear the machines search bar')
 def clear_machines_search_bar(context):
     clear_button = context.browser.find_element_by_xpath("//iron-icon[@icon='close']")
     clicketi_click(context, clear_button)
 
+
 @step(u'I open the actions dialog')
 def open_actions_dialog_from_list(context):
     button = context.browser.find_element_by_xpath("//iron-icon[@icon='more-vert']")
     clicketi_click(context, button)
-
-@step(u'I fill in a "{name}" machine name')
-def fill_machine_mame(context, name):
-    """
-    This step will create a random machine name and a suitable name for an
-    accompanying ssh key and will update the context.
-    """
-    if 'random' in name or context.mist_config.get(name):
-        if not context.mist_config.get(name):
-            if 'random ' in name:
-                name = name.lstrip('random ')
-            machine_name = context.mist_config[name] = "testlikeapro%s" % randrange(10000)
-        else:
-            machine_name = context.mist_config[name]
-    else:
-        machine_name = name
-    textfield = context.browser.find_element_by_id("create-machine-name")
-    textfield.send_keys(machine_name)
-    context.mist_config[name + "_machine_key"] = machine_name + "_key"
-    sleep(1)
 
 
 @step(u'I choose the "{name}" machine')
