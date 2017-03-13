@@ -1,7 +1,1 @@
-# GUI:
-
-# CORE
-
-# IO
-
-# MISC
+# GUI: CORE + MISC
