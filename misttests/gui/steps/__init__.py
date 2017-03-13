@@ -1,9 +1,7 @@
-# GUI
+# GUI:
 
 # CORE
 
 # IO
 
 # MISC
-
-# STEPS
