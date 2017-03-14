@@ -136,52 +136,28 @@ Feature: RBAC
   @member1-delete-cloud-fail
   Scenario: Member 1 should not be able to delete cloud
     When I wait for 2 seconds
-    When I open the cloud menu for "SoftLayer"
+    And I open the cloud menu for "SoftLayer"
     And I click the "delete cloud" button
-    And I expect the dialog "Delete SoftLayer" is open within 4 seconds
-    And I click the "Delete" button in the dialog "Delete SoftLayer"
-    And I expect the dialog "Delete SoftLayer" is closed within 4 seconds
-    And I wait for 3 seconds
-    Then I visit the Home page
+    Then I expect the dialog "Delete SoftLayer" is open within 4 seconds
+    When I click the "Delete" button in the dialog "Delete SoftLayer"
+    Then I expect the dialog "Delete SoftLayer" is closed within 4 seconds
+    When I wait for 3 seconds
+    And I visit the Home page
     # deletion did not work
     Then I should have 2 clouds added
 
   @member1-edit-script-success
   Scenario: Member 1 should be able to edit the script
     When I visit the Scripts page
-    Then I click the "TestScript" "script"
-    And I expect the "script" edit form to be visible within max 5 seconds
-    Then I click the button "Edit Script" from the menu of the "script" edit form
-    And I expect the dialog "Edit Script" is open within 4 seconds
+    And I click the "TestScript" "script"
+    Then I expect the "script" edit form to be visible within max 5 seconds
+    When I click the button "Edit Script" from the menu of the "script" edit form
+    Then I expect the dialog "Edit Script" is open within 4 seconds
     When I set the value "Second" to field "Name" in "Edit Script" dialog
     And I click the "Submit" button in the dialog "Edit Script"
-    And I expect the dialog "Edit Script" is closed within 4 seconds
-    Then I visit the Home page
+    Then I expect the dialog "Edit Script" is closed within 4 seconds
+    When I visit the Home page
     And I wait for 2 seconds
-    Then I visit the Scripts page
-    And "TestScript" script should be absent within 5 seconds
+    And I visit the Scripts page
+    Then "TestScript" script should be absent within 5 seconds
     And "Second" script should be present within 5 seconds
-
-#  @manage-rules
-#  Scenario: Manage team rules
-#    When I visit the teams page
-#    When I click the "Rbac Test Team" "team"
-#    And I expect the "policy" edit form to be visible within max 5 seconds
-#    When I focus on the button "Add a new rule" in "policy" edit form
-#    Then I click the button "Add a new rule" in "policy" edit form
-#    And I wait for 1 seconds
-#    Then I add the rule "ALLOW" "machine" "all" where tags = "bla=bla"
-#    When I focus on the button "Add a new rule" in "policy" edit form
-#    Then I click the button "Add a new rule" in "policy" edit form
-#    And I wait for 1 seconds
-#    Then I add the rule always "ALLOW" "cloud" "all"
-#    When I focus on the button "Add a new rule" in "policy" edit form
-#    Then I click the button "Add a new rule" in "policy" edit form
-#    And I wait for 1 seconds
-#    Then I add the rule "DENY" "key" "edit" where id = "PolicyKey"
-#    And I click the button "Save Policy" in "policy" edit form
-#    Then I wait for 3 seconds
-#    Given rule "0" is "ALLOW" "machine" "all" where tags = "bla=bla"
-#    Given rule "1" is "ALLOW" "cloud" "all" always
-#    Given rule "2" is "DENY" "key" "edit" where id = "PolicyKey"
-#    Then I logout
