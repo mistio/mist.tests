@@ -144,11 +144,6 @@ def wait_for_dashboard(context):
 
 @step(u'I visit the {title} page')
 def go_to_some_page_without_waiting(context, title):
-    """
-    WIll visit one of the basic pages(Machines, Images, Keys, Scripts) without
-    waiting for the counter or the list on the page to load.
-    For now the code will not be very accurate for keys page
-    """
     title = title.lower()
     if title not in ['machines', 'images', 'keys', 'networks', 'tunnels',
                      'scripts', 'schedules', 'templates', 'stacks', 'teams',
@@ -174,22 +169,12 @@ def go_to_some_page_without_waiting(context, title):
 
 @step(u'I visit the {title} page after the counter has loaded')
 def go_to_some_page_after_loading(context, title):
-    """
-    WIll visit one of the basic pages(Machines, Images, Keys, Scripts ,Teams) and has
-    the choice of waiting for the counter to load.
-    For now the code will not be very accurate for keys page
-    """
     context.execute_steps(u'When I visit the %s page after the %s counter has'
                           u' loaded' % (title, title))
 
 
 @step(u'I visit the {title} page after the {counter_title} counter has loaded')
 def go_to_some_page_after_counter_loading(context, title, counter_title):
-    """
-    WIll visit one of the basic pages(Machines, Images, Keys, Scripts) and has
-    the choice of waiting for some of the counters to load
-    For now the code will not be very accurate for keys page
-    """
     title = title.lower()
     counter_title = counter_title.lower()
     if title not in ['machines', 'images', 'keys', 'networks', 'tunnels',
@@ -220,7 +205,6 @@ def visit_machines_url(context):
 def given_logged_in(context):
     try:
         context.browser.find_element_by_tag_name("mist-app")
-        # we're on the new UI
         return
     except:
         pass
@@ -343,38 +327,6 @@ def logout(context):
         sleep(1)
 
     assert False, "User menu has not appeared yet"
-
-
-@step(u'I wait for "{title}" list page to load')
-def wait_for_some_list_page_to_load(context, title):
-    if title not in ['Machines', 'Images', 'Keys', 'Networks', 'Scripts',
-                     'Account', 'Teams']:
-        raise ValueError('The page given is unknown')
-    # Wait for the list page to appear
-    end_time = time() + 5
-    while time() < end_time:
-        try:
-            context.browser.find_element_by_id(
-                '%s-list-page' % title.lower().rpartition(title[-1])[0])
-            break
-        except NoSuchElementException:
-            assert time() + 1 < end_time, "%s list page has not appeared " \
-                                          "after 5 seconds" % title.lower()
-            sleep(1)
-
-    # this code will stop waiting after 5 seconds if nothing appears otherwise
-    # it will stop as soon as a list is loaded
-    end_time = time() + 5
-    while time() < end_time:
-        try:
-            list_of_things = context.browser.find_element_by_id(
-                '%s-list' % title.lower().rpartition(title[-1])[0])
-            lis = list_of_things.find_elements_by_tag_name('li')
-            if len(lis) > 0:
-                break
-        except NoSuchElementException:
-            pass
-        sleep(1)
 
 
 def get_gravatar(context):
