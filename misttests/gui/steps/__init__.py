@@ -1,1 +1,1 @@
-# GUI: CORE + MISC
+# GUI: MISC

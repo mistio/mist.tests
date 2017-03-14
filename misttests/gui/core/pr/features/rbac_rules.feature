@@ -99,9 +99,9 @@ Feature: RBAC
     Given I am logged in to mist.core as rbac_owner
     And I visit the Teams page
     When I click the "Test team" "team"
-    And I expect the "team" edit form to be visible within max 5 seconds
+    Then I expect the "team" edit form to be visible within max 5 seconds
     When I focus on the button "Add a new rule" in "policy" edit form
-    Then I click the button "Add a new rule" in "policy" edit form
+    And I click the button "Add a new rule" in "policy" edit form
     And I wait for 1 seconds
     Then I add the rule always "ALLOW" "cloud" "add"
     And I click the button "Save Policy" in "policy" edit form
@@ -110,7 +110,7 @@ Feature: RBAC
   @allow-edit-script
   Scenario: Allow editing a script
     When I focus on the button "Add a new rule" in "policy" edit form
-    Then I click the button "Add a new rule" in "policy" edit form
+    And I click the button "Add a new rule" in "policy" edit form
     And I wait for 1 seconds
     Then I add the rule always "ALLOW" "script" "edit"
     And I click the button "Save Policy" in "policy" edit form
