@@ -10,8 +10,6 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 
-import requests
-import json
 
 @step(u'I input my "{email}" in the field with id "{element_id}"')
 def give_input_to_a_field(context, email, element_id):

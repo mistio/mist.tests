@@ -16,7 +16,7 @@ def chrome_driver_setup():
     log.info("Checking for chromedriver")
     make_dir_if_no_exist(CHROMEDRIVER_PATH)
 
-    if (os.path.isfile(CHROMEDRIVER_PATH + CHROMEDRIVER)):
+    if os.path.isfile(CHROMEDRIVER_PATH + CHROMEDRIVER):
         log.info("Chromedriver exists in " + CHROMEDRIVER_PATH)
     else:
         log.info("Chromedriver does not exist in" + CHROMEDRIVER_PATH + ". Fetching it...")
@@ -27,10 +27,7 @@ def chrome_driver_setup():
         with zipfile.ZipFile('parts/chromedriver/chrome_driver', "r") as z:
             z.extractall(CHROMEDRIVER_PATH)
 
-    # fix_permissions(CHROMEDRIVER)
     os.chmod("parts/chromedriver/chromedriver", 0744)
-
-    # export path
     os.system("export PATH=" + os.path.join(os.getcwd(), CHROMEDRIVER_PATH) + ":$PATH")
 
     make_dir_if_no_exist(MAIL_DIR)
