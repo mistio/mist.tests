@@ -59,5 +59,3 @@ Feature: Schedulers
   Scenario: Check machine's state
     When I visit the Machines page
     Then "machine2-ui-testing" machine state has to be "stopped" within 75 seconds
-
-  # here verify that by doing ls 'kati' will be at the output

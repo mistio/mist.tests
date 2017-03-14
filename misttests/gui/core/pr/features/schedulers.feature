@@ -29,9 +29,9 @@ Feature: Schedulers
   @scheduler-rename
   Scenario: Rename schedule
     When I click the "TestScheduler" "schedule"
-    And I expect the "schedule" edit form to be visible within max 5 seconds
-    And I click the button "Edit" in "schedule" edit form
-    And I expect the dialog "Edit Schedule" is open within 4 seconds
+    Then I expect the "schedule" edit form to be visible within max 5 seconds
+    When I click the button "Edit" in "schedule" edit form
+    Then I expect the dialog "Edit Schedule" is open within 4 seconds
     When I set the value "RenamedSchedule" to field "Name" in "Edit Schedule" dialog
     And I click the "Save" button in the dialog "Edit Schedule"
     And I expect the dialog "Edit Schedule" is closed within 4 seconds
@@ -83,4 +83,3 @@ Feature: Schedulers
   Scenario: Check machine's state
     When I visit the Machines page
     Then "machine1-ui-testing" machine state has to be "running" within 20 seconds
-
