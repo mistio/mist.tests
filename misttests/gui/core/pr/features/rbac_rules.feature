@@ -29,21 +29,21 @@ Feature: RBAC
     And I click the sign in button in the landing page popup
     Given that I am redirected within 10 seconds
     And I wait for the dashboard to load
-    Then I ensure that I am in the "ORG_NAME" organization context
-    When I visit the Teams page
-    And "Test Team" team should be present within 5 seconds
+    When I ensure that I am in the "ORG_NAME" organization context
+    And I visit the Teams page
+    Then "Test Team" team should be present within 5 seconds
     When I visit the Home page
     Then I should have 0 clouds added
-    Then I logout
+    And I logout
 
    @allow-read-cloud
    Scenario: Allow reading a cloud
     Given I am logged in to mist.core as rbac_owner
     And I visit the Teams page
     When I click the "Test team" "team"
-    And I expect the "team" edit form to be visible within max 5 seconds
+    Then I expect the "team" edit form to be visible within max 5 seconds
     When I focus on the button "Add a new rule" in "policy" edit form
-    Then I click the button "Add a new rule" in "policy" edit form
+    And I click the button "Add a new rule" in "policy" edit form
     And I wait for 1 seconds
     Then I add the rule always "ALLOW" "cloud" "read"
     And I click the button "Save Policy" in "policy" edit form
@@ -52,7 +52,7 @@ Feature: RBAC
   @allow-read-script
   Scenario: Allow reading a script and add a script
     When I focus on the button "Add a new rule" in "policy" edit form
-    Then I click the button "Add a new rule" in "policy" edit form
+    And I click the button "Add a new rule" in "policy" edit form
     And I wait for 1 seconds
     Then I add the rule always "ALLOW" "script" "read"
     And I click the button "Save Policy" in "policy" edit form
@@ -63,10 +63,10 @@ Feature: RBAC
   @member1-view-cloud-success
   Scenario: Verify that member1 can view a cloud
     Given I am logged in to mist.core as rbac_member1
-    Then I ensure that I am in the "ORG_NAME" organization context
+    And I ensure that I am in the "ORG_NAME" organization context
     When I visit the Teams page
-    And "Test Team" team should be present within 5 seconds
-    Then I visit the Home page
+    Then "Test Team" team should be present within 5 seconds
+    When I visit the Home page
     Then I should have 1 clouds added
 
   @member1-add-cloud-fail
@@ -78,9 +78,9 @@ Feature: RBAC
     When I use my "Vultr" credentials
     And I focus on the button "Add Cloud" in "cloud" add form
     And I click the button "Add Cloud" in "cloud" add form
-    Then I wait for 2 seconds
-    Then I visit the Home page
-    Then I wait for the dashboard to load
+    And I wait for 2 seconds
+    And I visit the Home page
+    And I wait for the dashboard to load
     Then I should have 1 clouds added
 
   @member1-view-script-success
@@ -92,16 +92,6 @@ Feature: RBAC
   @member1-edit-script-fail
   Scenario: Member 1 should not be able to edit the script
     And I expect the "script" edit form to be visible within max 5 seconds
-#    Then I click the button "Edit Script" from the menu of the "script" edit form
-#    And I expect the dialog "Edit Script" is open within 4 seconds
-#    When I set the value "Second" to field "Name" in "Edit Script" dialog
-#    And I click the "Submit" button in the dialog "Edit Script"
-#    And I expect the dialog "Edit Script" is closed within 4 seconds
-#    Then I visit the Home page
-#    And I wait for 2 seconds
-#    Then I visit the Scripts page
-#    And "TestScript" script should be present within 5 seconds
-#    And "Second" script should be absent within 5 seconds
     Then I logout
 
   @allow-add-cloud
