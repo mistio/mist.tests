@@ -7,10 +7,11 @@ Feature: Login Scenarios and Api Token
     When I visit the Account page
     And I wait for 3 seconds
     Then I click the "API Tokens" button
-    #When I revoke all api tokens # needs to be fixed in the backend
+    # below needs to be fixed in the backend
+    # When I revoke all api tokens
     Then I click the "Create API Token" button
-    #Create a step that checks if popup with id is open
-    #And I expect for "createTokenDialog" popup to appear within max 4 seconds
+    # create a step that checks if popup with id is open
+    # And I expect for "createTokenDialog" popup to appear within max 4 seconds
     And I wait for 2 seconds
     Then I type "Test token" in input with id "tokenName"
     And I wait for 1 seconds
@@ -33,9 +34,9 @@ Feature: Login Scenarios and Api Token
     And I enter my standard credentials for signup
     And I click the sign up button in the landing page popup
     Then I should receive an email at the address "EMAIL" with subject "[mist.io] Confirm your registration" within 30 seconds
-    Then I follow the link inside the email
+    When I follow the link inside the email
     And I delete old emails
-    When I enter my standard credentials for signup_password_set
+    And I enter my standard credentials for signup_password_set
     And I click the go button in the landing page popup
     Then I wait for the dashboard to load
     And I logout
@@ -50,7 +51,7 @@ Feature: Login Scenarios and Api Token
   @invalid-credentials
   Scenario: 'Unauthorized' message should appear
     When I visit mist.core
-    When I open the login popup
+    And I open the login popup
     And I wait for 3 seconds
     And I enter my alt credentials for login
     And I click the sign in button in the landing page popup

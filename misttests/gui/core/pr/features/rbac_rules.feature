@@ -10,22 +10,21 @@ Feature: RBAC
   @add-member1
   Scenario: Add member1
     When I visit the Teams page
-    When I click the "Test team" "team"
-    And I expect the "team" edit form to be visible within max 5 seconds
-    Then I click the button "Invite Members" in "team" edit form
-    And I expect the "members" add form to be visible within max 5 seconds
+    And I click the "Test team" "team"
+    Then I expect the "team" edit form to be visible within max 5 seconds
+    When I click the button "Invite Members" in "team" edit form
+    Then I expect the "members" add form to be visible within max 5 seconds
     When I set the value "MEMBER1_EMAIL" to field "Emails" in "members" add form
     Then I expect for the button "Add" in "members" add form to be clickable within 2 seconds
-    And I click the button "Add" in "members" add form
-    And I expect the "team" edit form to be visible within max 5 seconds
-    Then user with email "MEMBER1_EMAIL" should be pending
+    When I click the button "Add" in "members" add form
+    Then I expect the "team" edit form to be visible within max 5 seconds
+    And user with email "MEMBER1_EMAIL" should be pending
     Then I logout
 
   @view-cloud-fail
   Scenario: Verify that member1 cannot view the cloud added above
     Then I should receive an email at the address "MEMBER1_EMAIL" with subject "[mist.io] Confirm your invitation" within 30 seconds
     And I follow the link inside the email
-#    Then I click the email button in the landing page popup
     Then I enter my rbac_member1 credentials for login
     And I click the sign in button in the landing page popup
     Given that I am redirected within 10 seconds
