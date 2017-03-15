@@ -217,25 +217,16 @@ class MistIoApi(object):
 
     def machine_monitoring(self, cloud_id, machine_id, cookie=None,
                            csrf_token=None, api_token=None, action=''):
-        data={}
+        data = {}
         if action:
-            data= {'action': action}
-        uri = self.uri + '/api/v1/clouds/' + cloud_id + '/machines/' + machine_id + '/monitoring'
+            data = {'action': action}
+        uri = self.uri + '/api/v1/clouds/' + cloud_id + \
+            '/machines/' + machine_id + '/monitoring'
         req = MistRequests(uri=uri, cookie=cookie, data=data,
                            csrf_token=csrf_token, api_token=api_token)
 
         req.get = req.unavailable_api_call
         req.put = req.unavailable_api_call
-        req.delete = req.unavailable_api_call
-        return req
-
-    def associate_key(self, api_token, cloud_id, machine_id, key_id):
-        uri = self.uri + '/api/v1/clouds/%s/machines/%s/keys/%s' \
-                         '' % (cloud_id, machine_id, key_id)
-        req = MistRequests(uri=uri, api_token=api_token)
-
-        req.get = req.unavailable_api_call
-        req.post = req.unavailable_api_call
         req.delete = req.unavailable_api_call
         return req
 
@@ -252,14 +243,14 @@ class MistIoApi(object):
         return req
 
     def add_key(self, name, private, cookie=None, csrf_token=None,
-                api_token=None, isDefault = ''):
+                api_token=None, is_default=''):
         payload = {
             'name': name,
             'priv': private
         }
 
-        if isDefault:
-            payload.update({'isDefault': isDefault})
+        if is_default:
+            payload.update({'isDefault': is_default})
         req = MistRequests(uri=self.uri + '/api/v1/keys', cookie=cookie,
                            data=json.dumps(payload),
                            csrf_token=csrf_token, api_token=api_token)
@@ -308,9 +299,9 @@ class MistIoApi(object):
 
     def get_private_key(self, key_id, cookie=None, csrf_token=None,
                         api_token=None):
-        req = MistRequests(uri=self.uri + '/api/v1/keys/' + key_id + '/private',
-                           cookie=cookie, csrf_token=csrf_token,
-                           api_token=api_token)
+        req = MistRequests(uri=self.uri + '/api/v1/keys/' + key_id +
+                           '/private', cookie=cookie,
+                           csrf_token=csrf_token, api_token=api_token)
         req.post = req.unavailable_api_call
         req.put = req.unavailable_api_call
         req.delete = req.unavailable_api_call
@@ -336,6 +327,10 @@ class MistIoApi(object):
         req.delete = req.unavailable_api_call
         return req
 
+    #################################################
+    #                    SCRIPTS                    #
+    #################################################
+
     def add_script(self, api_token, script_data, script=None,
                    entrypoint=None, description=None):
         data = {}
@@ -348,8 +343,8 @@ class MistIoApi(object):
         if description is not None:
             data['description'] = description
 
-        req = MistRequests(uri=self.uri + '/api/v1/scripts', api_token=api_token,
-                           data=data)
+        req = MistRequests(uri=self.uri + '/api/v1/scripts',
+                           api_token=api_token, data=data)
         req.get = req.unavailable_api_call
         req.delete = req.unavailable_api_call
         req.put = req.unavailable_api_call
@@ -364,7 +359,8 @@ class MistIoApi(object):
         return req
 
     def list_scripts(self, api_token):
-        req = MistRequests(uri=self.uri + '/api/v1/scripts', api_token=api_token)
+        req = MistRequests(uri=self.uri + '/api/v1/scripts',
+                           api_token=api_token)
         req.post = req.unavailable_api_call
         req.delete = req.unavailable_api_call
         req.put = req.unavailable_api_call
@@ -374,7 +370,6 @@ class MistIoApi(object):
         data = {'new_name': new_name}
         if new_description:
             data.update({'new_description': new_description})
-
         req = MistRequests(uri=self.uri + '/api/v1/scripts/%s' % script_id,
                            api_token=api_token, data=data)
         req.get = req.unavailable_api_call
@@ -404,7 +399,8 @@ class MistIoApi(object):
         return req
 
     def download_script(self, api_token, script_id):
-        req = MistRequests(uri=self.uri + '/api/v1/scripts/%s/file' % script_id,
+        req = MistRequests(uri=self.uri + '/api/v1/scripts/%s/file'
+                                          % script_id,
                            api_token=api_token)
         req.delete = req.unavailable_api_call
         req.post = req.unavailable_api_call
@@ -427,4 +423,66 @@ class MistIoApi(object):
         req.get = req.unavailable_api_call
         req.post = req.unavailable_api_call
         req.put = req.unavailable_api_call
+        return req
+
+    #################################################
+    #                   SCHEDULES                   #
+    #################################################
+
+    def list_schedules(self, api_token):
+        req = MistRequests(uri=self.uri + '/api/v1/schedules',
+                           api_token=api_token)
+        req.post = req.unavailable_api_call
+        req.delete = req.unavailable_api_call
+        req.put = req.unavailable_api_call
+        return req
+
+    def add_schedule(self, api_token, name, schedule_type, schedule_entry='',
+                     description='', machines_uuids=[], machines_tags=[],
+                     task_enabled=True, expires='', script_id='', action='',
+                     max_run_count='', run_immediately=False):
+        data = {
+            'machines_uuids': machines_uuids,
+            'name': name,
+            'description': description,
+            'machines_tags': machines_tags,
+            'schedule_type': schedule_type,
+            'schedule_entry': schedule_entry,
+            'task_enabled': task_enabled,
+            'action': action,
+            'script_id': script_id,
+            'expires': expires,
+            'max_run_count': max_run_count,
+            'run_immediately': run_immediately
+        }
+        req = MistRequests(uri=self.uri + '/api/v1/schedules', api_token=api_token,
+                           data=json.dumps(data))
+        req.delete = req.unavailable_api_call
+        req.get = req.unavailable_api_call
+        req.put = req.unavailable_api_call
+        return req
+
+    def delete_schedule(self, api_token, schedule_id):
+        req = MistRequests(uri=self.uri + '/api/v1/schedules/' + schedule_id,
+                           api_token=api_token)
+        req.post = req.unavailable_api_call
+        req.get = req.unavailable_api_call
+        req.put = req.unavailable_api_call
+        return req
+
+    def edit_schedule(self, api_token, schedule_id, data=''):
+        req = MistRequests(uri=self.uri + '/api/v1/schedules/' + schedule_id,
+                           api_token=api_token, data=data)
+        req.post = req.unavailable_api_call
+        req.get = req.unavailable_api_call
+        req.put = req.unavailable_api_call
+        req.delete = req.unavailable_api_call
+        return req
+
+    def show_schedule(self, api_token, schedule_id):
+        req = MistRequests(uri=self.uri + '/api/v1/schedules/' + schedule_id,
+                           api_token=api_token)
+        req.post = req.unavailable_api_call
+        req.put = req.unavailable_api_call
+        req.delete = req.unavailable_api_call
         return req
