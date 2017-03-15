@@ -6,78 +6,6 @@ from misttests.api.mistrequests import MistRequests
 
 
 class MistCoreApi(MistIoApi):
-    def add_cronjob_entry(self, name, machines_per_cloud, enabled,
-                          cronjob_type, cronjob_entry, api_token,
-                          expires='', script_id='', action=''):
-        data = {
-            'name': name,
-            'script_id': script_id,
-            'action': action,
-            'machines_per_cloud': machines_per_cloud,
-            'enabled': enabled,
-            'expires': expires,
-            'cronjob_type': cronjob_type,
-            'cronjob_entry': cronjob_entry
-        }
-        req = MistRequests(uri=self.uri + '/api/v1/cronjobs',
-                           data=json.dumps(data), api_token=api_token)
-        req.get = req.unavailable_api_call
-        req.delete = req.unavailable_api_call
-        req.put = req.unavailable_api_call
-        return req
-
-    def edit_cronjob_entry(self, name, machines_per_cloud, enabled,
-                           cronjob_type, cronjob_entry, cronjob_id, api_token,
-                           expires='', script_id='', action=''):
-        data = {
-            'name': name,
-            'script_id': script_id,
-            'action': action,
-            'machines_per_cloud': machines_per_cloud,
-            'enabled': enabled,
-            'expires': expires,
-            'cronjob_type': cronjob_type,
-            'cronjob_entry': cronjob_entry
-        }
-
-        req = MistRequests(uri=self.uri + '/api/v1/cronjobs/' + cronjob_id,
-                           data=json.dumps(data), api_token=api_token)
-        req.get = req.unavailable_api_call
-        req.delete = req.unavailable_api_call
-        req.post = req.unavailable_api_call
-        return req
-
-    def list_cronjobs_entries(self, api_token):
-        req = MistRequests(uri=self.uri + '/api/v1/cronjobs', api_token=api_token)
-        req.post = req.unavailable_api_call
-        req.delete = req.unavailable_api_call
-        req.put = req.unavailable_api_call
-        return req
-
-    def show_cronjobs_entry(self, cronjob_id, api_token):
-        req = MistRequests(uri=self.uri + '/api/v1/cronjobs/' + cronjob_id,
-                           api_token=api_token)
-        req.post = req.unavailable_api_call
-        req.delete = req.unavailable_api_call
-        req.put = req.unavailable_api_call
-        return req
-
-    def delete_cronjob(self, cronjob_id, api_token):
-        req = MistRequests(uri=self.uri + '/api/v1/cronjobs/' + cronjob_id,
-                           api_token=api_token)
-        req.get = req.unavailable_api_call
-        req.post = req.unavailable_api_call
-        req.put = req.unavailable_api_call
-        return req
-
-    def show_job(self, api_token, job_id):
-        req = MistRequests(uri=self.uri + '/api/v1/jobs/%s' % job_id,
-                           api_token=api_token)
-        req.post = req.unavailable_api_call
-        req.delete = req.unavailable_api_call
-        req.put = req.unavailable_api_call
-        return req
-
     def create_org(self, api_token, name=''):
         req = MistRequests(uri=self.uri + '/api/v1/org',
                            json={'name': name},
@@ -296,26 +224,6 @@ class MistCoreApi(MistIoApi):
     def list_orgs(self, api_token):
         req = MistRequests(uri=self.uri + '/api/v1/orgs', api_token=api_token)
         req.post = req.unavailable_api_call
-        req.put = req.unavailable_api_call
-        req.delete = req.unavailable_api_call
-        return req
-
-    def set_machine_tags(self, api_token, cloud_id, machine_id, tags):
-        resource_data = {
-            'item_id': machine_id,
-            'type': 'machine',
-            'cloud_id': cloud_id
-        }
-        tags_data = []
-        tags_data.append(tags)
-        data = [{
-            'tags': tags_data,
-            'resource': resource_data
-        }]
-        payload = json.dumps(data)
-        req = MistRequests(uri=self.uri + '/api/v1/tags',
-                           data=payload, api_token=api_token)
-        req.get = req.unavailable_api_call
         req.put = req.unavailable_api_call
         req.delete = req.unavailable_api_call
         return req
