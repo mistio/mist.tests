@@ -44,7 +44,7 @@ def add_new_rule(context, operator, rtype='all', raction='all', rid='',
             find_element_by_css_selector('span.action').\
             find_element_by_css_selector('paper-menu-button#menuButton')
         clicketi_click(context, raction_drop)
-        sleep(1)
+        sleep(4)
         click_button_from_collection(context, raction,
                                      raction_drop.find_elements_by_tag_name('paper-item'))
 
