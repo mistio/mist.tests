@@ -137,7 +137,7 @@ Feature: RBAC
   Scenario: Member 1 should not be able to delete cloud
     When I wait for 2 seconds
     And I open the cloud menu for "SoftLayer"
-    And I click the "delete cloud" button with id "delete-cloud"
+    And I click the "delete cloud" button
     Then I expect the dialog "Delete SoftLayer" is open within 4 seconds
     When I click the "Delete" button in the dialog "Delete SoftLayer"
     Then I expect the dialog "Delete SoftLayer" is closed within 4 seconds
