@@ -8,16 +8,21 @@ class MistIoApi(object):
     def __init__(self, uri):
         self.uri = uri
 
+    #################################################
+    #                     CLOUDS                    #
+    #################################################
+
     def supported_providers(self, api_token=None):
-        req = MistRequests(uri=self.uri + '/api/v1/providers', api_token=api_token)
+        req = MistRequests(uri=self.uri + '/api/v1/providers',
+                           api_token=api_token)
         req.post = req.unavailable_api_call
         req.put = req.unavailable_api_call
         req.delete = req.unavailable_api_call
         return req
 
     def list_clouds(self, api_token=None):
-
-        req = MistRequests(uri=self.uri + '/api/v1/clouds', api_token=api_token)
+        req = MistRequests(uri=self.uri + '/api/v1/clouds',
+                           api_token=api_token)
         req.post = req.unavailable_api_call
         req.put = req.unavailable_api_call
         req.delete = req.unavailable_api_call
@@ -29,8 +34,8 @@ class MistIoApi(object):
             'provider': provider
         }
         payload.update(kwargs)
-        req = MistRequests(uri=self.uri + '/api/v1/clouds', data=json.dumps(payload),
-                           api_token=api_token)
+        req = MistRequests(uri=self.uri + '/api/v1/clouds',
+                           data=json.dumps(payload), api_token=api_token)
         req.get = req.unavailable_api_call
         req.put = req.unavailable_api_call
         req.delete = req.unavailable_api_call
@@ -49,8 +54,9 @@ class MistIoApi(object):
 
     def delete_cloud(self, cloud_id, cookie=None, csrf_token=None,
                      api_token=None):
-        req = MistRequests(uri=self.uri + '/api/v1/clouds/' + cloud_id, cookie=cookie,
-                           csrf_token=csrf_token, api_token=api_token)
+        req = MistRequests(uri=self.uri + '/api/v1/clouds/' + cloud_id,
+                           cookie=cookie, csrf_token=csrf_token,
+                           api_token=api_token)
         req.get = req.unavailable_api_call
         req.post = req.unavailable_api_call
         req.put = req.unavailable_api_call
@@ -58,11 +64,36 @@ class MistIoApi(object):
 
     def toggle_cloud(self, cloud_id, api_token=None, new_state=None):
         req = MistRequests(uri=self.uri + '/api/v1/clouds/' + cloud_id,
-                           data={'new_state':new_state}, api_token=api_token)
+                           data={'new_state': new_state}, api_token=api_token)
         req.get = req.unavailable_api_call
         req.delete = req.unavailable_api_call
         req.put = req.unavailable_api_call
         return req
+
+    def list_sizes(self, cloud_id, cookie=None, csrf_token=None,
+                   api_token=None):
+        req = MistRequests(uri=self.uri + '/api/v1/clouds/' +
+                           cloud_id + '/sizes', cookie=cookie,
+                           csrf_token=csrf_token, api_token=api_token)
+        req.post = req.unavailable_api_call
+        req.put = req.unavailable_api_call
+        req.delete = req.unavailable_api_call
+        return req
+
+    def list_locations(self, cloud_id, cookie=None, csrf_token=None,
+                       api_token=None):
+        req = MistRequests(uri=self.uri + '/api/v1/clouds/' + cloud_id +
+                           '/locations', cookie=cookie,
+                           csrf_token=csrf_token, api_token=api_token)
+
+        req.post = req.unavailable_api_call
+        req.put = req.unavailable_api_call
+        req.delete = req.unavailable_api_call
+        return req
+
+    #################################################
+    #                     IMAGES                    #
+    #################################################
 
     def list_images(self, cloud_id, search_term=None, cookie=None,
                     csrf_token=None, api_token=None):
@@ -87,27 +118,6 @@ class MistIoApi(object):
         req.get = req.unavailable_api_call
         req.delete = req.unavailable_api_call
         req.put = req.unavailable_api_call
-        return req
-
-    def list_sizes(self, cloud_id, cookie=None, csrf_token=None,
-                   api_token=None):
-        req = MistRequests(uri=self.uri + '/api/v1/clouds/' + cloud_id + '/sizes',
-                           cookie=cookie, csrf_token=csrf_token,
-                           api_token=api_token)
-        req.post = req.unavailable_api_call
-        req.put = req.unavailable_api_call
-        req.delete = req.unavailable_api_call
-        return req
-
-    def list_locations(self, cloud_id, cookie=None, csrf_token=None,
-                       api_token=None):
-        req = MistRequests(uri=self.uri + '/api/v1/clouds/' + cloud_id + '/locations',
-                           cookie=cookie, csrf_token=csrf_token,
-                           api_token=api_token)
-
-        req.post = req.unavailable_api_call
-        req.put = req.unavailable_api_call
-        req.delete = req.unavailable_api_call
         return req
 
     def list_machines(self, cloud_id, cookie=None, csrf_token=None,
