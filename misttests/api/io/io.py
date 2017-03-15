@@ -202,6 +202,26 @@ class MistIoApi(object):
         req.delete = req.unavailable_api_call
         return req
 
+    def set_machine_tags(self, api_token, cloud_id, machine_id, tags):
+        resource_data = {
+            'item_id': machine_id,
+            'type': 'machine',
+            'cloud_id': cloud_id
+        }
+        tags_data = []
+        tags_data.append(tags)
+        data = [{
+            'tags': tags_data,
+            'resource': resource_data
+        }]
+        payload = json.dumps(data)
+        req = MistRequests(uri=self.uri + '/api/v1/tags',
+                           data=payload, api_token=api_token)
+        req.get = req.unavailable_api_call
+        req.put = req.unavailable_api_call
+        req.delete = req.unavailable_api_call
+        return req
+
     def associate_key(self, cloud_id, machine_id, key_id, cookie=None,
                       csrf_token=None, api_token=None):
 
