@@ -1,9 +1,6 @@
 from behave import step
 
 from time import sleep
-from time import time
-
-import re
 
 from .utils import safe_get_element_text
 from .utils import focus_on_element
@@ -32,6 +29,7 @@ def become_visible_waiting_with_timeout(context, element_id, seconds):
         raise TimeoutException("element with id %s did not become clickable "
                                "after %s seconds" % (element_id, seconds))
 
+
 def clicketi_click(context, button):
     """
     trying two different ways of clicking a button because sometimes the
@@ -41,21 +39,7 @@ def clicketi_click(context, button):
     try:
         button.click()
     except WebDriverException:
-        from selenium.webdriver.common import action_chains, keys        # action_chain.move_to_element(button)
-        # action_chain.click()
-        # action_chain.perform()
-        # action = ActionChains(context.browser)
-        #
-        # # open up the developer console, mine on MAC, yours may be diff key combo
-        # action.send_keys(keys.Keys.SHIFT + keys.Keys.CONTROL + 'i')
-        # action.perform()
-        # sleep(3)
-        # # this below ENTER is to rid of the above "i"
-        # action.send_keys(keys.Keys.ENTER)
-        # # inject the JavaScript...
-        # action.send_keys("document.querySelectorAll('landing-sign-in').click()" + keys.Keys.ENTER)
-        # action.perform()
-
+        from selenium.webdriver.common import action_chains, keys
         action_chain = ActionChains(context.browser)
         action_chain.move_to_element(button)
         action_chain.click()
@@ -100,11 +84,6 @@ def search_for_button(context, text, button_collection=None):
         except NoSuchElementException:
             button_collection = context.browser.find_elements_by_class_name('ui-btn')
 
-    # search for button with exactly the same text. sometimes the driver returns
-    # the same element more than once and that's why we return the first
-    # element of the list
-    # also doing some cleaning if the text attribute also sends back texts
-    # of sub elements
     button = filter(lambda el: safe_get_element_text(el).strip().lower() == text,
                     button_collection)
 
