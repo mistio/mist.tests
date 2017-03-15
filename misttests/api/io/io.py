@@ -619,12 +619,6 @@ class MistIoApi(object):
         req.put = req.unavailable_api_call
         return req
 
-    def tokens(self, api_token, **kwargs):
-        req = MistRequests(uri=self.uri + '/api/v1/tokens', data=kwargs,
-                           api_token=api_token)
-        req.put = req.unavailable_api_call
-        return req
-
     def check_token(self, api_token):
         req = MistRequests(uri=self.uri + '/api/v1/ping', api_token=api_token)
         req.put = req.unavailable_api_call
