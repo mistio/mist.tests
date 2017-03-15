@@ -355,7 +355,7 @@ def given_cloud(context, cloud):
         return True
 
     context.execute_steps(u'''
-        When I click the "new cloud button" with id "addBtn"
+        When I click the "new cloud" button with id "addBtn"
         Then I expect the "Cloud" add form to be visible within max 5 seconds
         When I select the "%s" provider
         Then I expect the field "Title" in the cloud add form to be visible within max 4 seconds
