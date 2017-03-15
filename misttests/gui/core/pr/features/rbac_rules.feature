@@ -71,7 +71,7 @@ Feature: RBAC
 
   @member1-add-cloud-fail
   Scenario: Member1 cannot add cloud
-    When I click the new cloud button
+    When I click the "new cloud" button with id "addBtn"
     Then I expect the "Cloud" add form to be visible within max 5 seconds
     When I select the "Vultr" provider
     Then I expect the field "Title" in the cloud add form to be visible within max 4 seconds
@@ -121,7 +121,7 @@ Feature: RBAC
   Scenario: Member 1 should now be able to add cloud
     Given I am logged in to mist.core as rbac_member1
     Then I ensure that I am in the "ORG_NAME" organization context
-    When I click the new cloud button
+    When I click the "new cloud" button with id "addBtn"
     Then I expect the "Cloud" add form to be visible within max 5 seconds
     When I select the "Vultr" provider
     Then I expect the field "Title" in the cloud add form to be visible within max 4 seconds
