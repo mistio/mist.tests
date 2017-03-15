@@ -113,29 +113,34 @@ class MistIoApi(object):
         return req
 
     def star_image(self, cloud_id, image_id, api_token=None):
-        req = MistRequests(uri=self.uri + '/api/v1/clouds/' + cloud_id + '/images/' + image_id,
-                           api_token=api_token)
+        req = MistRequests(uri=self.uri + '/api/v1/clouds/' + cloud_id
+                           + '/images/' + image_id, api_token=api_token)
         req.get = req.unavailable_api_call
         req.delete = req.unavailable_api_call
         req.put = req.unavailable_api_call
         return req
 
+    #################################################
+    #                    MACHINES                   #
+    #################################################
+
     def list_machines(self, cloud_id, cookie=None, csrf_token=None,
                       api_token=None):
-        req = MistRequests(uri=self.uri + '/api/v1/clouds/' + cloud_id + '/machines',
-                           cookie=cookie, csrf_token=csrf_token,
+        req = MistRequests(uri=self.uri + '/api/v1/clouds/' + cloud_id +
+                           '/machines', cookie=cookie, csrf_token=csrf_token,
                            api_token=api_token)
         req.post = req.unavailable_api_call
         req.put = req.unavailable_api_call
         req.delete = req.unavailable_api_call
         return req
 
-    def create_machine(self, cloud_id, key_id, name, provider, location, image, size,
-                       script="", disk=None, image_extra=None, cookie=None,
-                       csrf_token=None, api_token=None, cron_enable=False,
-                       cron_type=None, cron_entry=None, cron_script=None,
-                       cron_name=None, async=False, monitoring=False,
-                       cloud_init="", location_name='', job_id=None):
+    def create_machine(self, cloud_id, key_id, name, provider, location, image,
+                       size, script="", disk=None, image_extra=None,
+                       cookie=None, csrf_token=None, api_token=None,
+                       cron_enable=False, cron_type=None, cron_entry=None,
+                       cron_script=None, cron_name=None, async=False,
+                       monitoring=False, cloud_init="", location_name='',
+                       job_id=None):
         # ! disk and image_extra are required only for Linode
         # ! cronjobs' variables are required only if we want to set a scheduler
         # ! this way cronjob vars pass empty in create machine params
@@ -161,8 +166,9 @@ class MistIoApi(object):
             'cloud_init': cloud_init,
             'job_id': job_id,
         }
-        req = MistRequests(uri=self.uri + '/api/v1/clouds/' + cloud_id + '/machines',
-                           cookie=cookie, data=json.dumps(payload), timeout=600,
+        req = MistRequests(uri=self.uri + '/api/v1/clouds/' +
+                           cloud_id + '/machines', cookie=cookie,
+                           data=json.dumps(payload), timeout=600,
                            csrf_token=csrf_token, api_token=api_token)
 
         req.get = req.unavailable_api_call
@@ -172,7 +178,8 @@ class MistIoApi(object):
 
     def destroy_machine(self, cloud_id, machine_id, cookie=None,
                         csrf_token=None, api_token=None):
-        uri = self.uri + '/api/v1/clouds/' + cloud_id + '/machines/' + machine_id
+        uri = self.uri + '/api/v1/clouds/' + cloud_id + '/machines/'\
+              + machine_id
         req = MistRequests(uri=uri, data={'action': 'destroy'}, cookie=cookie,
                            csrf_token=csrf_token, api_token=api_token)
         req.get = req.unavailable_api_call
@@ -181,11 +188,12 @@ class MistIoApi(object):
         return req
 
     def machine_action(self, cloud_id, machine_id, cookie=None,
-                       csrf_token=None, api_token=None, action = ''):
-        data={}
+                       csrf_token=None, api_token=None, action=''):
+        data = {}
         if action:
-            data= {'action': action}
-        uri = self.uri + '/api/v1/clouds/' + cloud_id + '/machines/' + machine_id
+            data = {'action': action}
+        uri = self.uri + '/api/v1/clouds/' + cloud_id +\
+            '/machines/' + machine_id
         req = MistRequests(uri=uri, cookie=cookie, data=data,
                            csrf_token=csrf_token, api_token=api_token)
 
@@ -197,7 +205,8 @@ class MistIoApi(object):
     def associate_key(self, cloud_id, machine_id, key_id, cookie=None,
                       csrf_token=None, api_token=None):
 
-        uri = self.uri + '/api/v1/clouds/' + cloud_id + '/machines/' + machine_id + '/keys/' + key_id
+        uri = self.uri + '/api/v1/clouds/' + cloud_id + \
+              '/machines/' + machine_id + '/keys/' + key_id
         req = MistRequests(uri=uri, cookie=cookie,
                            csrf_token=csrf_token, api_token=api_token)
 
@@ -207,7 +216,7 @@ class MistIoApi(object):
         return req
 
     def machine_monitoring(self, cloud_id, machine_id, cookie=None,
-                           csrf_token=None, api_token=None, action = ''):
+                           csrf_token=None, api_token=None, action=''):
         data={}
         if action:
             data= {'action': action}
@@ -228,8 +237,11 @@ class MistIoApi(object):
         req.get = req.unavailable_api_call
         req.post = req.unavailable_api_call
         req.delete = req.unavailable_api_call
-
         return req
+
+    #################################################
+    #                      KEYS                     #
+    #################################################
 
     def list_keys(self, cookie=None, csrf_token=None, api_token=None):
         req = MistRequests(uri=self.uri + '/api/v1/keys', cookie=cookie,
