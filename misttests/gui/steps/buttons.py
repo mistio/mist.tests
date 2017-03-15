@@ -206,14 +206,14 @@ def click_mist_io(context):
 
 #TODO: "{button}" and ids should have the exact same name
 
-@step(u'I click the "{button}" button')
+@step(u'I click the "{button}" button with id "{button_id}"')
 def click_button_by_id(context,button):
     if button == 'new cloud':
       button_to_click = context.browser.find_element_by_id('addBtn')
     elif button == 'save title':
-      button_to_click = context.browser.find_element_by_id('rename-cloud')
+      button_to_click = context.browser.find_element_by_id('rename-cloud')#
     elif button == 'delete cloud':
-      button_to_click = context.browser.find_element_by_id('delete-cloud')
+      button_to_click = context.browser.find_element_by_id('delete-cloud')#
     elif button == 'Account':
         button_to_click = context.browser.find_element_by_id('Account')
     elif button == 'API Tokens':
@@ -223,13 +223,13 @@ def click_button_by_id(context,button):
     elif button == 'Create':
         button_to_click = context.browser.find_element_by_id('Create')
     elif button == 'toggle':
-        button_to_click = context.browser.find_element_by_id('enable-disable-cloud')
+        button_to_click = context.browser.find_element_by_id('enable-disable-cloud') #
     elif button == 'enabled':
         button_to_click = context.browser.find_element_by_id('enabled')
     elif button == 'next':
         button_to_click = context.browser.find_element_by_id('next')
     elif button == 'run_immediately':
-        button_to_click = context.browser.find_element_by_id('run_immediately')
+        button_to_click = context.browser.find_element_by_id('run_immediately') #
     else:
         raise Exception('Unknown type of button')
     assert button_to_click.is_displayed(), "%s button is not displayed" %button

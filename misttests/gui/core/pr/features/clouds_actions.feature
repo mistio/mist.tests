@@ -25,7 +25,7 @@ Feature: Cloud actions for polymer
    Scenario: Toggle a cloud
     Given "Docker" cloud has been added
     When I open the cloud menu for "Docker"
-    And I click the "toggle" button
+    And I click the "toggle" button with id "enable-disable-cloud"
     And I wait for 2 seconds
     And I visit the Home page
     And I wait for the dashboard to load
@@ -35,7 +35,7 @@ Feature: Cloud actions for polymer
     When I visit the Home page
     And I wait for the dashboard to load
     And I open the cloud menu for "Docker"
-    And I click the "toggle" button
+    And I click the "toggle" button with id "enable-disable-cloud"
     And I wait for 2 seconds
     And I visit the Home page
     And I wait for the dashboard to load
@@ -49,7 +49,7 @@ Feature: Cloud actions for polymer
 #    Given "Docker" cloud has been added
 #    Then I open the cloud menu for "Docker"
 #    When I rename the cloud "Docker" to "Renamed"
-#    And I click the "save title" button
+#    And I click the "save title" button with id "rename-cloud"
 #    And I wait for 3 seconds
 #    When I visit the Home page
 #    And I wait for the dashboard to load
@@ -58,7 +58,7 @@ Feature: Cloud actions for polymer
   @cloud-delete
   Scenario: Delete a cloud
     When I open the cloud menu for "Docker"
-    And I click the "delete cloud" button
+    And I click the "delete cloud" button with id "delete-cloud"
     Then I expect the dialog "Delete Docker" is open within 4 seconds
     When I click the "Delete" button in the dialog "Delete Docker"
     Then I expect the dialog "Delete Docker" is closed within 4 seconds
