@@ -156,7 +156,7 @@ def go_to_some_page_without_waiting(context, title):
         context.execute_steps(u'''
                 When I click the gravatar
                 And I wait for 2 seconds
-                And I click the "Account" button
+                And I click the "Account" button with id "Account"
                ''')
         return
     else:

@@ -215,7 +215,7 @@ def click_button_by_id(context, button, button_id):
     elif button == 'delete cloud':
       button_to_click = context.browser.find_element_by_id('delete-cloud')#
     elif button == 'Account':
-        button_to_click = context.browser.find_element_by_id('Account')
+        button_to_click = context.browser.find_element_by_id('Account')#
     elif button == 'API Tokens':
         button_to_click = context.browser.find_element_by_id('API Tokens')#
     elif button == 'Create API Token':
