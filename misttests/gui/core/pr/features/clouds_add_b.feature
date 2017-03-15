@@ -6,7 +6,7 @@ Feature: Add second-tier clouds in Polymist
 
   @cloud-add
   Scenario Outline:
-    When I click the new cloud button
+    When I click the "new cloud" button with id "addBtn"
     Then I expect the "Cloud" add form to be visible within max 5 seconds
     When I select the "<provider>" provider
     Then I expect the field "Title" in the cloud add form to be visible within max 4 seconds
