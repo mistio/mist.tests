@@ -6,10 +6,10 @@ Feature: Login Scenarios and Api Token
     Given I am logged in to mist.core
     When I visit the Account page
     And I wait for 3 seconds
-    Then I click the "API Tokens" button
+    Then I click the "API Tokens" button with id "API Tokens"
     # below needs to be fixed in the backend
     # When I revoke all api tokens
-    Then I click the "Create API Token" button
+    Then I click the "Create API Token" button with id "Create API Token"
     # create a step that checks if popup with id is open
     # And I expect for "createTokenDialog" popup to appear within max 4 seconds
     And I wait for 2 seconds
@@ -19,7 +19,7 @@ Feature: Login Scenarios and Api Token
     And I wait for 1 seconds
     Then I type "PASSWORD1" in input with id "pass"
     And I wait for 1 seconds
-    And I click the "Create" button
+    And I click the "Create" button with id "Create"
     And I wait for 5 seconds
     When I get the new api token value "BLABLA_TOKEN"
     Then I test the api token "BLABLA_TOKEN". It should work.

@@ -207,7 +207,7 @@ def click_mist_io(context):
 #TODO: "{button}" and ids should have the exact same name
 
 @step(u'I click the "{button}" button with id "{button_id}"')
-def click_button_by_id(context,button):
+def click_button_by_id(context, button, button_id):
     if button == 'new cloud':
       button_to_click = context.browser.find_element_by_id('addBtn')
     elif button == 'save title':
@@ -217,11 +217,11 @@ def click_button_by_id(context,button):
     elif button == 'Account':
         button_to_click = context.browser.find_element_by_id('Account')
     elif button == 'API Tokens':
-        button_to_click = context.browser.find_element_by_id('API Tokens')
+        button_to_click = context.browser.find_element_by_id('API Tokens')#
     elif button == 'Create API Token':
-        button_to_click = context.browser.find_element_by_id('Create API Token')
+        button_to_click = context.browser.find_element_by_id('Create API Token')#
     elif button == 'Create':
-        button_to_click = context.browser.find_element_by_id('Create')
+        button_to_click = context.browser.find_element_by_id('Create')#
     elif button == 'toggle':
         button_to_click = context.browser.find_element_by_id('enable-disable-cloud') #
     elif button == 'enabled':
