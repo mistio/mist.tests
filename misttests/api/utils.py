@@ -18,7 +18,8 @@ def assert_equal(first, second, msg=None):
        operator.
     """
     if type(first) != type(second):
-        if type(first) not in [str, unicode] and type(second) not in [str, unicode]:
+        if type(first) not in [str, unicode] and \
+                        type(second) not in [str, unicode]:
             raise AssertionError("%s and %s are not of the same type" %
                                  (safe_repr(first), safe_repr(second)))
     if type(first) == dict and type(second) == dict:
@@ -55,7 +56,7 @@ def assert_in(member, container, msg=None):
     """Just like self.assertTrue(a in b), but with a nicer default message."""
     if not msg:
         msg = '%s not found in %s' % (safe_repr(member),
-                                              safe_repr(container))
+                                      safe_repr(container))
     assert member in container, msg
 
 
@@ -65,7 +66,7 @@ def assert_not_in(member, container, msg=None):
     """
     if not msg:
         msg = '%s not found in %s' % (safe_repr(member),
-                                              safe_repr(container))
+                                      safe_repr(container))
     assert member not in container, msg
 
 
@@ -133,8 +134,10 @@ def assert_sequence_equal(seq1, seq2, msg=None, seq_type=None, strict=False):
     """
     if seq_type is not None:
         seq_type_name = seq_type.__name__
-        assert isinstance(seq1, seq_type), 'First sequence is not a %s: %s' % (seq_type_name, safe_repr(seq1))
-        assert isinstance(seq2, seq_type), 'Second sequence is not a %s: %s' % (seq_type_name, safe_repr(seq2))
+        assert isinstance(seq1, seq_type), 'First sequence is not a %s: %s' %\
+                                           (seq_type_name, safe_repr(seq1))
+        assert isinstance(seq2, seq_type), 'Second sequence is not a %s: %s' %\
+                                           (seq_type_name, safe_repr(seq2))
     else:
         seq_type_name = "sequence"
 
@@ -171,7 +174,8 @@ def assert_sequence_equal(seq1, seq2, msg=None, seq_type=None, strict=False):
             differing = list(set(seq2) - set(seq1))
         if len(differing) == 0:
             return True
-        differing = "Sequences differ in these elements: %s" % safe_repr(differing)
+        differing = "Sequences differ in these elements: %s" %\
+                    safe_repr(differing)
     assert False, differing
 
 
@@ -194,7 +198,8 @@ def assert_list_not_empty(_list, msg=None):
 
 
 def assert_list_empty(_list, msg=None):
-    assert type(_list) == list, "Object provided is not a list: %s" % repr(_list)
+    assert type(_list) == list, "Object provided is not a list: %s" %\
+                                repr(_list)
     if not msg:
         msg = repr(_list)
     assert len(_list) == 0, msg
