@@ -74,7 +74,10 @@ def get_machine(context, name):
     try:
         placeholder = context.browser.find_element_by_tag_name("page-machines")
         machines = placeholder.find_elements_by_tag_name("list-item")
+<<<<<<< HEAD
 
+=======
+>>>>>>> master
         for machine in machines:
             machine_text = safe_get_element_text(machine)
             if name in machine_text:
@@ -139,4 +142,8 @@ def wait_for_item_show(context, expected_name, resource_type, state, seconds):
             return True
         sleep(1)
     assert False, 'Item %s is not %s in the list after %s seconds' \
+<<<<<<< HEAD
                   % (expected_name, state, seconds)
+=======
+                  % (expected_name, state, seconds)
+>>>>>>> master
