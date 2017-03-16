@@ -152,11 +152,9 @@ class MistCoreApi(MistIoApi):
                 'rid': rid,
                 'rtags': rtags
                 }
-        req = MistRequests(uri=self.uri + '/api/v1/org/%s/teams/%s/policy/rules'
-                                          '' % (org_id, team_id),
-                           data=data,
-                           api_token=api_token)
-
+        req = MistRequests(uri=self.uri + '/api/v1/org/%s/teams/%s/'
+                                          'policy/rules''' % (org_id, team_id),
+                           data=data, api_token=api_token)
         req.put = req.unavailable_api_call
         req.delete = req.unavailable_api_call
         req.get = req.unavailable_api_call
@@ -170,11 +168,9 @@ class MistCoreApi(MistIoApi):
                 'rid': rid,
                 'rtags': rtags
                 }
-        req = MistRequests(uri=self.uri + '/api/v1/org/%s/teams/%s/policy/rules/%s'
-                                          % (org_id, team_id, index_id),
-                           data=data,
-                           api_token=api_token)
-
+        req = MistRequests(uri=self.uri + '/api/v1/org/%s/teams/%s/'
+                           'policy/rules/%s' % (org_id, team_id, index_id),
+                           data=data, api_token=api_token)
         req.put = req.unavailable_api_call
         req.delete = req.unavailable_api_call
         req.get = req.unavailable_api_call
@@ -189,19 +185,18 @@ class MistCoreApi(MistIoApi):
                 'rid': rid,
                 'rtags': rtags
                 }
-        req = MistRequests(uri=self.uri + '/api/v1/org/%s/teams/%s/policy/rules/%s'
-                                          % (org_id, team_id, index_id),
-                           data=data,
-                           api_token=api_token)
-
+        req = MistRequests(uri=self.uri + '/api/v1/org/%s/teams/'
+                           '%s/policy/rules/%s'
+                           % (org_id, team_id, index_id),
+                           data=data, api_token=api_token)
         req.post = req.unavailable_api_call
         req.delete = req.unavailable_api_call
         req.get = req.unavailable_api_call
         return req
 
     def delete_rule_from_policy(self, api_token, org_id, team_id, index_id):
-        req = MistRequests(uri=self.uri + '/api/v1/org/%s/teams/%s/policy/rules/%s'
-                                          % (org_id, team_id, index_id),
+        req = MistRequests(uri=self.uri + '/api/v1/org/%s/teams/%s/'
+                           'policy/rules/%s' % (org_id, team_id, index_id),
                            api_token=api_token)
         req.get = req.unavailable_api_call
         req.post = req.unavailable_api_call
