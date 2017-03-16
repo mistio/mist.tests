@@ -250,11 +250,8 @@ def click_button_by_id(context,button):
         button_to_click = context.browser.find_element_by_id('appformsubmit')
     elif button == 'toggle':
         button_to_click = context.browser.find_element_by_id('enable-disable-cloud')
-<<<<<<< HEAD
     elif button == 'more options':
         button_to_click = context.browser.find_element_by_class_name('more')
-=======
->>>>>>> master
     elif button == 'enabled':
         button_to_click = context.browser.find_element_by_id('enabled')
     elif button == 'next':
