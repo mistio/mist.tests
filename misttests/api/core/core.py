@@ -10,7 +10,6 @@ class MistCoreApi(MistIoApi):
         req = MistRequests(uri=self.uri + '/api/v1/org',
                            json={'name': name},
                            api_token=api_token)
-
         req.get = req.unavailable_api_call
         req.delete = req.unavailable_api_call
         req.put = req.unavailable_api_call
@@ -136,7 +135,6 @@ class MistCoreApi(MistIoApi):
         req = MistRequests(uri=self.uri + '/api/v1/org/%s/teams/%s/policy'
                                           % (org_id, team_id), data=data,
                            api_token=api_token)
-
         req.put = req.unavailable_api_call
         req.delete = req.unavailable_api_call
         req.get = req.unavailable_api_call
