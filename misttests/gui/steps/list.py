@@ -20,7 +20,7 @@ def get_list_item(context, resource_type, name):
     item_name = name.lower()
     if resource_type not in ['machine', 'image', 'key', 'network',
                              'tunnel', 'script', 'template', 'stack',
-                             'team']:
+                             'team', 'schedule']:
         raise ValueError('The resource type given is unknown')
     try:
         items = get_list(context, resource_type)
@@ -53,6 +53,23 @@ def get_list_item(context, resource_type, name):
 #                   % (expected_name, state, seconds)
 
 
+# @step(u'I click the button "{button_name}" from the menu of the "{item_name}"'
+#       u' {resource_type}')
+# def click_menu_button_of_list_item(context, button_name, item_name,
+#                                    resource_type):
+#     item = get_list_item(context, resource_type, item_name)
+#     if item:
+#         more_dialog = context.browser.find_element_by_css_selector('page-%ss item-list paper-dialog#select-action' % resource_type)
+#         more_button = item.find_element_by_css_selector('paper-button.more')
+#         from .buttons import clicketi_click
+#         clicketi_click(context, more_button)
+#         sleep(1)
+#         more_buttons = more_dialog.find_elements_by_tag_name('paper-button')
+#         click_button_from_collection(context, button_name, more_buttons)
+#         return True
+#     assert False, "Could not click button %s" % button_name
+
+
 def get_machine(context, name):
     try:
         placeholder = context.browser.find_element_by_tag_name("page-machines")
@@ -62,7 +79,6 @@ def get_machine(context, name):
             machine_text = safe_get_element_text(machine)
             if name in machine_text:
                 return machine
-
         return None
     except NoSuchElementException:
         return None
@@ -91,7 +107,6 @@ def click_menu_button_of_list_item(context, button_name, item_name,
 def assert_machine_state(context, name, state, seconds):
     if context.mist_config.get(name):
         name = context.mist_config.get(name)
-
     end_time = time() + int(seconds)
     while time() < end_time:
         machine = get_machine(context, name)
@@ -104,7 +119,6 @@ def assert_machine_state(context, name, state, seconds):
             except StaleElementReferenceException:
                 pass
         sleep(2)
-
     assert False, u'%s state is not "%s"' % (name, state)
 
 

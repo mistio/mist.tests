@@ -4,7 +4,7 @@ from time import time
 from time import sleep
 import mongoengine as me
 
-from mist.core import config
+from mist.io import config
 
 from mist.io.users.models import User
 from mist.io.users.models import Owner

@@ -5,7 +5,7 @@ Feature: RBAC
   Scenario: Owner creates a new organization and adds a Softlayer cloud
     Given rbac members, organization and team are initialized
     Given I am logged in to mist.core
-    Given "Packet" cloud has been added
+    Given "SoftLayer" cloud has been added
 
   @add-member1
   Scenario: Add member1
@@ -147,11 +147,11 @@ Feature: RBAC
   @member1-delete-cloud-fail
   Scenario: Member 1 should not be able to delete cloud
     When I wait for 2 seconds
-    When I open the cloud menu for "Packet"
+    When I open the cloud menu for "SoftLayer"
     And I click the "delete cloud" button
-    And I expect the dialog "Delete Packet" is open within 4 seconds
-    And I click the "Delete" button in the dialog "Delete Packet"
-    And I expect the dialog "Delete Packet" is closed within 4 seconds
+    And I expect the dialog "Delete SoftLayer" is open within 4 seconds
+    And I click the "Delete" button in the dialog "Delete SoftLayer"
+    And I expect the dialog "Delete SoftLayer" is closed within 4 seconds
     And I wait for 3 seconds
     Then I visit the Home page
     # deletion did not work
