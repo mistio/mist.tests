@@ -41,7 +41,7 @@ Feature: Cloud actions for polymer
     And I wait for the dashboard to load
     Then cloud "Docker" should be "enabled"
     When I visit the Machines page
-    Then "yolomachine" machine should be present within 160 seconds
+    Then "yolomachine" machine should be present within 60 seconds
     Then I visit the Home page
 
 #  @cloud-rename
