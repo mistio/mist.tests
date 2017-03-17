@@ -1,6 +1,11 @@
 @machines
 Feature: Actions for machines
 
+  # machine-stop
+  # machine-start
+  # machine-destroy
+  # machine-ssh
+
 
   @machine-create
   Scenario: Create a machine in Docker provider and check the ssh connection
