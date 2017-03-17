@@ -1,7 +1,6 @@
 @machines
 Feature: Actions for machines
 
-  # machine-stop
   # machine-start
   # machine-destroy
   # machine-ssh
@@ -42,16 +41,15 @@ Feature: Actions for machines
 #    When I click the Shell button in the machine edit form
 #    Then the terminal should be opened within 5 seconds
 #    And the user "root" should have access to the machine "docker-ui-test-machine-random"
-#
-#
-#  @machine-stop
-#  Scenario: Stop the machine created above
-#    When I click the "docker-ui-test" "machine"
-#    Then I click the button "Stop" from the menu of the "machine" edit form
-#    And I expect the dialog "Stop 1 Machines" is open within 2 seconds
-#    And I click the "Stop" button in the dialog "Stop 1 Machines"
-#    When I visit the Machines page
-#    Then "docker-ui-test" machine state has to be "stopped" within 10 seconds
+
+  @machine-stop
+  Scenario: Stop the machine created above
+    When I click the "docker-ui-test-machine-random" "machine"
+    Then I click the button "Stop" from the menu of the "machine" edit form
+    And I expect the dialog "Stop 1 Machines" is open within 2 seconds
+    And I click the "Stop" button in the dialog "Stop 1 Machines"
+    When I visit the Machines page
+    Then "docker-ui-test-machine-random" machine state has to be "stopped" within 20 seconds
 #
 #
 #  @machine-start
