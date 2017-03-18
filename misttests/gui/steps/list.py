@@ -89,6 +89,8 @@ def get_machine(context, name):
       u' {resource_type}')
 def click_menu_button_of_list_item(context, button_name, item_name,
                                    resource_type):
+    # import ipdb;ipdb.set_trace()
+
     item = get_list_item(context, resource_type, item_name)
     if item:
         more_dialog = context.browser.find_element_by_css_selector('page-%ss item-list paper-dialog#select-action' % resource_type)

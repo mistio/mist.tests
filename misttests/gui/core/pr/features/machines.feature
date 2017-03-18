@@ -1,11 +1,6 @@
 @machines
 Feature: Actions for machines
 
-  # machine-start
-  # machine-destroy
-  # machine-ssh
-
-
   @machine-create
   Scenario: Create a machine in Docker provider and check the ssh connection
     Given I am logged in to mist.core
@@ -42,14 +37,19 @@ Feature: Actions for machines
 #    Then the terminal should be opened within 5 seconds
 #    And the user "root" should have access to the machine "docker-ui-test-machine-random"
 
-  @machine-stop
-  Scenario: Stop the machine created above
-    When I click the "docker-ui-test-machine-random" "machine"
-    Then I click the button "Stop" from the menu of the "machine" edit form
-    And I expect the dialog "Stop 1 Machines" is open within 2 seconds
-    And I click the "Stop" button in the dialog "Stop 1 Machines"
-    When I visit the Machines page
-    Then "docker-ui-test-machine-random" machine state has to be "stopped" within 20 seconds
+#  @machine-stop
+#  Scenario: Stop the machine created above
+#    Given I am logged in to mist.core
+#    When I visit the Machines page
+#    When I click the "machine3-ui-testing" "machine"
+##    And I click the stop button in the machine edit form
+#    #Then I click the button "Stop" from the menu of the "machine3-ui-testing" machine
+##    Then I click the button "stop" in "machine" edit form
+#    Then I click the button "Stop" from the menu of the "machine" edit form
+#    And I expect the dialog "Stop 1 Machines" is open within 2 seconds
+#    And I click the "Stop" button in the dialog "Stop 1 Machines"
+#    When I visit the Machines page
+#    Then "machine3-ui-testing" machine state has to be "stopped" within 20 seconds
 #
 #
 #  @machine-start
