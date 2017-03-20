@@ -39,9 +39,10 @@ Feature: Actions for machines
 
   @machine-stop
   Scenario: Stop the machine created above
-    Given I am logged in to mist.core
-    When I visit the Machines page
-    When I click the "machine3-ui-testing" "machine"
+#    Given I am logged in to mist.core
+#    When I visit the Machines page
+#    When I click the "machine3-ui-testing" "machine"
+    When I click the "docker-ui-test-machine-random" "machine"
 #    And I click the stop button in the machine edit form
     #Then I click the button "Stop" from the menu of the "machine3-ui-testing" machine
 #    Then I click the button "stop" in "machine" edit form
@@ -49,7 +50,7 @@ Feature: Actions for machines
     And I expect the dialog "Stop 1 Machines" is open within 2 seconds
     And I click the "Stop" button in the dialog "Stop 1 Machines"
     When I visit the Machines page
-    Then "machine3-ui-testing" machine state has to be "stopped" within 20 seconds
+    Then "docker-ui-test-machine-random" machine state has to be "stopped" within 20 seconds
 #
 #
 #  @machine-start
