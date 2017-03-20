@@ -49,7 +49,7 @@ def click_mayday_machine(context):
     """
     if context.mist_config.get('MAYDAY_MACHINE'):
         text = context.mist_config['MAYDAY_MACHINE']
-    button = context.browser.find_element_by_xpath("//a[contains(text(), '%s')]" % text)
+    button = context.browser.find_element_by_xpath("//a[@title='%s']" % text)
     clicketi_click(context, button)
 
 @step(u'Mayday machine state should be "{state}" within {seconds} seconds')
