@@ -35,7 +35,7 @@ def get_add_form(context, title):
                      'script', 'schedule', 'template', 'stack', 'team',
                      'members']:
         raise ValueError('The title given is unknown')
-    if title == 'stack' or title == 'machine':
+    if title == 'stack':
         add_form_selector = 'div#content.%s-create' % title
     else:
         add_form_selector = 'div#content.%s-add' % title
@@ -138,6 +138,7 @@ def set_value_to_field(context, value, name, title, form_type):
     clear_input_and_send_keys(input, value)
 
 
+
 @step(u'I expect for the button "{button_name}" in "{title}" {form_type} form'
       u' to be clickable within {seconds} seconds')
 def check_button_in_form_is_clickable(context, button_name, title, form_type,
@@ -218,10 +219,7 @@ def click_menu_button_from_more_menu(context, button_name, title, form_type):
     form_type = form_type.lower()
     form = get_add_form(context, form_type) if form_type == 'add' else \
         get_edit_form(context, title)
-    if title == 'machine':
-        more_dropdown = form.find_element_by_class_name('more')
-    else:
-        more_dropdown = form.find_element_by_tag_name('paper-menu-button')
+    more_dropdown = form.find_element_by_tag_name('paper-menu-button')
     assert more_dropdown, "Could not find more button"
     clicketi_click(context, more_dropdown)
     more_dropdown_buttons = more_dropdown.find_elements_by_tag_name('paper-button')

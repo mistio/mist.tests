@@ -2,7 +2,8 @@ from behave import step
 
 from time import sleep
 from time import time
-import logging
+
+import re
 
 from .utils import safe_get_element_text
 from .utils import focus_on_element
@@ -21,10 +22,6 @@ from selenium.common.exceptions import WebDriverException
 from selenium.common.exceptions import TimeoutException
 from selenium.common.exceptions import NoSuchElementException
 
-
-log = logging.getLogger(__name__)
-
-logging.basicConfig(level=logging.INFO)
 
 @step(u'I expect for "{element_id}" to be clickable within max {seconds} '
       u'seconds')
@@ -190,7 +187,6 @@ def click_item(context, text, type_of_item):
         text = context.mist_config[text]
     text = text.lower()
     item_selector = 'page-%ss iron-list div.row' % type_of_item
-    #buttons = context.driver.findElements(By.CSS_SELECTOR(item_selector))
     items = context.browser.find_elements_by_css_selector(item_selector)
     for item in items:
         name = safe_get_element_text(item.find_element_by_css_selector('div.name')).strip().lower()
@@ -230,6 +226,7 @@ def click_mist_io(context):
 
 
 #TODO: "{button}" and ids should have the exact same name
+
 @step(u'I click the "{button}" button')
 def click_button_by_id(context,button):
     if button == 'new cloud':
@@ -246,12 +243,8 @@ def click_button_by_id(context,button):
         button_to_click = context.browser.find_element_by_id('Create API Token')
     elif button == 'Create':
         button_to_click = context.browser.find_element_by_id('Create')
-    elif button == 'Launch':
-        button_to_click = context.browser.find_element_by_id('appformsubmit')
     elif button == 'toggle':
         button_to_click = context.browser.find_element_by_id('enable-disable-cloud')
-    elif button == 'more options':
-        button_to_click = context.browser.find_element_by_class_name('more')
     elif button == 'enabled':
         button_to_click = context.browser.find_element_by_id('enabled')
     elif button == 'next':
@@ -260,11 +253,10 @@ def click_button_by_id(context,button):
         button_to_click = context.browser.find_element_by_id('run_immediately')
     else:
         raise Exception('Unknown type of button')
-    #assert button_to_click.is_displayed(), "%s button is not displayed" %button
+    assert button_to_click.is_displayed(), "%s button is not displayed" %button
     clicketi_click(context, button_to_click)
 
 # below 3 methods should be deleted, since they're duplicate -- first check where they are used....
-
 
 @step(u'I click the new cloud button')
 def add_cloud_button(context):
@@ -272,13 +264,11 @@ def add_cloud_button(context):
     assert cloud_button.is_displayed(), "Add cloud button is not displayed"
     clicketi_click(context, cloud_button)
 
-
 @step(u'I click the save title button')
 def save_title_button(context):
     save_title_button = context.browser.find_element_by_id('rename-cloud')
     assert save_title_button.is_displayed(), "Save title button is not displayed"
     clicketi_click(context, save_title_button)
-
 
 @step(u'I click the delete cloud button')
 def save_title_button(context):
@@ -286,13 +276,11 @@ def save_title_button(context):
     assert save_title_button.is_displayed(), "Delete cloud button is not displayed"
     clicketi_click(context, save_title_button)
 
-
 @step(u'I click the mist-logo')
 def visit_home_url(context):
     save_title_button = context.browser.find_element_by_id('logo-link')
    # assert save_title_button.is_displayed(), "Save title button is not displayed"
     clicketi_click(context, save_title_button)
-
 
 @step(u'I click the Gravatar')
 def click_the_gravatar(context):
