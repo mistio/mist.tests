@@ -14,8 +14,6 @@ from selenium.webdriver.support.ui import WebDriverWait
 from selenium.common.exceptions import NoSuchElementException
 from selenium.webdriver.support import expected_conditions as EC
 
-from selenium.webdriver.common.action_chains import ActionChains
-
 
 def is_ssh_connection_up(lines):
     errors = ['disconnected', 'timeout', 'timed out', 'closure', 'broken']
@@ -75,41 +73,6 @@ def check_ls_output(lines, filename=None):
             return True
     assert False, "File with name %s is not listed in the output of the ls " \
                   "command. Contents of the terminal are: %s" & lines
-
-
-@step(u'the terminal should be opened within 5 seconds')
-def check_for_opened_terminal(context):
-    end_time = time() + 5
-    terminal = None
-    while time() < end_time:
-        try:
-            terminal = context.browser.find_element_by_class_name('terminal')
-            break
-        except NoSuchElementException:
-            sleep(1)
-    assert terminal, "Terminal has not opened 5 seconds after pressing the " \
-                     "button. Aborting!"
-
-
-@step(u'the user "{user}" should have access to the machine "{machine_name}"')
-def check_for_root_access(context,user,machine_name):
-    terminal = context.browser.find_element_by_class_name('terminal')
-    rows = context.browser.find_element_by_class_name('xterm-rows')
-    all_lines = rows.find_elements_by_tag_name('div')
-
-    if context.mist_config.get(machine_name):
-        machine_name = context.mist_config.get(machine_name)
-    text_to_find = user + '@' + machine_name
-
-    end_time = time() + 5
-    while time() < end_time:
-        for i in range(0, len(all_lines)):
-            text = safe_get_element_text(all_lines[i])
-            if text_to_find in text:
-                # terminal.send_keys("ls -l\n")
-                # sleep(1)
-                return
-    assert False, "User has no access after 5 seconds"
 
 
 def check_ssh_connection_with_timeout(context,
@@ -207,8 +170,7 @@ def multi_ssh_test_for_file(context, times, seconds, filename):
     assert int(times) > 0, "You should test ssh a positive number of times"
     for i in range(int(times)):
         assertion_error = None
-        #context.execute_steps(u'Then I click the button "Shell"')
-        context.execute_steps(u'Then I click the Shell button in the machine edit form')
+        context.execute_steps(u'Then I click the button "Shell"')
         try:
             check_ssh_connection_with_timeout(context, int(seconds), filename)
         except AssertionError as e:

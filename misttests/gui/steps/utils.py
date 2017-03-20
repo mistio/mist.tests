@@ -14,11 +14,9 @@ from selenium.webdriver.support import expected_conditions as EC
 
 from selenium.webdriver.common.action_chains import ActionChains
 
-
 def safe_get_element_text(check_element):
     try:
         return check_element.text
-        #return check_element.get_attribute("innerText")
     except StaleElementReferenceException:
         return ""
 

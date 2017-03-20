@@ -2,9 +2,6 @@ from behave import step
 
 from .utils import safe_get_element_text
 
-from selenium.common.exceptions import NoSuchElementException
-from selenium.common.exceptions import StaleElementReferenceException
-
 
 @step(u'key "{key_name}" should be default key')
 def check_if_default_key(context, key_name):
@@ -34,66 +31,3 @@ def add_or_select_key(context, key_name):
         When I click the "Add" button inside the "Add key" popup
         Then I expect for "key-add-popup" popup to disappear within max 4 seconds
     ''' % key_name)
-
-
-# clouds = []
-# for cloud in cloud_chips:
-#     try:
-#         if cloud.is_displayed:
-#             clouds.append(cloud)
-#     except StaleElementReferenceException:
-#         pass
-# for c in clouds:
-#     try:
-#         title = c.find_element_by_class_name('cloud-title')
-#         if safe_get_element_text(title).lower().strip() == cloud_title:
-#             return c
-#     except (NoSuchElementException, StaleElementReferenceException):
-#         pass
-# return None
-
-
-def find_key(context, key_title):
-    # cloud_chips = context.browser.find_elements_by_tag_name('cloud-chip')
-    context.execute_steps(u'''
-            When I visit the Keys page
-    ''')
-    key_items = context.browser.find_elements_by_tag_name('list-item')
-    keys = []
-    for key in key_items:
-        try:
-             if key.is_displayed:
-                 keys.append(key)
-        except StaleElementReferenceException:
-             pass
-    for key in keys:
-        try:
-            title = key.find_element_by_class_name('name')
-            if safe_get_element_text(title).lower().strip() == key_title:
-                return key
-        except (NoSuchElementException, StaleElementReferenceException):
-            pass
-    return None
-
-
-@step(u'"{key}" key has been added')
-def given_key(context, key):
-    if find_key(context, key.lower()):
-        return True
-
-    context.execute_steps(u'''
-            When I visit the keys page
-            When I click the button "+"
-            Then I expect the "Key" add form to be visible within max 10 seconds
-            When I set the value "%s" to field "Name" in "key" add form
-            Then I click the button "Generate" in "key" add form
-            And I wait for 5 seconds
-            And I expect for the button "Add" in "key" add form to be clickable within 9 seconds
-            When I focus on the button "Add" in "key" add form
-            And I click the button "Add" in "key" add form
-            Then I expect the "key" edit form to be visible within max 5 seconds
-            When I visit the Home page
-            When I wait for the dashboard to load
-            When I visit the Keys page
-            Then "%s" key should be present within 15 seconds
-    ''' % (key, key))
