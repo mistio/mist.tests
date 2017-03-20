@@ -137,7 +137,6 @@ def check_ssh_connection(context):
     check_ssh_connection_with_timeout(context)
 
 
-
 @step(u'I test the ssh connection for max {seconds} seconds')
 def check_ssh_connection_for_max_seconds(context, seconds):
     """
