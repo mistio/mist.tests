@@ -237,12 +237,11 @@ def click_menu_button_from_more_menu(context, button_name, title, form_type):
     assert more_dropdown, "Could not find more button"
     clicketi_click(context, more_dropdown)
     # import ipdb;ipdb.set_trace()
-    #
-    # if title == 'machine':
-    #     more_dropdown_buttons = collect_dropdown_buttons_in_machine_page(context)
-    # else:
-    more_dropdown_buttons = more_dropdown.find_elements_by_tag_name('paper-button')
-    more_dropdown_buttons_b = more_dropdown.find_elements_by_tag_name('paper-item')
+
+    if title == 'machine':
+        more_dropdown_buttons = collect_dropdown_buttons_in_machine_page(context)
+    else:
+        more_dropdown_buttons = more_dropdown.find_elements_by_tag_name('paper-button')
     assert more_dropdown_buttons, "There are no buttons within the more dropdown"
     timeout = time() + 5
     while time() < timeout:
@@ -255,21 +254,31 @@ def click_menu_button_from_more_menu(context, button_name, title, form_type):
         sleep(1)
     else:
         assert False, "More dropdown buttons are not visible after 5 seconds"
+    # import ipdb;
+    # ipdb.set_trace()
+
     click_button_from_collection(context, button_name, more_dropdown_buttons)
 
 
 def collect_dropdown_buttons_in_machine_page(context):
-    # buttons = []
-    # import ipdb;ipdb.set_trace()
-
-    selection_dropdown = context.browser.find_element_by_id('select-multi-action-dropdown')
-    list_box = selection_dropdown.find_element_by_tag_name('paper-listbox')
-    buttons = list_box.find_elements_by_class_name('item-actions')
-    # for i in ['tag', 'stop', 'start', 'destroy', 'reboot', 'shell', 'run script', 'associate key']:
-    #     try:
-    #         button = context.browser.find_element_by_class_name('button-%s' %i)
-    #         buttons.append(button)
-    #     except NoSuchElementException:
-    #         pass
+    buttons = []
+    # # import ipdb;ipdb.set_trace()
+    #
+    # # machine_Actions = context.browser.find_element_by_class_name('machine-actions')
+    # # item_actions = machine_Actions.find_elements_by_class_name('item-actions')
+    # #
+    # # actions_machine = context.browser.find_element_by_id('actions_machine')
+    # # actions_class = actions_machine.find_element_by_class_name('actions')
+    # # buttons = actions_class.find_elements_by_tag_name('paper-button')
+    #
+    # selection_dropdown = context.browser.find_element_by_id('select-multi-action-dropdown')
+    # list_box = selection_dropdown.find_element_by_class_name('dropdown-content')
+    # buttons = list_box.find_elements_by_class_name('item-actions')
+    for i in ['tag', 'stop', 'start', 'destroy', 'reboot', 'shell', 'run script', 'associate key']:
+        try:
+            button = context.browser.find_element_by_class_name('button-%s' %i)
+            buttons.append(button)
+        except NoSuchElementException:
+            pass
     # buttons = context.browser.find_elements_by_class_name('item-actions')
     return buttons
