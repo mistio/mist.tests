@@ -20,13 +20,16 @@ def get_list_item(context, resource_type, name):
     item_name = name.lower()
     if resource_type not in ['machine', 'image', 'key', 'network',
                              'tunnel', 'script', 'template', 'stack',
-                             'team', 'schedule']:
+                             'team', 'schedule', 'zone']:
         raise ValueError('The resource type given is unknown')
     try:
         items = get_list(context, resource_type)
         for item in items:
-            name = safe_get_element_text(item.find_element_by_css_selector('div.name')).strip().lower()
-            if item_name == name:
+            if resource_type == 'zone':
+                name = safe_get_element_text(item.find_element_by_css_selector('div.domain')).strip().lower()
+            else:
+                name = safe_get_element_text(item.find_element_by_css_selector('div.name')).strip().lower()
+            if item_name == name[:-1]:
                 return item
     except (NoSuchElementException, StaleElementReferenceException):
         pass
@@ -89,6 +92,11 @@ def get_machine(context, name):
       u' {resource_type}')
 def click_menu_button_of_list_item(context, button_name, item_name,
                                    resource_type):
+    if 'random' in item_name:
+        if context.mist_config.get(item_name):
+            item_name = context.mist_config.get(item_name)
+        else:
+            assert False, "Got a name that contains random but could not find a value in the context"
     item = get_list_item(context, resource_type, item_name)
     if item:
         more_dialog = context.browser.find_element_by_css_selector('page-%ss item-list paper-dialog#select-action' % resource_type)
