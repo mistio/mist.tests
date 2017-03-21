@@ -1,5 +1,5 @@
 @machines
-Feature: Actions for machines
+Feature: Machines
 
   @machine-create
   Scenario: Create a machine in Docker provider and check the ssh connection

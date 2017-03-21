@@ -157,6 +157,24 @@ def kill_orchestration_machines(context):
             kill_yolomachine(context, response.json(), headers, cloud_id)
 
 
+def kill_docker_machine(context):
+    api_token = get_api_token(context)
+    headers = {'Authorization': api_token}
+
+    response = requests.get("%s/api/v1/clouds" % context.mist_config['MIST_URL'], headers=headers)
+    for cloud in response.json():
+        if 'docker' in cloud['provider']:
+            cloud_id = cloud['id']
+            uri = context.mist_config['MIST_URL'] + '/api/v1/clouds/' + cloud_id + '/machines'
+            response = requests.get(uri, headers=headers)
+            for machine in response.json():
+                if 'docker-ui-test-machine-' in machine['name']:
+                    log.info('Killing docker machine...')
+                    payload = {'action': 'destroy'}
+                    uri = context.mist_config['MIST_URL'] + '/api/v1/clouds/' + cloud_id + '/machines/' + machine['id']
+                    requests.post(uri, data=json.dumps(payload), headers=headers)
+
+
 def delete_schedules(context):
     log.info('Deleting schedule...')
     api_token = get_api_token(context)
@@ -200,3 +218,5 @@ def after_feature(context, feature):
     if 'Schedulers' in feature.name:
         delete_schedules(context)
         start_ui_machines(context)
+    if 'Machines' in feature.name:
+        kill_docker_machine(context)
