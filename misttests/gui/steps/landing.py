@@ -194,7 +194,6 @@ def enter_credentials(context, kind, action):
 
         pass_input = shadow_root.find_element_by_css_selector('paper-input')
         pass_input.send_keys(get_mist_config_password(context, kind))
-        #clear_input_and_send_keys(pass_input, password_to_use)
 
 
 @step(u'there should be an "{error_message}" error message inside the "{button}" button')
