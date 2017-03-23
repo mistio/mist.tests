@@ -37,8 +37,10 @@ def open_login_popup(context, kind):
         landing_pages = shadow_root.find_element_by_css_selector('landing-pages')
         landing_home = landing_pages.find_element_by_tag_name("landing-home")
         inner_shadow_root = get_shadow_root(context, landing_home)
-        div = inner_shadow_root.find_element_by_id('container')
-        inner_div = div.find_element_by_css_selector('div')
+        container = inner_shadow_root.find_element_by_id('container')
+        landing_fold = container.find_element_by_tag_name('landing-fold')
+        landing_fold_shadow_root = get_shadow_root(context, landing_fold)
+        inner_div = landing_fold_shadow_root.find_element_by_css_selector('div')
         a = inner_div.find_element_by_tag_name("a")
         button_to_click = a.find_element_by_tag_name("paper-button")
 

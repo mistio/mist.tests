@@ -2,6 +2,8 @@ from behave import step
 
 from time import sleep
 
+import logging
+
 from .utils import safe_get_element_text
 from .utils import focus_on_element
 
@@ -18,6 +20,11 @@ from selenium.webdriver.support.color import Color
 from selenium.common.exceptions import WebDriverException
 from selenium.common.exceptions import TimeoutException
 from selenium.common.exceptions import NoSuchElementException
+
+
+log = logging.getLogger(__name__)
+
+logging.basicConfig(level=logging.INFO)
 
 
 @step(u'I expect for "{element_id}" to be clickable within max {seconds} '
@@ -166,6 +173,7 @@ def click_item(context, text, type_of_item):
         text = context.mist_config[text]
     text = text.lower()
     item_selector = 'page-%ss iron-list div.row' % type_of_item
+    #buttons = context.driver.findElements(By.CSS_SELECTOR(item_selector))
     items = context.browser.find_elements_by_css_selector(item_selector)
     for item in items:
         name = safe_get_element_text(item.find_element_by_css_selector('div.name')).strip().lower()
