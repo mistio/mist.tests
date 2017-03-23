@@ -212,7 +212,7 @@ class TestCloudsFunctionality:
         response = mist_core.list_clouds(api_token=owner_api_token).get()
         cloud_id = response.json()[0]['id']
         for i in range(1,21):
-            if i%2 == 0:
+            if i % 2 == 0:
                 response = mist_core.toggle_cloud(cloud_id=cloud_id, new_state=1, api_token=owner_api_token).post()
                 assert_response_ok(response)
             else:

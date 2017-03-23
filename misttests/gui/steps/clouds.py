@@ -8,7 +8,6 @@ from time import sleep
 from selenium.common.exceptions import NoSuchElementException
 from selenium.common.exceptions import StaleElementReferenceException
 
-from .utils import wait_until_visible
 from .utils import safe_get_element_text
 
 from .forms import set_value_to_field
@@ -211,7 +210,6 @@ def set_kvm_creds(context):
 #         '''%(context.mist_config['CREDENTIALS']['KVM']['key'],))
 
 
-# os and ssh key might be needed as well
 def set_other_server_creds(context):
     context.execute_steps(u'''
                     Then I set the value "Bare Metal" to field "Title" in "cloud" add form
@@ -357,7 +355,7 @@ def given_cloud(context, cloud):
         return True
 
     context.execute_steps(u'''
-        When I click the new cloud button
+        When I click the "new cloud" button with id "addBtn"
         Then I expect the "Cloud" add form to be visible within max 5 seconds
         When I select the "%s" provider
         Then I expect the field "Title" in the cloud add form to be visible within max 4 seconds

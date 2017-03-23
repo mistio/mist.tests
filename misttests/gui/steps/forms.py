@@ -44,8 +44,6 @@ def get_add_form(context, title):
 
 def get_edit_form(context, title):
     title = title.lower()
-    # if title == 'cloud':
-    #     raise Exception
     if title not in ['machine', 'image', 'key', 'network', 'tunnel', 'script',
                      'template', 'stack', 'team', 'policy', 'cloud', 'schedule']:
         raise Exception('The title given is unknown')
@@ -53,7 +51,7 @@ def get_edit_form(context, title):
         if title == 'policy':
             return context.browser.find_element_by_tag_name('team-policy')
         return context.browser.find_element_by_tag_name('%s-page' % title)
-    except:
+    except NoSuchElementException:
         return None
 
 
@@ -189,7 +187,6 @@ def get_current_value_of_dropdown(el):
 
 
 def find_dropdown(context, dropdown_text):
-    # get all the paper materials
     dropdown_text = dropdown_text.lower()
     if dropdown_text.endswith(' *'):
         dropdown_text = dropdown_text[:-2]
@@ -197,7 +194,6 @@ def find_dropdown(context, dropdown_text):
     all_dropdowns = filter(lambda t: t[0],
                            map(lambda el: (get_text_of_dropdown(el).strip().lower(), el),
                                all_dropdowns))
-    # find the drop down with the text
     dropdown = filter(lambda t: t[0] == dropdown_text or t[0][:-2] == dropdown_text,
                       all_dropdowns)
     assert dropdown, 'There is no dropdown with text %s' % dropdown_text
