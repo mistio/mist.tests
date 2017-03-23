@@ -234,32 +234,3 @@ def random_bash_script(request):
         return script[0]
 
     return random.choice(script_list)
-
-
-@pytest.fixture(scope='module')
-def machines_per_cloud(request):
-    _mist_core = mist_core()
-    _valid_api_token = valid_api_token(request)
-    response = _mist_core.list_clouds(api_token=_valid_api_token).get()
-    assert_response_ok(response)
-    clouds = json.loads(response.content)
-    assert_list_not_empty(clouds)
-    cloud_id = None
-    for cloud in clouds:
-        if cloud['title'] == 'EC2':
-            cloud_id = cloud['id']
-            break
-    assert_is_not_none(cloud_id)
-    response = _mist_core.list_machines(cloud_id=cloud_id,
-                                        api_token=_valid_api_token).get()
-    assert_response_ok(response)
-    machines = json.loads(response.content)
-    assert_list_not_empty(machines)
-    machines_per_cloud = []
-    machine_num = 2
-    while len(machines) > 0 and machine_num != 0:
-        machine = machines.pop()
-        machines_per_cloud.append([cloud_id, machine['id']])
-        machine_num -= 1
-    print "machines per cloud to be used is: %s" % machines_per_cloud
-    return machines_per_cloud
