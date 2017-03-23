@@ -7,6 +7,8 @@ from datetime import date
 from datetime import timedelta
 
 from misttests import config
+from misttests.api.helpers import *
+
 from io import MistIoApi
 
 
@@ -116,3 +118,17 @@ def cloud_name():
 @pytest.fixture
 def org_name():
     return config.ORG_NAME
+
+@pytest.fixture()
+def schedules_cleanup(mist_core, owner_api_token, cache):
+    yield
+    response = mist_core.list_schedules(api_token=owner_api_token).get()
+    assert_response_ok(response)
+    for schedule in response.json():
+        mist_core.delete_schedule(api_token=owner_api_token, schedule_id=schedule['id']).delete()
+    response = mist_core.list_machines(cloud_id=cache.get('cloud_id', ''), api_token=owner_api_token).get()
+    for machine in response.json():
+        if 'api_test_machine' in machine['name']:
+            mist_core.machine_action(cloud_id=cache.get('cloud_id', ''),
+                                     api_token=owner_api_token,
+                                     machine_id=machine['id'], action='start').post()
