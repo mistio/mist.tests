@@ -36,6 +36,13 @@ def test_list_images_wrong_cloud_id(pretty_print, mist_core, owner_api_token):
     print "Success!!!"
 
 
+# def test_list_images_after_deleting_cloud(pretty_print, cache, mist_core, owner_api_token):
+#     response = mist_core.delete_cloud(cloud_id=cache.get('cloud_id',''), api_token=owner_api_token).delete()
+#     assert_response_ok(response)
+#     response = mist_core.list_images(cloud_id=cache.get('cloud_id', ''), api_token=owner_api_token).post()
+#     assert_response_not_found(response)
+
+
 def test_star_image_no_api_token(pretty_print, cache, mist_core):
     response = mist_core.star_image(cloud_id=cache.get('cloud_id', ''),
                                     image_id=cache.get('image_id', '')).post()

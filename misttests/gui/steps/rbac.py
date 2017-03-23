@@ -263,7 +263,7 @@ def already_exists(context):
 @step(u'I expect to see no pending member invitations')
 def no_pending(context):
     try:
-        context.browser.find_element_by_class_name('label-pending')
+        pending = context.browser.find_element_by_class_name('label-pending')
         raise Exception("Pending status captured. Can't have that!")
     except NoSuchElementException:
         pass

@@ -49,6 +49,7 @@ def get_setting(setting, default_value=None, priority='config_file'):
     else:
         setting = test_settings.get(setting, os.environ.get(setting, default_value))
 
+
     if type(setting) == type(default_value):
         return setting
 
@@ -86,6 +87,7 @@ JS_CONSOLE_LOG = get_setting("JS_CONSOLE_LOG", '/var/log/js_console.log')
 
 SCREENSHOT_PATH = get_setting("SCREENSHOT_PATH", '/var/log/error')
 
+
 DISPLAY_NUM = get_setting("DISPLAY_NUM", "1")
 
 # This is the path to the json file used for the multi-provisioning tests
@@ -119,7 +121,7 @@ VPN_URL = get_setting("VPN_URL", "")
 
 NAME = get_setting("NAME", "Atheofovos Gkikas")
 
-# -----------MAYDAY------------------
+#-----------MAYDAY------------------
 MAYDAY_MACHINE = get_setting("MAYDAY_MACHINE", "")
 
 # DEFAULT CREDENTIALS FOR ACCESSING MIST.CORE
@@ -187,6 +189,7 @@ ORG_NAME = get_setting('ORG_NAME', '')
 
 ORG_ID = get_setting('ORG_ID', '')
 
+# TODO: This should maybe set to True for api tests
 SETUP_ENVIRONMENT = get_setting("SETUP_ENVIRONMENT", False)
 
 WEBDRIVER_OPTIONS = get_setting('WEBDRIVER_OPTIONS',
