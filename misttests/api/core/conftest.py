@@ -1,22 +1,12 @@
 from .core import MistCoreApi
 
-from misttests.api.helpers import *
 from misttests.api.io.conftest import *
 from misttests.helpers.setup import setup_user_if_not_exists
-
-from misttests.api.helpers import get_keys_with_id
 
 
 @pytest.fixture
 def mist_core():
     return MistCoreApi(config.MIST_URL)
-
-
-@pytest.fixture
-def fresh_api_token():
-    print "\n>>> Producing new api token!"
-    from mist.core.auth.models import get_secure_rand_token
-    return get_secure_rand_token()
 
 
 @pytest.fixture(scope='session')
@@ -25,31 +15,6 @@ def user():
     _email = email()
     print "\n>>> Getting user with email %s from db" % _email
     return User.objects.get(email=_email)
-
-
-@pytest.fixture
-def user_with_api_token(request):
-    _user = user()
-    _fresh_api_token = fresh_api_token()
-    print "\n>>> Adding new api token to user in the db"
-    _user.mist_api_token = _fresh_api_token
-    _user.save()
-
-    def fin():
-        print "\n>>> Cleaning up user's token"
-        _user.mist_api_token = ""
-        _user.save()
-    request.addfinalizer(fin)
-    return _user
-
-
-@pytest.fixture
-def user_with_short_api_token(request):
-    _user_with_api_token = user_with_api_token(request)
-    print "\n>>> Shortening user's api token"
-    _user_with_api_token.mist_api_token = _user_with_api_token.mist_api_token[:-1]
-    _user_with_api_token.save()
-    return _user_with_api_token
 
 
 @pytest.fixture
