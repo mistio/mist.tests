@@ -8,6 +8,8 @@ from datetime import timedelta
 
 from misttests import config
 from misttests.api.helpers import *
+from misttests.helpers.setup import setup_user_if_not_exists
+
 
 from io import MistIoApi
 
@@ -160,3 +162,47 @@ def script_wrong_script(request):
 @pytest.fixture(scope='module')
 def base_exec_inline_script(request):
     return {'name': 'dummy', 'location': 'inline', 'exec_type': 'executable'}
+
+
+def common_valid_api_token(request, email, password, org_id=None):
+    _mist_io = mist_io()
+    response = _mist_io.create_token(email=email,
+                                       password=password,
+                                       org_id=org_id).post()
+    assert_response_ok(response)
+    assert_is_not_none(response.json().get('token'))
+    assert_is_not_none(response.json().get('id'))
+    api_token = response.json().get('token', None)
+    api_token_id = response.json().get('id', None)
+
+    # def fin():
+    #     _response = _mist_core.revoke_token(api_token=api_token,
+    #                                         api_token_id=api_token_id).delete()
+    #     assert_response_ok(_response)
+    #
+    # request.addfinalizer(fin)
+    return api_token
+
+
+@pytest.fixture(scope='module')
+def owner_api_token(request):
+    _mist_io = mist_io()
+    email = owner_email()
+    password = owner_password()
+    setup_user_if_not_exists(email, password)
+    _mist_io.login(email, password)
+    personal_api_token = common_valid_api_token(request,
+                                                email=email,
+                                                password=password)
+    response = _mist_io.list_orgs(api_token=personal_api_token).get()
+    assert_response_ok(response)
+    org_id = None
+    org = response.json()
+
+    org_id = org[0]['id']
+    assert_is_not_none(org_id)
+
+    return common_valid_api_token(request,
+                                  email=email,
+                                  password=password,
+                                  org_id=org_id)
