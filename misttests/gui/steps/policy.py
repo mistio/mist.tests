@@ -21,7 +21,7 @@ def add_new_rule(context, operator, rtype='all', raction='all', rid='',
 
     form = get_edit_form(context, 'policy')
     new_rule_div = form.find_element_by_css_selector(
-        '#rules.team-policy > div.rule.team-policy:nth-last-child(2)')
+        '#rules.team-policy > rule-item.team-policy:nth-last-child(2)')
 
     if operator not in ['allow', 'deny']:
         raise Exception('Operator must be either allow or deny')
