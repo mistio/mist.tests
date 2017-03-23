@@ -1,10 +1,5 @@
 import pytest
 
-from time import time
-
-from datetime import date
-from datetime import timedelta
-
 from misttests import config
 from misttests.api.helpers import *
 from misttests.helpers.setup import setup_user_if_not_exists
@@ -62,16 +57,6 @@ def owner_password():
 
 
 @pytest.fixture
-def private_key():
-    return config.API_TESTS_PRIVATE_KEY
-
-
-@pytest.fixture
-def public_key():
-    return config.API_TESTS_PUBLIC_KEY
-
-
-@pytest.fixture
 def api_test_machine_name():
     return config.API_TESTING_MACHINE_NAME
 
@@ -85,15 +70,6 @@ def private_key():
 def public_key():
     return config.API_TESTING_MACHINE_PUBLIC_KEY
 
-
-@pytest.fixture
-def cloud_name():
-    return config.API_TESTING_CLOUD
-
-
-@pytest.fixture
-def org_name():
-    return config.ORG_NAME
 
 @pytest.fixture()
 def schedules_cleanup(mist_core, owner_api_token, cache):
@@ -137,6 +113,7 @@ def script_wrong_script(request):
 def base_exec_inline_script(request):
     return {'name': 'dummy', 'location': 'inline', 'exec_type': 'executable'}
 
+
 def common_valid_api_token(request, email, password, org_id=None):
     _mist_core = mist_core()
     response = _mist_core.create_token(email=email,
@@ -146,16 +123,7 @@ def common_valid_api_token(request, email, password, org_id=None):
     assert_is_not_none(response.json().get('token'))
     assert_is_not_none(response.json().get('id'))
     api_token = response.json().get('token', None)
-    api_token_id = response.json().get('id', None)
-
-    # def fin():
-    #     _response = _mist_core.revoke_token(api_token=api_token,
-    #                                         api_token_id=api_token_id).delete()
-    #     assert_response_ok(_response)
-    #
-    # request.addfinalizer(fin)
     return api_token
-
 
 @pytest.fixture(scope='module')
 def owner_api_token(request):

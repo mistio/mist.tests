@@ -21,6 +21,11 @@ def member2_password():
     return config.MEMBER2_PASSWORD
 
 
+@pytest.fixture
+def org_name():
+    return config.ORG_NAME
+
+
 @pytest.fixture(scope='module')
 def valid_api_token(request):
     return common_valid_api_token(request, email=email(), password=password1())
