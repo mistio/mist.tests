@@ -12,6 +12,7 @@ from misttests.helpers.setup import setup_user_if_not_exists
 
 
 from io import MistIoApi
+from misttests.api.core.core import MistCoreApi
 
 
 @pytest.fixture
@@ -45,6 +46,9 @@ def password2():
 def mist_io():
     return MistIoApi(config.MIST_URL + '/api/v1')
 
+@pytest.fixture
+def mist_core():
+    return MistCoreApi(config.MIST_URL)
 
 @pytest.fixture
 def expires():
@@ -163,10 +167,9 @@ def script_wrong_script(request):
 def base_exec_inline_script(request):
     return {'name': 'dummy', 'location': 'inline', 'exec_type': 'executable'}
 
-
 def common_valid_api_token(request, email, password, org_id=None):
-    _mist_io = mist_io()
-    response = _mist_io.create_token(email=email,
+    _mist_core = mist_core()
+    response = _mist_core.create_token(email=email,
                                        password=password,
                                        org_id=org_id).post()
     assert_response_ok(response)
@@ -186,15 +189,15 @@ def common_valid_api_token(request, email, password, org_id=None):
 
 @pytest.fixture(scope='module')
 def owner_api_token(request):
-    _mist_io = mist_io()
+    _mist_core = mist_core()
     email = owner_email()
     password = owner_password()
     setup_user_if_not_exists(email, password)
-    _mist_io.login(email, password)
+    _mist_core.login(email, password)
     personal_api_token = common_valid_api_token(request,
                                                 email=email,
                                                 password=password)
-    response = _mist_io.list_orgs(api_token=personal_api_token).get()
+    response = _mist_core.list_orgs(api_token=personal_api_token).get()
     assert_response_ok(response)
     org_id = None
     org = response.json()

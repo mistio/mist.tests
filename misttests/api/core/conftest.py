@@ -4,11 +4,6 @@ from misttests.api.io.conftest import *
 from misttests.helpers.setup import setup_user_if_not_exists
 
 
-@pytest.fixture
-def mist_core():
-    return MistCoreApi(config.MIST_URL)
-
-
 @pytest.fixture(scope='module')
 def valid_api_token(request):
     return common_valid_api_token(request, email=email(), password=password1())
