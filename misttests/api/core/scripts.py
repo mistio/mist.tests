@@ -60,8 +60,8 @@ def test_add_script_wrong_entrypoint(pretty_print, mist_core,
 def test_add_ansible_wrong_yaml_format(pretty_print, mist_core, owner_api_token):
     response = mist_core.add_script(api_token=owner_api_token,
                                     script_data={'name':'test',
-                                    'location_type':'inline',
-                                    'exec_type':'ansible'},
+                                                 'location_type':'inline',
+                                                 'exec_type':'ansible'},
                                     script=ansible_script_with_error,
                                     entrypoint='').post()
     assert_response_server_error(response)

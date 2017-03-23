@@ -1,25 +1,7 @@
 import json
 import requests
-import logging
 
 from misttests import config
-
-from misttests.api.core.core import MistCoreApi
-
-# def setup_user_if_not_exists(user_email, password=None):
-#     if config.SETUP_ENVIRONMENT:
-#         from mist.io.users.models import User, Owner
-#         try:
-#             user = User.objects.get(email=user_email)
-#         except User.DoesNotExist:
-#             user = User()
-#             user.email = user_email
-#         if not password:
-#             password = config.PASSWORD1
-#         user.set_password(password)
-#         user.status = 'confirmed'
-#         user.save()
-#         return user
 
 
 def setup_user_if_not_exists(email, password):
@@ -34,7 +16,7 @@ def setup_user_if_not_exists(email, password):
     print "The user used for API tests is " + email
     print "The password used for API tests is " + password
 
-    re = requests.post("%s/api/v1/dev/register" % config.MIST_URL, data=json.dumps(payload))
+    requests.post("%s/api/v1/dev/register" % config.MIST_URL, data=json.dumps(payload))
     return
 
 
@@ -44,7 +26,7 @@ def remove_user_if_exists(core_uri, user_email):
         "email": user_email
     }
 
-    re = requests.delete(url, data=json.dumps(payload))
+    requests.delete(url, data=json.dumps(payload))
 
 
 def setup_org_if_not_exists(org_name, owner_email, clean_org=True, add_cloud=True):
