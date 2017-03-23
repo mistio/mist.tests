@@ -125,6 +125,7 @@ def common_valid_api_token(request, email, password, org_id=None):
     api_token = response.json().get('token', None)
     return api_token
 
+
 @pytest.fixture(scope='module')
 def owner_api_token(request):
     _mist_core = mist_core()
