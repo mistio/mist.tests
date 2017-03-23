@@ -17,7 +17,6 @@ def ticked_images_loaded(context):
             break
     else:
         raise Exception('No ticked images available')
-    # name = safe_get_element_text(image.find_element_by_css_selector('div.name'))
 
 
 @step(u'an image that contains "{text}" should be starred')
@@ -105,24 +104,3 @@ def get_all_starred_images(context):
 def get_all_images(context):
     while scroll_down_and_wait(context, wait_for_unstarred_images=True):
         pass
-
-
-# @step(u'I click the image "{image_name}" of provider "{provider}"')
-# def click_an_image(context, image_name, provider):
-#     if context.mist_config.get(image_name):
-#         image_name = context.mist_config[image_name]
-#     if context.mist_config.get(provider):
-#         provider = context.mist_config[provider]
-#
-#     images = context.browser.find_elements_by_class_name('checkbox-link')
-#     filtered_images = filter(
-#             lambda image: safe_get_element_text(image.find_element_by_class_name('tag')).lower() == provider.lower(), images)
-#     filtered_images = filter(
-#             lambda image: safe_get_element_text(image.find_element_by_tag_name('h3')).lower() == image_name.lower(), filtered_images)
-#     if len(filtered_images) == 0:
-#         assert False, "No image with name %s from provider %s exists" % (image_name, provider)
-#     elif len(filtered_images) > 1:
-#         assert False, "Multiple images with name %s and provider %s exist" % (image_name, provider)
-#     position = filtered_images[0].location
-#     context.browser.execute_script("window.scrollTo(0, %s)" % position['y'])
-#     filtered_images[0].click()

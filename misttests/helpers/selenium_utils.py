@@ -4,8 +4,6 @@ from misttests import config
 
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
-from selenium.webdriver.common.desired_capabilities import DesiredCapabilities
-
 from selenium.webdriver.remote.errorhandler import NoSuchWindowException
 
 import logging
@@ -24,16 +22,10 @@ def choose_driver(flavor=None):
     if flavor == "firefox":
         driver = webdriver.Firefox()
     elif flavor == "chrome":
-        service_args = ['--verbose']
         chrome_options = Options()
         for opt in config.WEBDRIVER_OPTIONS:
             chrome_options.add_argument(opt)
-        # driver = webdriver.Chrome(service_args=service_args,
-        #                           chrome_options=chrome_options,
-        #                           executable_path=config.WEBDRIVER_PATH,
-        #                           service_log_path=config.WEBDRIVER_LOG)
         driver = webdriver.Chrome()
-
     elif flavor == "phantomjs":
         driver = webdriver.PhantomJS(executable_path=config.WEBDRIVER_PATH)
     else:
