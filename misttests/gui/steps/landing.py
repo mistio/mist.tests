@@ -121,6 +121,8 @@ def get_mist_config_password(context,kind):
 
 @step(u'I enter my {kind} credentials for {action}')
 def enter_credentials(context, kind, action):
+    from .forms import clear_input_and_send_keys
+
     kind = kind.lower()
     action = action.lower()
     if action not in ['login', 'signup', 'signup_password_set',
@@ -179,6 +181,7 @@ def enter_credentials(context, kind, action):
 
         pass_input = shadow_root.find_element_by_css_selector('paper-input')
         pass_input.send_keys(get_mist_config_password(context, kind))
+        #clear_input_and_send_keys(pass_input, get_mist_config_password(context, kind))
 
     elif action == 'signup_password_set':
         set_password_class = landing_pages.find_element_by_tag_name('landing-set-password')

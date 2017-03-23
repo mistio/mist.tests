@@ -5,40 +5,40 @@ Feature: Orchestration
   Scenario: Add a template
     Given I am logged in to mist.core
     When I visit the Templates page
-    And I click the button "+"
+    When I click the button "+"
     Then I expect the "Template" add form to be visible within max 10 seconds
-    When I open the "Catalogue Templates" drop down
+    And I open the "Catalogue Templates" drop down
     And I wait for 1 seconds
-    And I click the button "Kubernetes Blueprint" in the "Catalogue Templates" dropdown
-    And I set the value "Simple Python Template" to field "Template Name" in "template" add form
-    And I set the value "https://github.com/mistio/simple-python-webserver-blueprint" to field "Github Repo" in "template" add form
-    And I set the value "blueprint.yaml" to field "Entry Point" in "template" add form
-    Then I expect for the button "Add" in "template" add form to be clickable within 9 seconds
+    When I click the button "Kubernetes Blueprint" in the "Catalogue Templates" dropdown
+    When I set the value "Simple Python Template" to field "Template Name" in "template" add form
+    Then I set the value "https://github.com/mistio/simple-python-webserver-blueprint" to field "Github Repo" in "template" add form
+    When I set the value "blueprint.yaml" to field "Entry Point" in "template" add form
+    And I expect for the button "Add" in "template" add form to be clickable within 9 seconds
     When I focus on the button "Add" in "template" add form
     And I click the button "Add" in "template" add form
     Then I expect the "template" edit form to be visible within max 20 seconds
     When I visit the Home page
-    And I visit the Templates page
+    When I visit the Templates page
     Then "Simple Python Template" template should be present within 30 seconds
     Then I visit the Home page
-    And I wait for the dashboard to load
+    When I wait for the dashboard to load
 
 
   @stack-add
   Scenario: First add Digital Ocean and key and then create a stack from the template added above
     Given "Digital Ocean" cloud has been added
-    When I visit the keys page
-    And I click the button "+"
+    Then I visit the keys page
+    When I click the button "+"
     Then I expect the "Key" add form to be visible within max 10 seconds
     When I set the value "TestKey2" to field "Name" in "key" add form
-    And I click the button "Generate" in "key" add form
+    Then I click the button "Generate" in "key" add form
     And I wait for 5 seconds
-    Then I expect for the button "Add" in "key" add form to be clickable within 5 seconds
+    And I expect for the button "Add" in "key" add form to be clickable within 5 seconds
     When I focus on the button "Add" in "key" add form
     And I click the button "Add" in "key" add form
     Then I expect the "key" edit form to be visible within max 15 seconds
-    And I visit the Home page
-    And I wait for the dashboard to load
+    When I visit the Home page
+    When I wait for the dashboard to load
     When I visit the Keys page
     Then "TestKey2" key should be present within 15 seconds
     When I visit the Templates page
@@ -63,6 +63,7 @@ Feature: Orchestration
     And I open the "mist key" drop down
     And I wait for 1 seconds
     And I click the button "TestKey2" in the "mist key" dropdown
+    #And I expect for the button "Create Stack" in "stack" add form to be clickable within 9 seconds
     When I focus on the button "Create Stack" in "stack" add form
     And I click the button "Create Stack" in "stack" add form
     Then I expect the "stack" edit form to be visible within max 30 seconds

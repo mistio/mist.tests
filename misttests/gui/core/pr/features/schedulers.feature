@@ -29,9 +29,9 @@ Feature: Schedulers
   @scheduler-rename
   Scenario: Rename schedule
     When I click the "TestScheduler" "schedule"
-    Then I expect the "schedule" edit form to be visible within max 5 seconds
-    When I click the button "Edit" in "schedule" edit form
-    Then I expect the dialog "Edit Schedule" is open within 4 seconds
+    And I expect the "schedule" edit form to be visible within max 5 seconds
+    And I click the button "Edit" in "schedule" edit form
+    And I expect the dialog "Edit Schedule" is open within 4 seconds
     When I set the value "RenamedSchedule" to field "Name" in "Edit Schedule" dialog
     And I click the "Save" button in the dialog "Edit Schedule"
     And I expect the dialog "Edit Schedule" is closed within 4 seconds
@@ -72,7 +72,7 @@ Feature: Schedulers
     And I select "Repeat" from "schedule_type" radio-group
     #When I set the value "2" to field "Maximum Run Count" in "schedule" add form
     And I set the value "1" to field "interval" in "schedule" add form
-    And I click the "run_immediately" button with id "run_immediately"
+    And I click the "run_immediately" button
     And I click the button "Add" in "schedule" add form
     And I wait for 1 seconds
     When I visit the Home page
@@ -83,3 +83,4 @@ Feature: Schedulers
   Scenario: Check machine's state
     When I visit the Machines page
     Then "machine1-ui-testing" machine state has to be "running" within 20 seconds
+

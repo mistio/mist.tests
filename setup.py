@@ -1,5 +1,5 @@
 import os
-from setuptools import setup
+from setuptools import setup, find_packages
 
 REQS_DIR = os.path.join(os.path.abspath(os.path.dirname(__file__)),
                         'requirements.txt')

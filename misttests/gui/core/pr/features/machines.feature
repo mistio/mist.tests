@@ -19,6 +19,6 @@ Feature: Machines
     Then I expect for the button "Launch" in "machine" add form to be clickable within 10 seconds
     When I focus on the button "Launch" in "machine" add form
     And I wait for 2 seconds
-    And I click the "Launch" button with id "appformsubmit"
+    And I click the "Launch" button
     And I wait for 5 seconds
     Then "docker-ui-test-machine-random" machine state has to be "running" within 60 seconds
