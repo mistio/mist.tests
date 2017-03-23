@@ -1,5 +1,4 @@
 import pytest
-import random
 
 from time import time
 
@@ -9,7 +8,6 @@ from datetime import timedelta
 from misttests import config
 from misttests.api.helpers import *
 from misttests.helpers.setup import setup_user_if_not_exists
-
 
 from io import MistIoApi
 from misttests.api.core.core import MistCoreApi
@@ -46,9 +44,11 @@ def password2():
 def mist_io():
     return MistIoApi(config.MIST_URL + '/api/v1')
 
+
 @pytest.fixture
 def mist_core():
     return MistCoreApi(config.MIST_URL)
+
 
 @pytest.fixture
 def expires():
