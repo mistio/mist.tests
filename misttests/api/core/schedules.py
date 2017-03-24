@@ -222,15 +222,22 @@ class TestSchedulesFunctionality:
         machines_uuids = []
         machines_uuids.append(cache.get('machine2_id', ''))
         response = mist_core.add_schedule(api_token=owner_api_token, name='CrontabSchedule',
-                                          action='stop', schedule_type='crontab',
+                                          action='start', schedule_type='crontab',
                                           machines_uuids=machines_uuids,
                                           schedule_entry={'minute': '*', 'hour': '*', 'day_of_week': '*',
                                                           'day_of_month': '*', 'month_of_year': '*'}).post()
         assert_response_ok(response)
+        cache.set('crontab_schedule_id', response.json()['id'])
         response = mist_core.list_schedules(api_token=owner_api_token).get()
         assert_response_ok(response)
         assert len(response.json()) == 4
         print "Success"
+
+    def test_edit_crontab_schedule_ok(self, pretty_print, mist_core, cache, owner_api_token):
+        response = mist_core.edit_schedule(api_token=owner_api_token, schedule_id=cache.get('crontab_schedule_id', ''),
+                                           data={'action': 'stop'}).patch()
+        assert_response_ok(response)
+        print "Success!!!"
 
     def test_add_one_off_schedule_tags_ok(self, pretty_print, mist_core, owner_api_token):
         date_now = datetime.datetime.now().replace(microsecond=0)
