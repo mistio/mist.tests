@@ -137,6 +137,8 @@ class TestSchedulesFunctionality:
                                                       tags={'key': 'schedule_test', 'value': ''}).post()
                 assert_response_ok(response)
 
+        print "Success!!!"
+
     def test_add_one_off_schedule_missing_schedule_entry(self, pretty_print, mist_core, owner_api_token, cache):
         machines_uuids = []
         machines_uuids.append(cache.get('machine_id',''))
