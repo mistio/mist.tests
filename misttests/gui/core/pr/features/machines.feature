@@ -22,3 +22,14 @@ Feature: Machines
     And I click the "Launch" button with id "appformsubmit"
     And I wait for 5 seconds
     Then "docker-ui-test-machine-random" machine state has to be "running" within 60 seconds
+
+
+  @machine-destroy
+  Scenario: Destroy the machine created
+    When I click the "docker-ui-test-machine-random" "machine"
+    And I expect the "machine" edit form to be visible within max 5 seconds
+    Then I click the button "Destroy" from the menu of the "machine" edit form
+    And I expect the dialog "Destroy 1 Machines" is open within 4 seconds
+    And I click the "Destroy" button in the dialog "Destroy 1 Machines"
+    Then I visit the Machines page
+    Then "docker-ui-test-machine-random" machine should be absent within 40 second
