@@ -216,11 +216,13 @@ def click_menu_button_from_more_menu(context, button_name, title, form_type):
     form = get_add_form(context, form_type) if form_type == 'add' else \
         get_edit_form(context, title)
     if title == 'machine':
-        more_dropdown = form.find_element_by_class_name('more')
+        more_dropdown = form.find_element_by_id('select-multi-action-dropdown')
+        more_dropdown_button = form.find_element_by_class_name('more')
     else:
         more_dropdown = form.find_element_by_tag_name('paper-menu-button')
+        more_dropdown_button = more_dropdown
     assert more_dropdown, "Could not find more button"
-    clicketi_click(context, more_dropdown)
+    clicketi_click(context, more_dropdown_button)
     more_dropdown_buttons = more_dropdown.find_elements_by_tag_name('paper-button')
     assert more_dropdown_buttons, "There are no buttons within the more dropdown"
     timeout = time() + 5
