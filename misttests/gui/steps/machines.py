@@ -292,3 +292,12 @@ def check_machine_deletion(context, name, provider, seconds):
         while time() < end_time:
             if name not in machines_names_list:
                 break
+
+@step(u'I search for the machine "{name}"')
+def search_for_mayday_machine(context, name):
+    if context.mist_config.get(name):
+        name = context.mist_config.get(name)
+    search_bar = context.browser.find_element_by_css_selector("input.top-search")
+    for letter in name:
+        search_bar.send_keys(letter)
+    sleep(2)
