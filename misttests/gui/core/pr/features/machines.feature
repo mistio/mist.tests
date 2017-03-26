@@ -29,7 +29,8 @@ Feature: Machines
 
   @machine-destroy
   Scenario: Destroy the machine created
-    When I wait for the dashboard to load
+    When I visit the Home page
+    And I wait for the dashboard to load
     And I visit the Machines page after the counter has loaded
     Then I search for the machine "docker-ui-test-machine-random"
     When I click the "docker-ui-test-machine-random" "machine"
