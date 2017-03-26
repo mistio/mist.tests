@@ -24,7 +24,7 @@ Feature: Machines
     And I wait for 2 seconds
     And I click the "Launch" button with id "appformsubmit"
     And I wait for 5 seconds
-    Then "docker-ui-test-machine-random" machine state has to be "running" within 300 seconds
+    Then "docker-ui-test-machine-random" machine state has to be "running" within 100 seconds
 
 
   @machine-destroy
