@@ -29,6 +29,15 @@ def get_pytest_args(args_given):
     return pytest_args
 
 
+def get_behave_args(args_given):
+    behave_args = []
+    import ipdb; ipdb.set_trace()
+    behave_args.append('-k')
+    behave_args.append('--stop')
+    tags = ui_tests_features.get(args_given[0].strip('-'))
+    return
+
+
 def validate_args(args_to_be_cleaned, tests_type):
         for arg in args_to_be_cleaned:
             arg = arg.strip('-')
@@ -83,8 +92,6 @@ if __name__ == '__main__':
     args_to_be_cleaned = sys.argv[1:]
     clean_args(args_to_be_cleaned, cleanup_list)
 
-    import ipdb; ipdb.set_trace()
-
     if len(sys.argv) < 2:
         print "About to run everything..."
         # run concurrently API and UI
@@ -92,10 +99,10 @@ if __name__ == '__main__':
         raise Exception("You must either provide the gui or the api flag but "
                         "not both.")
     elif args.gui:
-        import ipdb; ipdb.set_trace()
         validate_args(args_to_be_cleaned, 'gui')
+        behave_args = get_behave_args(args_to_be_cleaned)
         import behave.__main__
-        sys.exit(behave.__main__.main(args_to_be_cleaned))
+        sys.exit(behave.__main__.main(behave_args))
     elif args.api:
         validate_args(args_to_be_cleaned, 'api')
         pytest_args = get_pytest_args(args_to_be_cleaned)
@@ -105,6 +112,6 @@ if __name__ == '__main__':
         raise Exception("Seriously now? WTF are you doing?")
 
 # cleanup
-# multiple UI tests
 # API - run entire suite
+# multiple UI tests
 # UI - run entire suite
