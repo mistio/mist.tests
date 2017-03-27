@@ -53,7 +53,7 @@ Feature: Production
     When I test the ssh connection 2 times for max 100 seconds each time
 
   @celery
-  Scenario: Production machine reboot testing
+  Scenario: Production machine provisioning testing
     Given I am logged in to mist.core
     And I wait for the dashboard to load
     Given "AWS" cloud has been added
