@@ -1,6 +1,10 @@
 import argparse
+import types
+import sys
 
 from misttests import config
+
+from prepare_env import snake_to_arg, prepare_arg_parser, clean_args
 
 if __name__ == '__main__':
 
@@ -23,7 +27,16 @@ if __name__ == '__main__':
 
     import ipdb;ipdb.set_trace()
 
+    args_to_be_cleaned = sys.argv[1:]
+    clean_args(args_to_be_cleaned, cleanup_list)
+
     if args.gui and args.api:
         raise Exception("You must either provide the gui or the api flag but "
                         "not both. If you provide no flag then the behave will"
                         " be invoked")
+    elif args.gui:
+        import behave.__main__
+        sys.exit(behave.__main__.main(args_to_be_cleaned))
+    elif args.api:
+        import pytest
+        sys.exit(pytest.main(args_to_be_cleaned))
