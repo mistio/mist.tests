@@ -7,6 +7,18 @@ from misttests import config
 from prepare_env import snake_to_arg, prepare_arg_parser
 
 
+ui_tests_features = {
+    'clouds': ['clouds_actions', 'clouds_add_a', 'clouds_add_b'],
+    'images': ['images_networks'],
+    'keys': ['keys'],
+    'machines': ['orchestration'],
+    'rbac': ['rbac_rules', 'rbac_teams'],
+    'schedules': ['schedulers', 'schedulers_b'],
+    'scripts': ['scripts'],
+    'users': ['user_actions, user_init']
+}
+
+
 def get_pytest_args(args_given):
     pytest_args = []
     pytest_args.append('-s')
