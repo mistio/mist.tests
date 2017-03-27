@@ -6,6 +6,8 @@ from misttests import config
 
 from prepare_env import snake_to_arg, prepare_arg_parser
 
+API_TESTS = ['clouds', 'machines', 'keys', 'scripts', 'images', 'api_token',
+             'tunnels', 'schedules']
 
 ui_tests_features = {
     'clouds': ['clouds-actions', 'clouds-add-a', 'clouds-add-b'],
@@ -27,14 +29,15 @@ def get_pytest_args(args_given):
     return pytest_args
 
 
-def validate_args(args_to_be_cleaned):
-    for arg in args_to_be_cleaned:
-        import ipdb;ipdb.set_trace()
-        arg = arg.strip('-')
-        if arg not in ['clouds', 'machines', 'keys', 'scripts', 'images', 'api_token',
-                       'tunnels', 'schedules']:
-            raise Exception("Api tests can run on the following resources: clouds, machines, keys, "
-                            "scripts, images, api_token, tunnels, schedules")
+def validate_args(args_to_be_cleaned, tests_type):
+        for arg in args_to_be_cleaned:
+            arg = arg.strip('-')
+            if 'api' in tests_type and arg not in API_TESTS:
+                raise Exception("Api tests can run on the following resources: clouds, machines, keys, "
+                                "scripts, images, api_token, tunnels, schedules")
+            if 'gui' in tests_type and arg not in ui_tests_features.keys():
+                raise Exception("UI tests can run on the following resources: clouds, machines, keys, "
+                                "scripts, images, users, rbac, schedules")
 
 
 def arg_index(arg_list, arg):
@@ -83,23 +86,25 @@ if __name__ == '__main__':
     import ipdb; ipdb.set_trace()
 
     if len(sys.argv) < 2:
-        print "koble"
+        print "About to run everything..."
         # run concurrently API and UI
     elif args.gui and args.api:
         raise Exception("You must either provide the gui or the api flag but "
                         "not both.")
     elif args.gui:
+        import ipdb; ipdb.set_trace()
+        validate_args(args_to_be_cleaned, 'gui')
         import behave.__main__
         sys.exit(behave.__main__.main(args_to_be_cleaned))
     elif args.api:
-        validate_args(args_to_be_cleaned)
+        validate_args(args_to_be_cleaned, 'api')
         pytest_args = get_pytest_args(args_to_be_cleaned)
         import pytest
         sys.exit(pytest.main(pytest_args))
     else:
         raise Exception("Seriously now? WTF are you doing?")
 
-# UI
 # cleanup
+# multiple UI tests
 # API - run entire suite
 # UI - run entire suite
