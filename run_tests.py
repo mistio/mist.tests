@@ -4,7 +4,7 @@ import sys
 
 from misttests import config
 
-from prepare_env import snake_to_arg, prepare_arg_parser, arg_to_snake
+from prepare_env import snake_to_arg, prepare_arg_parser
 
 
 def get_pytest_args(args_given):
@@ -17,11 +17,12 @@ def get_pytest_args(args_given):
 
 def validate_args(args_to_be_cleaned):
     for arg in args_to_be_cleaned:
+        import ipdb;ipdb.set_trace()
         arg = arg.strip('-')
-        if arg not in ['clouds, machines, keys, scripts, images, api_token',
+        if arg not in ['clouds', 'machines', 'keys', 'scripts', 'images', 'api_token',
                        'tunnels', 'schedules']:
-            raise Exception("Api tests can run on the following resources: clouds, machines, keys,"
-                            "scripts, images, api_token")
+            raise Exception("Api tests can run on the following resources: clouds, machines, keys, "
+                            "scripts, images, api_token, tunnels, schedules")
 
 
 def arg_index(arg_list, arg):
@@ -83,7 +84,6 @@ if __name__ == '__main__':
         raise Exception("Seriously now? WTF are you doing?")
 
 
-# API - run multiple tests
 # API - run entire suite
 # API + UI - run everything if no flag
 # cleanup
