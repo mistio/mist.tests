@@ -8,14 +8,14 @@ from prepare_env import snake_to_arg, prepare_arg_parser
 
 
 ui_tests_features = {
-    'clouds': ['clouds_actions', 'clouds_add_a', 'clouds_add_b'],
-    'images': ['images_networks'],
+    'clouds': ['clouds-actions', 'clouds-add-a', 'clouds-add-b'],
+    'images': ['images-networks'],
     'keys': ['keys'],
     'machines': ['orchestration'],
-    'rbac': ['rbac_rules', 'rbac_teams'],
-    'schedules': ['schedulers', 'schedulers_b'],
+    'rbac': ['rbac-rules', 'rbac-teams'],
+    'schedules': ['schedulers', 'schedulers_v2'],
     'scripts': ['scripts'],
-    'users': ['user_actions, user_init']
+    'users': ['user-actions']
 }
 
 

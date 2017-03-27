@@ -83,8 +83,6 @@ if __name__ == '__main__':
             arg = snake_to_arg(attr)
             prepare_arg_parser(parser, cleanup_list, arg, default=None)
 
-    import ipdb; ipdb.set_trace()
-
     prepare_arg_parser(parser, cleanup_list, '--gui', action='store_true')
     prepare_arg_parser(parser, cleanup_list, '--api', action='store_true')
 
@@ -103,6 +101,7 @@ if __name__ == '__main__':
     clean_args(args_to_be_cleaned, cleanup_list)
 
     if args.gui or not args.api:
+        import ipdb; ipdb.set_trace()
         import behave.__main__
         sys.exit(behave.__main__.main(args_to_be_cleaned))
     else:
