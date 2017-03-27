@@ -81,13 +81,13 @@ if __name__ == '__main__':
         sys.exit(behave.__main__.main(args_to_be_cleaned))
     elif args.api:
         validate_args(args_to_be_cleaned)
-        import ipdb;ipdb.set_trace()
         pytest_args = get_pytest_args(args_to_be_cleaned)
         import pytest
         sys.exit(pytest.main(pytest_args))
     else:
         raise Exception("Seriously now? WTF are you doing?")
 
-# API - run entire suite
-# cleanup
 # UI
+# cleanup
+# API - run entire suite
+# UI - run entire suite
