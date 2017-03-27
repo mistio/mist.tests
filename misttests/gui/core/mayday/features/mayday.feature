@@ -54,8 +54,7 @@ Feature: Production
 
   @celery
   Scenario: Production machine reboot testing
-    Given I am logged in to mist.core
-    And "Docker" cloud has been added
+    Given "Docker" cloud has been added
     When I refresh the page
     And I wait for the dashboard to load
     And I visit the Machines page
