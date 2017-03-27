@@ -55,11 +55,10 @@ Feature: Production
   @celery
   Scenario: Production machine provisioning testing
     Given I am logged in to mist.core
-    And I wait for the dashboard to load
     Given "AWS" cloud has been added
     When I refresh the page
     And I wait for the dashboard to load
-    And I visit the Machines page
+    When I visit the Machines page after the counter has loaded
     And I click the button "+"
     Then I expect the "Machine" add form to be visible within max 10 seconds
     When I open the "Choose Cloud" drop down
