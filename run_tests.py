@@ -82,4 +82,9 @@ if __name__ == '__main__':
     else:
         raise Exception("Seriously now? WTF are you doing?")
 
+
+# API - run multiple tests
 # API - run entire suite
+# API + UI - run everything if no flag
+# cleanup
+# UI
