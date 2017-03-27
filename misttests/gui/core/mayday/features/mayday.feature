@@ -55,6 +55,7 @@ Feature: Production
   @celery
   Scenario: Production machine provisioning testing
     Given I am logged in to mist.core
+    When I visit the Home page
     Given "AWS" cloud has been added
     When I refresh the page
     And I wait for the dashboard to load
