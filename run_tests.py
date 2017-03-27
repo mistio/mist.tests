@@ -15,7 +15,6 @@ def arg_index(arg_list, arg):
 
 
 def clean_args(arg_list, args_to_be_removed):
-    import ipdb;ipdb.set_trace()
     if len(arg_list) == 0 or len(args_to_be_removed) == 0:
         return
     next_arg_to_clean = args_to_be_removed.pop()
@@ -58,6 +57,9 @@ if __name__ == '__main__':
         import behave.__main__
         sys.exit(behave.__main__.main(args_to_be_cleaned))
     elif args.api:
+        import ipdb;ipdb.set_trace()
+        args_to_be_cleaned.append('-s')
+        args_to_be_cleaned.append('tests/misttests/api/core/clouds.py')
         import pytest
         # here check args to be cleaned...
         sys.exit(pytest.main(args_to_be_cleaned))
