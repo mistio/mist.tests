@@ -6,9 +6,23 @@ from misttests import config
 
 from prepare_env import snake_to_arg, prepare_arg_parser, arg_to_snake
 
-api_tests_paths= {
-    '-clouds' : ''
-}
+
+def get_pytest_args(args_given):
+    pytest_args = []
+    pytest_args.append('-s')
+    api_test_path = 'tests/misttests/api/core/' + args_given[0].strip('-') + '.py'
+    pytest_args.append(api_test_path)
+    return pytest_args
+
+
+def validate_args(args_to_be_cleaned):
+    for arg in args_to_be_cleaned:
+        arg = arg.strip('-')
+        if arg not in ['clouds, machines, keys, scripts, images, api_token',
+                       'tunnels', 'schedules']:
+            raise Exception("Api tests can run on the following resources: clouds, machines, keys,"
+                            "scripts, images, api_token")
+
 
 def arg_index(arg_list, arg):
     for i in range(len(arg_list)):
@@ -55,19 +69,17 @@ if __name__ == '__main__':
 
     if args.gui and args.api:
         raise Exception("You must either provide the gui or the api flag but "
-                        "not both")
+                        "not both.")
     elif args.gui:
         import behave.__main__
         sys.exit(behave.__main__.main(args_to_be_cleaned))
     elif args.api:
+        validate_args(args_to_be_cleaned)
         import ipdb;ipdb.set_trace()
-        args_to_be_cleaned.append('-s')
-        api_test_path = 'tests/misttests/api/core/' + args_to_be_cleaned[0].strip('-') + '.py'
-        args_to_be_cleaned.append(api_test_path)
-        del args_to_be_cleaned[0]
+        pytest_args = get_pytest_args(args_to_be_cleaned)
         import pytest
-        # here check args to be cleaned...
-        sys.exit(pytest.main(args_to_be_cleaned))
-
+        sys.exit(pytest.main(pytest_args))
+    else:
+        raise Exception("Seriously now? WTF are you doing?")
 
 # API - run entire suite
