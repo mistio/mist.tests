@@ -60,6 +60,14 @@ def set_values_to_create_machine_form(context,provider,machine_name):
             ''' % (machine_name,
                    machine_values_dict.get(provider)[0]))
 
+def set_extra_values_to_create_machine_form(context,provider,machine_name):
+    context.execute_steps(u'''
+                When I open the "Location" drop down
+                And I click the button "%s" in the "Location" dropdown
+                When I open the "Size" drop down
+                And I click the button "%s" in the "Size" dropdown
+            ''' % (machine_values_dict.get(provider)[2], machine_values_dict.get(provider)[1]))
+
 
 @step(u'I select the proper values for "{provider}" to create the "{machine_name}" machine')
 def cloud_creds(context, provider, machine_name):
@@ -67,6 +75,8 @@ def cloud_creds(context, provider, machine_name):
     if provider not in machine_values_dict.keys():
         raise Exception("Unknown cloud provider")
     set_values_to_create_machine_form(context,provider,machine_name)
+    if provider == "aws":
+        set_extra_values_to_create_machine_form(context,provider,machine_name)
 
 
 @step(u'I expect for "{key}" key to appear within max {seconds} seconds')

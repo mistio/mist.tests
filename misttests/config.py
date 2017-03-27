@@ -121,6 +121,7 @@ NAME = get_setting("NAME", "Atheofovos Gkikas")
 
 # -----------MAYDAY------------------
 MAYDAY_MACHINE = get_setting("MAYDAY_MACHINE", "")
+MAYDAY_KEY = get_setting("MAYDAY_KEY", "")
 
 # DEFAULT CREDENTIALS FOR ACCESSING MIST.CORE
 BASE_EMAIL = get_setting("BASE_EMAIL", "fatboy.tester.mist.io")

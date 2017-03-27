@@ -10,8 +10,10 @@ from misttests.gui.steps.popups import *
 from misttests.gui.steps.modals import *
 from misttests.gui.steps.ssh import *
 from misttests.gui.steps.utils import focus_on_element
-from misttests.gui.steps.tags import *
 from misttests.gui.steps.list import *
+from misttests.gui.steps.browser import *
+from misttests.gui.steps.dialog import *
+from misttests.gui.steps.scroll import *
 
 from selenium.webdriver import ActionChains
 from selenium.webdriver.common.keys import Keys
@@ -88,6 +90,20 @@ def choose_mayday_machine(context):
 
         sleep(2)
     assert False, u'Could not choose/tick %s machine' % name
+
+
+@step(u'I select the mayday key')
+def choose_mayday_key(context):
+    if context.mist_config.get('MAYDAY_KEY'):
+        name = context.mist_config.get('MAYDAY_KEY')
+    else:
+        name = "mayday"
+
+    context.execute_steps(u'''
+                When I open the "Key" drop down
+                And I click the button "%s" in the "Key" dropdown
+            ''' % (name))
+
 
 @step(u'I fill "{value}" as metric value')
 def rule_value(context, value):
