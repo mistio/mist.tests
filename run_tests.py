@@ -34,8 +34,14 @@ def get_behave_args(args_given):
     import ipdb; ipdb.set_trace()
     behave_args.append('-k')
     behave_args.append('--stop')
-    tags = ui_tests_features.get(args_given[0].strip('-'))
-    return
+    tags_arg = '--tags='
+    tag_values = ui_tests_features.get(args_given[0].strip('-'))
+    for tag in tag_values:
+        tags_arg.join(tag)
+        tags_arg.join(',')
+    behave_args.append(tags_arg)
+    behave_args.append('tests/misttests/gui/core/pr/features')
+    return behave_args
 
 
 def validate_args(args_to_be_cleaned, tests_type):
@@ -111,6 +117,8 @@ if __name__ == '__main__':
     else:
         raise Exception("Seriously now? WTF are you doing?")
 
+
+# multiple tags
 # cleanup
 # API - run entire suite
 # multiple UI tests
