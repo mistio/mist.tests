@@ -4,7 +4,30 @@ import sys
 
 from misttests import config
 
-from prepare_env import snake_to_arg, prepare_arg_parser, clean_args
+from prepare_env import snake_to_arg, prepare_arg_parser
+
+
+def arg_index(arg_list, arg):
+    for i in range(len(arg_list)):
+        if arg_list[i].startswith(arg):
+            return i
+    raise ValueError
+
+
+def clean_args(arg_list, args_to_be_removed):
+    import ipdb;ipdb.set_trace()
+    if len(arg_list) == 0 or len(args_to_be_removed) == 0:
+        return
+    next_arg_to_clean = args_to_be_removed.pop()
+    try:
+        while True:
+            index = arg_index(arg_list, next_arg_to_clean)
+            del arg_list[index]
+            while index < len(arg_list) and not arg_list[index].startswith('-'):
+                del arg_list[index]
+    except ValueError:
+        pass
+    clean_args(arg_list, args_to_be_removed)
 
 if __name__ == '__main__':
 
@@ -25,18 +48,16 @@ if __name__ == '__main__':
 
     args = parser.parse_known_args()[0]
 
-    import ipdb;ipdb.set_trace()
-
     args_to_be_cleaned = sys.argv[1:]
     clean_args(args_to_be_cleaned, cleanup_list)
 
     if args.gui and args.api:
         raise Exception("You must either provide the gui or the api flag but "
-                        "not both. If you provide no flag then the behave will"
-                        " be invoked")
+                        "not both")
     elif args.gui:
         import behave.__main__
         sys.exit(behave.__main__.main(args_to_be_cleaned))
     elif args.api:
         import pytest
+        # here check args to be cleaned...
         sys.exit(pytest.main(args_to_be_cleaned))
