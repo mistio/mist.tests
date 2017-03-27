@@ -68,7 +68,12 @@ if __name__ == '__main__':
     args_to_be_cleaned = sys.argv[1:]
     clean_args(args_to_be_cleaned, cleanup_list)
 
-    if args.gui and args.api:
+    import ipdb; ipdb.set_trace()
+
+    if len(sys.argv) < 2:
+        print "koble"
+        # run concurrently API and UI
+    elif args.gui and args.api:
         raise Exception("You must either provide the gui or the api flag but "
                         "not both.")
     elif args.gui:
@@ -83,8 +88,6 @@ if __name__ == '__main__':
     else:
         raise Exception("Seriously now? WTF are you doing?")
 
-
 # API - run entire suite
-# API + UI - run everything if no flag
 # cleanup
 # UI
