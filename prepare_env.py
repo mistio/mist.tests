@@ -83,6 +83,8 @@ if __name__ == '__main__':
             arg = snake_to_arg(attr)
             prepare_arg_parser(parser, cleanup_list, arg, default=None)
 
+    import ipdb; ipdb.set_trace()
+
     prepare_arg_parser(parser, cleanup_list, '--gui', action='store_true')
     prepare_arg_parser(parser, cleanup_list, '--api', action='store_true')
 

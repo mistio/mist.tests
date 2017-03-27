@@ -4,8 +4,11 @@ import sys
 
 from misttests import config
 
-from prepare_env import snake_to_arg, prepare_arg_parser
+from prepare_env import snake_to_arg, prepare_arg_parser, arg_to_snake
 
+api_tests_paths= {
+    '-clouds' : ''
+}
 
 def arg_index(arg_list, arg):
     for i in range(len(arg_list)):
@@ -59,7 +62,12 @@ if __name__ == '__main__':
     elif args.api:
         import ipdb;ipdb.set_trace()
         args_to_be_cleaned.append('-s')
-        args_to_be_cleaned.append('tests/misttests/api/core/clouds.py')
+        api_test_path = 'tests/misttests/api/core/' + args_to_be_cleaned[0].strip('-') + '.py'
+        args_to_be_cleaned.append(api_test_path)
+        del args_to_be_cleaned[0]
         import pytest
         # here check args to be cleaned...
         sys.exit(pytest.main(args_to_be_cleaned))
+
+
+# API - run entire suite
