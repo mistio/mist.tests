@@ -10,6 +10,7 @@ from misttests.gui.steps.popups import *
 from misttests.gui.steps.modals import *
 from misttests.gui.steps.ssh import *
 from misttests.gui.steps.utils import focus_on_element
+from misttests.gui.steps.list import *
 
 from selenium.webdriver import ActionChains
 from selenium.webdriver.common.keys import Keys
