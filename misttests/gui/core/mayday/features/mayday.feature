@@ -58,7 +58,6 @@ Feature: Production
     When I visit the Home page
     Given "AWS" cloud has been added
     When I refresh the page
-    And I wait for the dashboard to load
     When I visit the Machines page after the counter has loaded
     And I click the button "+"
     Then I expect the "Machine" add form to be visible within max 10 seconds
