@@ -26,6 +26,16 @@ Feature: Machines
     And I wait for 5 seconds
     Then "docker-ui-test-machine-random" machine state has to be "running" within 100 seconds
 
+  @machine-stop
+  Scenario: Stop machine created above and check state
+    When I visit the Machines page
+    When I click the "api_test_machine_3" "machine"
+    Then I expect the "machine" edit form to be visible within max 5 seconds
+    When I click the button "Stop" from the menu of the "machine" edit form
+    Then I expect the dialog "Stop 1 Machines" is open within 4 seconds
+    And I click the "Stop" button in the dialog "Stop 1 Machines"
+    Then I visit the Machines page
+    Then "api_test_machine_3" machine state has to be "stopped" within 30 seconds
 
   @machine-destroy
   Scenario: Destroy the machine created
@@ -42,3 +52,13 @@ Feature: Machines
     And I click the "Destroy" button in the dialog "Destroy 1 Machines"
     Then I visit the Machines page
     Then "docker-ui-test-machine-random" machine should be absent within 60 seconds
+
+#  @machine-shell
+#  Scenario: Check shell access
+#    When I visit the Machines page
+#    Then I search for the machine "api_test_machine_3"
+#    When I click the "api_test_machine_3" "machine"
+#    And I clear the machines search bar
+#    And I expect the "machine" edit form to be visible within max 5 seconds
+#    And I wait for 2 seconds
+#    Then I click the button "Shell" from the menu of the "machine" edit form
