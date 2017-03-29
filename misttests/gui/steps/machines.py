@@ -48,7 +48,7 @@ machine_values_dict = {
     "nephoscale": ["Ubuntu Server 14.04 LTS 64-bit", "CS05 - Cloud Server 0.5 GB RAM, 1 Core", "SJC-1"],
     "softlayer": ["Ubuntu - Latest (64 bit) ", "1 CPU, 1GB ram, 25GB ", "AMS01 - Amsterdam"],
     "azure": ["Ubuntu Server 14.04 LTS", "ExtraSmall (1 cores, 768 MB) ", "West Europe"],
-    "docker": ["Fedora 20"]
+    "docker": ["mist/ubuntu-14.04:latest"]
 }
 
 
@@ -57,6 +57,8 @@ def set_values_to_create_machine_form(context,provider,machine_name):
                 Then I set the value "%s" to field "Machine Name" in "machine" add form
                 When I open the "Image" drop down
                 And I click the button "%s" in the "Image" dropdown
+                And I open the "Key" drop down
+                And I click the button "Key1" in the "Key" dropdown
             ''' % (machine_name,
                    machine_values_dict.get(provider)[0]))
 
