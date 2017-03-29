@@ -135,6 +135,8 @@ def check_ssh_connection(context):
     get some output.
     """
     check_ssh_connection_with_timeout(context)
+    clicketi_click(context, context.browser.find_element_by_xpath("//iron-icon[@icon='icons:close']"))
+    WebDriverWait(context.browser, 4).until(EC.invisibility_of_element_located((By.CLASS_NAME, 'terminal')))
 
 
 @step(u'I test the ssh connection for max {seconds} seconds')
