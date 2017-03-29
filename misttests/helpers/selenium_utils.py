@@ -30,7 +30,7 @@ def choose_driver(flavor=None):
         driver = webdriver.PhantomJS(executable_path=config.WEBDRIVER_PATH)
     else:
         raise Exception("%s is not supported!" % flavor)
-
+    driver.set_window_size(1024,768)
     return driver
 
 
