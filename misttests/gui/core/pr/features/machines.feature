@@ -48,12 +48,11 @@ Feature: Machines
     And I wait for 2 seconds
     Then I click the button "Shell" from the menu of the "machine" edit form
     And I test the ssh connection
+    And I wait for 1 seconds
 
 
   @machine-stop
   Scenario: Stop machine created above and check state
-    When I click the "docker-ui-test-machine-random" "machine"
-    Then I expect the "machine" edit form to be visible within max 5 seconds
     When I click the button "Stop" from the menu of the "machine" edit form
     Then I expect the dialog "Stop 1 Machines" is open within 4 seconds
     And I click the "Stop" button in the dialog "Stop 1 Machines"
