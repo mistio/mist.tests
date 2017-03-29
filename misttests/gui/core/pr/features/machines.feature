@@ -28,14 +28,23 @@ Feature: Machines
 
   @machine-stop
   Scenario: Stop machine created above and check state
-    When I visit the Machines page
-    When I click the "api_test_machine_3" "machine"
+    When I click the "docker-ui-test-machine-random" "machine"
     Then I expect the "machine" edit form to be visible within max 5 seconds
     When I click the button "Stop" from the menu of the "machine" edit form
     Then I expect the dialog "Stop 1 Machines" is open within 4 seconds
     And I click the "Stop" button in the dialog "Stop 1 Machines"
     Then I visit the Machines page
-    Then "api_test_machine_3" machine state has to be "stopped" within 30 seconds
+    Then "docker-ui-test-machine-random" machine state has to be "stopped" within 30 seconds
+
+  @machine-start
+  Scenario: Start the machine created above
+    When I click the "docker-ui-test-machine-random" "machine"
+    Then I expect the "machine" edit form to be visible within max 5 seconds
+    When I click the button "Start" from the menu of the "machine" edit form
+    Then I expect the dialog "Start 1 Machines" is open within 4 seconds
+    And I click the "Start" button in the dialog "Stop 1 Machines"
+    Then I visit the Machines page
+    Then "docker-ui-test-machine-random" machine state has to be "running" within 30 seconds
 
   @machine-destroy
   Scenario: Destroy the machine created
