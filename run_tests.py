@@ -21,6 +21,7 @@ ui_tests_features = {
     'users': ['user-actions']
 }
 
+BEHAVE_ARGS_RUN_ENTIRE_SUITE = ['-k', '--stop', 'src/mist.io/tests/misttests/gui/core/pr/features']
 
 def get_pytest_args(args_given):
     pytest_args = []
@@ -109,7 +110,11 @@ if __name__ == '__main__':
                         "not both.")
     elif args.gui:
         validate_args(args_to_be_cleaned, 'gui')
-        behave_args = get_behave_args(args_to_be_cleaned)
+        if len(args_to_be_cleaned) > 0:
+            behave_args = get_behave_args(args_to_be_cleaned)
+        else:
+            behave_args = BEHAVE_ARGS_RUN_ENTIRE_SUITE
+        import ipdb;ipdb.set_trace()
         # concurrency goes here!
         import behave.__main__
         sys.exit(behave.__main__.main(behave_args))
@@ -122,10 +127,7 @@ if __name__ == '__main__':
         raise Exception("Seriously now? WTF are you doing?")
 
 
-
-# properly find test_settings.py
 # API - run entire suite
-# UI - run entire suite
 # -help
 # cleanup
 # concurrency
