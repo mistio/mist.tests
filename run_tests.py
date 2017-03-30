@@ -121,7 +121,9 @@ if __name__ == '__main__':
 # run 1 ui test
 # run multipl api tests
 # run multiple ui tests
-# cleanup
+# properly find test_settings.py
 
 # API - run entire suite
 # UI - run entire suite
+# -help
+# cleanup
