@@ -37,10 +37,11 @@ def get_behave_args(args_given):
     behave_args.append('-k')
     behave_args.append('--stop')
     tags_arg = '--tags='
-    tag_values = ui_tests_features.get(args_given[0].strip('-'))
-    for tag in tag_values:
-        tags_arg += tag
-        tags_arg += ','
+    for arg in args_given:
+        tag_values = ui_tests_features.get(arg.strip('-'))
+        for tag in tag_values:
+            tags_arg += tag
+            tags_arg += ','
     behave_args.append(tags_arg)
     behave_args.append('src/mist.io/tests/misttests/gui/core/pr/features')
     return behave_args
@@ -98,10 +99,7 @@ if __name__ == '__main__':
     args = parser.parse_known_args()[0]
 
     args_to_be_cleaned = sys.argv[1:]
-    import ipdb;ipdb.set_trace()
     clean_args(args_to_be_cleaned, cleanup_list)
-
-    import ipdb;ipdb.set_trace()
 
     if len(sys.argv) < 2:
         print "About to run everything..."
@@ -112,6 +110,7 @@ if __name__ == '__main__':
     elif args.gui:
         validate_args(args_to_be_cleaned, 'gui')
         behave_args = get_behave_args(args_to_be_cleaned)
+        # concurrency goes here!
         import behave.__main__
         sys.exit(behave.__main__.main(behave_args))
     elif args.api:
@@ -124,7 +123,6 @@ if __name__ == '__main__':
 
 
 
-# run multiple ui tests
 # properly find test_settings.py
 # API - run entire suite
 # UI - run entire suite
