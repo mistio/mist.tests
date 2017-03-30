@@ -26,7 +26,7 @@ def get_pytest_args(args_given):
     pytest_args = []
     pytest_args.append('-s')
     for arg in args_given:
-        api_test_path = 'tests/misttests/api/core/' + arg.strip('-') + '.py'
+        api_test_path = 'src/mist.io/tests/misttests/api/core/' + arg.strip('-') + '.py'
         pytest_args.append(api_test_path)
     return pytest_args
 
@@ -42,7 +42,7 @@ def get_behave_args(args_given):
         tags_arg += tag
         tags_arg += ','
     behave_args.append(tags_arg)
-    behave_args.append('tests/misttests/gui/core/pr/features')
+    behave_args.append('src/mist.io/tests/misttests/gui/core/pr/features')
     return behave_args
 
 
@@ -130,3 +130,4 @@ if __name__ == '__main__':
 # UI - run entire suite
 # -help
 # cleanup
+# concurrency
