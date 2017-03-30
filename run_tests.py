@@ -26,7 +26,7 @@ def get_pytest_args(args_given):
     pytest_args = []
     pytest_args.append('-s')
     for arg in args_given:
-        api_test_path = 'misttests/api/core/' + arg.strip('-') + '.py'
+        api_test_path = 'tests/misttests/api/core/' + arg.strip('-') + '.py'
         pytest_args.append(api_test_path)
     return pytest_args
 
@@ -39,8 +39,8 @@ def get_behave_args(args_given):
     tags_arg = '--tags='
     tag_values = ui_tests_features.get(args_given[0].strip('-'))
     for tag in tag_values:
-        tags_arg.join(tag)
-        tags_arg.join(',')
+        tags_arg += tag
+        tags_arg += ','
     behave_args.append(tags_arg)
     behave_args.append('tests/misttests/gui/core/pr/features')
     return behave_args
@@ -101,6 +101,8 @@ if __name__ == '__main__':
     import ipdb;ipdb.set_trace()
     clean_args(args_to_be_cleaned, cleanup_list)
 
+    import ipdb;ipdb.set_trace()
+
     if len(sys.argv) < 2:
         print "About to run everything..."
         # run concurrently API and UI
@@ -121,10 +123,9 @@ if __name__ == '__main__':
         raise Exception("Seriously now? WTF are you doing?")
 
 
-# run 1 ui test
+
 # run multiple ui tests
 # properly find test_settings.py
-
 # API - run entire suite
 # UI - run entire suite
 # -help
