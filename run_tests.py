@@ -23,6 +23,7 @@ ui_tests_features = {
 
 BEHAVE_ARGS_RUN_ENTIRE_SUITE = ['-k', '--stop', 'src/mist.io/tests/misttests/gui/core/pr/features']
 
+
 def get_pytest_args(args_given):
     pytest_args = []
     pytest_args.append('-s')
@@ -109,8 +110,8 @@ if __name__ == '__main__':
         raise Exception("You must either provide the gui or the api flag but "
                         "not both.")
     elif args.gui:
-        validate_args(args_to_be_cleaned, 'gui')
         if len(args_to_be_cleaned) > 0:
+            validate_args(args_to_be_cleaned, 'gui')
             behave_args = get_behave_args(args_to_be_cleaned)
         else:
             behave_args = BEHAVE_ARGS_RUN_ENTIRE_SUITE
@@ -119,15 +120,19 @@ if __name__ == '__main__':
         import behave.__main__
         sys.exit(behave.__main__.main(behave_args))
     elif args.api:
-        validate_args(args_to_be_cleaned, 'api')
-        pytest_args = get_pytest_args(args_to_be_cleaned)
+        if len(args_to_be_cleaned) > 0:
+            validate_args(args_to_be_cleaned, 'api')
+            pytest_args = get_pytest_args(args_to_be_cleaned)
+        else:
+            pytest_args = get_pytest_args(API_TESTS)
         import pytest
         sys.exit(pytest.main(pytest_args))
     else:
         raise Exception("Seriously now? WTF are you doing?")
 
 
-# API - run entire suite
 # -help
-# cleanup
 # concurrency
+# api tests- run
+# cleanup
+# fix_container settings
