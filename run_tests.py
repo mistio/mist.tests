@@ -24,7 +24,7 @@ ui_tests_features = {
 def get_pytest_args(args_given):
     pytest_args = []
     pytest_args.append('-s')
-    api_test_path = 'tests/misttests/api/core/' + args_given[0].strip('-') + '.py'
+    api_test_path = 'misttests/api/core/' + args_given[0].strip('-') + '.py'
     pytest_args.append(api_test_path)
     return pytest_args
 
@@ -118,8 +118,10 @@ if __name__ == '__main__':
         raise Exception("Seriously now? WTF are you doing?")
 
 
-# multiple tags
+# run 1 ui test
+# run multipl api tests
+# run multiple ui tests
 # cleanup
+
 # API - run entire suite
-# multiple UI tests
 # UI - run entire suite
