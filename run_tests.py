@@ -4,6 +4,7 @@ import sys
 
 from misttests import config
 
+
 from prepare_env import snake_to_arg, prepare_arg_parser
 
 API_TESTS = ['clouds', 'machines', 'keys', 'scripts', 'images', 'api_token',
@@ -24,8 +25,9 @@ ui_tests_features = {
 def get_pytest_args(args_given):
     pytest_args = []
     pytest_args.append('-s')
-    api_test_path = 'misttests/api/core/' + args_given[0].strip('-') + '.py'
-    pytest_args.append(api_test_path)
+    for arg in args_given:
+        api_test_path = 'misttests/api/core/' + arg.strip('-') + '.py'
+        pytest_args.append(api_test_path)
     return pytest_args
 
 
@@ -96,6 +98,7 @@ if __name__ == '__main__':
     args = parser.parse_known_args()[0]
 
     args_to_be_cleaned = sys.argv[1:]
+    import ipdb;ipdb.set_trace()
     clean_args(args_to_be_cleaned, cleanup_list)
 
     if len(sys.argv) < 2:
@@ -119,7 +122,6 @@ if __name__ == '__main__':
 
 
 # run 1 ui test
-# run multipl api tests
 # run multiple ui tests
 # properly find test_settings.py
 
