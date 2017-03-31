@@ -20,8 +20,6 @@ ui_tests_features = {
     'users': ['user-actions']
 }
 
-BEHAVE_ARGS_RUN_ENTIRE_SUITE = ['-k', '--stop', 'src/mist.io/tests/misttests/gui/core/pr/features']
-
 
 def get_pytest_args(args_given):
     pytest_args = []
