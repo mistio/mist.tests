@@ -13,6 +13,7 @@ RUN echo "deb http://ftp.debian.org/debian jessie-backports main" >> /etc/apt/so
         libgconf-2-4 \
         libav-tools \
         vim \
+        jq \
         x11vnc && \
     apt-get -t jessie-backports -y --no-install-recommends install ffmpeg && \
     rm -rf /var/lib/apt/lists/* /var/cache/apt/*
