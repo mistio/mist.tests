@@ -1,5 +1,19 @@
 stages:
   - test
+  - build
+
+.docker_build_template: &docker_build_template
+  stage: build
+  tags:
+    - builder
+  dependencies: []
+
+tests_base_manual_build:
+  <<: *docker_build_template
+  when: manual
+  script:
+    - docker build --rm -t gcr.io/mist-ops/tests_base:$CI_COMMIT_REF_SLUG .
+    - docker push gcr.io/mist-ops/tests_base:$CI_COMMIT_REF_SLUG
 
 run_mayday_test:
   image: gcr.io/mist-ops/tests_base
