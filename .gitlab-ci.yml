@@ -1,6 +1,6 @@
 stages:
-  - test
   - build
+  - test
 
 variables:
   img: gcr.io/mist-ops/tests_base
@@ -20,3 +20,22 @@ build:
     - docker push $img:latest
   tags:
     - builder
+
+flake8:
+  stage: test
+  image: $img:$CI_COMMIT_SHA
+  variables:
+    GIT_STRATEGY: none
+  before_script:
+    - cd /mist.tests/
+  script:
+    - flake8 misttests/api/io/io.py
+    - flake8 misttests/api/core/core.py
+    - flake8 misttests/api/mistrequests.py
+    - flake8 misttests/api/utils.py
+    - flake8 misttests/api/core/api_token.py
+    - flake8 misttests/gui/steps/browser.py
+    - flake8 misttests/gui/steps/dialog.py
+    - flake8 misttests/gui/steps/org_context.py
+    - flake8 misttests/gui/steps/search.py
+    - flake8 misttests/gui/steps/setup.py
