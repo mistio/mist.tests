@@ -9,8 +9,14 @@ build:
   stage: build
   script:
     - docker build --rm -t $img:$CI_COMMIT_SHA .
+    - echo "Pushing $img:$CI_COMMIT_SHA"
     - docker push $img:$CI_COMMIT_SHA
     - docker tag $img:$CI_COMMIT_SHA $img:$CI_COMMIT_REF_SLUG
+    - echo "Pushing $img:$CI_COMMIT_REF_SLUG"
     - docker push $img:$CI_COMMIT_REF_SLUG
+    - if [ "$CI_COMMIT_REF_SLUG" != master ]; then exit 0; fi
+    - docker tag $img:$CI_COMMIT_SHA $img:latest
+    - echo "Pushing $img:latest"
+    - docker push $img:latest
   tags:
     - builder
