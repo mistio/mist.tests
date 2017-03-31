@@ -4,7 +4,6 @@ import sys
 
 from misttests import config
 
-
 from prepare_env import snake_to_arg, prepare_arg_parser
 
 API_TESTS = ['clouds', 'machines', 'keys', 'scripts', 'images', 'api_token',
@@ -81,6 +80,7 @@ def clean_args(arg_list, args_to_be_removed):
         pass
     clean_args(arg_list, args_to_be_removed)
 
+
 if __name__ == '__main__':
 
     parser = argparse.ArgumentParser(description='')
@@ -104,8 +104,7 @@ if __name__ == '__main__':
     clean_args(args_to_be_cleaned, cleanup_list)
 
     if len(sys.argv) < 2:
-        print "About to run everything..."
-        # run concurrently API and UI
+        raise Exception("You must either provide the gui or the api flag.")
     elif args.gui and args.api:
         raise Exception("You must either provide the gui or the api flag but "
                         "not both.")
@@ -114,11 +113,20 @@ if __name__ == '__main__':
             validate_args(args_to_be_cleaned, 'gui')
             behave_args = get_behave_args(args_to_be_cleaned)
         else:
-            behave_args = BEHAVE_ARGS_RUN_ENTIRE_SUITE
+            # behave_args = BEHAVE_ARGS_RUN_ENTIRE_SUITE
+            behave_args = ['-k', '--stop', '--tags=user-actions', 'src/mist.io/tests/misttests/gui/core/pr/features']
+            behave_args_v2 = ['-k', '--stop', '--tags=scripts', 'src/mist.io/tests/misttests/gui/core/pr/features']
         import ipdb;ipdb.set_trace()
-        # concurrency goes here!
         import behave.__main__
-        sys.exit(behave.__main__.main(behave_args))
+        # sys.exit(behave.__main__.main(behave_args))
+        # execute_in_parallel(behave.__main__.main(behave_args), behave.__main__.main(behave_args_v2))
+        execute_in_parallel()
+        # d1 = threading.Thread(target=behave.__main__.main(behave_args))
+        # d2 = threading.Thread(target=behave.__main__.main(behave_args_v2))
+        # d1.start()
+        # d2.start()
+        # # d1.join()
+        # # d2.join()
     elif args.api:
         if len(args_to_be_cleaned) > 0:
             validate_args(args_to_be_cleaned, 'api')
@@ -130,9 +138,4 @@ if __name__ == '__main__':
     else:
         raise Exception("Seriously now? WTF are you doing?")
 
-
-# -help
-# concurrency
-# api tests- run
-# cleanup
-# fix_container settings
+# fix_container_settings
