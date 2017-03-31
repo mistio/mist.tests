@@ -125,6 +125,4 @@ if __name__ == '__main__':
         import pytest
         sys.exit(pytest.main(pytest_args))
     else:
-        raise Exception("Seriously now? WTF are you doing?")
-
-# fix_container_settings
+        raise Exception("You must either provide the gui or the api flag.")
