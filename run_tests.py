@@ -113,20 +113,8 @@ if __name__ == '__main__':
             validate_args(args_to_be_cleaned, 'gui')
             behave_args = get_behave_args(args_to_be_cleaned)
         else:
-            # behave_args = BEHAVE_ARGS_RUN_ENTIRE_SUITE
-            behave_args = ['-k', '--stop', '--tags=user-actions', 'src/mist.io/tests/misttests/gui/core/pr/features']
-            behave_args_v2 = ['-k', '--stop', '--tags=scripts', 'src/mist.io/tests/misttests/gui/core/pr/features']
-        import ipdb;ipdb.set_trace()
-        import behave.__main__
-        # sys.exit(behave.__main__.main(behave_args))
-        # execute_in_parallel(behave.__main__.main(behave_args), behave.__main__.main(behave_args_v2))
-        execute_in_parallel()
-        # d1 = threading.Thread(target=behave.__main__.main(behave_args))
-        # d2 = threading.Thread(target=behave.__main__.main(behave_args_v2))
-        # d1.start()
-        # d2.start()
-        # # d1.join()
-        # # d2.join()
+            raise Exception("For UI tests you have to specify one of the following resources: clouds, machines, keys, "
+                                "scripts, images, users, rbac, schedules")
     elif args.api:
         if len(args_to_be_cleaned) > 0:
             validate_args(args_to_be_cleaned, 'api')
