@@ -34,7 +34,6 @@ def get_pytest_args(args_given):
 
 def get_behave_args(args_given):
     behave_args = []
-    import ipdb; ipdb.set_trace()
     behave_args.append('-k')
     behave_args.append('--stop')
     tags_arg = '--tags='
@@ -112,6 +111,8 @@ if __name__ == '__main__':
         if len(args_to_be_cleaned) > 0:
             validate_args(args_to_be_cleaned, 'gui')
             behave_args = get_behave_args(args_to_be_cleaned)
+            import behave.__main__
+            sys.exit(behave.__main__.main(behave_args))
         else:
             raise Exception("For UI tests you have to specify one of the following resources: clouds, machines, keys, "
                                 "scripts, images, users, rbac, schedules")

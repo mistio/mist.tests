@@ -101,7 +101,6 @@ if __name__ == '__main__':
     clean_args(args_to_be_cleaned, cleanup_list)
 
     if args.gui or not args.api:
-        import ipdb; ipdb.set_trace()
         import behave.__main__
         sys.exit(behave.__main__.main(args_to_be_cleaned))
     else:
