@@ -18,7 +18,7 @@ Feature: Schedulers
     Then I expect for the tag popup to close within 4 seconds
     When I visit the Machines page
     And I click the "machine3-ui-testing" "machine"
-    And I wait for 10 seconds
+    And I wait for 13 seconds
     Then I ensure that the "machine" has the tags "test:awesome"
 
    @scheduler-add-crontab
