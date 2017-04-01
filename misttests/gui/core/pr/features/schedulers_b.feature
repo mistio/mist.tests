@@ -17,11 +17,10 @@ Feature: Schedulers
     And I click the button "Save Tags" in the tag menu
     Then I expect for the tag popup to close within 4 seconds
     When I visit the Machines page
+    And I wait for 2 seconds
     And I click the "machine3-ui-testing" "machine"
-    And I wait for 3 seconds
+    And I wait for 5 seconds
     Then I ensure that the "machine" has the tags "test:awesome"
-
-
     When I visit the Schedules page
     And I click the button "+"
     Then I expect the "schedule" add form to be visible within max 10 seconds
