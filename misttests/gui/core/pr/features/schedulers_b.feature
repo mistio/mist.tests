@@ -1,8 +1,8 @@
 @schedulers_v2
 Feature: Schedulers
 
-  @scheduler-add-crontab
-  Scenario: Tag machine that will be used for schedule below
+  @scheduler-requirements
+  Scenario: Check state of machines and tag machine that will be used for schedule below
     Given I am logged in to mist.core
     And "Docker" cloud has been added
     When I visit the Machines page
@@ -20,6 +20,9 @@ Feature: Schedulers
     And I click the "machine3-ui-testing" "machine"
     And I wait for 10 seconds
     Then I ensure that the "machine" has the tags "test:awesome"
+
+   @scheduler-add-crontab
+   Scenario: Add crontab schedule
     When I visit the Schedules page
     And I click the button "+"
     Then I expect the "schedule" add form to be visible within max 10 seconds
@@ -40,7 +43,7 @@ Feature: Schedulers
     And I visit the Schedules page
     Then "TestScheduler" schedule should be present within 5 seconds
 
-  @scheduler-add-run-to-tagged-machine
+  @scheduler-run-to-tagged-machine
   Scenario: Run schedule to the machine tagged above
     When I click the button "+"
     Then I expect the "schedule" add form to be visible within max 10 seconds
@@ -92,4 +95,4 @@ Feature: Schedulers
   Scenario: Check machine's state
     When I visit the Machines page
     Then "machine2-ui-testing" machine state has to be "stopped" within 60 seconds
-    Then "machine2-ui-testing" machine state has to be "stopped" within 15 seconds
+    Then "machine3-ui-testing" machine state has to be "stopped" within 15 seconds
