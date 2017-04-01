@@ -7,6 +7,21 @@ Feature: Schedulers
     And "Docker" cloud has been added
     When I visit the Machines page
     Then "machine2-ui-testing" machine state has to be "running" within 10 seconds
+    And "machine3-ui-testing" machine state has to be "running" within 10 seconds
+    When I click the "machine3-ui-testing" "machine"
+    Then I expect the "machine" edit form to be visible within max 5 seconds
+    Then I click the button "Tag" from the menu of the "machine" edit form
+    And I expect for the tag popup to open within 4 seconds
+    When I remove all the previous tags
+    And I add a tag with key "test" and value "awesome"
+    And I click the button "Save Tags" in the tag menu
+    Then I expect for the tag popup to close within 4 seconds
+    When I visit the Machines page
+    And I click the "machine3-ui-testing" "machine"
+    And I wait for 3 seconds
+    Then I ensure that the "machine" has the tags "test:awesome"
+
+
     When I visit the Schedules page
     And I click the button "+"
     Then I expect the "schedule" add form to be visible within max 10 seconds
