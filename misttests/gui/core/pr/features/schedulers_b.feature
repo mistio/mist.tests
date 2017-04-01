@@ -2,7 +2,7 @@
 Feature: Schedulers
 
   @scheduler-add-crontab
-  Scenario: Add schedule
+  Scenario: Tag machine that will be used for schedule below
     Given I am logged in to mist.core
     And "Docker" cloud has been added
     When I visit the Machines page
@@ -18,8 +18,7 @@ Feature: Schedulers
     Then I expect for the tag popup to close within 4 seconds
     When I visit the Machines page
     And I click the "machine3-ui-testing" "machine"
-    And I wait for 12 seconds
-    # set a timeout for below
+    And I wait for 10 seconds
     Then I ensure that the "machine" has the tags "test:awesome"
     When I visit the Schedules page
     And I click the button "+"
