@@ -37,16 +37,17 @@ class MistRequests(object):
                                 headers=self.headers, timeout=self.timeout)
         return response
 
-    def delete(self):
-        response = requests.delete(self.uri, params=self.params, data=self.data,
-                                   json=self.json, headers=self.headers,
-                                   timeout=self.timeout)
+    def patch(self):
+        response = requests.patch(self.uri, data=self.data,
+                                  headers=self.headers, timeout=self.timeout)
         return response
 
-    # def patch(self):
-    #     response = requests.patch(self.uri, data=self.data, json=self.json,
-    #                              headers=self.headers, timeout=self.timeout)
-    #     return response
+    def delete(self):
+        response = requests.delete(self.uri, params=self.params,
+                                   data=self.data, json=self.json,
+                                   headers=self.headers,
+                                   timeout=self.timeout)
+        return response
 
     def unavailable_api_call(self, *args, **kwargs):
         raise NotImplementedError("This method call is not available")

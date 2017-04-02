@@ -7,8 +7,8 @@ Feature: Production
     When I visit the Machines page after the counter has loaded
     Then I search for the mayday machine
     When I click the mayday machine
-    And I expect the "machine" edit form to be visible within max 5 seconds
     And I clear the machines search bar
+    And I expect the "machine" edit form to be visible within max 5 seconds
     Then I wait for the graphs to appear
     And I click the button "Add Graph"
     Then I expect for "selectTarget" modal to appear within max 30 seconds
@@ -23,8 +23,6 @@ Feature: Production
   @alert
   Scenario: Production rule and alert testing
     Given I am logged in to mist.core
-    Then I visit the Home page
-    When I wait for the dashboard to load
     When I visit the Machines page after the counter has loaded
     Then I search for the mayday machine
     When I click the mayday machine
@@ -38,17 +36,14 @@ Feature: Production
     And I click the button "add new rule"
     Then I expect for "newrule" to be visible within max 20 seconds
     And I click the "metricName" rule
-    And I click the "RAM" button in the dropdown with id "metricName"
+#    And I click the "RAM" button in the dropdown with id "metricName"
     When I fill "0" as metric value
     And I save the rule
-    Then I should receive an email within 200 seconds
-    When I remove previous rules
+#    When I remove previous rules
 
   @ssh
   Scenario: Production ssh testing
     Given I am logged in to mist.core
-    Then I visit the Home page
-    When I wait for the dashboard to load
     When I visit the Machines page after the counter has loaded
     Then I search for the mayday machine
     When I click the mayday machine
@@ -60,8 +55,6 @@ Feature: Production
   @celery
   Scenario: Production machine reboot testing
     Given I am logged in to mist.core
-    Then I visit the Home page
-    When I wait for the dashboard to load
     When I visit the Machines page after the counter has loaded
     Then I search for the mayday machine
     And I open the actions dialog
@@ -73,22 +66,32 @@ Feature: Production
     And I wait for 4 seconds
     Then Mayday machine state should be "running" within 200 seconds
 
-  @google_sso_signin
-  Scenario: Production sign in testing with google oauth2
+  @github_sso_signin
+  Scenario: Sign in testing with github
     Given I am not logged in to mist.core
     When I open the login popup
+    And I wait for 2 seconds
+    Then I click the github button in the landing page popup
+    Then I input my "GITHUB_TEST_EMAIL" in the field with id "login_field"
+    Then I input my "GITHUB_TEST_PASSWORD" in the field with id "password"
+    And I click the Sign In button in the Github form
+    And I wait for 3 seconds
+    Then I wait for the dashboard to load
+    Then I logout
+
+  @google_sso_signin
+  Scenario: Sign in testing with google oauth2
+    Given I am not logged in to mist.core
+    When I open the login popup
+    And I wait for 2 seconds
     Then I click the google button in the landing page popup
-    Then I do the Google login
-    And I am in the new UI
+    Then I input my "GOOGLE_TEST_EMAIL" in the field with id "Email"
+    And I click the "next" button with id "next"
+    Then I input my "GOOGLE_TEST_PASSWORD" in the field with id "Passwd"
+    And I press the button with id "signIn"
     When I wait for the dashboard to load
     Then I logout
 
-  @github_sso_signin
-  Scenario: Production sign in testing with google oauth2
-    Given I am not logged in to mist.core
-    When I open the login popup
-    Then I click the github button in the landing page popup
-    Then I do the Github login
-    And I am in the new UI
-    When I wait for the dashboard to load
-    Then I logout
+  @confirm_alert_email
+  Scenario: Confirm that alert email arrived
+    Then I should receive an email within 200 seconds

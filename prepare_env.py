@@ -1,3 +1,5 @@
+#!/usr/bin/env python
+
 import sys
 import types
 import logging
@@ -73,7 +75,6 @@ if __name__ == '__main__':
                                                  '(default) or api tests and '
                                                  'can also override some of the'
                                                  ' test user data')
-
     cleanup_list = []
     for attr in dir(config):
         if not isinstance(attr, types.FunctionType):
@@ -82,8 +83,6 @@ if __name__ == '__main__':
                     continue
 
             arg = snake_to_arg(attr)
-            # log.info("Adding variable %s(%s, %s) from config to list of
-            # params" % (attr, arg, type(arg)))
             prepare_arg_parser(parser, cleanup_list, arg, default=None)
 
     prepare_arg_parser(parser, cleanup_list, '--gui', action='store_true')
