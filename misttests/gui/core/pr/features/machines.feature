@@ -6,6 +6,7 @@ Feature: Machines
 
   @key-add
   Scenario: Add Key that will be used for ssh access
+    Given "Docker" cloud has been added
     When I visit the Keys page
     When I click the button "+"
     Then I expect the "Key" add form to be visible within max 10 seconds
@@ -18,14 +19,27 @@ Feature: Machines
     And I click the button "Add" in "key" add form
     Then I expect the "key" edit form to be visible within max 10 seconds
 
+  @key-associate
+  Scenario: Add Key that will be used for ssh access
+    When I visit the machines page
+    When I click the "machine2-ui-testing" "machine"
+    And I expect the "machine" edit form to be visible within max 5 seconds
+    And I wait for 2 seconds
+    Then I click the button "Associate Key" from the menu of the "machine" edit form
+    Then I expect the dialog "Associate a key" is open within 4 seconds
+    And I open the "Select key" drop down
+    And I click the button "Key1" in the "Select key" dropdown
+    And I click the "Associate" button in the dialog "Associate a key"
+    Then "Key1" key should be associated with the machine "machine2-ui-testing"
+
   @machine-create
   Scenario: Create a machine in Docker provider
     When I visit the Home page
+#    And I wait for the dashboard to load
+#    Given "Docker" cloud has been added
+    And I refresh the page
     And I wait for the dashboard to load
-    Given "Docker" cloud has been added
-    When I refresh the page
-    And I wait for the dashboard to load
-    And I visit the Machines page
+    When I visit the Machines page
     And I click the button "+"
     Then I expect the "Machine" add form to be visible within max 10 seconds
     When I open the "Choose Cloud" drop down
