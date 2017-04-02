@@ -295,6 +295,7 @@ def check_machine_deletion(context, name, provider, seconds):
             if name not in machines_names_list:
                 break
 
+
 @step(u'I search for the machine "{name}"')
 def search_for_mayday_machine(context, name):
     if context.mist_config.get(name):
@@ -303,3 +304,13 @@ def search_for_mayday_machine(context, name):
     for letter in name:
         search_bar.send_keys(letter)
     sleep(2)
+
+
+@step(u'"{key}" key should be associated with the machine "{machine}"')
+def check_for_associated_key(context, key, machine):
+    import ipdb;ipdb.set_trace()
+    associated_key_class = context.browser.find_element_by_class_name('associatedKeys')
+    associated_key = associated_key_class.find_element_by_class_name('machine-key')
+    if safe_get_element_text(associated_key) == key:
+        return
+    assert False, "Wrong key has been associated with the machine!"
