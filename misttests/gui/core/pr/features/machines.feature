@@ -18,6 +18,18 @@ Feature: Machines
     And I click the button "Add" in "key" add form
     Then I expect the "key" edit form to be visible within max 10 seconds
 
+  @key-associate
+  Scenario: Add Key that will be used for ssh access
+    When I visit the machines page
+    When I click the "nanaki" "machine"
+    And I expect the "machine" edit form to be visible within max 5 seconds
+    And I wait for 2 seconds
+    Then I click the button "Associate Key" from the menu of the "machine" edit form
+    Then I expect the dialog "Associate a key" is open within 4 seconds
+    And I open the "Select key" drop down
+    And I click the button "Key1" in the "Select key" dropdown
+    And I click the "Associate" button in the dialog "Associate a key"
+
   @machine-create
   Scenario: Create a machine in Docker provider
     When I visit the Home page
