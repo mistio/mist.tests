@@ -34,11 +34,11 @@ Feature: Machines
 
   @machine-create
   Scenario: Create a machine in Docker provider
-#    When I visit the Home page
+    When I visit the Home page
 #    And I wait for the dashboard to load
 #    Given "Docker" cloud has been added
-#    When I refresh the page
-#    And I wait for the dashboard to load
+    And I refresh the page
+    And I wait for the dashboard to load
     When I visit the Machines page
     And I click the button "+"
     Then I expect the "Machine" add form to be visible within max 10 seconds
