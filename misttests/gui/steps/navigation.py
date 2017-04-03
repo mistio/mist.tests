@@ -83,7 +83,7 @@ def am_in_new_UI(context):
 
 @step(u'I make sure the menu is open')
 def make_sure_menu_is_open(context):
-    end_time = time() + 10
+    end_time = time() + 15
     while time() < end_time:
         try:
             menu = context.browser.find_element_by_id('sidebar')
