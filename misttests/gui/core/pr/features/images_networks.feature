@@ -34,7 +34,8 @@ Feature: Images and Networks
     And I expect the "image" edit form to be visible within max 5 seconds
     Then I click the button "Star" in "image" edit form
     Then  I visit the Home page
-    And I wait for 2 seconds
+    And I refresh the page
+    And I wait for the dashboard to load
     When I visit the Images page
     And I wait for 2 seconds
     Then the "CoreOS-Beta" image should be "starred" within 200 seconds
