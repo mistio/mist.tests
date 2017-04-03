@@ -41,7 +41,6 @@ def assert_starred_unstarred_image(context,image,state,seconds):
     sleep(2)
     while time() < end_time:
         starred_images = find_starred_images(images_list)
-        logging.warning('Length of starred images is ' + str(len(starred_images)))
         if state == 'starred':
             if image_to_check_state in starred_images:
                 return
