@@ -1,12 +1,18 @@
 @keys
 Feature: Actions for Keys
 
-  Background:
-    Given I am logged in to mist.core
-    When I visit the Keys page
+#  Background:
+#    Given I am logged in to mist.core
+#    When I visit the Keys page
 
   @key-add
   Scenario: Add Key
+    When I visit mist.core
+    When I open the login popup
+    And I enter my standard credentials for login
+    And I click the sign in button in the landing page popup
+    Then I wait for the links in homepage to appear
+    When I visit the Keys page
     When I click the button "+"
     Then I expect the "Key" add form to be visible within max 10 seconds
     When I set the value "Key1" to field "Name" in "key" add form
@@ -20,10 +26,11 @@ Feature: Actions for Keys
     When I visit the Keys page
     Then "Key1" key should be present within 15 seconds
     And I visit the Home page
-    And I wait for the dashboard to load
+    Then I wait for the links in homepage to appear
 
   @key-default
   Scenario: Change Default Key
+    When I visit the Keys page
     When I click the button "+"
     Then I expect the "Key" add form to be visible within max 10 seconds
     When I set the value "Key2" to field "Name" in "key" add form
@@ -39,19 +46,21 @@ Feature: Actions for Keys
     And I wait for 1 seconds
     Then key "Key2" should be default key
     And I visit the Home page
-    And I wait for the dashboard to load
+    Then I wait for the links in homepage to appear
 
  @key-search
   Scenario: Filter a key
+    When I visit the Keys page
     When I search for "Key2"
     Then "Key1" key should be absent within 15 seconds
     When I clear the search bar
     Then "Key1" key should be present within 15 seconds
     And I visit the Home page
-    And I wait for the dashboard to load
+    Then I wait for the links in homepage to appear
 
   @key-rename
   Scenario: Rename Key
+    When I visit the Keys page
     When I click the "Key2" "key"
     Then I expect the "key" edit form to be visible within max 5 seconds
     When I click the button "Rename Key" in "key" edit form
@@ -63,10 +72,11 @@ Feature: Actions for Keys
     Then "Key2" key should be absent within 5 seconds
     And "Second" key should be present within 5 seconds
     And I visit the Home page
-    And I wait for the dashboard to load
+    Then I wait for the links in homepage to appear
 
   @key-tags
   Scenario: Add tags to key
+    When I visit the Keys page
     When I click the "Key1" "key"
     Then I expect the "key" edit form to be visible within max 5 seconds
     When I click the button "Tags" in "key" edit form
@@ -87,10 +97,11 @@ Feature: Actions for Keys
     Then I expect for the tag popup to close within 4 seconds
     And I ensure that the "key" has the tags "second:tag"
     And I visit the Home page
-    And I wait for the dashboard to load
+    Then I wait for the links in homepage to appear
 
   @key-delete
   Scenario: Delete Key
+    When I visit the Keys page
     When I click the button "Delete" from the menu of the "Key1" key
     Then I expect the dialog "Delete Key" is open within 4 seconds
     When I click the "Delete" button in the dialog "Delete Key"
@@ -104,4 +115,5 @@ Feature: Actions for Keys
     And I expect the dialog "Delete Key" is closed within 4 seconds
     Then "Second" key should be absent within 15 seconds
     Then I visit the Home page
-    When I wait for the dashboard to load
+    Then I wait for the links in homepage to appear
+    
