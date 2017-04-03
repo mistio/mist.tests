@@ -38,7 +38,7 @@ def assert_starred_unstarred_image(context,image,state,seconds):
     images_list = images.find_element_by_id("items").find_elements_by_class_name("row")
     end_time = time() + int(seconds)
     image_to_check_state= find_image(image, images_list)
-    sleep(2)
+    sleep(1)
     while time() < end_time:
         starred_images = find_starred_images(images_list)
         if state == 'starred':
