@@ -76,6 +76,8 @@ Feature: Schedulers
     And I click the button "Add" in "schedule" add form
     And I wait for 1 seconds
     When I visit the Home page
+    And I refresh the page
+    And I wait for the dashboard to load
     And I visit the Schedules page
     Then "TestScheduler_2" schedule should be present within 3 seconds
 
