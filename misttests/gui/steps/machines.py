@@ -48,7 +48,7 @@ machine_values_dict = {
     "nephoscale": ["Ubuntu Server 14.04 LTS 64-bit", "CS05 - Cloud Server 0.5 GB RAM, 1 Core", "SJC-1"],
     "softlayer": ["Ubuntu - Latest (64 bit) ", "1 CPU, 1GB ram, 25GB ", "AMS01 - Amsterdam"],
     "azure": ["Ubuntu Server 14.04 LTS", "ExtraSmall (1 cores, 768 MB) ", "West Europe"],
-    "docker": ["Fedora 20"]
+    "docker": ["mist/ubuntu-14.04:latest"]
 }
 
 
@@ -57,6 +57,8 @@ def set_values_to_create_machine_form(context,provider,machine_name):
                 Then I set the value "%s" to field "Machine Name" in "machine" add form
                 When I open the "Image" drop down
                 And I click the button "%s" in the "Image" dropdown
+                And I open the "Key" drop down
+                And I click the button "Key1" in the "Key" dropdown
             ''' % (machine_name,
                    machine_values_dict.get(provider)[0]))
 
@@ -292,3 +294,22 @@ def check_machine_deletion(context, name, provider, seconds):
         while time() < end_time:
             if name not in machines_names_list:
                 break
+
+
+@step(u'I search for the machine "{name}"')
+def search_for_mayday_machine(context, name):
+    if context.mist_config.get(name):
+        name = context.mist_config.get(name)
+    search_bar = context.browser.find_element_by_css_selector("input.top-search")
+    for letter in name:
+        search_bar.send_keys(letter)
+    sleep(2)
+
+
+@step(u'"{key}" key should be associated with the machine "{machine}"')
+def check_for_associated_key(context, key, machine):
+    associated_key_class = context.browser.find_element_by_class_name('associatedKeys')
+    associated_key = associated_key_class.find_element_by_class_name('machine-key')
+    if safe_get_element_text(associated_key) == key:
+        return
+    assert False, "Wrong key has been associated with the machine!"

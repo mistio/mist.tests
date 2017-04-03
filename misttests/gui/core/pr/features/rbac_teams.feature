@@ -41,6 +41,10 @@ Feature: Rbac
 
   @add-member1
   Scenario: Add member1
+    When I visit the Home page
+    When I refresh the page
+    And I wait for the dashboard to load
+    And I visit the Teams page
     When I click the "Test team" "team"
     And I expect the "team" edit form to be visible within max 8 seconds
     Then I click the button "Invite Members" in "team" edit form
