@@ -4,6 +4,7 @@ Feature: Schedulers
   @scheduler-add-interval
   Scenario: Add schedule
     Given I am logged in to mist.core
+    Then I expect for "addBtn" to be clickable within max 20 seconds
     And "Docker" cloud has been added
     When I visit the Machines page
     Then "machine1-ui-testing" machine state has to be "running" within 10 seconds
@@ -78,7 +79,7 @@ Feature: Schedulers
     When I visit the Home page
     And I wait for 1 seconds
     And I refresh the page
-    And I wait for the dashboard to load
+    And I wait for the links in homepage to appear
     And I visit the Schedules page
     Then "TestScheduler_2" schedule should be present within 3 seconds
 
