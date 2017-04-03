@@ -6,7 +6,7 @@ Feature: Scripts
 
   @script-add
   Scenario Outline: Add script
-    When I wait for the dashboard to load
+    And I wait for the links in homepage to appear
     And I visit the Scripts page
     And I click the button "+"
     Then I expect the "Script" add form to be visible within max 10 seconds
@@ -27,7 +27,7 @@ Feature: Scripts
     # FIXME: below has been commented out because script is not available immediately..need for redirection to another page first...
     # FIXME: instead of redirecting to home, an option is to sort the items...
     Then I visit the Home page
-    And I wait for the dashboard to load
+    And I wait for the links in homepage to appear
     When I visit the Scripts page
     Then "<name>" script should be present within 3 seconds
     And I visit the Home page
