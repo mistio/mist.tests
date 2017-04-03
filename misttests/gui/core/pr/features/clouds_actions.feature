@@ -30,12 +30,12 @@ Feature: Cloud actions for polymer
     And I click the "toggle" button with id "enable-disable-cloud"
     And I wait for 2 seconds
     And I visit the Home page
-    And I wait for the dashboard to load
+    And I wait for the links in homepage to appear
     Then cloud "Docker" should be "disabled"
     When I visit the Machines page
     Then "yolomachine" machine should be absent within 60 seconds
     When I visit the Home page
-    And I wait for the dashboard to load
+    And I wait for the links in homepage to appear
     And I open the cloud menu for "Docker"
     And I click the "toggle" button with id "enable-disable-cloud"
     And I wait for 2 seconds

@@ -6,6 +6,7 @@ Feature: Machines
 
   @key-add
   Scenario: Add Key that will be used for ssh access
+    Then I expect for "addBtn" to be clickable within max 20 seconds
     Given "Docker" cloud has been added
     When I visit the Keys page
     When I click the button "+"
@@ -38,7 +39,7 @@ Feature: Machines
 #    And I wait for the dashboard to load
 #    Given "Docker" cloud has been added
     And I refresh the page
-    And I wait for the dashboard to load
+    And I wait for the links in homepage to appear
     When I visit the Machines page
     And I click the button "+"
     Then I expect the "Machine" add form to be visible within max 10 seconds
@@ -64,7 +65,6 @@ Feature: Machines
     And I test the ssh connection
     And I wait for 1 seconds
 
-
   @machine-stop
   Scenario: Stop machine created above and check state
     When I click the button "Stop" from the menu of the "machine" edit form
@@ -86,7 +86,7 @@ Feature: Machines
   @machine-destroy
   Scenario: Destroy the machine created
     When I visit the Home page
-    And I wait for the dashboard to load
+    And I wait for the links in homepage to appear
     And I visit the Machines page after the counter has loaded
     Then I search for the machine "docker-ui-test-machine-random"
     When I click the "docker-ui-test-machine-random" "machine"
