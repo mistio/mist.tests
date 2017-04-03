@@ -31,6 +31,7 @@ Feature: Machines
     And I open the "Select key" drop down
     And I click the button "Key1" in the "Select key" dropdown
     And I click the "Associate" button in the dialog "Associate a key"
+    And I wait for 2 seconds
     Then "Key1" key should be associated with the machine "machine2-ui-testing"
 
   @machine-create
