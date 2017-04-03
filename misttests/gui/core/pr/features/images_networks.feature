@@ -28,7 +28,7 @@ Feature: Images and Networks
     And I wait for 2 seconds
     Then the "CoreOS-Beta" image should be "unstarred" within 200 seconds
 
-  @image-unstar
+  @image-star
   Scenario: Star image
     When I click the "CoreOS-Beta" "image"
     And I expect the "image" edit form to be visible within max 5 seconds
