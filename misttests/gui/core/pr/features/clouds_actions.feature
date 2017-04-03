@@ -6,6 +6,7 @@ Feature: Cloud actions for polymer
 
   @cloud-edit-creds
   Scenario: Edit credentials of a cloud
+    Then I expect for "addBtn" to be clickable within max 20 seconds
     Given "Openstack" cloud has been added
     When I visit the Networks page
     Then "private_network" network should be present within 10 seconds
@@ -19,7 +20,8 @@ Feature: Cloud actions for polymer
     And I visit the Networks page
     Then "private_network" network should be absent within 10 seconds
     Then I visit the Home page
-    And I wait for the dashboard to load
+    And I wait for the links in homepage to appear
+    And I expect for "addBtn" to be clickable within max 20 seconds
 
   @cloud-toggle
    Scenario: Toggle a cloud

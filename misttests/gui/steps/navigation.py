@@ -215,7 +215,7 @@ def given_logged_in(context):
         When I open the login popup
         And I enter my standard credentials for login
         And I click the sign in button in the landing page popup
-        Then I wait for the dashboard to load
+        Then I wait for the links in homepage to appear
     """)
 
 
