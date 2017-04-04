@@ -1,18 +1,10 @@
 #!/bin/bash
 
-
-    if [ $# -eq 0 ] || [ $1 == '-h' ] then
-        echo "No arguments supplied"
-    fi
-
-
 help_message() {
-    echo "Usage: ./init.sh [option] {argument}"
+    echo "Usage: ./run_tests.sh [option] {argument}"
     echo
-    echo "[no option]: Uses all the defaults. Will download latest staging containers,"
-    echo "             mount code into containers and start everything with docker-compose."
-    echo "             If a stack is already up and runnig, it will open a shell inside the"
-    echo "             api container."
+    echo "[no option]: Display this message"
+
     echo "[LOCAL DEV options]"
     echo "-h Show this message"
     echo "-l Will not download newer images and start docker-compose with what exists locally"
@@ -29,3 +21,9 @@ help_message() {
     echo "                   localhost:15672"
     exit
 }
+
+    if [ $# -eq 0 ] || [ $1 == '-h' ]
+    then
+        help_message
+    fi
+
