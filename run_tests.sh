@@ -45,14 +45,17 @@ run_api_suite() {
             pytest_args=""
             for path in "${pytest_paths[@]}"
             do
-              echo $path
-
-              done
+              pytest_args="${pytest_args} ${path}"
+            done
             pytest -s $pytest_args
             exit
+        else
+            help_message
         fi
     else
        if [[ " ${!pytest_paths[@]} " == *" $2 "* ]]; then
             pytest -s ${pytest_paths["$2"]}
+       else
+            help_message
        fi
     fi
