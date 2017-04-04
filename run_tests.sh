@@ -1,5 +1,11 @@
 #!/bin/bash
 
+
+    if [ $# -eq 0 ] || [ $1 == '-h' ] then
+        echo "No arguments supplied"
+    fi
+
+
 help_message() {
     echo "Usage: ./init.sh [option] {argument}"
     echo
@@ -22,12 +28,4 @@ help_message() {
     echo "-r {tesla|dogfood} RABBITMQ_MANAGEMENT: Will port-forward tesla/dogfood rabbitmq_management to"
     echo "                   localhost:15672"
     exit
-}
-
-main() {
-
-    if [ $HELP -eq 1 ]; then
-        help_message
-        exit
-    fi
 }
