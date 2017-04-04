@@ -28,20 +28,31 @@ run_api_suite() {
     pytest_paths["api_token"]='src/mist.io/tests/misttests/api/io/api_token.py'
     pytest_paths["schedules"]='src/mist.io/tests/misttests/api/io/schedules.py'
 
+    declare -a arr=("clouds" "machines" "keys" "scripts" "tunnels")
+
+
+
     if [ $# -eq 0 ] || [ $1 == '-h' ]
     then
         help_message
         exit
     fi
 
-    if [ $1 == '-api' ]
+    if [ "$#" -lt 2 ]
     then
-        pytest_args=""
-        for path in "${pytest_paths[@]}"
-        do
-          echo $path
-          pytest_args="${pytest_args} ${path}"
-        done
-        pytest -s $pytest_args
-        exit
+        if [ $1 == '-api' ]
+        then
+            pytest_args=""
+            for path in "${pytest_paths[@]}"
+            do
+              echo $path
+              pytest_args="${pytest_args} ${path}"
+            done
+            pytest -s $pytest_args
+            exit
+        fi
+    else
+       if [[ " ${!pytest_paths[@]} " == *" clouds "* ]]; then
+            echo "NO contains d"
+       fi
     fi
