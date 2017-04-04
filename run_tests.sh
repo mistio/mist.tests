@@ -4,9 +4,19 @@ help_message() {
     echo
     echo "Usage: ./run_tests.sh [option] {argument}"
     echo
+    echo "Options:"
+    echo
     echo "-h     Display this message"
-    echo "-api   Run api tests suite"
+    echo "-api   Run api tests suite. If no argument provided, the entire API tests suite will be invoked"
     echo "-gui   Run gui tests suite"
+    echo
+    echo "Argument for API tests can be one of the following:"
+    echo
+    echo "clouds, machines, tunnels, keys, scripts, api_token, tunnels, schedules"
+    echo
+    echo "Argument for UI tests can be one of the following:"
+    echo
+    echo " * TO BE INSERTED *"
     echo
     exit
 }
