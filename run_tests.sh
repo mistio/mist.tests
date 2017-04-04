@@ -36,9 +36,13 @@ run_api_suite() {
 
     if [ $1 == '-api' ]
     then
+        pytest_args=""
         for path in "${pytest_paths[@]}"
         do
-            pytest -s $path
+          echo $path
+          pytest_args="${pytest_args} ${path}"
+          echo $pytest_args
         done
+        echo pytest_args
         exit
     fi
