@@ -53,7 +53,7 @@ run_api_suite() {
             help_message
         fi
     else
-       if [[ " ${!pytest_paths[@]} " == *" $2 "* ]]; then
+       if [ $1 == '-api' ] && [[ " ${!pytest_paths[@]} " == *" $2 "* ]]; then
             pytest -s ${pytest_paths["$2"]}
        else
             help_message
