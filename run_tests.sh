@@ -11,6 +11,12 @@ help_message() {
     exit
 }
 
+
+run_api_suite() {
+    for path in "${!pytest_paths[@]}"; do echo "${pytest_paths[$path]}"; done
+}
+
+
     declare -A pytest_paths
 
     pytest_paths["clouds"]='src/mist.io/tests/misttests/api/io/clouds.py'
@@ -28,8 +34,11 @@ help_message() {
         exit
     fi
 
-    if [ $1 == '-api']
+    if [ $1 == '-api' ]
     then
-
+        for path in "${pytest_paths[@]}"
+        do
+            pytest -s $path
+        done
+        exit
     fi
-    
