@@ -21,6 +21,7 @@ ui_tests_features = {
 }
 
 
+
 def get_pytest_args(args_given):
     pytest_args = []
     pytest_args.append('-s')
