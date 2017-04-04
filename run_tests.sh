@@ -1,29 +1,35 @@
 #!/bin/bash
 
 help_message() {
+    echo
     echo "Usage: ./run_tests.sh [option] {argument}"
     echo
-    echo "[no option]: Display this message"
-
-    echo "[LOCAL DEV options]"
-    echo "-h Show this message"
-    echo "-l Will not download newer images and start docker-compose with what exists locally"
-    echo "-m Will not mount code inside the containers"
-    echo "-u If on linux and want to use unison instead of docker mount"
-    echo "-t Will start the tests_base container. By default you will able to open a vncviewer/client"
-    echo "   to localhost:5900"
-    echo "-c Cleanup of old containers and images. Saves space in disk"
-    echo "-d Destroy docker-compose stack. I will cleanup previous containers and stop the compose environment"
+    echo "-h     Display this message"
+    echo "-api   Run api tests suite"
+    echo "-gui   Run gui tests suite"
     echo
-    echo "[DEBUG TOOLS options]"
-    echo "-g GRAFANA: Will port-forward dogfood's grafana to localhost:3000"
-    echo "-r {tesla|dogfood} RABBITMQ_MANAGEMENT: Will port-forward tesla/dogfood rabbitmq_management to"
-    echo "                   localhost:15672"
     exit
 }
+
+    declare -A pytest_paths
+
+    pytest_paths["clouds"]='src/mist.io/tests/misttests/api/io/clouds.py'
+    pytest_paths["images"]='src/mist.io/tests/misttests/api/io/images.py'
+    pytest_paths["machines"]='src/mist.io/tests/misttests/api/io/machines.py'
+    pytest_paths["keys"]='src/mist.io/tests/misttests/api/io/keys.py'
+    pytest_paths["scripts"]='src/mist.io/tests/misttests/api/io/scripts.py'
+    pytest_paths["tunnels"]='src/mist.io/tests/misttests/api/io/tunnels.py'
+    pytest_paths["api_token"]='src/mist.io/tests/misttests/api/io/api_token.py'
+    pytest_paths["schedules"]='src/mist.io/tests/misttests/api/io/schedules.py'
 
     if [ $# -eq 0 ] || [ $1 == '-h' ]
     then
         help_message
+        exit
     fi
 
+    if [ $1 == '-api']
+    then
+
+    fi
+    

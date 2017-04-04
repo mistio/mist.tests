@@ -120,6 +120,7 @@ if __name__ == '__main__':
             pytest_args = get_pytest_args(args_to_be_cleaned)
         else:
             pytest_args = get_pytest_args(API_TESTS)
+            import ipdb;ipdb.set_trace()
         import pytest
         sys.exit(pytest.main(pytest_args))
     else:
