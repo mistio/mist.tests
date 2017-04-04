@@ -41,8 +41,7 @@ run_api_suite() {
         do
           echo $path
           pytest_args="${pytest_args} ${path}"
-          echo $pytest_args
         done
-        echo pytest_args
+        pytest -s $pytest_args
         exit
     fi
