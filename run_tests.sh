@@ -46,13 +46,13 @@ run_api_suite() {
             for path in "${pytest_paths[@]}"
             do
               echo $path
-              pytest_args="${pytest_args} ${path}"
-            done
+
+              done
             pytest -s $pytest_args
             exit
         fi
     else
-       if [[ " ${!pytest_paths[@]} " == *" clouds "* ]]; then
-            echo "NO contains d"
+       if [[ " ${!pytest_paths[@]} " == *" $2 "* ]]; then
+            pytest -s ${pytest_paths["$2"]}
        fi
     fi
