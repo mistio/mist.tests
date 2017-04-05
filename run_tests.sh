@@ -16,7 +16,7 @@ help_message() {
     echo
     echo "Argument for UI tests can be one of the following:"
     echo
-    echo " * TO BE INSERTED *"
+    echo "clouds, machines, images, keys, scripts, users, rbac, schedules"
     echo
     exit
 }
