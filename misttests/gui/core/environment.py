@@ -4,8 +4,6 @@ import requests
 import logging
 import random
 
-from .requirements import chrome_driver_setup
-
 from misttests import config
 
 from misttests.helpers.selenium_utils import choose_driver
