@@ -65,6 +65,12 @@ run_api_tests_suite() {
     behave_tags["schedules"]='schedulers','schedulers_v2'
 
 
+    if [ "$#" -eq 0 ] || [ $1 == '-h' ] || [ "$#" -gt 2 ]
+    then
+        help_message
+        exit
+    fi
+
     if [ "$#" -lt 2 ]
     then
         if [ $1 == '-api' ]
@@ -77,8 +83,7 @@ run_api_tests_suite() {
         else
             help_message
         fi
-    elif [ "$#" -eq 2]
-    then
+    else
        if [ $1 == '-api' ] && [[ " ${!pytest_paths[@]} " == *" $2 "* ]]; then
             pytest -s ${pytest_paths["$2"]}
        elif [ $1 == '-gui' ] && [[ " ${!behave_tags[@]} " == *" $2 "* ]]; then
@@ -86,6 +91,4 @@ run_api_tests_suite() {
        else
             help_message
        fi
-    else
-        help_message
     fi
