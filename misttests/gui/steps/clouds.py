@@ -98,6 +98,16 @@ def set_do_creds(context):
                           u'"cloud" add form' % token)
 
 
+def set_docker_orchestrator_creds(context):
+    host = context.mist_config['CREDENTIALS']['DOCKER']['host']
+    port = context.mist_config['CREDENTIALS']['DOCKER']['port']
+    context.execute_steps(u'''
+                Then I set the value "Docker Orchestrator" to field "Title" in "cloud" add form
+                Then I set the value "%s" to field "Host" in "cloud" add form
+                Then I set the value "%s" to field "Port" in "cloud" add form
+            ''' % (host, port))
+
+
 def set_docker_creds(context):
     host = context.mist_config['CREDENTIALS']['DOCKER']['host']
     authentication = context.mist_config['CREDENTIALS']['DOCKER'][
@@ -266,7 +276,8 @@ cloud_creds_dict = {
     "azure arm": set_azure_arm_creds,
     "kvm (via libvirt)": set_kvm_creds,
     "other server": set_other_server_creds,
-    "vmware": set_vmware_creds
+    "vmware": set_vmware_creds,
+    "docker_orchestrator": set_docker_orchestrator_creds
 }
 
 
