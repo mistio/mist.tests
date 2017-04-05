@@ -21,6 +21,16 @@ help_message() {
     exit
 }
 
+ui_error_message() {
+    echo
+    echo 'For UI tests you have to specify the suite you want to run!'
+    echo
+    echo "Argument for UI tests can be one of the following:"
+    echo
+    echo "clouds, machines, images, keys, scripts, users, rbac, schedules"
+    echo
+}
+
 
 run_api_tests_suite() {
     pytest_args=""
@@ -73,6 +83,9 @@ run_api_tests_suite() {
         then
             run_api_tests_suite
             exit
+        elif [ $1 == '-gui' ]
+        then
+            ui_error_message
         else
             help_message
         fi
