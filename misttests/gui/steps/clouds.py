@@ -99,10 +99,10 @@ def set_do_creds(context):
 
 
 def set_docker_orchestrator_creds(context):
-    host = context.mist_config['CREDENTIALS']['DOCKER']['host']
-    port = context.mist_config['CREDENTIALS']['DOCKER']['port']
+    host = context.mist_config['CREDENTIALS']['DOCKER_ORCHESTRATOR']['host']
+    port = context.mist_config['CREDENTIALS']['DOCKER_ORCHESTRATOR']['port']
     context.execute_steps(u'''
-                Then I set the value "Docker Orchestrator" to field "Title" in "cloud" add form
+                Then I set the value "Docker_Orchestrator" to field "Title" in "cloud" add form
                 Then I set the value "%s" to field "Host" in "cloud" add form
                 Then I set the value "%s" to field "Port" in "cloud" add form
             ''' % (host, port))
@@ -367,8 +367,16 @@ def given_cloud(context, cloud):
 
     context.execute_steps(u'''
         When I click the "new cloud" button with id "addBtn"
-        Then I expect the "Cloud" add form to be visible within max 5 seconds
-        When I select the "%s" provider
+        Then I expect the "Cloud" add form to be visible within max 5 seconds''')
+
+    if 'docker_orchestrator' in cloud.lower():
+        cloud_type = 'docker'
+    else:
+        cloud_type = cloud
+
+    context.execute_steps(u'''When I select the "%s" provider''' % cloud_type)
+
+    context.execute_steps('''
         Then I expect the field "Title" in the cloud add form to be visible within max 4 seconds
         When I use my "%s" credentials
         And I focus on the button "Add Cloud" in "cloud" add form
@@ -376,7 +384,7 @@ def given_cloud(context, cloud):
         When I wait for the dashboard to load
         And I scroll the clouds list into view
         Then the "%s" provider should be added within 120 seconds
-    ''' % (cloud, cloud, cloud))
+    ''' % (cloud, cloud))
 
 
 @step(u'I {action} the cloud menu for "{provider}"')
