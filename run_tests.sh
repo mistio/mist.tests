@@ -44,14 +44,14 @@ run_api_tests_suite() {
 
     declare -A pytest_paths
 
-    pytest_paths["clouds"]='src/mist.io/tests/misttests/api/io/clouds.py'
-    pytest_paths["images"]='src/mist.io/tests/misttests/api/io/images.py'
-    pytest_paths["machines"]='src/mist.io/tests/misttests/api/io/machines.py'
-    pytest_paths["keys"]='src/mist.io/tests/misttests/api/io/keys.py'
-    pytest_paths["scripts"]='src/mist.io/tests/misttests/api/io/scripts.py'
-    pytest_paths["tunnels"]='src/mist.io/tests/misttests/api/io/tunnels.py'
-    pytest_paths["api_token"]='src/mist.io/tests/misttests/api/io/api_token.py'
-    pytest_paths["schedules"]='src/mist.io/tests/misttests/api/io/schedules.py'
+    pytest_paths["clouds"]='misttests/api/io/clouds.py'
+    pytest_paths["images"]='misttests/api/io/images.py'
+    pytest_paths["machines"]='misttests/api/io/machines.py'
+    pytest_paths["keys"]='misttests/api/io/keys.py'
+    pytest_paths["scripts"]='misttests/api/io/scripts.py'
+    pytest_paths["tunnels"]='misttests/api/io/tunnels.py'
+    pytest_paths["api_token"]='misttests/api/io/api_token.py'
+    pytest_paths["schedules"]='misttests/api/io/schedules.py'
 
     declare -A behave_tags
 
@@ -63,6 +63,7 @@ run_api_tests_suite() {
     behave_tags["users"]='user-actions'
     behave_tags["rbac"]='rbac-rules','rbac-teams'
     behave_tags["schedules"]='schedulers','schedulers_v2'
+    behave_tags["orchestration"]='orchestration'
 
 
     if [ "$#" -eq 0 ] || [ $1 == '-h' ] || [ "$#" -gt 2 ]
