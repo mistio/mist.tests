@@ -51,14 +51,9 @@ run_api_tests_suite() {
     behave_tags["scripts"]='scripts'
     behave_tags["machines"]='machines'
     behave_tags["users"]='user-actions'
-    behave_tags["clouds"]=
-    behave_tags["clouds"]=
+    behave_tags["rbac"]='rbac-rules','rbac-teams'
+    behave_tags["schedules"]='schedulers','schedulers_v2'
 
-
-    'rbac': ['rbac-rules', 'rbac-teams'],
-    'schedules': ['schedulers', 'schedulers_v2'],
-
-    declare -a arr=("clouds" "machines" "keys" "scripts" "tunnels")
 
     for key in "${!behave_tags[@]}"
     do
