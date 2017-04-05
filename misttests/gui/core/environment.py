@@ -4,8 +4,6 @@ import requests
 import logging
 import random
 
-from .requirements import chrome_driver_setup
-
 from misttests import config
 
 from misttests.helpers.selenium_utils import choose_driver
@@ -25,7 +23,6 @@ def before_all(context):
     """
     Load the configuration config and setup the context
     """
-    chrome_driver_setup()
     log.info("Starting before all hook")
     log.info("Webdriver path:" + config.WEBDRIVER_PATH)
     log.info("Webdriver log:" + config.WEBDRIVER_LOG)

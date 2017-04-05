@@ -23,6 +23,7 @@ Feature: Schedulers
     And I click the button "Add" in "schedule" add form
     And I wait for 1 seconds
     When I visit the Home page
+    And I wait for 2 seconds
     And I visit the Schedules page
     Then "TestScheduler" schedule should be present within 3 seconds
 
@@ -36,6 +37,7 @@ Feature: Schedulers
     And I click the "Save" button in the dialog "Edit Schedule"
     And I expect the dialog "Edit Schedule" is closed within 4 seconds
     Then I visit the Home page
+    And I wait for 2 seconds
     When I visit the Schedules page
     Then "TestScheduler" schedule should be absent within 5 seconds
     And "RenamedSchedule" schedule should be present within 5 seconds
@@ -54,6 +56,7 @@ Feature: Schedulers
     And I click the "Delete" button in the dialog "Delete Schedule"
     Then I expect the dialog "Delete Schedule" is closed within 4 seconds
     When I visit the Home page
+    And I wait for 2 seconds
     And I visit the Schedules page
     Then "RenamedSchedule" schedule should be absent within 5 seconds
 
@@ -76,6 +79,9 @@ Feature: Schedulers
     And I click the button "Add" in "schedule" add form
     And I wait for 1 seconds
     When I visit the Home page
+    And I wait for 1 seconds
+    And I refresh the page
+    And I wait for the dashboard to load
     And I visit the Schedules page
     Then "TestScheduler_2" schedule should be present within 3 seconds
 
