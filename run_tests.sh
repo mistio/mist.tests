@@ -45,10 +45,25 @@ run_api_tests_suite() {
 
     declare -A behave_tags
 
-    behave_paths["clouds"]
+    behave_tags["clouds"]='clouds-add-a','clouds-add-b','clouds-actions'
+    behave_tags["images"]='images-networks'
+    behave_tags["keys"]='keys'
+    behave_tags["scripts"]='scripts'
+    behave_tags["machines"]='machines'
+    behave_tags["users"]='user-actions'
+    behave_tags["clouds"]=
+    behave_tags["clouds"]=
+
+
+    'rbac': ['rbac-rules', 'rbac-teams'],
+    'schedules': ['schedulers', 'schedulers_v2'],
 
     declare -a arr=("clouds" "machines" "keys" "scripts" "tunnels")
 
+    for key in "${!behave_tags[@]}"
+    do
+        echo "$key->${behave_tags[$key]}"
+    done
 
 
     if [ $# -eq 0 ] || [ $1 == '-h' ]
