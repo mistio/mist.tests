@@ -92,6 +92,8 @@ run_api_tests_suite() {
     else
        if [ $1 == '-api' ] && [[ " ${!pytest_paths[@]} " == *" $2 "* ]]; then
             pytest -s ${pytest_paths["$2"]}
+       elif [ $1 == '-gui' ] && [[ " ${!behave_tags[@]} " == *" $2 "* ]]; then
+            behave -k --stop --tags=${behave_tags["$2"]} src/mist.io/tests/misttests/gui/core/pr/features
        else
             help_message
        fi
