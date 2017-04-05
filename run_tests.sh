@@ -22,8 +22,13 @@ help_message() {
 }
 
 
-run_api_suite() {
-    for path in "${!pytest_paths[@]}"; do echo "${pytest_paths[$path]}"; done
+run_api_tests_suite() {
+    pytest_args=""
+    for path in "${pytest_paths[@]}"
+    do
+      pytest_args="${pytest_args} ${path}"
+    done
+    pytest -s $pytest_args
 }
 
 
@@ -37,6 +42,10 @@ run_api_suite() {
     pytest_paths["tunnels"]='src/mist.io/tests/misttests/api/io/tunnels.py'
     pytest_paths["api_token"]='src/mist.io/tests/misttests/api/io/api_token.py'
     pytest_paths["schedules"]='src/mist.io/tests/misttests/api/io/schedules.py'
+
+    declare -A behave_tags
+
+    behave_paths["clouds"]
 
     declare -a arr=("clouds" "machines" "keys" "scripts" "tunnels")
 
@@ -52,12 +61,7 @@ run_api_suite() {
     then
         if [ $1 == '-api' ]
         then
-            pytest_args=""
-            for path in "${pytest_paths[@]}"
-            do
-              pytest_args="${pytest_args} ${path}"
-            done
-            pytest -s $pytest_args
+            run_api_tests_suite
             exit
         else
             help_message
