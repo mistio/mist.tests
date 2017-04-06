@@ -32,8 +32,7 @@ behave -k --tags=machines tests/gui/core/pr/features/
 
 ##### Docker
 
-In order to run the following examples you should be inside the /mist.core directory and run ./init.sh -t. Tests use the tests_base image. If the image is not found locally,
-then it will be downloaded.
+In order to run the following examples you should be inside the /mist.core directory and run ./init.sh -t. Tests use the tests_base image. If the image is not found locally, then it will be downloaded.
 
 In order to run the api tests you should run:
 
