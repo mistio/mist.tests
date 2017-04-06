@@ -158,11 +158,11 @@ Feature: Orchestration
     And "Simple Python Template" template should be absent within 5 seconds
     And "Renamed Template" template should be present within 5 seconds
 
-#  @stack-is-deployed
-#  Scenario: Ensure that the machine has been deployed
-#    When I visit the Machines page
-#    And I wait for 5 seconds
-#    Then "yolomachine" machine should be present within 20 seconds
+  @stack-is-deployed
+  Scenario: Ensure that the machine has been deployed
+    When I visit the Machines page
+    And I wait for 5 seconds
+    Then "yolomachine" machine should be present within 20 seconds
 
   @template-delete
   Scenario: Delete a template
