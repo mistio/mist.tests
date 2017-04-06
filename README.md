@@ -6,7 +6,7 @@ mist.tests is where the testing suite for the Mist.io code resides. Two types of
 
 ### Installation
 
-No installation is required. mist.tests should already under mist.core/src/mist.io/tests/ directory. If it is not, run git submodule init && git submodule update
+No installation is required. mist.tests should already be under mist.core/src/mist.io/tests/ directory. If it is not, run git submodule init && git submodule update
 
 ### Setting up the environment
 
