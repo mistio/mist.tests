@@ -166,7 +166,7 @@ Feature: Orchestration
 
   @template-delete
   Scenario: Delete a template
-#    When I visit the Templates page
+    When I visit the Templates page
     When I click the "Renamed Template" "template"
     And I expect the "template" edit form to be visible within max 5 seconds
     Then I click the button "Delete Template" from the menu of the "template" edit form
