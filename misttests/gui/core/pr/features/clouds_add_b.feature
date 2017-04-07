@@ -22,8 +22,6 @@ Feature: Add second-tier clouds in Polymist
     | provider       |
     | Azure ARM      |
     | Linode         |
-    | AWS            |
-    | Digital Ocean  |
 #    | Vmware         |
 #    | Indonesian     |
 #    | HostVirtual    |
