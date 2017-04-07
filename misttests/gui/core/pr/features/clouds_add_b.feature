@@ -5,7 +5,7 @@ Feature: Add second-tier clouds in Polymist
     Given I am logged in to mist.core
 
   @cloud-add
-  Scenario Outline:
+  Scenario Outline: Add cloud for multiple providers
     When I click the "new cloud" button with id "addBtn"
     Then I expect the "Cloud" add form to be visible within max 5 seconds
     When I select the "<provider>" provider
@@ -57,7 +57,7 @@ Feature: Add second-tier clouds in Polymist
     Then the "Bare Metal" provider should be added within 20 seconds
 
   @machine-shell
-  Scenario: Check shell access
+  Scenario: Check shell access in bare metal
     When I visit the machines page
     And I wait for 2 seconds
     And I click the "Bare Metal" "machine"
