@@ -51,7 +51,7 @@ In order to run a suite of the gui tests you should run:
 Both api tests and gui tests are using a lot of configuration variables to get for example credentials.
 All these variables are located in the config.py file in the home folder of the tests. There are three ways
 to override the default values:
-1. Create a test_settings.py file in the mist.core directory and set the values that you want.
+1. Create a test_settings.py file in the tests directory and set the values that you want.
 2. Export a variable with the name that you want to override and set the new value. The value must be in json
 and the tests will pick it up when starting.
 3. Finally you can use the prepare_env.py script to dynamically override whatever value you want from the 
