@@ -66,6 +66,7 @@ run_api_tests_suite() {
     behave_tags["orchestration"]='orchestration'
 
 
+
     if [ "$#" -eq 0 ] || [ $1 == '-h' ] || [ "$#" -gt 2 ]
     then
         help_message
