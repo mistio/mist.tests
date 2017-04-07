@@ -45,8 +45,6 @@ Feature: Machines
   @machine-create
   Scenario: Create a machine in Docker provider
     When I visit the Home page
-#    And I wait for the dashboard to load
-#    Given "Docker" cloud has been added
     And I refresh the page
     And I wait for the dashboard to load
     When I visit the Machines page
