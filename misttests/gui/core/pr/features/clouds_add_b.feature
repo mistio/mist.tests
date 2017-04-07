@@ -59,3 +59,12 @@ Feature: Add second-tier clouds in Polymist
     When I wait for the dashboard to load
     And I scroll the clouds list into view
     Then the "Bare Metal" provider should be added within 20 seconds
+
+  @machine-shell
+  Scenario: Check shell access
+    When I click the "docker-ui-test-machine-random" "machine"
+    And I expect the "machine" edit form to be visible within max 5 seconds
+    And I wait for 2 seconds
+    Then I click the button "Shell" from the menu of the "machine" edit form
+    And I test the ssh connection
+    And I wait for 1 seconds
