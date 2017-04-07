@@ -128,6 +128,7 @@ class TestSchedulesFunctionality:
                 assert machine['state'] == 'running',\
                     "Machine's state is not running in the beginning of the tests"
             if 'api_test_machine_2' in machine['name']:
+                cache.set('machine2_id', machine['uuid'])
                 assert machine['state'] == 'running',\
                     "Machine's state is not running in the beginning of the tests"
                 response = mist_core.set_machine_tags(api_token=owner_api_token,
@@ -135,6 +136,12 @@ class TestSchedulesFunctionality:
                                                       machine_id=machine['uuid'],
                                                       tags={'key': 'schedule_test', 'value': ''}).post()
                 assert_response_ok(response)
+            if 'api_test_machine_3' in machine['name']:
+                cache.set('machine3_id', machine['uuid'])
+                assert machine['state'] == 'running',\
+                    "Machine's state is not running in the beginning of the tests"
+
+        print "Success!!!"
 
     def test_add_one_off_schedule_missing_schedule_entry(self, pretty_print, mist_core, owner_api_token, cache):
         machines_uuids = []
@@ -144,31 +151,6 @@ class TestSchedulesFunctionality:
                                           machines_uuids = machines_uuids).post()
         assert_response_bad_request(response)
         print "Success!!!"
-
-    # def test_add_one_off_schedule_run_immediately_ok(self, pretty_print, mist_core, owner_api_token, cache):
-    #     machines_uuids = []
-    #     machines_uuids.append(cache.get('machine_id', ''))
-    #     date_now = datetime.datetime.now().replace(microsecond=0)
-    #     scheduled_date = date_now + datetime.timedelta(seconds=3)
-    #
-    #     response = mist_core.add_schedule(api_token=owner_api_token, name='RunImmediatelySchedule',
-    #                                       action='stop', schedule_type='one_off',
-    #                                       machines_uuids=machines_uuids,
-    #                                       run_immediately=True,
-    #                                       schedule_entry=str(scheduled_date)).post()
-    #     import ipdb
-    #     ipdb.set_trace()
-    #     assert_response_ok(response)
-    #     cache.set('schedule_id', response.json()['id'])
-    #     sleep(5)
-    #     response = mist_core.list_machines(cloud_id=cache.get('cloud_id', ''), api_token=owner_api_token).get()
-    #     for machine in response.json():
-    #         if 'api_test_machine_1' in machine['name']:
-    #             import ipdb
-    #             ipdb.set_trace()
-    #             assert machine['state'] == 'stopped', "Machine'state is not running in he beginning of the tests"
-    #             break
-    #     print "Success"
 
 # below test should write to a file...
     def test_add_interval_schedule_ok(self, pretty_print, mist_core, owner_api_token, cache):
@@ -192,7 +174,7 @@ class TestSchedulesFunctionality:
                                           action='stop', schedule_type='interval',
                                           machines_tags={'schedule_test': ''},
                                           run_immediately=True,
-                                          schedule_entry={'every': 20, 'period':'minutes'}).post()
+                                          schedule_entry={'every': 20, 'period': 'minutes'}).post()
         assert_response_ok(response)
         response = mist_core.list_schedules(api_token=owner_api_token).get()
         assert_response_ok(response)
@@ -207,13 +189,44 @@ class TestSchedulesFunctionality:
         response = mist_core.add_schedule(api_token=owner_api_token, name='TestSchedule3',
                                           action='stop', schedule_type='one_off',
                                           machines_uuids=machines_uuids,
-                                          run_immediately=True,
                                           schedule_entry=str(scheduled_date)).post()
         assert_response_ok(response)
         response = mist_core.list_schedules(api_token=owner_api_token).get()
         assert_response_ok(response)
         assert len(response.json()) == 3
         print "Success"
+
+    def test_add_schedule_run_immediately_ok(self, pretty_print, mist_core, owner_api_token, cache):
+        machines_uuids = []
+        machines_uuids.append(cache.get('machine3_id', ''))
+        response = mist_core.add_schedule(api_token=owner_api_token, name='RunImmediatelySchedule',
+                                          action='stop', schedule_type='interval',
+                                          machines_uuids=machines_uuids,
+                                          run_immediately=True,
+                                          schedule_entry={'every': 20, 'period': 'minutes'}).post()
+        assert_response_ok(response)
+        print "Success"
+
+    def test_add_crontab_schedule_ok(self, pretty_print, mist_core, cache, owner_api_token):
+        machines_uuids = []
+        machines_uuids.append(cache.get('machine2_id', ''))
+        response = mist_core.add_schedule(api_token=owner_api_token, name='CrontabSchedule',
+                                          action='start', schedule_type='crontab',
+                                          machines_uuids=machines_uuids,
+                                          schedule_entry={'minute': '*', 'hour': '*', 'day_of_week': '*',
+                                                          'day_of_month': '*', 'month_of_year': '*'}).post()
+        assert_response_ok(response)
+        cache.set('crontab_schedule_id', response.json()['id'])
+        response = mist_core.list_schedules(api_token=owner_api_token).get()
+        assert_response_ok(response)
+        assert len(response.json()) == 5
+        print "Success"
+
+    def test_edit_crontab_schedule_ok(self, pretty_print, mist_core, cache, owner_api_token):
+        response = mist_core.edit_schedule(api_token=owner_api_token, schedule_id=cache.get('crontab_schedule_id', ''),
+                                           data={'action': 'stop'}).patch()
+        assert_response_ok(response)
+        print "Success!!!"
 
     def test_add_one_off_schedule_tags_ok(self, pretty_print, mist_core, owner_api_token):
         date_now = datetime.datetime.now().replace(microsecond=0)
@@ -226,7 +239,7 @@ class TestSchedulesFunctionality:
         assert_response_ok(response)
         response = mist_core.list_schedules(api_token=owner_api_token).get()
         assert_response_ok(response)
-        assert len(response.json()) == 4
+        assert len(response.json()) == 6
         print "Success"
 
     def test_add_schedule_dup_name(self, pretty_print, mist_core, owner_api_token, cache):
@@ -282,11 +295,9 @@ class TestSchedulesFunctionality:
         print "Success!!!"
 
     def test_check_schedules(self, pretty_print, mist_core, owner_api_token, cache, schedules_cleanup):
-        sleep(15)
+        sleep(60)
         response = mist_core.list_machines(cloud_id=cache.get('cloud_id', ''), api_token=owner_api_token).get()
         for machine in response.json():
-            if 'api_test_machine_1' in machine['name']:
+            if 'api_test_machine' in machine['name']:
                 assert machine['state'] == 'stopped', "Machine'state is not stopped after schedule run"
-            # if 'api_test_machine_2' in machine['name']:
-            #     assert machine['state'] == 'stopped', "Machine'state is not stopped after schedule run"
         print "Success"
