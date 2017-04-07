@@ -328,5 +328,4 @@ def keys_associated_with_machine(context, keys):
     associated_keys = context.browser.find_element_by_class_name('associatedKeys')
     associated_keys_class = associated_keys.find_element_by_class_name('machine-key')
     associated_keys_with_machine = associated_keys_class.find_elements_by_tag_name('a')
-    import ipdb;ipdb.set_trace()
     assert len(associated_keys_with_machine) == int(keys), "There are %s keys associaed with the machine" % len(associated_keys_with_machine)
