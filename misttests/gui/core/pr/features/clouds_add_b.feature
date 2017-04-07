@@ -32,6 +32,7 @@ Feature: Add second-tier clouds in Polymist
 
   @KVM-add
   Scenario: Add KVM
+    When I refresh the page
     When I add the key needed for KVM
     When I click the "new cloud" button with id "addBtn"
     Then I expect the "Cloud" add form to be visible within max 5 seconds
