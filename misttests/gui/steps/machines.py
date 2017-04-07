@@ -314,9 +314,18 @@ def check_for_associated_key(context, key, machine):
         return
     assert False, "Wrong key has been associated with the machine!"
 
+
 @step(u'I delete the associated key')
 def disassociate_key(context):
     associated_key_class = context.browser.find_element_by_class_name('associatedKeys')
     associated_key = associated_key_class.find_element_by_class_name('machine-key')
     delete_btn = associated_key.find_element_by_class_name('delete')
-    clicketi_click(delete_btn)
+    clicketi_click(context, delete_btn)
+
+
+@step(u'there should be {keys} keys associated with the machine')
+def keys_associated_with_machine(context, keys):
+    associated_key_class = context.browser.find_element_by_class_name('associatedKeys')
+    associated_keys = associated_key_class.find_elements_by_class_name('machine-key')
+    import ipdb;ipdb.set_trace()
+    assert len(associated_keys) == int(keys), "There are %s keys associaed with the machine" % len(associated_keys)

@@ -35,10 +35,14 @@ Feature: Machines
 
   @key-disassociate
   Scenario: Disassociate key
+    When I visit the machines page
+    When I click the "machine2-ui-testing" "machine"
+    And I expect the "machine" edit form to be visible within max 5 seconds
     When I delete the associated key
     Then I expect the dialog "Disassociate Key" is open within 4 seconds
     When I click the "Disassociate" button in the dialog "Disassociate Key"
     And I wait for 5 seconds
+    Then there should be 0 keys associated with the machine
 
   @machine-create
   Scenario: Create a machine in Docker provider
