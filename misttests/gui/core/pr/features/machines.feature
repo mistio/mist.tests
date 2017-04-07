@@ -31,13 +31,11 @@ Feature: Machines
     And I click the button "Key1" in the "Select key" dropdown
     And I click the "Associate" button in the dialog "Associate a key"
     And I wait for 2 seconds
+    Then there should be 1 keys associated with the machine
     Then "Key1" key should be associated with the machine "machine2-ui-testing"
 
   @key-disassociate
   Scenario: Disassociate key
-    When I visit the machines page
-    When I click the "machine2-ui-testing" "machine"
-    And I expect the "machine" edit form to be visible within max 5 seconds
     When I delete the associated key
     Then I expect the dialog "Disassociate Key" is open within 4 seconds
     When I click the "Disassociate" button in the dialog "Disassociate Key"
