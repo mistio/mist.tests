@@ -62,9 +62,10 @@ Feature: Add second-tier clouds in Polymist
 
   @machine-shell
   Scenario: Check shell access
-    When I click the "docker-ui-test-machine-random" "machine"
+    When I visit the machines page
+    And I wait for 2 seconds
+    And I click the "Bare Metal" "machine"
     And I expect the "machine" edit form to be visible within max 5 seconds
     And I wait for 2 seconds
     Then I click the button "Shell" from the menu of the "machine" edit form
     And I test the ssh connection
-    And I wait for 1 seconds
