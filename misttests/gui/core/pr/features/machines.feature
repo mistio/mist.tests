@@ -20,7 +20,7 @@ Feature: Machines
     Then I expect the "key" edit form to be visible within max 10 seconds
 
   @key-associate
-  Scenario: Add Key that will be used for ssh access
+  Scenario: Associate key with machine
     When I visit the machines page
     When I click the "machine2-ui-testing" "machine"
     And I expect the "machine" edit form to be visible within max 5 seconds
@@ -32,6 +32,13 @@ Feature: Machines
     And I click the "Associate" button in the dialog "Associate a key"
     And I wait for 2 seconds
     Then "Key1" key should be associated with the machine "machine2-ui-testing"
+
+  @key-disassociate
+  Scenario: Disassociate key
+    When I delete the associated key
+    Then I expect the dialog "Disassociate Key" is open within 4 seconds
+    When I click the "Disassociate" button in the dialog "Disassociate Key"
+    And I wait for 5 seconds
 
   @machine-create
   Scenario: Create a machine in Docker provider
