@@ -6,6 +6,7 @@ Feature: Images and Networks
 
   @image-search
   Scenario: Search image
+    When I expect for "addBtn" to be clickable within max 20 seconds
     Given "OpenStack" cloud has been added
     When I visit the Images page
     And I search for "CoreOS"
@@ -35,7 +36,7 @@ Feature: Images and Networks
     Then I click the button "Star" in "image" edit form
     Then  I visit the Home page
     And I refresh the page
-    And I wait for the dashboard to load
+    And I wait for the links in homepage to appear
     When I visit the Images page
     And I wait for 2 seconds
     Then the "CoreOS-Beta" image should be "starred" within 200 seconds
@@ -56,7 +57,7 @@ Feature: Images and Networks
     When I visit the Networks page
     Then "network_random" network should be present within 20 seconds
     And I visit the Home page
-    And I wait for the dashboard to load
+    And I wait for the links in homepage to appear
 
   @network-delete
   Scenario: Delete Network
