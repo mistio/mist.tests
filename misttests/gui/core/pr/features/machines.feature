@@ -63,6 +63,31 @@ Feature: Machines
     And I wait for 5 seconds
     Then "docker-ui-test-machine-random" machine state has to be "running" within 100 seconds
 
+  @script-add
+  Scenario: Add script
+    When I visit the Scripts page
+    And I click the button "+"
+    Then I expect the "Script" add form to be visible within max 10 seconds
+    When I set the value "Script1" to field "Script Name" in "script" add form
+    And I open the "Type" drop down
+    And I wait for 2 seconds
+    And I click the button "Executable" in the "Type" dropdown
+    And I wait for 2 seconds
+    And I open the "Source" drop down
+    And I wait for 2 seconds
+    And I click the button "Inline" in the "Source" dropdown
+    And I set the value "#!/bin/bash\ntouch /temp/kati" to field "Script" in "script" add form
+    And I focus on the button "Add" in "script" add form
+    And I expect for the button "Add" in "script" add form to be clickable within 3 seconds
+    And I click the button "Add" in "script" add form
+    And I wait for 3 seconds
+    When I visit the Scripts page after the counter has loaded
+    Then I visit the Home page
+    And I wait for the links in homepage to appear
+    When I visit the Scripts page
+    Then "Script1" script should be present within 3 seconds
+    And I visit the Home page
+
   @machine-shell
   Scenario: Check shell access
     When I click the "docker-ui-test-machine-random" "machine"
