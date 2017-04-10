@@ -6,7 +6,7 @@ Feature: Add second-tier clouds in Polymist
     Then I expect for "addBtn" to be clickable within max 20 seconds
 
   @cloud-add
-  Scenario Outline:
+  Scenario Outline: Add cloud for multiple providers
     When I click the "new cloud" button with id "addBtn"
     Then I expect the "Cloud" add form to be visible within max 5 seconds
     When I select the "<provider>" provider
@@ -26,5 +26,7 @@ Feature: Add second-tier clouds in Polymist
     | NephoScale     |
     | Rackspace      |
     | GCE            |
+    | AWS            |
+    | Digital Ocean  |
 #    | Packet         | -- tested @ rbac-rules
 #    | Softlayer         | -- tested @ rbac-rules

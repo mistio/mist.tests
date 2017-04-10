@@ -5,7 +5,8 @@ Feature: Machines
     Given I am logged in to mist.core
 
   @key-add
-  Scenario: Add Key that will be used for ssh access
+  Scenario: Add script and key that will be used for ssh access
+    Given script "TestScript" is added via API request
     Then I expect for "addBtn" to be clickable within max 20 seconds
     Given "Docker" cloud has been added
     When I visit the Keys page
@@ -21,7 +22,7 @@ Feature: Machines
     Then I expect the "key" edit form to be visible within max 10 seconds
 
   @key-associate
-  Scenario: Add Key that will be used for ssh access
+  Scenario: Associate key with machine
     When I visit the machines page
     When I click the "machine2-ui-testing" "machine"
     And I expect the "machine" edit form to be visible within max 5 seconds
@@ -32,13 +33,20 @@ Feature: Machines
     And I click the button "Key1" in the "Select key" dropdown
     And I click the "Associate" button in the dialog "Associate a key"
     And I wait for 2 seconds
+    Then there should be 1 keys associated with the machine
     Then "Key1" key should be associated with the machine "machine2-ui-testing"
+
+  @key-disassociate
+  Scenario: Disassociate key
+    When I delete the associated key
+    Then I expect the dialog "Disassociate Key" is open within 4 seconds
+    When I click the "Disassociate" button in the dialog "Disassociate Key"
+    And I wait for 5 seconds
+    Then there should be 0 keys associated with the machine
 
   @machine-create
   Scenario: Create a machine in Docker provider
     When I visit the Home page
-#    And I wait for the dashboard to load
-#    Given "Docker" cloud has been added
     And I refresh the page
     And I wait for the links in homepage to appear
     When I visit the Machines page
@@ -56,9 +64,19 @@ Feature: Machines
     And I click the "Launch" button with id "appformsubmit"
     And I wait for 5 seconds
     Then "docker-ui-test-machine-random" machine state has to be "running" within 100 seconds
+    When I click the "docker-ui-test-machine-random" "machine"
+    And I expect the "machine" edit form to be visible within max 5 seconds
+    And I wait for 2 seconds
+    Then I click the button "Run Script" from the menu of the "machine" edit form
+    Then I expect the dialog "Run a script" is open within 4 seconds
+    And I open the "Select script" drop down
+    And I click the button "TestScript" in the "Select script" dropdown
+    And I click the "Run script" button in the dialog "Run a script"
+    And I wait for 2 seconds
 
   @machine-shell
   Scenario: Check shell access
+    When I visit the Machines page
     When I click the "docker-ui-test-machine-random" "machine"
     And I expect the "machine" edit form to be visible within max 5 seconds
     And I wait for 2 seconds
