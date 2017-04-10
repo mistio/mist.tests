@@ -63,9 +63,14 @@ Feature: RBAC
 
   @member1-view-cloud-success
   Scenario: Verify that member1 can view a cloud
-    Given I am logged in to mist.core as rbac_member1
-#    And I ensure that I am in the "ORG_NAME" organization context
-    When I visit the Teams page
+    Then I should receive an email at the address "MEMBER1_EMAIL" with subject "[mist.io] Confirm your invitation" within 30 seconds
+    And I follow the link inside the email
+    Then I enter my rbac_member1 credentials for login
+    And I click the sign in button in the landing page popup
+    Given that I am redirected within 10 seconds
+    And I wait for the links in homepage to appear
+    When I ensure that I am in the "ORG_NAME" organization context
+    And I visit the Teams page
     Then "Test Team" team should be present within 5 seconds
     When I visit the Home page
     Then I should have 1 clouds added
