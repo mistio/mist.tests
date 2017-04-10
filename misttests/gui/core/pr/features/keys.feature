@@ -20,7 +20,7 @@ Feature: Actions for Keys
     When I visit the Keys page
     Then "Key1" key should be present within 15 seconds
     And I visit the Home page
-    And I wait for the dashboard to load
+    And I wait for the links in homepage to appear
 
   @key-default
   Scenario: Change Default Key
@@ -39,7 +39,7 @@ Feature: Actions for Keys
     And I wait for 1 seconds
     Then key "Key2" should be default key
     And I visit the Home page
-    And I wait for the dashboard to load
+    And I wait for the links in homepage to appear
 
  @key-search
   Scenario: Filter a key
@@ -48,7 +48,7 @@ Feature: Actions for Keys
     When I clear the search bar
     Then "Key1" key should be present within 15 seconds
     And I visit the Home page
-    And I wait for the dashboard to load
+    And I wait for the links in homepage to appear
 
   @key-rename
   Scenario: Rename Key
@@ -63,7 +63,7 @@ Feature: Actions for Keys
     Then "Key2" key should be absent within 5 seconds
     And "Second" key should be present within 5 seconds
     And I visit the Home page
-    And I wait for the dashboard to load
+    And I wait for the links in homepage to appear
 
   @key-tags
   Scenario: Add tags to key
@@ -87,7 +87,7 @@ Feature: Actions for Keys
     Then I expect for the tag popup to close within 4 seconds
     And I ensure that the "key" has the tags "second:tag"
     And I visit the Home page
-    And I wait for the dashboard to load
+    And I wait for the links in homepage to appear
 
   @key-delete
   Scenario: Delete Key
@@ -103,5 +103,3 @@ Feature: Actions for Keys
     And I click the "Delete" button in the dialog "Delete Key"
     And I expect the dialog "Delete Key" is closed within 4 seconds
     Then "Second" key should be absent within 15 seconds
-    Then I visit the Home page
-    When I wait for the dashboard to load
