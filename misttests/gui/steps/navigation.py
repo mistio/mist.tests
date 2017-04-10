@@ -83,7 +83,7 @@ def am_in_new_UI(context):
 
 @step(u'I make sure the menu is open')
 def make_sure_menu_is_open(context):
-    end_time = time() + 10
+    end_time = time() + 15
     while time() < end_time:
         try:
             menu = context.browser.find_element_by_id('sidebar')
@@ -215,7 +215,7 @@ def given_logged_in(context):
         When I open the login popup
         And I enter my standard credentials for login
         And I click the sign in button in the landing page popup
-        Then I wait for the dashboard to load
+        Then I wait for the links in homepage to appear
     """)
 
 
@@ -253,14 +253,14 @@ def given_logged_in(context, kind):
             When I open the login popup
             And I enter my %s credentials for login
             And I click the sign in button in the landing page popup
-            Then I wait for the dashboard to load
+            And I wait for the links in homepage to appear
         """ % kind)
     elif kind == 'reg_member':
         context.execute_steps(u"""
             When I open the login popup
             And I enter my standard credentials for login
             And I click the sign in button in the landing page popup
-            Then I wait for the dashboard to load
+            And I wait for the links in homepage to appear
         """)
 
 

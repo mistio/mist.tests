@@ -5,6 +5,7 @@ Feature: RBAC
   Scenario: Owner creates a new organization and adds a Softlayer cloud
     Given rbac members, organization and team are initialized
     Given I am logged in to mist.core
+    Then I expect for "addBtn" to be clickable within max 20 seconds
     Given "SoftLayer" cloud has been added
 
   @add-member1
@@ -28,7 +29,7 @@ Feature: RBAC
     Then I enter my rbac_member1 credentials for login
     And I click the sign in button in the landing page popup
     Given that I am redirected within 10 seconds
-    And I wait for the dashboard to load
+    And I wait for the links in homepage to appear
     When I ensure that I am in the "ORG_NAME" organization context
     And I visit the Teams page
     Then "Test Team" team should be present within 5 seconds
