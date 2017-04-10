@@ -42,6 +42,7 @@ Feature: RBAC
     And I logout
 
   @allow-read-machine
+  Scenario: Verify that member1 cannot view the cloud added above
     Given I am logged in to mist.core as rbac_owner
     And I visit the Teams page
     When I click the "Test team" "team"
