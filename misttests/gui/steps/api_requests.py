@@ -2,6 +2,7 @@ from behave import step
 
 import requests
 import random
+import json
 
 
 @step(u'rbac members are initialized')
