@@ -50,6 +50,12 @@ Feature: RBAC
     When I focus on the button "Add a new rule" in "policy" edit form
     And I click the button "Add a new rule" in "policy" edit form
     And I wait for 1 seconds
+    Then I add the rule always "ALLOW" "cloud" "read"
+    And I click the button "Save Policy" in "policy" edit form
+    And I wait for 2 seconds
+    When I focus on the button "Add a new rule" in "policy" edit form
+    And I click the button "Add a new rule" in "policy" edit form
+    And I wait for 1 seconds
     Then I add the rule always "ALLOW" "machine" "read"
     And I click the button "Save Policy" in "policy" edit form
     And I wait for 2 seconds
