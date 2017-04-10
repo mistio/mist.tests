@@ -41,7 +41,7 @@ Feature: RBAC
     Then I add the rule always "ALLOW" "script" "read"
     And I click the button "Save Policy" in "policy" edit form
     And I wait for 2 seconds
-    Given script "TestScript" is added
+    Given script "TestScript" is added via API request
     Then I logout
 
   @member1-view-cloud-success
