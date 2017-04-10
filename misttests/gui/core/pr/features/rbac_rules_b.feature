@@ -1,4 +1,5 @@
 # Created by spiros at 10/4/2017
+@rbac-rules-v2
 Feature: RBAC
 
 
@@ -8,7 +9,6 @@ Feature: RBAC
     Given I am logged in to mist.core
     Then I expect for "addBtn" to be clickable within max 20 seconds
     Given "SoftLayer" cloud has been added
-
 
   @add-member1
   Scenario: Add member1
@@ -37,4 +37,26 @@ Feature: RBAC
     Then "Test Team" team should be present within 5 seconds
     When I visit the Home page
     Then I should have 0 clouds added
+    When I visit the Machines page
+    Then "openstack.mist.io" machine should be absent within 5 seconds
     And I logout
+
+  @allow-read-machine
+    Given I am logged in to mist.core as rbac_owner
+    And I visit the Teams page
+    When I click the "Test team" "team"
+    Then I expect the "team" edit form to be visible within max 5 seconds
+    When I focus on the button "Add a new rule" in "policy" edit form
+    And I click the button "Add a new rule" in "policy" edit form
+    And I wait for 1 seconds
+    Then I add the rule always "ALLOW" "machine" "read"
+    And I click the button "Save Policy" in "policy" edit form
+    And I wait for 2 seconds
+    Then I logout
+
+  @member1-read-machine-success
+  Scenario: Member 1 should now be able to read machine
+    Given I am logged in to mist.core as rbac_member1
+    Then I ensure that I am in the "ORG_NAME" organization context
+    When I visit the Machines page
+    Then "openstack.mist.io" machine should be present within 5 seconds
