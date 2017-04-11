@@ -115,6 +115,12 @@ def type_in_terminal(context, command):
     terminal.send_keys(command + '\n')
 
 
+@step('I close the terminal')
+def close_terminal(context):
+    clicketi_click(context, context.browser.find_element_by_xpath("//iron-icon[@icon='icons:close']"))
+    WebDriverWait(context.browser, 4).until(EC.invisibility_of_element_located((By.CLASS_NAME, 'terminal')))
+
+
 def check_ssh_connection_with_timeout(context,
                                       connection_timeout=200,
                                       filename=None):
