@@ -123,7 +123,7 @@ def check_output(context, filename):
     for row in rows:
         if filename in safe_get_element_text(row):
             return
-    assert False, "%s is not included in the shell's output." %filename
+    assert False, "%s is not included in the shell's output." % filename
 
 
 @step('I close the terminal')
