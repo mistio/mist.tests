@@ -57,7 +57,7 @@ def initialize_rbac_members(context):
 @step(u'script "{script_name}" is added via API request')
 def create_script_api_request(context, script_name):
     script_data = {'location_type':'inline','exec_type':'executable', 'name': script_name}
-    bash_script = """#!/bin/bash\ntouch ~/test/kati
+    bash_script = """#!/bin/bash\ntouch /root/dummy_file
     """
     payload = {
         'email': context.mist_config['EMAIL'],
