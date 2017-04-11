@@ -115,6 +115,41 @@ def type_in_terminal(context, command):
     terminal.send_keys(command + '\n')
 
 
+@step('{filename} should be included in the output')
+def check_output(context, filename):
+    terminal = context.browser.find_element_by_class_name('terminal')
+    rows_class = terminal.find_element_by_class_name('xterm-rows')
+    rows = rows_class.find_elements_by_tag_name('div')
+    import pdb;pdb.set_trace()
+    for row in rows:
+        if filename in safe_get_element_text(row):
+            return
+    assert False, "%s is not included in the shell's output." %filename
+
+
+    # command_output_end_line = len(lines)
+    # command_output_start_line = 0
+    # # find where the ls output starts and ends
+    # for i in range(len(lines) - 1, 0, -1):
+    #     if re.search("total\s\d+", lines[i]) and \
+    #             re.search(":.*(\$|#).*.*ls.*", lines[i - 1]) and \
+    #                     command_output_start_line < i:
+    #         command_output_start_line = i
+    #         break
+    #     if re.search(":.*(\$|#).*", lines[i]) and command_output_end_line > i:
+    #         command_output_end_line = i - 1
+    # if command_output_start_line == 0:
+    #     assert False, "Could not find the output of the ls command. Contents" \
+    #                   " of the terminal are: %s" % lines
+    # if not filename:
+    #     return True
+    # for i in range(command_output_end_line, command_output_start_line, -1):
+    #     if filename in lines[i]:
+    #         return True
+    # assert False, "File with name %s is not listed in the output of the ls " \
+    #               "command. Contents of the terminal are: %s" & lines
+
+
 @step('I close the terminal')
 def close_terminal(context):
     clicketi_click(context, context.browser.find_element_by_xpath("//iron-icon[@icon='icons:close']"))
