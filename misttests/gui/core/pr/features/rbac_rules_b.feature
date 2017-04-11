@@ -31,7 +31,7 @@ Feature: RBAC
     Then I logout
 
   @view-machine-fail
-  Scenario: Verify that member1 cannot view the cloud added above
+  Scenario: Verify that member1 cannot view the machine created above
     Then I should receive an email at the address "MEMBER1_EMAIL" with subject "[mist.io] Confirm your invitation" within 30 seconds
     And I follow the link inside the email
     Then I enter my rbac_member1 credentials for login
@@ -45,6 +45,21 @@ Feature: RBAC
     Then I should have 1 clouds added
     When I visit the Machines page
     Then "openstack.mist.io" machine should be absent within 5 seconds
+
+   @create-machine-fail
+   Scenario: Verify that member1 cannot create machine
+    And I click the button "+"
+    Then I expect the "Machine" add form to be visible within max 10 seconds
+    When I open the "Choose Cloud" drop down
+    And I wait for 1 seconds
+    And I click the button "Docker" in the "Choose Cloud" dropdown
+    Then I expect the field "Machine name" in the machine add form to be visible within max 4 seconds
+    When I select the proper values for "Docker" to create the "docker-ui-test-machine-random" machine
+    And I wait for 3 seconds
+    Then I expect for the button "Launch" in "machine" add form to be clickable within 10 seconds
+    When I focus on the button "Launch" in "machine" add form
+    And I wait for 2 seconds
+    And I click the "Launch" button with id "appformsubmit"
     And I logout
 
   @allow-read-machine
