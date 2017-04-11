@@ -1,4 +1,3 @@
-# Created by spiros at 10/4/2017
 @rbac-rules-v2
 Feature: RBAC
 
@@ -75,7 +74,7 @@ Feature: RBAC
     Then I add the rule always "ALLOW" "machine" "read"
     And I click the button "Save Policy" in "policy" edit form
 
-  @allow-read-machine
+  @allow-create-machine
   Scenario: Verify that member1 cannot view the cloud added above
     When I focus on the button "Add a new rule" in "policy" edit form
     And I click the button "Add a new rule" in "policy" edit form
