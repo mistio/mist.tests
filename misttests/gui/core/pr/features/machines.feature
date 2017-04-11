@@ -6,7 +6,7 @@ Feature: Machines
 
   @key-add
   Scenario: Add script and key that will be used for ssh access
-    Given script "TestScript" is added via API request
+    Given script "touch_kati" is added via API request
     Then I expect for "addBtn" to be clickable within max 20 seconds
     Given "Docker" cloud has been added
     When I visit the Keys page
@@ -64,31 +64,32 @@ Feature: Machines
     And I click the "Launch" button with id "appformsubmit"
     And I wait for 5 seconds
     Then "docker-ui-test-machine-random" machine state has to be "running" within 100 seconds
+
+   @machine-run-script
+   Scenario: Run script to machine created above
     When I click the "docker-ui-test-machine-random" "machine"
     And I expect the "machine" edit form to be visible within max 5 seconds
     And I wait for 2 seconds
     Then I click the button "Run Script" from the menu of the "machine" edit form
     Then I expect the dialog "Run a script" is open within 4 seconds
     And I open the "Select script" drop down
-    And I click the button "TestScript" in the "Select script" dropdown
+    And I click the button "touch_kati" in the "Select script" dropdown
     And I click the "Run script" button in the dialog "Run a script"
     And I wait for 2 seconds
 
-  # i expect kati to be in the output...
-  # close terminal
-
   @machine-shell
-  Scenario: Check shell access
+  Scenario: Check shell access and verify that script run
     When I visit the Machines page
-    When I click the "test" "machine"
+    When I click the "docker-ui-test-machine-random" "machine"
     And I expect the "machine" edit form to be visible within max 5 seconds
     And I wait for 2 seconds
     Then I click the button "Shell" from the menu of the "machine" edit form
-#    And I test the ssh connection
     And I expect terminal to open within 3 seconds
     And shell input should be available after 5 seconds
     And I type in the terminal "ls -l"
     And I wait for 1 seconds
+    Then dummy_file should be included in the output
+    And I close the terminal
 
   @machine-stop
   Scenario: Stop machine created above and check state
@@ -108,18 +109,18 @@ Feature: Machines
     Then I visit the Machines page
     Then "docker-ui-test-machine-random" machine state has to be "running" within 30 seconds
 
-#  @machine-destroy
-#  Scenario: Destroy the machine created
-#    When I visit the Home page
-#    And I wait for the links in homepage to appear
-#    And I visit the Machines page after the counter has loaded
-#    Then I search for the machine "docker-ui-test-machine-random"
-#    When I click the "docker-ui-test-machine-random" "machine"
-#    And I clear the machines search bar
-#    And I expect the "machine" edit form to be visible within max 5 seconds
-#    And I wait for 2 seconds
-#    Then I click the button "Destroy" from the menu of the "machine" edit form
-#    And I expect the dialog "Destroy 1 Machines" is open within 4 seconds
-#    And I click the "Destroy" button in the dialog "Destroy 1 Machines"
-#    Then I visit the Machines page
-#    Then "docker-ui-test-machine-random" machine should be absent within 60 seconds
+  @machine-destroy
+  Scenario: Destroy the machine created
+    When I visit the Home page
+    And I wait for the links in homepage to appear
+    And I visit the Machines page after the counter has loaded
+    Then I search for the machine "docker-ui-test-machine-random"
+    When I click the "docker-ui-test-machine-random" "machine"
+    And I clear the machines search bar
+    And I expect the "machine" edit form to be visible within max 5 seconds
+    And I wait for 2 seconds
+    Then I click the button "Destroy" from the menu of the "machine" edit form
+    And I expect the dialog "Destroy 1 Machines" is open within 4 seconds
+    And I click the "Destroy" button in the dialog "Destroy 1 Machines"
+    Then I visit the Machines page
+    Then "docker-ui-test-machine-random" machine should be absent within 60 seconds
