@@ -89,6 +89,26 @@ def terminal_is_open(context, seconds):
                      "button. Aborting!"
 
 
+@step(u'shell input should be {state} after {seconds} seconds')
+def check_shell_input_state(context, state, seconds):
+    if state not in ['available', 'unavailable']:
+        raise ValueError('Unknown type of state')
+    lines = []
+    terminal = context.browser.find_element_by_class_name('terminal')
+    max_time = time() + int(seconds)
+    while time() < max_time:
+        if update_lines(terminal, lines):
+            assert is_ssh_connection_up(lines), "Error while using shell"
+            if state == 'available' and re.search(":(.*)(\$|#)\s?$", lines[-1]):
+                break
+            elif state == 'unavailable' and re.search(":(.*)(\$|#)\s?$", lines[-1]):
+                assert False, "Shell input is available although it shouldn't be!"
+        if state == 'available':
+            assert time() + 1 < max_time, "Shell hasn't connected after" \
+                                      " %s seconds. Aborting!" \
+                                                 % seconds
+
+
 def check_ssh_connection_with_timeout(context,
                                       connection_timeout=200,
                                       filename=None):
