@@ -75,6 +75,20 @@ def check_ls_output(lines, filename=None):
                   "command. Contents of the terminal are: %s" & lines
 
 
+@step(u'I expect terminal to open within {seconds} seconds')
+def terminal_is_open(context, seconds):
+    end_time = time() + int(seconds)
+    terminal = None
+    while time() < end_time:
+        try:
+            terminal = context.browser.find_element_by_class_name('terminal')
+            break
+        except NoSuchElementException:
+            sleep(1)
+    assert terminal, "Terminal has not opened after pressing the " \
+                     "button. Aborting!"
+
+
 def check_ssh_connection_with_timeout(context,
                                       connection_timeout=200,
                                       filename=None):
