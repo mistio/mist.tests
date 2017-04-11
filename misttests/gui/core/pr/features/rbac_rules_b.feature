@@ -7,7 +7,7 @@ Feature: RBAC
     Given rbac members, organization and team are initialized
     Given I am logged in to mist.core
     Then I expect for "addBtn" to be clickable within max 20 seconds
-    Given "SoftLayer" cloud has been added
+    Given "Docker" cloud has been added
 
   @add-member1
   Scenario: Add member1 and allow-read-cloud
@@ -43,7 +43,7 @@ Feature: RBAC
     When I visit the Home page
     Then I should have 1 clouds added
     When I visit the Machines page
-    Then "openstack.mist.io" machine should be absent within 5 seconds
+    Then "yolomachine" machine should be absent within 5 seconds
 
    @create-machine-fail
    Scenario: Verify that member1 cannot create machine
@@ -89,7 +89,7 @@ Feature: RBAC
     Given I am logged in to mist.core as rbac_member1
     Then I ensure that I am in the "ORG_NAME" organization context
     When I visit the Machines page
-    Then "openstack.mist.io" machine should be present within 5 seconds
+    Then "yolomachine" machine should be present within 5 seconds
 
   @member1-create-machine-success
   Scenario: Member 1 should now be able to create machine
@@ -106,4 +106,7 @@ Feature: RBAC
     And I wait for 2 seconds
     And I click the "Launch" button with id "appformsubmit"
 
-    
+    # check errormsg
+    # softlayer --> clouds_add
+    # check state of machine
+  
