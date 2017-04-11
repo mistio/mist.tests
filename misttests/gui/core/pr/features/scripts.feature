@@ -25,13 +25,11 @@ Feature: Scripts
     And I wait for 3 seconds
     When I visit the Scripts page after the counter has loaded
     # FIXME: below has been commented out because script is not available immediately..need for redirection to another page first...
-    # FIXME: instead of redirecting to home, an option is to sort the items...
     Then I visit the Home page
     And I wait for the links in homepage to appear
     When I visit the Scripts page
     Then "<name>" script should be present within 3 seconds
     And I visit the Home page
-
 
     Examples: Script according to source
     | source        | field       | script                                                                      | name    | type       |
@@ -39,10 +37,34 @@ Feature: Scripts
     | Github        | Github Repo | https://github.com/ansible/ansible-examples                                 | Script2 | Executable |
     | Url           | Url         | https://github.com/ansible/ansible-examples/blob/master/lamp_simple/site.yml| Script3 | Executable |
 
+  @script-add
+  Scenario: Add ansible github script
+    When I visit the Scripts page
+    And I click the button "+"
+    Then I expect the "Script" add form to be visible within max 10 seconds
+    When I set the value "Script4" to field "Script Name" in "script" add form
+    And I open the "Type" drop down
+    And I wait for 2 seconds
+    And I click the button "Ansible Playbook" in the "Type" dropdown
+    And I wait for 2 seconds
+    And I open the "Source" drop down
+    And I wait for 2 seconds
+    And I click the button "Github" in the "Source" dropdown
+    And I set the value "https://github.com/ansible/ansible-examples" to field "Github Repo" in "script" add form
+    And I set the value "blob/master/lamp_simple/site.yml" to field "Entry Point" in "script" add form
+    And I focus on the button "Add" in "script" add form
+    And I expect for the button "Add" in "script" add form to be clickable within 3 seconds
+    And I click the button "Add" in "script" add form
+    And I wait for 3 seconds
+    When I visit the Scripts page after the counter has loaded
+    Then I visit the Home page
+    And I wait for the links in homepage to appear
+    When I visit the Scripts page
+    Then "Script4" script should be present within 3 seconds
+
   @script-search
   Scenario: Filter scripts
-    When I visit the Scripts page
-    And I search for "Script1"
+    When I search for "Script1"
     Then "Script2" script should be absent within 5 seconds
     When I clear the search bar
     Then "Script2" script should be present within 5 seconds
