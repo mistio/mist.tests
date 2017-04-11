@@ -60,10 +60,11 @@ Feature: RBAC
     When I focus on the button "Launch" in "machine" add form
     And I wait for 2 seconds
     And I click the "Launch" button with id "appformsubmit"
+     # there should be errormsg
     And I logout
 
   @allow-read-machine
-  Scenario: Verify that member1 cannot view the cloud added above
+  Scenario: Allow read machine
     Given I am logged in to mist.core as rbac_owner
     And I visit the Teams page
     When I click the "Test team" "team"
@@ -73,6 +74,9 @@ Feature: RBAC
     And I wait for 1 seconds
     Then I add the rule always "ALLOW" "machine" "read"
     And I click the button "Save Policy" in "policy" edit form
+
+  @allow-read-machine
+  Scenario: Verify that member1 cannot view the cloud added above
     When I focus on the button "Add a new rule" in "policy" edit form
     And I click the button "Add a new rule" in "policy" edit form
     And I wait for 1 seconds
