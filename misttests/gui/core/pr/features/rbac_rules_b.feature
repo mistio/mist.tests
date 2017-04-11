@@ -30,7 +30,7 @@ Feature: RBAC
     And I wait for 2 seconds
     Then I logout
 
-  @view-cloud-fail
+  @view-machine-fail
   Scenario: Verify that member1 cannot view the cloud added above
     Then I should receive an email at the address "MEMBER1_EMAIL" with subject "[mist.io] Confirm your invitation" within 30 seconds
     And I follow the link inside the email
