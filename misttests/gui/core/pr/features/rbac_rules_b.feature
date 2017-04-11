@@ -1,7 +1,6 @@
 @rbac-rules-v2
 Feature: RBAC
 
-
   @create-users-org-team
   Scenario: Owner creates a new organization and adds a Softlayer cloud
     Given rbac members, organization and team are initialized
@@ -107,6 +106,4 @@ Feature: RBAC
     And I click the "Launch" button with id "appformsubmit"
 
     # check errormsg
-    # softlayer --> clouds_add
     # check state of machine
-  
