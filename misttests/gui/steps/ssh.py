@@ -109,6 +109,12 @@ def check_shell_input_state(context, state, seconds):
                                                  % seconds
 
 
+@step('I type in the terminal "{command}"')
+def type_in_terminal(context, command):
+    terminal = context.browser.find_element_by_class_name('terminal')
+    terminal.send_keys(command + '\n')
+
+
 def check_ssh_connection_with_timeout(context,
                                       connection_timeout=200,
                                       filename=None):
