@@ -39,3 +39,4 @@ flake8:
     - flake8 misttests/gui/steps/org_context.py
     - flake8 misttests/gui/steps/search.py
     - flake8 misttests/gui/steps/setup.py
+    - flake8 misttests/gui/steps/team.py
