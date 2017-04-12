@@ -88,7 +88,9 @@ Feature: RBAC
     And I wait for 1 seconds
     And I click the button "Docker" in the "Choose Cloud" dropdown
     Then I expect the field "Machine name" in the machine add form to be visible within max 4 seconds
-    When I select the proper values for "Docker" to create the "docker-ui-test-machine-random" machine
+    Then I set the value "docker-ui-test-machine-random" to field "Machine Name" in "machine" add form
+    When I open the "Image" drop down
+    And I click the button "mist/ubuntu-14.04:latest" in the "Image" dropdown
     And I wait for 3 seconds
     Then I expect for the button "Launch" in "machine" add form to be clickable within 10 seconds
     When I focus on the button "Launch" in "machine" add form
@@ -96,4 +98,3 @@ Feature: RBAC
     And I click the "Launch" button with id "appformsubmit"
     And I wait for 3 seconds
     Then "docker-ui-test-machine-random" machine state has to be "running" within 30 seconds
-    
