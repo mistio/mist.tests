@@ -1,13 +1,29 @@
 @schedulers_v2
 Feature: Schedulers
 
-  @scheduler-add-crontab
-  Scenario: Add schedule
+  @scheduler-requirements
+  Scenario: Check state of machines and tag machine that will be used for schedule below
     Given I am logged in to mist.core
     Then I expect for "addBtn" to be clickable within max 20 seconds
     And "Docker" cloud has been added
     When I visit the Machines page
     Then "machine2-ui-testing" machine state has to be "running" within 10 seconds
+    And "machine3-ui-testing" machine state has to be "running" within 10 seconds
+    When I click the "machine3-ui-testing" "machine"
+    Then I expect the "machine" edit form to be visible within max 5 seconds
+    Then I click the button "Tag" from the menu of the "machine" edit form
+    And I expect for the tag popup to open within 4 seconds
+    When I remove all the previous tags
+    And I add a tag with key "test" and value "awesome"
+    And I click the button "Save Tags" in the tag menu
+    Then I expect for the tag popup to close within 4 seconds
+    When I visit the Machines page
+    And I click the "machine3-ui-testing" "machine"
+    And I wait for 13 seconds
+    Then I ensure that the "machine" has the tags "test:awesome"
+
+   @scheduler-add-crontab
+   Scenario: Add crontab schedule
     When I visit the Schedules page
     And I click the button "+"
     Then I expect the "schedule" add form to be visible within max 10 seconds
@@ -28,6 +44,26 @@ Feature: Schedulers
     And I wait for 2 seconds
     And I visit the Schedules page
     Then "TestScheduler" schedule should be present within 5 seconds
+
+  @scheduler-run-to-tagged-machine
+  Scenario: Run schedule to the machine tagged above
+    When I click the button "+"
+    Then I expect the "schedule" add form to be visible within max 10 seconds
+    When I set the value "TestScheduler_tagged_machine" to field "Name" in "schedule" add form
+    And I open the "Task" drop down
+    And I wait for 1 seconds
+    And I click the button "stop" in the "Task" dropdown
+    And I wait for 1 seconds
+    And I select "Machines with tags" from "ids_or_tags" radio-group
+    And I wait for 1 seconds
+    When I set the value "test=awesome" to field "Machines with tags" in "schedule" add form
+    And I select "Crontab" from "schedule_type" radio-group
+    And I set the value "* * * * *" to field "Crontab" in "schedule" add form
+    And I click the button "Add" in "schedule" add form
+    And I wait for 1 seconds
+    When I visit the Home page
+    And I visit the Schedules page
+    Then "TestScheduler_tagged_machine" schedule should be present within 5 seconds
 
 #  @scheduler-add-run-script
 #  Scenario: Add a script that will be used for the scheduler
@@ -60,4 +96,5 @@ Feature: Schedulers
   @check-machines-state
   Scenario: Check machine's state
     When I visit the Machines page
-    Then "machine2-ui-testing" machine state has to be "stopped" within 75 seconds
+    Then "machine2-ui-testing" machine state has to be "stopped" within 60 seconds
+    Then "machine3-ui-testing" machine state has to be "stopped" within 15 seconds
