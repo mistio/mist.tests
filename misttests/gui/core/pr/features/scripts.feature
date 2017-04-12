@@ -69,19 +69,6 @@ Feature: Scripts
     When I clear the search bar
     Then "Script2" script should be present within 5 seconds
 
-  @script-rename
-  Scenario: Rename script
-    When I click the "Script2" "script"
-    Then I expect the "script" edit form to be visible within max 5 seconds
-    When I click the button "Edit Script" from the menu of the "script" edit form
-    Then I expect the dialog "Edit Script" is open within 4 seconds
-    When I set the value "Second" to field "Name" in "Edit Script" dialog
-    And I click the "Submit" button in the dialog "Edit Script"
-    Then I expect the dialog "Edit Script" is closed within 4 seconds
-    When I visit the scripts page
-    Then "Script2" script should be absent within 5 seconds
-    And "Second" script should be present within 5 seconds
-
   @script-tags
   Scenario: Add tags to script
     When I click the "Script1" "script"
@@ -113,10 +100,3 @@ Feature: Scripts
     And I click the "Delete" button in the dialog "Delete Script"
     And I expect the dialog "Delete Script" is closed within 4 seconds
     Then "Script1" script should be absent within 5 seconds
-    When I click the "Second" "script"
-    And I expect the "script" edit form to be visible within max 5 seconds
-    And I click the button "Delete Script" from the menu of the "script" edit form
-    And I expect the dialog "Delete Script" is open within 4 seconds
-    And I click the "Delete" button in the dialog "Delete Script"
-    And I expect the dialog "Delete Script" is closed within 4 seconds
-    Then "Second" script should be absent within 5 seconds
