@@ -31,7 +31,7 @@ Feature: RBAC
     And I wait for 1 seconds
     Then I add the rule always "ALLOW" "cloud" "read"
     And I click the button "Save Policy" in "policy" edit form
-    And I wait for 2 seconds
+    And I wait for 1 seconds
 
   @allow-read-script
   Scenario: Allow reading a script and add a script
@@ -40,7 +40,7 @@ Feature: RBAC
     And I wait for 1 seconds
     Then I add the rule always "ALLOW" "script" "read"
     And I click the button "Save Policy" in "policy" edit form
-    And I wait for 2 seconds
+    And I wait for 1 seconds
     Given script "TestScript" is added via API request
     Then I logout
 
@@ -67,7 +67,7 @@ Feature: RBAC
     When I use my "Vultr" credentials
     And I focus on the button "Add Cloud" in "cloud" add form
     And I click the button "Add Cloud" in "cloud" add form
-    And I wait for 2 seconds
+    And I wait for 1 seconds
     And I visit the Home page
     And I wait for the dashboard to load
     Then I should have 1 clouds added
@@ -91,7 +91,7 @@ Feature: RBAC
     And I wait for 1 seconds
     Then I add the rule always "ALLOW" "cloud" "add"
     And I click the button "Save Policy" in "policy" edit form
-    And I wait for 2 seconds
+    And I wait for 1 seconds
 
   @allow-edit-script
   Scenario: Allow editing a script
@@ -100,7 +100,7 @@ Feature: RBAC
     And I wait for 1 seconds
     Then I add the rule always "ALLOW" "script" "edit"
     And I click the button "Save Policy" in "policy" edit form
-    And I wait for 2 seconds
+    And I wait for 1 seconds
     Then I logout
 
   @member1-add-cloud-success
