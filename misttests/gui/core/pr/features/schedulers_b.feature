@@ -19,7 +19,7 @@ Feature: Schedulers
     Then I expect for the tag popup to close within 4 seconds
     When I visit the Machines page
     And I click the "machine3-ui-testing" "machine"
-    And I wait for 13 seconds
+    And I wait for 10 seconds
     Then I ensure that the "machine" has the tags "test:awesome"
 
    @scheduler-add-crontab
@@ -97,4 +97,4 @@ Feature: Schedulers
   Scenario: Check machine's state
     When I visit the Machines page
     Then "machine2-ui-testing" machine state has to be "stopped" within 60 seconds
-    Then "machine3-ui-testing" machine state has to be "stopped" within 15 seconds
+    Then "machine3-ui-testing" machine state has to be "stopped" within 10 seconds
