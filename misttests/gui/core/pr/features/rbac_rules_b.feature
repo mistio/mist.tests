@@ -104,6 +104,8 @@ Feature: RBAC
     When I focus on the button "Launch" in "machine" add form
     And I wait for 2 seconds
     And I click the "Launch" button with id "appformsubmit"
-
+    And I wait for 3 seconds
+    Then "docker-ui-test-machine-random" machine state has to be "running" within 30 seconds
+  
     # check errormsg
     # check state of machine
