@@ -25,8 +25,8 @@ Feature: Orchestration
     And I expect for "addBtn" to be clickable within max 20 seconds
 
   @stack-add
-  Scenario: First add Digital Ocean and key and then create a stack from the template added above
-    Given "Digital Ocean" cloud has been added
+  Scenario: First add Docker and key and then create a stack from the template added above
+    Given "DOCKER_ORCHESTRATOR" cloud has been added
     When I visit the keys page
     And I click the button "+"
     Then I expect the "Key" add form to be visible within max 10 seconds
@@ -50,16 +50,10 @@ Feature: Orchestration
     When I set the value "Test Stack" to field "Stack Name" in "stack" add form
     And I open the "cloud" drop down
     And I wait for 1 seconds
-    And I click the button "Digital Ocean" in the "cloud" dropdown
-    And I open the "mist location" drop down
-    And I wait for 1 seconds
-    And I click the button "Amsterdam 2" in the "mist location" dropdown
-    And I open the "mist size" drop down
-    And I wait for 1 seconds
-    And I click the button "1gb" in the "mist size" dropdown
+    And I click the button "Docker_Orchestrator" in the "cloud" dropdown
     And I open the "mist image" drop down
     And I wait for 1 seconds
-    And I click the button "Ubuntu 16.04.1 x64" in the "mist image" dropdown
+    And I click the button "Ubuntu 14.04" in the "mist image" dropdown
     And I open the "mist key" drop down
     And I wait for 1 seconds
     And I click the button "TestKey2" in the "mist key" dropdown
