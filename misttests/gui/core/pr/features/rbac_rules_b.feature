@@ -43,26 +43,6 @@ Feature: RBAC
     Then I should have 1 clouds added
     When I visit the Machines page
     Then "yolomachine" machine should be absent within 5 seconds
-
-   @create-machine-fail
-   Scenario: Verify that member1 cannot create machine
-     Given I am logged in to mist.core
-     When I visit the Machines page
-    And I click the button "+"
-    Then I expect the "Machine" add form to be visible within max 10 seconds
-    When I open the "Choose Cloud" drop down
-    And I wait for 1 seconds
-    And I click the button "Docker" in the "Choose Cloud" dropdown
-    Then I expect the field "Machine name" in the machine add form to be visible within max 4 seconds
-    Then I set the value "docker-ui-test-machine-random" to field "Machine Name" in "machine" add form
-    When I open the "Image" drop down
-    And I click the button "mist/ubuntu-14.04:latest" in the "Image" dropdown
-    And I wait for 3 seconds
-    Then I expect for the button "Launch" in "machine" add form to be clickable within 10 seconds
-    When I focus on the button "Launch" in "machine" add form
-    And I wait for 2 seconds
-    And I click the "Launch" button with id "appformsubmit"
-    Then I should see a "Policy Unauthorized Error"
     And I logout
 
   @allow-read-machine
