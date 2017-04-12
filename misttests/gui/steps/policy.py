@@ -162,3 +162,11 @@ def check_rule_with_rid(context, rule_number, operator, rtype, raction, rid):
 @step(u'rule "{rule_number}" is "{operator}" "{rtype}" "{raction}" always')
 def check_rule_always(context, rule_number, operator, rtype, raction):
     check_rule_exists(context, rule_number, operator, rtype, raction, '', '')
+
+
+@step(u'I should see a "{error}"')
+def check_error_msg(context, error):
+    errormsg = context.find_element_by_id(error)
+    if error in safe_get_element_text(errormsg):
+        return
+    assert False, "%s is not part of the error message" % error

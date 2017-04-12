@@ -46,6 +46,8 @@ Feature: RBAC
 
    @create-machine-fail
    Scenario: Verify that member1 cannot create machine
+     Given I am logged in to mist.core
+     When I visit the Machines page
     And I click the button "+"
     Then I expect the "Machine" add form to be visible within max 10 seconds
     When I open the "Choose Cloud" drop down
@@ -58,7 +60,7 @@ Feature: RBAC
     When I focus on the button "Launch" in "machine" add form
     And I wait for 2 seconds
     And I click the "Launch" button with id "appformsubmit"
-     # there should be errormsg
+    Then I should see a "Policy Unauthorized Error"
     And I logout
 
   @allow-read-machine
@@ -106,6 +108,5 @@ Feature: RBAC
     And I click the "Launch" button with id "appformsubmit"
     And I wait for 3 seconds
     Then "docker-ui-test-machine-random" machine state has to be "running" within 30 seconds
-  
+
     # check errormsg
-    # check state of machine
