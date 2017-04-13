@@ -102,10 +102,18 @@ Feature: RBAC
 
   @owner-deletes-allow-read-machine-rule
   Scenario: Owner deletes rule "ALLOW" "read" "machine"
-#    Given I am logged in to mist.core as rbac_owner
-    Given I am logged in to mist.core
-    And I visit the Teams page
-    When I click the "TestTeam" "team"
+    Given I am logged in to mist.core as rbac_owner
+    When I visit the Teams page
+    And I click the "TestTeam" "team"
     Then I expect the "team" edit form to be visible within max 5 seconds
     When I remove the rule with index "0"
     And I click the button "Save Policy" in "policy" edit form
+    And I wait for 1 seconds
+    Then I logout
+
+  @member-reads-machine-fail
+  Scenario: Member cannot view the machine
+    Given I am logged in to mist.core as rbac_member1
+    Then I ensure that I am in the "ORG_NAME" organization context
+    When I visit the Machines page
+    Then "yolomachine" machine should be absent within 5 seconds
