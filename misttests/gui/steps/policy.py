@@ -96,7 +96,6 @@ def add_new_rule_always(context, operator, rtype, raction):
 
 @step(u'I remove the rule with index "{index}"')
 def delete_rule(context, index):
-    import ipdb; ipdb.set_trace()
     rules = context.browser.find_elements_by_tag_name('rule-item')
     for rule in rules:
         index_class = rule.find_element_by_class_name('index')
