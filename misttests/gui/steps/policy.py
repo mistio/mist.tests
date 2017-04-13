@@ -94,14 +94,18 @@ def add_new_rule_always(context, operator, rtype, raction):
     add_new_rule(context, operator, rtype, raction)
 
 
-@step(u'I remove the rule "{index}"')
+@step(u'I remove the rule with index "{index}"')
 def delete_rule(context, index):
     import ipdb; ipdb.set_trace()
     rules = context.browser.find_elements_by_tag_name('rule-item')
     for rule in rules:
-        index = rule.find_element_by_class_name('index')
-        t = safe_get_element_text(index)
-
+        index_class = rule.find_element_by_class_name('index')
+        rule_index = safe_get_element_text(index_class)
+        rule_index = rule_index.replace('.','')
+        if rule_index == index:
+            return
+    assert False, "There is no rule with index %s" % index
+    
 
 def check_rule_exists(context, rule_number, operator, rtype, raction, rid, rtags):
     rule_number = int(rule_number)
