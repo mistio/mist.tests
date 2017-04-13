@@ -98,3 +98,13 @@ Feature: RBAC
     And I click the "Launch" button with id "appformsubmit"
     And I wait for 3 seconds
     Then "docker-ui-test-machine-random" machine state has to be "running" within 30 seconds
+    And I logout
+
+  @owner-deletes-allow-read-machine-rule
+  Scenario: Owner deletes rule "ALLOW" "read" "machine"
+    Given I am logged in to mist.core as rbac_owner
+    And I visit the Teams page
+    When I click the "Test team" "team"
+    Then I expect the "team" edit form to be visible within max 5 seconds
+#    delete existing rule
+    And I click the button "Save Policy" in "policy" edit form
