@@ -107,5 +107,5 @@ Feature: RBAC
     And I visit the Teams page
     When I click the "TestTeam" "team"
     Then I expect the "team" edit form to be visible within max 5 seconds
-    When I remove the rule "ALLOW" "create" "machine"
+    When I remove the rule "0"
     And I click the button "Save Policy" in "policy" edit form

@@ -93,11 +93,14 @@ def add_new_rule_with_rtags(context, operator, rtype, raction, rtags):
 def add_new_rule_always(context, operator, rtype, raction):
     add_new_rule(context, operator, rtype, raction)
 
-@step(u'I remove the rule "{operator}" "{rtype}" "{raction}"')
-def delete_rule(context, operator, rtype, raction ):
+
+@step(u'I remove the rule "{index}"')
+def delete_rule(context, index):
     import ipdb; ipdb.set_trace()
     rules = context.browser.find_elements_by_tag_name('rule-item')
-
+    for rule in rules:
+        index = rule.find_element_by_class_name('index')
+        t = safe_get_element_text(index)
 
 
 def check_rule_exists(context, rule_number, operator, rtype, raction, rid, rtags):
