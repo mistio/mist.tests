@@ -103,9 +103,11 @@ def delete_rule(context, index):
         rule_index = safe_get_element_text(index_class)
         rule_index = rule_index.replace('.','')
         if rule_index == index:
+            delete_btn = rule.find_element_by_class_name('delete')
+            clicketi_click(context, delete_btn)
             return
     assert False, "There is no rule with index %s" % index
-    
+
 
 def check_rule_exists(context, rule_number, operator, rtype, raction, rid, rtags):
     rule_number = int(rule_number)
