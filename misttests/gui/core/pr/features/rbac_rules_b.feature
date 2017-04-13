@@ -102,9 +102,10 @@ Feature: RBAC
 
   @owner-deletes-allow-read-machine-rule
   Scenario: Owner deletes rule "ALLOW" "read" "machine"
-    Given I am logged in to mist.core as rbac_owner
+#    Given I am logged in to mist.core as rbac_owner
+    Given I am logged in to mist.core
     And I visit the Teams page
-    When I click the "Test team" "team"
+    When I click the "TestTeam" "team"
     Then I expect the "team" edit form to be visible within max 5 seconds
-#    delete existing rule
+    When I remove the rule "ALLOW" "create" "machine"
     And I click the button "Save Policy" in "policy" edit form
