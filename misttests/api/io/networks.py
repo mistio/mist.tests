@@ -1,7 +1,4 @@
 from misttests.api.helpers import *
-from misttests import config
-
-import pytest
 
 
 ############################################################################
@@ -23,7 +20,6 @@ def test_list_networks_wrong_api_token(pretty_print, mist_core):
     print "Success!!!"
 
 
-# check - it should get forbidden?
 def test_list_networks_no_api_token(pretty_print, mist_core):
     response = mist_core.list_networks(api_token='',
                                        cloud_id='dummy').get()
@@ -45,7 +41,6 @@ def test_list_subnets_wrong_api_token(pretty_print, mist_core):
     print "Success!!!"
 
 
-# check - it should get forbidden?
 def test_list_subnets_no_api_token(pretty_print, mist_core):
     response = mist_core.list_networks(api_token='',
                                        cloud_id='dummy').get()
