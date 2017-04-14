@@ -62,11 +62,11 @@ def test_create_network_wrong_api_token(pretty_print, mist_core):
     print "Success!!!"
 
 
-def test_create_network_wrong_cloud_id(pretty_print, mist_core, owner_api_token):
-    response = mist_core.create_network(api_token=owner_api_token, network_params={'network': {}},
-                                        cloud_id='dummy').post()
-    assert_response_not_found(response)
-    print "Success!!!"
+# def test_create_network_wrong_cloud_id(pretty_print, mist_core, owner_api_token):
+#     response = mist_core.create_network(api_token=owner_api_token, network_params={'network': {}},
+#                                         cloud_id='dummy').post()
+#     assert_response_not_found(response)
+#     print "Success!!!"
 
 
 def test_create_network_no_api_token(pretty_print, mist_core):
