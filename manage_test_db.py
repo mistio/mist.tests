@@ -4,7 +4,7 @@ from time import time
 from time import sleep
 import mongoengine as me
 
-from mist.core import config
+from mist.io import config
 
 from mist.io.users.models import User
 from mist.io.users.models import Owner
@@ -73,7 +73,7 @@ def delete_user(email):
 
 
 def delete_org_by_name(name):
-    # delete an organization and all it's resources
+    # delete an organization and all its resources
     try:
         org = Organization.objects.get(name=name)
         clean_owner(org)

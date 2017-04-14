@@ -1,14 +1,8 @@
-from time import sleep
-
 from behave import step
 
-from .buttons import clicketi_click
 from .buttons import click_button_from_collection
 
-from .utils import safe_get_element_text
-
 from selenium.common.exceptions import TimeoutException
-from selenium.common.exceptions import WebDriverException
 
 from selenium.webdriver.common.by import By
 
@@ -19,11 +13,6 @@ from selenium.webdriver.support import expected_conditions as EC
 @step(u'I expect for "{modal_id}" modal to {action} within max {seconds} '
       u'seconds')
 def modal_waiting_with_timeout(context, modal_id, action, seconds):
-    # dialog-popup
-    """
-    Function that wait for keyadd-popup to appear but for a maximum
-    amount of time
-    """
     if action == 'appear':
         try:
             WebDriverWait(context.browser, int(seconds)).until(

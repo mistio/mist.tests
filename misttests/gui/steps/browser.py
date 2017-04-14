@@ -30,6 +30,7 @@ def switch_active_browser(context):
 def refresh_the_page(context):
     context.browser.refresh()
 
+
 @step(u'I visit mist_url')
 def visit_home_page(context):
     url = context.mist_config['MIST_URL']
