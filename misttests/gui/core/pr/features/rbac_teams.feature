@@ -178,9 +178,10 @@ Feature: Rbac
     Then I logout
 
   @verify-delete-member2
-  Given I am logged in to mist.core as rbac_owner
-  And I wait for the links in homepage to appear
-  Then I should see the form to set name for new organization
+  Scenario: Mem2 needs to set an org
+    Given I am logged in to mist.core as rbac_owner
+    And I wait for the links in homepage to appear
+    Then I should see the form to set name for new organization
 
 
 #  @tag-team
