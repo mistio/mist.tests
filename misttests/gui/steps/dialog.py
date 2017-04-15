@@ -69,6 +69,15 @@ def click_button_in_dialog(context, button_name, dialog_title):
     click_button_from_collection(context, button_name, dialog_buttons)
 
 
+@step(u'I click the visibility button inside the edit team dialog')
+def click_visibility_btn(context):
+    dialog = get_dialog(context, 'Edit Team')
+    assert dialog, "Could not find dialog with title Edit Team"
+    visibility_btn = dialog.find_element_by_id('visible')
+    from .buttons import clicketi_click
+    clicketi_click(context, visibility_btn)
+
+
 @step(u'I set the value "{value}" to field "{name}" in "{title}" dialog')
 def set_value_to_field(context, value, name, title):
     if context.mist_config.get(value):

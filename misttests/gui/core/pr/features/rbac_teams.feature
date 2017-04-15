@@ -101,7 +101,7 @@ Feature: Rbac
     Then user with email "MEMBER2_EMAIL" should be pending
     Then I logout
 
-   @member2-accepts invitation
+   @member2-accepts-invitation
    Scenario: Add member2
     Then I should receive an email at the address "MEMBER2_EMAIL" with subject "[mist.io] Confirm your invitation" within 30 seconds
     And I follow the link inside the email
@@ -113,6 +113,8 @@ Feature: Rbac
     Then "Test Team" team should be present within 5 seconds
     And "Second Team" team should be present within 5 seconds
     Then I logout
+
+     # until here
 
   @delete-members
   Scenario: Owner deletes team members
@@ -133,11 +135,17 @@ Feature: Rbac
 
   @rename-team
   Scenario: Owner renames a team
+    Given I am logged in to mist.core
+    And I visit the Teams page
+    And I wait for 3 seconds
+    When I click the "TestTeam" "team"
     Then I click the button "Edit Team" in "team" edit form
     And I expect the dialog "Edit Team" is open within 4 seconds
     Then I expect the field "Name" in the dialog with title "Edit Team" to be visible within max 2 seconds
     When I set the value "Rbac Test Team" to field "Name" in "Edit Team" dialog
+#    And I click the "visible" button with id "visible"
     # change visibility
+    And I click the visibility button inside the edit team dialog
     And I wait for 1 seconds
     And I click the "Submit" button in the dialog "Edit Team"
     And I expect the dialog "Edit Team" is closed within 4 seconds
