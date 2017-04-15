@@ -97,11 +97,13 @@ Feature: Rbac
     And I expect the dialog "Delete Member from Team" is open within 4 seconds
     And I click the "Delete" button in the dialog "Delete Member from Team"
     And I expect the dialog "Delete Member from Team" is closed within 4 seconds
+    And I wait for 1 seconds
 
   @rename-team
   Scenario: Owner renames a team
-    When I visit the Teams page
-    And I wait for 3 seconds
+    When I visit the Home page
+    And I visit the Teams page
+    And I wait for 2 seconds
     When I click the "TestTeam" "team"
     Then I click the button "Edit Team" in "team" edit form
     And I expect the dialog "Edit Team" is open within 4 seconds
