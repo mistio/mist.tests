@@ -5,7 +5,7 @@ from time import sleep
 
 from .utils import safe_get_element_text
 
-from .buttons import click_button_from_collection
+from .buttons import click_button_from_collection, clicketi_click
 
 from .forms import get_input_from_form
 from .forms import clear_input_and_send_keys
@@ -74,7 +74,6 @@ def click_visibility_btn(context):
     dialog = get_dialog(context, 'Edit Team')
     assert dialog, "Could not find dialog with title Edit Team"
     visibility_btn = dialog.find_element_by_id('visible')
-    from .buttons import clicketi_click
     clicketi_click(context, visibility_btn)
 
 
