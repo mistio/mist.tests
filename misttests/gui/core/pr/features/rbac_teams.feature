@@ -100,8 +100,7 @@ Feature: Rbac
 
   @rename-team
   Scenario: Owner renames a team
-    Given I am logged in to mist.core
-    And I visit the Teams page
+    When I visit the Teams page
     And I wait for 3 seconds
     When I click the "TestTeam" "team"
     Then I click the button "Edit Team" in "team" edit form
