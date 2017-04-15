@@ -112,8 +112,6 @@ Feature: Rbac
     When I visit the Teams page
     Then "Test Team" team should be present within 5 seconds
     And "Second Team" team should be present within 5 seconds
-    # and second team should be present
-
     Then I logout
 
   @delete-members
