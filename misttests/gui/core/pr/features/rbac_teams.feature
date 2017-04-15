@@ -60,7 +60,6 @@ Feature: Rbac
     And I click the button "Add" in "members" add form
     And I expect the "team" edit form to be visible within max 5 seconds
     Then user with email "MEMBER2_EMAIL" should be pending
-    And user with email "MEMBER1_EMAIL" should be confirmed
     When I visit the Teams page
     And I click the "Second team" "team"
     Then I expect the "team" edit form to be visible within max 5 seconds
@@ -95,10 +94,6 @@ Feature: Rbac
     And I expect the "team" edit form to be visible within max 5 seconds
     Then user with email "MEMBER2_EMAIL" should be confirmed
     When I delete user "MEMBER2_EMAIL" from team
-    And I expect the dialog "Delete Member from Team" is open within 4 seconds
-    And I click the "Delete" button in the dialog "Delete Member from Team"
-    And I expect the dialog "Delete Member from Team" is closed within 4 seconds
-    When I delete user "MEMBER1_EMAIL" from team
     And I expect the dialog "Delete Member from Team" is open within 4 seconds
     And I click the "Delete" button in the dialog "Delete Member from Team"
     And I expect the dialog "Delete Member from Team" is closed within 4 seconds
@@ -149,7 +144,7 @@ Feature: Rbac
 
   @verify-delete-member2
   Scenario: Mem2 needs to set an org
-    Given I am logged in to mist.core as rbac_owner
+    Given I am logged in to mist.core as rbac_member2
     And I wait for the links in homepage to appear
     Then I should see the form to set name for new organization
 
