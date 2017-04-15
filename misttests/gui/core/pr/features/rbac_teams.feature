@@ -46,39 +46,11 @@ Feature: Rbac
     When I set the value "Second Team" to field "Name" in "Add Team" dialog
     And I click the "Add" button in the dialog "Add Team"
     When I visit the Teams page
-    And "Second Team" team should be present within 5 seconds
-
-#  @add-member1
-#  Scenario: Add member1
-#    When I visit the Home page
-#    When I refresh the page
-#    And I wait for the links in homepage to appear
-#    And I visit the Teams page
-#    When I click the "Test team" "team"
-#    And I expect the "team" edit form to be visible within max 8 seconds
-#    Then I click the button "Invite Members" in "team" edit form
-#    And I expect the "members" add form to be visible within max 5 seconds
-#    When I set the value "MEMBER1_EMAIL" to field "Emails" in "members" add form
-#    Then I expect for the button "Add" in "members" add form to be clickable within 2 seconds
-#    And I click the button "Add" in "members" add form
-#    And I expect the "team" edit form to be visible within max 5 seconds
-#    Then user with email "MEMBER1_EMAIL" should be pending
-#    Then I logout
-#    Then I should receive an email at the address "MEMBER1_EMAIL" with subject "[mist.io] Confirm your invitation" within 30 seconds
-#    And I follow the link inside the email
-#    Then I enter my rbac_member1 credentials for login
-#    And I click the sign in button in the landing page popup
-#    Given that I am redirected within 5 seconds
-#    And I wait for the links in homepage to appear
-#    Then I ensure that I am in the "ORG_NAME" organization context
-#    When I visit the Teams page
-#    Then "Test Team" team should be present within 5 seconds
-#    Then I logout
+    And I refresh the page
+    Then "Second Team" team should be present within 10 seconds
 
   @add-member2
    Scenario: Add member2
-#    Given I am logged in to mist.core as rbac_owner
-#    And I visit the Teams page
     When I click the "Test team" "team"
     And I expect the "team" edit form to be visible within max 5 seconds
     Then I click the button "Invite Members" in "team" edit form
@@ -113,8 +85,6 @@ Feature: Rbac
     Then "Test Team" team should be present within 5 seconds
     And "Second Team" team should be present within 5 seconds
     Then I logout
-
-     # until here
 
   @delete-members
   Scenario: Owner deletes team members
