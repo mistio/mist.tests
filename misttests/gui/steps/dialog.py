@@ -69,7 +69,7 @@ def click_button_in_dialog(context, button_name, dialog_title):
     click_button_from_collection(context, button_name, dialog_buttons)
 
 
-@step(u'I click the visibility button inside the edit team dialog')
+@step(u'I change the visibility of the team inside the edit team dialog')
 def click_visibility_btn(context):
     dialog = get_dialog(context, 'Edit Team')
     assert dialog, "Could not find dialog with title Edit Team"

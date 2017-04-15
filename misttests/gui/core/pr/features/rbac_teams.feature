@@ -143,9 +143,7 @@ Feature: Rbac
     And I expect the dialog "Edit Team" is open within 4 seconds
     Then I expect the field "Name" in the dialog with title "Edit Team" to be visible within max 2 seconds
     When I set the value "Rbac Test Team" to field "Name" in "Edit Team" dialog
-#    And I click the "visible" button with id "visible"
-    # change visibility
-    And I click the visibility button inside the edit team dialog
+    And I change the visibility of the team inside the edit team dialog
     And I wait for 1 seconds
     And I click the "Submit" button in the dialog "Edit Team"
     And I expect the dialog "Edit Team" is closed within 4 seconds
@@ -158,18 +156,16 @@ Feature: Rbac
    @verify-delete-member
     Scenario: Member2 has been removed from org
     Given I am logged in to mist.core as rbac_member2
-     # visit teams page
-     # rbac test team and test team absent
-     # below commented
-    Then I should see the form to set name for new organization
+    When I visit the Teams page
+    Then "Rbac Test Team" team should be absent within 5 seconds
+    And "Test Team" team should be absent within 5 seconds
     Then I logout
 
-     # below delete second team
   @delete-team
   Scenario: Owner deletes a team
     Given I am logged in to mist.core as rbac_owner
     When I visit the Teams page
-    When I click the "Rbac Test Team" "team"
+    When I click the "Second Team" "team"
     And I expect the "team" edit form to be visible within max 5 seconds
     Then I click the button "Delete Team" from the menu of the "team" edit form
     And I expect the dialog "Delete Team" is open within 4 seconds
@@ -178,11 +174,14 @@ Feature: Rbac
     Then I visit the Home page
     And I wait for 2 seconds
     And I visit the Teams page
-    And "Rbac Test Team" team should be absent within 10 seconds
+    And "Second Team" team should be absent within 10 seconds
     Then I logout
 
+  @verify-delete-member2
+  Given I am logged in to mist.core as rbac_owner
+  And I wait for the links in homepage to appear
+  Then I should see the form to set name for new organization
 
-  # here mem2 needs to set new org
 
 #  @tag-team
 #  Scenario: Owner tags a team
