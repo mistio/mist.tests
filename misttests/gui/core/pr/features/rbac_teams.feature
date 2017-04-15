@@ -102,7 +102,7 @@ Feature: Rbac
     And I wait for the links in homepage to appear
     And I visit the Teams page
     And I wait for 2 seconds
-    When I click the "TestTeam" "team"
+    When I click the "Test Team" "team"
     Then I click the button "Edit Team" in "team" edit form
     And I expect the dialog "Edit Team" is open within 4 seconds
     Then I expect the field "Name" in the dialog with title "Edit Team" to be visible within max 2 seconds
