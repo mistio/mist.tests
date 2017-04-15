@@ -120,6 +120,8 @@ Feature: Rbac
    @verify-delete-member
     Scenario: Member2 has been removed from org
     Given I am logged in to mist.core as rbac_member2
+    When I refresh the page
+    And I wait for the links in homepage to appear
     When I visit the Teams page
     Then "Rbac Test Team" team should be absent within 5 seconds
     And "Test Team" team should be absent within 5 seconds
