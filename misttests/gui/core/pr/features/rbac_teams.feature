@@ -1,10 +1,6 @@
 @rbac-teams
 Feature: Rbac
 
-  team visibility how much time
-
-  is it worth it
-
   @create-org
   Scenario: Owner creates a new organization
     Given rbac members are initialized
@@ -102,6 +98,8 @@ Feature: Rbac
   @rename-team
   Scenario: Owner renames a team
     When I visit the Home page
+    And I refresh the page
+    And I wait for the links in homepage to appear
     And I visit the Teams page
     And I wait for 2 seconds
     When I click the "TestTeam" "team"
