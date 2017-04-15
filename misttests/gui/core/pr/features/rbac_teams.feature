@@ -47,7 +47,7 @@ Feature: Rbac
     And I click the "Add" button in the dialog "Add Team"
     When I visit the Teams page
     And "Second Team" team should be present within 5 seconds
-    
+
   @add-member1
   Scenario: Add member1
     When I visit the Home page
@@ -89,10 +89,20 @@ Feature: Rbac
     And I expect the "team" edit form to be visible within max 5 seconds
     Then user with email "MEMBER2_EMAIL" should be pending
     And user with email "MEMBER1_EMAIL" should be confirmed
-
-    # add mem2 to second team
-
+    When I visit the Teams page
+    And I click the "Second team" "team"
+    Then I expect the "team" edit form to be visible within max 5 seconds
+    When I click the button "Invite Members" in "team" edit form
+    And I expect the "members" add form to be visible within max 5 seconds
+    When I set the value "MEMBER2_EMAIL" to field "Emails" in "members" add form
+    Then I expect for the button "Add" in "members" add form to be clickable within 2 seconds
+    And I click the button "Add" in "members" add form
+    And I expect the "team" edit form to be visible within max 5 seconds
+    Then user with email "MEMBER2_EMAIL" should be pending
     Then I logout
+
+   @member2-accepts invitation
+   Scenario: Add member2
     Then I should receive an email at the address "MEMBER2_EMAIL" with subject "[mist.io] Confirm your invitation" within 30 seconds
     And I follow the link inside the email
     Then I enter my rbac_member2 credentials for signup_password_set
@@ -100,7 +110,8 @@ Feature: Rbac
     And I wait for the links in homepage to appear
     Then I ensure that I am in the "ORG_NAME" organization context
     When I visit the Teams page
-    And "Test Team" team should be present within 5 seconds
+    Then "Test Team" team should be present within 5 seconds
+    And "Second Team" team should be present within 5 seconds
     # and second team should be present
 
     Then I logout
