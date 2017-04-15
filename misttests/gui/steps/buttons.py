@@ -214,7 +214,6 @@ def click_mist_io(context):
 
 @step(u'I click the "{button}" button with id "{button_id}"')
 def click_button_by_id(context, button, button_id):
-    import ipdb;ipdb.set_trace()
     button_to_click = context.browser.find_element_by_id(button_id)
     clicketi_click(context, button_to_click)
 
