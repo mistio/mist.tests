@@ -1,6 +1,9 @@
 @rbac-teams
 Feature: Rbac
 
+  team visibility how much time
+
+  is it worth it
 
   @create-org
   Scenario: Owner creates a new organization
@@ -38,7 +41,13 @@ Feature: Rbac
     And I click the "Add" button in the dialog "Add Team"
     When I visit the Teams page
     And "Test Team" team should be present within 5 seconds
-
+    When I click the button "+"
+    And I expect the dialog "Add Team" is open within 4 seconds
+    When I set the value "Second Team" to field "Name" in "Add Team" dialog
+    And I click the "Add" button in the dialog "Add Team"
+    When I visit the Teams page
+    And "Second Team" team should be present within 5 seconds
+    
   @add-member1
   Scenario: Add member1
     When I visit the Home page
@@ -80,6 +89,9 @@ Feature: Rbac
     And I expect the "team" edit form to be visible within max 5 seconds
     Then user with email "MEMBER2_EMAIL" should be pending
     And user with email "MEMBER1_EMAIL" should be confirmed
+
+    # add mem2 to second team
+
     Then I logout
     Then I should receive an email at the address "MEMBER2_EMAIL" with subject "[mist.io] Confirm your invitation" within 30 seconds
     And I follow the link inside the email
@@ -89,6 +101,8 @@ Feature: Rbac
     Then I ensure that I am in the "ORG_NAME" organization context
     When I visit the Teams page
     And "Test Team" team should be present within 5 seconds
+    # and second team should be present
+
     Then I logout
 
   @delete-members
@@ -114,6 +128,7 @@ Feature: Rbac
     And I expect the dialog "Edit Team" is open within 4 seconds
     Then I expect the field "Name" in the dialog with title "Edit Team" to be visible within max 2 seconds
     When I set the value "Rbac Test Team" to field "Name" in "Edit Team" dialog
+    # change visibility
     And I wait for 1 seconds
     And I click the "Submit" button in the dialog "Edit Team"
     And I expect the dialog "Edit Team" is closed within 4 seconds
@@ -126,9 +141,13 @@ Feature: Rbac
    @verify-delete-member
     Scenario: Member2 has been removed from org
     Given I am logged in to mist.core as rbac_member2
+     # visit teams page
+     # rbac test team and test team absent
+     # below commented
     Then I should see the form to set name for new organization
     Then I logout
 
+     # below delete second team
   @delete-team
   Scenario: Owner deletes a team
     Given I am logged in to mist.core as rbac_owner
@@ -144,6 +163,9 @@ Feature: Rbac
     And I visit the Teams page
     And "Rbac Test Team" team should be absent within 10 seconds
     Then I logout
+
+
+  # here mem2 needs to set new org
 
 #  @tag-team
 #  Scenario: Owner tags a team
