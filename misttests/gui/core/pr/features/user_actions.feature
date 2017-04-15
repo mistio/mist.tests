@@ -1,6 +1,64 @@
 @user-actions
 Feature: Login Scenarios and Api Token
 
+  @create-org
+  Scenario: Owner creates a new organization
+    Given rbac members are initialized
+    Given I am logged in to mist.core
+    When I click the Gravatar
+    And I wait for 1 seconds
+    Then I click the button "Add Organisation" in the user menu
+    And I expect the dialog "Add Organization" is open within 4 seconds
+    And I wait for 1 seconds
+    When I set the value "ORG_NAME" to field "Name" in "Add Organization" dialog
+    And I click the "Add" button in the dialog "Add Organization"
+    And I wait for 2 seconds
+    And I click the "Switch" button in the dialog "Add Organization"
+    Then I expect the dialog "Add Organization" is closed within 4 seconds
+
+  @add-team
+  Scenario: Owner creates a team
+    When I visit the Teams page
+    When I click the button "+"
+    And I expect the dialog "Add Team" is open within 4 seconds
+    When I set the value "Test Team" to field "Name" in "Add Team" dialog
+    And I click the "Add" button in the dialog "Add Team"
+    When I visit the Teams page
+    And "Test Team" team should be present within 5 seconds
+    When I click the button "+"
+    And I expect the dialog "Add Team" is open within 4 seconds
+    When I set the value "Second Team" to field "Name" in "Add Team" dialog
+    And I click the "Add" button in the dialog "Add Team"
+    When I visit the Teams page
+    And "Second Team" team should be present within 5 seconds
+
+  @add-member1
+  Scenario: Add member1
+    When I visit the Home page
+    When I refresh the page
+    And I wait for the links in homepage to appear
+    And I visit the Teams page
+    When I click the "Test team" "team"
+    And I expect the "team" edit form to be visible within max 8 seconds
+    Then I click the button "Invite Members" in "team" edit form
+    And I expect the "members" add form to be visible within max 5 seconds
+    When I set the value "MEMBER1_EMAIL" to field "Emails" in "members" add form
+    Then I expect for the button "Add" in "members" add form to be clickable within 2 seconds
+    And I click the button "Add" in "members" add form
+    And I expect the "team" edit form to be visible within max 5 seconds
+    Then user with email "MEMBER1_EMAIL" should be pending
+    Then I logout
+    Then I should receive an email at the address "MEMBER1_EMAIL" with subject "[mist.io] Confirm your invitation" within 30 seconds
+    And I follow the link inside the email
+    Then I enter my rbac_member1 credentials for login
+    And I click the sign in button in the landing page popup
+    Given that I am redirected within 5 seconds
+    And I wait for the links in homepage to appear
+    Then I ensure that I am in the "ORG_NAME" organization context
+    When I visit the Teams page
+    Then "Test Team" team should be present within 5 seconds
+    Then I logout
+
   @api-token-test
   Scenario: Create api token and test it with API call
     Given I am logged in to mist.core
