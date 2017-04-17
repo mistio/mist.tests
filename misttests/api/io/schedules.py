@@ -167,7 +167,6 @@ class TestSchedulesFunctionality:
         assert_response_bad_request(response)
         print "Success!!!"
 
-# below test should write to a file...
     def test_add_interval_schedule_run_immediately_ok(self, pretty_print, mist_core, owner_api_token, cache):
         response = mist_core.list_machines(cloud_id=cache.get('cloud_id', ''), api_token=owner_api_token).get()
         assert_response_ok(response)
@@ -183,7 +182,6 @@ class TestSchedulesFunctionality:
         assert_response_ok(response)
         assert len(response.json()) == 1
         print "Success"
-
 
 # # TODO: check above tagged machine
 #     def test_add_interval_schedule_tags_ok(self, pretty_print, mist_core, owner_api_token):
@@ -234,7 +232,7 @@ class TestSchedulesFunctionality:
         assert_response_ok(response)
         print "Success!!!"
 
-# does not apply to any machines yet
+# TODO: below does not apply to any machines yet
     def test_add_one_off_schedule_tags_ok(self, pretty_print, mist_core, owner_api_token):
         date_now = datetime.datetime.now().replace(microsecond=0)
         scheduled_date = date_now + datetime.timedelta(seconds=10)
@@ -312,5 +310,4 @@ class TestSchedulesFunctionality:
                 assert machine['state'] == 'stopped', "Machine'state is not stopped although schedule was supposed to run after 10 secs"
             if cache.get('machine_3_name', '') in machine['name']:
                 assert machine['state'] == 'stopped', "Machine'state is not stopped although schedule was supposed to run after 1 min"
-                break
         print "Success"
