@@ -232,7 +232,7 @@ class TestSchedulesFunctionality:
         print "Success!!!"
 
 # TODO: below does not apply to any machines yet
-    def test_add_one_off_schedule_tags_ok(self, pretty_print, mist_core, owner_api_token):
+    def test_add_one_off_schedule_tags_ok(self, pretty_print, mist_core, owner_api_token, cache):
         date_now = datetime.datetime.now().replace(microsecond=0)
         scheduled_date = date_now + datetime.timedelta(seconds=10)
         response = mist_core.add_schedule(api_token=owner_api_token, name='TestSchedule4',
