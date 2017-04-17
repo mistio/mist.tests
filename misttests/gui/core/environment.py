@@ -147,7 +147,7 @@ def kill_orchestration_machines(context):
 
     response = requests.get("%s/api/v1/clouds" % context.mist_config['MIST_URL'], headers=headers)
     for cloud in response.json():
-        if 'digitalocean' in cloud['provider']:
+        if 'docker' in cloud['provider']:
             cloud_id = cloud['id']
             uri = context.mist_config['MIST_URL'] + '/api/v1/clouds/' + cloud_id + '/machines'
             response = requests.get(uri, headers=headers)
