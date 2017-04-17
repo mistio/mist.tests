@@ -39,10 +39,8 @@ Feature: Schedulers
     #When I set the value "2" to field "Maximum Run Count" in "schedule" add form
     And I set the value "* * * * *" to field "Crontab" in "schedule" add form
     And I click the button "Add" in "schedule" add form
-    And I wait for 1 seconds
-    When I visit the Home page
     And I wait for 2 seconds
-    And I visit the Schedules page
+    When I visit the Schedules page
     Then "TestScheduler" schedule should be present within 5 seconds
 
   @scheduler-run-to-tagged-machine
@@ -61,7 +59,6 @@ Feature: Schedulers
     And I set the value "* * * * *" to field "Crontab" in "schedule" add form
     And I click the button "Add" in "schedule" add form
     And I wait for 1 seconds
-    When I visit the Home page
     And I visit the Schedules page
     Then "TestScheduler_tagged_machine" schedule should be present within 5 seconds
 

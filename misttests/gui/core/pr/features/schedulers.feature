@@ -22,10 +22,8 @@ Feature: Schedulers
     And I select "Repeat" from "schedule_type" radio-group
     And I set the value "1" to field "interval" in "schedule" add form
     And I click the button "Add" in "schedule" add form
-    And I wait for 1 seconds
-    When I visit the Home page
-    And I wait for 2 seconds
-    And I visit the Schedules page
+    Then I wait for 2 seconds
+    When I visit the Schedules page
     Then "TestScheduler" schedule should be present within 3 seconds
 
   @scheduler-rename
@@ -37,7 +35,6 @@ Feature: Schedulers
     When I set the value "RenamedSchedule" to field "Name" in "Edit Schedule" dialog
     And I click the "Save" button in the dialog "Edit Schedule"
     And I expect the dialog "Edit Schedule" is closed within 4 seconds
-    Then I visit the Home page
     And I wait for 2 seconds
     When I visit the Schedules page
     Then "TestScheduler" schedule should be absent within 5 seconds
@@ -56,9 +53,8 @@ Feature: Schedulers
     And I expect the dialog "Delete Schedule" is open within 4 seconds
     And I click the "Delete" button in the dialog "Delete Schedule"
     Then I expect the dialog "Delete Schedule" is closed within 4 seconds
-    When I visit the Home page
     And I wait for 2 seconds
-    And I visit the Schedules page
+    When I visit the Schedules page
     Then "RenamedSchedule" schedule should be absent within 5 seconds
 
   @scheduler-add-run-immediately
