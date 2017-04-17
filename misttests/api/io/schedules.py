@@ -9,98 +9,98 @@ import datetime
 #                             Unit Testing                                 #
 ############################################################################
 
-#
-# def test_list_schedules(pretty_print, mist_core, owner_api_token):
-#     response = mist_core.list_schedules(api_token=owner_api_token).get()
-#     assert_response_ok(response)
-#     assert len(response.json()) == 0
+
+def test_list_schedules(pretty_print, mist_core, owner_api_token):
+    response = mist_core.list_schedules(api_token=owner_api_token).get()
+    assert_response_ok(response)
+    assert len(response.json()) == 0
+    print "Success!!!"
+
+
+def test_list_schedules_no_api_token(pretty_print, mist_core):
+    response = mist_core.list_schedules(api_token='').get()
+    assert_response_unauthorized(response)
+    print "Success!!!"
+
+
+def test_list_schedules_wrong_api_token(pretty_print, mist_core):
+    response = mist_core.list_schedules(api_token='dummy').get()
+    assert_response_unauthorized(response)
+    print "Success!!!"
+
+
+def test_add_schedule_no_api_token(pretty_print, mist_core):
+    response = mist_core.add_schedule(api_token='', name='dummy',
+                                      schedule_type='one=off').post()
+    assert_response_forbidden(response)
+    print "Success!!!"
+
+
+def test_add_schedule_wrong_api_token(pretty_print, mist_core):
+    response = mist_core.add_schedule(api_token='dummy', name='dummy',
+                                      schedule_type='one=off').post()
+    assert_response_unauthorized(response)
+    print "Success!!!"
+
+
+# def test_add_schedule_missing_parameter(pretty_print, mist_core, owner_api_token):
+#     response = mist_core.add_schedule(api_token=owner_api_token, name='dummy').post()
+#     assert_response_bad_request(response)
 #     print "Success!!!"
-#
-#
-# def test_list_schedules_no_api_token(pretty_print, mist_core):
-#     response = mist_core.list_schedules(api_token='').get()
-#     assert_response_unauthorized(response)
-#     print "Success!!!"
-#
-#
-# def test_list_schedules_wrong_api_token(pretty_print, mist_core):
-#     response = mist_core.list_schedules(api_token='dummy').get()
-#     assert_response_unauthorized(response)
-#     print "Success!!!"
-#
-#
-# def test_add_schedule_no_api_token(pretty_print, mist_core):
-#     response = mist_core.add_schedule(api_token='', name='dummy',
-#                                       schedule_type='one=off').post()
-#     assert_response_forbidden(response)
-#     print "Success!!!"
-#
-#
-# def test_add_schedule_wrong_api_token(pretty_print, mist_core):
-#     response = mist_core.add_schedule(api_token='dummy', name='dummy',
-#                                       schedule_type='one=off').post()
-#     assert_response_unauthorized(response)
-#     print "Success!!!"
-#
-#
-# # def test_add_schedule_missing_parameter(pretty_print, mist_core, owner_api_token):
-# #     response = mist_core.add_schedule(api_token=owner_api_token, name='dummy').post()
-# #     assert_response_bad_request(response)
-# #     print "Success!!!"
-#
-#
-# def test_delete_schedule_no_api_token(pretty_print, mist_core):
-#     response = mist_core.delete_schedule(api_token='', schedule_id='dummy').delete()
-#     assert_response_forbidden(response)
-#     print "Success!!!"
-#
-#
-# def test_delete_schedule_wrong_api_token(pretty_print, mist_core):
-#     response = mist_core.delete_schedule(api_token='dummy', schedule_id='dummy').delete()
-#     assert_response_unauthorized(response)
-#     print "Success!!!"
-#
-#
-# def test_delete_schedule_wrong_schedule_id(pretty_print, mist_core, owner_api_token):
-#     response = mist_core.delete_schedule(api_token=owner_api_token, schedule_id='dummy').delete()
-#     assert_response_not_found(response)
-#     print "Success!!!"
-#
-#
-# def test_edit_schedule_no_api_token(pretty_print, mist_core):
-#     response = mist_core.edit_schedule(api_token='', schedule_id='dummy').patch()
-#     assert_response_forbidden(response)
-#     print "Success!!!"
-#
-#
-# def test_edit_schedule_wrong_api_token(pretty_print, mist_core):
-#     response = mist_core.edit_schedule(api_token='dummy', schedule_id='dummy').patch()
-#     assert_response_unauthorized(response)
-#     print "Success!!!"
-#
-#
-# def test_edit_schedule_wrong_schedule_id(pretty_print, mist_core, owner_api_token):
-#     response = mist_core.edit_schedule(api_token=owner_api_token, schedule_id='dummy').patch()
-#     assert_response_not_found(response)
-#     print "Success!!!"
-#
-#
-# def test_show_schedule_no_api_token(pretty_print, mist_core):
-#     response = mist_core.show_schedule(api_token='', schedule_id='dummy').get()
-#     assert_response_unauthorized(response)
-#     print "Success!!!"
-#
-#
-# def test_show_schedule_wrong_api_token(pretty_print, mist_core):
-#     response = mist_core.show_schedule(api_token='dummy', schedule_id='dummy').get()
-#     assert_response_unauthorized(response)
-#     print "Success!!!"
-#
-#
-# def test_show_schedule_wrong_schedule_id(pretty_print, mist_core, owner_api_token):
-#     response = mist_core.show_schedule(api_token=owner_api_token, schedule_id='').get()
-#     assert_response_not_found(response)
-#     print "Success!!!"
+
+
+def test_delete_schedule_no_api_token(pretty_print, mist_core):
+    response = mist_core.delete_schedule(api_token='', schedule_id='dummy').delete()
+    assert_response_forbidden(response)
+    print "Success!!!"
+
+
+def test_delete_schedule_wrong_api_token(pretty_print, mist_core):
+    response = mist_core.delete_schedule(api_token='dummy', schedule_id='dummy').delete()
+    assert_response_unauthorized(response)
+    print "Success!!!"
+
+
+def test_delete_schedule_wrong_schedule_id(pretty_print, mist_core, owner_api_token):
+    response = mist_core.delete_schedule(api_token=owner_api_token, schedule_id='dummy').delete()
+    assert_response_not_found(response)
+    print "Success!!!"
+
+
+def test_edit_schedule_no_api_token(pretty_print, mist_core):
+    response = mist_core.edit_schedule(api_token='', schedule_id='dummy').patch()
+    assert_response_forbidden(response)
+    print "Success!!!"
+
+
+def test_edit_schedule_wrong_api_token(pretty_print, mist_core):
+    response = mist_core.edit_schedule(api_token='dummy', schedule_id='dummy').patch()
+    assert_response_unauthorized(response)
+    print "Success!!!"
+
+
+def test_edit_schedule_wrong_schedule_id(pretty_print, mist_core, owner_api_token):
+    response = mist_core.edit_schedule(api_token=owner_api_token, schedule_id='dummy').patch()
+    assert_response_not_found(response)
+    print "Success!!!"
+
+
+def test_show_schedule_no_api_token(pretty_print, mist_core):
+    response = mist_core.show_schedule(api_token='', schedule_id='dummy').get()
+    assert_response_unauthorized(response)
+    print "Success!!!"
+
+
+def test_show_schedule_wrong_api_token(pretty_print, mist_core):
+    response = mist_core.show_schedule(api_token='dummy', schedule_id='dummy').get()
+    assert_response_unauthorized(response)
+    print "Success!!!"
+
+
+def test_show_schedule_wrong_schedule_id(pretty_print, mist_core, owner_api_token):
+    response = mist_core.show_schedule(api_token=owner_api_token, schedule_id='').get()
+    assert_response_not_found(response)
+    print "Success!!!"
 
 ############################################################################
 #                         Functional Testing                               #
@@ -308,16 +308,15 @@ class TestSchedulesFunctionality:
             if cache.get('machine_1_name', '') in machine['name']:
                 assert machine['state'] == 'stopped', "Machine'state is not stopped although schedule was supposed to run immediately"
                 break
-        print "Sleeping 10 to check machine 2..."
-        sleep(10)
+        print "Sleeping to check machines 2 and 3..."
+        sleep(90)
         for machine in response.json():
             if cache.get('machine_2_name', '') in machine['name']:
+                import ipdb;ipdb.set_trace()
                 assert machine['state'] == 'stopped', "Machine'state is not stopped although schedule was supposed to run after 10 secs"
                 break
-        print "Sleeping 50 to check machine 3..."
-        sleep(50)
-        for machine in response.json():
             if cache.get('machine_3_name', '') in machine['name']:
+                import ipdb;ipdb.set_trace()
                 assert machine['state'] == 'stopped', "Machine'state is not stopped although schedule was supposed to run after 1 min"
                 break
         print "Success"
