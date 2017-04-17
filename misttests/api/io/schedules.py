@@ -177,7 +177,6 @@ class TestSchedulesFunctionality:
                                           machines_uuids=machines_uuids, run_immediately=True,
                                           schedule_entry={'every': 10, 'period': 'hours'}).post()
         assert_response_ok(response)
-        cache.set('schedule_id', response.json()['id'])
         response = mist_core.list_schedules(api_token=owner_api_token).get()
         assert_response_ok(response)
         assert len(response.json()) == 1
@@ -242,6 +241,7 @@ class TestSchedulesFunctionality:
                                           run_immediately=True,
                                           schedule_entry=str(scheduled_date)).post()
         assert_response_ok(response)
+        cache.set('schedule_id', response.json()['id'])
         response = mist_core.list_schedules(api_token=owner_api_token).get()
         assert_response_ok(response)
         assert len(response.json()) == 4
