@@ -303,13 +303,14 @@ class TestSchedulesFunctionality:
 
     def test_check_schedules(self, pretty_print, mist_core, owner_api_token, cache, schedules_cleanup):
         print "Checking machine 1..."
+        sleep(15)
         response = mist_core.list_machines(cloud_id=cache.get('cloud_id', ''), api_token=owner_api_token).get()
         for machine in response.json():
             if cache.get('machine_1_name', '') in machine['name']:
                 assert machine['state'] == 'stopped', "Machine'state is not stopped although schedule was supposed to run immediately"
                 break
         print "Sleeping to check machines 2 and 3..."
-        sleep(90)
+        sleep(75)
         for machine in response.json():
             if cache.get('machine_2_name', '') in machine['name']:
                 import ipdb;ipdb.set_trace()
