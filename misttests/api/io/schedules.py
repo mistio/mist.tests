@@ -168,7 +168,7 @@ class TestSchedulesFunctionality:
         print "Success!!!"
 
 # below test should write to a file...
-    def test_add_interval_schedule_ok(self, pretty_print, mist_core, owner_api_token, cache):
+    def test_add_interval_schedule_run_immediately_ok(self, pretty_print, mist_core, owner_api_token, cache):
         response = mist_core.list_machines(cloud_id=cache.get('cloud_id', ''), api_token=owner_api_token).get()
         assert_response_ok(response)
         machines_uuids = []
@@ -184,6 +184,8 @@ class TestSchedulesFunctionality:
         assert len(response.json()) == 1
         print "Success"
 
+
+# TODO: check above tagged machine
     def test_add_interval_schedule_tags_ok(self, pretty_print, mist_core, owner_api_token):
         response = mist_core.add_schedule(api_token=owner_api_token, name='TestSchedule2',
                                           action='stop', schedule_type='interval',
@@ -200,7 +202,7 @@ class TestSchedulesFunctionality:
         date_now = datetime.datetime.now().replace(microsecond=0)
         scheduled_date = date_now + datetime.timedelta(seconds=10)
         machines_uuids = []
-        machines_uuids.append(cache.get('machine_1_id', ''))
+        machines_uuids.append(cache.get('machine_2_id', ''))
         response = mist_core.add_schedule(api_token=owner_api_token, name='TestSchedule3',
                                           action='stop', schedule_type='one_off',
                                           machines_uuids=machines_uuids,
@@ -211,16 +213,6 @@ class TestSchedulesFunctionality:
         assert len(response.json()) == 3
         print "Success"
 
-    def test_add_schedule_run_immediately_ok(self, pretty_print, mist_core, owner_api_token, cache):
-        machines_uuids = []
-        machines_uuids.append(cache.get('machine3_id', ''))
-        response = mist_core.add_schedule(api_token=owner_api_token, name='RunImmediatelySchedule',
-                                          action='stop', schedule_type='interval',
-                                          machines_uuids=machines_uuids,
-                                          run_immediately=True,
-                                          schedule_entry={'every': 20, 'period': 'minutes'}).post()
-        assert_response_ok(response)
-        print "Success"
 
     def test_add_crontab_schedule_ok(self, pretty_print, mist_core, cache, owner_api_token):
         machines_uuids = []
