@@ -134,7 +134,6 @@ class TestSchedulesFunctionality:
                                                 key_id='', name=name, provider='', location='',
                                                 image=cache.get('image_id', ''), size='').post()
             assert_response_ok(response)
-            # cache.set('machine_%d_id' %i, response.json()['id'])
 
         response = mist_core.list_machines(cloud_id=cache.get('cloud_id', ''), api_token=owner_api_token).get()
 
@@ -177,7 +176,7 @@ class TestSchedulesFunctionality:
         response = mist_core.add_schedule(api_token=owner_api_token, name='TestSchedule1',
                                           action='stop', schedule_type='interval',
                                           machines_uuids=machines_uuids, run_immediately=True,
-                                          schedule_entry={'every': 10, 'period':'hours'}).post()
+                                          schedule_entry={'every': 10, 'period': 'hours'}).post()
         assert_response_ok(response)
         cache.set('schedule_id', response.json()['id'])
         response = mist_core.list_schedules(api_token=owner_api_token).get()
