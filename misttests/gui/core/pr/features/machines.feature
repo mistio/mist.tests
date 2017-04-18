@@ -5,10 +5,9 @@ Feature: Machines
     Given I am logged in to mist.core
 
   @key-add
-  Scenario: Add script and key that will be used for ssh access
+  Scenario: Add script, Docker cloud and key that will be used for ssh access
     Given script "touch_kati" is added via API request
-    Then I expect for "addBtn" to be clickable within max 20 seconds
-    Given "Docker" cloud has been added
+    And cloud Docker has been added via API request
     When I visit the Keys page
     When I click the button "+"
     Then I expect the "Key" add form to be visible within max 10 seconds

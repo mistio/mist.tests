@@ -4,8 +4,7 @@ Feature: Schedulers
   @scheduler-requirements
   Scenario: Check state of machines and tag machine that will be used for schedule below
     Given I am logged in to mist.core
-    Then I expect for "addBtn" to be clickable within max 20 seconds
-    And "Docker" cloud has been added
+    And cloud Docker has been added via API request
     When I visit the Machines page
     Then "machine2-ui-testing" machine state has to be "running" within 10 seconds
     And "machine3-ui-testing" machine state has to be "running" within 10 seconds

@@ -75,7 +75,7 @@ def create_script_api_request(context, script_name):
     requests.post(context.mist_config['MIST_URL'] + "/api/v1/scripts" , data=json.dumps(script_data), headers=headers)
 
 
-@step(u'cloud Docker has been added')
+@step(u'cloud Docker has been added via API request')
 def add_docker_api_request(context):
     payload = {
         'email': context.mist_config['EMAIL'],
@@ -84,7 +84,6 @@ def add_docker_api_request(context):
     }
 
     re = requests.post("%s/api/v1/tokens" % context.mist_config['MIST_URL'], data=json.dumps(payload))
-
     api_token = re.json()['token']
     headers = {'Authorization': api_token}
 
@@ -99,4 +98,4 @@ def add_docker_api_request(context):
         'cert_file': context.mist_config['CREDENTIALS']['DOCKER']['cert']
     }
 
-    requests.post(context.mist_config['MIST_URL'] + "/api/v1/clouds", data=json.dumps(payload), headers=headers)
+    re2 = requests.post(context.mist_config['MIST_URL'] + "/api/v1/clouds", data=json.dumps(payload), headers=headers)
