@@ -103,10 +103,28 @@ def add_docker_api_request(context):
 
 @step(u'Docker machine "{machine_name}" has been added via API request')
 def create_docker_machine(context, machine_name):
+    payload = {
+        'email': context.mist_config['EMAIL'],
+        'password': context.mist_config['PASSWORD1'],
+        'org_id': context.mist_config['ORG_ID']
+    }
 
+    re = requests.post("%s/api/v1/tokens" % context.mist_config['MIST_URL'], data=json.dumps(payload))
+    api_token = re.json()['token']
+    headers = {'Authorization': api_token}
+    re = requests.get(context.mist_config['MIST_URL'] + "/api/v1/clouds", headers=headers)
+    import ipdb;
+    ipdb.set_trace()
     # list_clouds
     # get id of docker
     # create a machine with machine_name as name
+
+    # if context.mist_config.get(value):
+    #     value = context.mist_config.get(value)
+    # elif "random" in value:
+    #     value_key = value
+    #     value = value.replace("random", str(randrange(1000)))
+    #     context.mist_config[value_key] = value
 
     payload = {
         'email': context.mist_config['EMAIL'],
