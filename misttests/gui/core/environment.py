@@ -196,13 +196,13 @@ def finish_and_cleanup(context):
 
 
 def after_feature(context, feature):
-    if 'Orchestration' in feature.name:
+    if 'Orchestration' == feature.name:
         kill_orchestration_machines(context)
-    if 'Schedulers' in feature.name:
+    if 'Schedulers' == feature.name:
         delete_schedules(context)
         kill_docker_machines(context, 'schedule')
-    if 'Schedulers-b' in feature.name:
+    if 'Schedulers-b' == feature.name:
         delete_schedules(context)
         kill_docker_machines(context, 'schedule-b')
-    if 'Machines' in feature.name:
+    if 'Machines' == feature.name:
         kill_docker_machines(context, 'machine')
