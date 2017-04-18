@@ -100,7 +100,7 @@ def add_docker_api_request(context):
         'cert_file': context.mist_config['CREDENTIALS']['DOCKER']['cert']
     }
 
-    re2 = requests.post(context.mist_config['MIST_URL'] + "/api/v1/clouds", data=json.dumps(payload), headers=headers)
+    re = requests.post(context.mist_config['MIST_URL'] + "/api/v1/clouds", data=json.dumps(payload), headers=headers)
 
 
 @step(u'Docker machine "{machine_name}" has been added via API request')
@@ -139,14 +139,7 @@ def create_docker_machine(context, machine_name):
         'name': machine_name,
         'provider': 'docker',
         'location': '',
-        'location_name': '',
-        'size': '',
-        'script': '',
-        'disk': '',
-        'image_extra': '',
-        'async': True,
-        'monitoring': False,
+        'size': ''
     }
 
     re = requests.post(context.mist_config['MIST_URL'] + "/api/v1/clouds/" + cloud_id + "/machines", data=json.dumps(payload), headers=headers)
-    import ipdb;ipdb.set_trace()
