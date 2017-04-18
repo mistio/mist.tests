@@ -22,6 +22,8 @@ def select_option_from_radiogroup(context, option_to_select, radio_group):
 
 @step(u'I select the "{option_to_select}" checkbox')
 def select_checkbox(context, option_to_select):
+    if context.mist_config.get(option_to_select):
+        option_to_select = context.mist_config.get(option_to_select)
     paper_check_boxes = context.browser.find_elements_by_tag_name('paper-checkbox')
     for checkbox in paper_check_boxes:
         if safe_get_element_text(checkbox) == option_to_select:
