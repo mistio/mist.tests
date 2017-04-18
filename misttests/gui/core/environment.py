@@ -183,8 +183,8 @@ def delete_schedules(context):
         requests.delete(uri, headers=headers)
 
 
-def start_ui_machines(context):
-    log.info('Starting ui-docker machines...')
+def kill_schedule_machines(context):
+    log.info('Killing docker machines used for schedule UI tests...')
     api_token = get_api_token(context)
     headers = {'Authorization': api_token}
     response = requests.get("%s/api/v1/clouds" % context.mist_config['MIST_URL'], headers=headers)
@@ -193,9 +193,9 @@ def start_ui_machines(context):
             uri = context.mist_config['MIST_URL'] + '/api/v1/clouds/' + cloud['id'] + '/machines'
             response = requests.get(uri, headers=headers)
             for machine in response.json():
-                if 'ui-testing' in machine['name']:
-                    log.info('Starting ui-testing machine...')
-                    payload = {'action': 'start'}
+                if 'test-machine-' in machine['name']:
+                    log.info('Killing test machine...')
+                    payload = {'action': 'destroy'}
                     uri = context.mist_config['MIST_URL'] + '/api/v1/clouds/' + cloud['id'] + '/machines/' + machine['id']
                     requests.post(uri, data=json.dumps(payload), headers=headers)
 
@@ -214,6 +214,6 @@ def after_feature(context, feature):
         kill_orchestration_machines(context)
     if 'Schedulers' in feature.name:
         delete_schedules(context)
-        start_ui_machines(context)
+        kill_schedule_machines(context)
     if 'Machines' in feature.name:
         kill_docker_machine(context)
