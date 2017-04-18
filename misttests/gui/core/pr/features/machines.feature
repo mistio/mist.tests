@@ -96,7 +96,7 @@ Feature: Machines
     Then I expect the dialog "Stop 1 Machines" is open within 4 seconds
     And I click the "Stop" button in the dialog "Stop 1 Machines"
     Then I visit the Machines page
-    Then "docker-ui-test-machine-random" machine state has to be "stopped" within 30 seconds
+    Then "docker-ui-test-machine-random" machine state has to be "stopped" within 40 seconds
 
   @machine-start
   Scenario: Start the machine created above
@@ -106,7 +106,7 @@ Feature: Machines
     Then I expect the dialog "Start 1 Machines" is open within 4 seconds
     And I click the "Start" button in the dialog "Start 1 Machines"
     Then I visit the Machines page
-    Then "docker-ui-test-machine-random" machine state has to be "running" within 30 seconds
+    Then "docker-ui-test-machine-random" machine state has to be "running" within 40 seconds
 
   @machine-destroy
   Scenario: Destroy the machine created
