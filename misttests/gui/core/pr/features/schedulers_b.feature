@@ -5,10 +5,12 @@ Feature: Schedulers
   Scenario: Check state of machines and tag machine that will be used for schedule below
     Given I am logged in to mist.core
     And cloud Docker has been added via API request
+    And Docker machine "test-machine-random" has been added via API request
+    And Docker machine "test-machine-2-random" has been added via API request
     When I visit the Machines page
-    Then "machine2-ui-testing" machine state has to be "running" within 10 seconds
-    And "machine3-ui-testing" machine state has to be "running" within 10 seconds
-    When I click the "machine3-ui-testing" "machine"
+    Then "test-machine-random" machine state has to be "running" within 10 seconds
+    And "test-machine-2-random" machine state has to be "running" within 10 seconds
+    When I click the "test-machine-2-random" "machine"
     Then I expect the "machine" edit form to be visible within max 5 seconds
     Then I click the button "Tag" from the menu of the "machine" edit form
     And I expect for the tag popup to open within 4 seconds
@@ -17,7 +19,7 @@ Feature: Schedulers
     And I click the button "Save Tags" in the tag menu
     Then I expect for the tag popup to close within 4 seconds
     When I visit the Machines page
-    And I click the "machine3-ui-testing" "machine"
+    And I click the "test-machine-2-random" "machine"
     And I wait for 10 seconds
     Then I ensure that the "machine" has the tags "test:awesome"
 
@@ -33,7 +35,7 @@ Feature: Schedulers
     And I wait for 1 seconds
     And I select "Specific Machines" from "ids_or_tags" radio-group
     And I wait for 1 seconds
-    And I select the "machine2-ui-testing" checkbox
+    And I select the "test-machine-random" checkbox
     And I select "Crontab" from "schedule_type" radio-group
     #When I set the value "2" to field "Maximum Run Count" in "schedule" add form
     And I set the value "* * * * *" to field "Crontab" in "schedule" add form
@@ -92,5 +94,5 @@ Feature: Schedulers
   @check-machines-state
   Scenario: Check machine's state
     When I visit the Machines page
-    Then "machine2-ui-testing" machine state has to be "stopped" within 60 seconds
-    Then "machine3-ui-testing" machine state has to be "stopped" within 10 seconds
+    Then "test-machine-random" machine state has to be "stopped" within 60 seconds
+    Then "test-machine-2-random" machine state has to be "stopped" within 10 seconds
