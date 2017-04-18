@@ -4,6 +4,8 @@ import requests
 import random
 import json
 
+from random import randrange
+
 
 @step(u'rbac members are initialized')
 def initialize_rbac_members(context):
@@ -113,18 +115,22 @@ def create_docker_machine(context, machine_name):
     api_token = re.json()['token']
     headers = {'Authorization': api_token}
     re = requests.get(context.mist_config['MIST_URL'] + "/api/v1/clouds", headers=headers)
-    import ipdb;
-    ipdb.set_trace()
-    # list_clouds
-    # get id of docker
+    for cloud in re.json():
+        if 'docker' in cloud['provider']:
+            cloud_id = cloud['id']
+            break
+
+    if 'random' in machine_name:
+        value_key = machine_name
+        value = machine_name.replace("random", str(randrange(1000)))
+        context.mist_config[value_key] = value
+
     # create a machine with machine_name as name
 
     # if context.mist_config.get(value):
     #     value = context.mist_config.get(value)
     # elif "random" in value:
-    #     value_key = value
-    #     value = value.replace("random", str(randrange(1000)))
-    #     context.mist_config[value_key] = value
+
 
     payload = {
         'email': context.mist_config['EMAIL'],
