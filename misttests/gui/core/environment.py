@@ -169,6 +169,8 @@ def kill_docker_machines(context, tests_type):
         machine_name_pattern = 'docker-ui-test-machine-'
     elif tests_type == 'schedule':
         machine_name_pattern = 'test-machine'
+    elif tests_type == 'schedule-b':
+        machine_name_pattern = 'test-ui-machine'
     api_token = get_api_token(context)
     headers = {'Authorization': api_token}
     response = requests.get("%s/api/v1/clouds" % context.mist_config['MIST_URL'], headers=headers)
@@ -199,5 +201,8 @@ def after_feature(context, feature):
     if 'Schedulers' in feature.name:
         delete_schedules(context)
         kill_docker_machines(context, 'schedule')
+    if 'Schedulers-b' in feature.name:
+        delete_schedules(context)
+        kill_docker_machines(context, 'schedule-b')
     if 'Machines' in feature.name:
         kill_docker_machines(context, 'machine')
