@@ -114,43 +114,39 @@ def create_docker_machine(context, machine_name):
     re = requests.post("%s/api/v1/tokens" % context.mist_config['MIST_URL'], data=json.dumps(payload))
     api_token = re.json()['token']
     headers = {'Authorization': api_token}
+
     re = requests.get(context.mist_config['MIST_URL'] + "/api/v1/clouds", headers=headers)
+
     for cloud in re.json():
         if 'docker' in cloud['provider']:
             cloud_id = cloud['id']
             break
 
+    re = requests.get(context.mist_config['MIST_URL'] + "/api/v1/clouds/" + cloud_id + "/images", headers=headers)
+
+    for image in re.json():
+        if 'Ubuntu 14.04' in image['name']:
+            image_id = image['id']
+            break;
+
     if 'random' in machine_name:
         value_key = machine_name
-        value = machine_name.replace("random", str(randrange(1000)))
-        context.mist_config[value_key] = value
-
-    # create a machine with machine_name as name
-
-    # if context.mist_config.get(value):
-    #     value = context.mist_config.get(value)
-    # elif "random" in value:
-
+        machine_name = machine_name.replace("random", str(randrange(1000)))
+        context.mist_config[value_key] = machine_name
 
     payload = {
-        'email': context.mist_config['EMAIL'],
-        'password': context.mist_config['PASSWORD1'],
-        'org_id': context.mist_config['ORG_ID']
+        'image': image_id,
+        'name': machine_name,
+        'provider': 'docker',
+        'location': '',
+        'location_name': '',
+        'size': '',
+        'script': '',
+        'disk': '',
+        'image_extra': '',
+        'async': True,
+        'monitoring': False,
     }
 
-    re = requests.post("%s/api/v1/tokens" % context.mist_config['MIST_URL'], data=json.dumps(payload))
-    api_token = re.json()['token']
-    headers = {'Authorization': api_token}
-
-    payload = {
-        'title': "Docker",
-        'provider': "docker",
-        'docker_host': context.mist_config['CREDENTIALS']['DOCKER']['host'],
-        'docker_port': context.mist_config['CREDENTIALS']['DOCKER']['port'],
-        'authentication': context.mist_config['CREDENTIALS']['DOCKER']['authentication'],
-        'ca_cert_file': context.mist_config['CREDENTIALS']['DOCKER']['ca'],
-        'key_file': context.mist_config['CREDENTIALS']['DOCKER']['key'],
-        'cert_file': context.mist_config['CREDENTIALS']['DOCKER']['cert']
-    }
-
-    re2 = requests.post(context.mist_config['MIST_URL'] + "/api/v1/clouds", data=json.dumps(payload), headers=headers)
+    re = requests.post(context.mist_config['MIST_URL'] + "/api/v1/clouds/" + cloud_id + "/machines", data=json.dumps(payload), headers=headers)
+    import ipdb;ipdb.set_trace()

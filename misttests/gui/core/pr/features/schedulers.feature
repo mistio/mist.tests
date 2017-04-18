@@ -6,10 +6,7 @@ Feature: Schedulers
     Given cloud Docker has been added via API request
     Given Docker machine "test-ui-random" has been added via API request
     Given I am logged in to mist.core
-    And cloud Docker has been added via API request
-    And Docker machine "test-ui-random" has been added via API request
     When I visit the Machines page
-    And I wait for 50 seconds
     Then "machine1-ui-testing" machine state has to be "running" within 10 seconds
     When I visit the Schedules page
     And I click the button "+"
