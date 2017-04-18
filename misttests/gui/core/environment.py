@@ -166,7 +166,7 @@ def delete_schedules(context):
 
 def kill_docker_machines(context, tests_type):
     if tests_type == 'machine':
-        machine_name_pattern = 'docker-ui-test-machine-'
+        machine_name_pattern = 'ui-test-create-machine-'
     elif tests_type == 'schedule':
         machine_name_pattern = 'test-machine'
     elif tests_type == 'schedule-b':

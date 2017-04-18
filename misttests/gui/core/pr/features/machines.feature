@@ -55,18 +55,18 @@ Feature: Machines
     And I wait for 1 seconds
     And I click the button "Docker" in the "Choose Cloud" dropdown
     Then I expect the field "Machine name" in the machine add form to be visible within max 4 seconds
-    When I select the proper values for "Docker" to create the "docker-ui-test-machine-random" machine
+    When I select the proper values for "Docker" to create the "ui-test-create-machine-random" machine
     And I wait for 3 seconds
     Then I expect for the button "Launch" in "machine" add form to be clickable within 10 seconds
     When I focus on the button "Launch" in "machine" add form
     And I wait for 2 seconds
     And I click the "Launch" button with id "appformsubmit"
     And I wait for 5 seconds
-    Then "docker-ui-test-machine-random" machine state has to be "running" within 100 seconds
+    Then "ui-test-create-machine-random" machine state has to be "running" within 100 seconds
 
    @machine-run-script
    Scenario: Run script to machine created above
-    When I click the "docker-ui-test-machine-random" "machine"
+    When I click the "ui-test-create-machine-random" "machine"
     And I expect the "machine" edit form to be visible within max 5 seconds
     And I wait for 2 seconds
     Then I click the button "Run Script" from the menu of the "machine" edit form
@@ -79,7 +79,7 @@ Feature: Machines
   @machine-shell
   Scenario: Check shell access and verify that script run
     When I visit the Machines page
-    When I click the "docker-ui-test-machine-random" "machine"
+    When I click the "ui-test-create-machine-random" "machine"
     And I expect the "machine" edit form to be visible within max 5 seconds
     And I wait for 2 seconds
     Then I click the button "Shell" from the menu of the "machine" edit form
@@ -96,25 +96,25 @@ Feature: Machines
     Then I expect the dialog "Stop 1 Machines" is open within 4 seconds
     And I click the "Stop" button in the dialog "Stop 1 Machines"
     Then I visit the Machines page
-    Then "docker-ui-test-machine-random" machine state has to be "stopped" within 40 seconds
+    Then "ui-test-create-machine-random" machine state has to be "stopped" within 40 seconds
 
   @machine-start
   Scenario: Start the machine created above
-    When I click the "docker-ui-test-machine-random" "machine"
+    When I click the "ui-test-create-machine-random" "machine"
     Then I expect the "machine" edit form to be visible within max 5 seconds
     When I click the button "Start" from the menu of the "machine" edit form
     Then I expect the dialog "Start 1 Machines" is open within 4 seconds
     And I click the "Start" button in the dialog "Start 1 Machines"
     Then I visit the Machines page
-    Then "docker-ui-test-machine-random" machine state has to be "running" within 40 seconds
+    Then "ui-test-create-machine-random" machine state has to be "running" within 40 seconds
 
   @machine-destroy
   Scenario: Destroy the machine created
     When I visit the Home page
     And I wait for the links in homepage to appear
     And I visit the Machines page after the counter has loaded
-    Then I search for the machine "docker-ui-test-machine-random"
-    When I click the "docker-ui-test-machine-random" "machine"
+    Then I search for the machine "ui-test-create-machine-random"
+    When I click the "ui-test-create-machine-random" "machine"
     And I clear the machines search bar
     And I expect the "machine" edit form to be visible within max 5 seconds
     And I wait for 2 seconds
@@ -122,4 +122,4 @@ Feature: Machines
     And I expect the dialog "Destroy 1 Machines" is open within 4 seconds
     And I click the "Destroy" button in the dialog "Destroy 1 Machines"
     Then I visit the Machines page
-    Then "docker-ui-test-machine-random" machine should be absent within 60 seconds
+    Then "ui-test-create-machine-random" machine should be absent within 60 seconds
