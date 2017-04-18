@@ -21,7 +21,7 @@ Feature: Schedulers-b
     And I wait for 1 seconds
     When I visit the Machines page
     And I wait for 1 seconds
-    And I click the "test-machine-2-random" "machine"
+    And I click the "test-ui-machine-2-random" "machine"
     And I wait for 10 seconds
     Then I ensure that the "machine" has the tags "test:awesome"
 
