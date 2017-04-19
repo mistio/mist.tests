@@ -154,12 +154,12 @@ def kill_orchestration_machines(context):
 
 
 def delete_schedules(context):
-    log.info('Deleting schedule...')
     api_token = get_api_token(context)
     headers = {'Authorization': api_token}
 
     response = requests.get("%s/api/v1/schedules" % context.mist_config['MIST_URL'], headers=headers)
     for schedule in response.json():
+        log.info('Deleting schedule...')
         uri = context.mist_config['MIST_URL'] + '/api/v1/schedules/' + schedule['id']
         requests.delete(uri, headers=headers)
 
