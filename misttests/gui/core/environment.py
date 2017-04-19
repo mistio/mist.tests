@@ -182,7 +182,7 @@ def kill_docker_machines(context, tests_type):
                 if machine_name_pattern in machine['name']:
                     try:
                         context.mist_config[machine['name']]
-                    except NameError:
+                    except KeyError:
                         pass
                     else:
                         log.info('Killing docker machine...')
