@@ -164,13 +164,7 @@ def delete_schedules(context):
         requests.delete(uri, headers=headers)
 
 
-def kill_docker_machines(context, tests_type):
-    if tests_type == 'machine':
-        machine_name_pattern = 'ui-test-create-machine-'
-    elif tests_type == 'schedule':
-        machine_name_pattern = 'test-machine'
-    elif tests_type == 'schedule-b':
-        machine_name_pattern = 'test-ui-machine'
+def kill_docker_machine(context, machine_to_destroy):
     api_token = get_api_token(context)
     headers = {'Authorization': api_token}
     response = requests.get("%s/api/v1/clouds" % context.mist_config['MIST_URL'], headers=headers)
@@ -179,16 +173,12 @@ def kill_docker_machines(context, tests_type):
             uri = context.mist_config['MIST_URL'] + '/api/v1/clouds/' + cloud['id'] + '/machines'
             response = requests.get(uri, headers=headers)
             for machine in response.json():
-                if machine_name_pattern in machine['name']:
-                    try:
-                        context.mist_config[machine['name']]
-                        log.info('Killing docker machine...')
-                        payload = {'action': 'destroy'}
-                        uri = context.mist_config['MIST_URL'] + '/api/v1/clouds/' + cloud['id'] + '/machines/' + \
-                              machine['id']
-                        requests.post(uri, data=json.dumps(payload), headers=headers)
-                    except KeyError:
-                        pass
+                if machine_to_destroy in machine['name']:
+                    log.info('Killing docker machine...')
+                    payload = {'action': 'destroy'}
+                    uri = context.mist_config['MIST_URL'] + '/api/v1/clouds/' + cloud['id'] + '/machines/' + \
+                          machine['id']
+                    requests.post(uri, data=json.dumps(payload), headers=headers)
 
 
 def finish_and_cleanup(context):
@@ -205,9 +195,10 @@ def after_feature(context, feature):
         kill_orchestration_machines(context)
     if 'Schedulers' == feature.name:
         delete_schedules(context)
-        kill_docker_machines(context, 'schedule')
+        kill_docker_machine(context, context.mist_config.get('test-machine-random'))
     if 'Schedulers-b' == feature.name:
         delete_schedules(context)
-        kill_docker_machines(context, 'schedule-b')
+        kill_docker_machine(context, context.mist_config.get('test-ui-machine-random'))
+        kill_docker_machine(context, context.mist_config.get('test-ui-machine-2-random'))
     if 'Machines' == feature.name:
-        kill_docker_machines(context, 'machine')
+        kill_docker_machine(context, context.mist_config.get('ui-test-create-machine-random'))
