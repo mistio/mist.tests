@@ -109,6 +109,22 @@ Feature: RBAC
     When I remove the rule with index "0"
     And I click the button "Save Policy" in "policy" edit form
     And I wait for 1 seconds
+
+  @owner-allows-edit-script
+  Scenario: Owner creates rule "ALLOW" "script" "edit"
+    When I focus on the button "Add a new rule" in "policy" edit form
+    And I click the button "Add a new rule" in "policy" edit form
+    And I wait for 1 seconds
+    Then I add the rule always "ALLOW" "script" "edit"
+    And I click the button "Save Policy" in "policy" edit form
+    And I wait for 1 seconds
+    When I focus on the button "Add a new rule" in "policy" edit form
+    And I click the button "Add a new rule" in "policy" edit form
+    And I wait for 1 seconds
+    Then I add the rule always "ALLOW" "script" "read"
+    And I click the button "Save Policy" in "policy" edit form
+    And I wait for 1 seconds
+    And script "TestScript" is added via API request
     Then I logout
 
   @member-reads-machine-fail
@@ -117,3 +133,19 @@ Feature: RBAC
     Then I ensure that I am in the "ORG_NAME" organization context
     When I visit the Machines page
     Then "yolomachine" machine should be absent within 5 seconds
+
+  @member-edit-script-success
+  Scenario: Member 1 should be able to edit the script
+    When I visit the Scripts page
+    And I click the "TestScript" "script"
+    Then I expect the "script" edit form to be visible within max 5 seconds
+    When I click the button "Edit Script" from the menu of the "script" edit form
+    Then I expect the dialog "Edit Script" is open within 4 seconds
+    When I set the value "Second" to field "Name" in "Edit Script" dialog
+    And I click the "Submit" button in the dialog "Edit Script"
+    Then I expect the dialog "Edit Script" is closed within 4 seconds
+    When I visit the Home page
+    And I wait for 1 seconds
+    And I visit the Scripts page
+    Then "TestScript" script should be absent within 5 seconds
+    And "Second" script should be present within 5 seconds
