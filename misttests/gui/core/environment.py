@@ -182,13 +182,13 @@ def kill_docker_machines(context, tests_type):
                 if machine_name_pattern in machine['name']:
                     try:
                         context.mist_config[machine['name']]
-                    except KeyError:
-                        pass
-                    else:
                         log.info('Killing docker machine...')
                         payload = {'action': 'destroy'}
-                        uri = context.mist_config['MIST_URL'] + '/api/v1/clouds/' + cloud['id'] + '/machines/' + machine['id']
+                        uri = context.mist_config['MIST_URL'] + '/api/v1/clouds/' + cloud['id'] + '/machines/' + \
+                              machine['id']
                         requests.post(uri, data=json.dumps(payload), headers=headers)
+                    except KeyError:
+                        pass
 
 
 def finish_and_cleanup(context):
