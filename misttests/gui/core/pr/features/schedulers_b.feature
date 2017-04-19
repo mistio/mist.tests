@@ -34,7 +34,7 @@ Feature: Schedulers-b
     And I click the button "stop" in the "Task" dropdown
     And I wait for 1 seconds
     And I select "Specific Machines" from "ids_or_tags" radio-group
-    And I wait for 1 seconds
+    And I wait for 2 seconds
     And I select the "test-ui-machine-random" checkbox
     And I select "Crontab" from "schedule_type" radio-group
     #When I set the value "2" to field "Maximum Run Count" in "schedule" add form

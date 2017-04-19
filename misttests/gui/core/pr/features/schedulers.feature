@@ -17,7 +17,7 @@ Feature: Schedulers
     And I click the button "stop" in the "Task" dropdown
     And I wait for 1 seconds
     And I select "Specific Machines" from "ids_or_tags" radio-group
-    And I wait for 1 seconds
+    And I wait for 2 seconds
     And I select the "test-machine-random" checkbox
     And I select "Repeat" from "schedule_type" radio-group
     And I set the value "1" to field "interval" in "schedule" add form
