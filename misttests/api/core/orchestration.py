@@ -118,21 +118,21 @@ def test_list_stacks(pretty_print, mist_core, owner_api_token):
 # GETS 500
 # def test_create_stack(pretty_print, mist_core, owner_api_token):
 #     response = mist_core.create_stack(api_token=owner_api_token, name='test',
-#                                       template_id='dummy').post()
+#                                       stack_id='dummy').post()
 #     assert_response_not_found(response)
 #     print "Success!!!"
 
 
 def test_create_stack_no_api_token(pretty_print, mist_core):
     response = mist_core.create_stack(api_token='', name='test',
-                                      template_id='dummy').post()
+                                      stack_id='dummy').post()
     assert_response_forbidden(response)
     print "Success!!!"
 
 
 def test_create_stack_wrong_api_token(pretty_print, mist_core, owner_api_token):
     response = mist_core.create_stack(api_token='00' + owner_api_token[:-2], name='test',
-                                      template_id='dummy').post()
+                                      stack_id='dummy').post()
     assert_response_unauthorized(response)
     print "Success!!!"
 
@@ -152,6 +152,24 @@ def test_delete_stack_no_api_token(pretty_print, mist_core):
 def test_delete_stack_wrong_api_token(pretty_print, mist_core, owner_api_token):
     response = mist_core.delete_stack(stack_id='dummy', api_token='00' + owner_api_token[:-2]).delete()
     assert_response_unauthorized(response)
+    print "Success!!!"
+
+
+def test_show_stack_wrong_api_token(pretty_print, mist_core, owner_api_token):
+    response = mist_core.show_stack(stack_id='dummy', api_token='00' + owner_api_token[:-2]).get()
+    assert_response_unauthorized(response)
+    print "Success!!!"
+
+
+def test_show_stack_no_api_token(pretty_print, mist_core):
+    response = mist_core.show_stack(stack_id='dummy', api_token='').get()
+    assert_response_unauthorized(response)
+    print "Success!!!"
+
+
+def test_show_stack_wrong_id(pretty_print, mist_core, owner_api_token):
+    response = mist_core.show_stack(stack_id='dummy', api_token=owner_api_token).get()
+    assert_response_not_found(response)
     print "Success!!!"
 
 ############################################################################
