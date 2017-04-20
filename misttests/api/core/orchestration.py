@@ -123,10 +123,17 @@ def test_list_stacks(pretty_print, mist_core, owner_api_token):
 #     print "Success!!!"
 
 
-def test_create_stack_no_api_token(pretty_print, mist_core, owner_api_token):
+def test_create_stack_no_api_token(pretty_print, mist_core):
     response = mist_core.create_stack(api_token='', name='test',
                                       template_id='dummy').post()
     assert_response_forbidden(response)
+    print "Success!!!"
+
+
+def test_create_stack_wrong_api_token(pretty_print, mist_core, owner_api_token):
+    response = mist_core.create_stack(api_token='00' + owner_api_token[:-2], name='test',
+                                      template_id='dummy').post()
+    assert_response_unauthorized(response)
     print "Success!!!"
 
 
