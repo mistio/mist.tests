@@ -89,3 +89,21 @@ def test_delete_template_wrong_api_token(pretty_print, mist_core, owner_api_toke
     response = mist_core.delete_template(template_id='dummy', api_token='00' + owner_api_token[:-2]).delete()
     assert_response_unauthorized(response)
     print "Success!!!"
+
+
+def test_show_template_wrong_api_token(pretty_print, mist_core, owner_api_token):
+    response = mist_core.show_template(template_id='dummy', api_token='00' + owner_api_token[:-2]).get()
+    assert_response_unauthorized(response)
+    print "Success!!!"
+
+
+def test_show_template_no_api_token(pretty_print, mist_core):
+    response = mist_core.show_template(template_id='dummy', api_token='').get()
+    assert_response_unauthorized(response)
+    print "Success!!!"
+
+
+def test_show_template_wrong_id(pretty_print, mist_core, owner_api_token):
+    response = mist_core.show_template(template_id='dummy', api_token=owner_api_token).get()
+    assert_response_not_found(response)
+    print "Success!!!"
