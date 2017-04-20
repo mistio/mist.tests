@@ -56,7 +56,7 @@ def test_rename_cloud_no_api_token(pretty_print, mist_core):
     print "Success!!!"
 
 
-def test_rename_cloud_no_api_token(pretty_print, mist_core, owner_api_token):
+def test_rename_cloud_wrong_api_token(pretty_print, mist_core, owner_api_token):
     response = mist_core.rename_cloud(cloud_id='dummy', new_name='test',
                                       api_token='00' + owner_api_token[:-2]).put()
     assert_response_unauthorized(response)
