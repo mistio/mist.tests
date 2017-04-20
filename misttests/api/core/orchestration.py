@@ -115,6 +115,26 @@ def test_list_stacks(pretty_print, mist_core, owner_api_token):
     assert len(response.json()) == 0
     print "Success!!!"
 
+# unit-tests: create stack
+
+
+def test_delete_stack_wrong_id(pretty_print, mist_core, owner_api_token):
+    response = mist_core.delete_stack(stack_id='dummy', api_token=owner_api_token).delete()
+    assert_response_not_found(response)
+    print "Success"
+
+
+def test_delete_stack_no_api_token(pretty_print, mist_core):
+    response = mist_core.delete_stack(stack_id='dummy', api_token='').delete()
+    assert_response_forbidden(response)
+    print "Success!!!"
+
+
+def test_delete_stack_wrong_api_token(pretty_print, mist_core, owner_api_token):
+    response = mist_core.delete_stack(stack_id='dummy', api_token='00' + owner_api_token[:-2]).delete()
+    assert_response_unauthorized(response)
+    print "Success!!!"
+
 ############################################################################
 #                          Functional Testing                              #
 ############################################################################

@@ -299,9 +299,6 @@ class MistCoreApi(MistIoApi):
         return req
 
 
-# unit-tests: delete stack
-# unit-tests: create stack
-
 # show stack
 # unit-tests: show stack
 
