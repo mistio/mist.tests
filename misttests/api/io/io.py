@@ -457,15 +457,15 @@ class MistIoApi(object):
         req.put = req.unavailable_api_call
         return req
 
-    def add_schedule(self, api_token, name, schedule_type, schedule_entry='',
-                     description='', machines_uuids=[], machines_tags=[],
-                     task_enabled=True, expires='', script_id='', action='',
+    def add_schedule(self, api_token, name, schedule_type,
+                     conditions, schedule_entry='',
+                     description='',task_enabled=True, expires='',
+                     script_id='', action='',
                      max_run_count='', run_immediately=False):
         data = {
-            'machines_uuids': machines_uuids,
+            'conditions': conditions,
             'name': name,
             'description': description,
-            'machines_tags': machines_tags,
             'schedule_type': schedule_type,
             'schedule_entry': schedule_entry,
             'task_enabled': task_enabled,
