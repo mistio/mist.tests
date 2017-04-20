@@ -236,7 +236,8 @@ class MistCoreApi(MistIoApi):
             'exec_type': exec_type
         }
         payload.update(kwargs)
-        req = MistRequests(uri=self.uri + '/api/v1/templates', api_token=api_token)
+        req = MistRequests(uri=self.uri + '/api/v1/templates',
+                           data=payload, api_token=api_token)
         req.get = req.unavailable_api_call
         req.put = req.unavailable_api_call
         req.delete = req.unavailable_api_call
@@ -248,4 +249,26 @@ class MistCoreApi(MistIoApi):
         req.get = req.unavailable_api_call
         req.post = req.unavailable_api_call
         req.put = req.unavailable_api_call
+        return req
+
+    def edit_template(self, api_token, template_id, name,
+                      description='', **kwargs):
+        payload = {
+            'name': name,
+            'description': description
+        }
+        payload.update(kwargs)
+        req = MistRequests(uri=self.uri + '/api/v1/templates/' + template_id,
+                           data=payload, api_token=api_token)
+        req.get = req.unavailable_api_call
+        req.post = req.unavailable_api_call
+        req.delete = req.unavailable_api_call
+        return req
+
+    def show_template(self, api_token, template_id):
+        req = MistRequests(uri=self.uri + '/api/v1/templates/' + template_id,
+                           api_token=api_token)
+        req.put = req.unavailable_api_call
+        req.post = req.unavailable_api_call
+        req.delete = req.unavailable_api_call
         return req
