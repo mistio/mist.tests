@@ -310,10 +310,16 @@ class MistCoreApi(MistIoApi):
         req.delete = req.unavailable_api_call
         return req
 
-
-# run workflow
-# unit-tests: run workflow
+    def run_workflow(self, api_token, stack_id, workflow=''):
+        payload = {
+            'workflow': workflow
+        }
+        req = MistRequests(uri=self.uri + '/api/v1/stacks/' + stack_id,
+                           data=payload, api_token=api_token)
+        req.get = req.unavailable_api_call
+        req.put = req.unavailable_api_call
+        req.delete = req.unavailable_api_call
+        return req
 
 # check scale_up
-
 # CODE REVIEW

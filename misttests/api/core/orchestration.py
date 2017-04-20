@@ -172,6 +172,25 @@ def test_show_stack_wrong_id(pretty_print, mist_core, owner_api_token):
     assert_response_not_found(response)
     print "Success!!!"
 
+
+def test_run_workflow_wrong_api_token(pretty_print, mist_core, owner_api_token):
+    response = mist_core.run_workflow(stack_id='dummy', api_token='00' + owner_api_token[:-2]).post()
+    assert_response_unauthorized(response)
+    print "Success!!!"
+
+
+def test_run_workflow_no_api_token(pretty_print, mist_core):
+    response = mist_core.run_workflow(stack_id='dummy', api_token='').post()
+    assert_response_unauthorized(response)
+    print "Success!!!"
+
+
+def test_run_workflow_wrong_id(pretty_print, mist_core, owner_api_token):
+    response = mist_core.run_workflow(stack_id='dummy', api_token=owner_api_token).post()
+    assert_response_not_found(response)
+    print "Success!!!"
+
+
 ############################################################################
 #                          Functional Testing                              #
 ############################################################################
