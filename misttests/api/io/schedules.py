@@ -291,12 +291,14 @@ class TestSchedulesFunctionality:
     def test_add_disabled_schedule(self, pretty_print, mist_core, owner_api_token, cache):
         machines_uuids = []
         machines_uuids.append(cache.get('machine_id', ''))
+        conditions = [{"type": "machines", "ids": machines_uuids}]
         response = mist_core.add_schedule(api_token=owner_api_token,
                                           name='DisabledSchedule',
                                           action='stop',
                                           schedule_type='interval',
                                           task_enabled=False,
                                           run_immediately=True,
+                                          conditions=conditions,
                                           schedule_entry=
                                           {'every': 2, 'period': 'minutes'}
                                           ).post()
