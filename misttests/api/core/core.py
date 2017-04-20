@@ -273,3 +273,41 @@ class MistCoreApi(MistIoApi):
         req.post = req.unavailable_api_call
         req.delete = req.unavailable_api_call
         return req
+
+    def list_stacks(self, api_token):
+        req = MistRequests(uri=self.uri + '/api/v1/stacks',
+                           api_token=api_token)
+        req.post = req.unavailable_api_call
+        req.put = req.unavailable_api_call
+        req.delete = req.unavailable_api_call
+        return req
+
+    def create_stack(self, api_token):
+        req = MistRequests(uri=self.uri + '/api/v1/stacks',
+                           api_token=api_token)
+        req.delete = req.unavailable_api_call
+        req.put = req.unavailable_api_call
+        req.get = req.unavailable_api_call
+        return req
+
+    def delete_stack(self, api_token, stack_id):
+        req = MistRequests(uri=self.uri + '/api/v1/stacks/' + stack_id,
+                           api_token=api_token)
+        req.post = req.unavailable_api_call
+        req.put = req.unavailable_api_call
+        req.get = req.unavailable_api_call
+        return req
+
+
+# unit-tests: delete stack
+# unit-tests: create stack
+
+# show stack
+# unit-tests: show stack
+
+# run workflow
+# unit-tests: run workflow
+
+# check scale_up
+
+# CODE REVIEW

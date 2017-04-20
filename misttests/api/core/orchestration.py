@@ -107,3 +107,14 @@ def test_show_template_wrong_id(pretty_print, mist_core, owner_api_token):
     response = mist_core.show_template(template_id='dummy', api_token=owner_api_token).get()
     assert_response_not_found(response)
     print "Success!!!"
+
+
+def test_list_stacks(pretty_print, mist_core, owner_api_token):
+    response = mist_core.list_stacks(api_token=owner_api_token).get()
+    assert_response_ok(response)
+    assert len(response.json()) == 0
+    print "Success!!!"
+
+############################################################################
+#                          Functional Testing                              #
+############################################################################
