@@ -20,13 +20,13 @@ Feature: Orchestration
     When I visit the Home page
     And I visit the Templates page
     Then "Simple Python Template" template should be present within 30 seconds
-    Then I visit the Home page
-    And I wait for the dashboard to load
-
+    When I visit the Home page
+    And I wait for the links in homepage to appear
+    And I expect for "addBtn" to be clickable within max 20 seconds
 
   @stack-add
-  Scenario: First add Digital Ocean and key and then create a stack from the template added above
-    Given "Digital Ocean" cloud has been added
+  Scenario: First add Docker and key and then create a stack from the template added above
+    Given "DOCKER_ORCHESTRATOR" cloud has been added
     When I visit the keys page
     And I click the button "+"
     Then I expect the "Key" add form to be visible within max 10 seconds
@@ -38,7 +38,7 @@ Feature: Orchestration
     And I click the button "Add" in "key" add form
     Then I expect the "key" edit form to be visible within max 15 seconds
     And I visit the Home page
-    And I wait for the dashboard to load
+    And I wait for the links in homepage to appear
     When I visit the Keys page
     Then "TestKey2" key should be present within 15 seconds
     When I visit the Templates page
@@ -50,16 +50,10 @@ Feature: Orchestration
     When I set the value "Test Stack" to field "Stack Name" in "stack" add form
     And I open the "cloud" drop down
     And I wait for 1 seconds
-    And I click the button "Digital Ocean" in the "cloud" dropdown
-    And I open the "mist location" drop down
-    And I wait for 1 seconds
-    And I click the button "Amsterdam 2" in the "mist location" dropdown
-    And I open the "mist size" drop down
-    And I wait for 1 seconds
-    And I click the button "1gb" in the "mist size" dropdown
+    And I click the button "Docker_Orchestrator" in the "cloud" dropdown
     And I open the "mist image" drop down
     And I wait for 1 seconds
-    And I click the button "Ubuntu 16.04.1 x64" in the "mist image" dropdown
+    And I click the button "Ubuntu 14.04" in the "mist image" dropdown
     And I open the "mist key" drop down
     And I wait for 1 seconds
     And I click the button "TestKey2" in the "mist key" dropdown
@@ -67,10 +61,9 @@ Feature: Orchestration
     And I click the button "Create Stack" in "stack" add form
     Then I expect the "stack" edit form to be visible within max 30 seconds
     When I visit the Home page
-    When I wait for the dashboard to load
+    When I wait for the links in homepage to appear
     When I visit the Stacks page
     Then "Test Stack" stack should be present within 30 seconds
-
 
   @template-search
   Scenario: Filter a template

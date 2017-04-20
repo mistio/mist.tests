@@ -5,18 +5,50 @@ from time import sleep
 
 from .utils import safe_get_element_text
 
-from .list import get_list
+import logging
+
+# log = logging.getLogger(__name__)
+#
+# logging.basicConfig(level=logging.INFO)
 
 
-@step(u'there should be ticked Images in the list')
-def ticked_images_loaded(context):
-    images = get_list(context, 'image')
-    for image in images:
-        if image.find_element_by_css_selector('iron-icon[icon="check"]').\
-                is_displayed():
-            break
-    else:
-        raise Exception('No ticked images available')
+def find_starred_images(images_list):
+    starred_images = []
+    for image in images_list:
+        try:
+            starred_image = image.find_element_by_class_name('star')
+            starred_images.append(starred_image)
+        except:
+            pass
+    return starred_images
+
+
+def find_image(image, images_list):
+    for check_image in images_list:
+        if image in safe_get_element_text(check_image):
+            return check_image.find_element_by_tag_name('list-item')
+
+
+@step(u'the "{image}" image should be "{state}" within {seconds} seconds')
+def assert_starred_unstarred_image(context,image,state,seconds):
+    state = state.lower()
+    if state not in ['starred', 'unstarred']:
+        raise Exception('Unknown type of state')
+    images = context.browser.find_element_by_tag_name('item-list').find_element_by_tag_name('iron-list')
+    images_list = images.find_element_by_id("items").find_elements_by_class_name("row")
+    end_time = time() + int(seconds)
+    image_to_check_state= find_image(image, images_list)
+    sleep(1)
+    while time() < end_time:
+        starred_images = find_starred_images(images_list)
+        if state == 'starred':
+            if image_to_check_state in starred_images:
+                return
+        elif state == 'unstarred':
+            if image_to_check_state not in starred_images:
+                return
+    assert False, 'Image %s is not %s in the list after %s seconds' \
+                  % (image, state, seconds)
 
 
 @step(u'an image that contains "{text}" should be starred')
@@ -33,8 +65,8 @@ def assert_starred_image(context, text):
 
 @step(u'I star an image that contains "{text}"')
 def star_image(context, text):
-    images_list = context.browser.find_element_by_id("image-list")
-    images = images_list.find_elements_by_class_name("staroff")
+    images_list = context.browser.find_element_by_id("items")
+    images = images_list.find_elements_by_class_name("row")
     for image in images:
         if text in safe_get_element_text(image):
             star_button = image.find_element_by_class_name("ui-checkbox")
@@ -42,35 +74,6 @@ def star_image(context, text):
             image = image.find_element_by_tag_name('h3')
             context.mist_config['the_image_name_i_starred'] = safe_get_element_text(image)
             return
-
-
-@step(u'I clear the images search bar')
-def clear_image_search_bar(context):
-    search_bar = context.browser.find_element_by_id("search-term-input")
-    for i in range(20):
-        search_bar.send_keys(u'\ue003')
-
-
-@step(u'I unstar the image that contains "{text}"')
-def unstar_image(context, text):
-    images_list = context.browser.find_element_by_id("image-list")
-    images = images_list.find_elements_by_tag_name("li")
-    if context.mist_config.get(text):
-        text = context.mist_config[text]
-    for image in images:
-        if text in safe_get_element_text(image):
-            star_button = image.find_element_by_class_name("ui-checkbox")
-            star_button.click()
-            return
-
-
-@step(u'there should be {num} unstarred images')
-def unstar_image(context, num):
-    images_list = context.browser.find_element_by_id("image-list")
-    unstarred_images = images_list.find_element_by_class_name('staroff')
-    assert len(unstarred_images) == int(num), "There are %s and not %s " \
-                                              "unstarred images" % \
-                                              (len(unstarred_images), int(num))
 
 
 def scroll_down_and_wait(context, wait_for_unstarred_images=False, wait=5):
@@ -92,7 +95,6 @@ def scroll_down_and_wait(context, wait_for_unstarred_images=False, wait=5):
             return True
 
     return False
-
 
 @step(u'I scroll down until all starred images appear')
 def get_all_starred_images(context):

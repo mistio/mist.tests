@@ -295,6 +295,7 @@ def check_machine_deletion(context, name, provider, seconds):
             if name not in machines_names_list:
                 break
 
+
 @step(u'I search for the machine "{name}"')
 def search_for_mayday_machine(context, name):
     if context.mist_config.get(name):
@@ -303,3 +304,28 @@ def search_for_mayday_machine(context, name):
     for letter in name:
         search_bar.send_keys(letter)
     sleep(2)
+
+
+@step(u'"{key}" key should be associated with the machine "{machine}"')
+def check_for_associated_key(context, key, machine):
+    associated_key_class = context.browser.find_element_by_class_name('associatedKeys')
+    associated_key = associated_key_class.find_element_by_class_name('machine-key')
+    if safe_get_element_text(associated_key) == key:
+        return
+    assert False, "Wrong key has been associated with the machine!"
+
+
+@step(u'I delete the associated key')
+def disassociate_key(context):
+    associated_key_class = context.browser.find_element_by_class_name('associatedKeys')
+    associated_key = associated_key_class.find_element_by_class_name('machine-key')
+    delete_btn = associated_key.find_element_by_class_name('delete')
+    clicketi_click(context, delete_btn)
+
+
+@step(u'there should be {keys} keys associated with the machine')
+def keys_associated_with_machine(context, keys):
+    associated_keys = context.browser.find_element_by_class_name('associatedKeys')
+    associated_keys_class = associated_keys.find_element_by_class_name('machine-key')
+    associated_keys_with_machine = associated_keys_class.find_elements_by_tag_name('a')
+    assert len(associated_keys_with_machine) == int(keys), "There are %s keys associaed with the machine" % len(associated_keys_with_machine)

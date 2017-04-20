@@ -43,7 +43,7 @@ Feature: Rbac
   Scenario: Add member1
     When I visit the Home page
     When I refresh the page
-    And I wait for the dashboard to load
+    And I wait for the links in homepage to appear
     And I visit the Teams page
     When I click the "Test team" "team"
     And I expect the "team" edit form to be visible within max 8 seconds
@@ -60,7 +60,7 @@ Feature: Rbac
     Then I enter my rbac_member1 credentials for login
     And I click the sign in button in the landing page popup
     Given that I am redirected within 5 seconds
-    When I wait for the dashboard to load
+    And I wait for the links in homepage to appear
     Then I ensure that I am in the "ORG_NAME" organization context
     When I visit the Teams page
     Then "Test Team" team should be present within 5 seconds
@@ -85,7 +85,7 @@ Feature: Rbac
     And I follow the link inside the email
     Then I enter my rbac_member2 credentials for signup_password_set
     And I click the go button in the landing page popup
-    When I wait for the dashboard to load
+    And I wait for the links in homepage to appear
     Then I ensure that I am in the "ORG_NAME" organization context
     When I visit the Teams page
     And "Test Team" team should be present within 5 seconds
@@ -126,16 +126,12 @@ Feature: Rbac
    @verify-delete-member
     Scenario: Member2 has been removed from org
     Given I am logged in to mist.core as rbac_member2
-    And I am in the new UI
-    When I wait for the dashboard to load
     Then I should see the form to set name for new organization
     Then I logout
 
   @delete-team
   Scenario: Owner deletes a team
     Given I am logged in to mist.core as rbac_owner
-    And I am in the new UI
-    When I wait for the dashboard to load
     When I visit the Teams page
     When I click the "Rbac Test Team" "team"
     And I expect the "team" edit form to be visible within max 5 seconds
