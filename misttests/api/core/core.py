@@ -282,9 +282,13 @@ class MistCoreApi(MistIoApi):
         req.delete = req.unavailable_api_call
         return req
 
-    def create_stack(self, api_token):
+    def create_stack(self, api_token, name, template_id):
+        payload = {
+            'name': name,
+            'template_id': template_id
+        }
         req = MistRequests(uri=self.uri + '/api/v1/stacks',
-                           api_token=api_token)
+                           data=payload, api_token=api_token)
         req.delete = req.unavailable_api_call
         req.put = req.unavailable_api_call
         req.get = req.unavailable_api_call

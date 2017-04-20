@@ -115,7 +115,19 @@ def test_list_stacks(pretty_print, mist_core, owner_api_token):
     assert len(response.json()) == 0
     print "Success!!!"
 
-# unit-tests: create stack
+# GETS 500
+# def test_create_stack(pretty_print, mist_core, owner_api_token):
+#     response = mist_core.create_stack(api_token=owner_api_token, name='test',
+#                                       template_id='dummy').post()
+#     assert_response_not_found(response)
+#     print "Success!!!"
+
+
+def test_create_stack_no_api_token(pretty_print, mist_core, owner_api_token):
+    response = mist_core.create_stack(api_token='', name='test',
+                                      template_id='dummy').post()
+    assert_response_forbidden(response)
+    print "Success!!!"
 
 
 def test_delete_stack_wrong_id(pretty_print, mist_core, owner_api_token):
