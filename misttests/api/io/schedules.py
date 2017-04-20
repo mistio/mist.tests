@@ -31,14 +31,16 @@ def test_list_schedules_wrong_api_token(pretty_print, mist_core):
 
 def test_add_schedule_no_api_token(pretty_print, mist_core):
     response = mist_core.add_schedule(api_token='', name='dummy',
-                                      schedule_type='one=off').post()
+                                      schedule_type='one=off',
+                                      conditions=[]).post()
     assert_response_forbidden(response)
     print "Success!!!"
 
 
 def test_add_schedule_wrong_api_token(pretty_print, mist_core):
     response = mist_core.add_schedule(api_token='dummy', name='dummy',
-                                      schedule_type='one=off').post()
+                                      schedule_type='one=off',
+                                      conditions=[]).post()
     assert_response_unauthorized(response)
     print "Success!!!"
 
@@ -289,10 +291,15 @@ class TestSchedulesFunctionality:
     def test_add_disabled_schedule(self, pretty_print, mist_core, owner_api_token, cache):
         machines_uuids = []
         machines_uuids.append(cache.get('machine_id', ''))
-        response = mist_core.add_schedule(api_token=owner_api_token, name='DisabledSchedule',
-                                          action='stop', schedule_type='interval', task_enabled=False,
-                                          machines_uuids=machines_uuids, run_immediately=True,
-                                          schedule_entry={'every': 2, 'period': 'minutes'}).post()
+        response = mist_core.add_schedule(api_token=owner_api_token,
+                                          name='DisabledSchedule',
+                                          action='stop',
+                                          schedule_type='interval',
+                                          task_enabled=False,
+                                          run_immediately=True,
+                                          schedule_entry=
+                                          {'every': 2, 'period': 'minutes'}
+                                          ).post()
         assert_response_ok(response)
         cache.set('disabled_schedule_id', response.json()['id'])
         print "Success"
