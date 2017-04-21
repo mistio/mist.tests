@@ -321,5 +321,4 @@ class MistCoreApi(MistIoApi):
         req.delete = req.unavailable_api_call
         return req
 
-# check scale_up
 # CODE REVIEW
