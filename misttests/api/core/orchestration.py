@@ -194,3 +194,13 @@ def test_run_workflow_no_api_token(pretty_print, mist_core):
 ############################################################################
 #                          Functional Testing                              #
 ############################################################################
+
+@pytest.mark.incremental
+class TestOrchestrationFunctionality:
+
+    def test_add_template(self, pretty_print, mist_core, owner_api_token):
+        response = mist_core.add_template(api_token=owner_api_token, name='Template1', location_type='github',
+                                          template_github='https://github.com/mistio/kubernetes-blueprint', entrypoint="blueprint.yaml").post()
+        assert_response_ok(response)
+        # assert len(response.json()) == 1
+        print "Success!!!"

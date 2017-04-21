@@ -238,7 +238,7 @@ class MistCoreApi(MistIoApi):
         }
         payload.update(kwargs)
         req = MistRequests(uri=self.uri + '/api/v1/templates',
-                           data=payload, api_token=api_token)
+                           data=json.dumps(payload), api_token=api_token)
         req.get = req.unavailable_api_call
         req.put = req.unavailable_api_call
         req.delete = req.unavailable_api_call
@@ -315,7 +315,7 @@ class MistCoreApi(MistIoApi):
             'workflow': workflow
         }
         req = MistRequests(uri=self.uri + '/api/v1/stacks/' + stack_id,
-                           data=payload, api_token=api_token)
+                           data=json.dumps(payload), api_token=api_token)
         req.get = req.unavailable_api_call
         req.put = req.unavailable_api_call
         req.delete = req.unavailable_api_call
