@@ -459,7 +459,7 @@ class MistIoApi(object):
 
     def add_schedule(self, api_token, name, schedule_type,
                      conditions, schedule_entry='',
-                     description='',task_enabled=True, expires='',
+                     description='', task_enabled=True, expires='',
                      script_id='', action='',
                      max_run_count='', run_immediately=False):
         data = {
