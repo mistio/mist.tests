@@ -232,12 +232,23 @@ class TestOrchestrationFunctionality:
         assert len(response.json()) == 2, "Although template has been added, it is not visible in list_templates"
         print "Success!!!"
 
-    def add_template_conflict(self, pretty_print, mist_core, owner_api_token):
+    def test_add_template_conflict(self, pretty_print, mist_core, owner_api_token):
         response = mist_core.add_template(api_token=owner_api_token, name='Template1', location_type='github',
                                           template_github='https://github.com/mistio/kubernetes-blueprint',
                                           entrypoint="blueprint.yaml").post()
         assert_response_conflict(response)
         print "Success!!!"
+
+    def edit_template_ok(self, pretty_print, mist_core, owner_api_token):
+        response = mist_core.edit_template(api_token=owner_api_token,
+                                           template_id=cache.get('template_id', ''),
+                                           name='EditedTemplate')
+        assert_response_ok(response)
+        response = mist_core.list_templates(api_token=owner_api_token).get()
+        assert_response_ok(response)
+        # check that Renamed Template is here....
+
+    
 
 # add template
 # edit template
@@ -245,3 +256,7 @@ class TestOrchestrationFunctionality:
 # show template
 
 # CODE REVIEWS
+
+# create_stack
+# scale_up
+# scale_down
