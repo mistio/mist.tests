@@ -224,8 +224,8 @@ class TestOrchestrationFunctionality:
         response = mist_core.list_templates(api_token=owner_api_token).get()
         assert len(response.json()) == 1, "Although template has been added, it is not visible in list_templates"
         response = mist_core.add_template(api_token=owner_api_token, name='Template2', location_type='url',
-                                          template_url='https://github.com/mistio/kubernetes-blueprint',
-                                          entrypoint="blueprint.yaml").post()
+                                          template_url='https://github.com',
+                                          entrypoint="/mistio/kubernetes-blueprint/blueprint.yaml").post()
         assert_response_ok(response)
         response = mist_core.list_templates(api_token=owner_api_token).get()
         assert len(response.json()) == 2, "Although template has been added, it is not visible in list_templates"
