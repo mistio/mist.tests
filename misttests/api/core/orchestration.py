@@ -247,10 +247,16 @@ class TestOrchestrationFunctionality:
         response = mist_core.list_templates(api_token=owner_api_token).get()
         assert_response_ok(response)
         # check that Renamed Template is here....
+        print "Success!!!"
 
     def delete_template_ok(self, pretty_print, mist_core, owner_api_token, cache):
         response = mist_core.delete_template(api_token=owner_api_token,
                                              template_id=cache.get('template_id', ''))
+        assert_response_ok(response)
+        response = mist_core.delete_template(api_token=owner_api_token,
+                                             template_id=cache.get('template_id', ''))
+        assert_response_not_found(response)
+        print "Success!!!"
 
 # add template
 # edit template
