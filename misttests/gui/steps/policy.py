@@ -94,6 +94,20 @@ def add_new_rule_always(context, operator, rtype, raction):
     add_new_rule(context, operator, rtype, raction)
 
 
+@step(u'I remove the rule with index "{index}"')
+def delete_rule(context, index):
+    rules = context.browser.find_elements_by_tag_name('rule-item')
+    for rule in rules:
+        index_class = rule.find_element_by_class_name('index')
+        rule_index = safe_get_element_text(index_class)
+        rule_index = rule_index.replace('.','')
+        if rule_index == index:
+            delete_btn = rule.find_element_by_class_name('delete')
+            clicketi_click(context, delete_btn)
+            return
+    assert False, "There is no rule with index %s" % index
+
+
 def check_rule_exists(context, rule_number, operator, rtype, raction, rid, rtags):
     rule_number = int(rule_number)
     operator = operator.lower()

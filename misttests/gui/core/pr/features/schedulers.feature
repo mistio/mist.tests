@@ -3,11 +3,11 @@ Feature: Schedulers
 
   @scheduler-add-interval
   Scenario: Add schedule
+    Given cloud Docker has been added via API request
+    And Docker machine "test-machine-random" has been added via API request
     Given I am logged in to mist.core
-    Then I expect for "addBtn" to be clickable within max 20 seconds
-    And "Docker" cloud has been added
     When I visit the Machines page
-    Then "machine1-ui-testing" machine state has to be "running" within 10 seconds
+    Then "test-machine-random" machine state has to be "running" within 10 seconds
     When I visit the Schedules page
     And I click the button "+"
     Then I expect the "schedule" add form to be visible within max 10 seconds
@@ -17,15 +17,13 @@ Feature: Schedulers
     And I click the button "stop" in the "Task" dropdown
     And I wait for 1 seconds
     And I select "Specific Machines" from "ids_or_tags" radio-group
-    And I wait for 1 seconds
-    And I select the "machine1-ui-testing" checkbox
+    And I wait for 2 seconds
+    And I select the "test-machine-random" checkbox
     And I select "Repeat" from "schedule_type" radio-group
     And I set the value "1" to field "interval" in "schedule" add form
     And I click the button "Add" in "schedule" add form
-    And I wait for 1 seconds
-    When I visit the Home page
-    And I wait for 2 seconds
-    And I visit the Schedules page
+    Then I wait for 2 seconds
+    When I visit the Schedules page
     Then "TestScheduler" schedule should be present within 3 seconds
 
   @scheduler-rename
@@ -37,7 +35,6 @@ Feature: Schedulers
     When I set the value "RenamedSchedule" to field "Name" in "Edit Schedule" dialog
     And I click the "Save" button in the dialog "Edit Schedule"
     And I expect the dialog "Edit Schedule" is closed within 4 seconds
-    Then I visit the Home page
     And I wait for 2 seconds
     When I visit the Schedules page
     Then "TestScheduler" schedule should be absent within 5 seconds
@@ -46,7 +43,7 @@ Feature: Schedulers
   @check-machines-state
   Scenario: Check machine's state
     When I visit the Machines page
-    Then "machine1-ui-testing" machine state has to be "stopped" within 75 seconds
+    Then "test-machine-random" machine state has to be "stopped" within 90 seconds
 
   @schedule-delete
   Scenario: Delete schedule
@@ -56,9 +53,8 @@ Feature: Schedulers
     And I expect the dialog "Delete Schedule" is open within 4 seconds
     And I click the "Delete" button in the dialog "Delete Schedule"
     Then I expect the dialog "Delete Schedule" is closed within 4 seconds
-    When I visit the Home page
     And I wait for 2 seconds
-    And I visit the Schedules page
+    When I visit the Schedules page
     Then "RenamedSchedule" schedule should be absent within 5 seconds
 
   @scheduler-add-run-immediately
@@ -72,7 +68,7 @@ Feature: Schedulers
     And I wait for 1 seconds
     And I select "Specific Machines" from "ids_or_tags" radio-group
     And I wait for 1 seconds
-    And I select the "machine1-ui-testing" checkbox
+    And I select the "test-machine-random" checkbox
     And I select "Repeat" from "schedule_type" radio-group
     #When I set the value "2" to field "Maximum Run Count" in "schedule" add form
     And I set the value "1" to field "interval" in "schedule" add form
@@ -89,4 +85,4 @@ Feature: Schedulers
   @check-machines-state
   Scenario: Check machine's state
     When I visit the Machines page
-    Then "machine1-ui-testing" machine state has to be "running" within 20 seconds
+    Then "test-machine-random" machine state has to be "running" within 30 seconds
