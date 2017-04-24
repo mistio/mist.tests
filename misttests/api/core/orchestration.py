@@ -307,7 +307,11 @@ class TestOrchestrationFunctionality:
         response = mist_core.delete_stack(api_token=owner_api_token,
                                           stack_id=cache.get('stack_id',''))
         assert_response_ok(response)
-        print "Success"
+        response = mist_core.list_stacks(api_token=owner_api_token).get()
+        assert_response_ok(response)
+        assert len(response.json()) == 0, "Although stack has been deleted, it is still" \
+                                          "visible in list_stacks"
+        print "Success!!!"
 
 # check UI
 # CODE REVIEWS
