@@ -293,7 +293,8 @@ class TestOrchestrationFunctionality:
 
     def test_create_stack(self, pretty_print, mist_core, owner_api_token, cache):
         response = mist_core.create_stack(api_token=owner_api_token, name='TestStack',
-                                          template_id=cache.get('template_to_use_id', '')).post()
+                                          template_id=cache.get('template_to_use_id', ''),
+                                          cloud_id=cache.get('cloud_id',''), machine_name='Spiros-test').post()
         assert_response_ok(response)
         print "Success!!!"
 

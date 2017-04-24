@@ -286,7 +286,7 @@ class MistCoreApi(MistIoApi):
     #  u'mist_location': u'ams2'}
 
     def create_stack(self, api_token, name, template_id,
-                     cloud_id, machine_name):
+                     cloud_id='', machine_name=''):
         payload = {
             'name': name,
             'template_id': template_id,
@@ -302,7 +302,7 @@ class MistCoreApi(MistIoApi):
             }
         }
         req = MistRequests(uri=self.uri + '/api/v1/stacks',
-                           data=payload, api_token=api_token)
+                           data=json.dumps(payload), api_token=api_token)
         req.delete = req.unavailable_api_call
         req.put = req.unavailable_api_call
         req.get = req.unavailable_api_call
