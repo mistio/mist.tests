@@ -291,8 +291,11 @@ class TestOrchestrationFunctionality:
         assert_response_ok(response)
         print "Success!!!"
 
+    def test_create_stack(self, pretty_print, mist_core, owner_api_token):
+        response = mist_core.create_stack
 
-# create_stack
+
+
 # scale_up
 # scale_down
 # other options
