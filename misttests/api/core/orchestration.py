@@ -198,6 +198,13 @@ def test_run_workflow_no_api_token(pretty_print, mist_core):
 @pytest.mark.incremental
 class TestOrchestrationFunctionality:
 
+    def test_add_docker_orchestrator(self, pretty_print, mist_core, owner_api_token):
+        response = mist_core.add_cloud(title='Docker', provider='docker', api_token=owner_api_token,
+                                       docker_host=config.CREDENTIALS['DOCKER_ORCHESTRATOR']['host'],
+                                       docker_port=config.CREDENTIALS['DOCKER_ORCHESTRATOR']['port']).post()
+        asser_response_ok(response)
+        print "Success!!!"
+
     def test_add_template_missing_parameter(self, pretty_print, mist_core, owner_api_token):
         response = mist_core.add_template(api_token=owner_api_token, name='Template1', location_type='github',
                                           template_github='https://github.com/mistio/kubernetes-blueprint').post()
