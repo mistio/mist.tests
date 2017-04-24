@@ -246,14 +246,14 @@ class TestOrchestrationFunctionality:
         assert_response_bad_request(response)
         print "Success!!!"
 
-    def edit_template_ok(self, pretty_print, mist_core, owner_api_token):
+    def test_edit_template_ok(self, pretty_print, mist_core, owner_api_token, cache):
         response = mist_core.edit_template(api_token=owner_api_token,
                                            template_id=cache.get('template_id', ''),
-                                           name='EditedTemplate')
+                                           name='EditedTemplate').put()
         assert_response_ok(response)
         response = mist_core.list_templates(api_token=owner_api_token).get()
         assert_response_ok(response)
-        # check that Renamed Template is here....
+        assert 'EditedTemplate' in response.json()[0]['name'], 'Template has not been renamed!'
         print "Success!!!"
 
     #
