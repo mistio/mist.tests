@@ -202,7 +202,7 @@ class TestOrchestrationFunctionality:
         response = mist_core.add_cloud(title='Docker', provider='docker', api_token=owner_api_token,
                                        docker_host=config.CREDENTIALS['DOCKER_ORCHESTRATOR']['host'],
                                        docker_port=config.CREDENTIALS['DOCKER_ORCHESTRATOR']['port']).post()
-        asser_response_ok(response)
+        assert_response_ok(response)
         print "Success!!!"
 
     def test_add_template_missing_parameter(self, pretty_print, mist_core, owner_api_token):
