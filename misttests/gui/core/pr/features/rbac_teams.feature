@@ -1,7 +1,6 @@
 @rbac-teams
 Feature: Rbac
 
-
   @create-org
   Scenario: Owner creates a new organization
     Given rbac members are initialized
@@ -143,7 +142,6 @@ Feature: Rbac
     And I wait for 2 seconds
     And I visit the Teams page
     And "Rbac Test Team" team should be absent within 10 seconds
-    Then I logout
 
 #  @tag-team
 #  Scenario: Owner tags a team

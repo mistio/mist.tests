@@ -36,6 +36,8 @@ flake8:
     - flake8 misttests/api/core/api_token.py
     - flake8 misttests/gui/steps/browser.py
     - flake8 misttests/gui/steps/dialog.py
+    - flake8 misttests/gui/steps/modals.py
     - flake8 misttests/gui/steps/org_context.py
     - flake8 misttests/gui/steps/search.py
     - flake8 misttests/gui/steps/setup.py
+    - flake8 misttests/gui/steps/team.py
