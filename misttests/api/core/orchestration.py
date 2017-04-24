@@ -224,42 +224,44 @@ class TestOrchestrationFunctionality:
         assert_response_ok(response)
         response = mist_core.list_templates(api_token=owner_api_token).get()
         assert len(response.json()) == 1, "Although template has been added, it is not visible in list_templates"
-        response = mist_core.add_template(api_token=owner_api_token, name='Template2', location_type='url',
-                                          template_url='https://github.com',
-                                          entrypoint="/mistio/kubernetes-blueprint/blueprint.yaml").post()
-        assert_response_ok(response)
-        response = mist_core.list_templates(api_token=owner_api_token).get()
-        assert len(response.json()) == 2, "Although template has been added, it is not visible in list_templates"
+        # response = mist_core.add_template(api_token=owner_api_token, name='Template2', location_type='url',
+        #                                   template_url='https://github.com',
+        #                                   entrypoint="/mistio/kubernetes-blueprint/blueprint.yaml").post()
+        # assert_response_ok(response)
+        # response = mist_core.list_templates(api_token=owner_api_token).get()
+        # assert len(response.json()) == 2, "Although template has been added, it is not visible in list_templates"
         print "Success!!!"
 
-    def test_add_template_conflict(self, pretty_print, mist_core, owner_api_token):
-        response = mist_core.add_template(api_token=owner_api_token, name='Template1', location_type='github',
-                                          template_github='https://github.com/mistio/kubernetes-blueprint',
-                                          entrypoint="blueprint.yaml").post()
-        assert_response_conflict(response)
-        print "Success!!!"
+    # def test_add_template_conflict(self, pretty_print, mist_core, owner_api_token):
+    #     response = mist_core.add_template(api_token=owner_api_token, name='Template1', location_type='github',
+    #                                       template_github='https://github.com/mistio/kubernetes-blueprint',
+    #                                       entrypoint="blueprint.yaml").post()
+    #     assert_response_conflict(response)
+    #     print "Success!!!"
 
-    def edit_template_ok(self, pretty_print, mist_core, owner_api_token):
-        response = mist_core.edit_template(api_token=owner_api_token,
-                                           template_id=cache.get('template_id', ''),
-                                           name='EditedTemplate')
-        assert_response_ok(response)
-        response = mist_core.list_templates(api_token=owner_api_token).get()
-        assert_response_ok(response)
-        # check that Renamed Template is here....
-        print "Success!!!"
+        # edit template
 
-    def delete_template_ok(self, pretty_print, mist_core, owner_api_token, cache):
-        response = mist_core.delete_template(api_token=owner_api_token,
-                                             template_id=cache.get('template_id', ''))
-        assert_response_ok(response)
-        response = mist_core.delete_template(api_token=owner_api_token,
-                                             template_id=cache.get('template_id', ''))
-        assert_response_not_found(response)
-        print "Success!!!"
 
-# add template
-# edit template
+        # def edit_template_ok(self, pretty_print, mist_core, owner_api_token):
+    #     response = mist_core.edit_template(api_token=owner_api_token,
+    #                                        template_id=cache.get('template_id', ''),
+    #                                        name='EditedTemplate')
+    #     assert_response_ok(response)
+    #     response = mist_core.list_templates(api_token=owner_api_token).get()
+    #     assert_response_ok(response)
+    #     # check that Renamed Template is here....
+    #     print "Success!!!"
+    #
+    # def delete_template_ok(self, pretty_print, mist_core, owner_api_token, cache):
+    #     response = mist_core.delete_template(api_token=owner_api_token,
+    #                                          template_id=cache.get('template_id', ''))
+    #     assert_response_ok(response)
+    #     response = mist_core.delete_template(api_token=owner_api_token,
+    #                                          template_id=cache.get('template_id', ''))
+    #     assert_response_not_found(response)
+    #     print "Success!!!"
+
+
 # delete template
 # show template
 
@@ -268,3 +270,9 @@ class TestOrchestrationFunctionality:
 # create_stack
 # scale_up
 # scale_down
+# heal
+
+
+# how to add template wih location_type=url
+# should return conflict when adding a template with same name
+
