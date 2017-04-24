@@ -296,15 +296,20 @@ class TestOrchestrationFunctionality:
                                           template_id=cache.get('template_to_use_id', ''),
                                           cloud_id=cache.get('cloud_id',''), machine_name='Spiros-test').post()
         assert_response_ok(response)
+        response = mist_core.list_stacks(api_token=owner_api_token).get()
+        assert_response_ok(response)
+        assert len(response.json()) == 1, "Although stack has been added, it is not" \
+                                          "visible in list_stacks"
         print "Success!!!"
 
 
 # scale_up
 # scale_down
 # other options
-
 # check UI
 # CODE REVIEWS
+
+
 
 # how to add template wih location_type=url
 # should return conflict when adding a template with same name
