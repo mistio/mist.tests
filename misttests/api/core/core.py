@@ -282,13 +282,11 @@ class MistCoreApi(MistIoApi):
         req.delete = req.unavailable_api_call
         return req
 
-    {u'mist_image': 18835303, u'mist_size': u'512mb', u'webserver_port': 8000,
-     u'mist_location': u'ams2', u'machine_name': u'yolomachine',
-     u'mist_key': u'9e2e2a1fd55748e980c3bc0cfdb2ccc4',
-     u'mist_cloud': u'14dafd04bad04eae99642661ef61c608'}
+    # {u'mist_size': u'512mb',
+    #  u'mist_location': u'ams2'}
 
-    def create_stack(self, api_token, name, template_id, cloud_id,
-                     machine_name):
+    def create_stack(self, api_token, name, template_id,
+                     cloud_id, machine_name):
         payload = {
             'name': name,
             'template_id': template_id,
@@ -297,7 +295,10 @@ class MistCoreApi(MistIoApi):
             'inputs': {
                 'mist_uri': 'https://mist.io',
                 'mist_cloud': cloud_id,
-
+                'webserver_port': 8000,
+                'machine_name': machine_name,
+                'mist_image': 'mist/ubuntu-14.04',
+                'mist_size': 'default'
             }
         }
         req = MistRequests(uri=self.uri + '/api/v1/stacks',
@@ -333,5 +334,3 @@ class MistCoreApi(MistIoApi):
         req.put = req.unavailable_api_call
         req.delete = req.unavailable_api_call
         return req
-
-# CODE REVIEW
