@@ -296,20 +296,25 @@ class TestOrchestrationFunctionality:
                                           template_id=cache.get('template_to_use_id', ''),
                                           cloud_id=cache.get('cloud_id',''), machine_name='Spiros-test').post()
         assert_response_ok(response)
+        cache.set('stack_id', response.json()['id'])
         response = mist_core.list_stacks(api_token=owner_api_token).get()
         assert_response_ok(response)
         assert len(response.json()) == 1, "Although stack has been added, it is not" \
                                           "visible in list_stacks"
         print "Success!!!"
 
+    def test_delete_stack(self, pretty_print, mist_core, owner_api_token, cache):
+        response = mist_core.delete_stack(api_token=owner_api_token,
+                                          stack_id=cache.get('stack_id',''))
+        assert_response_ok(response)
+        print "Success"
+
+# check UI
+# CODE REVIEWS
 
 # scale_up
 # scale_down
 # other options
-# check UI
-# CODE REVIEWS
-
-
 
 # how to add template wih location_type=url
 # should return conflict when adding a template with same name
