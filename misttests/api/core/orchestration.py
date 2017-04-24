@@ -253,21 +253,21 @@ class TestOrchestrationFunctionality:
         assert_response_ok(response)
         response = mist_core.list_templates(api_token=owner_api_token).get()
         assert_response_ok(response)
-        assert 'EditedTemplate' in response.json()[0]['name'], 'Template has not been renamed!'
+        assert 'EditedTemplate' in response.json()[0]['name'], \
+            'Template has not been renamed although response was 200!'
         print "Success!!!"
 
-    #
-    # def delete_template_ok(self, pretty_print, mist_core, owner_api_token, cache):
-    #     response = mist_core.delete_template(api_token=owner_api_token,
-    #                                          template_id=cache.get('template_id', ''))
-    #     assert_response_ok(response)
-    #     response = mist_core.delete_template(api_token=owner_api_token,
-    #                                          template_id=cache.get('template_id', ''))
-    #     assert_response_not_found(response)
-    #     print "Success!!!"
+    def test_delete_template_ok(self, pretty_print, mist_core, owner_api_token, cache):
+        response = mist_core.delete_template(api_token=owner_api_token,
+                                             template_id=cache.get('template_id', '')).delete()
+        assert_response_ok(response)
+        response = mist_core.delete_template(api_token=owner_api_token,
+                                             template_id=cache.get('template_id', '')).delete()
+        assert_response_not_found(response)
+        response = mist_core.list_templates(api_token=owner_api_token).get()
+        assert len(response.json()) == 0, "Although template has been deleted, it is still visible in list_templates"
+        print "Success!!!"
 
-
-# delete template
 # show template
 
 # CODE REVIEWS
@@ -280,5 +280,3 @@ class TestOrchestrationFunctionality:
 
 # how to add template wih location_type=url
 # should return conflict when adding a template with same name
-#
-
