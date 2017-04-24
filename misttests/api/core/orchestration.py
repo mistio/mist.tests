@@ -118,21 +118,21 @@ def test_list_stacks(pretty_print, mist_core, owner_api_token):
 # GETS 500
 # def test_create_stack(pretty_print, mist_core, owner_api_token):
 #     response = mist_core.create_stack(api_token=owner_api_token, name='test',
-#                                       stack_id='dummy').post()
+#                                       template_id='dummy').post()
 #     assert_response_not_found(response)
 #     print "Success!!!"
 
 
 def test_create_stack_no_api_token(pretty_print, mist_core):
     response = mist_core.create_stack(api_token='', name='test',
-                                      stack_id='dummy').post()
+                                      template_id='dummy').post()
     assert_response_forbidden(response)
     print "Success!!!"
 
 
 def test_create_stack_wrong_api_token(pretty_print, mist_core, owner_api_token):
     response = mist_core.create_stack(api_token='00' + owner_api_token[:-2], name='test',
-                                      stack_id='dummy').post()
+                                      template_id='dummy').post()
     assert_response_unauthorized(response)
     print "Success!!!"
 
@@ -291,9 +291,11 @@ class TestOrchestrationFunctionality:
         assert_response_ok(response)
         print "Success!!!"
 
-    def test_create_stack(self, pretty_print, mist_core, owner_api_token):
-        response = mist_core.create_stack
-
+    def test_create_stack(self, pretty_print, mist_core, owner_api_token, cache):
+        response = mist_core.create_stack(api_token=owner_api_token, name='TestStack',
+                                          template_id=cache.get('template_to_use_id', '')).post()
+        assert_response_ok(response)
+        print "Success!!!"
 
 
 # scale_up
