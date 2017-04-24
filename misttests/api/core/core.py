@@ -286,7 +286,8 @@ class MistCoreApi(MistIoApi):
         payload = {
             'name': name,
             'template_id': template_id,
-            'workflow': 'install'
+            'workflow': 'install',
+            'deploy': True
         }
         req = MistRequests(uri=self.uri + '/api/v1/stacks',
                            data=payload, api_token=api_token)
