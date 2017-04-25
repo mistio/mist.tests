@@ -26,7 +26,7 @@ class TestLibcloudFunctionality:
                                        cert_file=config.CREDENTIALS['DOCKER']['cert']).post()
         assert_response_ok(response)
         cache.set('docker_cloud_id', response.json()['id'])
-        response = mist_core.list_machines(cloud_id=cache.get('cloud_id', ''), api_token=owner_api_token).get()
+        response = mist_core.list_machines(cloud_id=cache.get('docker_cloud_id', ''), api_token=owner_api_token).get()
         assert_response_ok(response)
         assert len(response.json()) > 0, "List Docker machines did not return any machines"
         print "Success!!!"
@@ -37,8 +37,7 @@ class TestLibcloudFunctionality:
                                        api_key=config.CREDENTIALS['LINODE']['api_key']).post()
         assert_response_ok(response)
         cache.set('linode_cloud_id', response.json()['id'])
-        response = mist_core.list_machines(cloud_id=cache.get('cloud_id', ''), api_token=owner_api_token).get()
-        print(response.json())
+        response = mist_core.list_machines(cloud_id=cache.get('linode_cloud_id', ''), api_token=owner_api_token).get()
         assert_response_ok(response)
         assert len(response.json()) >= 0, "List Linode machines did not return a proper result"
         print "Success!!!"
