@@ -4,11 +4,6 @@ from misttests import config
 import pytest
 
 ############################################################################
-#                             Unit Testing                                 #
-############################################################################
-
-
-############################################################################
 #                         Functional Testing                               #
 ############################################################################
 
@@ -46,12 +41,26 @@ class TestLibcloudFunctionality:
     def test_list_sizes_docker(self, pretty_print, mist_core, cache, owner_api_token):
         response = mist_core.list_sizes(cloud_id=cache.get('docker_cloud_id', ''), api_token=owner_api_token).get()
         assert_response_ok(response)
-        assert len(response.json()) > 0, "List Docker sizes did not return any machines"
+        assert len(response.json()) > 0, "List Docker sizes did not return any sizes"
         print "Success!!!"
 
 
     def test_list_sizes_linode(self, pretty_print, mist_core, cache, owner_api_token):
         response = mist_core.list_sizes(cloud_id=cache.get('linode_cloud_id', ''), api_token=owner_api_token).get()
         assert_response_ok(response)
-        assert len(response.json()) > 0, "List Docker sizes did not return any machines"
+        assert len(response.json()) > 0, "List Linode sizes did not return any sizes"
+        print "Success!!!"
+
+
+    def test_list_images_docker(self, pretty_print, mist_core, cache, owner_api_token):
+        response = mist_core.list_images(cloud_id=cache.get('docker_cloud_id', ''), api_token=owner_api_token).get()
+        assert_response_ok(response)
+        assert len(response.json()) > 0, "List Docker images did not return any images"
+        print "Success!!!"
+
+
+    def test_list_images_linode(self, pretty_print, mist_core, cache, owner_api_token):
+        response = mist_core.list_images(cloud_id=cache.get('linode_cloud_id', ''), api_token=owner_api_token).get()
+        assert_response_ok(response)
+        assert len(response.json()) > 0, "List Linode images did not return any images"
         print "Success!!!"
