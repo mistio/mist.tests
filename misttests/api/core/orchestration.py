@@ -314,8 +314,6 @@ class TestOrchestrationFunctionality:
         print "Success!!!"
 
 
-# scale_up/scale_down
-# docs
 # other options
 
 ##############################################################
