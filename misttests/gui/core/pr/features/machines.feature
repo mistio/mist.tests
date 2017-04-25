@@ -90,6 +90,12 @@ Feature: Machines
     Then dummy_file should be included in the output
     And I close the terminal
 
+  @machine-sshcopypaste
+  Scenario: Check shell copy and paste
+    When I click the button "Shell" from the menu of the "machine" edit form
+    And I expect terminal to open within 3 seconds
+    And I close the terminal
+
   @machine-stop
   Scenario: Stop machine created above and check state
     When I click the button "Stop" from the menu of the "machine" edit form
