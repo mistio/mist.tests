@@ -62,6 +62,19 @@ class TestLibcloudFunctionality:
         print "Success!!!"
 
 
+    def test_list_machines_gce(self, pretty_print, mist_core, cache, owner_api_token):
+        response = mist_core.add_cloud(title='GCE', provider= 'gce', api_token=owner_api_token,
+                                       email=config.CREDENTIALS['GCE']['email'],
+                                       project_id=config.CREDENTIALS['GCE']['project_id'],
+                                       private_key=config.CREDENTIALS['GCE']['private_key']).post()
+        assert_response_ok(response)
+        cache.set('gce_cloud_id', response.json()['id'])
+        response = mist_core.list_machines(cloud_id=cache.get('gce_cloud_id', ''), api_token=owner_api_token).get()
+        assert_response_ok(response)
+        assert len(response.json()) >= 0, "List GCE machines did not return a proper result"
+        print "Success!!!"
+
+
     def test_list_sizes_docker(self, pretty_print, mist_core, cache, owner_api_token):
         response = mist_core.list_sizes(cloud_id=cache.get('docker_cloud_id', ''), api_token=owner_api_token).get()
         assert_response_ok(response)
@@ -90,6 +103,13 @@ class TestLibcloudFunctionality:
         print "Success!!!"
 
 
+    def test_list_sizes_gce(self, pretty_print, mist_core, cache, owner_api_token):
+        response = mist_core.list_sizes(cloud_id=cache.get('gce_cloud_id', ''), api_token=owner_api_token).get()
+        assert_response_ok(response)
+        assert len(response.json()) > 0, "List GCE sizes did not return any sizes"
+        print "Success!!!"
+
+
     def test_list_images_docker(self, pretty_print, mist_core, cache, owner_api_token):
         response = mist_core.list_images(cloud_id=cache.get('docker_cloud_id', ''), api_token=owner_api_token).get()
         assert_response_ok(response)
@@ -115,4 +135,11 @@ class TestLibcloudFunctionality:
         response = mist_core.list_images(cloud_id=cache.get('digitalocean_cloud_id', ''), api_token=owner_api_token).get()
         assert_response_ok(response)
         assert len(response.json()) > 0, "List Digital Ocean images did not return any images"
+        print "Success!!!"
+
+
+    def test_list_images_gce(self, pretty_print, mist_core, cache, owner_api_token):
+        response = mist_core.list_images(cloud_id=cache.get('gce_cloud_id', ''), api_token=owner_api_token).get()
+        assert_response_ok(response)
+        assert len(response.json()) > 0, "List GCE images did not return any images"
         print "Success!!!"
