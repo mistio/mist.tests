@@ -103,5 +103,3 @@ run_api_tests_suite() {
 
 
 # No need for test_settings.py file
-
-# Run concurrently multiple UI tests
