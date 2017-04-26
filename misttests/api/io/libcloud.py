@@ -38,9 +38,10 @@ class TestLibcloudFunctionality:
         print "Success!!!"
 
     def test_list_machines_aws(self, pretty_print, mist_core, cache, owner_api_token):
-        response = mist_core.add_cloud(title='AWS', provider= 'aws', api_token=owner_api_token,
-                                       api_key=config.CREDENTIALS['LINODE']['api_key'],
-                                       api_secret=config.CREDENTIALS['AWS']['api_secret']).post()
+        response = mist_core.add_cloud(title='AWS', provider= 'Amazon', api_token=owner_api_token,
+                                       api_key=config.CREDENTIALS['AWS']['api_key'],
+                                       api_secret=config.CREDENTIALS['AWS']['api_secret'],
+                                       region=config.CREDENTIALS['AWS']['region']).post()
         assert_response_ok(response)
         cache.set('aws_cloud_id', response.json()['id'])
         response = mist_core.list_machines(cloud_id=cache.get('aws_cloud_id', ''), api_token=owner_api_token).get()
