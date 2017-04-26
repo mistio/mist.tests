@@ -246,13 +246,12 @@ class TestOrchestrationFunctionality:
     #     assert_response_conflict(response)
     #     print "Success!!!"
 
-# below isok
-    # def test_edit_template_missing_param(self, pretty_print, mist_core, owner_api_token, cache):
-    #     response = mist_core.edit_template(api_token=owner_api_token,
-    #                                        template_id=cache.get('template_id', ''),
-    #                                        name='').put()
-    #     assert_response_bad_request(response)
-    #     print "Success!!!"
+    def test_edit_template_missing_param(self, pretty_print, mist_core, owner_api_token, cache):
+        response = mist_core.edit_template(api_token=owner_api_token,
+                                           template_id=cache.get('template_id', ''),
+                                           name='').put()
+        assert_response_bad_request(response)
+        print "Success!!!"
 
     def test_edit_template_ok(self, pretty_print, mist_core, owner_api_token, cache):
         response = mist_core.edit_template(api_token=owner_api_token,
@@ -314,7 +313,6 @@ class TestOrchestrationFunctionality:
         print "Success!!!"
 
 
-# other options
 # fix 500s
 ##############################################################
 # should return conflict when adding a template with same name
