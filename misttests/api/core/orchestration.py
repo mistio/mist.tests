@@ -276,30 +276,30 @@ class TestOrchestrationFunctionality:
         assert_response_ok(response)
         print "Success!!!"
 
-    def test_create_stack(self, pretty_print, mist_core, owner_api_token, cache):
-        response = mist_core.create_stack(api_token=owner_api_token, name='TestStack',
-                                          template_id=cache.get('template_to_use_id', ''),
-                                          cloud_id='', machine_name='Spiros-test').post()
-        assert_response_ok(response)
-        cache.set('stack_id', response.json()['stack']['id'])
-        response = mist_core.list_stacks(api_token=owner_api_token).get()
-        assert_response_ok(response)
-        assert len(response.json()) == 1, "Although stack has been added, it is not" \
-                                          "visible in list_stacks"
-        print "Success!!!"
-
-    def test_show_stack(self, pretty_print, mist_core, owner_api_token, cache):
-        response = mist_core.show_stack(api_token=owner_api_token,
-                                        stack_id=cache.get('stack_id', '')).get()
-        assert_response_ok(response)
-        print "Success!!!"
-
-    def test_delete_stack(self, pretty_print, mist_core, owner_api_token, cache):
-        response = mist_core.delete_stack(api_token=owner_api_token,
-                                          stack_id=cache.get('stack_id','')).delete()
-        assert_response_ok(response)
-        response = mist_core.list_stacks(api_token=owner_api_token).get()
-        assert_response_ok(response)
-        assert len(response.json()) == 0, "Although stack has been deleted, it is still" \
-                                          "visible in list_stacks"
-        print "Success!!!"
+    # def test_create_stack(self, pretty_print, mist_core, owner_api_token, cache):
+    #     response = mist_core.create_stack(api_token=owner_api_token, name='TestStack',
+    #                                       template_id=cache.get('template_to_use_id', ''),
+    #                                       cloud_id='', machine_name='Spiros-test').post()
+    #     assert_response_ok(response)
+    #     cache.set('stack_id', response.json()['stack']['id'])
+    #     response = mist_core.list_stacks(api_token=owner_api_token).get()
+    #     assert_response_ok(response)
+    #     assert len(response.json()) == 1, "Although stack has been added, it is not" \
+    #                                       "visible in list_stacks"
+    #     print "Success!!!"
+    #
+    # def test_show_stack(self, pretty_print, mist_core, owner_api_token, cache):
+    #     response = mist_core.show_stack(api_token=owner_api_token,
+    #                                     stack_id=cache.get('stack_id', '')).get()
+    #     assert_response_ok(response)
+    #     print "Success!!!"
+    #
+    # def test_delete_stack(self, pretty_print, mist_core, owner_api_token, cache):
+    #     response = mist_core.delete_stack(api_token=owner_api_token,
+    #                                       stack_id=cache.get('stack_id','')).delete()
+    #     assert_response_ok(response)
+    #     response = mist_core.list_stacks(api_token=owner_api_token).get()
+    #     assert_response_ok(response)
+    #     assert len(response.json()) == 0, "Although stack has been deleted, it is still" \
+    #                                       "visible in list_stacks"
+    #     print "Success!!!"
