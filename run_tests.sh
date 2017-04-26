@@ -21,6 +21,9 @@ help_message() {
     exit
 }
 
+run_gui_tests_suite() {
+    behave_args=
+}
 
 run_api_tests_suite() {
     pytest_args=""
