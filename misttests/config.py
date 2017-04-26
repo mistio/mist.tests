@@ -63,23 +63,6 @@ def get_setting(setting, default_value=None, priority='config_file'):
     elif type(default_value) == bool:
         return True if setting in ["True", "true"] else False
 
-    # EMAIL = "spiros@mist.io"
-    # PASSWORD1 = "stzav123!@#"
-    # EMAIL = "fatboy.tester.mist.io+144974@gmail.com"
-    # PASSWORD1 = "Gmtxmregamoto!123456@"
-    # PASSWORD1 = "Stzav12!@"
-    # PASSWORD2 = "Gmtxmregamoto!123456!@"
-    # MEMBER1_PASSWORD = "Gmtxmregamoto!123456@"
-    # MEMBER2_PASSWORD = "Gmtxmregamoto!123456@"
-    # GMAIL_FATBOY_PASSWORD = "F@tb0ygmtxm!"
-    # OWNER_EMAIL = "owner@mist.io"
-    # OWNER_PASSWORD = "Gmtxmregamoto!123456@"
-    # GITHUB_TEST_EMAIL = "tester.mist.io@gmail.com"
-    # GITHUB_TEST_PASSWORD = "LiDa!2#4"
-    # GOOGLE_TEST_EMAIL = "tester.mist.io@gmail.com"
-    # GOOGLE_TEST_PASSWORD = "LiDa!2#4"
-
-
 LOCAL = get_setting("LOCAL", True)
 
 DEBUG = get_setting("DEBUG", False)
@@ -155,8 +138,8 @@ MIST_DEMO_REQUEST_EMAIL = get_setting("MIST_DEMO_REQUEST_EMAIL",
                                       "demo@mist.io")
 
 # CREDENTIALS FOR TESTING RBAC
-OWNER_EMAIL = get_setting("OWNER_EMAIL", "")
-OWNER_PASSWORD = get_setting("OWNER_PASSWORD", "")
+OWNER_EMAIL = get_setting("OWNER_EMAIL", "%s+%d@gmail.com" % (BASE_EMAIL, random.randint(1,200000)))
+OWNER_PASSWORD = get_setting("OWNER_PASSWORD", ''.join(random.choice(string.ascii_letters + string.digits) for _ in range(10)))
 
 MEMBER1_EMAIL = get_setting("MEMBER1_EMAIL", "")
 MEMBER1_PASSWORD = get_setting("MEMBER1_PASSWORD", PASSWORD1)
