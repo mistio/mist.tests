@@ -15,12 +15,12 @@ def test_list_templates(pretty_print, mist_core, owner_api_token):
     assert len(response.json()) == 0
     print "Success!!!"
 
-# GETS 500
-# def test_add_template_missing_parameter(pretty_print, mist_core, owner_api_token):
-#     response = mist_core.add_template(name='', location_type='github',
-#                                       api_token=owner_api_token).post()
-#     assert_response_bad_request(response)
-#     print "Success!!!"
+
+def test_add_template_missing_parameter(pretty_print, mist_core, owner_api_token):
+    response = mist_core.add_template(name='', location_type='github',
+                                      api_token=owner_api_token).post()
+    assert_response_bad_request(response)
+    print "Success!!!"
 
 
 def test_add_template_wrong_api_token(pretty_print, mist_core, owner_api_token):
