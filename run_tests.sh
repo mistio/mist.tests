@@ -8,7 +8,7 @@ help_message() {
     echo
     echo "-h     Display this message"
     echo "-api   Run api tests suite. If no argument provided, the entire API tests suite will be invoked"
-    echo "-gui   Run gui tests suite"
+    echo "-gui   Run gui tests suite. If no argument provided, the entire GUI tests suite will be invoked"
     echo
     echo "Argument for API tests can be one of the following:"
     echo
@@ -101,9 +101,6 @@ run_api_tests_suite() {
        fi
     fi
 
-
-
-# ./run_tests --> run api and UI
 
 # No need for test_settings.py file
 
