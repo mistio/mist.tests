@@ -220,3 +220,114 @@ class MistCoreApi(MistIoApi):
         req.put = req.unavailable_api_call
         req.delete = req.unavailable_api_call
         return req
+
+    def list_templates(self, api_token):
+        req = MistRequests(uri=self.uri + '/api/v1/templates',
+                           api_token=api_token)
+        req.post = req.unavailable_api_call
+        req.put = req.unavailable_api_call
+        req.delete = req.unavailable_api_call
+        return req
+
+    def add_template(self, api_token, name, location_type,
+                     exec_type='cloudify', **kwargs):
+        payload = {
+            'name': name,
+            'location_type': location_type,
+            'exec_type': exec_type
+        }
+        payload.update(kwargs)
+        req = MistRequests(uri=self.uri + '/api/v1/templates',
+                           data=json.dumps(payload), api_token=api_token)
+        req.get = req.unavailable_api_call
+        req.put = req.unavailable_api_call
+        req.delete = req.unavailable_api_call
+        return req
+
+    def delete_template(self, api_token, template_id):
+        req = MistRequests(uri=self.uri + '/api/v1/templates/' + template_id,
+                           api_token=api_token)
+        req.get = req.unavailable_api_call
+        req.post = req.unavailable_api_call
+        req.put = req.unavailable_api_call
+        return req
+
+    def edit_template(self, api_token, template_id, name,
+                      description='', **kwargs):
+        payload = {
+            'name': name,
+            'description': description
+        }
+        payload.update(kwargs)
+        req = MistRequests(uri=self.uri + '/api/v1/templates/' + template_id,
+                           data=payload, api_token=api_token)
+        req.get = req.unavailable_api_call
+        req.post = req.unavailable_api_call
+        req.delete = req.unavailable_api_call
+        return req
+
+    def show_template(self, api_token, template_id):
+        req = MistRequests(uri=self.uri + '/api/v1/templates/' + template_id,
+                           api_token=api_token)
+        req.put = req.unavailable_api_call
+        req.post = req.unavailable_api_call
+        req.delete = req.unavailable_api_call
+        return req
+
+    def list_stacks(self, api_token):
+        req = MistRequests(uri=self.uri + '/api/v1/stacks',
+                           api_token=api_token)
+        req.post = req.unavailable_api_call
+        req.put = req.unavailable_api_call
+        req.delete = req.unavailable_api_call
+        return req
+
+    def create_stack(self, api_token, name, template_id,
+                     cloud_id='', machine_name=''):
+        payload = {
+            'name': name,
+            'template_id': template_id,
+            'workflow': 'install',
+            'deploy': True,
+            'inputs': {
+                'mist_uri': 'https://mist.io',
+                'mist_cloud': cloud_id,
+                'webserver_port': 8000,
+                'machine_name': machine_name,
+                'mist_image': 'mist/ubuntu-14.04',
+                'mist_size': 'default'
+            }
+        }
+        req = MistRequests(uri=self.uri + '/api/v1/stacks',
+                           data=json.dumps(payload), api_token=api_token)
+        req.delete = req.unavailable_api_call
+        req.put = req.unavailable_api_call
+        req.get = req.unavailable_api_call
+        return req
+
+    def delete_stack(self, api_token, stack_id):
+        req = MistRequests(uri=self.uri + '/api/v1/stacks/' + stack_id,
+                           api_token=api_token)
+        req.post = req.unavailable_api_call
+        req.put = req.unavailable_api_call
+        req.get = req.unavailable_api_call
+        return req
+
+    def show_stack(self, api_token, stack_id):
+        req = MistRequests(uri=self.uri + '/api/v1/stacks/' + stack_id,
+                           api_token=api_token)
+        req.post = req.unavailable_api_call
+        req.put = req.unavailable_api_call
+        req.delete = req.unavailable_api_call
+        return req
+
+    def run_workflow(self, api_token, stack_id, workflow=''):
+        payload = {
+            'workflow': workflow
+        }
+        req = MistRequests(uri=self.uri + '/api/v1/stacks/' + stack_id,
+                           data=json.dumps(payload), api_token=api_token)
+        req.get = req.unavailable_api_call
+        req.put = req.unavailable_api_call
+        req.delete = req.unavailable_api_call
+        return req
