@@ -66,7 +66,7 @@ class TestLibcloudFunctionality:
         response = mist_core.add_cloud(title='GCE', provider= 'gce', api_token=owner_api_token,
                                        email=config.CREDENTIALS['GCE']['email'],
                                        project_id=config.CREDENTIALS['GCE']['project_id'],
-                                       private_key=str(config.CREDENTIALS['GCE']['private_key'])).post()
+                                       private_key=config.CREDENTIALS['GCE']['private_key']['private_key']).post()
         assert_response_ok(response)
         cache.set('gce_cloud_id', response.json()['id'])
         response = mist_core.list_machines(cloud_id=cache.get('gce_cloud_id', ''), api_token=owner_api_token).get()
@@ -84,6 +84,20 @@ class TestLibcloudFunctionality:
         response = mist_core.list_machines(cloud_id=cache.get('softlayer_cloud_id', ''), api_token=owner_api_token).get()
         assert_response_ok(response)
         assert len(response.json()) >= 0, "List Softlayer machines did not return a proper result"
+        print "Success!!!"
+
+
+    def test_list_machines_openstack(self, pretty_print, mist_core, cache, owner_api_token):
+        response = mist_core.add_cloud(title='Openstack', provider= 'openstack', api_token=owner_api_token,
+                                       username=config.CREDENTIALS['OPENSTACK']['username'],
+                                       url=config.CREDENTIALS['OPENSTACK']['url'],
+                                       tenant=config.CREDENTIALS['OPENSTACK']['tenant'],
+                                       password=config.CREDENTIALS['OPENSTACK']['password']).post()
+        assert_response_ok(response)
+        cache.set('openstack_cloud_id', response.json()['id'])
+        response = mist_core.list_machines(cloud_id=cache.get('openstack_cloud_id', ''), api_token=owner_api_token).get()
+        assert_response_ok(response)
+        assert len(response.json()) >= 0, "List Openstack machines did not return a proper result"
         print "Success!!!"
 
 
@@ -129,6 +143,13 @@ class TestLibcloudFunctionality:
         print "Success!!!"
 
 
+    def test_list_sizes_openstack(self, pretty_print, mist_core, cache, owner_api_token):
+        response = mist_core.list_sizes(cloud_id=cache.get('openstack_cloud_id', ''), api_token=owner_api_token).get()
+        assert_response_ok(response)
+        assert len(response.json()) > 0, "List Openstack sizes did not return any sizes"
+        print "Success!!!"
+
+
     def test_list_images_docker(self, pretty_print, mist_core, cache, owner_api_token):
         response = mist_core.list_images(cloud_id=cache.get('docker_cloud_id', ''), api_token=owner_api_token).get()
         assert_response_ok(response)
@@ -168,4 +189,11 @@ class TestLibcloudFunctionality:
         response = mist_core.list_images(cloud_id=cache.get('softlayer_cloud_id', ''), api_token=owner_api_token).get()
         assert_response_ok(response)
         assert len(response.json()) > 0, "List Softlayer images did not return any images"
+        print "Success!!!"
+
+
+    def test_list_images_openstack(self, pretty_print, mist_core, cache, owner_api_token):
+        response = mist_core.list_images(cloud_id=cache.get('openstack_cloud_id', ''), api_token=owner_api_token).get()
+        assert_response_ok(response)
+        assert len(response.json()) > 0, "List Openstack images did not return any images"
         print "Success!!!"
