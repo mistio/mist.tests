@@ -282,9 +282,6 @@ class MistCoreApi(MistIoApi):
         req.delete = req.unavailable_api_call
         return req
 
-    # {u'mist_size': u'512mb',
-    #  u'mist_location': u'ams2'}
-
     def create_stack(self, api_token, name, template_id,
                      cloud_id='', machine_name=''):
         payload = {
