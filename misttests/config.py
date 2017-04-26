@@ -63,6 +63,22 @@ def get_setting(setting, default_value=None, priority='config_file'):
     elif type(default_value) == bool:
         return True if setting in ["True", "true"] else False
 
+    # EMAIL = "spiros@mist.io"
+    # PASSWORD1 = "stzav123!@#"
+    # EMAIL = "fatboy.tester.mist.io+144974@gmail.com"
+    # PASSWORD1 = "Gmtxmregamoto!123456@"
+    # PASSWORD1 = "Stzav12!@"
+    # PASSWORD2 = "Gmtxmregamoto!123456!@"
+    # MEMBER1_PASSWORD = "Gmtxmregamoto!123456@"
+    # MEMBER2_PASSWORD = "Gmtxmregamoto!123456@"
+    # GMAIL_FATBOY_PASSWORD = "F@tb0ygmtxm!"
+    # OWNER_EMAIL = "owner@mist.io"
+    # OWNER_PASSWORD = "Gmtxmregamoto!123456@"
+    # GITHUB_TEST_EMAIL = "tester.mist.io@gmail.com"
+    # GITHUB_TEST_PASSWORD = "LiDa!2#4"
+    # GOOGLE_TEST_EMAIL = "tester.mist.io@gmail.com"
+    # GOOGLE_TEST_PASSWORD = "LiDa!2#4"
+
 
 LOCAL = get_setting("LOCAL", True)
 
@@ -192,7 +208,7 @@ SETUP_ENVIRONMENT = get_setting("SETUP_ENVIRONMENT", False)
 WEBDRIVER_OPTIONS = get_setting('WEBDRIVER_OPTIONS',
                                  ['--dns-prefetch-disable'])
 
-REGISTER_USER_BEFORE_FEATURE = get_setting('REGISTER_USER_BEFORE_FEATURE', False, priority='environment')
+REGISTER_USER_BEFORE_FEATURE = get_setting('REGISTER_USER_BEFORE_FEATURE', True, priority='environment')
 
 IMAP_SERVER = get_setting('IMAP_SERVER', 'imap.gmail.com', priority='environment')
 
