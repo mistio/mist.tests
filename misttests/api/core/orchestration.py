@@ -177,10 +177,10 @@ def test_run_workflow_no_api_token(pretty_print, mist_core):
     print "Success!!!"
 
 
-#def test_run_workflow_wrong_id(pretty_print, mist_core, owner_api_token):
- #   response = mist_core.run_workflow(stack_id='dummy', api_token=owner_api_token).post()
- #   assert_response_not_found(response)
- #   print "Success!!!"
+def test_run_workflow_wrong_id(pretty_print, mist_core, owner_api_token):
+    response = mist_core.run_workflow(stack_id='dummy', api_token=owner_api_token).post()
+    assert_response_not_found(response)
+    print "Success!!!"
 
 
 ############################################################################
@@ -303,7 +303,3 @@ class TestOrchestrationFunctionality:
         assert len(response.json()) == 0, "Although stack has been deleted, it is still" \
                                           "visible in list_stacks"
         print "Success!!!"
-
-
-##############################################################
-# should return conflict when adding a template with same name
