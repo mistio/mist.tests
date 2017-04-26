@@ -42,7 +42,7 @@ class TestLibcloudFunctionality:
         response = mist_core.add_cloud(title='AWS', provider= 'ec2', api_token=owner_api_token,
                                        api_key=config.CREDENTIALS['AWS']['api_key'],
                                        api_secret=config.CREDENTIALS['AWS']['api_secret'],
-                                       region=config.CREDENTIALS['AWS']['region']).post()
+                                       region='ec2_ap_northeast').post()
         assert_response_ok(response)
         cache.set('aws_cloud_id', response.json()['id'])
         response = mist_core.list_machines(cloud_id=cache.get('aws_cloud_id', ''), api_token=owner_api_token).get()
@@ -53,7 +53,7 @@ class TestLibcloudFunctionality:
 
     def test_list_machines_digitalocean(self, pretty_print, mist_core, cache, owner_api_token):
         response = mist_core.add_cloud(title='Digital Ocean', provider= 'digitalocean', api_token=owner_api_token,
-                                       api_key=config.CREDENTIALS['DIGITALOCEAN']['token']).post()
+                                       token=config.CREDENTIALS['DIGITALOCEAN']['token']).post()
         assert_response_ok(response)
         cache.set('digitalocean_cloud_id', response.json()['id'])
         response = mist_core.list_machines(cloud_id=cache.get('digitalocean_cloud_id', ''), api_token=owner_api_token).get()
