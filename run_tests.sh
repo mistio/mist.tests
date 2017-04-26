@@ -94,3 +94,11 @@ run_api_tests_suite() {
             help_message
        fi
     fi
+
+# ./run_tests --> run api and UI
+
+# -gui --> run all UI tests
+
+# No need for test_settings.py file
+
+# Run concurrently multiple UI tests
