@@ -37,14 +37,6 @@ def test_add_template_no_api_token(pretty_print, mist_core):
     print "Success!!!"
 
 
-# GETS 500
-# def test_add_template_ok(pretty_print, mist_core, owner_api_token):
-#     response = mist_core.add_template(name='test', location_type='github',
-#                                       api_token=owner_api_token).post()
-#     assert_response_ok(response)
-#     print "Success!!!"
-
-
 def test_edit_template_wrong_id(pretty_print, mist_core, owner_api_token):
     response = mist_core.edit_template(template_id='dummy', name='test',
                                        api_token=owner_api_token).put()
@@ -313,6 +305,5 @@ class TestOrchestrationFunctionality:
         print "Success!!!"
 
 
-# fix 500s
 ##############################################################
 # should return conflict when adding a template with same name
