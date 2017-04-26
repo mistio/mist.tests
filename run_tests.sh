@@ -22,7 +22,12 @@ help_message() {
 }
 
 run_gui_tests_suite() {
-    behave_args=
+    behave_tags=""
+    for tag in "${behave_tags[@]}"
+    do
+      behave_tags+="${tag}"
+    done
+    behave -k --tags=$behave_tags misttests/gui/core/pr/features
 }
 
 run_api_tests_suite() {
@@ -49,15 +54,15 @@ run_api_tests_suite() {
 
     declare -A behave_tags
 
-    behave_tags["clouds"]='clouds-add-a','clouds-add-b','clouds-actions'
-    behave_tags["images"]='images-networks'
-    behave_tags["keys"]='keys'
-    behave_tags["scripts"]='scripts'
-    behave_tags["machines"]='machines'
-    behave_tags["users"]='user-actions'
-    behave_tags["rbac"]='rbac-rules','rbac-teams','rbac-rules-v2'
-    behave_tags["schedules"]='schedulers','schedulers_v2'
-    behave_tags["orchestration"]='orchestration'
+    behave_tags["clouds"]='clouds-add-a','clouds-add-b','clouds-actions,'
+    behave_tags["images"]='images-networks,'
+    behave_tags["keys"]='keys,'
+    behave_tags["scripts"]='scripts,'
+    behave_tags["machines"]='machines,'
+    behave_tags["users"]='user-actions,'
+    behave_tags["rbac"]='rbac-rules','rbac-teams','rbac-rules-v2,'
+    behave_tags["schedules"]='schedulers','schedulers_v2,'
+    behave_tags["orchestration"]='orchestration,'
 
 
     if [ "$#" -eq 0 ] || [ $1 == '-h' ] || [ "$#" -gt 2 ]
@@ -87,6 +92,8 @@ run_api_tests_suite() {
             help_message
        fi
     fi
+
+
 
 # ./run_tests --> run api and UI
 
