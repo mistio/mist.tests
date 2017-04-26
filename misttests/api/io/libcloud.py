@@ -90,7 +90,7 @@ class TestLibcloudFunctionality:
     def test_list_machines_openstack(self, pretty_print, mist_core, cache, owner_api_token):
         response = mist_core.add_cloud(title='Openstack', provider= 'openstack', api_token=owner_api_token,
                                        username=config.CREDENTIALS['OPENSTACK']['username'],
-                                       url=config.CREDENTIALS['OPENSTACK']['url'],
+                                       auth_url=config.CREDENTIALS['OPENSTACK']['auth_url'],
                                        tenant=config.CREDENTIALS['OPENSTACK']['tenant'],
                                        password=config.CREDENTIALS['OPENSTACK']['password']).post()
         assert_response_ok(response)
