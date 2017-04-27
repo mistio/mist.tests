@@ -9,6 +9,7 @@ from misttests.gui.steps.machines import *
 from misttests.gui.steps.popups import *
 from misttests.gui.steps.modals import *
 from misttests.gui.steps.ssh import *
+from misttests.gui.steps.dialog import *
 from misttests.gui.steps.utils import focus_on_element
 
 from selenium.webdriver import ActionChains

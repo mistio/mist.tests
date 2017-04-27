@@ -1,68 +1,76 @@
 @mayday
 Feature: Production
 
-  @graph
-  Scenario: Production monitor and graph testing
-    Given I am logged in to mist.core
-    When I visit the Machines page after the counter has loaded
-    Then I search for the mayday machine
-    When I click the mayday machine
-    And I clear the machines search bar
-    And I expect the "machine" edit form to be visible within max 5 seconds
-    Then I wait for the graphs to appear
-    And I click the button "Add Graph"
-    Then I expect for "selectTarget" modal to appear within max 30 seconds
-    And I expect the metric buttons to appear within 30 seconds
-    When I click the "entropy" button inside the popup with id "selectTarget"
-    And I wait for 6 seconds
-    Then "entropy" graph should appear within 30 seconds
-    When I focus on the "entropy" graph
-    Then "entropy" graph should have some values
-    And I delete the "entropy" graph
-
-  @alert
-  Scenario: Production rule and alert testing
-    Given I am logged in to mist.core
-    When I visit the Machines page after the counter has loaded
-    Then I search for the mayday machine
-    When I click the mayday machine
-    And I clear the machines search bar
-    And I expect the "machine" edit form to be visible within max 5 seconds
-    Then I wait for the graphs to appear
-    When I remove previous rules
-    When I delete old mayday emails
-    And I wait for 2 seconds
-    And I focus on the "add new rule" button
-    And I click the button "add new rule"
-    Then I expect for "newrule" to be visible within max 20 seconds
-    And I click the "metricName" rule
-#    And I click the "RAM" button in the dropdown with id "metricName"
-    When I fill "0" as metric value
-    And I save the rule
+#  @graph
+#  Scenario: Production monitor and graph testing
+#    Given I am logged in to mist.core
+#    When I visit the Machines page after the counter has loaded
+#    Then I search for the mayday machine
+#    When I click the mayday machine
+#    And I clear the machines search bar
+#    And I expect the "machine" edit form to be visible within max 5 seconds
+#    Then I wait for the graphs to appear
+#    And I click the button "Add Graph"
+#    Then I expect for "selectTarget" modal to appear within max 30 seconds
+#    And I expect the metric buttons to appear within 30 seconds
+#    When I click the "entropy" button inside the popup with id "selectTarget"
+#    And I wait for 6 seconds
+#    Then "entropy" graph should appear within 30 seconds
+#    When I focus on the "entropy" graph
+#    Then "entropy" graph should have some values
+#    And I delete the "entropy" graph
+#
+#  @alert
+#  Scenario: Production rule and alert testing
+#    Given I am logged in to mist.core
+#    When I visit the Machines page after the counter has loaded
+#    Then I search for the mayday machine
+#    When I click the mayday machine
+#    And I clear the machines search bar
+#    And I expect the "machine" edit form to be visible within max 5 seconds
+#    Then I wait for the graphs to appear
 #    When I remove previous rules
-
-  @ssh
-  Scenario: Production ssh testing
-    Given I am logged in to mist.core
-    When I visit the Machines page after the counter has loaded
-    Then I search for the mayday machine
-    When I click the mayday machine
-    And I clear the machines search bar
-    And I expect the "machine" edit form to be visible within max 5 seconds
-    Then I wait for the graphs to appear
-    When I test the ssh connection 2 times for max 100 seconds each time
+#    When I delete old mayday emails
+#    And I wait for 2 seconds
+#    And I focus on the "add new rule" button
+#    And I click the button "add new rule"
+#    Then I expect for "newrule" to be visible within max 20 seconds
+#    And I click the "metricName" rule
+##    And I click the "RAM" button in the dropdown with id "metricName"
+#    When I fill "0" as metric value
+#    And I save the rule
+##    When I remove previous rules
+#
+#  @ssh
+#  Scenario: Production ssh testing
+#    Given I am logged in to mist.core
+#    When I visit the Machines page after the counter has loaded
+#    Then I search for the mayday machine
+#    When I click the mayday machine
+#    And I clear the machines search bar
+#    And I expect the "machine" edit form to be visible within max 5 seconds
+#    Then I wait for the graphs to appear
+#    When I test the ssh connection 2 times for max 100 seconds each time
 
   @celery
   Scenario: Production machine reboot testing
     Given I am logged in to mist.core
     When I visit the Machines page after the counter has loaded
-    Then I search for the mayday machine
-    And I open the actions dialog
-    Then I expect for "select-action" modal to appear within max 4 seconds
-    When I click the "Reboot" button inside the "select-action" modal
-    Then I expect for "confirmation" modal to appear within max 4 seconds
-    And I click the button "Reboot"
-    Then I expect for "select-action" modal to disappear within max 4 seconds
+    And I wait for 3 seconds
+    When I click the "keratomou" "machine"
+    And I expect the "machine" edit form to be visible within max 5 seconds
+    And I wait for 2 seconds
+    Then I click the button "Reboot" from the menu of the "machine" edit form
+    And I expect the dialog "Reboot 1 Machines" is open within 4 seconds
+    And I click the "Reboot" button in the dialog "Reboot 1 Machines"
+
+#    Then I search for the mayday machine
+#    And I open the actions dialog
+#    Then I expect for "select-action" modal to appear within max 4 seconds
+#    When I click the "Reboot" button inside the "select-action" modal
+#    Then I expect for "confirmation" modal to appear within max 4 seconds
+#    And I click the button "Reboot"
+#    Then I expect for "select-action" modal to disappear within max 4 seconds
     And I wait for 4 seconds
     Then Mayday machine state should be "running" within 200 seconds
 
