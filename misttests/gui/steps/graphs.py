@@ -60,6 +60,7 @@ def wait_for_graph_to_appear(context, graph_title, seconds):
 
 @step(u'"{graph_title}" graph should have some values')
 def graph_some_value(context, graph_title):
+    import ipdb;ipdb.set_trace()
     graph_title = graph_title.lower()
     graph_xpath = '[id^="%s-"]' % graph_title
 
