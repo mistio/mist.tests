@@ -81,35 +81,35 @@ Feature: Production
     And I wait for 4 seconds
     Then Mayday machine state should be "running" within 200 seconds
 
-  @github_sso_signin
-  Scenario: Sign in testing with github
-    Given I am not logged in to mist.core
-    When I open the login popup
-    And I wait for 2 seconds
-    Then I click the github button in the landing page popup
-    Then I input my "GITHUB_TEST_EMAIL" in the field with id "login_field"
-    Then I input my "GITHUB_TEST_PASSWORD" in the field with id "password"
-    And I click the Sign In button in the Github form
-    And I wait for 3 seconds
-    Then I wait for the dashboard to load
-    Then I logout
-
-  @google_sso_signin
-  Scenario: Sign in testing with google oauth2
-    Given I am not logged in to mist.core
-    When I open the login popup
-    And I wait for 2 seconds
-    Then I click the google button in the landing page popup
-    Then I input my "GOOGLE_TEST_EMAIL" in the field with id "Email"
-    And I click the "next" button with id "next"
-    Then I input my "GOOGLE_TEST_PASSWORD" in the field with id "Passwd"
-    And I press the button with id "signIn"
-    When I wait for the dashboard to load
-    Then I logout
-
-  @confirm_alert_email
-  Scenario: Confirm that alert email arrived
-    Then I should receive an email within 200 seconds
+#  @github_sso_signin
+#  Scenario: Sign in testing with github
+#    Given I am not logged in to mist.core
+#    When I open the login popup
+#    And I wait for 2 seconds
+#    Then I click the github button in the landing page popup
+#    Then I input my "GITHUB_TEST_EMAIL" in the field with id "login_field"
+#    Then I input my "GITHUB_TEST_PASSWORD" in the field with id "password"
+#    And I click the Sign In button in the Github form
+#    And I wait for 3 seconds
+#    Then I wait for the dashboard to load
+#    Then I logout
+#
+#  @google_sso_signin
+#  Scenario: Sign in testing with google oauth2
+#    Given I am not logged in to mist.core
+#    When I open the login popup
+#    And I wait for 2 seconds
+#    Then I click the google button in the landing page popup
+#    Then I input my "GOOGLE_TEST_EMAIL" in the field with id "Email"
+#    And I click the "next" button with id "next"
+#    Then I input my "GOOGLE_TEST_PASSWORD" in the field with id "Passwd"
+#    And I press the button with id "signIn"
+#    When I wait for the dashboard to load
+#    Then I logout
+#
+#  @confirm_alert_email
+#  Scenario: Confirm that alert email arrived
+#    Then I should receive an email within 200 seconds
 
 
 #  Fix step 'Then "entropy" graph should have some values ' (Cannot read property '0' of undefined error...)
