@@ -41,16 +41,16 @@ Feature: Production
     And I save the rule
     When I remove previous rules
 
-#  @ssh
-#  Scenario: Production ssh testing
-#    Given I am logged in to mist.core
-#    When I visit the Machines page after the counter has loaded
-#    Then I search for the mayday machine
-#    When I click the mayday machine
-#    And I clear the machines search bar
-#    And I expect the "machine" edit form to be visible within max 5 seconds
-#    Then I wait for the graphs to appear
-#    When I test the ssh connection 2 times for max 100 seconds each time
+  @ssh
+  Scenario: Production ssh testing
+    Given I am logged in to mist.core
+    When I visit the Machines page after the counter has loaded
+    Then I search for the mayday machine
+    When I click the mayday machine
+    And I clear the machines search bar
+    And I expect the "machine" edit form to be visible within max 5 seconds
+    Then I wait for the graphs to appear
+    When I test the ssh connection 2 times for max 100 seconds each time
 
   @celery
   Scenario: Production machine reboot testing
@@ -105,7 +105,7 @@ Feature: Production
 #  Scenario: Confirm that alert email arrived
 #    Then I should receive an email within 200 seconds
 
+  
 # Fix step 'Then "entropy" graph should have some values ' (Cannot read property '0' of undefined error...)
 #
 # Fix step 'I fill "{value}" as metric value'
-
