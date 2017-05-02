@@ -68,7 +68,7 @@ Feature: Production
     Then I expect for "select-action" modal to appear within max 4 seconds
     When I click the "Shell" button inside the "select-action" modal
     And I expect terminal to open within 3 seconds
-    And shell input should be available after 10 seconds
+    And I wait for 5 seconds
     And I type in the terminal "uptime"
     And I wait for 1 seconds
     Then up 0 min should be included in the output
@@ -105,7 +105,7 @@ Feature: Production
 #  Scenario: Confirm that alert email arrived
 #    Then I should receive an email within 200 seconds
 
-  
+
 # Fix step 'Then "entropy" graph should have some values ' (Cannot read property '0' of undefined error...)
 #
 # Fix step 'I fill "{value}" as metric value'
