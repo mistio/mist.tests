@@ -84,10 +84,6 @@ def before_all(context):
     if context.mist_config.get('recording_session', False):
         start_recording()
 
-    log.info("Finished with before_all hook. Starting tests")
-
-
-def before_feature(context, feature):
     if config.REGISTER_USER_BEFORE_FEATURE:
         payload = {
             'email': context.mist_config['EMAIL'],
@@ -99,6 +95,8 @@ def before_feature(context, feature):
 
         context.mist_config['ORG_ID'] = re.json().get('org_id')
         context.mist_config['ORG_NAME'] = re.json().get('org_name')
+
+    log.info("Finished with before_all hook. Starting tests")
 
 
 def after_step(context, step):
