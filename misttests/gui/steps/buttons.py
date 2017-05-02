@@ -115,7 +115,6 @@ def click_button(context, text):
     to find a button that contains the text given. If text is a key inside
     mist_config dict then it's value will be used.
     """
-    import ipdb;ipdb.set_trace()
     if context.mist_config.get(text):
         text = context.mist_config[text]
     if text == '+':
