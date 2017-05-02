@@ -113,9 +113,6 @@ Feature: Production
 #  Scenario: Confirm that alert email arrived
 #    Then I should receive an email within 200 seconds
 
-
-# Fix step 'When I remove previous rules'
-#
 # Fix step 'Then "entropy" graph should have some values ' (Cannot read property '0' of undefined error...)
 #
 # Fix step 'I fill "{value}" as metric value'
