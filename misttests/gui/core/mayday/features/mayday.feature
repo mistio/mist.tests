@@ -56,13 +56,6 @@ Feature: Production
   Scenario: Production machine reboot testing
     Given I am logged in to mist.core
     When I visit the Machines page after the counter has loaded
-#    When I click the "keratomou2" "machine"
-#    And I expect the "machine" edit form to be visible within max 5 seconds
-#    And I wait for 2 seconds
-#    Then I click the button "Shell" from the menu of the "machine" edit form
-#    And I expect terminal to open within 3 seconds
-#    And shell input should be available after 5 seconds
-
     Then I search for the mayday machine
     And I open the actions dialog
     Then I expect for "select-action" modal to appear within max 4 seconds
@@ -74,7 +67,6 @@ Feature: Production
     And I open the actions dialog
     Then I expect for "select-action" modal to appear within max 4 seconds
     When I click the "Shell" button inside the "select-action" modal
-
     And I expect terminal to open within 3 seconds
     And shell input should be available after 10 seconds
     And I type in the terminal "uptime"
