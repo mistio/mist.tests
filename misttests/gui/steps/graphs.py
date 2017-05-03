@@ -60,12 +60,14 @@ def wait_for_graph_to_appear(context, graph_title, seconds):
 
 @step(u'"{graph_title}" graph should have some values')
 def graph_some_value(context, graph_title):
-    import ipdb;ipdb.set_trace()
     graph_title = graph_title.lower()
     graph_xpath = '[id^="%s-"]' % graph_title
 
     try:
-        datapoints = context.browser.execute_script("var graph = document.querySelector('%s'); return graph.data.datasets[0].data.length" % graph_xpath)
+        # datapoints = context.browser.execute_script("var graph = document.querySelector('%s'); return graph.data.datasets[0].data.length" % graph_xpath)
+        graph_data = context.browser.execute_script(
+            "return document.querySelector('%s').data;" % graph_xpath)
+        datapoints = context.browser.execute_script("return %s.datasets[0].data.length" % graph_data)
         if datapoints > 1:
             return
         else:
