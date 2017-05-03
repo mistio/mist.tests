@@ -67,7 +67,7 @@ class TestLibcloudFunctionality:
         response = mist_core.add_cloud(title='GCE', provider= 'gce', api_token=owner_api_token,
                                        email=config.CREDENTIALS['GCE']['private_key']['client_email'],
                                        project_id=config.CREDENTIALS['GCE']['project_id'],
-                                       private_key=json.dumps(config.CREDENTIALS['GCE']['private_key'])).post()
+                                       private_key=config.CREDENTIALS['GCE']['private_key']).post()
         assert_response_ok(response)
         cache.set('gce_cloud_id', response.json()['id'])
         response = mist_core.list_machines(cloud_id=cache.get('gce_cloud_id', ''), api_token=owner_api_token).get()
