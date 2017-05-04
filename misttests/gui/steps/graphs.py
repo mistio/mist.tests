@@ -65,10 +65,6 @@ def graph_some_value(context, graph_title):
 
     try:
         datapoints = context.browser.execute_script("var graph = document.querySelector('%s'); return graph.data.datasets[0].data.length" % graph_xpath)
-        # graph_data = context.browser.execute_script(
-        #     "return document.querySelector('%s').data;" % graph_xpath)
-        # import ipdb;ipdb.set_trace()
-        # datapoints = context.browser.execute_script("return %s.datasets[0].data.length" % graph_data)
         if datapoints > 1:
             return
         else:
