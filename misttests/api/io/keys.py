@@ -16,10 +16,10 @@ def test_list_keys(pretty_print, mist_core, owner_api_token):
 
 
 # # TODO: check below... csrf=None is ok but csrf='' is not?
-# def test_generate_key_wrong_api_token(pretty_print, mist_core):
-#     response = mist_core.generate_keypair(csrf_token='').post()
-#     assert_response_bad_request(response)
-#     print "Success!!!"
+# # def test_generate_key_wrong_api_token(pretty_print, mist_core):
+# #     response = mist_core.generate_keypair(csrf_token='').post()
+# #     assert_response_bad_request(response)
+# #     print "Success!!!"
 
 
 def test_delete_key_wrong_id(pretty_print, mist_core, owner_api_token):
