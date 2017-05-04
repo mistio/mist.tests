@@ -97,7 +97,7 @@ Feature: Machines
     When I delete the associated key
     Then I expect the dialog "Disassociate Key" is open within 4 seconds
     When I click the "Disassociate" button in the dialog "Disassociate Key"
-    And I wait for 5 seconds
+    And I wait for 7 seconds
     Then there should be 1 keys associated with the machine
 
 
