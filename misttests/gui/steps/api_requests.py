@@ -100,6 +100,8 @@ def add_docker_api_request(context):
         'cert_file': context.mist_config['CREDENTIALS']['DOCKER']['cert']
     }
 
+    import ipdb;ipdb.set_trace()
+
     re = requests.post(context.mist_config['MIST_URL'] + "/api/v1/clouds", data=json.dumps(payload), headers=headers)
 
 

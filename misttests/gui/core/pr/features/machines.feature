@@ -20,28 +20,42 @@ Feature: Machines
     And I click the button "Add" in "key" add form
     Then I expect the "key" edit form to be visible within max 10 seconds
 
-  @key-associate
-  Scenario: Associate key with machine
-    When I visit the machines page
-    When I click the "machine2-ui-testing" "machine"
-    And I expect the "machine" edit form to be visible within max 5 seconds
-    And I wait for 2 seconds
-    Then I click the button "Associate Key" from the menu of the "machine" edit form
-    Then I expect the dialog "Associate a key" is open within 4 seconds
-    And I open the "Select key" drop down
-    And I click the button "Key1" in the "Select key" dropdown
-    And I click the "Associate" button in the dialog "Associate a key"
-    And I wait for 2 seconds
-    Then there should be 1 keys associated with the machine
-    Then "Key1" key should be associated with the machine "machine2-ui-testing"
+  @key2-add
+  Scenario: Add 2nd key
+    When I visit the Keys page
+    When I click the button "+"
+    Then I expect the "Key" add form to be visible within max 10 seconds
+    When I set the value "Key2" to field "Name" in "key" add form
+    And I focus on the button "Generate" in "key" add form
+    And I click the button "Generate" in "key" add form
+    And I wait for 4 seconds
+    Then I expect for the button "Add" in "key" add form to be clickable within 12 seconds
+    When I focus on the button "Add" in "key" add form
+    And I click the button "Add" in "key" add form
+    Then I expect the "key" edit form to be visible within max 10 seconds
 
-  @key-disassociate
-  Scenario: Disassociate key
-    When I delete the associated key
-    Then I expect the dialog "Disassociate Key" is open within 4 seconds
-    When I click the "Disassociate" button in the dialog "Disassociate Key"
-    And I wait for 5 seconds
-    Then there should be 0 keys associated with the machine
+#  @key-associate
+#  Scenario: Associate key with machine
+#    When I visit the machines page
+#    When I click the "machine2-ui-testing" "machine"
+#    And I expect the "machine" edit form to be visible within max 5 seconds
+#    And I wait for 2 seconds
+#    Then I click the button "Associate Key" from the menu of the "machine" edit form
+#    Then I expect the dialog "Associate a key" is open within 4 seconds
+#    And I open the "Select key" drop down
+#    And I click the button "Key1" in the "Select key" dropdown
+#    And I click the "Associate" button in the dialog "Associate a key"
+#    And I wait for 2 seconds
+#    Then there should be 1 keys associated with the machine
+#    Then "Key1" key should be associated with the machine "machine2-ui-testing"
+#
+#  @key-disassociate
+#  Scenario: Disassociate key
+#    When I delete the associated key
+#    Then I expect the dialog "Disassociate Key" is open within 4 seconds
+#    When I click the "Disassociate" button in the dialog "Disassociate Key"
+#    And I wait for 5 seconds
+#    Then there should be 0 keys associated with the machine
 
   @machine-create
   Scenario: Create a machine in Docker provider
@@ -63,6 +77,29 @@ Feature: Machines
     And I click the "Launch" button with id "appformsubmit"
     And I wait for 5 seconds
     Then "ui-test-create-machine-random" machine state has to be "running" within 100 seconds
+
+  @key-associate
+  Scenario: Associate key with machine
+    When I click the "ui-test-create-machine-random" "machine"
+    And I expect the "machine" edit form to be visible within max 5 seconds
+    And I wait for 2 seconds
+    Then I click the button "Associate Key" from the menu of the "machine" edit form
+    Then I expect the dialog "Associate a key" is open within 4 seconds
+    And I open the "Select key" drop down
+    And I click the button "Key2" in the "Select key" dropdown
+    And I click the "Associate" button in the dialog "Associate a key"
+    And I wait for 2 seconds
+    Then there should be 2 keys associated with the machine
+    Then "Key2" key should be associated with the machine "machine2-ui-testing"
+
+  @key-disassociate
+  Scenario: Disassociate key
+    When I delete the associated key
+    Then I expect the dialog "Disassociate Key" is open within 4 seconds
+    When I click the "Disassociate" button in the dialog "Disassociate Key"
+    And I wait for 5 seconds
+    Then there should be 1 keys associated with the machine
+
 
    @machine-run-script
    Scenario: Run script to machine created above
