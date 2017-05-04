@@ -172,7 +172,7 @@ def kill_docker_machine(context, machine_to_destroy):
             uri = context.mist_config['MIST_URL'] + '/api/v1/clouds/' + cloud['id'] + '/machines'
             response = requests.get(uri, headers=headers)
             for machine in response.json():
-                if machine_to_destroy in machine.get('name'):
+                if machine_to_destroy in machine['name']:
                     log.info('Killing docker machine...')
                     payload = {'action': 'destroy'}
                     uri = context.mist_config['MIST_URL'] + '/api/v1/clouds/' + cloud['id'] + '/machines/' + \
@@ -199,7 +199,7 @@ def after_feature(context, feature):
         delete_schedules(context)
         kill_docker_machine(context, context.mist_config.get('test-ui-machine-random'))
         kill_docker_machine(context, context.mist_config.get('test-ui-machine-2-random'))
-    if 'Machines' == feature.name:
-        kill_docker_machine(context, context.mist_config.get('ui-test-create-machine-random'))
+    #if 'Machines' == feature.name:
+    #    kill_docker_machine(context, context.mist_config.get('ui-test-create-machine-random'))
     if 'RBAC' == feature.name:
         kill_docker_machine(context, context.mist_config.get('docker-ui-test-machine-random'))
