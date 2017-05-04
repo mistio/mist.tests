@@ -9,8 +9,6 @@ from misttests.gui.steps.machines import *
 from misttests.gui.steps.popups import *
 from misttests.gui.steps.modals import *
 from misttests.gui.steps.ssh import *
-from misttests.gui.steps.dialog import *
-from misttests.gui.steps.utils import *
 from misttests.gui.steps.utils import focus_on_element
 
 from selenium.webdriver import ActionChains
@@ -106,18 +104,3 @@ def rule_value(context, value):
 #    value_input.send_keys(u'\ue003')
 #    context.execute_steps(u'When I wait for 2 seconds')
 #    value_input.send_keys(value)
-
-@step(u'there should be a toast msg')
-def toast_msg(context):
-    import ipdb;ipdb.set_trace()
-    mist_app = context.browser.find_element_by_tag_name('mist-app')
-    paper_header_panel = mist_app.find_element_by_tag_name('paper-header-panel')
-    mainPanel = paper_header_panel.find_element_by_id('mainPanel')
-
-    mainContainer = mainPanel.find_element_by_id('mainContainer')
-    toast_msg = mainContainer.find_element_by_id('mist-toast')
-    label = toast_msg.find_element_by_id('label')
-    from misttests.gui.steps.utils import safe_get_element_text
-    # end_time = time() + 20
-    # while time() < end_time:
-    #    print safe_get_element_text(label)

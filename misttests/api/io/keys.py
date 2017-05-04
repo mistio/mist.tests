@@ -15,7 +15,7 @@ def test_list_keys(pretty_print, mist_core, owner_api_token):
     print "Success!!!"
 
 
-# # TODO: check below... csrf=None is ok but csrf='' is not?
+# # # TODO: check below... csrf=None is ok but csrf='' is not?
 # # def test_generate_key_wrong_api_token(pretty_print, mist_core):
 # #     response = mist_core.generate_keypair(csrf_token='').post()
 # #     assert_response_bad_request(response)
