@@ -78,32 +78,32 @@ Feature: Machines
     And I wait for 5 seconds
     Then "ui-test-create-machine-random" machine state has to be "running" within 100 seconds
 
-  @key-associate
-  Scenario: Associate key with machine
-    When I click the "ui-test-create-machine-random" "machine"
-    And I expect the "machine" edit form to be visible within max 5 seconds
-    And I wait for 2 seconds
-    Then I click the button "Associate Key" from the menu of the "machine" edit form
-    Then I expect the dialog "Associate a key" is open within 4 seconds
-    And I open the "Select key" drop down
-    And I click the button "Key2" in the "Select key" dropdown
-    And I click the "Associate" button in the dialog "Associate a key"
-    And I wait for 5 seconds
-    Then there should be 2 keys associated with the machine
-    Then "Key2" key should be associated with the machine "ui-test-create-machine-random"
-
-  @key-disassociate
-  Scenario: Disassociate key
-    When I delete the associated key
-    Then I expect the dialog "Disassociate Key" is open within 4 seconds
-    When I click the "Disassociate" button in the dialog "Disassociate Key"
-    And I wait for 7 seconds
-    Then there should be 1 keys associated with the machine
+#  @key-associate
+#  Scenario: Associate key with machine
+#    When I click the "ui-test-create-machine-random" "machine"
+#    And I expect the "machine" edit form to be visible within max 5 seconds
+#    And I wait for 2 seconds
+#    Then I click the button "Associate Key" from the menu of the "machine" edit form
+#    Then I expect the dialog "Associate a key" is open within 4 seconds
+#    And I open the "Select key" drop down
+#    And I click the button "Key2" in the "Select key" dropdown
+#    And I click the "Associate" button in the dialog "Associate a key"
+#    And I wait for 5 seconds
+#    Then there should be 2 keys associated with the machine
+#    Then "Key2" key should be associated with the machine "ui-test-create-machine-random"
+#
+#  @key-disassociate
+#  Scenario: Disassociate key
+#    When I delete the associated key
+#    Then I expect the dialog "Disassociate Key" is open within 4 seconds
+#    When I click the "Disassociate" button in the dialog "Disassociate Key"
+#    And I wait for 7 seconds
+#    Then there should be 1 keys associated with the machine
 
 
    @machine-run-script
    Scenario: Run script to machine created above
-    When I visit the machines page
+#    When I visit the machines page
     When I click the "ui-test-create-machine-random" "machine"
     And I expect the "machine" edit form to be visible within max 5 seconds
     And I wait for 2 seconds
