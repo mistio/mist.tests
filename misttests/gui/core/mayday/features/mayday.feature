@@ -39,6 +39,7 @@ Feature: Production
 #    And I click the "RAM" button in the dropdown with id "metricName"
     When I fill "0" as metric value
     And I save the rule
+#    When I remove previous rules
 
   @ssh
   Scenario: Production ssh testing
@@ -86,7 +87,6 @@ Feature: Production
     And I wait for 3 seconds
     Then I wait for the dashboard to load
     Then I logout
-
 
   @google_sso_signin
   Scenario: Sign in testing with google oauth2
