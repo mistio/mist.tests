@@ -1,24 +1,24 @@
 @mayday
 Feature: Production
 
-#  @graph
-#  Scenario: Production monitor and graph testing
-#    Given I am logged in to mist.core
-#    When I visit the Machines page after the counter has loaded
-#    Then I search for the mayday machine
-#    When I click the mayday machine
-#    And I clear the machines search bar
-#    And I expect the "machine" edit form to be visible within max 5 seconds
-#    Then I wait for the graphs to appear
-#    And I click the button "Add Graph"
-#    Then I expect for "selectTarget" modal to appear within max 30 seconds
-#    And I expect the metric buttons to appear within 30 seconds
-#    When I click the "entropy" button inside the popup with id "selectTarget"
-#    And I wait for 6 seconds
-#    Then "entropy" graph should appear within 30 seconds
-#    When I focus on the "entropy" graph
-#    Then "entropy" graph should have some values
-#    And I delete the "entropy" graph
+  @graph
+  Scenario: Production monitor and graph testing
+    Given I am logged in to mist.core
+    When I visit the Machines page after the counter has loaded
+    Then I search for the mayday machine
+    When I click the mayday machine
+    And I clear the machines search bar
+    And I expect the "machine" edit form to be visible within max 5 seconds
+    Then I wait for the graphs to appear
+    And I click the button "Add Graph"
+    Then I expect for "selectTarget" modal to appear within max 30 seconds
+    And I expect the metric buttons to appear within 30 seconds
+    When I click the "entropy" button inside the popup with id "selectTarget"
+    And I wait for 6 seconds
+    Then "entropy" graph should appear within 30 seconds
+    When I focus on the "entropy" graph
+    Then "entropy" graph should have some values
+    And I delete the "entropy" graph
 #
   @alert
   Scenario: Production rule and alert testing
@@ -75,19 +75,19 @@ Feature: Production
     And I close the terminal
     And I wait for 1 seconds
 #
-##  @github_sso_signin
-##  Scenario: Sign in testing with github
-##    Given I am not logged in to mist.core
-##    When I open the login popup
-##    And I wait for 2 seconds
-##    Then I click the github button in the landing page popup
-##    Then I input my "GITHUB_TEST_EMAIL" in the field with id "login_field"
-##    Then I input my "GITHUB_TEST_PASSWORD" in the field with id "password"
-##    And I click the Sign In button in the Github form
-##    And I wait for 3 seconds
-##    Then I wait for the dashboard to load
-##    Then I logout
-##
+  @github_sso_signin
+  Scenario: Sign in testing with github
+    Given I am not logged in to mist.core
+    When I open the login popup
+    And I wait for 2 seconds
+    Then I click the github button in the landing page popup
+    Then I input my "GITHUB_TEST_EMAIL" in the field with id "login_field"
+    Then I input my "GITHUB_TEST_PASSWORD" in the field with id "password"
+    And I click the Sign In button in the Github form
+    And I wait for 3 seconds
+    Then I wait for the dashboard to load
+    Then I logout
+
 ##  @google_sso_signin
 ##  Scenario: Sign in testing with google oauth2
 ##    Given I am not logged in to mist.core
@@ -104,6 +104,4 @@ Feature: Production
   @confirm_alert_email
   Scenario: Confirm that alert email arrived
     Then I should receive an email within 200 seconds
-
-
-# Fix step 'Then "entropy" graph should have some values ' (Cannot read property '0' of undefined error...)
+    
