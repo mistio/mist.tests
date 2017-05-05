@@ -58,6 +58,7 @@ def wait_for_graph_to_appear(context, graph_title, seconds):
         raise TimeoutException("%s graph has not appeared after %s seconds" % (graph_title, seconds))
 
 
+# find proper path by xpath, then check if has-rendered-data is attribute
 @step(u'"{graph_title}" graph should have some values')
 def graph_some_value(context, graph_title):
     graph_title = graph_title.lower()
