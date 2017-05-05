@@ -519,7 +519,6 @@ class MistIoApi(object):
         req.delete = req.unavailable_api_call
         return req
 
-
     def list_records(self, api_token, cloud_id, zone_id):
         req = MistRequests(uri=self.uri + '/api/v1/clouds/' + cloud_id +
                            '/dns/zones/' + zone_id + '/records',
@@ -550,7 +549,6 @@ class MistIoApi(object):
         req.put = req.unavailable_api_call
         return req
 
-
     def create_record(self, api_token, cloud_id, zone_id, name, type,
                       data, ttl):
         data = {
@@ -566,7 +564,6 @@ class MistIoApi(object):
         req.put = req.unavailable_api_call
         req.delete = req.unavailable_api_call
         return req
-
 
     def delete_record(self, api_token, cloud_id, zone_id, record_id):
         req = MistRequests(uri=self.uri + '/api/v1/clouds/' + cloud_id +
