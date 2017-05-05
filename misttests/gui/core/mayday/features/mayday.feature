@@ -19,7 +19,7 @@ Feature: Production
     When I focus on the "entropy" graph
     Then "entropy" graph should have some values
     And I delete the "entropy" graph
-#
+
   @alert
   Scenario: Production rule and alert testing
     Given I am logged in to mist.core
@@ -39,7 +39,6 @@ Feature: Production
 #    And I click the "RAM" button in the dropdown with id "metricName"
     When I fill "0" as metric value
     And I save the rule
-    When I remove previous rules
 
   @ssh
   Scenario: Production ssh testing
@@ -74,7 +73,7 @@ Feature: Production
     Then up 0 min should be included in the output
     And I close the terminal
     And I wait for 1 seconds
-#
+
   @github_sso_signin
   Scenario: Sign in testing with github
     Given I am not logged in to mist.core
@@ -88,20 +87,21 @@ Feature: Production
     Then I wait for the dashboard to load
     Then I logout
 
-##  @google_sso_signin
-##  Scenario: Sign in testing with google oauth2
-##    Given I am not logged in to mist.core
-##    When I open the login popup
-##    And I wait for 2 seconds
-##    Then I click the google button in the landing page popup
-##    Then I input my "GOOGLE_TEST_EMAIL" in the field with id "Email"
-##    And I click the "next" button with id "next"
-##    Then I input my "GOOGLE_TEST_PASSWORD" in the field with id "Passwd"
-##    And I press the button with id "signIn"
-##    When I wait for the dashboard to load
-##    Then I logout
+
+  @google_sso_signin
+  Scenario: Sign in testing with google oauth2
+    Given I am not logged in to mist.core
+    When I open the login popup
+    And I wait for 2 seconds
+    Then I click the google button in the landing page popup
+    Then I input my "GOOGLE_TEST_EMAIL" in the field with id "identifierId"
+    And I click the "next" button with id "identifierNext"
+    And I wait for 2 seconds
+    And I type the password in the Google form
+    And I press the button with id "passwordNext"
+    When I wait for the dashboard to load
+    Then I logout
 
   @confirm_alert_email
   Scenario: Confirm that alert email arrived
     Then I should receive an email within 200 seconds
-    
