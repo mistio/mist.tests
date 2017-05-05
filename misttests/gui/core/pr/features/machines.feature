@@ -55,6 +55,7 @@ Feature: Machines
     And I wait for 5 seconds
     Then "ui-test-create-machine-random" machine state has to be "running" within 100 seconds
 
+    #TODO: Reinsert these tests once key assoiciation works fine
 #  @key-associate
 #  Scenario: Associate key with machine
 #    When I click the "ui-test-create-machine-random" "machine"
