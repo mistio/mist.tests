@@ -85,10 +85,11 @@ Feature: Production
     When I open the login popup
     And I wait for 2 seconds
     Then I click the google button in the landing page popup
-    Then I input my "GOOGLE_TEST_EMAIL" in the field with id "Email"
-    And I click the "next" button with id "next"
-    Then I input my "GOOGLE_TEST_PASSWORD" in the field with id "Passwd"
-    And I press the button with id "signIn"
+    Then I input my "GOOGLE_TEST_EMAIL" in the field with id "identifierId"
+    And I click the "next" button with id "identifierNext"
+    And I wait for 2 seconds
+    And I type the password in the Google form
+    And I press the button with id "passwordNext"
     When I wait for the dashboard to load
     Then I logout
 
