@@ -116,8 +116,9 @@ def test_associate_key_no_api_token(pretty_print, mist_core):
 
 
 def test_associate_key_wrong_ids(pretty_print, mist_core, owner_api_token):
-    response = mist_core.associate_key(cloud_id='dummy', api_token=owner_api_token,
-                                       machine_id='dummy',key_id='dummy').put()
+    response = mist_core.associate_key(cloud_id='dummy', machine_id='dummy',
+                                       key_id='dummy',
+                                       api_token=owner_api_token).put()
     assert_response_not_found(response)
     print "Success!!!"
 

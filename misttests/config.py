@@ -63,7 +63,6 @@ def get_setting(setting, default_value=None, priority='config_file'):
     elif type(default_value) == bool:
         return True if setting in ["True", "true"] else False
 
-
 LOCAL = get_setting("LOCAL", True)
 
 DEBUG = get_setting("DEBUG", False)
@@ -139,8 +138,8 @@ MIST_DEMO_REQUEST_EMAIL = get_setting("MIST_DEMO_REQUEST_EMAIL",
                                       "demo@mist.io")
 
 # CREDENTIALS FOR TESTING RBAC
-OWNER_EMAIL = get_setting("OWNER_EMAIL", "")
-OWNER_PASSWORD = get_setting("OWNER_PASSWORD", "")
+OWNER_EMAIL = get_setting("OWNER_EMAIL", "%s+%d@gmail.com" % (BASE_EMAIL, random.randint(1,200000)))
+OWNER_PASSWORD = get_setting("OWNER_PASSWORD", ''.join(random.choice(string.ascii_letters + string.digits) for _ in range(10)))
 
 MEMBER1_EMAIL = get_setting("MEMBER1_EMAIL", "")
 MEMBER1_PASSWORD = get_setting("MEMBER1_PASSWORD", PASSWORD1)
@@ -192,7 +191,7 @@ SETUP_ENVIRONMENT = get_setting("SETUP_ENVIRONMENT", False)
 WEBDRIVER_OPTIONS = get_setting('WEBDRIVER_OPTIONS',
                                  ['--dns-prefetch-disable'])
 
-REGISTER_USER_BEFORE_FEATURE = get_setting('REGISTER_USER_BEFORE_FEATURE', False, priority='environment')
+REGISTER_USER_BEFORE_FEATURE = get_setting('REGISTER_USER_BEFORE_FEATURE', True, priority='environment')
 
 IMAP_SERVER = get_setting('IMAP_SERVER', 'imap.gmail.com', priority='environment')
 

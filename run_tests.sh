@@ -8,11 +8,11 @@ help_message() {
     echo
     echo "-h     Display this message"
     echo "-api   Run api tests suite. If no argument provided, the entire API tests suite will be invoked"
-    echo "-gui   Run gui tests suite"
+    echo "-gui   Run gui tests suite. If no argument provided, the entire GUI tests suite will be invoked"
     echo
     echo "Argument for API tests can be one of the following:"
     echo
-    echo "clouds, machines, tunnels, keys, scripts, api_token, tunnels, schedules"
+    echo "clouds, machines, tunnels, keys, scripts, api_token, tunnels, schedules, orchestration"
     echo
     echo "Argument for UI tests can be one of the following:"
     echo
@@ -21,16 +21,14 @@ help_message() {
     exit
 }
 
-ui_error_message() {
-    echo
-    echo 'For UI tests you have to specify the suite you want to run!'
-    echo
-    echo "Argument for UI tests can be one of the following:"
-    echo
-    echo "clouds, machines, images, keys, scripts, users, rbac, schedules, orchestration"
-    echo
+run_gui_tests_suite() {
+    behave_tags=""
+    for tag in "${behave_tags[@]}"
+    do
+      behave_tags+="${tag}"
+    done
+    behave -k --tags=$behave_tags misttests/gui/core/pr/features
 }
-
 
 run_api_tests_suite() {
     pytest_args=""
@@ -52,21 +50,30 @@ run_api_tests_suite() {
     pytest_paths["tunnels"]='misttests/api/io/tunnels.py'
     pytest_paths["api_token"]='misttests/api/io/api_token.py'
     pytest_paths["schedules"]='misttests/api/io/schedules.py'
+    pytest_paths["orchestration"]='misttests/api/core/orchestration.py'
 
     declare -A behave_tags
 
-    behave_tags["clouds"]='clouds-add-a','clouds-add-b','clouds-actions'
-    behave_tags["images"]='images-networks'
-    behave_tags["keys"]='keys'
-    behave_tags["scripts"]='scripts'
-    behave_tags["machines"]='machines'
-    behave_tags["users"]='user-actions'
-    behave_tags["rbac"]='rbac-rules','rbac-teams','rbac-rules-v2'
-    behave_tags["schedules"]='schedulers','schedulers_v2'
-    behave_tags["orchestration"]='orchestration'
+    behave_tags["clouds"]='clouds-add-a','clouds-add-b','clouds-actions,'
+    behave_tags["images"]='images-networks,'
+    behave_tags["keys"]='keys,'
+    behave_tags["scripts"]='scripts,'
+    behave_tags["machines"]='machines,'
+    behave_tags["users"]='user-actions,'
+    behave_tags["rbac"]='rbac-rules','rbac-teams','rbac-rules-v2,'
+    behave_tags["schedules"]='schedulers','schedulers_v2,'
+    behave_tags["orchestration"]='orchestration,'
 
 
-    if [ "$#" -eq 0 ] || [ $1 == '-h' ] || [ "$#" -gt 2 ]
+
+    if [ "$#" -eq 0 ]
+    then
+        run_api_tests_suite
+        run_gui_tests_suite
+        exit
+    fi
+
+    if [ $1 == '-h' ] || [ "$#" -gt 2 ]
     then
         help_message
         exit
@@ -80,7 +87,7 @@ run_api_tests_suite() {
             exit
         elif [ $1 == '-gui' ]
         then
-            ui_error_message
+            run_gui_tests_suite
         else
             help_message
         fi
@@ -93,3 +100,6 @@ run_api_tests_suite() {
             help_message
        fi
     fi
+
+
+# No need for test_settings.py file
