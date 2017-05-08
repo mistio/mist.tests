@@ -2,6 +2,8 @@ import json
 
 from behave import step
 
+from misttests.config import get_var_from_vault
+
 from time import time
 from time import sleep
 
@@ -109,10 +111,9 @@ def set_docker_orchestrator_creds(context):
 
 
 def set_docker_creds(context):
-    host = context.mist_config['CREDENTIALS']['DOCKER']['host']
-    authentication = context.mist_config['CREDENTIALS']['DOCKER'][
-        'authentication']
-    port = context.mist_config['CREDENTIALS']['DOCKER']['port']
+    host = get_var_from_vault('clouds/docker', 'host')
+    authentication = get_var_from_vault('clouds/docker', 'authentication')
+    port = get_var_from_vault('clouds/docker', 'port')
     context.execute_steps(u'''
             Then I set the value "Docker" to field "Title" in "cloud" add form
             Then I set the value "%s" to field "Host" in "cloud" add form
@@ -122,9 +123,9 @@ def set_docker_creds(context):
             When I click the button "%s" in the "Authentication" dropdown
         ''' % (host, port, authentication))
 
-    certificate = context.mist_config['CREDENTIALS']['DOCKER']['cert']
-    key = context.mist_config['CREDENTIALS']['DOCKER']['key']
-    ca = context.mist_config['CREDENTIALS']['DOCKER']['ca']
+    certificate = get_var_from_vault('clouds/docker', 'cert')
+    key = get_var_from_vault('clouds/docker', 'key')
+    ca = get_var_from_vault('clouds/docker', 'ca')
 
     set_value_to_field(context, key, 'key', 'cloud', 'add')
     set_value_to_field(context, certificate, 'certificate', 'cloud', 'add')
@@ -144,10 +145,10 @@ def set_openstack_creds(context):
             Then I set the value "%s" to field "Password" in "cloud" add form
             Then I set the value "%s" to field "Auth Url" in "cloud" add form
             Then I set the value "%s" to field "Tenant Name" in "cloud" add form
-        ''' % (context.mist_config['CREDENTIALS']['OPENSTACK']['username'],
-               context.mist_config['CREDENTIALS']['OPENSTACK']['password'],
-               context.mist_config['CREDENTIALS']['OPENSTACK']['auth_url'],
-               context.mist_config['CREDENTIALS']['OPENSTACK']['tenant'],))
+        ''' % (get_var_from_vault('clouds/openstack', 'username'),
+               get_var_from_vault('clouds/openstack', 'password'),
+               get_var_from_vault('clouds/openstack', 'auth_url'),
+               get_var_from_vault('clouds/openstack', 'tenant'),))
 
 
 def set_hostvirtual_creds(context):
