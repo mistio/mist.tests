@@ -217,14 +217,14 @@ def set_vmware_creds(context):
                 Then I set the value "%s" to field "Password" in "cloud" add form
                 Then I set the value "%s" to field "Organization" in "cloud" add form
                 Then I set the value "%s" to field "Hostname" in "cloud" add form
-            ''' % (context.mist_config['CREDENTIALS']['VMWARE']['username'],
-                   context.mist_config['CREDENTIALS']['VMWARE']['password'],
-                   context.mist_config['CREDENTIALS']['VMWARE']['organization'],
-                   context.mist_config['CREDENTIALS']['VMWARE']['host'],))
+            ''' % (get_var_from_vault('clouds/vmware', 'username'),
+                   get_var_from_vault('clouds/vmware', 'password'),
+                   get_var_from_vault('clouds/vmware', 'organization'),
+                   get_var_from_vault('clouds/vmware', 'host'),))
 
 
 def set_second_packet_creds(context):
-    api_key = context.mist_config['CREDENTIALS']['PACKET_2']['api_key']
+    api_key = get_var_from_vault('clouds/packet_2', 'api_key')
     context.execute_steps(u'Then I set the value "%s" to field "API Key" in '
                           u'"cloud" edit form' % api_key)
 
@@ -235,10 +235,10 @@ def set_second_openstack_creds(context):
                 Then I set the value "%s" to field "Password" in "cloud" edit form
                 Then I set the value "%s" to field "Auth Url" in "cloud" edit form
                 Then I set the value "%s" to field "Tenant Name" in "cloud" edit form
-            ''' % (context.mist_config['CREDENTIALS']['OPENSTACK_2']['username'],
-                   context.mist_config['CREDENTIALS']['OPENSTACK']['password'],
-                   context.mist_config['CREDENTIALS']['OPENSTACK']['auth_url'],
-                   context.mist_config['CREDENTIALS']['OPENSTACK_2']['tenant'],))
+            ''' % (get_var_from_vault('clouds/openstack_2', 'username'),
+               get_var_from_vault('clouds/openstack', 'password'),
+               get_var_from_vault('clouds/openstack', 'auth_url'),
+               get_var_from_vault('clouds/openstack_2', 'tenant'),))
 
 
 cloud_creds_dict = {
