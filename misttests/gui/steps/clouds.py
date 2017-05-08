@@ -20,9 +20,8 @@ from .buttons import click_button_from_collection
 
 
 def set_azure_creds(context):
-    subscription_id = context.mist_config['CREDENTIALS']['AZURE'][
-        'subscription_id']
-    certificate = context.mist_config['CREDENTIALS']['AZURE']['certificate']
+    subscription_id = get_var_from_vault('clouds/azure', 'subscription_id')
+    certificate = get_var_from_vault('clouds/azure', 'certificate')
     context.execute_steps(u'''
             Then I set the value "Azure" to field "Title" in "cloud" add form
             And I set the value "%s" to field "Subscription ID" in "cloud" add form
@@ -32,8 +31,8 @@ def set_azure_creds(context):
 
 
 def set_gce_creds(context):
-    project_id = context.mist_config['CREDENTIALS']['GCE']['project_id']
-    private_key = context.mist_config['CREDENTIALS']['GCE']['private_key']
+    project_id = get_var_from_vault('clouds/gce', 'project_id')
+    private_key = get_var_from_vault('clouds/gce', 'private_key')
     context.execute_steps(u'''
             Then I set the value "%s" to field "Title" in "cloud" add form
             Then I set the value "%s" to field "Project ID" in "cloud" add form
@@ -42,9 +41,9 @@ def set_gce_creds(context):
 
 
 def set_rackspace_creds(context):
-    region = context.mist_config['CREDENTIALS']['RACKSPACE']['region']
-    username = context.mist_config['CREDENTIALS']['RACKSPACE']['username']
-    api_key = context.mist_config['CREDENTIALS']['RACKSPACE']['api_key']
+    region = get_var_from_vault('clouds/rackspace', 'region')
+    username = get_var_from_vault('clouds/rackspace', 'username')
+    api_key = get_var_from_vault('clouds/rackspace', 'api_key')
     context.execute_steps(u'''
         Then I open the "Region" drop down
         And I wait for 1 seconds
@@ -56,8 +55,8 @@ def set_rackspace_creds(context):
 
 
 def set_softlayer_creds(context):
-    username = context.mist_config['CREDENTIALS']['SOFTLAYER']['username']
-    api_key = context.mist_config['CREDENTIALS']['SOFTLAYER']['api_key']
+    username = get_var_from_vault('clouds/softlayer', 'username')
+    api_key = get_var_from_vault('clouds/softlayer', 'api_key')
     context.execute_steps(u'''
         Then I set the value "%s" to field "Username" in "cloud" add form
         Then I set the value "%s" to field "API Key" in "cloud" add form
@@ -65,9 +64,9 @@ def set_softlayer_creds(context):
 
 
 def set_aws_creds(context):
-    api_key = context.mist_config['CREDENTIALS']['AWS']['api_key']
-    api_secret = context.mist_config['CREDENTIALS']['AWS']['api_secret']
-    region = context.mist_config['CREDENTIALS']['AWS']['region']
+    api_key = get_var_from_vault('clouds/aws', 'api_key')
+    api_secret = get_var_from_vault('clouds/aws', 'api_secret')
+    region = get_var_from_vault('clouds/aws', 'region')
     context.execute_steps(u'''
         Then I open the "Region" drop down
         And I wait for 1 seconds
@@ -80,8 +79,8 @@ def set_aws_creds(context):
 
 
 def set_nepho_creds(context):
-    username = context.mist_config['CREDENTIALS']['NEPHOSCALE']['username']
-    password = context.mist_config['CREDENTIALS']['NEPHOSCALE']['password']
+    username = get_var_from_vault('clouds/nephoscale', 'username')
+    password = get_var_from_vault('clouds/nephoscale', 'password')
     context.execute_steps(u'''
             Then I set the value "%s" to field "Username" in "cloud" add form
             Then I set the value "%s" to field "Password" in "cloud" add form
@@ -89,20 +88,20 @@ def set_nepho_creds(context):
 
 
 def set_linode_creds(context):
-    api_key = context.mist_config['CREDENTIALS']['LINODE']['api_key']
+    api_key = get_var_from_vault('clouds/linode', 'api_key')
     context.execute_steps(u'Then I set the value "%s" to field "API Key" in'
                           u' "cloud" add form' % api_key)
 
 
 def set_do_creds(context):
-    token = context.mist_config['CREDENTIALS']['DIGITALOCEAN']['token']
+    token = get_var_from_vault('clouds/digitalocean', 'token')
     context.execute_steps(u'Then I set the value "%s" to field "Token" in '
                           u'"cloud" add form' % token)
 
 
 def set_docker_orchestrator_creds(context):
-    host = context.mist_config['CREDENTIALS']['DOCKER_ORCHESTRATOR']['host']
-    port = context.mist_config['CREDENTIALS']['DOCKER_ORCHESTRATOR']['port']
+    host = get_var_from_vault('clouds/docker_orchestrator', 'host')
+    port = get_var_from_vault('clouds/docker_orchestrator', 'port')
     context.execute_steps(u'''
                 Then I set the value "Docker_Orchestrator" to field "Title" in "cloud" add form
                 Then I set the value "%s" to field "Host" in "cloud" add form
@@ -133,7 +132,7 @@ def set_docker_creds(context):
 
 
 def set_packet_creds(context):
-    api_key = context.mist_config['CREDENTIALS']['PACKET']['api_key']
+    api_key = get_var_from_vault('clouds/packet', 'api_key')
     context.execute_steps(u'Then I set the value "%s" to field "API Key" in '
                           u'"cloud" add form' % api_key)
 
@@ -152,13 +151,13 @@ def set_openstack_creds(context):
 
 
 def set_hostvirtual_creds(context):
-    api_key = context.mist_config['CREDENTIALS']['HOSTVIRTUAL']['api_key']
+    api_key = get_var_from_vault('clouds/hostvirtual', 'api_key')
     context.execute_steps(u'Then I set the value "%s" to field "API Key" in '
                           u'"cloud" add form' % api_key)
 
 
 def set_vultr_creds(context):
-    api_key = context.mist_config['CREDENTIALS']['VULTR']['apikey']
+    api_key = get_var_from_vault('clouds/vultr', 'apikey')
     context.execute_steps(u'Then I set the value "%s" to field "API Key" in '
                           u'"cloud" add form' % api_key)
 
@@ -169,9 +168,9 @@ def set_indonesian_creds(context):
                 Then I set the value "%s" to field "Username" in "cloud" add form
                 Then I set the value "%s" to field "Password" in "cloud" add form
                 Then I set the value "%s" to field "Organization" in "cloud" add form
-            ''' % (context.mist_config['CREDENTIALS']['INDONESIAN']['username'],
-                   context.mist_config['CREDENTIALS']['INDONESIAN']['password'],
-                   context.mist_config['CREDENTIALS']['INDONESIAN']['organization'],))
+            ''' % (get_var_from_vault('clouds/indonesian', 'username'),
+                   get_var_from_vault('clouds/indonesian', 'password'),
+                   get_var_from_vault('clouds/indonesian', 'organization'),))
 
 
 def set_azure_arm_creds(context):
@@ -181,10 +180,10 @@ def set_azure_arm_creds(context):
                     Then I set the value "%s" to field "Subscription ID" in "cloud" add form
                     Then I set the value "%s" to field "Client Key" in "cloud" add form
                     Then I set the value "%s" to field "Client Secret" in "cloud" add form
-                ''' % (context.mist_config['CREDENTIALS']['AZURE_ARM']['tenant_id'],
-                       context.mist_config['CREDENTIALS']['AZURE_ARM']['subscription_id'],
-                       context.mist_config['CREDENTIALS']['AZURE_ARM']['client_key'],
-                       context.mist_config['CREDENTIALS']['AZURE_ARM']['client_secret'],))
+                ''' % (get_var_from_vault('clouds/azure_arm', 'tenant_id'),
+                       get_var_from_vault('clouds/azure_arm', 'subscription_id'),
+                       get_var_from_vault('clouds/azure_arm', 'client_key'),
+                       get_var_from_vault('clouds/azure_arm', 'client_secret'),))
 
 
 def set_kvm_creds(context):
@@ -195,7 +194,7 @@ def set_kvm_creds(context):
                     And I open the "SSH Key" drop down
                     And I wait for 2 seconds
                     And I click the button "KVMKEY" in the "SSH Key" dropdown
-                '''% (context.mist_config['CREDENTIALS']['KVM']['hostname'],))
+                '''% (get_var_from_vault('clouds/kvm', 'hostname'),))
 
 
 # @step(u'I add the key needed for KVM')
