@@ -25,6 +25,7 @@ import sys
 import string
 import random
 import logging
+import requests
 
 log = logging.getLogger(__name__)
 logging.basicConfig(level=logging.INFO)
@@ -42,9 +43,10 @@ except Exception as exc:
 def get_var_from_vault(path, var):
     headers = {"X-Vault-Token":'cfcb3b53-ef46-ec3e-6e16-39bf524d188c'}
 
-    re = requests.get('https://vault.ops.mist.io:8200/v1/secret/clouds/linode', headers=headers)
-    import ipdb;
-    ipdb.set_trace()
+    re = requests.get('https://vault.ops.mist.io:8200/v1/secret/%s' %path, headers=headers)
+
+    json_data = re.json().get('data')
+    return json_data.get(var)
 
 
 def get_setting(setting, default_value=None, priority='config_file'):
