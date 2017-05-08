@@ -195,7 +195,7 @@ class TestSchedulesFunctionality:
                                            zone_id=cache.get('zone_id', ''),
                                            name='mailserver.dummytestzone.com.',
                                            type='MX',
-                                           data='10 mailserver.mist.com',
+                                           data='10 mailserver.mist.com.',
                                            ttl=3600
                                           ).post()
         assert_response_ok(response)
@@ -218,6 +218,20 @@ class TestSchedulesFunctionality:
                                           zone_id=cache.get('zone_id', ''),
                                           api_token=owner_api_token).get()
         assert_response_ok(response)
+        assert len(response.json()) == 7
+        for record in response.json():
+            if record['type'] == 'A':
+                assert record['name'] == 'subdomain'
+                assert record['rdata'] == ['172.16.254.1']
+            elif record['type'] == 'AAAA':
+                assert record['name'] == 'subdomain2'
+                assert record['rdata'] == ['2001:db8:0:1234:0:567:8:1']
+            elif record['type'] == 'CNAME':
+                assert record['name'] == 'subdomain3'
+                assert record['rdata'] == ['host.example.com.']
+            elif record['type'] == 'TXT':
+                assert record['name'] == 'text'
+                assert record['rdata'] == ['"Just some text"']
         print "Success!!!"
 
     def test_delete_records(self, pretty_print, mist_core, owner_api_token, cache):
