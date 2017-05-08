@@ -1,5 +1,5 @@
 from misttests.api.helpers import *
-from misttests import config
+from misttests.config import get_var_from_vault
 from time import sleep
 
 import pytest
@@ -113,12 +113,12 @@ class TestSchedulesFunctionality:
 
     def test_create_resources(self, pretty_print, mist_core, owner_api_token, cache):
         response = mist_core.add_cloud(title='Docker', provider= 'docker', api_token=owner_api_token,
-                                       docker_host=config.CREDENTIALS['DOCKER']['host'],
-                                       docker_port=config.CREDENTIALS['DOCKER']['port'],
-                                       authentication=config.CREDENTIALS['DOCKER']['authentication'],
-                                       ca_cert_file=config.CREDENTIALS['DOCKER']['ca'],
-                                       key_file=config.CREDENTIALS['DOCKER']['key'],
-                                       cert_file=config.CREDENTIALS['DOCKER']['cert']).post()
+                                       docker_host=get_var_from_vault('clouds/docker', 'host'),
+                                       docker_port=get_var_from_vault('clouds/docker', 'port'),
+                                       authentication=get_var_from_vault('clouds/docker', 'authentication'),
+                                       ca_cert_file=get_var_from_vault('clouds/docker', 'ca'),
+                                       key_file=get_var_from_vault('clouds/docker', 'key'),
+                                       cert_file=get_var_from_vault('clouds/docker', 'cert')).post()
         assert_response_ok(response)
         cache.set('cloud_id', response.json()['id'])
 
