@@ -43,7 +43,7 @@ except Exception as exc:
 def get_var_from_vault(path, var):
     headers = {"X-Vault-Token": VAULT_TOKEN}
 
-    re = requests.get('%s/v1/secret/%s' %VAULT_SERVER %path, headers=headers)
+    re = requests.get(VAULT_SERVER + '/v1/secret/%s' %path, headers=headers)
 
     json_data = re.json().get('data')
     return json_data.get(var)
