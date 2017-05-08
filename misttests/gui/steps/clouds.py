@@ -37,7 +37,7 @@ def set_gce_creds(context):
             Then I set the value "%s" to field "Title" in "cloud" add form
             Then I set the value "%s" to field "Project ID" in "cloud" add form
             Then I set the value "%s" to field "Private Key" in "cloud" add form
-        ''' % ('GCE', project_id, json.dumps(private_key)))
+        ''' % ('GCE', project_id, json.loads(private_key)))
 
 
 def set_rackspace_creds(context):
