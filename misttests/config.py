@@ -75,7 +75,7 @@ def get_setting(setting, default_value=None, priority='config_file'):
 
 LOCAL = get_setting("LOCAL", True)
 
-VAULT_TOKEN = get_setting("VAULT_TOKEN",)
+VAULT_TOKEN = get_setting("VAULT_TOKEN","")
 
 DEBUG = get_setting("DEBUG", False)
 
