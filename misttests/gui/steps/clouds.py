@@ -197,26 +197,6 @@ def set_kvm_creds(context):
                 '''% (get_var_from_vault('clouds/kvm', 'hostname'),))
 
 
-# @step(u'I add the key needed for KVM')
-# def add_key_for_provider(context):
-#     context.execute_steps(u'''
-#         When I visit the Keys page
-#         When I click the button "+"
-#         Then I expect the "Key" add form to be visible within max 10 seconds
-#         When I set the value "KVMKey" to field "Name" in "key" add form
-#         When I set the value "%s" to field "Private Key" in "key" add form
-#         And I wait for 5 seconds
-#         And I expect for the button "Add" in "key" add form to be clickable within 9 seconds
-#         When I focus on the button "Add" in "key" add form
-#         And I click the button "Add" in "key" add form
-#         Then I expect the "key" edit form to be visible within max 7 seconds
-#         When I visit the Keys page
-#         Then "KVMKey" key should be present within 15 seconds
-#         Then I visit the Home page
-#         When I wait for the dashboard to load
-#         '''%(context.mist_config['CREDENTIALS']['KVM']['key'],))
-
-
 def set_other_server_creds(context):
     context.execute_steps(u'''
                     Then I set the value "Bare Metal" to field "Title" in "cloud" add form
@@ -227,7 +207,7 @@ def set_other_server_creds(context):
                     And I click the button "KVMKEY" in the "SSH Key" dropdown
                     And I wait for 1 seconds
                     When I click the "monitoring" button with id "monitoring"
-                ''' % (context.mist_config['CREDENTIALS']['KVM']['hostname'],))
+                ''' % (get_var_from_vault('clouds/kvm', 'hostname'),))
 
 
 def set_vmware_creds(context):
