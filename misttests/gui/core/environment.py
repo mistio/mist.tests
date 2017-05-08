@@ -134,7 +134,8 @@ def kill_yolomachine(context, machines, headers, cloud_id):
         if 'yolomachine' in machine['name']:
             log.info('Killing yolomachine...')
             payload= {'action': 'destroy'}
-            uri = context.mist_config['MIST_URL'] + '/api/v1/clouds/' + cloud_id + '/machines/' + machine['id']
+            uri = context.mist_config['MIST_URL'] + '/api/v1/clouds/' + \
+                  cloud_id + '/machines/' + machine['machine_id']
             requests.post(uri, data=json.dumps(payload), headers=headers)
 
 
@@ -175,7 +176,7 @@ def kill_docker_machine(context, machine_to_destroy):
                     log.info('Killing docker machine...')
                     payload = {'action': 'destroy'}
                     uri = context.mist_config['MIST_URL'] + '/api/v1/clouds/' + cloud['id'] + '/machines/' + \
-                          machine['id']
+                          machine['machine_id']
                     requests.post(uri, data=json.dumps(payload), headers=headers)
 
 
@@ -199,6 +200,6 @@ def after_feature(context, feature):
         kill_docker_machine(context, context.mist_config.get('test-ui-machine-random'))
         kill_docker_machine(context, context.mist_config.get('test-ui-machine-2-random'))
     if 'Machines' == feature.name:
-        kill_docker_machine(context, context.mist_config.get('ui-test-create-machine-random'))
+       kill_docker_machine(context, context.mist_config.get('ui-test-create-machine-random'))
     if 'RBAC' == feature.name:
         kill_docker_machine(context, context.mist_config.get('docker-ui-test-machine-random'))
