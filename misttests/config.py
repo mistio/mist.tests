@@ -43,7 +43,7 @@ except Exception as exc:
 def get_var_from_vault(path, var):
     headers = {"X-Vault-Token": VAULT_TOKEN}
 
-    re = requests.get('https://vault.ops.mist.io:8200/v1/secret/%s' %path, headers=headers)
+    re = requests.get('%s/v1/secret/%s' %VAULT_SERVER %path, headers=headers)
 
     json_data = re.json().get('data')
     return json_data.get(var)
@@ -75,7 +75,9 @@ def get_setting(setting, default_value=None, priority='config_file'):
 
 LOCAL = get_setting("LOCAL", True)
 
-VAULT_TOKEN = get_setting("VAULT_TOKEN","")
+VAULT_TOKEN = get_setting("VAULT_TOKEN", "")
+
+VAULT_SERVER = get_setting("VAULT_SERVER", "")
 
 DEBUG = get_setting("DEBUG", False)
 
