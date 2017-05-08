@@ -41,7 +41,7 @@ except Exception as exc:
 
 
 def get_var_from_vault(path, var):
-    headers = {"X-Vault-Token":'cfcb3b53-ef46-ec3e-6e16-39bf524d188c'}
+    headers = {"X-Vault-Token": VAULT_TOKEN}
 
     re = requests.get('https://vault.ops.mist.io:8200/v1/secret/%s' %path, headers=headers)
 
