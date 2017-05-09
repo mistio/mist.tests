@@ -14,7 +14,7 @@ def test_list_zones(pretty_print, mist_core, cache,  owner_api_token):
     response = mist_core.add_cloud('EC2', 'ec2', api_token=owner_api_token,
                                    api_key=config.CREDENTIALS['AWS']['api_key'],
                                    api_secret=config.CREDENTIALS['AWS']['api_secret'],
-                                   region=config.CREDENTIALS['AWS']['region']).post()
+                                   region='ap-northeast-1').post()
     assert_response_ok(response)
     response = mist_core.list_clouds(api_token=owner_api_token).get()
     assert_response_ok(response)
