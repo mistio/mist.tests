@@ -8,7 +8,6 @@ from time import sleep
 from selenium.common.exceptions import NoSuchElementException
 from selenium.common.exceptions import StaleElementReferenceException
 
-from .utils import wait_until_visible
 from .utils import safe_get_element_text
 
 from .forms import set_value_to_field
@@ -99,6 +98,16 @@ def set_do_creds(context):
                           u'"cloud" add form' % token)
 
 
+def set_docker_orchestrator_creds(context):
+    host = context.mist_config['CREDENTIALS']['DOCKER_ORCHESTRATOR']['host']
+    port = context.mist_config['CREDENTIALS']['DOCKER_ORCHESTRATOR']['port']
+    context.execute_steps(u'''
+                Then I set the value "Docker_Orchestrator" to field "Title" in "cloud" add form
+                Then I set the value "%s" to field "Host" in "cloud" add form
+                Then I set the value "%s" to field "Port" in "cloud" add form
+            ''' % (host, port))
+
+
 def set_docker_creds(context):
     host = context.mist_config['CREDENTIALS']['DOCKER']['host']
     authentication = context.mist_config['CREDENTIALS']['DOCKER'][
@@ -179,14 +188,11 @@ def set_azure_arm_creds(context):
 
 def set_kvm_creds(context):
     context.execute_steps(u'''
-                    When I add the key needed for KVM
-                    When I click the new cloud button
-                    Then I expect the "Cloud" add form to be visible within max 5 seconds
-                    When I select the "KVM (Via Libvirt)" provider
-                    Then I expect the field "Title" in the cloud add form to be visible within max 4 seconds
                     Then I set the value "KVM" to field "Title" in "cloud" add form
                     Then I set the value "%s" to field "KVM hostname" in "cloud" add form
                     And I wait for 1 seconds
+                    And I open the "SSH Key" drop down
+                    And I wait for 2 seconds
                     And I click the button "KVMKEY" in the "SSH Key" dropdown
                 '''% (context.mist_config['CREDENTIALS']['KVM']['hostname'],))
 
@@ -211,11 +217,16 @@ def set_kvm_creds(context):
 #         '''%(context.mist_config['CREDENTIALS']['KVM']['key'],))
 
 
-# os and ssh key might be needed as well
 def set_other_server_creds(context):
     context.execute_steps(u'''
                     Then I set the value "Bare Metal" to field "Title" in "cloud" add form
                     Then I set the value "%s" to field "Hostname" in "cloud" add form
+                    And I wait for 1 seconds
+                    And I open the "SSH Key" drop down
+                    And I wait for 2 seconds
+                    And I click the button "KVMKEY" in the "SSH Key" dropdown
+                    And I wait for 1 seconds
+                    When I click the "monitoring" button with id "monitoring"
                 ''' % (context.mist_config['CREDENTIALS']['KVM']['hostname'],))
 
 
@@ -268,7 +279,8 @@ cloud_creds_dict = {
     "azure arm": set_azure_arm_creds,
     "kvm (via libvirt)": set_kvm_creds,
     "other server": set_other_server_creds,
-    "vmware": set_vmware_creds
+    "vmware": set_vmware_creds,
+    "docker_orchestrator": set_docker_orchestrator_creds
 }
 
 
@@ -361,9 +373,17 @@ def given_cloud(context, cloud):
 
 
     context.execute_steps(u'''
-        When I click the new cloud button
-        Then I expect the "Cloud" add form to be visible within max 5 seconds
-        When I select the "%s" provider
+        When I click the "new cloud" button with id "addBtn"
+        Then I expect the "Cloud" add form to be visible within max 5 seconds''')
+
+    if 'docker_orchestrator' in cloud.lower():
+        cloud_type = 'docker'
+    else:
+        cloud_type = cloud
+
+    context.execute_steps(u'''When I select the "%s" provider''' % cloud_type)
+
+    context.execute_steps('''
         Then I expect the field "Title" in the cloud add form to be visible within max 4 seconds
         When I use my "%s" credentials
         And I focus on the button "Add Cloud" in "cloud" add form
@@ -371,7 +391,7 @@ def given_cloud(context, cloud):
         When I wait for the dashboard to load
         And I scroll the clouds list into view
         Then the "%s" provider should be added within 120 seconds
-    ''' % (cloud, cloud, cloud))
+    ''' % (cloud, cloud))
 
 
 @step(u'I {action} the cloud menu for "{provider}"')
@@ -455,3 +475,29 @@ def ensure_cloud_enabled(context, title):
     cloud = find_cloud(context, title.lower())
     assert cloud, "Cloud %s has not been added" % title
     return 'offline' in cloud.get_attibute('class')
+
+
+@step(u'I add the key needed for KVM')
+def add_key_for_provider(context):
+
+    context.execute_steps(u'''
+        When I visit the Keys page
+        When I click the button "+"
+        Then I expect the "Key" add form to be visible within max 10 seconds
+        When I set the value "KVMKey" to field "Name" in "key" add form
+    ''')
+
+    key = context.mist_config['CREDENTIALS']['KVM']['key']
+    set_value_to_field(context, key, 'Private Key', 'key', 'add')
+
+    context.execute_steps(u'''
+        When I expect for the button "Add" in "key" add form to be clickable within 9 seconds
+        And I focus on the button "Add" in "key" add form
+        And I click the button "Add" in "key" add form
+        Then I expect the "key" edit form to be visible within max 7 seconds
+        And I visit the Home page
+        When I visit the Keys page
+        Then "KVMKey" key should be present within 15 seconds
+        Then I visit the Home page
+        When I wait for the dashboard to load
+    ''')

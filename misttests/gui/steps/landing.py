@@ -37,8 +37,10 @@ def open_login_popup(context, kind):
         landing_pages = shadow_root.find_element_by_css_selector('landing-pages')
         landing_home = landing_pages.find_element_by_tag_name("landing-home")
         inner_shadow_root = get_shadow_root(context, landing_home)
-        div = inner_shadow_root.find_element_by_id('container')
-        inner_div = div.find_element_by_css_selector('div')
+        container = inner_shadow_root.find_element_by_id('container')
+        landing_fold = container.find_element_by_tag_name('landing-fold')
+        landing_fold_shadow_root = get_shadow_root(context, landing_fold)
+        inner_div = landing_fold_shadow_root.find_element_by_css_selector('div')
         a = inner_div.find_element_by_tag_name("a")
         button_to_click = a.find_element_by_tag_name("paper-button")
 
@@ -119,8 +121,6 @@ def get_mist_config_password(context,kind):
 
 @step(u'I enter my {kind} credentials for {action}')
 def enter_credentials(context, kind, action):
-    from .forms import clear_input_and_send_keys
-
     kind = kind.lower()
     action = action.lower()
     if action not in ['login', 'signup', 'signup_password_set',
@@ -179,7 +179,6 @@ def enter_credentials(context, kind, action):
 
         pass_input = shadow_root.find_element_by_css_selector('paper-input')
         pass_input.send_keys(get_mist_config_password(context, kind))
-        #clear_input_and_send_keys(pass_input, get_mist_config_password(context, kind))
 
     elif action == 'signup_password_set':
         set_password_class = landing_pages.find_element_by_tag_name('landing-set-password')
@@ -192,7 +191,6 @@ def enter_credentials(context, kind, action):
 
         pass_input = shadow_root.find_element_by_css_selector('paper-input')
         pass_input.send_keys(get_mist_config_password(context, kind))
-        #clear_input_and_send_keys(pass_input, password_to_use)
 
 
 @step(u'there should be an "{error_message}" error message inside the "{button}" button')

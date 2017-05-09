@@ -7,8 +7,8 @@ Feature: Production
     When I visit the Machines page after the counter has loaded
     Then I search for the mayday machine
     When I click the mayday machine
-    And I expect the "machine" edit form to be visible within max 5 seconds
     And I clear the machines search bar
+    And I expect the "machine" edit form to be visible within max 5 seconds
     Then I wait for the graphs to appear
     And I click the button "Add Graph"
     Then I expect for "selectTarget" modal to appear within max 30 seconds
@@ -63,8 +63,17 @@ Feature: Production
     Then I expect for "confirmation" modal to appear within max 4 seconds
     And I click the button "Reboot"
     Then I expect for "select-action" modal to disappear within max 4 seconds
-    And I wait for 4 seconds
-    Then Mayday machine state should be "running" within 200 seconds
+    And I wait for 25 seconds
+    And I open the actions dialog
+    Then I expect for "select-action" modal to appear within max 4 seconds
+    When I click the "Shell" button inside the "select-action" modal
+    And I expect terminal to open within 3 seconds
+    And I wait for 5 seconds
+    And I type in the terminal "uptime"
+    And I wait for 1 seconds
+    Then up 0 min should be included in the output
+    And I close the terminal
+    And I wait for 1 seconds
 
   @github_sso_signin
   Scenario: Sign in testing with github
@@ -85,13 +94,14 @@ Feature: Production
     When I open the login popup
     And I wait for 2 seconds
     Then I click the google button in the landing page popup
-    Then I input my "GOOGLE_TEST_EMAIL" in the field with id "Email"
-    And I click the "next" button
-    Then I input my "GOOGLE_TEST_PASSWORD" in the field with id "Passwd"
-    And I press the button with id "signIn"
+    Then I input my "GOOGLE_TEST_EMAIL" in the field with id "identifierId"
+    And I click the "next" button with id "identifierNext"
+    And I wait for 2 seconds
+    And I type the password in the Google form
+    And I press the button with id "passwordNext"
     When I wait for the dashboard to load
     Then I logout
 
-#  @confirm_alert_email
-#  Scenario: Confirm that alert email arrived
-#    Then I should receive an email within 200 seconds
+  @confirm_alert_email
+  Scenario: Confirm that alert email arrived
+    Then I should receive an email within 200 seconds

@@ -1,23 +1,43 @@
 stages:
+  - build
   - test
 
-run_mayday_test:
-  image: gcr.io/mist-ops/tests_base
-  stage: test
-  tags:
-    - shm
-  only:
-    - triggers
-  before_script:
-    - echo $MAYDAY_SETTINGS | base64 -d > test_settings.py
-    - export DISPLAY=:1.0
-    - pip install -e .
+variables:
+  img: gcr.io/mist-ops/tests_base
+
+build:
+  stage: build
   script:
-    - python prepare_env.py -k --tags=graph,ssh,alert,celery,google_sso_signin,github_sso_signin,confirm_alert_email misttests/gui/core/mayday/features
-  artifacts:
-    paths:
-      - js_console.log
-      - error*
-      - test.mp4
-    expire_in: 7 days
-    when: always
+    - docker build --rm -t $img:$CI_COMMIT_SHA .
+    - echo "Pushing $img:$CI_COMMIT_SHA"
+    - docker push $img:$CI_COMMIT_SHA
+    - docker tag $img:$CI_COMMIT_SHA $img:$CI_COMMIT_REF_SLUG
+    - echo "Pushing $img:$CI_COMMIT_REF_SLUG"
+    - docker push $img:$CI_COMMIT_REF_SLUG
+    - if [ "$CI_COMMIT_REF_SLUG" != master ]; then exit 0; fi
+    - docker tag $img:$CI_COMMIT_SHA $img:latest
+    - echo "Pushing $img:latest"
+    - docker push $img:latest
+  tags:
+    - builder
+
+flake8:
+  stage: test
+  image: $img:$CI_COMMIT_SHA
+  variables:
+    GIT_STRATEGY: none
+  before_script:
+    - cd /mist.tests/
+  script:
+    - flake8 misttests/api/io/io.py
+    - flake8 misttests/api/core/core.py
+    - flake8 misttests/api/mistrequests.py
+    - flake8 misttests/api/utils.py
+    - flake8 misttests/api/core/api_token.py
+    - flake8 misttests/gui/steps/browser.py
+    - flake8 misttests/gui/steps/dialog.py
+    - flake8 misttests/gui/steps/modals.py
+    - flake8 misttests/gui/steps/org_context.py
+    - flake8 misttests/gui/steps/search.py
+    - flake8 misttests/gui/steps/setup.py
+    - flake8 misttests/gui/steps/team.py

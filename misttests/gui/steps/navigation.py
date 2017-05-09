@@ -3,7 +3,6 @@ from behave import step
 from time import time
 from time import sleep
 
-from .buttons import search_for_button
 from .buttons import clicketi_click
 from .buttons import click_the_gravatar
 from .buttons import click_button_from_collection
@@ -50,21 +49,12 @@ def wait_for_log_in_page_to_load(context):
 
 @step(u'I visit mist.core')
 def visit(context):
-    """
-    This method will visit the mist.core instance specified by MIST_URL in the
-    settings file and if it lands on the sign in page then it will wait for
-    the page to load, otherwise if it lands in the splash page then it will
-    sleep for one second and then proceed. If you wish to wait for the splash
-    page to load then you should use the "Then I wait for the mist.io splash
-    page to load" rule.
-    """
     if not i_am_in_homepage(context):
         context.browser.get(context.mist_config['MIST_URL'])
     timeout = time() + 4
     while time() < timeout:
         try:
             elements = context.browser.find_element_by_tag_name("landing-app")
-            #wait_for_log_in_page_to_load(context)
             return
         except NoSuchElementException:
             try:
@@ -79,10 +69,6 @@ def visit(context):
 
 @step(u'I am in the new UI')
 def am_in_new_UI(context):
-    """
-    Function that waits for the new UI to load. The maximum time for the page
-    to load is 60 seconds in this case
-    """
     assert found_one(context), "I have no idea where I am"
     try:
         context.browser.find_element_by_tag_name("mist-app")
@@ -97,7 +83,7 @@ def am_in_new_UI(context):
 
 @step(u'I make sure the menu is open')
 def make_sure_menu_is_open(context):
-    end_time = time() + 10
+    end_time = time() + 15
     while time() < end_time:
         try:
             menu = context.browser.find_element_by_id('sidebar')
@@ -135,9 +121,7 @@ def filter_buttons(context, text):
 
 @step(u'I wait for the dashboard to load')
 def wait_for_dashboard(context):
-    # wait first until the sidebar is open
     context.execute_steps(u'Then I wait for the links in homepage to appear')
-    # wait until the panel in the middle is visible
     timeout = 20
     try:
         WebDriverWait(context.browser, timeout).until(
@@ -147,13 +131,10 @@ def wait_for_dashboard(context):
     except TimeoutException:
         raise TimeoutException("Dashboard did not load after %s seconds"
                                % timeout)
-    # wait until the add clouds button is clickable
     context.execute_steps(u'Then I expect for "addBtn" to be clickable within '
                           u'max 20 seconds')
     save_org = filter_buttons(context, 'save organisation')
     if save_org:
-        # first save the name of the organizational context for future use then
-        # press the button to save the name and finally return successfully
         org_form = context.browser.find_element_by_id('orginput')
         org_input = org_form.find_element_by_id('input')
         context.organizational_context = org_input.get_attribute('value').strip().lower()
@@ -163,11 +144,6 @@ def wait_for_dashboard(context):
 
 @step(u'I visit the {title} page')
 def go_to_some_page_without_waiting(context, title):
-    """
-    WIll visit one of the basic pages(Machines, Images, Keys, Scripts) without
-    waiting for the counter or the list on the page to load.
-    For now the code will not be very accurate for keys page
-    """
     title = title.lower()
     if title not in ['machines', 'images', 'keys', 'networks', 'tunnels',
                      'scripts', 'schedules', 'templates', 'stacks', 'teams',
@@ -179,7 +155,7 @@ def go_to_some_page_without_waiting(context, title):
         context.execute_steps(u'''
                 When I click the gravatar
                 And I wait for 2 seconds
-                And I click the "Account" button
+                And I click the "Account" button with id "Account"
                ''')
         return
     else:
@@ -203,11 +179,6 @@ def go_to_some_page_after_loading(context, title):
 
 @step(u'I visit the {title} page after the {counter_title} counter has loaded')
 def go_to_some_page_after_counter_loading(context, title, counter_title):
-    """
-    WIll visit one of the basic pages(Machines, Images, Keys, Scripts) and has
-    the choice of waiting for some of the counters to load
-    For now the code will not be very accurate for keys page
-    """
     title = title.lower()
     counter_title = counter_title.lower()
     if title not in ['machines', 'images', 'keys', 'networks', 'tunnels',
@@ -238,7 +209,6 @@ def visit_machines_url(context):
 def given_logged_in(context):
     try:
         context.browser.find_element_by_tag_name("mist-app")
-        # we're on the new UI
         return
     except:
         pass
@@ -249,7 +219,7 @@ def given_logged_in(context):
         When I open the login popup
         And I enter my standard credentials for login
         And I click the sign in button in the landing page popup
-        Then I wait for the dashboard to load
+        Then I wait for the links in homepage to appear
     """)
 
 
@@ -287,14 +257,14 @@ def given_logged_in(context, kind):
             When I open the login popup
             And I enter my %s credentials for login
             And I click the sign in button in the landing page popup
-            Then I wait for the dashboard to load
+            And I wait for the links in homepage to appear
         """ % kind)
     elif kind == 'reg_member':
         context.execute_steps(u"""
             When I open the login popup
             And I enter my standard credentials for login
             And I click the sign in button in the landing page popup
-            Then I wait for the dashboard to load
+            And I wait for the links in homepage to appear
         """)
 
 
@@ -361,38 +331,6 @@ def logout(context):
         sleep(1)
 
     assert False, "User menu has not appeared yet"
-
-
-@step(u'I wait for "{title}" list page to load')
-def wait_for_some_list_page_to_load(context, title):
-    if title not in ['Machines', 'Images', 'Keys', 'Networks', 'Scripts',
-                     'Account', 'Teams']:
-        raise ValueError('The page given is unknown')
-    # Wait for the list page to appear
-    end_time = time() + 5
-    while time() < end_time:
-        try:
-            context.browser.find_element_by_id(
-                '%s-list-page' % title.lower().rpartition(title[-1])[0])
-            break
-        except NoSuchElementException:
-            assert time() + 1 < end_time, "%s list page has not appeared " \
-                                          "after 5 seconds" % title.lower()
-            sleep(1)
-
-    # this code will stop waiting after 5 seconds if nothing appears otherwise
-    # it will stop as soon as a list is loaded
-    end_time = time() + 5
-    while time() < end_time:
-        try:
-            list_of_things = context.browser.find_element_by_id(
-                '%s-list' % title.lower().rpartition(title[-1])[0])
-            lis = list_of_things.find_elements_by_tag_name('li')
-            if len(lis) > 0:
-                break
-        except NoSuchElementException:
-            pass
-        sleep(1)
 
 
 def get_gravatar(context):

@@ -49,7 +49,6 @@ def get_setting(setting, default_value=None, priority='config_file'):
     else:
         setting = test_settings.get(setting, os.environ.get(setting, default_value))
 
-
     if type(setting) == type(default_value):
         return setting
 
@@ -63,7 +62,6 @@ def get_setting(setting, default_value=None, priority='config_file'):
         return ast.literal_eval(setting)
     elif type(default_value) == bool:
         return True if setting in ["True", "true"] else False
-
 
 LOCAL = get_setting("LOCAL", True)
 
@@ -86,7 +84,6 @@ MAIL_PATH = get_setting("MAIL_PATH", MAIL_DIR)
 JS_CONSOLE_LOG = get_setting("JS_CONSOLE_LOG", '/var/log/js_console.log')
 
 SCREENSHOT_PATH = get_setting("SCREENSHOT_PATH", '/var/log/error')
-
 
 DISPLAY_NUM = get_setting("DISPLAY_NUM", "1")
 
@@ -121,7 +118,7 @@ VPN_URL = get_setting("VPN_URL", "")
 
 NAME = get_setting("NAME", "Atheofovos Gkikas")
 
-#-----------MAYDAY------------------
+# -----------MAYDAY------------------
 MAYDAY_MACHINE = get_setting("MAYDAY_MACHINE", "")
 
 # DEFAULT CREDENTIALS FOR ACCESSING MIST.CORE
@@ -141,8 +138,8 @@ MIST_DEMO_REQUEST_EMAIL = get_setting("MIST_DEMO_REQUEST_EMAIL",
                                       "demo@mist.io")
 
 # CREDENTIALS FOR TESTING RBAC
-OWNER_EMAIL = get_setting("OWNER_EMAIL", "")
-OWNER_PASSWORD = get_setting("OWNER_PASSWORD", "")
+OWNER_EMAIL = get_setting("OWNER_EMAIL", "%s+%d@gmail.com" % (BASE_EMAIL, random.randint(1,200000)))
+OWNER_PASSWORD = get_setting("OWNER_PASSWORD", ''.join(random.choice(string.ascii_letters + string.digits) for _ in range(10)))
 
 MEMBER1_EMAIL = get_setting("MEMBER1_EMAIL", "")
 MEMBER1_PASSWORD = get_setting("MEMBER1_PASSWORD", PASSWORD1)
@@ -189,13 +186,12 @@ ORG_NAME = get_setting('ORG_NAME', '')
 
 ORG_ID = get_setting('ORG_ID', '')
 
-# TODO: This should maybe set to True for api tests
 SETUP_ENVIRONMENT = get_setting("SETUP_ENVIRONMENT", False)
 
 WEBDRIVER_OPTIONS = get_setting('WEBDRIVER_OPTIONS',
                                  ['--dns-prefetch-disable'])
 
-REGISTER_USER_BEFORE_FEATURE = get_setting('REGISTER_USER_BEFORE_FEATURE', False, priority='environment')
+REGISTER_USER_BEFORE_FEATURE = get_setting('REGISTER_USER_BEFORE_FEATURE', True, priority='environment')
 
 IMAP_SERVER = get_setting('IMAP_SERVER', 'imap.gmail.com', priority='environment')
 
