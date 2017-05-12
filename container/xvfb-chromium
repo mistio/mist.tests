@@ -9,7 +9,7 @@ _kill_procs() {
 # Setup a trap to catch SIGTERM and relay it to child processes
 trap _kill_procs SIGTERM
 
-XVFB_WHD=${XVFB_WHD:-1280x720x16}
+XVFB_WHD=${XVFB_WHD:-1920x1080x16}
 
 # Start Xvfb
 Xvfb :1 -ac -screen 0 $XVFB_WHD &

@@ -1,7 +1,7 @@
 #!/bin/sh
 set -e
 
-XVFB_WHD=${XVFB_WHD:-1280x720x16}
+XVFB_WHD=${XVFB_WHD:-1920x1080x16}
 
 export DISPLAY=:1.0
 export MIST_URL=${MIST_URL:-http://172.17.0.1}
