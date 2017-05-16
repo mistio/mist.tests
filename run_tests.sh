@@ -39,6 +39,14 @@ run_api_tests_suite() {
     pytest -s $pytest_args
 }
 
+vault_login() {
+    echo Vault username:
+    read username
+    echo Vault password:
+    read -s password
+    export username
+    export password
+}
 
     declare -A pytest_paths
 
@@ -68,6 +76,7 @@ run_api_tests_suite() {
 
     if [ "$#" -eq 0 ]
     then
+        vault_login
         run_api_tests_suite
         run_gui_tests_suite
         exit
@@ -83,25 +92,22 @@ run_api_tests_suite() {
     then
         if [ $1 == '-api' ]
         then
-            echo Vault username:
-            read username
-            echo Vault password:
-            read -s password
-            echo $username
-            export username
-            export VAULT_PASSWORD= $password
+            vault_login
             run_api_tests_suite
             exit
         elif [ $1 == '-gui' ]
         then
+            vault_login
             run_gui_tests_suite
         else
             help_message
         fi
     else
        if [ $1 == '-api' ] && [[ " ${!pytest_paths[@]} " == *" $2 "* ]]; then
+            vault_login
             pytest -s ${pytest_paths["$2"]}
        elif [ $1 == '-gui' ] && [[ " ${!behave_tags[@]} " == *" $2 "* ]]; then
+            vault_login
             behave -k --stop --tags=${behave_tags["$2"]} misttests/gui/core/pr/features
        else
             help_message
