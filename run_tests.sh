@@ -83,6 +83,13 @@ run_api_tests_suite() {
     then
         if [ $1 == '-api' ]
         then
+            echo Vault username:
+            read username
+            echo Vault password:
+            read -s password
+            echo $username
+            export username
+            export VAULT_PASSWORD= $password
             run_api_tests_suite
             exit
         elif [ $1 == '-gui' ]
@@ -100,6 +107,3 @@ run_api_tests_suite() {
             help_message
        fi
     fi
-
-
-# No need for test_settings.py file
