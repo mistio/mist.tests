@@ -31,13 +31,13 @@ def set_azure_creds(context):
 
 
 def set_gce_creds(context):
-    project_id = get_var_from_vault('clouds/gce', 'email')
+    project_id = get_var_from_vault('clouds/gce', 'project_id')
     private_key = get_var_from_vault('clouds/gce', 'private_key')
     context.execute_steps(u'''
             Then I set the value "%s" to field "Title" in "cloud" add form
             Then I set the value "%s" to field "Project ID" in "cloud" add form
             Then I set the value "%s" to field "Private Key" in "cloud" add form
-        ''' % ('GCE', project_id, json.loads(private_key)))
+        ''' % ('GCE', project_id, json.dumps(private_key)))
 
 
 def set_rackspace_creds(context):
