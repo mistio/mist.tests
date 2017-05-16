@@ -40,12 +40,12 @@ except IOError:
 except Exception as exc:
     log.error("Error parsing test_settings py: %r", exc)
 
+# -- add VAULT_SERVER
+
 
 def get_var_from_vault(path, var):
 
     payload = {"password": os.environ['password']}
-
-    # print os.environ['username']
 
     re = requests.post(VAULT_SERVER + '/v1/auth/userpass/login/%s' % os.environ['username'], data=json.dumps(payload))
 
@@ -56,6 +56,7 @@ def get_var_from_vault(path, var):
     re = requests.get(VAULT_SERVER + '/v1/secret/%s' %path, headers=headers)
 
     json_data = re.json().get('data')
+
     return json_data.get(var)
 
 
@@ -84,8 +85,6 @@ def get_setting(setting, default_value=None, priority='config_file'):
         return True if setting in ["True", "true"] else False
 
 LOCAL = get_setting("LOCAL", True)
-
-VAULT_TOKEN = get_setting("VAULT_TOKEN", "")
 
 VAULT_SERVER = get_setting("VAULT_SERVER", "")
 
