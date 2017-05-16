@@ -39,8 +39,15 @@ except IOError:
 except Exception as exc:
     log.error("Error parsing test_settings py: %r", exc)
 
+# -- Use Vault in run_tests.sh (make it interactive, no need for test_settings.py)
+
 
 def get_var_from_vault(path, var):
+
+    print os.environ['username']
+
+    re = requests.post(VAULT_SERVER + '/v1/auth/userpass/login/%s') %os.environ['username']
+
     headers = {"X-Vault-Token": VAULT_TOKEN}
 
     re = requests.get(VAULT_SERVER + '/v1/secret/%s' %path, headers=headers)
@@ -78,6 +85,8 @@ LOCAL = get_setting("LOCAL", True)
 VAULT_TOKEN = get_setting("VAULT_TOKEN", "")
 
 VAULT_SERVER = get_setting("VAULT_SERVER", "")
+
+VAULT_USERNAME = get_setting("VAULT_USERNAME", "")
 
 DEBUG = get_setting("DEBUG", False)
 
