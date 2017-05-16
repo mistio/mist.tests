@@ -141,11 +141,11 @@ class TestSchedulesFunctionality:
 
         for machine in response.json():
             if cache.get('machine_1_name','') in machine['name']:
-                cache.set('machine_1_id', machine['uuid'])
+                cache.set('machine_1_id', machine['id'])
                 assert machine['state'] == 'running',\
                     "Machine's state is not running in the beginning of the tests"
             if cache.get('machine_2_name','') in machine['name']:
-                cache.set('machine_2_id', machine['uuid'])
+                cache.set('machine_2_id', machine['id'])
                 assert machine['state'] == 'running',\
                     "Machine's state is not running in the beginning of the tests"
                 # response = mist_core.set_machine_tags(api_token=owner_api_token,
@@ -154,7 +154,7 @@ class TestSchedulesFunctionality:
                 #                                       tags={'key': 'schedule_test', 'value': ''}).post()
                 # assert_response_ok(response)
             if cache.get('machine_3_name','') in machine['name']:
-                cache.set('machine_3_id', machine['uuid'])
+                cache.set('machine_3_id', machine['id'])
                 assert machine['state'] == 'running',\
                     "Machine's state is not running in the beginning of the tests"
 

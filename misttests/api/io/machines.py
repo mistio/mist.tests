@@ -116,8 +116,9 @@ def test_associate_key_no_api_token(pretty_print, mist_core):
 
 
 def test_associate_key_wrong_ids(pretty_print, mist_core, owner_api_token):
-    response = mist_core.associate_key(cloud_id='dummy', api_token=owner_api_token,
-                                       machine_id='dummy',key_id='dummy').put()
+    response = mist_core.associate_key(cloud_id='dummy', machine_id='dummy',
+                                       key_id='dummy',
+                                       api_token=owner_api_token).put()
     assert_response_not_found(response)
     print "Success!!!"
 
@@ -229,4 +230,9 @@ class TestMachinesFunctionality:
         response = mist_core.destroy_machine(cloud_id=cache.get('cloud_id', ''), api_token=owner_api_token,
                                              machine_id=cache.get('machine_id', ''), ).post()
         assert_response_ok(response)
+        response = mist_core.list_machines(cloud_id=cache.get('cloud_id', ''), api_token=owner_api_token).get()
+        assert_response_ok(response)
+        for machine in response.json():
+            if machine['name'] == cache.get('machine_name', ''):
+                assert False, "Machine was not destroyed!!!"
         print "Success!!!"

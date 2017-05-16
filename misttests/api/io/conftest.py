@@ -84,7 +84,8 @@ def schedules_cleanup(mist_core, owner_api_token, cache):
         if 'api_test_machine' in machine['name']:
             mist_core.machine_action(cloud_id=cache.get('cloud_id', ''),
                                      api_token=owner_api_token,
-                                     machine_id=machine['id'], action='destroy').post()
+                                     machine_id=machine['machine_id'],
+                                     action='destroy').post()
 
 
 @pytest.fixture(scope='module', params=['name', 'location', 'exec_type'])
