@@ -26,6 +26,7 @@ import string
 import random
 import logging
 import requests
+import json
 
 log = logging.getLogger(__name__)
 logging.basicConfig(level=logging.INFO)
@@ -39,16 +40,18 @@ except IOError:
 except Exception as exc:
     log.error("Error parsing test_settings py: %r", exc)
 
-# -- Use Vault in run_tests.sh (make it interactive, no need for test_settings.py)
-
 
 def get_var_from_vault(path, var):
 
-    print os.environ['username']
+    payload = {"password": os.environ['password']}
 
-    re = requests.post(VAULT_SERVER + '/v1/auth/userpass/login/%s') %os.environ['username']
+    # print os.environ['username']
 
-    headers = {"X-Vault-Token": VAULT_TOKEN}
+    re = requests.post(VAULT_SERVER + '/v1/auth/userpass/login/%s' % os.environ['username'], data=json.dumps(payload))
+
+    client_token = re.json().get('auth').get('client_token')
+
+    headers = {"X-Vault-Token": client_token}
 
     re = requests.get(VAULT_SERVER + '/v1/secret/%s' %path, headers=headers)
 
