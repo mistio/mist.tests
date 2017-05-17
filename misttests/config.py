@@ -26,7 +26,6 @@ import string
 import random
 import logging
 import requests
-import json
 
 log = logging.getLogger(__name__)
 logging.basicConfig(level=logging.INFO)
@@ -43,12 +42,7 @@ except Exception as exc:
 
 def get_var_from_vault(path, var):
 
-    import ipdb;ipdb.set_trace()
-
-    if not VAULT_LOGGED_IN:
-        get_vault_client_token()
-
-    headers = {"X-Vault-Token": VAULT_TOKEN}
+    headers = {"X-Vault-Token": os.environ['vault_client_token']}
 
     re = requests.get(VAULT_SERVER + '/v1/secret/%s' %path, headers=headers)
 
