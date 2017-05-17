@@ -48,7 +48,7 @@ vault_login() {
     export PYTHONIOENCODING=utf8
     client_token=$(curl $vault_server/v1/auth/userpass/login/$username -d '{ "password": "'${password}'" }' |
      python -c "import sys, json; print(json.load(sys.stdin)['auth']['client_token'])")
-    echo $client_token
+    export client_token
 }
 
     declare -A pytest_paths
