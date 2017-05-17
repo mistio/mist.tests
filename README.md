@@ -6,13 +6,13 @@ mist.tests is where the testing suite for the Mist.io code resides. Two types of
 
 ### Installation
 
-No installation is required. mist.tests should already be in your core's tests/ directory. If it is not, run git submodule init && git submodule update
+No installation is required. mist.tests should already be under mist.core/src/mist.io/tests/ directory. If it is not, run git submodule init && git submodule update
 
 ### Setting up the environment
 
 In order to fetch all the requirements needed for the tests, you need to run
 
-bin/pip install -e tests
+pip install -e src/mist.io/tests
 
 ### Running the tests
 
@@ -20,35 +20,38 @@ bin/pip install -e tests
 
 Assuming you already have a core installation up and running, to run a specific API test suite, e.g. the machine tests, you need to run
 
-./bin/py.test tests/api/core/machine_test.py
+pytest tests/api/io/machines.py
 
 while for a GUI tests suite you should do
 
-./bin/behave -k tests/gui/core/pr/features/
+behave -k tests/gui/core/pr/features/
 
 and if you want to run a specific suite, you can specify it using tags
 
-./bin/behave -k --tags=machines tests/gui/core/pr/features/
+behave -k --tags=machines tests/gui/core/pr/features/
 
 ##### Docker
 
-In order to run the following examples you should be inside the /mist.core directory of the fullstack container.
+In order to run the following examples you should be inside the /mist.core directory and run ./init.sh -t. Tests use the tests_base image. If the image is not found locally, then it will be downloaded.
 
-In order to run the api tests you should run a command like this:
-/core.env/bin/py.test -s tests/api/core/machine_test.py
+In order to run the api tests you should run:
 
-In order to run the gui tests you should run something like this:
-/core.env/bin/behave -k --stop --tags=clouds tests/gui/core/pr/features
+./run_tests.sh -api
 
-The -k flag will not show the features of tests that will not be executed and the --stop flag will stop
-the execution if one scenario fails
+If you want a specific suite, then you should run:
+
+./run_tests.sh -api clouds
+
+In order to run a suite of the gui tests you should run:
+
+./run_tests.sh -gui machines
  
 ### Test configuration
 
 Both api tests and gui tests are using a lot of configuration variables to get for example credentials.
 All these variables are located in the config.py file in the home folder of the tests. There are three ways
 to override the default values:
-1. Create a test_settings.py file in the mist.core directory and set the values that you want.
+1. Create a test_settings.py file in the tests directory and set the values that you want.
 2. Export a variable with the name that you want to override and set the new value. The value must be in json
 and the tests will pick it up when starting.
 3. Finally you can use the prepare_env.py script to dynamically override whatever value you want from the 

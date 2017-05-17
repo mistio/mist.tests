@@ -1,9 +1,8 @@
 from behave import step
 
 from time import sleep
-from time import time
 
-import re
+import logging
 
 from .utils import safe_get_element_text
 from .utils import focus_on_element
@@ -21,6 +20,11 @@ from selenium.webdriver.support.color import Color
 from selenium.common.exceptions import WebDriverException
 from selenium.common.exceptions import TimeoutException
 from selenium.common.exceptions import NoSuchElementException
+
+
+log = logging.getLogger(__name__)
+
+logging.basicConfig(level=logging.INFO)
 
 
 @step(u'I expect for "{element_id}" to be clickable within max {seconds} '
@@ -42,6 +46,7 @@ def clicketi_click(context, button):
     try:
         button.click()
     except WebDriverException:
+        from selenium.webdriver.common import action_chains, keys
         action_chain = ActionChains(context.browser)
         action_chain.move_to_element(button)
         action_chain.click()
@@ -61,6 +66,11 @@ def clicketi_click_list_row(context, item):
 
 def click_button_from_collection(context, text, button_collection=None,
                                  error_message="Could not find button"):
+    if not button_collection:
+        try:
+            button_collection = context.browser.find_elements_by_tag_name('paper-button')
+        except NoSuchElementException:
+            button_collection = context.browser.find_elements_by_class_name('ui-btn')
     button = search_for_button(context, text.lower(), button_collection)
     assert button, error_message
     for i in range(0, 2):
@@ -81,11 +91,6 @@ def search_for_button(context, text, button_collection=None):
         except NoSuchElementException:
             button_collection = context.browser.find_elements_by_class_name('ui-btn')
 
-    # search for button with exactly the same text. sometimes the driver returns
-    # the same element more than once and that's why we return the first
-    # element of the list
-    # also doing some cleaning if the text attribute also sends back texts
-    # of sub elements
     button = filter(lambda el: safe_get_element_text(el).strip().lower() == text,
                     button_collection)
 
@@ -134,6 +139,16 @@ def click_button_in_dropdown(context, button, name):
     click_button_from_collection(context, button.lower(), buttons)
 
 
+@step(u'I click the "{button}" button in the dropdown with id "{dropdown_id}"')
+def click_button_in_dropdown_with_id(context, button, dropdown_id):
+    button = button.strip().lower()
+    dropdown = context.browser.find_element_by_xpath('//paper-menu[@id="%s"]' % dropdown_id)
+    if button == get_current_value_of_dropdown(dropdown):
+        return True
+    buttons = dropdown.find_elements_by_tag_name('paper-item')
+    click_button_from_collection(context, button.lower(), buttons)
+
+
 @step(u'I click the button "{button}" in the tag menu')
 def click_button_in_tag_model(context, button):
     from .tags import get_open_tag_modal
@@ -152,12 +167,13 @@ def click_the_user_menu_button(context, button):
 @step(u'I click the "{text}" "{type_of_item}"')
 def click_item(context, text, type_of_item):
     type_of_item = type_of_item.lower()
-    if type_of_item not in ['machine', 'key', 'script', 'network', 'team', 'template', 'stack']:
+    if type_of_item not in ['machine', 'key', 'script', 'network', 'team', 'template', 'stack', 'image', 'schedule']:
         raise Exception('Unknown type of button')
     if context.mist_config.get(text):
         text = context.mist_config[text]
     text = text.lower()
     item_selector = 'page-%ss iron-list div.row' % type_of_item
+    #buttons = context.driver.findElements(By.CSS_SELECTOR(item_selector))
     items = context.browser.find_elements_by_css_selector(item_selector)
     for item in items:
         name = safe_get_element_text(item.find_element_by_css_selector('div.name')).strip().lower()
@@ -233,41 +249,20 @@ def click_button_by_id(context,button):
     else:
         raise Exception('Unknown type of button')
     #assert button_to_click.is_displayed(), "%s button is not displayed" %button
+@step(u'I click the "{button}" button with id "{button_id}"')
+def click_button_by_id(context, button, button_id):
+    button_to_click = context.browser.find_element_by_id(button_id)
     clicketi_click(context, button_to_click)
 
-# below 3 methods should be deleted, since they're duplicate -- first check where they are used....
-
-@step(u'I click the new cloud button')
-def add_cloud_button(context):
-    cloud_button = context.browser.find_element_by_id('addBtn')
-    assert cloud_button.is_displayed(), "Add cloud button is not displayed"
-    clicketi_click(context, cloud_button)
-
-@step(u'I click the save title button')
-def save_title_button(context):
-    save_title_button = context.browser.find_element_by_id('rename-cloud')
-    assert save_title_button.is_displayed(), "Save title button is not displayed"
-    clicketi_click(context, save_title_button)
-
-@step(u'I click the delete cloud button')
-def save_title_button(context):
-    save_title_button = context.browser.find_element_by_id('delete-cloud')
-    assert save_title_button.is_displayed(), "Delete cloud button is not displayed"
-    clicketi_click(context, save_title_button)
 
 @step(u'I click the mist-logo')
 def visit_home_url(context):
     save_title_button = context.browser.find_element_by_id('logo-link')
-   # assert save_title_button.is_displayed(), "Save title button is not displayed"
     clicketi_click(context, save_title_button)
+
 
 @step(u'I click the Gravatar')
 def click_the_gravatar(context):
-    """
-    This function tries to click the gravatar button. It has a ridiculous amount
-    of code because there is a ridiculous amount of errors happening during
-    this simple task. It tries to print the reasons why it didn't work
-    """
     try:
         gravatar = context.browser.find_element_by_css_selector('paper-icon-button.gravatar')
         clicketi_click(context, gravatar)
@@ -277,7 +272,6 @@ def click_the_gravatar(context):
 
 def get_old_gravatar(context):
     from .popups import popup_waiting_with_timeout
-    msg = ""
     gravatar = context.browser.find_element_by_class_name("gravatar-image")
     focus_on_element(context, gravatar)
     me_button = context.browser.find_element_by_id('me-btn')

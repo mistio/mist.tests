@@ -51,6 +51,18 @@ def press_button_with_id(context):
         raise ValueError("Could not find Sign In button in github form")
 
 
+@step(u'I type the password in the Google form')
+def press_button_with_id(context):
+    """
+    This is a very specific method only for the Google sign in form
+    """
+    try:
+        password = context.browser.find_element_by_xpath("//input[@type='password']")
+        password.send_keys(context.mist_config.get('GOOGLE_TEST_PASSWORD'))
+    except:
+        raise ValueError("Could not type password in google form")
+
+
 @step(u'I do the Google login')
 def do_google_login(context):
     """
@@ -85,7 +97,7 @@ def do_google_login(context):
         except:
             pass
         context.execute_steps(u'''
-            Then I wait for the mist.io splash page to load
+            Then I wait for the dashboard to load
         ''')
 
 
@@ -102,12 +114,12 @@ def do_github_login(context):
             Then I input my "GITHUB_TEST_PASSWORD" in the field with id "password"
             And I click the Sign In button in the Github form
             And I wait for 5 seconds
-            Then I wait for the mist.io splash page to load
+            Then I wait for the dashboard to load
         ''')
     else:
         context.execute_steps(u'''
             Then I wait for 5 seconds
-            And I wait for the mist.io splash page to load
+            And I wait for the dashboard to load
         ''')
 
 

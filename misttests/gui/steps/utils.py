@@ -7,12 +7,12 @@ from selenium.common.exceptions import TimeoutException
 from selenium.common.exceptions import NoSuchElementException
 from selenium.common.exceptions import StaleElementReferenceException
 
-from selenium import webdriver
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 
 from selenium.webdriver.common.action_chains import ActionChains
+
 
 def safe_get_element_text(check_element):
     try:
@@ -49,9 +49,9 @@ def focus_on_element(context, element):
 def focus_on_add_rule(context, name):
     if context.mist_config.get(name):
         name = context.mist_config[name]
-    if "Add Rule" in name:
-        button = context.browser.find_element_by_id("add-rule-button")
-        focus_on_element(context, button)
+    if "add new rule" in name:
+        container = context.browser.find_element_by_tag_name("mist-rules")
+        focus_on_element(context, container)
     elif "Add Graph" in name:
         button = context.browser.find_element_by_id("add-metric-btn")
         focus_on_element(context, button)
@@ -130,78 +130,16 @@ def become_visible_waiting_with_timeout(context, element_id, seconds):
                                    int(seconds), msg)
 
 
-# @step(u'I expect for element with tag "{element_name}" element to be visible '
-#       u'within max {seconds} seconds')
-# def element_become_visible_waiting_with_timeout(context, element_name, seconds):
-#     msg = "element %s did not become visible after %s seconds" % (element_name,
-#                                                                   seconds)
-#     wait_for_element_to_be_visible(context, (By.TAG_NAME, element_name),
-#                                    int(seconds), msg)
-#
-#
-# @step(u'I expect the label "{element_text}" to be visible within max {seconds} '
-#       u'seconds')
-# def element_label_become_visible_waiting_with_timeout(context, element_text, seconds):
-#     msg = "Label %s did not become visible after %s seconds" % (element_text,
-#                                                                 seconds)
-#     wait_for_element_to_be_visible(context,
-#                                    (By.XPATH,
-#                                     '//label[contains(text(), "%s")]' % str(element_text)),
-#                                    int(seconds), msg)
-
-
 @step(u'I expect for "{page_title}" page to appear within max {seconds} seconds')
 def check_page_is_visible(context, page_title, seconds):
     page = page_title.lower()
     if page not in ['machines', 'images', 'keys', 'networks', 'tunnels',
-                    'scripts', 'templates', 'stacks', 'teams']:
+                    'scripts', 'schedules', 'templates', 'stacks', 'teams']:
         raise ValueError('The page given is unknown')
     element = 'page-%s > page-items > div#content.page-items' % page
     msg = "%s page is not visible after %s seconds" % (page, seconds)
     wait_for_element_to_be_visible(context, (By.CSS_SELECTOR, element),
                                    int(seconds), msg)
-
-
-# @step(u'I expect for "{loader_name}" loader to finish within max {seconds} '
-#       u'seconds')
-# def loader_name_waiting_with_timeout(context, loader_name, seconds):
-#     """
-#     Function that wait for loader_name to finish for a maximum amount of time.
-#     First it will wait for up to 2 seconds for loader to appear and then will
-#     wait for {seconds} seconds for the loader to disappear.
-#     If the loader name is key-generate-loader then as an extra precaution
-#     it will check if the loader has already finished by checking the parent
-#     container.
-#     """
-#     if loader_name == 'key-generate-loader':
-#         container = context.browser.find_element_by_id("key-add-private-container")
-#         if 'filled' in container.get_attribute('class'):
-#             return
-#
-#     try:
-#         WebDriverWait(context.browser, 2).until(EC.presence_of_element_located((By.ID, loader_name)))
-#     except TimeoutException:
-#         raise TimeoutException("loader %s did not appear after 2 seconds"
-#                                % loader_name)
-#
-#     end = time() + int(seconds)
-#     while time() < end:
-#         try:
-#             context.browser.find_element_by_id(loader_name)
-#             sleep(1)
-#         except NoSuchElementException:
-#             return
-#     assert False, 'Loader %s did not finish after %s seconds' % (loader_name,
-#                                                                  seconds)
-#
-#
-# @step(u'I should be in the machines page')
-# def check_if_its_machines_page(context):
-#     try:
-#         context.browser.find_element_by_id('machine-list')
-#         return True
-#     except NoSuchElementException:
-#         assert False, ''
 
 
 @step(u'my name should be "{my_name}"')

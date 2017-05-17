@@ -3,21 +3,19 @@ Feature: Add second-tier clouds in Polymist
 
   Background:
     Given I am logged in to mist.core
-    And I am in the new UI
-    When I wait for the dashboard to load
+    Then I expect for "addBtn" to be clickable within max 20 seconds
 
   @cloud-add
-  Scenario Outline:
-    When I click the new cloud button
+  Scenario Outline: Add cloud for multiple providers
+    When I click the "new cloud" button with id "addBtn"
     Then I expect the "Cloud" add form to be visible within max 5 seconds
-    And I open the "Choose Provider" drop down
-    And I wait for 1 seconds
-    When I click the button "<provider>" in the "Choose Provider" dropdown
+    When I select the "<provider>" provider
+    And I wait for 3 seconds
     Then I expect the field "Title" in the cloud add form to be visible within max 4 seconds
     When I use my "<provider>" credentials
     And I focus on the button "Add Cloud" in "cloud" add form
-    Then I click the button "Add Cloud" in "cloud" add form
-    When I wait for the dashboard to load
+    And I click the button "Add Cloud" in "cloud" add form
+    And I wait for the links in homepage to appear
     And I scroll the clouds list into view
     Then the "<provider>" provider should be added within 120 seconds
 
@@ -25,11 +23,9 @@ Feature: Add second-tier clouds in Polymist
     Examples: Providers
     | provider       |
     | Azure          |
-    | Digital Ocean  |
-    | SoftLayer      |
     | NephoScale     |
     | Rackspace      |
-    | Packet         |
     | GCE            |
-    | Linode         |
     | AWS            |
+    | Softlayer      |
+#    | Packet         | -- tested @ rbac-rules

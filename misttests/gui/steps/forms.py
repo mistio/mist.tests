@@ -32,7 +32,8 @@ def clear_input_and_send_keys(input_field, text):
 def get_add_form(context, title):
     title = title.lower()
     if title not in ['cloud', 'machine', 'image', 'key', 'network', 'tunnel',
-                     'script', 'template', 'stack', 'team', 'members']:
+                     'script', 'schedule', 'template', 'stack', 'team',
+                     'members']:
         raise ValueError('The title given is unknown')
     if title == 'stack' or title == 'machine':
         add_form_selector = 'div#content.%s-create' % title
@@ -43,16 +44,14 @@ def get_add_form(context, title):
 
 def get_edit_form(context, title):
     title = title.lower()
-    # if title == 'cloud':
-    #     raise Exception
     if title not in ['machine', 'image', 'key', 'network', 'tunnel', 'script',
-                     'template', 'stack', 'team', 'policy', 'cloud']:
+                     'template', 'stack', 'team', 'policy', 'cloud', 'schedule']:
         raise Exception('The title given is unknown')
     try:
         if title == 'policy':
             return context.browser.find_element_by_tag_name('team-policy')
         return context.browser.find_element_by_tag_name('%s-page' % title)
-    except:
+    except NoSuchElementException:
         return None
 
 
@@ -137,7 +136,6 @@ def set_value_to_field(context, value, name, title, form_type):
     clear_input_and_send_keys(input, value)
 
 
-
 @step(u'I expect for the button "{button_name}" in "{title}" {form_type} form'
       u' to be clickable within {seconds} seconds')
 def check_button_in_form_is_clickable(context, button_name, title, form_type,
@@ -189,7 +187,6 @@ def get_current_value_of_dropdown(el):
 
 
 def find_dropdown(context, dropdown_text):
-    # get all the paper materials
     dropdown_text = dropdown_text.lower()
     if dropdown_text.endswith(' *'):
         dropdown_text = dropdown_text[:-2]
@@ -197,7 +194,6 @@ def find_dropdown(context, dropdown_text):
     all_dropdowns = filter(lambda t: t[0],
                            map(lambda el: (get_text_of_dropdown(el).strip().lower(), el),
                                all_dropdowns))
-    # find the drop down with the text
     dropdown = filter(lambda t: t[0] == dropdown_text or t[0][:-2] == dropdown_text,
                       all_dropdowns)
     assert dropdown, 'There is no dropdown with text %s' % dropdown_text
@@ -219,9 +215,21 @@ def click_menu_button_from_more_menu(context, button_name, title, form_type):
     form_type = form_type.lower()
     form = get_add_form(context, form_type) if form_type == 'add' else \
         get_edit_form(context, title)
-    more_dropdown = form.find_element_by_tag_name('paper-menu-button')
+    if title == 'machine':
+        item_actions = context.browser.find_element_by_id('actions_machine')
+        actions = item_actions.find_element_by_tag_name('div')
+        buttons = actions.find_elements_by_tag_name('paper-button')
+        for button in buttons:
+            if safe_get_element_text(button).lower() == button_name.lower():
+                clicketi_click(context, button)
+                return
+        more_dropdown = form.find_element_by_id('select-multi-action-dropdown')
+        more_dropdown_button = form.find_element_by_class_name('more')
+    else:
+        more_dropdown = form.find_element_by_tag_name('paper-menu-button')
+        more_dropdown_button = more_dropdown
     assert more_dropdown, "Could not find more button"
-    clicketi_click(context, more_dropdown)
+    clicketi_click(context, more_dropdown_button)
     more_dropdown_buttons = more_dropdown.find_elements_by_tag_name('paper-button')
     assert more_dropdown_buttons, "There are no buttons within the more dropdown"
     timeout = time() + 5

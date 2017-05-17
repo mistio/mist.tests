@@ -79,3 +79,4 @@ def given_key(context, key):
             When I visit the Keys page
             Then "%s" key should be present within 15 seconds
     ''' % (key, key))
+

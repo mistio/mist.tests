@@ -1,7 +1,8 @@
 import sys
+import json
+import requests
 import logging
-
-from .requirements import chrome_driver_setup
+import random
 
 from misttests import config
 
@@ -12,6 +13,7 @@ from misttests.helpers.selenium_utils import dump_js_console_log
 from misttests.helpers.recording import start_recording
 from misttests.helpers.recording import stop_recording
 
+
 log = logging.getLogger(__name__)
 
 logging.basicConfig(level=logging.INFO)
@@ -21,7 +23,6 @@ def before_all(context):
     """
     Load the configuration config and setup the context
     """
-    chrome_driver_setup()
     log.info("Starting before all hook")
     log.info("Webdriver path:" + config.WEBDRIVER_PATH)
     log.info("Webdriver log:" + config.WEBDRIVER_LOG)
@@ -31,10 +32,12 @@ def before_all(context):
     context.mist_config['browser'] = choose_driver()
     context.browser = context.mist_config['browser']
     context.mist_config['NAME'] = config.NAME
+    context.mist_config['BASE_EMAIL'] = config.BASE_EMAIL
     context.mist_config['EMAIL'] = config.EMAIL
     context.mist_config['PASSWORD1'] = config.PASSWORD1
     context.mist_config['PASSWORD2'] = config.PASSWORD2
     context.mist_config['SETUP_ENVIRONMENT'] = config.SETUP_ENVIRONMENT
+    context.mist_config['MAYDAY_MACHINE'] = config.MAYDAY_MACHINE
     context.mist_config['DEMO_EMAIL'] = config.DEMO_EMAIL
     context.mist_config['DEMO_PASSWORD'] = config.DEMO_PASSWORD
     context.mist_config['MIST_DEMO_REQUEST_EMAIL'] = config.MIST_DEMO_REQUEST_EMAIL
@@ -46,7 +49,7 @@ def before_all(context):
     context.mist_config['MEMBER2_PASSWORD'] = config.MEMBER2_PASSWORD
     context.mist_config['LOCAL'] = config.LOCAL
     context.mist_config['DEBUG'] = config.DEBUG
-    context.mist_config['ORG_NAME'] = config.ORG_NAME
+    context.mist_config['ORG_NAME'] = config.ORG_NAME + str(random.randint(1, 10000000))
     context.mist_config['NON_STOP'] = '--stop' not in sys.argv
     context.mist_config['ERROR_NUM'] = 0
     context.mist_config['MIST_URL'] = config.MIST_URL
@@ -64,7 +67,12 @@ def before_all(context):
     context.mist_config['GOOGLE_REGISTRATION_TEST_PASSWORD'] = config.GOOGLE_REGISTRATION_TEST_PASSWORD
     context.mist_config['GITHUB_REGISTRATION_TEST_EMAIL'] = config.GITHUB_REGISTRATION_TEST_EMAIL
     context.mist_config['GITHUB_REGISTRATION_TEST_PASSWORD'] = config.GITHUB_REGISTRATION_TEST_PASSWORD
-    log.info("Finished with the bulk of the test settings")
+    context.mist_config['GMAIL_FATBOY_USER'] = config.GMAIL_FATBOY_USER
+    context.mist_config['GMAIL_FATBOY_PASSWORD'] = config.GMAIL_FATBOY_PASSWORD
+    context.mist_config['recording_session'] = config.RECORD_SELENIUM
+    context.link_inside_email = ''
+    context.mist_config['ORG_ID'] = ''
+
     if config.LOCAL:
         log.info("Initializing behaving mail for path: %s" % config.MAIL_PATH)
         from behaving.mail import environment as behaving_mail
@@ -73,35 +81,125 @@ def before_all(context):
         # calling behaving to setup it's context variables.
         behaving_mail.before_all(context)
 
-    if config.RECORD_SELENIUM:
+    if context.mist_config.get('recording_session', False):
         start_recording()
 
-    context.mist_config['recording_session'] = config.RECORD_SELENIUM
+    if config.REGISTER_USER_BEFORE_FEATURE:
+        payload = {
+            'email': context.mist_config['EMAIL'],
+            'password': context.mist_config['PASSWORD1'],
+            'name': "Atheofovos Gkikas"
+        }
+
+        re = requests.post("%s/api/v1/dev/register" % context.mist_config['MIST_URL'], data=json.dumps(payload))
+
+        context.mist_config['ORG_ID'] = re.json().get('org_id')
+        context.mist_config['ORG_NAME'] = re.json().get('org_name')
+
     log.info("Finished with before_all hook. Starting tests")
 
 
-def before_feature(context, feature):
-    if config.REGISTER_USER_BEFORE_FEATURE:
+def after_step(context, step):
+    if step.status == "failed":
         try:
-            context.execute_steps(u'Given user with email "EMAIL" is registered')
+            get_screenshot(context)
         except Exception as e:
-            finish_and_cleanup(context)
-            raise e
+            log.error("Could not get screen shot: %s" % repr(e))
+            pass
 
 
 def after_all(context):
+    log.info("USER: %s" % context.mist_config['EMAIL'])
+    log.info("PASSWORD1: %s" % context.mist_config['PASSWORD1'])
+    log.info("MEMBER_1: %s" % context.mist_config['MEMBER1_EMAIL'])
+    log.info("MEMBER1_PASSWORD: %s" % context.mist_config['MEMBER1_PASSWORD'])
+    log.info("MEMBER_2: %s" % context.mist_config['MEMBER2_EMAIL'])
+    log.info("MEMBER2_PASSWORD: %s" % context.mist_config['MEMBER2_PASSWORD'])
+    log.info("MIST_URL: %s" % context.mist_config['MIST_URL'])
     finish_and_cleanup(context)
+
+
+def get_api_token(context):
+    payload = {
+        'email': context.mist_config['EMAIL'],
+        'password': context.mist_config['PASSWORD1'],
+        'org_id': context.mist_config['ORG_ID']
+    }
+    re = requests.post("%s/api/v1/tokens" % context.mist_config['MIST_URL'], data=json.dumps(payload))
+    return re.json()['token']
+
+
+def kill_yolomachine(context, machines, headers, cloud_id):
+    for machine in machines:
+        if 'yolomachine' in machine['name']:
+            log.info('Killing yolomachine...')
+            payload= {'action': 'destroy'}
+            uri = context.mist_config['MIST_URL'] + '/api/v1/clouds/' + \
+                  cloud_id + '/machines/' + machine['machine_id']
+            requests.post(uri, data=json.dumps(payload), headers=headers)
+
+
+def kill_orchestration_machines(context):
+    api_token = get_api_token(context)
+    headers = {'Authorization': api_token}
+
+    response = requests.get("%s/api/v1/clouds" % context.mist_config['MIST_URL'], headers=headers)
+    for cloud in response.json():
+        if 'docker' in cloud['provider']:
+            cloud_id = cloud['id']
+            uri = context.mist_config['MIST_URL'] + '/api/v1/clouds/' + cloud_id + '/machines'
+            response = requests.get(uri, headers=headers)
+            kill_yolomachine(context, response.json(), headers, cloud_id)
+
+
+def delete_schedules(context):
+    api_token = get_api_token(context)
+    headers = {'Authorization': api_token}
+
+    response = requests.get("%s/api/v1/schedules" % context.mist_config['MIST_URL'], headers=headers)
+    for schedule in response.json():
+        log.info('Deleting schedule...')
+        uri = context.mist_config['MIST_URL'] + '/api/v1/schedules/' + schedule['id']
+        requests.delete(uri, headers=headers)
+
+
+def kill_docker_machine(context, machine_to_destroy):
+    api_token = get_api_token(context)
+    headers = {'Authorization': api_token}
+    response = requests.get("%s/api/v1/clouds" % context.mist_config['MIST_URL'], headers=headers)
+    for cloud in response.json():
+        if 'docker' in cloud['provider']:
+            uri = context.mist_config['MIST_URL'] + '/api/v1/clouds/' + cloud['id'] + '/machines'
+            response = requests.get(uri, headers=headers)
+            for machine in response.json():
+                if machine_to_destroy in machine['name']:
+                    log.info('Killing docker machine...')
+                    payload = {'action': 'destroy'}
+                    uri = context.mist_config['MIST_URL'] + '/api/v1/clouds/' + cloud['id'] + '/machines/' + \
+                          machine['machine_id']
+                    requests.post(uri, data=json.dumps(payload), headers=headers)
 
 
 def finish_and_cleanup(context):
     dump_js_console_log(context)
-    try:
-        get_screenshot(context)
-    except Exception as e:
-        log.error("Could not get screen shot: %s" % repr(e))
-        pass
     context.mist_config['browser'].quit()
     if context.mist_config.get('browser2'):
         context.mist_config['browser2'].quit()
     if context.mist_config.get('recording_session', False):
         stop_recording()
+
+
+def after_feature(context, feature):
+    if 'Orchestration' == feature.name:
+        kill_orchestration_machines(context)
+    if 'Schedulers' == feature.name:
+        delete_schedules(context)
+        kill_docker_machine(context, context.mist_config.get('test-machine-random'))
+    if 'Schedulers-b' == feature.name:
+        delete_schedules(context)
+        kill_docker_machine(context, context.mist_config.get('test-ui-machine-random'))
+        kill_docker_machine(context, context.mist_config.get('test-ui-machine-2-random'))
+    if 'Machines' == feature.name:
+       kill_docker_machine(context, context.mist_config.get('ui-test-create-machine-random'))
+    if 'RBAC' == feature.name:
+        kill_docker_machine(context, context.mist_config.get('docker-ui-test-machine-random'))

@@ -98,7 +98,7 @@ def random_team_deleted(context):
 @step(u'I choose the randomly created team')
 def choose_randomly_created_team(context):
     if context.mist_config.get('random_team_name'):
-        name = context.mist_config.get('random_team_name')   
+        name = context.mist_config.get('random_team_name')
 
     end_time = time() + 20
     while time() < end_time:
@@ -115,7 +115,7 @@ def choose_randomly_created_team(context):
 @step(u'I choose the random team')
 def choose_random_team(context):
     if context.mist_config.get('random_team_name'):
-        name = context.mist_config.get('random_team_name')   
+        name = context.mist_config.get('random_team_name')
 
     end_time = time() + 20
     while time() < end_time:
@@ -263,7 +263,7 @@ def already_exists(context):
 @step(u'I expect to see no pending member invitations')
 def no_pending(context):
     try:
-        pending = context.browser.find_element_by_class_name('label-pending')
+        context.browser.find_element_by_class_name('label-pending')
         raise Exception("Pending status captured. Can't have that!")
     except NoSuchElementException:
         pass

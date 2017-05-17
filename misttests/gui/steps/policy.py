@@ -21,7 +21,7 @@ def add_new_rule(context, operator, rtype='all', raction='all', rid='',
 
     form = get_edit_form(context, 'policy')
     new_rule_div = form.find_element_by_css_selector(
-        '#rules.team-policy > div.rule.team-policy:nth-last-child(2)')
+        '#rules.team-policy > rule-item.team-policy:nth-last-child(2)')
 
     if operator not in ['allow', 'deny']:
         raise Exception('Operator must be either allow or deny')
@@ -44,7 +44,7 @@ def add_new_rule(context, operator, rtype='all', raction='all', rid='',
             find_element_by_css_selector('span.action').\
             find_element_by_css_selector('paper-menu-button#menuButton')
         clicketi_click(context, raction_drop)
-        sleep(1)
+        sleep(4)
         click_button_from_collection(context, raction,
                                      raction_drop.find_elements_by_tag_name('paper-item'))
 
@@ -92,6 +92,20 @@ def add_new_rule_with_rtags(context, operator, rtype, raction, rtags):
 @step(u'I add the rule always "{operator}" "{rtype}" "{raction}"')
 def add_new_rule_always(context, operator, rtype, raction):
     add_new_rule(context, operator, rtype, raction)
+
+
+@step(u'I remove the rule with index "{index}"')
+def delete_rule(context, index):
+    rules = context.browser.find_elements_by_tag_name('rule-item')
+    for rule in rules:
+        index_class = rule.find_element_by_class_name('index')
+        rule_index = safe_get_element_text(index_class)
+        rule_index = rule_index.replace('.','')
+        if rule_index == index:
+            delete_btn = rule.find_element_by_class_name('delete')
+            clicketi_click(context, delete_btn)
+            return
+    assert False, "There is no rule with index %s" % index
 
 
 def check_rule_exists(context, rule_number, operator, rtype, raction, rid, rtags):

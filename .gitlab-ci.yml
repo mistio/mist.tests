@@ -1,32 +1,43 @@
 stages:
-  - test
   - build
+  - test
 
-run_mayday_test:
-  image: gcr.io/mist-ops/fullstack:latest
-  stage: test
-  only:
-    - triggers
-  before_script:
-    - export DISPLAY=:1.0
-    - Xvfb :1 -screen 0 1024x768x24 > /dev/null 2>&1 &
-    - mkdir -p $CI_PROJECT_DIR/logs
-    - mkdir -p $CI_PROJECT_DIR/parts/chromedriver/
-    - cp /chromedriver $CI_PROJECT_DIR/parts/chromedriver/
-    - /core.env/bin/pip install -e $CI_PROJECT_DIR
+variables:
+  img: gcr.io/mist-ops/tests_base
+
+build:
+  stage: build
   script:
-    - >
-        /core.env/bin/ipython prepare_env.py --
-        --screenshot-path=$CI_PROJECT_DIR/logs/error -k
-        --webdriver-log=$CI_PROJECT_DIR/logs/chromedriver.log
-        --webdriver-path=$CI_PROJECT_DIR/parts/chromedriver/chromedriver
-        --js-console-log=$CI_PROJECT_DIR/logs/js_console.log
-        -D BEHAVE_DEBUG_ON_ERROR
-        -k --tags=alert,graph,ssh,celery
-        $CI_PROJECT_DIR/misttests/legacy_gui/core/mayday/features
-  artifacts:
-    paths:
-      - logs/
-      - test.mp4
-    expire_in: 7 days
-    when: always
+    - docker build --rm -t $img:$CI_COMMIT_SHA .
+    - echo "Pushing $img:$CI_COMMIT_SHA"
+    - docker push $img:$CI_COMMIT_SHA
+    - docker tag $img:$CI_COMMIT_SHA $img:$CI_COMMIT_REF_SLUG
+    - echo "Pushing $img:$CI_COMMIT_REF_SLUG"
+    - docker push $img:$CI_COMMIT_REF_SLUG
+    - if [ "$CI_COMMIT_REF_SLUG" != master ]; then exit 0; fi
+    - docker tag $img:$CI_COMMIT_SHA $img:latest
+    - echo "Pushing $img:latest"
+    - docker push $img:latest
+  tags:
+    - builder
+
+flake8:
+  stage: test
+  image: $img:$CI_COMMIT_SHA
+  variables:
+    GIT_STRATEGY: none
+  before_script:
+    - cd /mist.tests/
+  script:
+    - flake8 misttests/api/io/io.py
+    - flake8 misttests/api/core/core.py
+    - flake8 misttests/api/mistrequests.py
+    - flake8 misttests/api/utils.py
+    - flake8 misttests/api/core/api_token.py
+    - flake8 misttests/gui/steps/browser.py
+    - flake8 misttests/gui/steps/dialog.py
+    - flake8 misttests/gui/steps/modals.py
+    - flake8 misttests/gui/steps/org_context.py
+    - flake8 misttests/gui/steps/search.py
+    - flake8 misttests/gui/steps/setup.py
+    - flake8 misttests/gui/steps/team.py
