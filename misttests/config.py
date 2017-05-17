@@ -40,18 +40,28 @@ except IOError:
 except Exception as exc:
     log.error("Error parsing test_settings py: %r", exc)
 
-# -- add VAULT_SERVER
 
+def get_vault_client_token():
 
-def get_var_from_vault(path, var):
-
+    import ipdb;ipdb.set_trace()
     payload = {"password": os.environ['password']}
 
     re = requests.post(VAULT_SERVER + '/v1/auth/userpass/login/%s' % os.environ['username'], data=json.dumps(payload))
 
-    client_token = re.json().get('auth').get('client_token')
+    del os.environ['username']
+    del os.environ['password']
 
-    headers = {"X-Vault-Token": client_token}
+    print re.json().get('auth').get('client_token')
+
+
+def get_var_from_vault(path, var):
+
+    import ipdb;ipdb.set_trace()
+
+    if not VAULT_LOGGED_IN:
+        get_vault_client_token()
+
+    headers = {"X-Vault-Token": VAULT_TOKEN}
 
     re = requests.get(VAULT_SERVER + '/v1/secret/%s' %path, headers=headers)
 
@@ -88,7 +98,11 @@ LOCAL = get_setting("LOCAL", True)
 
 VAULT_SERVER = get_setting("VAULT_SERVER", "")
 
+VAULT_TOKEN = get_setting("VAULT_TOKEN", "")
+
 VAULT_USERNAME = get_setting("VAULT_USERNAME", "")
+
+VAULT_LOGGED_IN = get_setting("VAULT_LOGGED_IN", False)
 
 DEBUG = get_setting("DEBUG", False)
 
