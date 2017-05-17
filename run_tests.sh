@@ -44,8 +44,6 @@ vault_login() {
     read username
     echo Vault password:
     read -s password
-    export username
-    export password
     vault_server=$(grep --only-matching --perl-regex "(?<=VAULT_SERVER\ = ).*" ./test_settings.py)
     echo $vault_server
 }
