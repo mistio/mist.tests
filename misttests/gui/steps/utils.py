@@ -82,7 +82,7 @@ def some_counter_loaded(context, counter_title, counter_number, seconds):
                              'teams']:
         raise ValueError('The counter given is unknown')
     try:
-        counter = context.browser.find_element_by_css_selector('a#%s.mist-sidebar'
+        counter = context.browser.find_element_by_css_selector('a#%s.app-sidebar'
                                                                % counter_title)
     except NoSuchElementException:
         raise NoSuchElementException("Counter with name %s has not been found"
