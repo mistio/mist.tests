@@ -41,19 +41,6 @@ except Exception as exc:
     log.error("Error parsing test_settings py: %r", exc)
 
 
-def get_vault_client_token():
-
-    import ipdb;ipdb.set_trace()
-    payload = {"password": os.environ['password']}
-
-    re = requests.post(VAULT_SERVER + '/v1/auth/userpass/login/%s' % os.environ['username'], data=json.dumps(payload))
-
-    del os.environ['username']
-    del os.environ['password']
-
-    print re.json().get('auth').get('client_token')
-
-
 def get_var_from_vault(path, var):
 
     import ipdb;ipdb.set_trace()
