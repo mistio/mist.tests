@@ -46,9 +46,9 @@ vault_login() {
     read -s password
     vault_server=$(grep --only-matching --perl-regex "(?<=VAULT_SERVER\ = ).*" ./test_settings.py | sed 's/"//g')
     export PYTHONIOENCODING=utf8
-    client_token=$(curl $vault_server/v1/auth/userpass/login/$username -d '{ "password": "'${password}'" }' |
+    vault_client_token=$(curl $vault_server/v1/auth/userpass/login/$username -d '{ "password": "'${password}'" }' |
      python -c "import sys, json; print(json.load(sys.stdin)['auth']['client_token'])")
-    export client_token
+    export vault_client_token
 }
 
     declare -A pytest_paths
