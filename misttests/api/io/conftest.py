@@ -64,7 +64,7 @@ def api_test_machine_name():
 
 @pytest.fixture
 def private_key():
-    return get_var_from_vault('keys', 'api_testing_machine_private_key')
+    return get_var_from_vault('keys/api_testing_machine_private_key', 'private_key')
 
 
 @pytest.fixture
