@@ -31,8 +31,8 @@ def set_azure_creds(context):
 
 
 def set_gce_creds(context):
-    project_id = get_var_from_vault('clouds/gce', 'project_id')
-    private_key = get_var_from_vault('clouds/gce', 'private_key')
+    project_id = get_var_from_vault('clouds/gce/mist-dev', 'project_id')
+    private_key = get_var_from_vault('clouds/gce/mist-dev', 'private_key')
     context.execute_steps(u'''
             Then I set the value "%s" to field "Title" in "cloud" add form
             Then I set the value "%s" to field "Project ID" in "cloud" add form
