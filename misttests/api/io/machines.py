@@ -230,4 +230,9 @@ class TestMachinesFunctionality:
         response = mist_core.destroy_machine(cloud_id=cache.get('cloud_id', ''), api_token=owner_api_token,
                                              machine_id=cache.get('machine_id', ''), ).post()
         assert_response_ok(response)
+        response = mist_core.list_machines(cloud_id=cache.get('cloud_id', ''), api_token=owner_api_token).get()
+        assert_response_ok(response)
+        for machine in response.json():
+            if machine['name'] == cache.get('machine_name', ''):
+                assert False, "Machine was not destroyed!!!"
         print "Success!!!"
