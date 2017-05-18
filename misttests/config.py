@@ -77,6 +77,8 @@ def get_setting(setting, default_value=None, priority='config_file'):
 
 LOCAL = get_setting("LOCAL", True)
 
+VAULT_SERVER = get_setting("VAULT_SERVER", "")
+
 DEBUG = get_setting("DEBUG", False)
 
 RECORD_SELENIUM = get_setting("RECORD_SELENIUM", False)
