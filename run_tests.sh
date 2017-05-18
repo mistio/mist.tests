@@ -57,6 +57,7 @@ vault_login() {
     pytest_paths["images"]='misttests/api/io/images.py'
     pytest_paths["machines"]='misttests/api/io/machines.py'
     pytest_paths["keys"]='misttests/api/io/keys.py'
+    pytest_paths["dns"]='misttests/api/io/dns.py'
     pytest_paths["scripts"]='misttests/api/io/scripts.py'
     pytest_paths["tunnels"]='misttests/api/io/tunnels.py'
     pytest_paths["api_token"]='misttests/api/io/api_token.py'
