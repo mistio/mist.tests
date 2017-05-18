@@ -77,14 +77,6 @@ def get_setting(setting, default_value=None, priority='config_file'):
 
 LOCAL = get_setting("LOCAL", True)
 
-VAULT_SERVER = get_setting("VAULT_SERVER", "")
-
-VAULT_TOKEN = get_setting("VAULT_TOKEN", "")
-
-VAULT_USERNAME = get_setting("VAULT_USERNAME", "")
-
-VAULT_LOGGED_IN = get_setting("VAULT_LOGGED_IN", False)
-
 DEBUG = get_setting("DEBUG", False)
 
 RECORD_SELENIUM = get_setting("RECORD_SELENIUM", False)
