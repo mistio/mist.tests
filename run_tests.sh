@@ -40,15 +40,23 @@ run_api_tests_suite() {
 }
 
 vault_login() {
+    export vault_server='https://vault.ops.mist.io:8200'
     echo Vault username:
     read username
     echo Vault password:
     read -s password
-    vault_server=$(grep --only-matching --perl-regex "(?<=VAULT_SERVER\ = ).*" ./test_settings.py | sed 's/"//g')
     export PYTHONIOENCODING=utf8
     vault_client_token=$(curl $vault_server/v1/auth/userpass/login/$username -d '{ "password": "'${password}'" }' |
      python -c "import sys, json; print(json.load(sys.stdin)['auth']['client_token'])")
-    export vault_client_token
+
+    if [ -z "$vault_client_token" ]
+    then
+        echo 'Wrong credentials given...'
+        vault_login
+    else
+        export vault_client_token
+        echo 'Successfully logged in. About to start running tests...'
+    fi
 }
 
     declare -A pytest_paths
