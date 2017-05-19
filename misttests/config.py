@@ -25,6 +25,7 @@ import sys
 import string
 import random
 import logging
+import requests
 
 log = logging.getLogger(__name__)
 logging.basicConfig(level=logging.INFO)
@@ -37,6 +38,17 @@ except IOError:
     log.warning("No test_settings.py file found.")
 except Exception as exc:
     log.error("Error parsing test_settings py: %r", exc)
+
+
+def get_var_from_vault(path, var):
+
+    headers = {"X-Vault-Token": os.environ['vault_client_token']}
+
+    re = requests.get(VAULT_SERVER + '/v1/secret/%s' %path, headers=headers)
+
+    json_data = re.json().get('data')
+
+    return json_data.get(var)
 
 
 def get_setting(setting, default_value=None, priority='config_file'):
@@ -64,6 +76,8 @@ def get_setting(setting, default_value=None, priority='config_file'):
         return True if setting in ["True", "true"] else False
 
 LOCAL = get_setting("LOCAL", True)
+
+VAULT_SERVER = get_setting("VAULT_SERVER", "https://vault.ops.mist.io:8200")
 
 DEBUG = get_setting("DEBUG", False)
 
