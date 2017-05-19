@@ -8,6 +8,7 @@ set_password() {
     if [ "$new_password" == "$new_password_repeat" ]
     then
         curl -X POST -H "X-Vault-Token:$vault_client_token" https://vault.ops.mist.io:8200/v1/auth/userpass/users/$username/password  -d '{ "password": "'$new_password'" }'
+        echo 'Password reset was successful!'
     else
         echo Passwords do not match...
         set_password
