@@ -463,7 +463,7 @@ def add_key_for_provider(context):
         When I set the value "KVMKey" to field "Name" in "key" add form
     ''')
 
-    key = context.mist_config['CREDENTIALS']['KVM']['key']
+    key = get_var_from_vault('keys/kvm_key', 'private_key')
     set_value_to_field(context, key, 'Private Key', 'key', 'add')
 
     context.execute_steps(u'''
