@@ -57,3 +57,16 @@ Feature: Create Machine and test monitoring
 #    And I click the button "third"
 #    Then I expect for "single-machine-page" page to appear within max 4 seconds
 #    And I wait for the graphs to appear
+
+
+  Create a machine with SSH access
+
+  Enable monitoring to the machine created
+
+  Make sure graphs are visible
+
+  Add an extra graph
+
+  Add a new rule
+
+  Disable monitoring
