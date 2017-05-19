@@ -6,9 +6,10 @@ help_message() {
     echo
     echo "Options:"
     echo
-    echo "-h     Display this message"
-    echo "-api   Run api tests suite. If no argument provided, the entire API tests suite will be invoked"
-    echo "-gui   Run gui tests suite. If no argument provided, the entire GUI tests suite will be invoked"
+    echo "[no option]   First API tests and then GUI tests will be invoked"
+    echo "-h            Display this message"
+    echo "-api          Run api tests suite. If no argument provided, the entire API tests suite will be invoked"
+    echo "-gui          Run gui tests suite. If no argument provided, the entire GUI tests suite will be invoked"
     echo
     echo "Argument for API tests can be one of the following:"
     echo
@@ -39,6 +40,25 @@ run_api_tests_suite() {
     pytest -s $pytest_args
 }
 
+vault_login() {
+    export vault_server='https://vault.ops.mist.io:8200'
+    echo Vault username:
+    read username
+    echo Vault password:
+    read -s password
+    export PYTHONIOENCODING=utf8
+    vault_client_token=$(curl $vault_server/v1/auth/userpass/login/$username -d '{ "password": "'${password}'" }' |
+     python -c "import sys, json; print(json.load(sys.stdin)['auth']['client_token'])")
+
+    if [ -z "$vault_client_token" ]
+    then
+        echo 'Wrong credentials given...'
+        vault_login
+    else
+        export vault_client_token
+        echo 'Successfully logged in. About to start running tests...'
+    fi
+}
 
     declare -A pytest_paths
 
@@ -69,6 +89,7 @@ run_api_tests_suite() {
 
     if [ "$#" -eq 0 ]
     then
+        vault_login
         run_api_tests_suite
         run_gui_tests_suite
         exit
@@ -84,23 +105,24 @@ run_api_tests_suite() {
     then
         if [ $1 == '-api' ]
         then
+            vault_login
             run_api_tests_suite
             exit
         elif [ $1 == '-gui' ]
         then
+            vault_login
             run_gui_tests_suite
         else
             help_message
         fi
     else
        if [ $1 == '-api' ] && [[ " ${!pytest_paths[@]} " == *" $2 "* ]]; then
+            vault_login
             pytest -s ${pytest_paths["$2"]}
        elif [ $1 == '-gui' ] && [[ " ${!behave_tags[@]} " == *" $2 "* ]]; then
+            vault_login
             behave -k --stop --tags=${behave_tags["$2"]} misttests/gui/core/pr/features
        else
             help_message
        fi
     fi
-
-
-# No need for test_settings.py file
