@@ -6,9 +6,10 @@ help_message() {
     echo
     echo "Options:"
     echo
-    echo "-h     Display this message"
-    echo "-api   Run api tests suite. If no argument provided, the entire API tests suite will be invoked"
-    echo "-gui   Run gui tests suite. If no argument provided, the entire GUI tests suite will be invoked"
+    echo "[no option]   First API tests and then GUI tests will be invoked"
+    echo "-h            Display this message"
+    echo "-api          Run api tests suite. If no argument provided, the entire API tests suite will be invoked"
+    echo "-gui          Run gui tests suite. If no argument provided, the entire GUI tests suite will be invoked"
     echo
     echo "Argument for API tests can be one of the following:"
     echo
