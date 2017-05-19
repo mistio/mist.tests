@@ -1,5 +1,18 @@
 #!/bin/bash
 
+set_password() {
+    echo Please type your new Vault password:
+    read -s new_password
+    echo Please type your new Vault password again:
+    read -s new_password_repeat
+    if [ "$new_password" == "$new_password_repeat" ]
+    then
+        curl -X POST -H "X-Vault-Token:$vault_client_token" https://vault.ops.mist.io:8200/v1/auth/userpass/users/$username/password  -d '{ "password": "'$new_password'" }'
+    else
+        echo Passwords do not match...
+        set_password
+    fi
+}
 
 echo Please type your Vault username:
 read username
@@ -14,14 +27,5 @@ then
     echo 'Wrong credentials given.Exiting...'
     exit
 else
-    echo Please type your new Vault password:
-    read -s new_password
-    echo Please type your new Vault password again:
-    read -s new_password_repeat
-    if [ "$new_password" == "$new_password_repeat" ]
-    then
-        curl -X POST -H "X-Vault-Token:$vault_client_token" https://vault.ops.mist.io:8200/v1/auth/userpass/users/$username/password  -d '{ "password": "$new_password" }'
-    else
-        echo Passwords do not match...
-        set_password
+    set_password
 fi
