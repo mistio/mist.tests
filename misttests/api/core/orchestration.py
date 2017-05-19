@@ -190,13 +190,13 @@ def test_run_workflow_wrong_id(pretty_print, mist_core, owner_api_token):
 @pytest.mark.incremental
 class TestOrchestrationFunctionality:
 
-    def test_add_docker_orchestrator(self, pretty_print, mist_core, owner_api_token, cache):
-        response = mist_core.add_cloud(title='Docker', provider='docker', api_token=owner_api_token,
-                                       docker_host=get_var_from_vault('clouds/docker_orchestrator', 'host'),
-                                       docker_port=get_var_from_vault('clouds/docker_orchestrator', 'port')).post()
-        assert_response_ok(response)
-        cache.set('cloud_id', response.json()['id'])
-        print "Success!!!"
+    # def test_add_docker_orchestrator(self, pretty_print, mist_core, owner_api_token, cache):
+    #     response = mist_core.add_cloud(title='Docker', provider='docker', api_token=owner_api_token,
+    #                                    docker_host=get_var_from_vault('clouds/docker_orchestrator', 'host'),
+    #                                    docker_port=get_var_from_vault('clouds/docker_orchestrator', 'port')).post()
+    #     assert_response_ok(response)
+    #     cache.set('cloud_id', response.json()['id'])
+    #     print "Success!!!"
 
     def test_add_template_missing_parameter(self, pretty_print, mist_core, owner_api_token):
         response = mist_core.add_template(api_token=owner_api_token, name='Template1', location_type='github',
