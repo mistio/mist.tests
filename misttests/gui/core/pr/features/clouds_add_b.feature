@@ -25,7 +25,6 @@ Feature: Add second-tier clouds in Polymist
     | Linode         |
     | Digital Ocean  |
 #    | Vmware         |
-#    | Indonesian     |
 #    | HostVirtual    |
 
 #  @KVM-add
