@@ -1,5 +1,7 @@
 from behave import step
 
+from misttests.config import get_var_from_vault
+
 import requests
 import random
 import json
@@ -92,15 +94,15 @@ def add_docker_api_request(context):
     payload = {
         'title': "Docker",
         'provider': "docker",
-        'docker_host': context.mist_config['CREDENTIALS']['DOCKER']['host'],
-        'docker_port': context.mist_config['CREDENTIALS']['DOCKER']['port'],
-        'authentication': context.mist_config['CREDENTIALS']['DOCKER']['authentication'],
-        'ca_cert_file': context.mist_config['CREDENTIALS']['DOCKER']['ca'],
-        'key_file': context.mist_config['CREDENTIALS']['DOCKER']['key'],
-        'cert_file': context.mist_config['CREDENTIALS']['DOCKER']['cert']
+        'docker_host': get_var_from_vault('clouds/docker', 'host'),
+        'docker_port': get_var_from_vault('clouds/docker', 'port'),
+        'authentication': get_var_from_vault('clouds/docker', 'authentication'),
+        'ca_cert_file': get_var_from_vault('clouds/docker', 'ca'),
+        'key_file': get_var_from_vault('clouds/docker', 'key'),
+        'cert_file': get_var_from_vault('clouds/docker', 'cert')
     }
 
-    re = requests.post(context.mist_config['MIST_URL'] + "/api/v1/clouds", data=json.dumps(payload), headers=headers)
+    requests.post(context.mist_config['MIST_URL'] + "/api/v1/clouds", data=json.dumps(payload), headers=headers)
 
 
 @step(u'Docker machine "{machine_name}" has been added via API request')
@@ -142,4 +144,4 @@ def create_docker_machine(context, machine_name):
         'size': ''
     }
 
-    re = requests.post(context.mist_config['MIST_URL'] + "/api/v1/clouds/" + cloud_id + "/machines", data=json.dumps(payload), headers=headers)
+    requests.post(context.mist_config['MIST_URL'] + "/api/v1/clouds/" + cloud_id + "/machines", data=json.dumps(payload), headers=headers)

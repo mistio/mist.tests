@@ -1,11 +1,11 @@
 from misttests.api.helpers import *
-from misttests import config
+from misttests.config import get_var_from_vault
 
 
 # needs to change in the backend: get instead of post...
 def test_list_images(pretty_print, mist_core, owner_api_token, cache):
     response = mist_core.add_cloud('Linode', 'linode', api_token=owner_api_token,
-                                   api_key=config.CREDENTIALS['LINODE']['api_key']).post()
+                                   api_key=get_var_from_vault('clouds/linode', 'api_key')).post()
     assert_response_ok(response)
     response = mist_core.list_clouds(api_token=owner_api_token).get()
     assert_response_ok(response)
