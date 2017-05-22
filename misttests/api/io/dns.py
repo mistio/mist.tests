@@ -70,10 +70,12 @@ def test_delete_zone_wrong_zone_id(pretty_print, mist_core, cache, owner_api_tok
 
 
 def test_list_records(pretty_print, mist_core, cache,  owner_api_token):
+    domain = 'dummytestzone%d.com' % random.randint(1,200)
     response = mist_core.create_zone(api_token=owner_api_token, cloud_id=cache.get('cloud_id', ''),
                                      domain='dummytestzone.com', type='master', ttl=3600).post()
     assert_response_ok(response)
     cache.set('zone_id', response.json()['id'])
+    cache.set('domain', response.json()['domain'])
     response = mist_core.list_records(cloud_id=cache.get('cloud_id', ''), zone_id=cache.get('zone_id', ''),
                                       api_token=owner_api_token).get()
     assert_response_ok(response)
@@ -95,18 +97,22 @@ def test_list_records_wrong_api_token(pretty_print, cache, mist_core):
 
 
 def test_create_record_no_api_token(pretty_print, cache, mist_core):
+    domain = cache.get('domain', '')
+    name = 'blog.' + domain
     response = mist_core.create_record(api_token='', cloud_id=cache.get('cloud_id', ''),
                                        zone_id=cache.get('zone_id', ''),
-                                       name='blog.dummytestzone.com', type='A',
+                                       name=name, type='A',
                                        data="1.2.3.4", ttl=3600).post()
     assert_response_forbidden(response)
     print "Success!!!"
 
 
 def test_create_record_wrong_api_token(pretty_print, cache, mist_core):
+    domain = cache.get('domain', '')
+    name = 'blog.' + domain
     response = mist_core.create_record(api_token='dummy', cloud_id=cache.get('cloud_id', ''),
                                        zone_id=cache.get('zone_id', ''),
-                                       name='blog.dummytestzone.com', type='A',
+                                       name=name, type='A',
                                        data="1.2.3.4", ttl=3600).post()
     assert_response_unauthorized(response)
     print "Success!!!"
@@ -157,10 +163,12 @@ class TestSchedulesFunctionality:
         print "Success!!!"
 
     def test_create_records(self, pretty_print, mist_core, owner_api_token, cache):
+        domain = cache.get('domain', '')
+        nameA = 'subdomain.' + domain
         response = mist_core.create_record(api_token=owner_api_token,
                                            cloud_id=cache.get('cloud_id', ''),
                                            zone_id=cache.get('zone_id', ''),
-                                           name='subdomain.dummytestzone.com.',
+                                           name=nameA,
                                            type='A',
                                            data='172.16.254.1',
                                            ttl=3600
@@ -168,10 +176,11 @@ class TestSchedulesFunctionality:
         assert_response_ok(response)
         cache.set('Arecord_id', response.json()['id'])
 
+        nameAAAA = 'subdomain2.' + domain
         response = mist_core.create_record(api_token=owner_api_token,
                                            cloud_id=cache.get('cloud_id', ''),
                                            zone_id=cache.get('zone_id', ''),
-                                           name='subdomain2.dummytestzone.com.',
+                                           name=nameAAAA,
                                            type='AAAA',
                                            data='2001:db8:0:1234:0:567:8:1',
                                            ttl=3600
@@ -179,10 +188,11 @@ class TestSchedulesFunctionality:
         assert_response_ok(response)
         cache.set('AAAArecord_id', response.json()['id'])
 
+        nameCNAME = 'subdomain3.' + domain
         response = mist_core.create_record(api_token=owner_api_token,
                                            cloud_id=cache.get('cloud_id', ''),
                                            zone_id=cache.get('zone_id', ''),
-                                           name='subdomain3.dummytestzone.com.',
+                                           name=nameCNAME,
                                            type='CNAME',
                                            data='host.example.com',
                                            ttl=3600
@@ -190,10 +200,11 @@ class TestSchedulesFunctionality:
         assert_response_ok(response)
         cache.set('CNAMErecord_id', response.json()['id'])
 
+        nameMX = 'mailserver.' + domain
         response = mist_core.create_record(api_token=owner_api_token,
                                            cloud_id=cache.get('cloud_id', ''),
                                            zone_id=cache.get('zone_id', ''),
-                                           name='mailserver.dummytestzone.com.',
+                                           name=nameMX,
                                            type='MX',
                                            data='10 mailserver.mist.com.',
                                            ttl=3600
@@ -201,10 +212,11 @@ class TestSchedulesFunctionality:
         assert_response_ok(response)
         cache.set('MXrecord_id', response.json()['id'])
 
+        nameTXT = 'text.' + domain
         response = mist_core.create_record(api_token=owner_api_token,
                                            cloud_id=cache.get('cloud_id', ''),
                                            zone_id=cache.get('zone_id', ''),
-                                           name='text.dummytestzone.com.',
+                                           name=nameTXT,
                                            type='TXT',
                                            data='Just some text',
                                            ttl=3600
