@@ -179,10 +179,16 @@ def click_item(context, text, type_of_item):
     #buttons = context.driver.findElements(By.CSS_SELECTOR(item_selector))
     items = context.browser.find_elements_by_css_selector(item_selector)
     for item in items:
-        name = safe_get_element_text(item.find_element_by_css_selector('div.name')).strip().lower()
-        if text == name:
-            clicketi_click_list_row(context, item)
-            return True
+        if type_of_item in ['team']:
+            name = safe_get_element_text(item).strip().lower()
+            if text in name:
+                clicketi_click_list_row(context, item)
+                return True
+        else:
+            name = safe_get_element_text(item.find_element_by_css_selector('div.name')).strip().lower()
+            if text == name:
+                clicketi_click_list_row(context, item)
+                return True
     assert False, "Could not click item %s" % text
 
 
