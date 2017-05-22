@@ -178,7 +178,7 @@ def receive_mail(context, seconds):
 
 
 def email_find(context, email, subject):
-    g = gmail.login(get_var_from_vault('secret/accounts/gmail_fatboy', 'gmail_fatboy_user'),get_var_from_vault('secret/accounts/gmail_fatboy', 'gmail_fatboy_password'))
+    g = gmail.login(get_var_from_vault('accounts/gmail_fatboy', 'gmail_fatboy_user'),get_var_from_vault('accounts/gmail_fatboy', 'gmail_fatboy_password'))
     mails = g.inbox().mail(unread=True, to=email)
 
     fetched_mails = []
