@@ -172,6 +172,8 @@ vault_login() {
 
 # test run_tests.sh
 
+# capitalize vault_client_token
+
 # use_Vault_for_more_vars
 
 # update README.md

@@ -2,7 +2,7 @@ import json
 
 from behave import step
 
-from misttests.config import safe_get_var
+from misttests.helpers.vault import safe_get_var
 
 from time import time
 from time import sleep

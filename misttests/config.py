@@ -209,23 +209,22 @@ IMAP_PASSWORD = get_setting('IMAP_PASSWORD', '')
 KEY_ID = get_setting('KEY_ID', '')
 
 
-def safe_get_var(vault_path, vault_key, test_settings_var):
-
-    if VAULT_ENABLED:
-
-        print "Vault enabled"
-
-        headers = {"X-Vault-Token": os.environ['vault_client_token']}
-
-        re = requests.get(VAULT_SERVER + '/v1/secret/%s' % vault_path, headers=headers)
-
-        json_data = re.json().get('data')
-
-        return json_data.get(vault_key)
-
-    else:
-
-        print "Vault disabled"
-
-        return test_settings_var
-    
+# def safe_get_var(vault_path, vault_key, test_settings_var):
+#
+#     if VAULT_ENABLED:
+#
+#         print "Vault enabled"
+#
+#         headers = {"X-Vault-Token": os.environ['vault_client_token']}
+#
+#         re = requests.get(VAULT_SERVER + '/v1/secret/%s' % vault_path, headers=headers)
+#
+#         json_data = re.json().get('data')
+#
+#         return json_data.get(vault_key)
+#
+#     else:
+#
+#         print "Vault disabled"
+#
+#         return test_settings_var

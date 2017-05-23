@@ -1,5 +1,5 @@
 from misttests.api.helpers import *
-from misttests.config import safe_get_var
+from misttests.helpers.vault import safe_get_var
 from misttests import config
 from time import sleep
 
