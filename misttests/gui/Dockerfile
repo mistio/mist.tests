@@ -19,4 +19,4 @@ ENV PREP_ENV ""
 ENV XVFB_NUM 1
 ENV SED_REGEX "\/mnt\/mist\.core"
 WORKDIR /mnt/mist.core
-ENTRYPOINT ( Xvfb :$XVFB_NUM -screen 0 1024x768x24 & ) && cat bin/cloudpy | sed "s/$SED_REGEX/\/mnt\/mist\.core/g" | python - src/mist/core/tests/gui/prepare_env.py -- $PREP_ENV -k $STOP $TAGS $OUTFILE src/mist/core/tests/gui/$TEST_TYPE/features/
+ENTRYPOINT ( Xvfb :$XVFB_NUM -screen 0 1280x1024x16 & ) && cat bin/cloudpy | sed "s/$SED_REGEX/\/mnt\/mist\.core/g" | python - src/mist/core/tests/gui/prepare_env.py -- $PREP_ENV -k $STOP $TAGS $OUTFILE src/mist/core/tests/gui/$TEST_TYPE/features/
