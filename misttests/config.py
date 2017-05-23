@@ -44,7 +44,7 @@ def safe_get_var(path, var):
 
     headers = {"X-Vault-Token": os.environ['vault_client_token']}
 
-    re = requests.get(VAULT_SERVER + '/v1/secret/%s' %path, headers=headers)
+    re = requests.get(VAULT_SERVER + '/v1/secret/%s' % path, headers=headers)
 
     json_data = re.json().get('data')
 
