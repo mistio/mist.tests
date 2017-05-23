@@ -128,8 +128,6 @@ vault_login() {
     fi
 
 
-# install Vault and ipdb in tests container
-
 # replace get_var_from_vault with <>
 
 # fix get_var_from_vault
