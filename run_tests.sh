@@ -2,7 +2,10 @@
 
 help_message() {
     echo
-    echo "Usage: ./run_tests.sh [option] {argument}"
+    echo "Usage: ./run_tests.sh [-t] [option] {argument}"
+    echo
+    echo "-t"           If given, then all variables will be read from test_settings.py,
+    echo                otherwise, Vault credentials will be asked.
     echo
     echo "Options:"
     echo
@@ -95,13 +98,13 @@ vault_login() {
         exit
     fi
 
-    if [ $1 == '-h' ] || [ "$#" -gt 2 ]
+    if [ $1 == '-h' ] || [ "$#" -gt 3 ]
     then
         help_message
         exit
     fi
 
-    if [ "$#" -lt 2 ]
+    if [ "$#" -eq 1 ]
     then
         if [ $1 == '-api' ]
         then
@@ -112,28 +115,65 @@ vault_login() {
         then
             vault_login
             run_gui_tests_suite
+        elif [ $1 == '-t' ]
+        then
+            export VAULT_ENABLED=False
+            run_api_tests_suite
+            run_gui_tests_suite
         else
             help_message
         fi
-    else
-       if [ $1 == '-api' ] && [[ " ${!pytest_paths[@]} " == *" $2 "* ]]; then
+    fi
+
+    if [ "$#" -eq 2 ]
+    then
+        if [ $1 == '-t' ]
+        then
+            if [ $2 == '-api' ]
+            then
+                export VAULT_ENABLED=False
+                run_api_tests_suite
+            elif [ $2 == '-gui' ]
+            then
+                export VAULT_ENABLED=False
+                run_gui_tests_suite
+            else
+                help_message
+            fi
+        elif [ $1 == '-api' ] && [[ " ${!pytest_paths[@]} " == *" $2 "* ]]; then
             vault_login
             pytest -s ${pytest_paths["$2"]}
-       elif [ $1 == '-gui' ] && [[ " ${!behave_tags[@]} " == *" $2 "* ]]; then
+        elif [ $1 == '-gui' ] && [[ " ${!behave_tags[@]} " == *" $2 "* ]]; then
             vault_login
             behave -k --stop --tags=${behave_tags["$2"]} misttests/gui/core/pr/features
-       else
+        else
             help_message
-       fi
+        fi
+    fi
+
+    if [ "$#" -eq 3 ]
+    then
+        if [ $1 != '-t' ]
+        then
+            help_message
+            exit
+        fi
+        export VAULT_ENABLED=False
+        if [ $2 == '-api' ] && [[ " ${!pytest_paths[@]} " == *" $3 "* ]]; then
+            pytest -s ${pytest_paths["$3"]}
+        elif [ $2 == '-gui' ] && [[ " ${!behave_tags[@]} " == *" $3 "* ]]; then
+            behave -k --stop --tags=${behave_tags["$3"]} misttests/gui/core/pr/features
+        else
+            help_message
+        fi
     fi
 
 
-# fix safe_get_var
 
-# fix and test run_tests.sh
-
-# update README.md
+# test run_tests.sh
 
 # use_Vault_for_more_vars
+
+# update README.md
 
 # move core_tests (+rm gui/core...)
