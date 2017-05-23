@@ -1,5 +1,6 @@
 from misttests.api.helpers import *
 from misttests.config import safe_get_var
+from misttests import config
 
 import pytest
 
@@ -132,12 +133,18 @@ class TestMachinesFunctionality:
 
     def test_list_machines(self, pretty_print, mist_core, cache, owner_api_token):
         response = mist_core.add_cloud(title='Docker', provider= 'docker', api_token=owner_api_token,
-                                       docker_host=safe_get_var('clouds/docker', 'host'),
-                                       docker_port=safe_get_var('clouds/docker', 'port'),
-                                       authentication=safe_get_var('clouds/docker', 'authentication'),
-                                       ca_cert_file=safe_get_var('clouds/docker', 'ca'),
-                                       key_file=safe_get_var('clouds/docker', 'key'),
-                                       cert_file=safe_get_var('clouds/docker', 'cert')).post()
+                                       docker_host=safe_get_var('clouds/docker', 'host',
+                                                                config.CREDENTIALS['DOCKER']['host']),
+                                       docker_port=safe_get_var('clouds/docker_orchestrator', 'port',
+                                                                config.CREDENTIALS['DOCKER']['port']),
+                                       authentication=safe_get_var('clouds/docker', 'authentication',
+                                                                   config.CREDENTIALS['DOCKER']['authentication']),
+                                       ca_cert_file=safe_get_var('clouds/docker', 'ca',
+                                                                 config.CREDENTIALS['DOCKER']['ca']),
+                                       key_file=safe_get_var('clouds/docker', 'key',
+                                                             config.CREDENTIALS['DOCKER']['key']),
+                                       cert_file=safe_get_var('clouds/docker', 'cert',
+                                                              config.CREDENTIALS['DOCKER']['cert'])).post()
         assert_response_ok(response)
         cache.set('cloud_id', response.json()['id'])
         response = mist_core.list_machines(cloud_id=cache.get('cloud_id', ''), api_token=owner_api_token).get()
