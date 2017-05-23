@@ -128,12 +128,12 @@ vault_login() {
     fi
 
 
-# replace get_var_from_vault with <>
-
-# fix get_var_from_vault
+# fix safe_get_var
 
 # fix and test run_tests.sh
 
 # update README.md
 
 # use_Vault_for_more_vars
+
+# move core_tests (+rm gui/core...)

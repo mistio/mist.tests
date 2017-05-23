@@ -1,6 +1,6 @@
 import pytest
 
-from misttests.config import get_var_from_vault
+from misttests.config import safe_get_var
 from misttests import config
 from misttests.api.helpers import *
 from misttests.helpers.setup import setup_user_if_not_exists
@@ -64,7 +64,7 @@ def api_test_machine_name():
 
 @pytest.fixture
 def private_key():
-    return get_var_from_vault('keys/api_testing_machine_private_key', 'private_key')
+    return safe_get_var('keys/api_testing_machine_private_key', 'private_key')
 
 
 @pytest.fixture

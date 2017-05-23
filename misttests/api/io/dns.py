@@ -1,5 +1,5 @@
 from misttests.api.helpers import *
-from misttests.config import get_var_from_vault
+from misttests.config import safe_get_var
 from time import sleep
 
 import pytest
@@ -12,8 +12,8 @@ import datetime
 
 def test_list_zones(pretty_print, mist_core, cache,  owner_api_token):
     response = mist_core.add_cloud('EC2', 'ec2', api_token=owner_api_token,
-                                   api_key=get_var_from_vault('clouds/aws', 'api_key'),
-                                   api_secret=get_var_from_vault('clouds/aws', 'api_secret'),
+                                   api_key=safe_get_var('clouds/aws', 'api_key'),
+                                   api_secret=safe_get_var('clouds/aws', 'api_secret'),
                                    region='ap-northeast-1').post()
     assert_response_ok(response)
     response = mist_core.list_clouds(api_token=owner_api_token).get()

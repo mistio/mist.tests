@@ -40,7 +40,7 @@ except Exception as exc:
     log.error("Error parsing test_settings py: %r", exc)
 
 
-def get_var_from_vault(path, var):
+def safe_get_var(path, var):
 
     headers = {"X-Vault-Token": os.environ['vault_client_token']}
 

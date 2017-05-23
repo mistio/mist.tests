@@ -1,5 +1,5 @@
 from misttests.api.helpers import *
-from misttests.config import get_var_from_vault
+from misttests.config import safe_get_var
 
 import pytest
 
@@ -192,8 +192,8 @@ class TestOrchestrationFunctionality:
 
     # def test_add_docker_orchestrator(self, pretty_print, mist_core, owner_api_token, cache):
     #     response = mist_core.add_cloud(title='Docker', provider='docker', api_token=owner_api_token,
-    #                                    docker_host=get_var_from_vault('clouds/docker_orchestrator', 'host'),
-    #                                    docker_port=get_var_from_vault('clouds/docker_orchestrator', 'port')).post()
+    #                                    docker_host=safe_get_var('clouds/docker_orchestrator', 'host'),
+    #                                    docker_port=safe_get_var('clouds/docker_orchestrator', 'port')).post()
     #     assert_response_ok(response)
     #     cache.set('cloud_id', response.json()['id'])
     #     print "Success!!!"

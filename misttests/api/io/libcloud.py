@@ -1,5 +1,5 @@
 from misttests.api.helpers import *
-from misttests.config import get_var_from_vault
+from misttests.config import safe_get_var
 
 import pytest
 
@@ -13,12 +13,12 @@ class TestLibcloudFunctionality:
 
     def test_list_machines_docker(self, pretty_print, mist_core, cache, owner_api_token):
         response = mist_core.add_cloud(title='Docker', provider= 'docker', api_token=owner_api_token,
-                                       docker_host=get_var_from_vault('clouds/docker', 'host'),
-                                       docker_port=get_var_from_vault('clouds/docker_orchestrator', 'port'),
-                                       authentication=get_var_from_vault('clouds/docker', 'authentication'),
-                                       ca_cert_file=get_var_from_vault('clouds/docker', 'ca'),
-                                       key_file=get_var_from_vault('clouds/docker', 'key'),
-                                       cert_file=get_var_from_vault('clouds/docker', 'cert')).post()
+                                       docker_host=safe_get_var('clouds/docker', 'host'),
+                                       docker_port=safe_get_var('clouds/docker_orchestrator', 'port'),
+                                       authentication=safe_get_var('clouds/docker', 'authentication'),
+                                       ca_cert_file=safe_get_var('clouds/docker', 'ca'),
+                                       key_file=safe_get_var('clouds/docker', 'key'),
+                                       cert_file=safe_get_var('clouds/docker', 'cert')).post()
         assert_response_ok(response)
         cache.set('docker_cloud_id', response.json()['id'])
         response = mist_core.list_machines(cloud_id=cache.get('docker_cloud_id', ''), api_token=owner_api_token).get()
@@ -28,7 +28,7 @@ class TestLibcloudFunctionality:
 
     def test_list_machines_linode(self, pretty_print, mist_core, cache, owner_api_token):
         response = mist_core.add_cloud(title='Linode', provider= 'linode', api_token=owner_api_token,
-                                       api_key=get_var_from_vault('clouds/linode', 'api_key')).post()
+                                       api_key=safe_get_var('clouds/linode', 'api_key')).post()
         assert_response_ok(response)
         cache.set('linode_cloud_id', response.json()['id'])
         response = mist_core.list_machines(cloud_id=cache.get('linode_cloud_id', ''), api_token=owner_api_token).get()
@@ -38,8 +38,8 @@ class TestLibcloudFunctionality:
 
     def test_list_machines_aws(self, pretty_print, mist_core, cache, owner_api_token):
         response = mist_core.add_cloud(title='AWS', provider= 'ec2', api_token=owner_api_token,
-                                       api_key=get_var_from_vault('clouds/aws', 'api_key'),
-                                       api_secret=get_var_from_vault('clouds/aws', 'api_secret'),
+                                       api_key=safe_get_var('clouds/aws', 'api_key'),
+                                       api_secret=safe_get_var('clouds/aws', 'api_secret'),
                                        region='ec2_ap_northeast').post()
         assert_response_ok(response)
         cache.set('aws_cloud_id', response.json()['id'])
@@ -50,7 +50,7 @@ class TestLibcloudFunctionality:
 
     def test_list_machines_digitalocean(self, pretty_print, mist_core, cache, owner_api_token):
         response = mist_core.add_cloud(title='Digital Ocean', provider= 'digitalocean', api_token=owner_api_token,
-                                       token=get_var_from_vault('clouds/digitalocean', 'token')).post()
+                                       token=safe_get_var('clouds/digitalocean', 'token')).post()
         assert_response_ok(response)
         cache.set('digitalocean_cloud_id', response.json()['id'])
         response = mist_core.list_machines(cloud_id=cache.get('digitalocean_cloud_id', ''), api_token=owner_api_token).get()
@@ -73,8 +73,8 @@ class TestLibcloudFunctionality:
 
     def test_list_machines_softlayer(self, pretty_print, mist_core, cache, owner_api_token):
         response = mist_core.add_cloud(title='Softlayer', provider= 'softlayer', api_token=owner_api_token,
-                                       username=get_var_from_vault('clouds/softlayer', 'username'),
-                                       api_key=get_var_from_vault('clouds/softlayer', 'api_key')).post()
+                                       username=safe_get_var('clouds/softlayer', 'username'),
+                                       api_key=safe_get_var('clouds/softlayer', 'api_key')).post()
         assert_response_ok(response)
         cache.set('softlayer_cloud_id', response.json()['id'])
         response = mist_core.list_machines(cloud_id=cache.get('softlayer_cloud_id', ''), api_token=owner_api_token).get()
@@ -84,10 +84,10 @@ class TestLibcloudFunctionality:
 
     def test_list_machines_openstack(self, pretty_print, mist_core, cache, owner_api_token):
         response = mist_core.add_cloud(title='Openstack', provider= 'openstack', api_token=owner_api_token,
-                                       username=get_var_from_vault('clouds/openstack', 'username'),
-                                       auth_url=get_var_from_vault('clouds/openstack', 'auth_url'),
-                                       tenant=get_var_from_vault('clouds/openstack', 'tenant'),
-                                       password=get_var_from_vault('clouds/openstack', 'password')).post()
+                                       username=safe_get_var('clouds/openstack', 'username'),
+                                       auth_url=safe_get_var('clouds/openstack', 'auth_url'),
+                                       tenant=safe_get_var('clouds/openstack', 'tenant'),
+                                       password=safe_get_var('clouds/openstack', 'password')).post()
         assert_response_ok(response)
         cache.set('openstack_cloud_id', response.json()['id'])
         response = mist_core.list_machines(cloud_id=cache.get('openstack_cloud_id', ''), api_token=owner_api_token).get()
@@ -97,8 +97,8 @@ class TestLibcloudFunctionality:
 
     def test_list_machines_azure(self, pretty_print, mist_core, cache, owner_api_token):
         response = mist_core.add_cloud(title='Azure', provider= 'azure', api_token=owner_api_token,
-                                       subscription_id=get_var_from_vault('clouds/azure', 'subscription_id'),
-                                       certificate=get_var_from_vault('clouds/azure', 'certificate')).post()
+                                       subscription_id=safe_get_var('clouds/azure', 'subscription_id'),
+                                       certificate=safe_get_var('clouds/azure', 'certificate')).post()
         assert_response_ok(response)
         cache.set('azure_cloud_id', response.json()['id'])
         response = mist_core.list_machines(cloud_id=cache.get('azure_cloud_id', ''), api_token=owner_api_token).get()

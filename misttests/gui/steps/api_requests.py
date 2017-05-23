@@ -1,6 +1,6 @@
 from behave import step
 
-from misttests.config import get_var_from_vault
+from misttests.config import safe_get_var
 
 import requests
 import random
@@ -94,12 +94,12 @@ def add_docker_api_request(context):
     payload = {
         'title': "Docker",
         'provider': "docker",
-        'docker_host': get_var_from_vault('clouds/docker', 'host'),
-        'docker_port': get_var_from_vault('clouds/docker', 'port'),
-        'authentication': get_var_from_vault('clouds/docker', 'authentication'),
-        'ca_cert_file': get_var_from_vault('clouds/docker', 'ca'),
-        'key_file': get_var_from_vault('clouds/docker', 'key'),
-        'cert_file': get_var_from_vault('clouds/docker', 'cert')
+        'docker_host': safe_get_var('clouds/docker', 'host'),
+        'docker_port': safe_get_var('clouds/docker', 'port'),
+        'authentication': safe_get_var('clouds/docker', 'authentication'),
+        'ca_cert_file': safe_get_var('clouds/docker', 'ca'),
+        'key_file': safe_get_var('clouds/docker', 'key'),
+        'cert_file': safe_get_var('clouds/docker', 'cert')
     }
 
     requests.post(context.mist_config['MIST_URL'] + "/api/v1/clouds", data=json.dumps(payload), headers=headers)
