@@ -457,15 +457,15 @@ class MistIoApi(object):
         req.put = req.unavailable_api_call
         return req
 
-    def add_schedule(self, api_token, name, schedule_type, schedule_entry='',
-                     description='', machines_uuids=[], machines_tags=[],
-                     task_enabled=True, expires='', script_id='', action='',
+    def add_schedule(self, api_token, name, schedule_type,
+                     conditions, schedule_entry='',
+                     description='', task_enabled=True, expires='',
+                     script_id='', action='',
                      max_run_count='', run_immediately=False):
         data = {
-            'machines_uuids': machines_uuids,
+            'conditions': conditions,
             'name': name,
             'description': description,
-            'machines_tags': machines_tags,
             'schedule_type': schedule_type,
             'schedule_entry': schedule_entry,
             'task_enabled': task_enabled,
@@ -505,6 +505,73 @@ class MistIoApi(object):
         req.post = req.unavailable_api_call
         req.put = req.unavailable_api_call
         req.delete = req.unavailable_api_call
+        return req
+
+    #################################################
+    #                     ZONES                     #
+    #################################################
+
+    def list_zones(self, api_token, cloud_id):
+        req = MistRequests(uri=self.uri + '/api/v1/clouds/' + cloud_id +
+                           '/dns/zones', api_token=api_token)
+        req.post = req.unavailable_api_call
+        req.put = req.unavailable_api_call
+        req.delete = req.unavailable_api_call
+        return req
+
+    def list_records(self, api_token, cloud_id, zone_id):
+        req = MistRequests(uri=self.uri + '/api/v1/clouds/' + cloud_id +
+                           '/dns/zones/' + zone_id + '/records',
+                           api_token=api_token)
+        req.post = req.unavailable_api_call
+        req.put = req.unavailable_api_call
+        req.delete = req.unavailable_api_call
+        return req
+
+    def create_zone(self, api_token, cloud_id, domain, type, ttl):
+        data = {
+            'domain': domain,
+            'type': type,
+            'ttl': ttl
+        }
+        req = MistRequests(uri=self.uri + '/api/v1/clouds/' + cloud_id +
+                           '/dns/zones', api_token=api_token, data=data)
+        req.get = req.unavailable_api_call
+        req.put = req.unavailable_api_call
+        req.delete = req.unavailable_api_call
+        return req
+
+    def delete_zone(self, api_token, cloud_id, zone_id):
+        req = MistRequests(uri=self.uri + '/api/v1/clouds/' + cloud_id +
+                           '/dns/zones/' + zone_id, api_token=api_token)
+        req.get = req.unavailable_api_call
+        req.post = req.unavailable_api_call
+        req.put = req.unavailable_api_call
+        return req
+
+    def create_record(self, api_token, cloud_id, zone_id, name, type,
+                      data, ttl):
+        data = {
+            'name': name,
+            'type': type,
+            'data': data,
+            'ttl': ttl
+        }
+        req = MistRequests(uri=self.uri + '/api/v1/clouds/' + cloud_id +
+                           '/dns/zones/' + zone_id + '/records',
+                           api_token=api_token, data=data)
+        req.get = req.unavailable_api_call
+        req.put = req.unavailable_api_call
+        req.delete = req.unavailable_api_call
+        return req
+
+    def delete_record(self, api_token, cloud_id, zone_id, record_id):
+        req = MistRequests(uri=self.uri + '/api/v1/clouds/' + cloud_id +
+                           '/dns/zones/' + zone_id + '/records/' + record_id,
+                           api_token=api_token)
+        req.get = req.unavailable_api_call
+        req.post = req.unavailable_api_call
+        req.put = req.unavailable_api_call
         return req
 
     #################################################

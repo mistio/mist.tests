@@ -56,13 +56,10 @@ Feature: Images and Networks
     Then I expect the "network" edit form to be visible within max 5 seconds
     When I visit the Networks page
     Then "network_random" network should be present within 20 seconds
-    And I visit the Home page
-    And I wait for the links in homepage to appear
 
   @network-delete
   Scenario: Delete Network
-    When I visit the Networks page
-    And I click the "network_random" "network"
+    When I click the "network_random" "network"
     Then I expect the "network" edit form to be visible within max 5 seconds
     And I expect for the button "Delete" in "network" edit form to be clickable within 5 seconds
     When I click the button "Delete" in "network" edit form

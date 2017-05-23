@@ -1,5 +1,5 @@
 from misttests.api.helpers import *
-from misttests import config
+from misttests.config import get_var_from_vault
 
 import pytest
 
@@ -38,7 +38,7 @@ def test_add_cloud_no_api_token(pretty_print, mist_core):
 
 def test_add_cloud_ok(pretty_print, mist_core, owner_api_token, name='Linode'):
     response = mist_core.add_cloud(name, 'linode', api_token=owner_api_token,
-                                   api_key=config.CREDENTIALS['LINODE']['api_key']).post()
+                                   api_key=get_var_from_vault('clouds/linode', 'api_key')).post()
     assert_response_ok(response)
     print "Success!!!"
 
@@ -56,7 +56,7 @@ def test_rename_cloud_no_api_token(pretty_print, mist_core):
     print "Success!!!"
 
 
-def test_rename_cloud_no_api_token(pretty_print, mist_core, owner_api_token):
+def test_rename_cloud_wrong_api_token(pretty_print, mist_core, owner_api_token):
     response = mist_core.rename_cloud(cloud_id='dummy', new_name='test',
                                       api_token='00' + owner_api_token[:-2]).put()
     assert_response_unauthorized(response)

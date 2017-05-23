@@ -31,7 +31,7 @@ Feature: RBAC
     And I wait for 1 seconds
     Then I add the rule always "ALLOW" "cloud" "read"
     And I click the button "Save Policy" in "policy" edit form
-    And I wait for 2 seconds
+    And I wait for 1 seconds
 
   @allow-read-script
   Scenario: Allow reading a script and add a script
@@ -40,7 +40,7 @@ Feature: RBAC
     And I wait for 1 seconds
     Then I add the rule always "ALLOW" "script" "read"
     And I click the button "Save Policy" in "policy" edit form
-    And I wait for 2 seconds
+    And I wait for 1 seconds
     Given script "TestScript" is added via API request
     Then I logout
 
@@ -67,7 +67,7 @@ Feature: RBAC
     When I use my "Vultr" credentials
     And I focus on the button "Add Cloud" in "cloud" add form
     And I click the button "Add Cloud" in "cloud" add form
-    And I wait for 2 seconds
+    And I wait for 1 seconds
     And I visit the Home page
     And I wait for the dashboard to load
     Then I should have 1 clouds added
@@ -91,16 +91,7 @@ Feature: RBAC
     And I wait for 1 seconds
     Then I add the rule always "ALLOW" "cloud" "add"
     And I click the button "Save Policy" in "policy" edit form
-    And I wait for 2 seconds
-
-  @allow-edit-script
-  Scenario: Allow editing a script
-    When I focus on the button "Add a new rule" in "policy" edit form
-    And I click the button "Add a new rule" in "policy" edit form
     And I wait for 1 seconds
-    Then I add the rule always "ALLOW" "script" "edit"
-    And I click the button "Save Policy" in "policy" edit form
-    And I wait for 2 seconds
     Then I logout
 
   @member1-add-cloud-success
@@ -131,19 +122,4 @@ Feature: RBAC
     And I visit the Home page
     # deletion did not work
     Then I should have 2 clouds added
-
-  @member1-edit-script-success
-  Scenario: Member 1 should be able to edit the script
-    When I visit the Scripts page
-    And I click the "TestScript" "script"
-    Then I expect the "script" edit form to be visible within max 5 seconds
-    When I click the button "Edit Script" from the menu of the "script" edit form
-    Then I expect the dialog "Edit Script" is open within 4 seconds
-    When I set the value "Second" to field "Name" in "Edit Script" dialog
-    And I click the "Submit" button in the dialog "Edit Script"
-    Then I expect the dialog "Edit Script" is closed within 4 seconds
-    When I visit the Home page
-    And I wait for 2 seconds
-    And I visit the Scripts page
-    Then "TestScript" script should be absent within 5 seconds
-    And "Second" script should be present within 5 seconds
+    
