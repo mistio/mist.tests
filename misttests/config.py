@@ -40,15 +40,20 @@ except Exception as exc:
     log.error("Error parsing test_settings py: %r", exc)
 
 
-def safe_get_var(path, var):
+def safe_get_var(vault_path, vault_key, test_settings_var):
 
-    headers = {"X-Vault-Token": os.environ['vault_client_token']}
+    if VAULT_ENABLED:
 
-    re = requests.get(VAULT_SERVER + '/v1/secret/%s' % path, headers=headers)
+        headers = {"X-Vault-Token": os.environ['vault_client_token']}
 
-    json_data = re.json().get('data')
+        re = requests.get(VAULT_SERVER + '/v1/secret/%s' % vault_path, headers=headers)
 
-    return json_data.get(var)
+        json_data = re.json().get('data')
+
+        return json_data.get(vault_key)
+
+    else:
+        return test_settings_var
 
 
 def get_setting(setting, default_value=None, priority='config_file'):
