@@ -217,14 +217,14 @@ def set_vmware_creds(context):
                 Then I set the value "%s" to field "Password" in "cloud" add form
                 Then I set the value "%s" to field "Organization" in "cloud" add form
                 Then I set the value "%s" to field "Hostname" in "cloud" add form
-            ''' % (safe_get_var('clouds/vmware', 'username'),
-                   safe_get_var('clouds/vmware', 'password'),
-                   safe_get_var('clouds/vmware', 'organization'),
-                   safe_get_var('clouds/vmware', 'host'),))
+            ''' % (safe_get_var('clouds/vmware', 'username', context.mist_config['CREDENTIALS']['VMWARE']['username']),
+                   safe_get_var('clouds/vmware', 'password', context.mist_config['CREDENTIALS']['VMWARE']['password']),
+                   safe_get_var('clouds/vmware', 'organization', context.mist_config['CREDENTIALS']['VMWARE']['organization']),
+                   safe_get_var('clouds/vmware', 'host', context.mist_config['CREDENTIALS']['VMWARE']['host']),))
 
 
 def set_second_packet_creds(context):
-    api_key = safe_get_var('clouds/packet_2', 'api_key')
+    api_key = safe_get_var('clouds/packet_2', 'api_key', context.mist_config['CREDENTIALS']['PACKET_2']['api_key'])
     context.execute_steps(u'Then I set the value "%s" to field "API Key" in '
                           u'"cloud" edit form' % api_key)
 
@@ -235,10 +235,10 @@ def set_second_openstack_creds(context):
                 Then I set the value "%s" to field "Password" in "cloud" edit form
                 Then I set the value "%s" to field "Auth Url" in "cloud" edit form
                 Then I set the value "%s" to field "Tenant Name" in "cloud" edit form
-            ''' % (safe_get_var('clouds/openstack_2', 'username'),
-               safe_get_var('clouds/openstack', 'password'),
-               safe_get_var('clouds/openstack', 'auth_url'),
-               safe_get_var('clouds/openstack_2', 'tenant'),))
+            ''' % (safe_get_var('clouds/openstack_2', 'username', context.mist_config['CREDENTIALS']['OPENSTACK_2']['username']),
+                   safe_get_var('clouds/openstack', 'password', context.mist_config['CREDENTIALS']['OPENSTACK_2']['password']),
+                   safe_get_var('clouds/openstack', 'auth_url', context.mist_config['CREDENTIALS']['OPENSTACK_2']['auth_url']),
+                   safe_get_var('clouds/openstack_2', 'tenant', context.mist_config['CREDENTIALS']['OPENSTACK_2']['tenant']),))
 
 
 cloud_creds_dict = {
@@ -463,7 +463,7 @@ def add_key_for_provider(context):
         When I set the value "KVMKey" to field "Name" in "key" add form
     ''')
 
-    key = safe_get_var('keys/kvm_key', 'private_key')
+    key = safe_get_var('keys/kvm_key', 'private_key', context.mist_config['CREDENTIALS']['KVM']['key'])
     set_value_to_field(context, key, 'Private Key', 'key', 'add')
 
     context.execute_steps(u'''
