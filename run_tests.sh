@@ -131,6 +131,5 @@ vault_login() {
 # create env var VAULT_USAGE (by default 1)
 # replace get_var_from_vault with <>
 # update README.md
-# increase timeout in scheduler UI
 # install Vault and ipdb in tests container
 # use_Vault_for_more_vars
