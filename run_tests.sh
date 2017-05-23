@@ -41,7 +41,7 @@ run_api_tests_suite() {
 }
 
 vault_login() {
-    export vault_server='https://vault.ops.mist.io:8200'
+    export vault_server=${VAULT_ADDR:-https://vault.ops.mist.io:8200}
     echo Vault username:
     read username
     echo Vault password:
@@ -126,3 +126,11 @@ vault_login() {
             help_message
        fi
     fi
+
+
+# create env var VAULT_USAGE (by default 1)
+# replace get_var_from_vault with <>
+# update README.md
+# increase timeout in scheduler UI
+# install Vault and ipdb in tests container
+# use_Vault_for_more_vars
