@@ -28,6 +28,9 @@ def before_all(context):
     log.info("Webdriver log:" + config.WEBDRIVER_LOG)
     log.info("JS console log:" + config.JS_CONSOLE_LOG)
 
+    context.mist_config['VAULT_ENABLED'] = config.VAULT_SERVER
+    log.info("VAULT_ENABLED: " + config.VAULT_ENABLED)
+
     context.mist_config = dict()
     context.mist_config['browser'] = choose_driver()
     context.browser = context.mist_config['browser']
