@@ -1,6 +1,7 @@
 from misttests.api.helpers import *
 from misttests.config import safe_get_var
 
+
 # needs to change in the backend: get instead of post...
 def test_list_images(pretty_print, mist_core, owner_api_token, cache):
     response = mist_core.add_cloud('Linode', 'linode', api_token=owner_api_token,
