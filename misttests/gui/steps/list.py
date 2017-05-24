@@ -13,7 +13,10 @@ from selenium.common.exceptions import StaleElementReferenceException
 
 # TODO: below method doesn't bring all the items, as you scroll more items become visible
 def get_list(context, resource_type):
-    return context.browser.find_elements_by_css_selector('page-%ss iron-list div.row' % resource_type)
+    if resource_type in ['team']:
+        return context.browser.find_elements_by_css_selector('page-%ss mist-list tbody#items > tr' % resource_type)
+    else:
+        return context.browser.find_elements_by_css_selector('page-%ss iron-list div.row' % resource_type)
 
 
 def get_list_item(context, resource_type, name):
@@ -26,9 +29,14 @@ def get_list_item(context, resource_type, name):
     try:
         items = get_list(context, resource_type)
         for item in items:
-            name = safe_get_element_text(item.find_element_by_css_selector('div.name')).strip().lower()
-            if item_name == name:
-                return item
+            if resource_type in ['team']:
+                name = safe_get_element_text(item).strip().lower()
+                if item_name in name:
+                    return item
+            else:
+                name = safe_get_element_text(item.find_element_by_css_selector('div.name')).strip().lower()
+                if item_name == name:
+                    return item
     except (NoSuchElementException, StaleElementReferenceException):
         pass
     return None

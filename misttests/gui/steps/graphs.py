@@ -24,7 +24,7 @@ def wait_graphs_to_appear(context):
         graph_panel = context.browser.\
             find_element_by_tag_name("polyana-dashboard")
         WebDriverWait(graph_panel, 400).\
-            until(EC.presence_of_element_located((By.TAG_NAME, "paper-material")))
+            until(EC.presence_of_element_located((By.TAG_NAME, "dashboard-panel")))
     except TimeoutException:
         raise TimeoutException("No graphs have appeared after 200 seconds")
 
