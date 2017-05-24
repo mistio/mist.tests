@@ -169,13 +169,12 @@ vault_login() {
     fi
 
 
+# capitalize vault_client_token
 
 # test run_tests.sh
 
-# capitalize vault_client_token
+# update README.md
 
 # use_Vault_for_more_vars
-
-# update README.md
 
 # move core_tests (+rm gui/core...)

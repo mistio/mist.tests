@@ -1,6 +1,5 @@
 from misttests.api.helpers import *
-from misttests.helpers.vault import safe_get_var
-
+from misttests.config import safe_get_var
 
 # needs to change in the backend: get instead of post...
 def test_list_images(pretty_print, mist_core, owner_api_token, cache):
