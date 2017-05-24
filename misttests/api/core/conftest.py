@@ -1,4 +1,5 @@
 from misttests.api.io.conftest import *
+from misttests import config
 
 
 @pytest.fixture
