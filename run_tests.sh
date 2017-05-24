@@ -73,9 +73,9 @@ vault_login() {
     pytest_paths["keys"]='misttests/api/io/keys.py'
     pytest_paths["dns"]='misttests/api/io/dns.py'
     pytest_paths["scripts"]='misttests/api/io/scripts.py'
-    pytest_paths["tunnels"]='misttests/api/io/tunnels.py'
     pytest_paths["api_token"]='misttests/api/io/api_token.py'
     pytest_paths["schedules"]='misttests/api/io/schedules.py'
+    pytest_paths["tunnels"]='misttests/api/core/tunnels.py'
     pytest_paths["orchestration"]='misttests/api/core/orchestration.py'
 
     declare -A behave_tags
@@ -170,8 +170,6 @@ vault_login() {
         fi
     fi
 
-
-# move tunnels.py
 
 # run api from Vault with test_settings
 
