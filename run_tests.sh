@@ -16,7 +16,7 @@ help_message() {
     echo
     echo "Argument for API tests can be one of the following:"
     echo
-    echo "clouds, machines, tunnels, keys, scripts, api_token, tunnels, schedules, orchestration"
+    echo "clouds, machines, tunnels, keys, scripts, api_token, tunnels, schedules, orchestration, libcloud, networks"
     echo
     echo "Argument for UI tests can be one of the following:"
     echo
@@ -67,7 +67,9 @@ vault_login() {
 
     pytest_paths["clouds"]='misttests/api/io/clouds.py'
     pytest_paths["images"]='misttests/api/io/images.py'
+    pytest_paths["libcloud"]='misttests/api/io/libcloud.py'
     pytest_paths["machines"]='misttests/api/io/machines.py'
+    pytest_paths["networks"]='misttests/api/io/networks.py'
     pytest_paths["keys"]='misttests/api/io/keys.py'
     pytest_paths["dns"]='misttests/api/io/dns.py'
     pytest_paths["scripts"]='misttests/api/io/scripts.py'
@@ -169,11 +171,9 @@ vault_login() {
     fi
 
 
-# insert libcloud, networks
+# move tunnels.py
 
 # run api from Vault with test_settings
-
-# run gui with test_settings
 
 # update README.md
 
