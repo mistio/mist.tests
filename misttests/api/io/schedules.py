@@ -1,5 +1,6 @@
 from misttests.api.helpers import *
-from misttests.config import get_var_from_vault
+from misttests.config import safe_get_var
+from misttests import config
 from time import sleep
 
 import pytest
@@ -113,12 +114,18 @@ class TestSchedulesFunctionality:
 
     def test_create_resources(self, pretty_print, mist_core, owner_api_token, cache):
         response = mist_core.add_cloud(title='Docker', provider= 'docker', api_token=owner_api_token,
-                                       docker_host=get_var_from_vault('clouds/docker', 'host'),
-                                       docker_port=get_var_from_vault('clouds/docker', 'port'),
-                                       authentication=get_var_from_vault('clouds/docker', 'authentication'),
-                                       ca_cert_file=get_var_from_vault('clouds/docker', 'ca'),
-                                       key_file=get_var_from_vault('clouds/docker', 'key'),
-                                       cert_file=get_var_from_vault('clouds/docker', 'cert')).post()
+                                       docker_host=safe_get_var('clouds/docker', 'host',
+                                                                config.CREDENTIALS['DOCKER']['host']),
+                                       docker_port=safe_get_var('clouds/docker_orchestrator', 'port',
+                                                                config.CREDENTIALS['DOCKER']['port']),
+                                       authentication=safe_get_var('clouds/docker', 'authentication',
+                                                                   config.CREDENTIALS['DOCKER']['authentication']),
+                                       ca_cert_file=safe_get_var('clouds/docker', 'ca',
+                                                                 config.CREDENTIALS['DOCKER']['ca']),
+                                       key_file=safe_get_var('clouds/docker', 'key',
+                                                             config.CREDENTIALS['DOCKER']['key']),
+                                       cert_file=safe_get_var('clouds/docker', 'cert',
+                                                              config.CREDENTIALS['DOCKER']['cert'])).post()
         assert_response_ok(response)
         cache.set('cloud_id', response.json()['id'])
 

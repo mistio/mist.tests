@@ -80,9 +80,9 @@ Feature: Schedulers
     And I refresh the page
     And I wait for the links in homepage to appear
     And I visit the Schedules page
-    Then "TestScheduler_2" schedule should be present within 3 seconds
+    Then "TestScheduler_2" schedule should be present within 5 seconds
 
   @check-machines-state
   Scenario: Check machine's state
     When I visit the Machines page
-    Then "test-machine-random" machine state has to be "running" within 30 seconds
+    Then "test-machine-random" machine state has to be "running" within 60 seconds
