@@ -35,9 +35,6 @@ Feature: Create Machine and test monitoring
     And I wait for 2 seconds
     Then 10 graphs should be visible within max 20 seconds
 
-  @add-rule
-
-
   @disable-monitoring
   Scenario: Disable monitoring
     When I visit the Machines page
@@ -48,9 +45,6 @@ Feature: Create Machine and test monitoring
     Then I expect the dialog "Disable Machine Monitoring" is closed within 5 seconds
     Then 0 graphs should be visible within max 20 seconds
 
-
-  ## need for killing the machine
-
 #    And I expect for "dialog-popup" modal to appear within max 400 seconds
 #    And I click the "_x_" button inside the "Success" modal
 #    When I focus on the "third" button
@@ -59,14 +53,17 @@ Feature: Create Machine and test monitoring
 #    And I wait for the graphs to appear
 
 
-  Create a machine with SSH access
+# add cloud via API request
+# add key via API request
+# create a machine with enable_monitoring=True
+# w8 to see some graphs...
+# probably check 2 graphs?
+# add an extra graph
+# disable monitoring
+# verify that there are no graphs visible
+# click on enable-monitoring
+# w8 to see some graphs...
+# kill machine at the end of the test
 
-  Enable monitoring to the machine created
 
-  Make sure graphs are visible
-
-  Add an extra graph
-
-  Add a new rule
-
-  Disable monitoring
+# probably associate a key in between?
