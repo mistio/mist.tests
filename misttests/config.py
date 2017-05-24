@@ -113,9 +113,6 @@ WEBDRIVER_LOG = get_setting("WEBDRIVER_LOG",
                              os.path.join(BASE_DIR, LOG_DIR,
                                           'chromedriver.log'))
 
-# ----------CREDENTIALS-----------
-CREDENTIALS = get_setting("CREDENTIALS", {})
-
 MIST_API_TOKEN = get_setting("MIST_API_TOKEN", "")
 
 MIST_URL = get_setting("MIST_URL", "http://localhost:8000")
@@ -207,6 +204,28 @@ IMAP_USER = get_setting('IMAP_USER', EMAIL)
 IMAP_PASSWORD = get_setting('IMAP_PASSWORD', '')
 
 KEY_ID = get_setting('KEY_ID', '')
+
+CREDENTIALS = {'AWS': {'api_key': '', 'api_secret': '', 'region': ''},
+               'KVM': {'key': """ """, 'hostname': ''},
+               'AZURE': {'certificate': """ """, 'subscription_id': ''},
+               'AZURE_ARM': {'client_key': '', 'client_secret': '', 'subscription_id': '', 'tenant_id': ''},
+               'DIGITALOCEAN': {'token': ''},
+               'DOCKER': {'authentication': '', 'ca': """ """, 'cert': """ """, 'host': '', 'key': """""", 'port': ''},
+               'EC2': {'api_key': '', 'api_secret': '', 'region': ''},
+               'GCE': {'project_id': '', 'private_key': {}},
+               'LINODE': {'api_key': ''},
+               'NEPHOSCALE': {'password': '', 'username': ''},
+               'OPENSTACK': {'auth_url': '', 'password': '', 'tenant': '', 'username': ''},
+               'DOCKER_ORCHESTRATOR':{"host": "", "port": ""},
+               'OPENSTACK_2': {'auth_url': '', 'password': '', 'tenant': '', 'username': ''},
+               'PACKET': {'api_key': ''},
+               'PACKET_2': {'api_key': ''},
+               'VMWARE': {'username': '', 'password': '', 'organization': '', 'host': '' },
+               'RACKSPACE': {'api_key': '', 'region': '', 'username': ''},
+               'SOFTLAYER': {'api_key': '', 'username': ''},
+               'VULTR': {'apikey': ''}
+               }
+
 
 
 # def safe_get_var(vault_path, vault_key, test_settings_var):
