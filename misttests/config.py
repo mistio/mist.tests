@@ -240,7 +240,8 @@ DEFAULT_CREDENTIALS = {'AWS': {'api_key': '', 'api_secret': '', 'region': ''},
                'VMWARE': {'username': '', 'password': '', 'organization': '', 'host': '' },
                'RACKSPACE': {'api_key': '', 'region': '', 'username': ''},
                'SOFTLAYER': {'api_key': '', 'username': ''},
-               'VULTR': {'apikey': ''}
+               'VULTR': {'apikey': ''},
+               'DOCKER_MONITORING':{'host': '', 'port': ''}
                }
 
 CREDENTIALS = get_setting("CREDENTIALS", DEFAULT_CREDENTIALS)
