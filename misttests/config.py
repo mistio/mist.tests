@@ -44,7 +44,7 @@ def safe_get_var(vault_path, vault_key, test_settings_var):
 
     if VAULT_ENABLED:
 
-        headers = {"X-Vault-Token": os.environ['vault_client_token']}
+        headers = {"X-Vault-Token": os.environ['VAULT_CLIENT_TOKEN']}
 
         re = requests.get(VAULT_SERVER + '/v1/secret/%s' % vault_path, headers=headers)
 
@@ -222,16 +222,16 @@ IMAP_PASSWORD = get_setting('IMAP_PASSWORD', '')
 
 KEY_ID = get_setting('KEY_ID', '')
 
-CREDENTIALS = {'AWS': {'api_key': '', 'api_secret': '', 'region': ''},
+DEFAULT_CREDENTIALS = {'AWS': {'api_key': '', 'api_secret': '', 'region': ''},
                'KVM': {'key': """ """, 'hostname': ''},
                'AZURE': {'certificate': """ """, 'subscription_id': ''},
                'AZURE_ARM': {'client_key': '', 'client_secret': '', 'subscription_id': '', 'tenant_id': ''},
                'DIGITALOCEAN': {'token': ''},
                'DOCKER': {'authentication': '', 'ca': """ """, 'cert': """ """, 'host': '', 'key': """""", 'port': ''},
                'EC2': {'api_key': '', 'api_secret': '', 'region': ''},
-               'GCE': {'project_id': '', 'private_key': {}},
                'LINODE': {'api_key': ''},
                'NEPHOSCALE': {'password': '', 'username': ''},
+               'GCE': {'project_id': '', 'private_key': {}},
                'OPENSTACK': {'auth_url': '', 'password': '', 'tenant': '', 'username': ''},
                'DOCKER_ORCHESTRATOR':{"host": "", "port": ""},
                'OPENSTACK_2': {'auth_url': '', 'password': '', 'tenant': '', 'username': ''},
@@ -242,3 +242,5 @@ CREDENTIALS = {'AWS': {'api_key': '', 'api_secret': '', 'region': ''},
                'SOFTLAYER': {'api_key': '', 'username': ''},
                'VULTR': {'apikey': ''}
                }
+
+CREDENTIALS = get_setting("CREDENTIALS", DEFAULT_CREDENTIALS)

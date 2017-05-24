@@ -50,15 +50,15 @@ vault_login() {
     echo Vault password:
     read -s password
     export PYTHONIOENCODING=utf8
-    vault_client_token=$(curl $vault_server/v1/auth/userpass/login/$username -d '{ "password": "'${password}'" }' |
+    VAULT_CLIENT_TOKEN=$(curl $vault_server/v1/auth/userpass/login/$username -d '{ "password": "'${password}'" }' |
      python -c "import sys, json; print(json.load(sys.stdin)['auth']['client_token'])")
 
-    if [ -z "$vault_client_token" ]
+    if [ -z "VAULT_CLIENT_TOKEN" ]
     then
         echo 'Wrong credentials given...'
         vault_login
     else
-        export vault_client_token
+        export VAULT_CLIENT_TOKEN
         echo 'Successfully logged in. About to start running tests...'
     fi
 }
@@ -169,12 +169,14 @@ vault_login() {
     fi
 
 
-# capitalize vault_client_token
+# insert libcloud, networks
 
-# test run_tests.sh
+# run api from Vault with test_settings
+
+# run gui with test_settings
 
 # update README.md
 
-# use_Vault_for_more_vars
-
 # move core_tests (+rm gui/core...)
+
+# open issue? _ -io, do not run tunnels or orchestr.
