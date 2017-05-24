@@ -74,5 +74,5 @@ def given_key(context, key):
             When I focus on the button "Add" in "key" add form
             And I click the button "Add" in "key" add form
             Then I expect the "key" edit form to be visible within max 5 seconds
-    ''' % (key, key))
+    ''' % (key))
 
