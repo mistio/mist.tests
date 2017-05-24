@@ -169,12 +169,3 @@ vault_login() {
             help_message
         fi
     fi
-
-
-# run api from Vault with test_settings
-
-# update README.md
-
-# move core_tests (+rm gui/core...)
-
-# open issue? _ -io, do not run tunnels or orchestr.
