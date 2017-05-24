@@ -1,5 +1,5 @@
 from misttests.api.helpers import *
-from mistttests import config
+from misttests import config
 from misttests.config import safe_get_var
 import pytest
 
