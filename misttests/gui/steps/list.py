@@ -74,6 +74,25 @@ def get_machine(context, name):
         return None
 
 
+@step(u'"{name}" machine state has to be "{state}" within {seconds} seconds')
+def assert_machine_state(context, name, state, seconds):
+    if context.mist_config.get(name):
+        name = context.mist_config.get(name)
+    end_time = time() + int(seconds)
+    while time() < end_time:
+        machine = get_machine(context, name)
+        if machine:
+            try:
+                if state in safe_get_element_text(machine):
+                    return
+            except NoSuchElementException:
+                pass
+            except StaleElementReferenceException:
+                pass
+        sleep(2)
+    assert False, u'%s state is not "%s"' % (name, state)
+
+
 @step(u'I click the button "{button_name}" from the menu of the "{item_name}"'
       u' {resource_type}')
 def click_menu_button_of_list_item(context, button_name, item_name,
