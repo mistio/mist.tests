@@ -40,6 +40,23 @@ except Exception as exc:
     log.error("Error parsing test_settings py: %r", exc)
 
 
+def safe_get_var(vault_path, vault_key, test_settings_var):
+
+    if VAULT_ENABLED:
+
+        headers = {"X-Vault-Token": os.environ['vault_client_token']}
+
+        re = requests.get(VAULT_SERVER + '/v1/secret/%s' % vault_path, headers=headers)
+
+        json_data = re.json().get('data')
+
+        return json_data.get(vault_key)
+
+    else:
+
+        return test_settings_var
+
+
 def get_setting(setting, default_value=None, priority='config_file'):
 
     if default_value is None:
@@ -225,25 +242,3 @@ CREDENTIALS = {'AWS': {'api_key': '', 'api_secret': '', 'region': ''},
                'SOFTLAYER': {'api_key': '', 'username': ''},
                'VULTR': {'apikey': ''}
                }
-
-
-
-# def safe_get_var(vault_path, vault_key, test_settings_var):
-#
-#     if VAULT_ENABLED:
-#
-#         print "Vault enabled"
-#
-#         headers = {"X-Vault-Token": os.environ['vault_client_token']}
-#
-#         re = requests.get(VAULT_SERVER + '/v1/secret/%s' % vault_path, headers=headers)
-#
-#         json_data = re.json().get('data')
-#
-#         return json_data.get(vault_key)
-#
-#     else:
-#
-#         print "Vault disabled"
-#
-#         return test_settings_var
