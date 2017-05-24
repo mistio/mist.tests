@@ -1,5 +1,6 @@
 import pytest
 
+from misttests import config
 from misttests.config import safe_get_var
 from misttests.api.helpers import *
 from misttests.helpers.setup import setup_user_if_not_exists
