@@ -5,8 +5,8 @@ Feature: Create Machine and test monitoring
   @enable-monitoring
   Scenario: Create Machine,deploy monitoring agent and check the graphs
     Given I am logged in to mist.core
-    When I wait for the dashboard to load
-    Given "Docker" cloud has been added
+    And cloud Docker-Monitoring has been added via API request
+
     Given "Testkey" key has been added
     When I visit the Machines page
     And I wait for 1 seconds
@@ -53,7 +53,6 @@ Feature: Create Machine and test monitoring
 #    And I wait for the graphs to appear
 
 
-# add cloud via API request
 # add key via API request
 # create a machine with enable_monitoring=True
 # w8 to see some graphs...
@@ -64,6 +63,7 @@ Feature: Create Machine and test monitoring
 # click on enable-monitoring
 # w8 to see some graphs...
 # kill machine at the end of the test
+  # unit steps that add cloud via API
 
 
 # probably associate a key in between?

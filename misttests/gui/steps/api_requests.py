@@ -104,6 +104,28 @@ def add_docker_api_request(context):
     requests.post(context.mist_config['MIST_URL'] + "/api/v1/clouds", data=json.dumps(payload), headers=headers)
 
 
+@step(u'cloud Docker-Monitoring has been added via API request')
+def add_docker_api_request(context):
+    payload = {
+        'email': context.mist_config['EMAIL'],
+        'password': context.mist_config['PASSWORD1'],
+        'org_id': context.mist_config['ORG_ID']
+    }
+
+    re = requests.post("%s/api/v1/tokens" % context.mist_config['MIST_URL'], data=json.dumps(payload))
+    api_token = re.json()['token']
+    headers = {'Authorization': api_token}
+
+    payload = {
+        'title': "Docker",
+        'provider': "docker",
+        'docker_host': safe_get_var('clouds/docker_monitoring', 'host', context.mist_config['CREDENTIALS']['DOCKER_MONITORING']['host']),
+        'docker_port': safe_get_var('clouds/docker_monitoring', 'port', context.mist_config['CREDENTIALS']['DOCKER_MONITORING']['port']),
+    }
+
+    requests.post(context.mist_config['MIST_URL'] + "/api/v1/clouds", data=json.dumps(payload), headers=headers)
+
+
 @step(u'Docker machine "{machine_name}" has been added via API request')
 def create_docker_machine(context, machine_name):
     payload = {
