@@ -74,9 +74,5 @@ def given_key(context, key):
             When I focus on the button "Add" in "key" add form
             And I click the button "Add" in "key" add form
             Then I expect the "key" edit form to be visible within max 5 seconds
-            When I visit the Home page
-            When I wait for the dashboard to load
-            When I visit the Keys page
-            Then "%s" key should be present within 15 seconds
     ''' % (key, key))
 
