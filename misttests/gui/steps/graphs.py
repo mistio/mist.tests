@@ -20,9 +20,15 @@ from selenium.common.exceptions import NoSuchElementException
 
 @step(u'I wait for the graphs to appear')
 def wait_graphs_to_appear(context):
+    timeout = time() + 20
+    while time() < timeout:
+        try:
+            graph_panel = context.browser.\
+                find_element_by_tag_name("polyana-dashboard")
+            break
+        except NoSuchElementException:
+            sleep(1)
     try:
-        graph_panel = context.browser.\
-            find_element_by_tag_name("polyana-dashboard")
         WebDriverWait(graph_panel, 400).\
             until(EC.presence_of_element_located((By.TAG_NAME, "dashboard-panel")))
     except TimeoutException:
