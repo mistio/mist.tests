@@ -78,8 +78,8 @@ def create_script_api_request(context, script_name):
     requests.post(context.mist_config['MIST_URL'] + "/api/v1/scripts" , data=json.dumps(script_data), headers=headers)
 
 
-@step(u'cloud Docker has been added via API request')
-def add_docker_api_request(context):
+@step(u'cloud "{cloud}" has been added via API request')
+def add_docker_api_request(context, cloud):
     payload = {
         'email': context.mist_config['EMAIL'],
         'password': context.mist_config['PASSWORD1'],
@@ -90,38 +90,29 @@ def add_docker_api_request(context):
     api_token = re.json()['token']
     headers = {'Authorization': api_token}
 
-    payload = {
-        'title': "Docker",
-        'provider': "docker",
-        'docker_host': safe_get_var('clouds/docker', 'host', context.mist_config['CREDENTIALS']['DOCKER']['host']),
-        'docker_port': safe_get_var('clouds/docker', 'port', context.mist_config['CREDENTIALS']['DOCKER']['port']),
-        'authentication': safe_get_var('clouds/docker', 'authentication', context.mist_config['CREDENTIALS']['DOCKER']['authentication']),
-        'ca_cert_file': safe_get_var('clouds/docker', 'ca', context.mist_config['CREDENTIALS']['DOCKER']['ca']),
-        'key_file': safe_get_var('clouds/docker', 'key', context.mist_config['CREDENTIALS']['DOCKER']['key']),
-        'cert_file': safe_get_var('clouds/docker', 'cert', context.mist_config['CREDENTIALS']['DOCKER']['cert'])
-    }
+    if cloud == 'Docker':
 
-    requests.post(context.mist_config['MIST_URL'] + "/api/v1/clouds", data=json.dumps(payload), headers=headers)
+        payload = {
+            'title': "Docker",
+            'provider': "docker",
+            'docker_host': safe_get_var('clouds/docker', 'host', context.mist_config['CREDENTIALS']['DOCKER']['host']),
+            'docker_port': safe_get_var('clouds/docker', 'port', context.mist_config['CREDENTIALS']['DOCKER']['port']),
+            'authentication': safe_get_var('clouds/docker', 'authentication', context.mist_config['CREDENTIALS']['DOCKER']['authentication']),
+            'ca_cert_file': safe_get_var('clouds/docker', 'ca', context.mist_config['CREDENTIALS']['DOCKER']['ca']),
+            'key_file': safe_get_var('clouds/docker', 'key', context.mist_config['CREDENTIALS']['DOCKER']['key']),
+            'cert_file': safe_get_var('clouds/docker', 'cert', context.mist_config['CREDENTIALS']['DOCKER']['cert'])
+        }
 
+    elif cloud == 'Docker-Monitoring':
 
-@step(u'cloud Docker-Monitoring has been added via API request')
-def add_docker_api_request(context):
-    payload = {
-        'email': context.mist_config['EMAIL'],
-        'password': context.mist_config['PASSWORD1'],
-        'org_id': context.mist_config['ORG_ID']
-    }
-
-    re = requests.post("%s/api/v1/tokens" % context.mist_config['MIST_URL'], data=json.dumps(payload))
-    api_token = re.json()['token']
-    headers = {'Authorization': api_token}
-
-    payload = {
-        'title': "Docker",
-        'provider': "docker",
-        'docker_host': safe_get_var('clouds/docker_monitoring', 'host', context.mist_config['CREDENTIALS']['DOCKER_MONITORING']['host']),
-        'docker_port': safe_get_var('clouds/docker_monitoring', 'port', context.mist_config['CREDENTIALS']['DOCKER_MONITORING']['port']),
-    }
+        payload = {
+            'title': "Docker",
+            'provider': "docker",
+            'docker_host': safe_get_var('clouds/docker_monitoring', 'host',
+                                        context.mist_config['CREDENTIALS']['DOCKER_MONITORING']['host']),
+            'docker_port': safe_get_var('clouds/docker_monitoring', 'port',
+                                        context.mist_config['CREDENTIALS']['DOCKER_MONITORING']['port']),
+        }
 
     requests.post(context.mist_config['MIST_URL'] + "/api/v1/clouds", data=json.dumps(payload), headers=headers)
 
