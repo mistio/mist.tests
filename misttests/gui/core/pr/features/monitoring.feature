@@ -36,20 +36,23 @@ Feature: Create Machine and test monitoring
     And I wait for 2 seconds
 #    And I click the button "Enable Monitoring"
     Then 9 graphs should be visible within max 30 seconds
-    When I focus on the "DF" graph
-    Then "DF" graph should have some values
-#    Then "Loafgd" graph should have some values
-#    And "MEM" graph should have some values
-    When I visit the Keys page
-    And I visit the Scripts page
+#    When I focus on the "MEM" graph
+#    Then "mem" graph should have some values
+##    Then "Loafgd" graph should have some values
+##    And "MEM" graph should have some values
+#    When I visit the Keys page
+#    And I visit the Scripts page
 
-#  @add-custom-graph
-#  Scenario: Add custom graph and make sure an extra graph is visible
-#    When I click the "Add graph" button
-#    Then I expect the dialog "Select target for graph" is open within 5 seconds
-#    When I select "entropy" in the dialog "Select target for graph"
-#    And I wait for 2 seconds
-#    Then 10 graphs should be visible within max 20 seconds
+  @add-custom-graph
+  Scenario: Add custom graph and make sure an extra graph is visible
+    When I click the button "Add Graph"
+    Then I expect the dialog "Select target for graph" is open within 5 seconds
+    When I select "entropy" in the dialog "Select target for graph"
+    And I wait for 2 seconds
+    Then 10 graphs should be visible within max 20 seconds
+    When I focus on the "entropy" graph
+    Then "entropy" graph should have some values
+
 #
 #  @disable-monitoring
 #  Scenario: Disable monitoring
