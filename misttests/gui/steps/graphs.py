@@ -47,7 +47,7 @@ def check_if_graph_is_visible(context, graph_id, timeout, seconds):
             return
         except NoSuchElementException:
             sleep(1)
-    assert False, "Not all graphs appeared after %s seconds" % seconds
+    assert False, "Graph %s has not appeared after %s seconds" % (graph_id, seconds)
 
 
 @step(u'{graphs} graphs should be visible within max {seconds} seconds')
