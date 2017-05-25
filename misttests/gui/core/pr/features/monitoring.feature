@@ -1,10 +1,11 @@
 @monitoring
 Feature: Monitoring
 
+
   @enable-monitoring
   Scenario: Create Machine,deploy monitoring agent and check the graphs
     Given I am logged in to mist.core
-#    And cloud Docker-Monitoring has been added via API request
+    And cloud "Docker-Monitoring" has been added via API request
 #    And "Key1" key has been added
 #    When I visit the Machines page
 #    And I wait for 1 seconds
@@ -35,8 +36,6 @@ Feature: Monitoring
 #    And I click the button "Enable Monitoring"
     Then I wait for the graphs to appear
     Then 9 graphs should be visible within max 30 seconds
-    When I focus on the "DF" graph
-    Then "DF" graph should have some values
 ##    Then "Loafgd" graph should have some values
 ##    And "MEM" graph should have some values
 #    When I visit the Keys page
@@ -48,12 +47,12 @@ Feature: Monitoring
     Then I expect the dialog "Select target for graph" is open within 5 seconds
     And I wait for 2 seconds
     When I select "entropy" in the dialog "Select target for graph"
+    And I wait for the graphs to appear
     Then 10 graphs should be visible within max 20 seconds
     When I wait for 3 seconds
     And I focus on the "entropy" graph
     Then "entropy" graph should have some values
 
-#
 #  @disable-monitoring
 #  Scenario: Disable monitoring
 #    When I visit the Machines page
