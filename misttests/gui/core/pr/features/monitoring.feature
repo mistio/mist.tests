@@ -30,12 +30,13 @@ Feature: Monitoring
 
     When I visit the Machines page
     And I wait for 1 seconds
-    When I click the "test-monitoring" "machine"
+    When I click the "monitoring" "machine"
     And I wait for 4 seconds
 #    And I click the button "Enable Monitoring"
+    Then I wait for the graphs to appear
     Then 9 graphs should be visible within max 30 seconds
-    When I focus on the "MEM" graph
-    Then "mem" graph should have some values
+    When I focus on the "DF" graph
+    Then "DF" graph should have some values
 ##    Then "Loafgd" graph should have some values
 ##    And "MEM" graph should have some values
 #    When I visit the Keys page
