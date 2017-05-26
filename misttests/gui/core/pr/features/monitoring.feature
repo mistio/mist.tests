@@ -41,11 +41,12 @@ Feature: Monitoring
 ####    Then "Loafgd" graph should have some values
 ####    And "MEM" graph should have some values
 ##
+
   @add-entropy-graph
   Scenario: Add custom graph and make sure an extra graph is visible
     When I click the button "Add Graph"
-    Then I expect for "selectTarget" modal to appear within max 10 seconds
-    And I expect the metric buttons to appear within 10 seconds
+    Then I expect for "selectTarget" modal to appear within max 20 seconds
+    And I expect the metric buttons to appear within 30 seconds
     When I click the "entropy" button inside the popup with id "selectTarget"
     And I wait for 6 seconds
     Then "entropy" graph should appear within 30 seconds
