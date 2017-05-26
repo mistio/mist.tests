@@ -32,13 +32,13 @@ Feature: Monitoring
     And 9 graphs should be visible within max 30 seconds
 #
 #    When I visit the Machines page
-#    And I wait for 1 seconds
-#    When I click the "test-monitoring" "machine"
+#    And I wait for 3 seconds
+#    When I click the "fucking_Tester" "machine"
 #    And I wait for 4 seconds
-###    And I click the button "Enable Monitoring"
-#    Then I wait for the graphs to appear
-#    Then 9 graphs should be visible within max 30 seconds
-##    Then "Loafgd" graph should have some values
+####    And I click the button "Enable Monitoring"
+##    Then I wait for the graphs to appear
+##    Then 9 graphs should be visible within max 30 seconds
+#    Then "Load" graph should have some values
 ##    And "MEM" graph should have some values
 #
 
@@ -56,6 +56,8 @@ Feature: Monitoring
     When I wait for 3 seconds
     And I focus on the "entropy" graph
     Then "entropy" graph should have some values
+    When I focus on the "Load" graph
+    Then "Load" graph should have some values
 
   @monitoring-home-page
   Scenario: Visit Home page and verify that polyana-dashboard is there
