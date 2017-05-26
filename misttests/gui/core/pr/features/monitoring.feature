@@ -31,15 +31,15 @@ Feature: Monitoring
     Then I wait for the graphs to appear
     And 9 graphs should be visible within max 30 seconds
 
-    When I visit the Machines page
-    And I wait for 1 seconds
-    When I click the "monitoring" "machine"
-    And I wait for 4 seconds
-##    And I click the button "Enable Monitoring"
-    Then I wait for the graphs to appear
-#    Then 9 graphs should be visible within max 30 seconds
-##    Then "Loafgd" graph should have some values
-##    And "MEM" graph should have some values
+#    When I visit the Machines page
+#    And I wait for 1 seconds
+#    When I click the "monitoring" "machine"
+#    And I wait for 4 seconds
+###    And I click the button "Enable Monitoring"
+#    Then I wait for the graphs to appear
+##    Then 9 graphs should be visible within max 30 seconds
+###    Then "Loafgd" graph should have some values
+###    And "MEM" graph should have some values
 #
   @add-entropy-graph
   Scenario: Add custom graph and make sure an extra graph is visible
