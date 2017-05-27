@@ -63,7 +63,6 @@ def set_values_to_create_machine_form(context,provider,machine_name):
                    machine_values_dict.get(provider)[0]))
 
 
-
 @step(u'I select the proper values for "{provider}" to create the "{machine_name}" machine')
 def cloud_creds(context, provider, machine_name):
     provider = provider.strip().lower()
