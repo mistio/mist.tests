@@ -47,6 +47,18 @@ class TestLibcloudFunctionality:
         assert len(response.json()) >= 0, "List Packet machines did not return a proper result"
         print "Success!!!"
 
+    def test_list_machines_nephoscale(self, pretty_print, mist_core, cache, owner_api_token):
+        response = mist_core.add_cloud(title='Nephoscale', provider= 'nephoscale', api_token=owner_api_token,
+                                       username=safe_get_var('clouds/nephoscale', 'username',
+                                                             config.CREDENTIALS['NEPHOSCALE']['username']),
+                                       password = safe_get_var('clouds/nephoscale', 'password', config.CREDENTIALS['NEPHOSCALE']['password'])).post()
+        assert_response_ok(response)
+        cache.set('nephoscale_cloud_id', response.json()['id'])
+        response = mist_core.list_machines(cloud_id=cache.get('nephoscale_cloud_id', ''), api_token=owner_api_token).get()
+        assert_response_ok(response)
+        assert len(response.json()) >= 0, "List Nephoscale machines did not return a proper result"
+        print "Success!!!"
+
     def test_list_machines_aws(self, pretty_print, mist_core, cache, owner_api_token):
         response = mist_core.add_cloud(title='AWS', provider= 'ec2', api_token=owner_api_token,
                                        api_key=safe_get_var('clouds/aws', 'api_key', config.CREDENTIALS['EC2']['api_key']),
@@ -135,6 +147,12 @@ class TestLibcloudFunctionality:
         assert len(response.json()) > 0, "List Packet sizes did not return any sizes"
         print "Success!!!"
 
+    def test_list_sizes_nephoscale(self, pretty_print, mist_core, cache, owner_api_token):
+        response = mist_core.list_sizes(cloud_id=cache.get('nephoscale_cloud_id', ''), api_token=owner_api_token).get()
+        assert_response_ok(response)
+        assert len(response.json()) > 0, "List Nephoscale sizes did not return any sizes"
+        print "Success!!!"
+
     def test_list_sizes_aws(self, pretty_print, mist_core, cache, owner_api_token):
         response = mist_core.list_sizes(cloud_id=cache.get('aws_cloud_id', ''), api_token=owner_api_token).get()
         assert_response_ok(response)
@@ -187,6 +205,12 @@ class TestLibcloudFunctionality:
         response = mist_core.list_images(cloud_id=cache.get('packet_cloud_id', ''), api_token=owner_api_token).get()
         assert_response_ok(response)
         assert len(response.json()) > 0, "List Packet images did not return any images"
+        print "Success!!!"
+
+    def test_list_images_nephoscale(self, pretty_print, mist_core, cache, owner_api_token):
+        response = mist_core.list_images(cloud_id=cache.get('nephoscale_cloud_id', ''), api_token=owner_api_token).get()
+        assert_response_ok(response)
+        assert len(response.json()) > 0, "List Nephoscale images did not return any images"
         print "Success!!!"
 
     def test_list_images_aws(self, pretty_print, mist_core, cache, owner_api_token):
