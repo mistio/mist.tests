@@ -35,6 +35,18 @@ def wait_graphs_to_appear(context):
         raise TimeoutException("No graphs have appeared after 200 seconds")
 
 
+@step(u'graphs should disappear within {seconds} seconds')
+def wait_for_graphs_to_disappear(context, seconds):
+    timeout = time() + int(seconds)
+    while time() < timeout:
+        try:
+            context.browser.find_element_by_tag_name("polyana-dashboard")
+            sleep(1)
+        except NoSuchElementException:
+            return
+    assert False, "Graphs have not disappeared after %s seconds" % seconds
+
+
 @step(u'I focus on the "{graph_title}" graph')
 def focus_on_a_graph(context, graph_title):
     try:
