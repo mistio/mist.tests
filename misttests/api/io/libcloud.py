@@ -70,6 +70,21 @@ class TestLibcloudFunctionality:
         assert len(response.json()) >= 0, "List Vultr machines did not return a proper result"
         print "Success!!!"
 
+    def test_list_machines_rackspace(self, pretty_print, mist_core, cache, owner_api_token):
+        response = mist_core.add_cloud(title='Rackspace', provider= 'rackspace', api_token=owner_api_token,
+                                       region=safe_get_var('clouds/rackspace', 'region',
+                                                           config.CREDENTIALS['RACKSPACE']['region']),
+                                       username = safe_get_var('clouds/rackspace', 'username',
+                                                           config.CREDENTIALS['RACKSPACE']['username']),
+                                       api_key = safe_get_var('clouds/rackspace', 'api_key',
+                                                           config.CREDENTIALS['RACKSPACE']['api_key'])).post()
+        assert_response_ok(response)
+        cache.set('rackspace_cloud_id', response.json()['id'])
+        response = mist_core.list_machines(cloud_id=cache.get('rackspace_cloud_id', ''), api_token=owner_api_token).get()
+        assert_response_ok(response)
+        assert len(response.json()) >= 0, "List Rackspace machines did not return a proper result"
+        print "Success!!!"
+
     def test_list_machines_aws(self, pretty_print, mist_core, cache, owner_api_token):
         response = mist_core.add_cloud(title='AWS', provider= 'ec2', api_token=owner_api_token,
                                        api_key=safe_get_var('clouds/aws', 'api_key', config.CREDENTIALS['EC2']['api_key']),
@@ -170,6 +185,12 @@ class TestLibcloudFunctionality:
         assert len(response.json()) > 0, "List Vultr sizes did not return any sizes"
         print "Success!!!"
 
+    def test_list_sizes_rackspace(self, pretty_print, mist_core, cache, owner_api_token):
+        response = mist_core.list_sizes(cloud_id=cache.get('rackspace_cloud_id', ''), api_token=owner_api_token).get()
+        assert_response_ok(response)
+        assert len(response.json()) > 0, "List Rackspace sizes did not return any sizes"
+        print "Success!!!"
+
     def test_list_sizes_aws(self, pretty_print, mist_core, cache, owner_api_token):
         response = mist_core.list_sizes(cloud_id=cache.get('aws_cloud_id', ''), api_token=owner_api_token).get()
         assert_response_ok(response)
@@ -234,6 +255,12 @@ class TestLibcloudFunctionality:
         response = mist_core.list_images(cloud_id=cache.get('vultr_cloud_id', ''), api_token=owner_api_token).get()
         assert_response_ok(response)
         assert len(response.json()) > 0, "List Vultr images did not return any images"
+        print "Success!!!"
+
+    def test_list_images_rackspace(self, pretty_print, mist_core, cache, owner_api_token):
+        response = mist_core.list_images(cloud_id=cache.get('rackspace_cloud_id', ''), api_token=owner_api_token).get()
+        assert_response_ok(response)
+        assert len(response.json()) > 0, "List Rackspace images did not return any images"
         print "Success!!!"
 
     def test_list_images_aws(self, pretty_print, mist_core, cache, owner_api_token):
