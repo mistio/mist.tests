@@ -96,11 +96,11 @@ class TestLibcloudFunctionality:
         assert len(response.json()) > 0, "List Vultr sizes did not return any sizes"
         print "Success!!!"
 
-    def test_list_sizes_azure_arm(self, pretty_print, mist_core, cache, owner_api_token):
-        response = mist_core.list_sizes(cloud_id=cache.get('azure_arm_cloud_id', ''), api_token=owner_api_token).get()
-        assert_response_ok(response)
-        assert len(response.json()) > 0, "List Azure_arm sizes did not return any sizes"
-        print "Success!!!"
+    # def test_list_sizes_azure_arm(self, pretty_print, mist_core, cache, owner_api_token):
+    #     response = mist_core.list_sizes(cloud_id=cache.get('azure_arm_cloud_id', ''), api_token=owner_api_token).get()
+    #     assert_response_ok(response)
+    #     assert len(response.json()) > 0, "List Azure_arm sizes did not return any sizes"
+    #     print "Success!!!"
 
     def test_list_images_linode(self, pretty_print, mist_core, cache, owner_api_token):
         response = mist_core.list_images(cloud_id=cache.get('linode_cloud_id', ''), api_token=owner_api_token).get()
@@ -126,8 +126,8 @@ class TestLibcloudFunctionality:
         assert len(response.json()) > 0, "List Vultr images did not return any images"
         print "Success!!!"
 
-    def test_list_images_azure_arm(self, pretty_print, mist_core, cache, owner_api_token):
-        response = mist_core.list_images(cloud_id=cache.get('azure_arm_cloud_id', ''), api_token=owner_api_token).get()
-        assert_response_ok(response)
-        assert len(response.json()) > 0, "List Azure_arm images did not return any images"
-        print "Success!!!"
+    # def test_list_images_azure_arm(self, pretty_print, mist_core, cache, owner_api_token):
+    #     response = mist_core.list_images(cloud_id=cache.get('azure_arm_cloud_id', ''), api_token=owner_api_token).get()
+    #     assert_response_ok(response)
+    #     assert len(response.json()) > 0, "List Azure_arm images did not return any images"
+    #     print "Success!!!"
