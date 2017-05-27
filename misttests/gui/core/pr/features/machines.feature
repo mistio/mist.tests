@@ -7,7 +7,7 @@ Feature: Machines
   @key-add
   Scenario: Add script, Docker cloud and key that will be used for ssh access
     Given script "touch_kati" is added via API request
-    And cloud Docker has been added via API request
+    And cloud "Docker" has been added via API request
     When I visit the Keys page
     When I click the button "+"
     Then I expect the "Key" add form to be visible within max 10 seconds

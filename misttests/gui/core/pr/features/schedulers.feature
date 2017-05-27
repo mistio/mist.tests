@@ -3,7 +3,7 @@ Feature: Schedulers
 
   @scheduler-add-interval
   Scenario: Add schedule
-    Given cloud Docker has been added via API request
+    Given cloud "Docker" has been added via API request
     And Docker machine "test-machine-random" has been added via API request
     Given I am logged in to mist.core
     When I visit the Machines page

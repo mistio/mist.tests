@@ -20,7 +20,7 @@ help_message() {
     echo
     echo "Argument for UI tests can be one of the following:"
     echo
-    echo "clouds, machines, images, keys, scripts, users, rbac, schedules, orchestration"
+    echo "clouds, machines, images, keys, scripts, users, rbac, schedules, orchestration, monitoring"
     echo
     exit
 }
@@ -31,7 +31,7 @@ run_gui_tests_suite() {
     do
       behave_tags+="${tag}"
     done
-    behave -k --tags=$behave_tags misttests/gui/core/pr/features
+    behave -k --no-capture --no-capture-stderr --tags=$behave_tags misttests/gui/core/pr/features
 }
 
 run_api_tests_suite() {
@@ -88,6 +88,7 @@ vault_login() {
     behave_tags["users"]='user-actions,'
     behave_tags["rbac"]='rbac-rules','rbac-teams','rbac-rules-v2,'
     behave_tags["schedules"]='schedulers','schedulers_v2,'
+    behave_tags["monitoring"]='monitoring,'
     behave_tags["orchestration"]='orchestration,'
 
 
@@ -147,7 +148,7 @@ vault_login() {
             pytest -s ${pytest_paths["$2"]}
         elif [ $1 == '-gui' ] && [[ " ${!behave_tags[@]} " == *" $2 "* ]]; then
             vault_login
-            behave -k --stop --tags=${behave_tags["$2"]} misttests/gui/core/pr/features
+            behave -k --no-capture --no-capture-stderr --stop --tags=${behave_tags["$2"]} misttests/gui/core/pr/features
         else
             help_message
         fi
@@ -164,7 +165,7 @@ vault_login() {
         if [ $2 == '-api' ] && [[ " ${!pytest_paths[@]} " == *" $3 "* ]]; then
             pytest -s ${pytest_paths["$3"]}
         elif [ $2 == '-gui' ] && [[ " ${!behave_tags[@]} " == *" $3 "* ]]; then
-            behave -k --stop --tags=${behave_tags["$3"]} misttests/gui/core/pr/features
+            behave -k --no-capture --no-capture-stderr --stop --tags=${behave_tags["$3"]} misttests/gui/core/pr/features
         else
             help_message
         fi
