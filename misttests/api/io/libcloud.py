@@ -36,6 +36,17 @@ class TestLibcloudFunctionality:
         assert len(response.json()) >= 0, "List Linode machines did not return a proper result"
         print "Success!!!"
 
+    def test_list_machines_packet(self, pretty_print, mist_core, cache, owner_api_token):
+        response = mist_core.add_cloud(title='Packet', provider= 'packet', api_token=owner_api_token,
+                                       api_key=safe_get_var('clouds/packet', 'api_key',
+                                                            config.CREDENTIALS['PACKET']['api_key'])).post()
+        assert_response_ok(response)
+        cache.set('packet_cloud_id', response.json()['id'])
+        response = mist_core.list_machines(cloud_id=cache.get('packet_cloud_id', ''), api_token=owner_api_token).get()
+        assert_response_ok(response)
+        assert len(response.json()) >= 0, "List Packet machines did not return a proper result"
+        print "Success!!!"
+
     def test_list_machines_aws(self, pretty_print, mist_core, cache, owner_api_token):
         response = mist_core.add_cloud(title='AWS', provider= 'ec2', api_token=owner_api_token,
                                        api_key=safe_get_var('clouds/aws', 'api_key', config.CREDENTIALS['EC2']['api_key']),
@@ -118,6 +129,12 @@ class TestLibcloudFunctionality:
         assert len(response.json()) > 0, "List Linode sizes did not return any sizes"
         print "Success!!!"
 
+    def test_list_sizes_packet(self, pretty_print, mist_core, cache, owner_api_token):
+        response = mist_core.list_sizes(cloud_id=cache.get('packet_cloud_id', ''), api_token=owner_api_token).get()
+        assert_response_ok(response)
+        assert len(response.json()) > 0, "List Packet sizes did not return any sizes"
+        print "Success!!!"
+
     def test_list_sizes_aws(self, pretty_print, mist_core, cache, owner_api_token):
         response = mist_core.list_sizes(cloud_id=cache.get('aws_cloud_id', ''), api_token=owner_api_token).get()
         assert_response_ok(response)
@@ -164,6 +181,12 @@ class TestLibcloudFunctionality:
         response = mist_core.list_images(cloud_id=cache.get('linode_cloud_id', ''), api_token=owner_api_token).get()
         assert_response_ok(response)
         assert len(response.json()) > 0, "List Linode images did not return any images"
+        print "Success!!!"
+
+    def test_list_images_packet(self, pretty_print, mist_core, cache, owner_api_token):
+        response = mist_core.list_images(cloud_id=cache.get('packet_cloud_id', ''), api_token=owner_api_token).get()
+        assert_response_ok(response)
+        assert len(response.json()) > 0, "List Packet images did not return any images"
         print "Success!!!"
 
     def test_list_images_aws(self, pretty_print, mist_core, cache, owner_api_token):
