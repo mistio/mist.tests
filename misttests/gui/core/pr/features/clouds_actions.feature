@@ -35,8 +35,6 @@ Feature: Cloud actions for polymer
     When I visit the Machines page
     Then "yolomachine" machine should be absent within 60 seconds
     When I visit the Home page
-    And I wait for the dashboard to load
-    And I click the "toggle" button
     And I wait for the links in homepage to appear
     And I open the cloud menu for "Docker"
     And I click the "toggle" button with id "enable-disable-cloud"
@@ -67,5 +65,4 @@ Feature: Cloud actions for polymer
     When I click the "Delete" button in the dialog "Delete Docker"
     Then I expect the dialog "Delete Docker" is closed within 4 seconds
     And I wait for 2 seconds
-    Then the "Renamed" cloud should be deleted
     Then I should have 1 clouds added
