@@ -76,11 +76,4 @@ Feature: Monitoring
     Then I expect the dialog "Disable Machine Monitoring" is open within 5 seconds
     When I click the "Disable Monitoring" button in the dialog "Disable Machine Monitoring"
     Then I expect the dialog "Disable Machine Monitoring" is closed within 5 seconds
-    Then 0 graphs should be visible within max 20 seconds
-
-#    And I expect for "dialog-popup" modal to appear within max 400 seconds
-#    And I click the "_x_" button inside the "Success" modal
-#    When I focus on the "third" button
-#    And I click the button "third"
-#    Then I expect for "single-machine-page" page to appear within max 4 seconds
-#    And I wait for the graphs to appear
+    And graphs should disappear within 15 seconds
