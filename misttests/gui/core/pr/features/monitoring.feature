@@ -45,8 +45,6 @@ Feature: Monitoring
     When I wait for 3 seconds
     And I focus on the "entropy" graph
     Then "entropy" graph should have some values
-    When I focus on the "Load" graph
-    Then "Load" graph should have some values
 
   @monitoring-home-page
   Scenario: Visit Home page and verify that polyana-dashboard is there
