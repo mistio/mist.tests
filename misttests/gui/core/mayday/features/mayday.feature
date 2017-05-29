@@ -45,7 +45,7 @@ Feature: Production
   Scenario: Verify that incident gets triggered
 #    When I wait for 20 seconds
 #    And I visit the Home page
-    And I wait for the links in homepage to appear
+#    And I wait for the links in homepage to appear
     Then I should see the incident "CPU > 0.0% for any value"
 
 #  @ssh
