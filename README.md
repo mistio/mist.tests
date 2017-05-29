@@ -18,7 +18,7 @@ docker build -t mistio/tests_base .
 
 To enter the tests container run the following command:
 
-docker run -p 5900:5900 -it mistio/tests_base container/start_test_env.sh
+docker run -p 5900:5900 -it mistio/tests_base /bin/bash
 
 You can run tests either by using Vault for obtaining sensitive data, such as cloud credentials, or by setting a test_settings.py file under tests directory.
 
