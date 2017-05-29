@@ -9,7 +9,6 @@ from misttests.gui.steps.machines import *
 from misttests.gui.steps.popups import *
 from misttests.gui.steps.modals import *
 from misttests.gui.steps.ssh import *
-from misttests.gui.steps.alert import *
 from misttests.gui.steps.utils import safe_get_element_text
 
 from selenium.webdriver import ActionChains
@@ -117,7 +116,7 @@ def check_for_incident(context, incident):
     incidents_list = context.browser.find_elements_by_css_selector('div.block div.list')
 
     for item in incidents_list:
-        if incident in safe_get_element_text(item):
+        if incident in safe_get_element_text(item) :
             return
 
     assert False, "Incident %s was not found in the home page" % incident
