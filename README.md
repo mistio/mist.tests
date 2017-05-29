@@ -34,7 +34,7 @@ Run ./run_tests -h for more info.
 
 ##### Using test_settings.py
 
-Usage of Vault is not necessary. You can insert a test_settings.py file under tests directory, and set VAULT_ENABLED variable to True.
+Usage of Vault is not necessary. You can insert a test_settings.py file under tests directory, and set VAULT_ENABLED variable to False.
 
 All the variables needed for the tests will be obtained from test_settings.py in this case.
 
