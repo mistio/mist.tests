@@ -26,6 +26,7 @@ def search_for_mayday_machine(context):
         search_bar.send_keys(letter)
     sleep(2)
 
+
 @step(u'I delete old mayday emails')
 def delete_old_mayday_emails(context):
     box = login_email(context)
@@ -39,6 +40,7 @@ def delete_old_mayday_emails(context):
     box.expunge()
     logout_email(box)
 
+
 @step(u'I click the mayday machine')
 def click_mayday_machine(context):
     """
@@ -51,6 +53,7 @@ def click_mayday_machine(context):
         text = context.mist_config['MAYDAY_MACHINE']
     button = context.browser.find_element_by_xpath("//a[@title='%s']" % text)
     clicketi_click(context, button)
+
 
 @step(u'Mayday machine state should be "{state}" within {seconds} seconds')
 def assert_mayday_machine_state(context, state, seconds):
@@ -71,6 +74,7 @@ def assert_mayday_machine_state(context, state, seconds):
 
     assert False, u'%s state is not "%s"' % (name, state)
 
+
 @step(u'I choose the mayday machine')
 def choose_mayday_machine(context):
     if context.mist_config.get('MAYDAY_MACHINE'):
@@ -86,6 +90,7 @@ def choose_mayday_machine(context):
 
         sleep(2)
     assert False, u'Could not choose/tick %s machine' % name
+
 
 @step(u'I fill "{value}" as metric value')
 def rule_value(context, value):
