@@ -9,6 +9,7 @@ from misttests.gui.steps.machines import *
 from misttests.gui.steps.popups import *
 from misttests.gui.steps.modals import *
 from misttests.gui.steps.ssh import *
+from misttests.gui.steps.browser import *
 from misttests.gui.steps.utils import safe_get_element_text
 
 from selenium.webdriver import ActionChains
