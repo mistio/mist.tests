@@ -7,10 +7,11 @@ Feature: Monitoring tested locally
     Given I am logged in to mist.core
 
     # TODO: Here add Mist_Debugger as a cloud
+    # also dont run if wrong vault creds given...
 
     When I visit the Machines page
     Then "Mist Debugger" machine state has to be "running" within 20 seconds
-    When I click the "monitored-machine-random" "machine"
+    When I click the "Mist Debugger" "machine"
     And I wait for 2 seconds
     And I click the button "Enable Monitoring"
     And I wait for 2 seconds
