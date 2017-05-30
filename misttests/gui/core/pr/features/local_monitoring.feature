@@ -9,7 +9,7 @@ Feature: Monitoring tested locally
     # TODO: Here add Mist_Debugger as a cloud
 
     When I visit the Machines page
-    Then "monitored-machine-random" machine state has to be "running" within 20 seconds
+    Then "Mist Debugger" machine state has to be "running" within 20 seconds
     When I click the "monitored-machine-random" "machine"
     And I wait for 2 seconds
     And I click the button "Enable Monitoring"
