@@ -57,7 +57,7 @@ Feature: Production
 
   @incidents
   Scenario: Verify that incident gets triggered
-    When I wait for 20 seconds
+    When I wait for 10 seconds
     When I visit the Home page
 
     # TODO: refreshing page should be removed once incidents appear immediately in home page
