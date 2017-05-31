@@ -114,6 +114,18 @@ def add_docker_api_request(context, cloud):
                                         context.mist_config['CREDENTIALS']['DOCKER_MONITORING']['port']),
         }
 
+    elif cloud == 'Local_Monitoring':
+
+        payload = {
+            'name': 'Key1',
+            'priv': safe_get_var('keys/mistio_fullstack_key', 'private_key',
+                                        context.mist_config['CREDENTIALS']['DOCKER_MONITORING']['port'])
+        }
+
+        import ipdb;ipdb.set_trace()
+
+        re = requests.put(context.mist_config['MIST_URL'] + "/api/v1/keys", data=json.dumps(payload), headers=headers)
+
     requests.post(context.mist_config['MIST_URL'] + "/api/v1/clouds", data=json.dumps(payload), headers=headers)
 
 

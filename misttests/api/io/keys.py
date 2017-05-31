@@ -140,6 +140,7 @@ class TestSimpleUserKeyCycle:
         response = mist_core.list_keys(api_token=owner_api_token).get()
         assert_response_ok(response)
         assert len(response.json()) == 0
+        import ipdb;ipdb.set_trace()
         response = mist_core.add_key(
             name='TestKey',
             private=private_key,
