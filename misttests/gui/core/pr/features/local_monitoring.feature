@@ -10,8 +10,6 @@ Feature: Monitoring tested locally
 
     # And cloud "Mist Debugger" has been added via API request
 
-    # also dont run if wrong vault creds given...
-
 
 #machine_ip
 #:
@@ -63,6 +61,17 @@ Feature: Monitoring tested locally
     And I focus on the "entropy" graph
     Then "entropy" graph should have some values
 
+  @add-rule
+  Scenario: Add a rule that will be triggered immediately, and verify that an incident will appear in home page
+    When I focus on the "add new rule" button
+    And I click the button "add new rule"
+    Then I expect for "newrule" to be visible within max 20 seconds
+    When I click the "metricName" rule
+    And I click the "RAM" button in the dropdown with id "metricName"
+    And I fill "0" as metric value
+    And I save the rule
+    And I wait for 20 seconds
+
   @monitoring-home-page
   Scenario: Visit Home page and verify that polyana-dashboard is there
     When I visit the Home page
@@ -70,24 +79,20 @@ Feature: Monitoring tested locally
     Then I wait for the graphs to appear
 
   @incidents
-  Scenario: Add a rule that will be triggered immediately, and verify that an incident will appear in home page
-    When I focus on the "add new rule" button
-    And I click the button "add new rule"
-    Then I expect for "newrule" to be visible within max 20 seconds
-    And I click the "metricName" rule
-#    And I click the "RAM" button in the dropdown with id "metricName"
-    When I fill "0" as metric value
-    And I save the rule
-#
-#  @disable-monitoring
-#  Scenario: Disable monitoring
-#    When I visit the Machines page
-#    And I click the "monitored-machine-random" "machine"
-#    And I wait for 2 seconds
-#    And I click the "Disable Monitoring" button
-#    And I wait for 2 seconds
-#    And I click the "Disable Monitoring" button
-#    Then I expect the dialog "Disable Machine Monitoring" is open within 5 seconds
-#    When I click the "Disable Monitoring" button in the dialog "Disable Machine Monitoring"
-#    Then I expect the dialog "Disable Machine Monitoring" is closed within 5 seconds
-#    And graphs should disappear within 15 seconds
+  Scenario: Refresh Home page and verify that incident has been triggered
+    When I refresh the page
+    And I wait for the links in homepage to appear
+    Then I should see the incident "RAM > 0.0%"
+
+  @disable-monitoring
+  Scenario: Disable monitoring
+    When I visit the Machines page
+    And I click the "Local_Monitoring" "machine"
+    And I wait for 2 seconds
+    And I click the "Disable Monitoring" button
+    And I wait for 2 seconds
+    And I click the "Disable Monitoring" button
+    Then I expect the dialog "Disable Machine Monitoring" is open within 5 seconds
+    When I click the "Disable Monitoring" button in the dialog "Disable Machine Monitoring"
+    Then I expect the dialog "Disable Machine Monitoring" is closed within 5 seconds
+    And graphs should disappear within 15 seconds
