@@ -23,21 +23,12 @@ Feature: Monitoring tested locally
 #machine_user
 #:
 #"root"
-#monitoring
-#:
-#true
 #operating_system
 #:
 #"unix"
-#provider
-#:
-#"bare_metal"
 #remote_desktop_port
 #:
 #3389
-#title
-#:
-#"Local_Monitoring"
 
     When I visit the Machines page
     And I wait for 3 seconds
