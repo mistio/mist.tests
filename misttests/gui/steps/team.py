@@ -55,10 +55,11 @@ def delete_member_from_team(context, email):
         email = context.mist_config[email]
     email = email.strip().lower()
     for member in members:
+        div = member.find_elements_by_tag_name('div')
         spans = map(lambda el: safe_get_element_text(el),
-                    member.find_elements_by_tag_name('span'))
+                    div.find_elements_by_tag_name('span'))
         if spans[-1] == email:
-            button = member.find_element_by_class_name('delete-member')
+            button = div.find_element_by_class_name('delete-member')
             clicketi_click(context, button)
             return True
     assert False, "User is not among the team members"
