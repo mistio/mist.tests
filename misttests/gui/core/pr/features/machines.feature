@@ -49,10 +49,8 @@ Feature: Machines
     When I focus on the button "Launch" in "machine" add form
     And I wait for 2 seconds
     And I click the "Launch" button with id "appformsubmit"
-#    And I wait for 5 seconds
     Then "ui-test-create-machine-random" machine state has to be "running" within 30 seconds
 
-    #TODO: Reinsert these tests once key assoiciation works fine
   @key-associate
   Scenario: Associate key with machine
     When I click the "ui-test-create-machine-random" "machine"
@@ -67,13 +65,13 @@ Feature: Machines
     Then there should be 2 keys associated with the machine
     Then "Key2" key should be associated with the machine "ui-test-create-machine-random"
 
-  @key-disassociate
-  Scenario: Disassociate key
-    When I delete the associated key
-    Then I expect the dialog "Disassociate Key" is open within 4 seconds
-    When I click the "Disassociate" button in the dialog "Disassociate Key"
-    And I wait for 7 seconds
-    Then there should be 1 keys associated with the machine
+#  @key-disassociate
+#  Scenario: Disassociate key
+#    When I delete the associated key
+#    Then I expect the dialog "Disassociate Key" is open within 4 seconds
+#    When I click the "Disassociate" button in the dialog "Disassociate Key"
+#    And I wait for 7 seconds
+#    Then there should be 1 keys associated with the machine
 
    @machine-run-script
    Scenario: Run script to machine created above

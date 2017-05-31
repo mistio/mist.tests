@@ -308,9 +308,8 @@ def search_for_mayday_machine(context, name):
 
 @step(u'"{key}" key should be associated with the machine "{machine}"')
 def check_for_associated_key(context, key, machine):
-    associated_key_class = context.browser.find_element_by_class_name('associatedKeys')
-    associated_keys = associated_key_class.find_elements_by_class_name('machine-key')
-    for element in associated_keys:
+    machine_keys_class = context.browser.find_elements_by_css_selector('div.machine-key.style-scope.machine-page')
+    for element in machine_keys_class:
         if safe_get_element_text(element) == key:
             return
     assert False, "The key has not been associated with the machine!"
@@ -326,9 +325,7 @@ def disassociate_key(context):
 
 @step(u'there should be {keys} keys associated with the machine')
 def keys_associated_with_machine(context, keys):
-    import ipdb;ipdb.set_trace()
-    associated_keys = context.browser.find_element_by_class_name('associatedKeys')
-    machine_keys_class = associated_keys.find_elements_by_class_name('machine-key')
+    machine_keys_class = context.browser.find_elements_by_css_selector('div.machine-key.style-scope.machine-page')
     associated_keys_with_machine = 0
     for element in machine_keys_class:
         try:
