@@ -326,6 +326,7 @@ def disassociate_key(context):
 
 @step(u'there should be {keys} keys associated with the machine')
 def keys_associated_with_machine(context, keys):
+    import ipdb;ipdb.set_trace()
     associated_keys = context.browser.find_element_by_class_name('associatedKeys')
     machine_keys_class = associated_keys.find_elements_by_class_name('machine-key')
     associated_keys_with_machine = 0
