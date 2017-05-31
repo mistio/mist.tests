@@ -315,12 +315,14 @@ def check_for_associated_key(context, key, machine):
     assert False, "The key has not been associated with the machine!"
 
 
-@step(u'I delete the associated key')
-def disassociate_key(context):
-    associated_key_class = context.browser.find_element_by_class_name('associatedKeys')
-    associated_key = associated_key_class.find_element_by_class_name('machine-key')
-    delete_btn = associated_key.find_element_by_class_name('delete')
-    clicketi_click(context, delete_btn)
+@step(u'I delete the associated key "{key}"')
+def disassociate_key(context, key):
+    machine_keys_class = context.browser.find_elements_by_css_selector('div.machine-key.style-scope.machine-page')
+
+    for element in machine_keys_class:
+        if safe_get_element_text(element) == key:
+            delete_btn = element.find_element_by_class_name('delete')
+            clicketi_click(context, delete_btn)
 
 
 @step(u'there should be {keys} keys associated with the machine')

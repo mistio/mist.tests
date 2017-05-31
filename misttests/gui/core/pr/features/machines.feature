@@ -65,13 +65,13 @@ Feature: Machines
     Then there should be 2 keys associated with the machine
     Then "Key2" key should be associated with the machine "ui-test-create-machine-random"
 
-#  @key-disassociate
-#  Scenario: Disassociate key
-#    When I delete the associated key
-#    Then I expect the dialog "Disassociate Key" is open within 4 seconds
-#    When I click the "Disassociate" button in the dialog "Disassociate Key"
-#    And I wait for 7 seconds
-#    Then there should be 1 keys associated with the machine
+  @key-disassociate
+  Scenario: Disassociate key
+    When I delete the associated key "Key2"
+    Then I expect the dialog "Disassociate Key" is open within 4 seconds
+    When I click the "Disassociate" button in the dialog "Disassociate Key"
+    And I wait for 10 seconds
+    Then there should be 1 keys associated with the machine
 
    @machine-run-script
    Scenario: Run script to machine created above
