@@ -323,6 +323,7 @@ def disassociate_key(context, key):
         if safe_get_element_text(element) == key:
             delete_btn = element.find_element_by_class_name('delete')
             clicketi_click(context, delete_btn)
+            return
 
 
 @step(u'there should be {keys} keys associated with the machine')
