@@ -6,30 +6,6 @@ Feature: Monitoring tested locally
   Scenario: Create Machine,deploy monitoring agent and check the graphs
     Given I am logged in to mist.core
     And cloud "Local_Monitoring" has been added via API request
-    # add fullstack_key via API
-
-    # And cloud "Mist Debugger" has been added via API request
-
-
-#machine_ip
-#:
-#"mist_debugger"
-#machine_key
-#:
-#"037b299a8f0648bab1a052932da060b0"
-#machine_port
-#:
-#22
-#machine_user
-#:
-#"root"
-#operating_system
-#:
-#"unix"
-#remote_desktop_port
-#:
-#3389
-
     When I visit the Machines page
     And I wait for 3 seconds
     When I click the "Local_Monitoring" "machine"
@@ -87,8 +63,3 @@ Feature: Monitoring tested locally
     When I click the "Disable Monitoring" button in the dialog "Disable Machine Monitoring"
     Then I expect the dialog "Disable Machine Monitoring" is closed within 5 seconds
     And graphs should disappear within 15 seconds
-
-
-    # 1.07  1.27
-
-#  1.47
