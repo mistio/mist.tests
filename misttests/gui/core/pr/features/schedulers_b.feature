@@ -4,7 +4,7 @@ Feature: Schedulers-b
   @scheduler-requirements
   Scenario: Check state of machines and tag machine that will be used for schedule below
     Given I am logged in to mist.core
-    And cloud Docker has been added via API request
+    And cloud "Docker" has been added via API request
     And Docker machine "test-ui-machine-random" has been added via API request
     And Docker machine "test-ui-machine-2-random" has been added via API request
     When I visit the Machines page
@@ -94,5 +94,5 @@ Feature: Schedulers-b
   @check-machines-state
   Scenario: Check machine's state
     When I visit the Machines page
-    Then "test-ui-machine-random" machine state has to be "stopped" within 70 seconds
-    Then "test-ui-machine-2-random" machine state has to be "stopped" within 60 seconds
+    Then "test-ui-machine-random" machine state has to be "stopped" within 80 seconds
+    Then "test-ui-machine-2-random" machine state has to be "stopped" within 80 seconds

@@ -6,6 +6,7 @@ from misttests.api.mistrequests import MistRequests
 
 
 class MistCoreApi(MistIoApi):
+
     def create_org(self, api_token, name=''):
         req = MistRequests(uri=self.uri + '/api/v1/org',
                            json={'name': name},

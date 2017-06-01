@@ -40,15 +40,21 @@ except Exception as exc:
     log.error("Error parsing test_settings py: %r", exc)
 
 
-def get_var_from_vault(path, var):
+def safe_get_var(vault_path, vault_key, test_settings_var):
 
-    headers = {"X-Vault-Token": os.environ['vault_client_token']}
+    if VAULT_ENABLED:
 
-    re = requests.get(VAULT_SERVER + '/v1/secret/%s' %path, headers=headers)
+        headers = {"X-Vault-Token": os.environ['VAULT_CLIENT_TOKEN']}
 
-    json_data = re.json().get('data')
+        re = requests.get(VAULT_SERVER + '/v1/secret/%s' % vault_path, headers=headers)
 
-    return json_data.get(var)
+        json_data = re.json().get('data')
+
+        return json_data.get(vault_key)
+
+    else:
+
+        return test_settings_var
 
 
 def get_setting(setting, default_value=None, priority='config_file'):
@@ -76,6 +82,8 @@ def get_setting(setting, default_value=None, priority='config_file'):
         return True if setting in ["True", "true"] else False
 
 LOCAL = get_setting("LOCAL", True)
+
+VAULT_ENABLED = get_setting("VAULT_ENABLED", True, priority='environment')
 
 VAULT_SERVER = get_setting("VAULT_SERVER", "https://vault.ops.mist.io:8200")
 
@@ -121,9 +129,6 @@ WEBDRIVER_PATH = get_setting("WEBDRIVER_PATH", "/usr/local/bin/chromedriver")
 WEBDRIVER_LOG = get_setting("WEBDRIVER_LOG",
                              os.path.join(BASE_DIR, LOG_DIR,
                                           'chromedriver.log'))
-
-# ----------CREDENTIALS-----------
-CREDENTIALS = get_setting("CREDENTIALS", {})
 
 MIST_API_TOKEN = get_setting("MIST_API_TOKEN", "")
 
@@ -216,3 +221,27 @@ IMAP_USER = get_setting('IMAP_USER', EMAIL)
 IMAP_PASSWORD = get_setting('IMAP_PASSWORD', '')
 
 KEY_ID = get_setting('KEY_ID', '')
+
+DEFAULT_CREDENTIALS = {'AWS': {'api_key': '', 'api_secret': '', 'region': ''},
+               'KVM': {'key': """ """, 'hostname': ''},
+               'AZURE': {'certificate': """ """, 'subscription_id': ''},
+               'AZURE_ARM': {'client_key': '', 'client_secret': '', 'subscription_id': '', 'tenant_id': ''},
+               'DIGITALOCEAN': {'token': ''},
+               'DOCKER': {'authentication': '', 'ca': """ """, 'cert': """ """, 'host': '', 'key': """""", 'port': ''},
+               'EC2': {'api_key': '', 'api_secret': '', 'region': ''},
+               'LINODE': {'api_key': ''},
+               'NEPHOSCALE': {'password': '', 'username': ''},
+               'GCE': {'project_id': '', 'private_key': {}},
+               'OPENSTACK': {'auth_url': '', 'password': '', 'tenant': '', 'username': ''},
+               'DOCKER_ORCHESTRATOR':{"host": "", "port": ""},
+               'OPENSTACK_2': {'auth_url': '', 'password': '', 'tenant': '', 'username': ''},
+               'PACKET': {'api_key': ''},
+               'PACKET_2': {'api_key': ''},
+               'VMWARE': {'username': '', 'password': '', 'organization': '', 'host': '' },
+               'RACKSPACE': {'api_key': '', 'region': '', 'username': ''},
+               'SOFTLAYER': {'api_key': '', 'username': ''},
+               'VULTR': {'apikey': ''},
+               'DOCKER_MONITORING':{'host': '', 'port': ''}
+               }
+
+CREDENTIALS = get_setting("CREDENTIALS", DEFAULT_CREDENTIALS)
