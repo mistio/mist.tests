@@ -296,7 +296,6 @@ class TestSchedulesFunctionality:
         response = mist_core.list_zones(api_token=owner_api_token,
                                         cloud_id=cache.get('cloud_id', '')).get()
         assert_response_ok(response)
-        assert len(response.json()['zones']) >= 1
         zone_id = cache.get('zone_id', '')
         zone_not_found = True
         for zone in response.json()['zones']:
