@@ -161,17 +161,6 @@ def set_vultr_creds(context):
                           u'"cloud" add form' % api_key)
 
 
-def set_indonesian_creds(context):
-    context.execute_steps(u'''
-                Then I set the value "Indonesian" to field "Title" in "cloud" add form
-                Then I set the value "%s" to field "Username" in "cloud" add form
-                Then I set the value "%s" to field "Password" in "cloud" add form
-                Then I set the value "%s" to field "Organization" in "cloud" add form
-            ''' % (safe_get_var('clouds/indonesian', 'username', context.mist_config['CREDENTIALS']['INDONESIAN']['username']),
-                   safe_get_var('clouds/indonesian', 'password', context.mist_config['CREDENTIALS']['INDONESIAN']['password']),
-                   safe_get_var('clouds/indonesian', 'organization', context.mist_config['CREDENTIALS']['INDONESIAN']['organization']),))
-
-
 def set_azure_arm_creds(context):
     context.execute_steps(u'''
                     Then I set the value "Azure ARM" to field "Title" in "cloud" add form
@@ -253,7 +242,6 @@ cloud_creds_dict = {
     "packet": set_packet_creds,
     "openstack": set_openstack_creds,
     "hostvirtual": set_hostvirtual_creds,
-    "indonesian": set_indonesian_creds,
     "vultr": set_vultr_creds,
     "azure arm": set_azure_arm_creds,
     "kvm (via libvirt)": set_kvm_creds,
