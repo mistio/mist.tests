@@ -68,7 +68,7 @@ def setup_org_if_not_exists(org_name, owner_email, clean_org=True, add_cloud=Tru
                 if config.API_TESTING_CLOUD_PROVIDER == 'EC2':
                     apikey = config.CREDENTIALS['EC2']['api_key']
                     apisecret = config.CREDENTIALS['EC2']['api_secret']
-                    region = 'ec2_ap_northeast'
+                    region = 'ap-northeast-1'
                     clouds_models.AmazonCloud(apikey=apikey,
                                               apisecret=apisecret,
                                               region=region, **kwargs).save()
