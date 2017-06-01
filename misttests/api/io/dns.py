@@ -71,7 +71,7 @@ def test_delete_zone_wrong_zone_id(pretty_print, mist_core, cache, owner_api_tok
 def test_list_records(pretty_print, mist_core, cache,  owner_api_token):
     domain = 'dummytestzone%d.com' % random.randint(1,200)
     response = mist_core.create_zone(api_token=owner_api_token, cloud_id=cache.get('cloud_id', ''),
-                                     domain='dummytestzone.com', type='master', ttl=3600).post()
+                                     domain=domain, type='master', ttl=3600).post()
     assert_response_ok(response)
     cache.set('zone_id', response.json()['id'])
     cache.set('domain', response.json()['domain'])
