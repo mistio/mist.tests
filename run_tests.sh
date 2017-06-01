@@ -16,7 +16,7 @@ help_message() {
     echo
     echo "Argument for API tests can be one of the following:"
     echo
-    echo "clouds, machines, tunnels, keys, scripts, api_token, tunnels, schedules, orchestration, libcloud, networks"
+    echo "clouds, machines, tunnels, keys, dns, scripts, api_token, tunnels, schedules, orchestration, libcloud, networks"
     echo
     echo "Argument for UI tests can be one of the following:"
     echo
