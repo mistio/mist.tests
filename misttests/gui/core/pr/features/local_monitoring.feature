@@ -6,8 +6,9 @@ Feature: Monitoring tested locally
   Scenario: Create Machine,deploy monitoring agent and check the graphs
     Given I am logged in to mist.core
     And cloud "Local_Monitoring" has been added via API request
-    When I visit the Machines page
     And I wait for 3 seconds
+    When I visit the Machines page
+    And I wait for 5 seconds
     When I click the "Local_Monitoring" "machine"
     And I wait for 2 seconds
     Then 9 graphs should be visible within max 30 seconds
@@ -16,7 +17,7 @@ Feature: Monitoring tested locally
   @add-entropy-graph
   Scenario: Add custom graph and make sure an extra graph is visible
     When I refresh the page
-    And I wait for 10 seconds
+    And I wait for 7 seconds
     And I click the button "Add Graph"
     Then I expect for "selectTarget" modal to appear within max 20 seconds
     And I expect the metric buttons to appear within 30 seconds
@@ -37,7 +38,7 @@ Feature: Monitoring tested locally
     And I click the "RAM" button in the dropdown with id "metricName"
     And I fill "0" as metric value
     And I save the rule
-    And I wait for 20 seconds
+#    And I wait for 20 seconds
 
   @monitoring-home-page
   Scenario: Visit Home page and verify that polyana-dashboard is there
@@ -45,11 +46,11 @@ Feature: Monitoring tested locally
     And I wait for the links in homepage to appear
     Then I wait for the graphs to appear
 
-  @incidents
-  Scenario: Refresh Home page and verify that incident has been triggered
-    When I refresh the page
-    And I wait for the links in homepage to appear
-    Then I should see the incident "RAM > 0.0%"
+#  @incidents
+#  Scenario: Refresh Home page and verify that incident has been triggered
+#    When I refresh the page
+#    And I wait for the links in homepage to appear
+#    Then I should see the incident "RAM > 0.0%"
 
   @disable-monitoring
   Scenario: Disable monitoring
