@@ -22,7 +22,6 @@ def choose_driver(flavor=None):
     if flavor == "firefox":
         driver = webdriver.Firefox()
     elif flavor == "chrome":
-        import ipdb;ipdb.set_trace()
         options = webdriver.ChromeOptions()
 
         # import ipdb;ipdb.set_trace()
