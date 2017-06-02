@@ -3,7 +3,6 @@ import json
 from misttests import config
 
 from selenium import webdriver
-from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.remote.errorhandler import NoSuchWindowException
 
 import logging
@@ -23,15 +22,9 @@ def choose_driver(flavor=None):
         driver = webdriver.Firefox()
     elif flavor == "chrome":
         options = webdriver.ChromeOptions()
-
-        # import ipdb;ipdb.set_trace()
-        # chrome_options = Options()
         for opt in config.WEBDRIVER_OPTIONS:
             options.add_argument(opt)
-        # # chrome_options.binary_location = ('/usr/bin/google-chrome')
         driver = webdriver.Chrome(chrome_options=options)
-        # driver.get('https://mist.io')
-        # driver.get_screenshot_as_file('test.png')
     elif flavor == "phantomjs":
         driver = webdriver.PhantomJS(executable_path=config.WEBDRIVER_PATH)
     else:
