@@ -75,7 +75,6 @@ def before_all(context):
     context.mist_config['ORG_ID'] = ''
 
     if config.LOCAL:
-        import ipdb;ipdb.set_trace()
         log.info("Initializing behaving mail for path: %s" % config.MAIL_PATH)
         from behaving.mail import environment as behaving_mail
         # with this behaving will get the path to save and retrieve mails
