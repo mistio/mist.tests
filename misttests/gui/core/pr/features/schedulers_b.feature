@@ -22,6 +22,7 @@ Feature: Schedulers-b
     And I click the "test-ui-machine-2-random" "machine"
     And I wait for 10 seconds
     Then I ensure that the "machine" has the tags "test:awesome"
+    And I wait for 2 seconds
 
    @scheduler-add-crontab
    Scenario: Add crontab schedule
