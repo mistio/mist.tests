@@ -149,7 +149,8 @@ vault_login() {
         elif [ $1 == '-gui' ] && [[ " ${!behave_tags[@]} " == *" $2 "* ]]; then
             vault_login
             behave -k --no-capture --no-capture-stderr --stop --tags=${behave_tags["$2"]} misttests/gui/core/pr/features
-        else
+       else
+
             help_message
         fi
     fi

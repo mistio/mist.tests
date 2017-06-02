@@ -12,6 +12,7 @@ from misttests.helpers.selenium_utils import dump_js_console_log
 
 from misttests.helpers.recording import start_recording
 from misttests.helpers.recording import stop_recording
+from misttests.gui.steps.navigation import visit
 
 
 log = logging.getLogger(__name__)
@@ -74,6 +75,7 @@ def before_all(context):
     context.mist_config['ORG_ID'] = ''
 
     if config.LOCAL:
+        import ipdb;ipdb.set_trace()
         log.info("Initializing behaving mail for path: %s" % config.MAIL_PATH)
         from behaving.mail import environment as behaving_mail
         # with this behaving will get the path to save and retrieve mails
@@ -97,6 +99,7 @@ def before_all(context):
         context.mist_config['ORG_NAME'] = re.json().get('org_name')
 
     log.info("Finished with before_all hook. Starting tests")
+    visit(context)
 
 
 def after_step(context, step):

@@ -49,6 +49,7 @@ def wait_for_log_in_page_to_load(context):
 
 @step(u'I visit mist.core')
 def visit(context):
+    import ipdb;ipdb.set_trace()
     if not i_am_in_homepage(context):
         context.browser.get(context.mist_config['MIST_URL'])
     timeout = time() + 4
@@ -100,6 +101,7 @@ def make_sure_menu_is_open(context):
 
 @step(u'I wait for the links in homepage to appear')
 def wait_for_buttons_to_appear(context):
+    import ipdb;ipdb.set_trace()
     context.execute_steps(u'Then I make sure the menu is open')
     end_time = time() + 10
     while time() < end_time:
