@@ -100,7 +100,8 @@ def add_docker_api_request(context, cloud):
             'authentication': safe_get_var('clouds/docker', 'authentication', context.mist_config['CREDENTIALS']['DOCKER']['authentication']),
             'ca_cert_file': safe_get_var('clouds/docker', 'ca', context.mist_config['CREDENTIALS']['DOCKER']['ca']),
             'key_file': safe_get_var('clouds/docker', 'key', context.mist_config['CREDENTIALS']['DOCKER']['key']),
-            'cert_file': safe_get_var('clouds/docker', 'cert', context.mist_config['CREDENTIALS']['DOCKER']['cert'])
+            'cert_file': safe_get_var('clouds/docker', 'cert', context.mist_config['CREDENTIALS']['DOCKER']['cert']),
+            'show_all': True
         }
 
     elif cloud == 'Docker-Monitoring':
