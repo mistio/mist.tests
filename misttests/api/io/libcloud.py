@@ -18,7 +18,7 @@ class TestLibcloudFunctionality:
                                        authentication=safe_get_var('clouds/docker', 'authentication', config.CREDENTIALS['DOCKER']['authentication']),
                                        ca_cert_file=safe_get_var('clouds/docker', 'ca', config.CREDENTIALS['DOCKER']['ca']),
                                        key_file=safe_get_var('clouds/docker', 'key', config.CREDENTIALS['DOCKER']['key']),
-                                       cert_file=safe_get_var('clouds/docker', 'cert', config.CREDENTIALS['DOCKER']['cert'])).post()
+                                       cert_file=safe_get_var('clouds/docker', 'cert', config.CREDENTIALS['DOCKER']['cert']), show_all=True).post()
         assert_response_ok(response)
         cache.set('docker_cloud_id', response.json()['id'])
         response = mist_core.list_machines(cloud_id=cache.get('docker_cloud_id', ''), api_token=owner_api_token).get()
