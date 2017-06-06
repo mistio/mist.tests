@@ -125,7 +125,7 @@ class TestSchedulesFunctionality:
                                        key_file=safe_get_var('clouds/docker', 'key',
                                                              config.CREDENTIALS['DOCKER']['key']),
                                        cert_file=safe_get_var('clouds/docker', 'cert',
-                                                              config.CREDENTIALS['DOCKER']['cert'])).post()
+                                                              config.CREDENTIALS['DOCKER']['cert']), show_all=True).post()
         assert_response_ok(response)
         cache.set('cloud_id', response.json()['id'])
 
