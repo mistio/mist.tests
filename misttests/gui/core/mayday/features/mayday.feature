@@ -61,9 +61,6 @@ Feature: Production
 
     And I refresh the page
     And I wait for the links in homepage to appear
-
-    # TODO: after testing, this should check for LOAD > 0.0
-
     Then I should see the incident "LOAD > 0.0"
 
   @celery
