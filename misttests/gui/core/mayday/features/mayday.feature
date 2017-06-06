@@ -52,17 +52,6 @@ Feature: Production
     Then I wait for the graphs to appear
     When I test the ssh connection 2 times for max 100 seconds each time
 
-  @incidents
-  Scenario: Verify that incident gets triggered
-    When I wait for 20 seconds
-    And I visit the Home page
-
-    # TODO: refreshing page should be removed once incidents appear immediately in home page
-
-    And I refresh the page
-    And I wait for the links in homepage to appear
-    Then I should see the incident "LOAD > 0.0"
-
   @celery
   Scenario: Production machine reboot testing
     Given I am logged in to mist.core
@@ -112,6 +101,12 @@ Feature: Production
     And I press the button with id "passwordNext"
     When I wait for the dashboard to load
     Then I logout
+
+  @incidents
+  Scenario: Verify that incident gets triggered
+    Given I am not logged in to mist.core
+    And I wait for the links in homepage to appear
+    Then I should see the incident "LOAD > 0.0"
 
   @confirm_alert_email
   Scenario: Confirm that alert email arrived
