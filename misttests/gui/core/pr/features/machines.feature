@@ -14,7 +14,7 @@ Feature: Machines
     When I set the value "Key1" to field "Name" in "key" add form
     And I focus on the button "Generate" in "key" add form
     And I click the button "Generate" in "key" add form
-    And I wait for 4 seconds
+    And I wait for 3 seconds
     Then I expect for the button "Add" in "key" add form to be clickable within 12 seconds
     When I focus on the button "Add" in "key" add form
     And I click the button "Add" in "key" add form
@@ -25,7 +25,7 @@ Feature: Machines
     When I set the value "Key2" to field "Name" in "key" add form
     And I focus on the button "Generate" in "key" add form
     And I click the button "Generate" in "key" add form
-    And I wait for 4 seconds
+    And I wait for 3 seconds
     Then I expect for the button "Add" in "key" add form to be clickable within 12 seconds
     When I focus on the button "Add" in "key" add form
     And I click the button "Add" in "key" add form
@@ -70,7 +70,7 @@ Feature: Machines
     When I delete the associated key "Key2"
     Then I expect the dialog "Disassociate Key" is open within 4 seconds
     When I click the "Disassociate" button in the dialog "Disassociate Key"
-    And I wait for 10 seconds
+    And I wait for 7 seconds
     Then there should be 1 keys associated with the machine
 
    @machine-run-script
