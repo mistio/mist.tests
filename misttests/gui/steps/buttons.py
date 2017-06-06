@@ -173,7 +173,7 @@ def click_item(context, text, type_of_item):
         text = context.mist_config[text]
     text = text.lower()
     if type_of_item in ['team']:
-        item_selector = 'page-%ss mist-list tbody#items > tr' % type_of_item
+        item_selector = 'page-%ss mist-list vaadin-grid-table-body#items > vaadin-grid-table-row' % type_of_item
     else:
         item_selector = 'page-%ss iron-list div.row' % type_of_item
     #buttons = context.driver.findElements(By.CSS_SELECTOR(item_selector))
