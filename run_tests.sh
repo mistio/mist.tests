@@ -88,7 +88,7 @@ vault_login() {
     behave_tags["users"]='user-actions,'
     behave_tags["rbac"]='rbac-rules','rbac-teams','rbac-rules-v2,'
     behave_tags["schedules"]='schedulers','schedulers_v2,'
-    behave_tags["monitoring"]='monitoring,'
+    behave_tags["monitoring"]='monitoring-locally,'
     behave_tags["orchestration"]='orchestration,'
 
 
