@@ -61,7 +61,7 @@ Feature: Machines
     And I open the "Select key" drop down
     And I click the button "Key2" in the "Select key" dropdown
     And I click the "Associate" button in the dialog "Associate a key"
-    And I wait for 5 seconds
+    And I wait for 7 seconds
     Then there should be 2 keys associated with the machine
     Then "Key2" key should be associated with the machine "ui-test-create-machine-random"
 
