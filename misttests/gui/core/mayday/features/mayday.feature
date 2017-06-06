@@ -39,7 +39,7 @@ Feature: Production
 
     # TODO: below line to be removed when merging with master!!!
 
-    And I click the "RAM" button in the dropdown with id "metricName"
+#    And I click the "RAM" button in the dropdown with id "metricName"
     When I fill "0" as metric value
     And I save the rule
 #    When I remove previous rules
@@ -67,7 +67,7 @@ Feature: Production
 
     # TODO: after testing, this should check for LOAD > 0.0
 
-    Then I should see the incident "RAM > 0.0%"
+    Then I should see the incident "LOAD > 0.0"
 
   @celery
   Scenario: Production machine reboot testing
