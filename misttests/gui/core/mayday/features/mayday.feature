@@ -106,7 +106,7 @@ Feature: Production
   Scenario: Verify that incident gets triggered
     Given I am logged in to mist.core
     And I wait for the links in homepage to appear
-    Then I should see the incident "LOAD > 0.0"
+    Then I should see the incident "Load > 0.0"
 
   @confirm_alert_email
   Scenario: Confirm that alert email arrived
