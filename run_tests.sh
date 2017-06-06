@@ -67,7 +67,7 @@ vault_login() {
 
     pytest_paths["clouds"]='misttests/api/io/clouds.py'
     pytest_paths["images"]='misttests/api/io/images.py'
-    pytest_paths["libcloud"]='misttests/api/io/libcloud.py'
+    pytest_paths["libcloud"]='misttests/api/io/libcloud.py misttests/api/io/libcloud_b.py'
     pytest_paths["machines"]='misttests/api/io/machines.py'
     pytest_paths["networks"]='misttests/api/io/networks.py'
     pytest_paths["keys"]='misttests/api/io/keys.py'
@@ -88,7 +88,7 @@ vault_login() {
     behave_tags["users"]='user-actions,'
     behave_tags["rbac"]='rbac-rules','rbac-teams','rbac-rules-v2,'
     behave_tags["schedules"]='schedulers','schedulers_v2,'
-    behave_tags["monitoring"]='monitoring,'
+    behave_tags["monitoring"]='monitoring-locally,'
     behave_tags["orchestration"]='orchestration,'
 
 
