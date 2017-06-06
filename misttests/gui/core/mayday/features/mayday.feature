@@ -36,9 +36,6 @@ Feature: Production
     And I click the button "add new rule"
     Then I expect for "newrule" to be visible within max 20 seconds
     And I click the "metricName" rule
-
-    # TODO: below line to be removed when merging with master!!!
-
 #    And I click the "RAM" button in the dropdown with id "metricName"
     When I fill "0" as metric value
     And I save the rule
@@ -58,7 +55,7 @@ Feature: Production
   @incidents
   Scenario: Verify that incident gets triggered
     When I wait for 20 seconds
-    When I visit the Home page
+    And I visit the Home page
 
     # TODO: refreshing page should be removed once incidents appear immediately in home page
 
