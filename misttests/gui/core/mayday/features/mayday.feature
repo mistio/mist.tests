@@ -104,7 +104,7 @@ Feature: Production
 
   @incidents
   Scenario: Verify that incident gets triggered
-    Given I am not logged in to mist.core
+    Given I am logged in to mist.core
     And I wait for the links in homepage to appear
     Then I should see the incident "LOAD > 0.0"
 
