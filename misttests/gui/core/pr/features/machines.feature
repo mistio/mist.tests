@@ -70,7 +70,7 @@ Feature: Machines
     When I delete the associated key "Key2"
     Then I expect the dialog "Disassociate Key" is open within 4 seconds
     When I click the "Disassociate" button in the dialog "Disassociate Key"
-    And I wait for 7 seconds
+    And I wait for 10 seconds
     Then there should be 1 keys associated with the machine
 
    @machine-run-script
