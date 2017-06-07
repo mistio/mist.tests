@@ -28,4 +28,5 @@ Feature: Add second-tier clouds in Polymist
     | GCE            |
     | AWS            |
     | Softlayer      |
+    | Digital Ocean  |
 #    | Packet         | -- tested @ rbac-rules-1
