@@ -1,4 +1,4 @@
-@schedulers
+@schedulers-1
 Feature: Schedulers
 
   @scheduler-add-interval

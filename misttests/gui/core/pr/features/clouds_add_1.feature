@@ -1,4 +1,4 @@
-@clouds-add-a
+@clouds-add-1
 Feature: Add second-tier clouds in Polymist
 
   Background:
@@ -28,4 +28,5 @@ Feature: Add second-tier clouds in Polymist
     | GCE            |
     | AWS            |
     | Softlayer      |
-#    | Packet         | -- tested @ rbac-rules
+    | Digital Ocean  |
+#    | Packet         | -- tested @ rbac-rules-1

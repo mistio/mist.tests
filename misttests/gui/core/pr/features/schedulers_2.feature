@@ -1,4 +1,4 @@
-@schedulers_v2
+@schedulers-2
 Feature: Schedulers-b
 
   @scheduler-requirements
