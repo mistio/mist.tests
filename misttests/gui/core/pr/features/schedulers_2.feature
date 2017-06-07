@@ -1,5 +1,5 @@
 @schedulers-2
-Feature: Schedulers-2
+Feature: Schedulers-b
 
   @scheduler-requirements
   Scenario: Check state of machines and tag machine that will be used for schedule below
