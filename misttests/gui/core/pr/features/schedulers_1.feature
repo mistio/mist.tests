@@ -1,5 +1,5 @@
-@schedulers
-Feature: Schedulers
+@schedulers-1
+Feature: Schedulers-1
 
   @scheduler-add-interval
   Scenario: Add schedule
