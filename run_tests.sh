@@ -80,7 +80,7 @@ vault_login() {
 
     declare -A behave_tags
 
-    behave_tags["clouds"]='clouds-add-b','clouds-actions,'
+    behave_tags["clouds"]='clouds-add-a','clouds-add-b','clouds-actions,'
     behave_tags["images"]='images-networks,'
     behave_tags["keys"]='keys,'
     behave_tags["scripts"]='scripts,'
