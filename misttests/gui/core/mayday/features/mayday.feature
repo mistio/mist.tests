@@ -106,9 +106,9 @@ Feature: Production
   Scenario: Confirm that alert email arrived
     Then I should receive an email within 200 seconds
 
-  @incidents
-  Scenario: Verify that incident gets triggered
-    Given I am logged in to mist.core
-    And I wait for the links in homepage to appear
-    Then I should see the incident "Load > 0.0"
-    
+#  @incidents
+#  Scenario: Verify that incident gets triggered
+#    Given I am logged in to mist.core
+#    And I wait for the links in homepage to appear
+#    Then I should see the incident "Load > 0.0"
+#
