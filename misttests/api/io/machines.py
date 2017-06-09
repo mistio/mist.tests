@@ -218,17 +218,17 @@ class TestMachinesFunctionality:
     #     assert_response_ok(response)
     #     print "Success!!!"
 
-    def test_associate_key(self, pretty_print, mist_core, cache, private_key, owner_api_token):
-        response = mist_core.add_key(
-            name='TestKey',
-            private=private_key,
-            api_token=owner_api_token).put()
-        assert_response_ok(response)
-        cache.set('key_id', response.json()['id'])
-        response = mist_core.associate_key(cloud_id=cache.get('cloud_id', ''), machine_id=cache.get('machine_id', ''),
-                                           key_id=cache.get('key_id', ''), api_token=owner_api_token).put()
-        assert_response_ok(response)
-        print "Success!!!"
+    # def test_associate_key(self, pretty_print, mist_core, cache, private_key, owner_api_token):
+    #     response = mist_core.add_key(
+    #         name='TestKey',
+    #         private=private_key,
+    #         api_token=owner_api_token).put()
+    #     assert_response_ok(response)
+    #     cache.set('key_id', response.json()['id'])
+    #     response = mist_core.associate_key(cloud_id=cache.get('cloud_id', ''), machine_id=cache.get('machine_id', ''),
+    #                                        key_id=cache.get('key_id', ''), api_token=owner_api_token).put()
+    #     assert_response_ok(response)
+    #     print "Success!!!"
 
     def test_destroy_machine(self, pretty_print, mist_core, cache, owner_api_token):
         response = mist_core.destroy_machine(cloud_id=cache.get('cloud_id', ''), api_token=owner_api_token,
