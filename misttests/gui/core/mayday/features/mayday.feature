@@ -102,12 +102,12 @@ Feature: Production
     When I wait for the dashboard to load
     Then I logout
 
-  @confirm_alert_email
-  Scenario: Confirm that alert email arrived
-    Then I should receive an email within 200 seconds
-
-  @incidents
-  Scenario: Verify that incident gets triggered
-    Given I am logged in to mist.core
-    And I wait for the links in homepage to appear
-    Then I should see the incident "RAM > 0.0%"
+#  @confirm_alert_email
+#  Scenario: Confirm that alert email arrived
+#    Then I should receive an email within 200 seconds
+#
+#  @incidents
+#  Scenario: Verify that incident gets triggered
+#    Given I am logged in to mist.core
+#    And I wait for the links in homepage to appear
+#    Then I should see the incident "RAM > 0.0%"
