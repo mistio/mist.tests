@@ -47,11 +47,26 @@ def focus_on_element(context, element):
 
 @step(u'I focus on the "{name}" button')
 def focus_on_add_rule(context, name):
+    import ipdb;
+    ipdb.set_trace()
+
     if context.mist_config.get(name):
         name = context.mist_config[name]
     if "add new rule" in name:
         container = context.browser.find_element_by_tag_name("mist-rules")
-        focus_on_element(context, container)
+
+        context.browser.execute_script("arguments[0].scrollIntoView();", container)
+
+        # # js = "%s.scrollIntoView(true);" % container;
+        # # context.browser.execute_script(js)
+        #
+        # actions = ActionChains(context.browser)
+        # actions.move_to_element(container)
+        # # actions.click(input_element)
+        # # actions.send_keys(some_text)
+        # actions.perform()
+
+        #focus_on_element(context, container)
     elif "Add Graph" in name:
         button = context.browser.find_element_by_id("add-metric-btn")
         focus_on_element(context, button)
