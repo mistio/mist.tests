@@ -47,9 +47,6 @@ def focus_on_element(context, element):
 
 @step(u'I focus on the "{name}" button')
 def focus_on_add_rule(context, name):
-    import ipdb;
-    ipdb.set_trace()
-
     if context.mist_config.get(name):
         name = context.mist_config[name]
     if "add new rule" in name:
