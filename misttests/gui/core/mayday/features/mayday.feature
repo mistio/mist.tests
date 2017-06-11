@@ -31,7 +31,7 @@ Feature: Production
     Then I wait for the graphs to appear
     When I remove previous rules
     When I delete old mayday emails
-    And I wait for 7 seconds
+    And I wait for 2 seconds
     And I focus on the "add new rule" button
     And I click the button "add new rule"
     Then I expect for "newrule" to be visible within max 20 seconds
