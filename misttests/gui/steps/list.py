@@ -92,7 +92,7 @@ def assert_machine_state(context, name, state, seconds):
         sleep(2)
     assert False, u'%s state is not "%s"' % (name, state)
 
-@step(u'I select "{item_name}" {resource_type}')
+@step(u'I select list item "{item_name}" {resource_type}')
 def select_item_from_list(context, name, state, seconds):
     item = get_list_item(context, resource_type, item_name)
     if item:

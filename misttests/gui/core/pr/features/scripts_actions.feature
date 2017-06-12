@@ -53,7 +53,7 @@ Feature: Scripts
   @script-delete
   Scenario: Delete script
     When I visit the Scripts page
-    And I select "Script1" script
+    And I select list item "Script1" script
     And I click the action "Delete" from the script list actions
     And I expect the dialog "Delete Script" is open within 4 seconds
     And I click the "Delete" button in the dialog "Delete Script"
