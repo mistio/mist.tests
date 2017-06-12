@@ -38,6 +38,7 @@ Feature: Production
     And I click the "metricName" rule
     And I click the "RAM" button in the dropdown with id "metricName"
     When I fill "0" as metric value
+    And I wait for 2 seconds
     And I save the rule
 #    When I remove previous rules
 
