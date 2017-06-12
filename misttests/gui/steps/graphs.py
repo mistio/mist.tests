@@ -95,14 +95,14 @@ def wait_for_graph_to_appear(context, graph_title, seconds):
     graph_title = graph_title.lower()
     monitoring_area = context.browser.find_element_by_tag_name('polyana-dashboard')
     try:
-        WebDriverWait(monitoring_area, int(seconds)).until(EC.presence_of_element_located((By.XPATH, "//dashboard-panel[contains(@id, '%s')]" % graph_title)))
+        WebDriverWait(monitoring_area, int(seconds)).until(EC.presence_of_element_located((By.XPATH, "//dashboard-panel[contains(., '%s')]" % graph_title)))
     except TimeoutException:
         raise TimeoutException("%s graph has not appeared after %s seconds" % (graph_title, seconds))
 
 
 @step(u'"{graph_title}" graph should have some values')
 def graph_some_value(context, graph_title):
-    graph_xpath = "//dashboard-panel[contains(@id, '%s')]" % graph_title
+    graph_xpath = "//dashboard-panel[contains(., '%s')]" % graph_title
     try:
         has_datapoints = context.browser.execute_script("var graph = document.querySelector('%s'); return graph.hasRenderedData" % graph_xpath)
         if has_datapoints:
@@ -124,7 +124,7 @@ def fill_metric_mame(context,name):
 @step(u'I delete the "{graph_title}" graph')
 def delete_a_graph(context, graph_title):
     graph_title = graph_title.lower()
-    graph = context.browser.find_element_by_xpath("//dashboard-panel[contains(@id, '%s')]" % graph_title)
+    graph = context.browser.find_element_by_xpath("//dashboard-panel[contains(., '%s')]" % graph_title)
 
     try:
         delete_button = graph.find_element_by_tag_name("paper-icon-button")
