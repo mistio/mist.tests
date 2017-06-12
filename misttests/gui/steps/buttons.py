@@ -164,6 +164,15 @@ def click_the_user_menu_button(context, button):
     click_button_from_collection(context, button, buttons)
 
 
+@step(u'I click the action "{button}" from the {resource_type} list actions')
+def click_action_of_list(context,button,resource_type):
+    resource_type = resource_type.lower()
+    if resource_type not in ['machine', 'key', 'script', 'network', 'team', 'template', 'stack', 'image', 'schedule']:
+        raise Exception('Unknown resource type')
+    buttons = 'page-%ss mist-list %s-actions mist-actions' % resource_type
+    click_button_from_collection(context, button.lower(), buttons)
+
+
 @step(u'I click the "{text}" "{type_of_item}"')
 def click_item(context, text, type_of_item):
     type_of_item = type_of_item.lower()
@@ -219,7 +228,6 @@ def get_color_from_state(state):
 @step(u'I click the mist.io button')
 def click_mist_io(context):
     clicketi_click(context, context.browser.find_element_by_id('logo-link'))
-
 
 #TODO: "{button}" and ids should have the exact same name
 

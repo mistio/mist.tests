@@ -92,6 +92,17 @@ def assert_machine_state(context, name, state, seconds):
         sleep(2)
     assert False, u'%s state is not "%s"' % (name, state)
 
+@step(u'I select "{item_name}" {resource_type}')
+def select_item_from_list(context, name, state, seconds):
+    item = get_list_item(context, resource_type, item_name)
+    if item:
+        from .buttons import clicketi_click
+        select_button = item.find_elements_by_tag_name('mist-check')
+        clicketi_click(context, select_button)
+        sleep(1)
+        return True
+    assert False, "Could not select from list item %s" % item_name
+
 
 @step(u'I click the button "{button_name}" from the menu of the "{item_name}"'
       u' {resource_type}')
