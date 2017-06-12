@@ -53,8 +53,10 @@ Feature: Scripts
   @script-delete
   Scenario: Delete script
     When I visit the Scripts page
-    And I click the button "Delete" from the menu of the "Script1" script
+    And I click the "Script1" "script" 
+    And I click the button "Delete" in "script" edit form
     And I expect the dialog "Delete Script" is open within 4 seconds
     And I click the "Delete" button in the dialog "Delete Script"
     And I expect the dialog "Delete Script" is closed within 4 seconds
+    And I visit the Scripts page
     Then "Script1" script should be absent within 5 seconds
