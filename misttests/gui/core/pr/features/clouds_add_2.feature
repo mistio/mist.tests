@@ -24,7 +24,6 @@ Feature: Add second-tier clouds in Polymist
     | Azure ARM      |
     | Linode         |
     | Softlayer      |
-    | Digital Ocean  |
 #    | Vmware         |
 #    | Indonesian     |
 #    | HostVirtual    |
@@ -32,7 +31,7 @@ Feature: Add second-tier clouds in Polymist
 #  @KVM-add
 #  Scenario: Add KVM
 #    When I refresh the page
-#    When I add the key needed for KVM
+#    When I add the key needed for Other Server
 #    When I click the "new cloud" button with id "addBtn"
 #    Then I expect the "Cloud" add form to be visible within max 5 seconds
 #    When I select the "KVM (Via Libvirt)" provider
@@ -46,25 +45,26 @@ Feature: Add second-tier clouds in Polymist
 #    And I scroll the clouds list into view
 #    Then the "KVM" provider should be added within 20 seconds
 #
-#  @bare-metal-add
-#  Scenario: Add bare-metal
-#    When I click the "new cloud" button with id "addBtn"
-#    Then I expect the "Cloud" add form to be visible within max 5 seconds
-#    When I select the "Other Server" provider
-#    Then I expect the field "Title" in the cloud add form to be visible within max 4 seconds
-#    When I use my "Other Server" credentials
-#    And I focus on the button "Add Cloud" in "cloud" add form
-#    Then I click the button "Add Cloud" in "cloud" add form
-#    When I wait for the dashboard to load
-#    And I scroll the clouds list into view
-#    Then the "Bare Metal" provider should be added within 20 seconds
-#
-#  @machine-shell
-#  Scenario: Check shell access in bare metal
-#    When I visit the machines page
-#    And I wait for 2 seconds
-#    And I click the "Bare Metal" "machine"
-#    And I expect the "machine" edit form to be visible within max 5 seconds
-#    And I wait for 2 seconds
-#    Then I click the button "Shell" from the menu of the "machine" edit form
-#    And I test the ssh connection
+  @bare-metal-add
+  Scenario: Add bare-metal
+    When I add the key needed for Other Server
+    When I click the "new cloud" button with id "addBtn"
+    Then I expect the "Cloud" add form to be visible within max 5 seconds
+    When I select the "Other Server" provider
+    Then I expect the field "Title" in the cloud add form to be visible within max 4 seconds
+    When I use my "Other Server" credentials
+    And I focus on the button "Add Cloud" in "cloud" add form
+    Then I click the button "Add Cloud" in "cloud" add form
+    When I wait for the dashboard to load
+    And I scroll the clouds list into view
+    Then the "Bare Metal" provider should be added within 20 seconds
+
+  @machine-shell
+  Scenario: Check shell access in bare metal
+    When I visit the machines page
+    And I wait for 2 seconds
+    And I click the "Bare Metal" "machine"
+    And I expect the "machine" edit form to be visible within max 5 seconds
+    And I wait for 2 seconds
+    Then I click the button "Shell" from the menu of the "machine" edit form
+    And I test the ssh connection

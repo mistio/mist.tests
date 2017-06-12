@@ -205,8 +205,9 @@ def set_other_server_creds(context):
                     And I wait for 2 seconds
                     And I click the button "KVMKEY" in the "SSH Key" dropdown
                     And I wait for 1 seconds
+                    Then I set the value "user" to field "User" in "cloud" add form
                     When I click the "monitoring" button with id "monitoring"
-                ''' % (safe_get_var('clouds/kvm', 'hostname', context.mist_config['CREDENTIALS']['KVM']['hostname']),))
+                ''' % (safe_get_var('clouds/other_server', 'hostname', context.mist_config['CREDENTIALS']['KVM']['hostname']),))
 
 
 def set_vmware_creds(context):
@@ -452,7 +453,7 @@ def ensure_cloud_enabled(context, title):
     return 'offline' in cloud.get_attibute('class')
 
 
-@step(u'I add the key needed for KVM')
+@step(u'I add the key needed for Other Server')
 def add_key_for_provider(context):
 
     context.execute_steps(u'''
@@ -462,7 +463,7 @@ def add_key_for_provider(context):
         When I set the value "KVMKey" to field "Name" in "key" add form
     ''')
 
-    key = safe_get_var('keys/kvm_key', 'private_key', context.mist_config['CREDENTIALS']['KVM']['key'])
+    key = safe_get_var('clouds/other_server', 'key', context.mist_config['CREDENTIALS']['KVM']['key'])
     set_value_to_field(context, key, 'Private Key', 'key', 'add')
 
     context.execute_steps(u'''
