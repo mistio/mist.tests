@@ -24,10 +24,9 @@ Feature: Add second-tier clouds in Polymist
     | Azure ARM      |
     | Linode         |
     | Softlayer      |
-    | Digital Ocean  |
-    | Vmware         |
-    | Indonesian     |
-    | HostVirtual    |
+#    | Vmware         |
+#    | Indonesian     |
+#    | HostVirtual    |
 
 #  @KVM-add
 #  Scenario: Add KVM
