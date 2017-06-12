@@ -10,7 +10,7 @@ from selenium.common.exceptions import StaleElementReferenceException
 def check_if_default_key(context, key_name):
     from .list import get_list_item
     item = get_list_item(context, 'key', key_name)
-    assert safe_get_element_text(item.find_element_by_css_selector('span.default')).strip().lower() == 'default', \
+    assert safe_get_element_text(item.find_element_by_css_selector('span.default')).strip().lower() == 'default key', \
         "Key %s is not default key" % key_name
 
 
