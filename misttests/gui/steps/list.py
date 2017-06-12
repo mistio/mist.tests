@@ -13,7 +13,7 @@ from selenium.common.exceptions import StaleElementReferenceException
 
 # TODO: below method doesn't bring all the items, as you scroll more items become visible
 def get_list(context, resource_type):
-    if resource_type in ['team']:
+    if resource_type in ['team', 'key', 'network', 'script', 'schedule', 'template', 'stack']:
         return context.browser.find_elements_by_css_selector('page-%ss mist-list vaadin-grid-table-body#items > vaadin-grid-table-row' % resource_type)
     else:
         return context.browser.find_elements_by_css_selector('page-%ss iron-list div.row' % resource_type)
