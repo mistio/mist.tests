@@ -93,7 +93,7 @@ def assert_machine_state(context, name, state, seconds):
     assert False, u'%s state is not "%s"' % (name, state)
 
 @step(u'I select list item "{item_name}" {resource_type}')
-def select_item_from_list(context, name, state, seconds):
+def select_item_from_list(context, item_name, state, seconds):
     item = get_list_item(context, resource_type, item_name)
     if item:
         from .buttons import clicketi_click
