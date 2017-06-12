@@ -30,7 +30,7 @@ def get_list_item(context, resource_type, name):
         items = get_list(context, resource_type)
         for item in items:
             if resource_type in ['team', 'key', 'network', 'script', 'schedule', 'template', 'stack']:
-                name = safe_get_element_text(item.find_element_by_css_selector('mist-list strong')).strip().lower()
+                name = safe_get_element_text(item.find_element_by_css_selector('strong.name')).strip().lower()
                 if item_name in name:
                     return item
             else:
