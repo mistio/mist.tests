@@ -29,7 +29,7 @@ def get_list_item(context, resource_type, name):
     try:
         items = get_list(context, resource_type)
         for item in items:
-            if resource_type in ['team']:
+            if resource_type in ['team','keys', 'networks', 'scripts', 'schedules', 'templates', 'stacks']:
                 name = safe_get_element_text(item).strip().lower()
                 if item_name in name:
                     return item
