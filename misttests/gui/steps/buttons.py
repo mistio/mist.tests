@@ -180,7 +180,7 @@ def click_item(context, text, type_of_item):
     items = context.browser.find_elements_by_css_selector(item_selector)
     for item in items:
         if type_of_item in ['team', 'key', 'script', 'network', 'template', 'stack', 'schedule']:
-            name = safe_get_element_text(item).strip().lower()
+            name = safe_get_element_text(find_element_by_css_selector('strong.name')).strip().lower()
             if text in name:
                 clicketi_click_list_row(context, item)
                 return True
