@@ -5,7 +5,7 @@ Feature: Monitoring
   @enable-monitoring
   Scenario: Create Machine,deploy monitoring agent and check the graphs
     Given I am logged in to mist.core
-    And cloud "Docker-Monitoring" has been added via API request
+    And cloud "Docker" has been added via API request
     And "Key1" key has been added
     When I visit the Machines page
     And I wait for 1 seconds
