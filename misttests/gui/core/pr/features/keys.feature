@@ -35,7 +35,8 @@ Feature: Actions for Keys
     Then I expect the "key" edit form to be visible within max 5 seconds
     When I visit the Keys page
     Then "Key2" key should be present within 15 seconds
-    When I click the button "Make Default" from the menu of the "Key2" key
+    When I select list item "Key1" key
+    And I click the action "Make Default" from the key list actions
     And I wait for 1 seconds
     Then key "Key2" should be default key
     And I visit the Home page
