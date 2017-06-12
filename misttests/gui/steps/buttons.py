@@ -172,14 +172,14 @@ def click_item(context, text, type_of_item):
     if context.mist_config.get(text):
         text = context.mist_config[text]
     text = text.lower()
-    if type_of_item in ['team', 'key', 'script', 'network', 'team', 'template', 'stack', 'schedule']:
+    if type_of_item in ['team', 'key', 'script', 'network', 'template', 'stack', 'schedule']:
         item_selector = 'page-%ss mist-list vaadin-grid-table-body#items > vaadin-grid-table-row' % type_of_item
     else:
         item_selector = 'page-%ss iron-list div.row' % type_of_item
     #buttons = context.driver.findElements(By.CSS_SELECTOR(item_selector))
     items = context.browser.find_elements_by_css_selector(item_selector)
     for item in items:
-        if type_of_item in ['team']:
+        if type_of_item in ['team', 'key', 'script', 'network', 'template', 'stack', 'schedule']:
             name = safe_get_element_text(item).strip().lower()
             if text in name:
                 clicketi_click_list_row(context, item)
