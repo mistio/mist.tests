@@ -169,7 +169,7 @@ def click_action_of_list(context,button,resource_type):
     resource_type = resource_type.lower()
     if resource_type not in ['machine', 'key', 'script', 'network', 'team', 'template', 'stack', 'image', 'schedule']:
         raise Exception('Unknown resource type')
-    buttons = 'page-%ss mist-list %s-actions mist-actions' % resource_type
+    buttons = 'page-%ss mist-list mist-actions' % resource_type
     click_button_from_collection(context, button.lower(), buttons)
 
 
