@@ -13,6 +13,7 @@ from selenium.webdriver.common.by import By
 
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.support.ui import WebDriverWait
+from selenium.webdriver import ActionChains
 
 from selenium.common.exceptions import TimeoutException
 from selenium.common.exceptions import NoSuchElementException
@@ -108,12 +109,18 @@ def graph_some_value(context, graph_title):
     #find the right graph
     graph_label = context.browser.find_element_by_xpath('//h3[contains(text(), "%s")]' % graph_title)
     graph_panel = graph_label.find_element_by_xpath('./../..')
+    graph_container = graph_panel.find_element_by_id('container')
 
     #search the page source for the value
-    timeout = time() + int(60)
+    timeout = time() + int(120)
     while time() < timeout:
         #click on the canvas to show the value
-        clicketi_click(context, graph_panel)
+        from selenium.webdriver.common import action_chains, keys
+        action_chain = ActionChains(context.browser)
+        action_chain.move_to_element_with_offset(graph_panel, 370, 150)
+        action_chain.click()
+        action_chain.perform()
+
         src = context.browser.page_source
         text_found = re.search(graph_title.capitalize() + r" : [0-999]", src)
 
