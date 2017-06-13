@@ -164,6 +164,15 @@ def click_the_user_menu_button(context, button):
     click_button_from_collection(context, button, buttons)
 
 
+@step(u'I click the action "{button}" from the {resource_type} list actions')
+def click_action_of_list(context,button,resource_type):
+    resource_type = resource_type.lower()
+    if resource_type not in ['machine', 'key', 'script', 'network', 'team', 'template', 'stack', 'image', 'schedule']:
+        raise Exception('Unknown resource type')
+    buttons = context.browser.find_elements_by_css_selector('page-%ss mist-list mist-actions > paper-button' % resource_type)
+    click_button_from_collection(context, button.lower(), buttons)
+
+
 @step(u'I click the "{text}" "{type_of_item}"')
 def click_item(context, text, type_of_item):
     type_of_item = type_of_item.lower()
@@ -172,15 +181,15 @@ def click_item(context, text, type_of_item):
     if context.mist_config.get(text):
         text = context.mist_config[text]
     text = text.lower()
-    if type_of_item in ['team']:
+    if type_of_item in ['team', 'key', 'script', 'network', 'template', 'stack', 'schedule']:
         item_selector = 'page-%ss mist-list vaadin-grid-table-body#items > vaadin-grid-table-row' % type_of_item
     else:
         item_selector = 'page-%ss iron-list div.row' % type_of_item
     #buttons = context.driver.findElements(By.CSS_SELECTOR(item_selector))
     items = context.browser.find_elements_by_css_selector(item_selector)
     for item in items:
-        if type_of_item in ['team']:
-            name = safe_get_element_text(item).strip().lower()
+        if type_of_item in ['team', 'key', 'script', 'network', 'template', 'stack', 'schedule']:
+            name = safe_get_element_text(item.find_element_by_css_selector('strong.name')).strip().lower()
             if text in name:
                 clicketi_click_list_row(context, item)
                 return True
@@ -219,7 +228,6 @@ def get_color_from_state(state):
 @step(u'I click the mist.io button')
 def click_mist_io(context):
     clicketi_click(context, context.browser.find_element_by_id('logo-link'))
-
 
 #TODO: "{button}" and ids should have the exact same name
 
