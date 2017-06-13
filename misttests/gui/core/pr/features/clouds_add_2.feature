@@ -47,7 +47,6 @@ Feature: Add second-tier clouds in Polymist
 #
   @bare-metal-add
   Scenario: Add bare-metal
-    When I add the key needed for Other Server
     When I click the "new cloud" button with id "addBtn"
     Then I expect the "Cloud" add form to be visible within max 5 seconds
     When I select the "Other Server" provider
