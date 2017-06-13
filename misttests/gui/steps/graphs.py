@@ -51,7 +51,7 @@ def wait_for_graphs_to_disappear(context, seconds):
 def focus_on_a_graph(context, graph_title):
     try:
         monitoring_area = context.browser.find_element_by_tag_name('polyana-dashboard')
-        graph = monitoring_area.find_element_by_xpath("//chart-line[contains(@id, '%s')]" % graph_title)
+        graph = monitoring_area.find_element_by_xpath("//dashboard-panel[contains(., '%s')]" % graph_title)
         position = graph.location['y']
         context.browser.execute_script("window.scrollTo(0, %s)" % position)
     except NoSuchElementException:
@@ -102,10 +102,17 @@ def wait_for_graph_to_appear(context, graph_title, seconds):
 
 @step(u'"{graph_title}" graph should have some values')
 def graph_some_value(context, graph_title):
-    graph_xpath = "//dashboard-panel[contains(., '%s')]" % graph_title
+    import ipdb;ipdb.set_trace()
+    # graph_xpath = '[id^="%s-"]' % graph_title
+
+    graph_xpath = '//*[contains(text(), "%s")]' % graph_title
+
+    # graph_xpath = '//dashboard-panel[contains(text(), "%s")]' % graph_title
+    # graph_xpath = "//dashboard-panel[contains(., '%s')]" % graph_title
     try:
-        has_datapoints = context.browser.execute_script("var graph = document.querySelector('%s'); return graph.hasRenderedData" % graph_xpath)
-        if has_datapoints:
+        datapoints = context.browser.execute_script("var graph = document.querySelector('%s'); return graph.data.datasets[0].data.length" % graph_xpath)
+        # has_datapoints = context.browser.execute_script("var graph = document.querySelector('%s'); return graph.hasRenderedData" % graph_xpath)
+        if datapoints:
             return
         else:
             assert False, 'Graph does not have any values'
