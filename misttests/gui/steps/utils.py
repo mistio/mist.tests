@@ -49,12 +49,15 @@ def focus_on_element(context, element):
 def focus_on_add_rule(context, name):
     if context.mist_config.get(name):
         name = context.mist_config[name]
+
     if "add new rule" in name:
-        container = context.browser.find_element_by_tag_name("mist-rules")
-        focus_on_element(context, container)
+        button = context.browser.find_element_by_tag_name("mist-rules")
+
     elif "Add Graph" in name:
         button = context.browser.find_element_by_id("add-metric-btn")
-        focus_on_element(context, button)
+
+    context.browser.execute_script("arguments[0].scrollIntoView();", button)
+    
     return
 
 
@@ -136,7 +139,7 @@ def check_page_is_visible(context, page_title, seconds):
     if page not in ['machines', 'images', 'keys', 'networks', 'tunnels',
                     'scripts', 'schedules', 'templates', 'stacks', 'teams']:
         raise ValueError('The page given is unknown')
-    if page in ['teams']:
+    if page in ['teams','keys', 'networks', 'scripts', 'schedules', 'templates', 'stacks']:
         element = 'page-%s > mist-list' % page
     else: 
         element = 'page-%s > page-items > div#content.page-items' % page

@@ -193,7 +193,7 @@ def set_kvm_creds(context):
                     And I open the "SSH Key" drop down
                     And I wait for 2 seconds
                     And I click the button "KVMKEY" in the "SSH Key" dropdown
-                '''% (safe_get_var('clouds/kvm', 'hostname', context.mist_config['CREDENTIALS']['KVM']['hostname']),))
+                '''% (safe_get_var('clouds/other_server', 'hostname', context.mist_config['CREDENTIALS']['KVM']['hostname']),))
 
 
 def set_other_server_creds(context):
