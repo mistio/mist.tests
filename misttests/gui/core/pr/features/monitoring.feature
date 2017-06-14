@@ -34,9 +34,9 @@ Feature: Monitoring
   @add-entropy-graph
   Scenario: Add custom graph and make sure an extra graph is visible
     When I refresh the page
-    And I wait for 8 seconds
+    And I wait for 5 seconds
     And I click the button "Add Graph"
-    Then I expect for "selectTarget" modal to appear within max 20 seconds
+    Then I expect for "selectTarget" modal to appear within max 25 seconds
     And I expect the metric buttons to appear within 30 seconds
     When I click the "entropy" button inside the popup with id "selectTarget"
     And I wait for 6 seconds

@@ -49,6 +49,7 @@ Feature: Schedulers
   @schedule-delete
   Scenario: Delete schedule
     When I visit the Schedules page
+    And I wait for 1 seconds
     And I click the "RenamedSchedule" "schedule"
     And I click the button "Delete" in "schedule" edit form
     And I expect the dialog "Delete Schedule" is open within 4 seconds
