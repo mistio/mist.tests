@@ -42,7 +42,7 @@ Feature: Monitoring
     And I wait for 6 seconds
     Then "entropy" graph should appear within 30 seconds
     And 10 graphs should be visible within max 20 seconds
-    When I wait for 3 seconds
+    When I wait for 2 seconds
     And I focus on the "entropy" graph
     Then "entropy" graph should have some values
 
