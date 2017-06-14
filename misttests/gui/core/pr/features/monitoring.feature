@@ -35,6 +35,7 @@ Feature: Monitoring
   Scenario: Add custom graph and make sure an extra graph is visible
     When I refresh the page
     And I wait for 10 seconds
+    And I focus on the "DF" graph
     And I click the button "Add Graph"
     Then I expect for "selectTarget" modal to appear within max 20 seconds
     And I expect the metric buttons to appear within 30 seconds
