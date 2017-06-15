@@ -23,7 +23,8 @@ def check_value_in_section(context, element, section, value):
     data_element = section_element.find_element_by_id(section + '-data')
     element_to_check = data_element.find_element_by_id(section + '-' + element)
     if element == "machine_count" and value == "greater than 0":
-        assert int(safe_get_element_text(element_to_check).strip('MACHINE COUNT\n')) > 0, "No machines are shown in machine count element"
+        assert int(safe_get_element_text(element_to_check).strip('MACHINE COUNT\n')) > 0,\
+            "No machines are shown in machine count element"
     else:
         assert value in safe_get_element_text(element_to_check), "%s was not %s, but instead it was %s" \
                                                              % (element, value, safe_get_element_text(element_to_check))
