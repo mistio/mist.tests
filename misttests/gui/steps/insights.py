@@ -28,4 +28,14 @@ def check_value_in_section(context, element, section, value):
 
 @step(u'I refresh the Insights page until data are available')
 def refresh_until_data_are_available(context):
-    return 
+    section_element = context.browser.find_element_by_id('quick-overview')
+    data_element = section_element.find_element_by_id('quick-overview-data')
+    end_time = time() + 25
+    while time() < end_time:
+        cost = data_element.find_element_by_id('quick-overview-cost')
+        if safe_get_element_text(cost) == 'COST\n$':
+            context.execute_steps(u'And I wait for 2 seconds')
+            context.execute_steps(u'Then I refresh the page')
+        return
+    assert False, "No insights data have arrived after 25 seconds"
+
