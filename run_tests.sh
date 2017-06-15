@@ -20,7 +20,7 @@ help_message() {
     echo
     echo "Argument for UI tests can be one of the following:"
     echo
-    echo "clouds, machines, images, keys, scripts, users, rbac, schedules, orchestration, monitoring"
+    echo "clouds, machines, images, keys, scripts, users, rbac, schedules, orchestration, monitoring, insights"
     echo
     exit
 }
