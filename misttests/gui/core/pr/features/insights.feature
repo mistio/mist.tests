@@ -21,7 +21,7 @@ Feature: Actions for Insights
   @cost-for-docker
   Scenario: Verify that cost and machine count data for docker cloud added above have arrived
     And I refresh the Insights page until data are available
-    Then "cost" in "quick-overview" section should be "$0e.00"
+    Then "cost" in "quick-overview" section should be "$0.00"
 
     # make sure that graph is visible
     # add docker and check cost- it should be 0
