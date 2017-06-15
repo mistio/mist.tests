@@ -36,7 +36,7 @@ def refresh_until_data_are_available(context):
     while time() < end_time:
         cost = data_element.find_element_by_id('quick-overview-cost')
         if safe_get_element_text(cost) == 'COST\n$':
-            context.execute_steps(u'And I wait for 2 seconds')
-            context.execute_steps(u'Then I refresh the page')
+            context.execute_steps(u'When I wait for 2 seconds')
+            context.execute_steps(u'When I refresh the page')
         return
     assert False, "No insights data have arrived after 25 seconds"
