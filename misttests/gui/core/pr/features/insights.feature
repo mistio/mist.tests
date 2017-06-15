@@ -24,7 +24,7 @@ Feature: Actions for Insights
     And "machine_count" in "quick-overview" section should be "greater than 0"
 
   @custom-pricing
-  Scenario: Add tag for custom pricing and verify cost
+  Scenario: Add tag for custom pricing and that cost will appear
     When I visit the Machines page
     And I wait for 2 seconds
     And I click the "testerrr" "machine"
@@ -39,12 +39,10 @@ Feature: Actions for Insights
     And I click the "testerrr" "machine"
     And I wait for 5 seconds
     Then I ensure that the "machine" has the tags "cost_per_moth:50"
+    When I visit the Insights page
+    And I wait for 2 seconds
+    Then "cost" in "quick-overview" section should be "greater than $0.00"
 
 
-    # make sure that cost will be greater than before (or specifically 35?) (step:4)
-
-
-    # make sure that graph is visible
-    # add second cloud with existing machines
-    # make sure that cost will be higher
-    # filter by cloud, make sure that cost will be the same as step 4
+  # tag should be available in filtering
+  
