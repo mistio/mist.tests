@@ -136,11 +136,14 @@ def become_visible_waiting_with_timeout(context, element_id, seconds):
 @step(u'I expect for "{page_title}" page to appear within max {seconds} seconds')
 def check_page_is_visible(context, page_title, seconds):
     page = page_title.lower()
+    import ipdb;ipdb.set_trace()
     if page not in ['machines', 'images', 'keys', 'networks', 'tunnels',
-                    'scripts', 'schedules', 'templates', 'stacks', 'teams']:
+                    'scripts', 'schedules', 'templates', 'stacks', 'insights', 'teams']:
         raise ValueError('The page given is unknown')
     if page in ['teams','keys', 'networks', 'scripts', 'schedules', 'templates', 'stacks']:
         element = 'page-%s > mist-list' % page
+    elif page in ['insights']:
+        element = 'page-%s' % page
     else: 
         element = 'page-%s > page-items > div#content.page-items' % page
     msg = "%s page is not visible after %s seconds" % (page, seconds)
