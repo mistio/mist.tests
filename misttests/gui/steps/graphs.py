@@ -23,7 +23,7 @@ import re
 
 @step(u'I wait for the graphs to appear')
 def wait_graphs_to_appear(context):
-    timeout = time() + 20
+    timeout = time() + 30
     while time() < timeout:
         try:
             graph_panel = context.browser.\
