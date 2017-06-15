@@ -1,6 +1,7 @@
 from misttests.api.helpers import *
 from misttests import config
 from misttests.config import safe_get_var
+
 import pytest
 import json
 
@@ -13,13 +14,7 @@ import json
 class TestLibcloudFunctionality:
 
     def test_list_machines_docker(self, pretty_print, mist_core, cache, owner_api_token):
-        response = mist_core.add_cloud(title='Docker', provider= 'docker', api_token=owner_api_token,
-                                       docker_host=safe_get_var('dockerhosts/godzilla', 'host', config.CREDENTIALS['DOCKER']['host']),
-                                       docker_port=safe_get_var('dockerhosts/godzilla', 'port', config.CREDENTIALS['DOCKER']['port']),
-                                       authentication=safe_get_var('dockerhosts/godzilla', 'authentication', config.CREDENTIALS['DOCKER']['authentication']),
-                                       ca_cert_file=safe_get_var('dockerhosts/godzilla', 'ca', config.CREDENTIALS['DOCKER']['ca']),
-                                       key_file=safe_get_var('dockerhosts/godzilla', 'key', config.CREDENTIALS['DOCKER']['key']),
-                                       cert_file=safe_get_var('dockerhosts/godzilla', 'cert', config.CREDENTIALS['DOCKER']['cert'])).post()
+        response = add_docker(owner_api_token, mist_core)
         assert_response_ok(response)
         cache.set('docker_cloud_id', response.json()['id'])
         response = mist_core.list_machines(cloud_id=cache.get('docker_cloud_id', ''), api_token=owner_api_token).get()
