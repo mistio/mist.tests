@@ -41,7 +41,6 @@ Feature: Actions for Insights
     Then I ensure that the "machine" has the tags "cost_per_moth:50"
 
 
-
     # make sure that cost will be greater than before (or specifically 35?) (step:4)
 
 
