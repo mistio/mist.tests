@@ -14,3 +14,8 @@ def check_insights_element_visibility(context, section, seconds):
         except NoSuchElementException:
             pass
     assert False, "Section %s is not visible after %s seconds" % (section,seconds)
+
+
+
+@step(u'"{element}" in "{section}" section should be "value"')
+def check value_in_section(context, )
