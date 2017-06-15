@@ -31,9 +31,7 @@ def check_value_in_section(context, element, section, value):
 
 @step(u'I refresh the Insights page until data are available')
 def refresh_until_data_are_available(context):
-
-    import ipdb;ipdb.set_trace()
-    end_time = time() + 250
+    end_time = time() + 20
     while time() < end_time:
         try:
             section_element = context.browser.find_element_by_id('quick-overview')

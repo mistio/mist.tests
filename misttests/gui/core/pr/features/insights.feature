@@ -3,8 +3,8 @@ Feature: Actions for Insights
 
   @insights-elements-visible
   Scenario: Make sure that insights elements are visible
-    Given cloud "Docker" has been added via API request
-    And I am logged in to mist.core
+#    Given cloud "Docker" has been added via API request
+    Given I am logged in to mist.core
     # w8 here so that insights data become available
     When I visit the Insights page
     And I wait for 2 seconds
@@ -20,11 +20,13 @@ Feature: Actions for Insights
 
   @cost-for-docker
   Scenario: Verify that cost and machine count data for docker cloud added above have arrived
+    Given cloud "Docker" has been added via API request
     And I refresh the Insights page until data are available
     Then "cost" in "quick-overview" section should be "$0.00"
+    And "machine_count" in "quick-overview" section should be "greater than 0"
+
 
     # make sure that graph is visible
-    # add docker and check cost- it should be 0
     # tag one docker machine with cost_per_month=35
     # make sure that cost will be greater than before (or specifically 35?) (step:4)
     # add second cloud with existing machines
