@@ -22,17 +22,22 @@ def check_value_in_section(context, element, section, value):
     section_element = context.browser.find_element_by_id(section)
     data_element = section_element.find_element_by_id(section + '-data')
     element_to_check = data_element.find_element_by_id(section + '-' + element)
-    assert value in safe_get_element_text(element_to_check), "%s was not %s, but instead it was %s" \
+    if element == "machine_count" and value == "greater than 0":
+        assert int(safe_get_element_text(element_to_check)) > 0
+    else:
+        assert value in safe_get_element_text(element_to_check), "%s was not %s, but instead it was %s" \
                                                              % (element, value, safe_get_element_text(element_to_check))
 
 
 @step(u'I refresh the Insights page until data are available')
 def refresh_until_data_are_available(context):
-    section_element = context.browser.find_element_by_id('quick-overview')
-    data_element = section_element.find_element_by_id('quick-overview-data')
+
+    import ipdb;ipdb.set_trace()
     end_time = time() + 250
     while time() < end_time:
         try:
+            section_element = context.browser.find_element_by_id('quick-overview')
+            data_element = section_element.find_element_by_id('quick-overview-data')
             cost = data_element.find_element_by_id('quick-overview-cost')
             if safe_get_element_text(cost) == 'COST\n$':
                 context.execute_steps(u'When I wait for 2 seconds')
