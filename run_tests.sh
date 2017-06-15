@@ -90,6 +90,7 @@ vault_login() {
     behave_tags["schedules"]='schedulers-1','schedulers-2,'
     behave_tags["monitoring"]='monitoring'
     behave_tags["orchestration"]='orchestration,'
+    behave_tags["insights"]='insights,'
 
 
 
