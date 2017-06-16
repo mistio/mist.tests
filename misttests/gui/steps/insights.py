@@ -31,7 +31,7 @@ def check_value_in_section(context, element, section, value):
             "No machines are shown in machine count element"
     elif element == "cost" and value == "greater than $0.00":
         assert float(safe_get_element_text(element_to_check).
-                     strip('COST\n').strip('$')) > 0.0
+                     strip('COST\n').strip('$')) > 0.0, "Cost is still 0.0 even though cost_per_month tag was added!"
     else:
         assert value in safe_get_element_text(element_to_check),\
             "%s was not %s, but instead it was %s" %\
