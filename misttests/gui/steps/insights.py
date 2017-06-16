@@ -30,9 +30,8 @@ def check_value_in_section(context, element, section, value):
                    strip('MACHINE COUNT\n')) > 0,\
             "No machines are shown in machine count element"
     elif element == "cost" and value == "greater than $0.00":
-        import ipdb;ipdb.set_trace()
-        assert int(safe_get_element_text(element_to_check).
-                   strip('COST\n')) > 0
+        assert float(safe_get_element_text(element_to_check).
+                     strip('COST\n').strip('$')) > 0.0
     else:
         assert value in safe_get_element_text(element_to_check),\
             "%s was not %s, but instead it was %s" %\
