@@ -41,7 +41,7 @@ def check_value_in_section(context, element, section, value):
 
 @step(u'I refresh the Insights page until data are available')
 def refresh_until_data_are_available(context):
-    end_time = time() + 30
+    end_time = time() + 45
     while time() < end_time:
         try:
             section_element = context.browser.\
@@ -57,4 +57,4 @@ def refresh_until_data_are_available(context):
                 return
         except StaleElementReferenceException:
             pass
-    assert False, "No insights data have arrived after 30 seconds"
+    assert False, "No insights data have arrived after 45 seconds"
