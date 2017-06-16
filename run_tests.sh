@@ -53,7 +53,7 @@ vault_login() {
     VAULT_CLIENT_TOKEN=$(curl $vault_server/v1/auth/userpass/login/$username -d '{ "password": "'${password}'" }' |
      python -c "import sys, json; print(json.load(sys.stdin)['auth']['client_token'])")
 
-    if [ -z "VAULT_CLIENT_TOKEN" ]
+    if [[ -z "${VAULT_CLIENT_TOKEN// }" ]]
     then
         echo 'Wrong credentials given...'
         vault_login
