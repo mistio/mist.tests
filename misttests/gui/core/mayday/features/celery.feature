@@ -12,7 +12,7 @@ Feature: Production
     Then I expect for "confirmation" modal to appear within max 4 seconds
     And I click the button "Reboot"
     Then I expect for "select-action" modal to disappear within max 4 seconds
-    And I wait for 30 seconds
+    And I wait for 40 seconds
     And I open the actions dialog
     Then I expect for "select-action" modal to appear within max 4 seconds
     When I click the "Shell" button inside the "select-action" modal
