@@ -22,7 +22,7 @@ Feature: Production
     Then I click the google button in the landing page popup
     Then I input my "GOOGLE_TEST_EMAIL" in the field with id "identifierId"
     And I click the "next" button with id "identifierNext"
-    And I wait for 2 seconds
+    And I wait for 4 seconds
     And I type the password in the Google form
     And I press the button with id "passwordNext"
     When I wait for the dashboard to load
