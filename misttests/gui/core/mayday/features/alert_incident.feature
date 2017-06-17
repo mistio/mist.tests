@@ -33,4 +33,4 @@ Feature: Production
     Given I am logged in to mist.core
     When I visit the Home page
     And I wait for the links in homepage to appear
-    Then I should see the incident "RAM > 0.0%"
+    Then I should see the incident "Load > 0.0"
