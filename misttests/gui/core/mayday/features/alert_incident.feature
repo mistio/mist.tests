@@ -21,7 +21,7 @@ Feature: Production
     When I fill "0" as metric value
     And I wait for 2 seconds
     And I save the rule
-    And I wait for 60 seconds
+    And I logout
 #    When I remove previous rules
 
   @confirm_alert_email
