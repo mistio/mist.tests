@@ -59,7 +59,8 @@ providers = {
         "size": "0",
         "name_prefix": "mpSoftLayer",
         "location": "ams01",
-        "disk": 25
+        "disk": 25,
+        "image": "UBUNTU_LATEST_64"
     },
     "AWS": {
         "credentials": "EC2",
@@ -144,6 +145,11 @@ def add_cloud(provider):
                                            key_file=config.CREDENTIALS['DOCKER']['key'],
                                            cert_file=config.CREDENTIALS['DOCKER']['cert']).post()
 
+        elif provider == "SoftLayer":
+            response = mist_core.add_cloud(title=provider, provider= 'softlayer', api_token=config.MIST_API_TOKEN,
+                                           username=config.CREDENTIALS['SOFTLAYER']['username'],
+                                           api_key=config.CREDENTIALS['SOFTLAYER']['api_key']).post()
+
         assert_response_ok(response)
         cloud_id = response.json()['id']
 
@@ -189,7 +195,7 @@ def create_machine(cloud_id, provider):
 
 def main():
     for provider in providers:
-        if provider in ['AWS', 'Digital Ocean', 'Linode', 'Azure', 'Docker']:
+        if provider in ['AWS', 'Digital Ocean', 'Linode', 'Azure', 'Docker', 'SoftLayer']:
             #add the provider if not there
             cloud_id = add_cloud(provider)
 
