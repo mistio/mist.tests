@@ -41,13 +41,3 @@ Feature: Scripts
     When I clear the search bar
     Then "Script2" script should be present within 5 seconds
 
-  @script-delete
-  Scenario: Delete script
-    When I visit the Scripts page
-    And I select list item "Script1" script
-    And I click the action "Delete" from the script list actions
-    And I expect the dialog "Delete Script" is open within 4 seconds
-    And I wait for 2 seconds
-    And I click the "Delete" button in the dialog "Delete Script"
-    And I expect the dialog "Delete Script" is closed within 4 seconds
-    Then "Script1" script should be absent within 5 seconds
