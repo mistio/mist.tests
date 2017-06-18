@@ -24,7 +24,7 @@ Feature: Add second-tier clouds in Polymist
     | Azure ARM      |
     | Linode         |
     | Softlayer      |
-    | Packet	     |
+#    | Packet	     |
 #    | Vmware         |
 #    | Indonesian     |
 #    | HostVirtual    |
