@@ -29,7 +29,8 @@ providers = {
         "credentials": "DIGITALOCEAN",
         "size": "512mb",
         "name_prefix": "mpdo",
-        "location": "ams2"
+        "location": "ams2",
+        "image": "21419458"
     },
     "Linode": {
         "credentials": "LINODE",
@@ -56,7 +57,8 @@ providers = {
         "credentials": "EC2",
         "size": "m1.small",
         "name_prefix": "mpec2",
-        "location": "ap-northeast-1a"
+        "location": "ap-northeast-1a",
+        "image": "ami-5e849130"
     },
     "GCE": {
         "credentials": "GCE",
@@ -114,6 +116,13 @@ def add_cloud(provider):
             cloud_id = response.json()['id']
             return cloud_id
 
+        elif provider == 'Digital Ocean':
+            response = mist_core.add_cloud(title=provider, provider= 'digitalocean', api_token=config.MIST_API_TOKEN,
+                                           token=config.CREDENTIALS['DO']['token']).post()
+            assert_response_ok(response)
+            cloud_id = response.json()['id']
+            return cloud_id
+
     else:
         return cloud_id
 
@@ -129,12 +138,13 @@ def create_machine(cloud_id, provider):
     except:
         location_name = ''
 
+
     response = mist_core.create_machine(api_token=config.MIST_API_TOKEN,
                                         cloud_id=cloud_id,
-                                        name='AWSprovisiontest' + str(randint(0,9999)),
+                                        name= provider.replace(" ", "") + 'provisiontest' + str(randint(0,9999)),
                                         provider=provider,
-                                        image="ami-5e849130",
-                                        size=providers['AWS']['size'],
+                                        image=providers[provider]['image'],
+                                        size=providers[provider]['size'],
                                         disk=disk,
                                         key_id=config.KEY_ID,
                                         location=providers[provider]['location'],
@@ -144,7 +154,7 @@ def create_machine(cloud_id, provider):
                                         monitoring=False).post()
     try:
         assert_response_ok(response)
-        print "\nMachine creation command has been submitted successfully. Now polling!\n"
+        print "\n " + provider + ": Machine creation command has been submitted successfully. Now polling!\n"
     except AssertionError as e:
         print "Machine creation was not successful!"
         raise e
@@ -156,7 +166,7 @@ def create_machine(cloud_id, provider):
 
 def main():
     for provider in providers:
-        if provider == 'AWS':
+        if provider in ['AWS','Digital Ocean']:
             #add the provider if not there
             cloud_id = add_cloud(provider)
 
