@@ -37,7 +37,8 @@ providers = {
         "size": "1",
         "name_prefix": "mpLinode_",
         "location": "10",
-         "disk":24576
+        "disk":12576,
+        "image": "146"
     },
     "Nephoscale": {
         "credentials": "NEPHOSCALE",
@@ -80,7 +81,8 @@ def check_machine_creation(log_line, job_id):
         if (log_line['job_id'] == job_id) and (log_line['action'] == 'machine_creation_finished'):
             if log_line['error'] == False:
                 print 'Machine created succesfully'
-                return True
+                machine_id = log_line['machine_id']
+                return machine_id
             else:
                 print log_line['error']
                 return True
@@ -123,6 +125,12 @@ def add_cloud(provider):
             cloud_id = response.json()['id']
             return cloud_id
 
+        elif provider == "Linode":
+            response = mist_core.add_cloud(title=provider, provider= 'linode', api_token=config.MIST_API_TOKEN,
+                                           api_key=config.CREDENTIALS['LINODE']['api_key']).post()
+            assert_response_ok(response)
+            cloud_id = response.json()['id']
+            return cloud_id
     else:
         return cloud_id
 
@@ -166,7 +174,7 @@ def create_machine(cloud_id, provider):
 
 def main():
     for provider in providers:
-        if provider in ['AWS','Digital Ocean']:
+        if provider in ['AWS', 'Digital Ocean', 'Linode']:
             #add the provider if not there
             cloud_id = add_cloud(provider)
 
@@ -184,7 +192,9 @@ def main():
                 )
 
                 for log_line in resp.json():
-                    if check_machine_creation(log_line, job_id):
+                    machine_creation = check_machine_creation(log_line, job_id)
+                    if machine_creation:
+                        machine_id = machine_creation
                         log_found = True
                         break
                     else:
@@ -192,6 +202,22 @@ def main():
                 if log_found:
                     break
                 sleep(5)
+
+            #destroy the machine
+#            if machine_id:
+#                resp = requests.post(
+#                    'https://mist.io/api/v1/clouds/' + cloud_id + '/machines/' + machine_id,
+#                    headers={'Authorization': config.MIST_API_TOKEN},
+#                    data = {'action':'destroy'},
+#                    verify=True
+#                )
+#
+#                try:
+#                    assert_response_ok(resp)
+#                    print "\n " + provider + ": Machine destroyed successfully\n"
+#                except AssertionError as e:
+#                    print "Could not destroy machine!"
+#                    raise e
 
 if __name__ == "__main__":
     main()
