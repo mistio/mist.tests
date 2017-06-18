@@ -15,6 +15,8 @@ from misttests.api.io import conftest
 log = logging.getLogger(__name__)
 logging.basicConfig(level=logging.INFO)
 
+mist_core = MistIoApi(config.MIST_URL)
+
 providers = {
     "Azure": {
         "credentials": "AZURE",
@@ -84,77 +86,89 @@ def check_machine_creation(log_line, job_id):
     except:
         return False
 
+def add_cloud(provider):
+
+    #TODO: First check if cloud exists and return the cloud ID and then try to add
+    if provider == 'AWS':
+        response = mist_core.add_cloud(title=provider, provider= 'ec2', api_token=config.MIST_API_TOKEN,
+                                       api_key=config.CREDENTIALS['AWS']['api_key'],
+                                       api_secret=config.CREDENTIALS['AWS']['api_secret'],
+                                       region='ec2_ap_northeast').post()
+
+    if response.text == u'Cloud with this name already exists':
+        print "\nCloud already exists. Moving on.\n"
+        return None
+    else:
+        assert_response_ok(response)
+        cloud_id = response.json()['id']
+        return cloud_id
+
+
+def create_machine(cloud_id, provider):
+
+    #creating machine
+    try:
+        disk = providers[provider]['disk']
+    except:
+        disk = ''
+    try:
+        location_name=providers[provider]['location_name']
+    except:
+        location_name = ''
+
+    response = mist_core.create_machine(api_token=config.MIST_API_TOKEN,
+                                        cloud_id=cloud_id,
+                                        name='AWSprovisiontest',
+                                        provider=provider,
+                                        image="ami-5e849130",
+                                        size=providers['AWS']['size'],
+                                        disk=disk,
+                                        key_id=config.KEY_ID,
+                                        location=providers[provider]['location'],
+                                        location_name=location_name,
+                                        async=True,
+                                        cron_enable=False,
+                                        monitoring=False).post()
+    try:
+        assert_response_ok(response)
+        print "\nMachine creation command has been submitted successfully. Now polling!\n"
+    except AssertionError as e:
+        print "Machine creation was not successful!"
+        raise e
+
+    job_id = json.loads(response.content)['job_id']
+
+    return job_id
+
 
 def main():
-    mist_core = MistIoApi(config.MIST_URL)
     for provider in providers:
-        import ipdb;ipdb.set_trace()
-        #add the provider if not there
         if provider == 'AWS':
-            response = mist_core.add_cloud(title=provider, provider= 'ec2', api_token=config.MIST_API_TOKEN,
-                                           api_key=config.CREDENTIALS['AWS']['api_key'],
-                                           api_secret=config.CREDENTIALS['AWS']['api_secret'],
-                                           region='ec2_ap_northeast').post()
+            #add the provider if not there
+            cloud_id = add_cloud(provider)
 
-        if response.text == u'Cloud with this name already exists':
-            print "\nCloud already exists. Moving on.\n"
-        else:
-            assert_response_ok(response)
-            cloud_id = response.json()['id']
-        #cache.set('cloud_id', response.json()['id'])
+            job_id = create_machine(cloud_id, provider)
 
-        #creating machine
-        try:
-            disk = providers[provider]['disk']
-        except:
-            disk = ''
-        try: 
-            location_name=providers[provider]['location_name']
-        except:
-            location_name = ''
+            # waiting for the creation of the machine to finish
+            log_found = False
+            machine_id = None
+            timeout = time() + 240
+            while time() < timeout:
+                resp = requests.get(
+                    'https://mist.io/api/v1/logs',
+                    headers={'Authorization': config.MIST_API_TOKEN},
+                    verify=True
+                )
 
-        response = mist_core.create_machine(api_token=config.MIST_API_TOKEN,
-                                            cloud_id=cloud_id,
-                                            name='AWSprovisiontest',
-                                            provider=provider,
-                                            image="ami-5e849130",
-                                            size=providers['EC2']['size'],
-                                            disk=disk,
-                                            key_id=config.KEY_ID,
-                                            location=providers[provider]['location'],
-                                            location_name=location_name,
-                                            async=True,
-                                            cron_enable=False,
-                                            monitoring=False).post()
-        try:
-            assert_response_ok(response)
-            print "\nMachine creation command has been submitted successfully. Now polling!\n"
-        except AssertionError as e:
-            print "Machine creation was not successful!"
-            raise e
-
-        job_id = json.loads(response.content)['job_id']
-
-        # waiting for the creation of the machine to finish
-        log_found = False
-        machine_id = None
-        timeout = time() + 240
-        while time() < timeout:
-            resp = requests.get(
-                'https://mist.io/api/v1/logs',
-                headers={'Authorization': config.MIST_API_TOKEN},
-                verify=True
-            )
-
-            for log_line in resp.json():
-                if check_machine_creation(log_line, job_id):
-                    log_found = True
+                for log_line in resp.json():
+                    if check_machine_creation(log_line, job_id):
+                        log_found = True
+                        break
+                    else:
+                        pass
+                if log_found:
                     break
-                else:
-                    pass
-            if log_found:
-                break
-            sleep(5)
+                sleep(5)
 
 if __name__ == "__main__":
     main()
