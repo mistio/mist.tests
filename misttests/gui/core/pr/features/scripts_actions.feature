@@ -7,7 +7,7 @@ Feature: Scripts
     When I visit the Scripts page
     And I click the button "+"
     Then I expect the "Script" add form to be visible within max 10 seconds
-    When I set the value "Script1" to field "Script Name" in "script" add form
+    When I set the value "TestScript" to field "Script Name" in "script" add form
     And I open the "Type" drop down
     And I wait for 2 seconds
     And I click the button "Ansible Playbook" in the "Type" dropdown
@@ -25,11 +25,11 @@ Feature: Scripts
     Then I visit the Home page
     And I wait for the links in homepage to appear
     When I visit the Scripts page
-    Then "Script1" script should be present within 3 seconds
+    Then "TestScript" script should be present within 3 seconds
 
   @script-tags
   Scenario: Add tags to script
-    When I click the "Script1" "script"
+    When I click the "TestScript" "script"
     Then I expect the "script" edit form to be visible within max 5 seconds
     When I click the button "Tags" in "script" edit form
     Then I expect for the tag popup to open within 4 seconds
@@ -53,10 +53,10 @@ Feature: Scripts
   @script-delete
   Scenario: Delete script
     When I visit the Scripts page
-    And I select list item "Script1" script
+    And I select list item "TestScript" script
     And I click the action "Delete" from the script list actions
     And I expect the dialog "Delete Script" is open within 4 seconds
     And I wait for 2 seconds
     And I click the "Delete" button in the dialog "Delete Script"
     And I expect the dialog "Delete Script" is closed within 4 seconds
-    Then "Script1" script should be absent within 5 seconds
+    Then "TestScript" script should be absent within 5 seconds
