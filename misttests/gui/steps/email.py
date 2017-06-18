@@ -8,6 +8,8 @@ from time import time
 
 from behaving.mail.steps import *
 
+from misttests.config import safe_get_var
+
 log = logging.getLogger(__name__)
 
 
@@ -177,7 +179,8 @@ def receive_mail(context, seconds):
 
 
 def email_find(context, email, subject):
-    g = gmail.login(context.mist_config['GMAIL_FATBOY_USER'], context.mist_config['GMAIL_FATBOY_PASSWORD'])
+    g = gmail.login(safe_get_var('accounts/gmail_fatboy', 'gmail_fatboy_user', context.mist_config['GMAIL_FATBOY_USER']),
+                    safe_get_var('accounts/gmail_fatboy', 'gmail_fatboy_password', context.mist_config['GMAIL_FATBOY_PASSWORD']))
     mails = g.inbox().mail(unread=True, to=email)
 
     fetched_mails = []
