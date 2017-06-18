@@ -83,7 +83,7 @@ vault_login() {
     behave_tags["clouds"]='clouds-add-1','clouds-add-2','clouds-actions,'
     behave_tags["images"]='images-networks,'
     behave_tags["keys"]='keys,'
-    behave_tags["scripts"]='scripts,'
+    behave_tags["scripts"]='scripts','scripts-actions'
     behave_tags["machines"]='machines,'
     behave_tags["users"]='user-actions,'
     behave_tags["rbac"]='rbac-rules-1','rbac-teams','rbac-rules-2,'
