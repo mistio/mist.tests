@@ -23,7 +23,8 @@ providers = {
         "credentials": "AZURE",
         "size": "ExtraSmall",
         "name_prefix": "mpazure_",
-        "location": "West Europe"
+        "location": "West Europe",
+        "image": "b39f27a8b8c64d52b05eac6a62ebad85__Ubuntu-17_04-amd64-server-20170412.1-en-us-30GB"
     },
     "Digital Ocean": {
         "credentials": "DIGITALOCEAN",
@@ -114,25 +115,24 @@ def add_cloud(provider):
                                            api_key=config.CREDENTIALS['AWS']['api_key'],
                                            api_secret=config.CREDENTIALS['AWS']['api_secret'],
                                            region='ec2_ap_northeast').post()
-            assert_response_ok(response)
-            cloud_id = response.json()['id']
-            return cloud_id
 
         elif provider == 'Digital Ocean':
             response = mist_core.add_cloud(title=provider, provider= 'digitalocean', api_token=config.MIST_API_TOKEN,
                                            token=config.CREDENTIALS['DO']['token']).post()
-            assert_response_ok(response)
-            cloud_id = response.json()['id']
-            return cloud_id
 
         elif provider == "Linode":
             response = mist_core.add_cloud(title=provider, provider= 'linode', api_token=config.MIST_API_TOKEN,
                                            api_key=config.CREDENTIALS['LINODE']['api_key']).post()
-            assert_response_ok(response)
-            cloud_id = response.json()['id']
-            return cloud_id
-    else:
-        return cloud_id
+
+        elif provider == "Azure":
+            response = mist_core.add_cloud(title=provider, provider= 'azure', api_token=config.MIST_API_TOKEN,
+                                           subscription_id=config.CREDENTIALS['AZURE']['subscription_id'],
+                                           certificate=config.CREDENTIALS['AZURE']['certificate']).post()
+
+        assert_response_ok(response)
+        cloud_id = response.json()['id']
+
+    return cloud_id
 
 
 def create_machine(cloud_id, provider):
@@ -174,7 +174,7 @@ def create_machine(cloud_id, provider):
 
 def main():
     for provider in providers:
-        if provider in ['AWS', 'Digital Ocean', 'Linode']:
+        if provider in ['AWS', 'Digital Ocean', 'Linode', 'Azure']:
             #add the provider if not there
             cloud_id = add_cloud(provider)
 
