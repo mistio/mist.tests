@@ -26,6 +26,12 @@ providers = {
         "location": "West Europe",
         "image": "b39f27a8b8c64d52b05eac6a62ebad85__Ubuntu-17_04-amd64-server-20170412.1-en-us-30GB"
     },
+    "Docker": {
+        "credentials": "DOCKER",
+        "size": "",
+        "location": "",
+        "image": "mist/ubuntu-14.04"
+    },
     "Digital Ocean": {
         "credentials": "DIGITALOCEAN",
         "size": "512mb",
@@ -129,6 +135,15 @@ def add_cloud(provider):
                                            subscription_id=config.CREDENTIALS['AZURE']['subscription_id'],
                                            certificate=config.CREDENTIALS['AZURE']['certificate']).post()
 
+        elif provider == 'Docker':
+            response = mist_core.add_cloud(title=provider, provider= 'docker', api_token=config.MIST_API_TOKEN,
+                                           docker_host=config.CREDENTIALS['DOCKER']['host'],
+                                           docker_port=config.CREDENTIALS['DOCKER']['port'],
+                                           authentication=config.CREDENTIALS['DOCKER']['authentication'],
+                                           ca_cert_file=config.CREDENTIALS['DOCKER']['ca'],
+                                           key_file=config.CREDENTIALS['DOCKER']['key'],
+                                           cert_file=config.CREDENTIALS['DOCKER']['cert']).post()
+
         assert_response_ok(response)
         cloud_id = response.json()['id']
 
@@ -174,7 +189,7 @@ def create_machine(cloud_id, provider):
 
 def main():
     for provider in providers:
-        if provider in ['AWS', 'Digital Ocean', 'Linode', 'Azure']:
+        if provider in ['AWS', 'Digital Ocean', 'Linode', 'Azure', 'Docker']:
             #add the provider if not there
             cloud_id = add_cloud(provider)
 
