@@ -28,4 +28,4 @@ Feature: Add second-tier clouds in Polymist
     | GCE            |
     | AWS            |
     | Digital Ocean  |
-#    | Packet         | -- tested @ rbac-rules-1
+    | Packet         |
