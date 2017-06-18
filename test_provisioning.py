@@ -3,6 +3,7 @@ import logging
 import json
 from time import time, sleep
 import requests
+from random import randint
 
 from misttests import config
 from misttests.api.utils import assert_response_ok
@@ -86,26 +87,38 @@ def check_machine_creation(log_line, job_id):
     except:
         return False
 
+
+def check_cloud_exists(provider):
+    resp = requests.get(
+        'https://mist.io/api/v1/clouds',
+        headers={'Authorization': config.MIST_API_TOKEN},
+        verify=True
+    )
+    cloud_id = None
+
+    for cloud in resp.json():
+        if cloud['title'] == provider:
+            cloud_id = cloud['id']
+    return cloud_id
+
+
 def add_cloud(provider):
+    cloud_id = check_cloud_exists(provider)
+    if cloud_id == None:
+        if provider == 'AWS':
+            response = mist_core.add_cloud(title=provider, provider= 'ec2', api_token=config.MIST_API_TOKEN,
+                                           api_key=config.CREDENTIALS['AWS']['api_key'],
+                                           api_secret=config.CREDENTIALS['AWS']['api_secret'],
+                                           region='ec2_ap_northeast').post()
+            assert_response_ok(response)
+            cloud_id = response.json()['id']
+            return cloud_id
 
-    #TODO: First check if cloud exists and return the cloud ID and then try to add
-    if provider == 'AWS':
-        response = mist_core.add_cloud(title=provider, provider= 'ec2', api_token=config.MIST_API_TOKEN,
-                                       api_key=config.CREDENTIALS['AWS']['api_key'],
-                                       api_secret=config.CREDENTIALS['AWS']['api_secret'],
-                                       region='ec2_ap_northeast').post()
-
-    if response.text == u'Cloud with this name already exists':
-        print "\nCloud already exists. Moving on.\n"
-        return None
     else:
-        assert_response_ok(response)
-        cloud_id = response.json()['id']
         return cloud_id
 
 
 def create_machine(cloud_id, provider):
-
     #creating machine
     try:
         disk = providers[provider]['disk']
@@ -118,7 +131,7 @@ def create_machine(cloud_id, provider):
 
     response = mist_core.create_machine(api_token=config.MIST_API_TOKEN,
                                         cloud_id=cloud_id,
-                                        name='AWSprovisiontest',
+                                        name='AWSprovisiontest' + str(randint(0,9999)),
                                         provider=provider,
                                         image="ami-5e849130",
                                         size=providers['AWS']['size'],
