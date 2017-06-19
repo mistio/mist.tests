@@ -3,7 +3,7 @@ Feature: Production
 
   @alert
   Scenario: Production rule and alert testing
-    Given I am logged in to mist.coreee
+    Given I am logged in to mist.core
     When I visit the Machines page after the counter has loaded
     Then I search for the mayday machine
     When I click the mayday machine
