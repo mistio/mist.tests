@@ -81,6 +81,17 @@ providers = {
         "size": "2",
         "name_prefix": "mpRackspace_",
         "location": "0"
+    },
+    "Openstack": {
+        "credentials": "OPENSTACK",
+        "size": "1",
+        "size_disk_primary": "5",
+        "location": "0",
+        "networks":["583bb96c-36c2-483a-b4bf-667f0278d1fb"],
+        "size_cpu": "1",
+        "associate_floating_ip":"true",
+        "size_disk_swap": "1",
+        "image": "d69e1f0e-5205-4698-880e-81f95774a633"
     }
 }
 
@@ -102,7 +113,7 @@ def check_machine_creation(log_line, job_id):
 
 def check_cloud_exists(provider):
     resp = requests.get(
-        'https://mist.io/api/v1/clouds',
+        config.MIST_URL + '/api/v1/clouds',
         headers={'Authorization': config.MIST_API_TOKEN},
         verify=True
     )
@@ -150,6 +161,13 @@ def add_cloud(provider):
                                            username=config.CREDENTIALS['SOFTLAYER']['username'],
                                            api_key=config.CREDENTIALS['SOFTLAYER']['api_key']).post()
 
+        elif provider == "Openstack":
+            response = mist_core.add_cloud(title=provider, provider= 'openstack', api_token=config.MIST_API_TOKEN,
+                                           username=config.CREDENTIALS['OPENSTACK']['username'],
+                                           auth_url=config.CREDENTIALS['OPENSTACK']['auth_url'],
+                                           tenant=config.CREDENTIALS['OPENSTACK']['tenant'],
+                                           password=config.CREDENTIALS['OPENSTACK']['password']).post()
+
         assert_response_ok(response)
         cloud_id = response.json()['id']
 
@@ -166,6 +184,11 @@ def create_machine(cloud_id, provider):
         location_name=providers[provider]['location_name']
     except:
         location_name = ''
+    try:
+        networks=providers[provider]['network']
+    except:
+        networks = ''
+
 
 
     response = mist_core.create_machine(api_token=config.MIST_API_TOKEN,
@@ -207,7 +230,7 @@ def main():
             timeout = time() + 240
             while time() < timeout:
                 resp = requests.get(
-                    'https://mist.io/api/v1/logs',
+                    config.MIST_URL + '/api/v1/logs',
                     headers={'Authorization': config.MIST_API_TOKEN},
                     verify=True
                 )
@@ -227,7 +250,7 @@ def main():
             #destroy the machine
 #            if machine_id:
 #                resp = requests.post(
-#                    'https://mist.io/api/v1/clouds/' + cloud_id + '/machines/' + machine_id,
+#                    config.MIST_URL + '/api/v1/clouds/' + cloud_id + '/machines/' + machine_id,
 #                    headers={'Authorization': config.MIST_API_TOKEN},
 #                    data = {'action':'destroy'},
 #                    verify=True
