@@ -54,7 +54,7 @@ def focus_on_add_rule(context, name):
         button = context.browser.find_element_by_tag_name("mist-rules")
 
     elif "Add Graph" in name:
-        button = context.browser.find_element_by_id("add-metric-btn")
+        button = context.browser.find_element_by_xpath("//*[contains(text(), 'Add Graph')]")
 
     context.browser.execute_script("arguments[0].scrollIntoView();", button)
     
