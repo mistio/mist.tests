@@ -13,14 +13,17 @@ from selenium.webdriver.common.by import By
 
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.support.ui import WebDriverWait
+from selenium.webdriver import ActionChains
 
 from selenium.common.exceptions import TimeoutException
 from selenium.common.exceptions import NoSuchElementException
 
+import re
+
 
 @step(u'I wait for the graphs to appear')
 def wait_graphs_to_appear(context):
-    timeout = time() + 20
+    timeout = time() + 30
     while time() < timeout:
         try:
             graph_panel = context.browser.\
@@ -51,7 +54,7 @@ def wait_for_graphs_to_disappear(context, seconds):
 def focus_on_a_graph(context, graph_title):
     try:
         monitoring_area = context.browser.find_element_by_tag_name('polyana-dashboard')
-        graph = monitoring_area.find_element_by_xpath("//chart-line[contains(@id, '%s')]" % graph_title)
+        graph = monitoring_area.find_element_by_xpath("//dashboard-panel[contains(., '%s')]" % graph_title)
         position = graph.location['y']
         context.browser.execute_script("window.scrollTo(0, %s)" % position)
     except NoSuchElementException:
@@ -95,22 +98,38 @@ def wait_for_graph_to_appear(context, graph_title, seconds):
     graph_title = graph_title.lower()
     monitoring_area = context.browser.find_element_by_tag_name('polyana-dashboard')
     try:
-        WebDriverWait(monitoring_area, int(seconds)).until(EC.presence_of_element_located((By.XPATH, "//chart-line[contains(@id, '%s')]" % graph_title)))
+        WebDriverWait(monitoring_area, int(seconds)).until(EC.presence_of_element_located((By.XPATH, "//dashboard-panel[contains(., '%s')]" % graph_title)))
     except TimeoutException:
         raise TimeoutException("%s graph has not appeared after %s seconds" % (graph_title, seconds))
 
 
 @step(u'"{graph_title}" graph should have some values')
 def graph_some_value(context, graph_title):
-    graph_xpath = '[id^="%s-"]' % graph_title
-    try:
-        datapoints = context.browser.execute_script("var graph = document.querySelector('%s'); return graph.data.datasets[0].data.length" % graph_xpath)
-        if datapoints > 1:
+
+    #find the right graph
+    graph_label = context.browser.find_element_by_xpath('//h3[contains(text(), "%s")]' % graph_title)
+    graph_panel = graph_label.find_element_by_xpath('./../..')
+    graph_container = graph_panel.find_element_by_id('container')
+
+    #search the page source for the value
+    timeout = time() + int(120)
+    while time() < timeout:
+        #click on the canvas to show the value
+        from selenium.webdriver.common import action_chains, keys
+        action_chain = ActionChains(context.browser)
+        action_chain.move_to_element_with_offset(graph_panel, 370, 150)
+        action_chain.click()
+        action_chain.perform()
+
+        src = context.browser.page_source
+        text_found = re.search(graph_title.capitalize() + r" : [0-999]", src)
+
+        if text_found:
             return
         else:
-            assert False, 'Graph does not have any values'
-    except NoSuchElementException:
-        assert False, "Could not find graph with title %s" % graph_title
+            sleep(2)
+
+    assert False, 'Graph does not have any values'
 
 
 @step(u'I give a "{name}" name for my custom metric')
@@ -124,11 +143,10 @@ def fill_metric_mame(context,name):
 @step(u'I delete the "{graph_title}" graph')
 def delete_a_graph(context, graph_title):
     graph_title = graph_title.lower()
-    graph = context.browser.find_element_by_xpath("//chart-line[contains(@id, '%s')]" % graph_title)
+    graph = context.browser.find_element_by_xpath("//dashboard-panel[contains(., '%s')]" % graph_title)
 
     try:
-        parent = graph.find_element_by_xpath("..")
-        delete_button = parent.find_element_by_tag_name("paper-icon-button")
+        delete_button = graph.find_element_by_tag_name("paper-icon-button")
     except NoSuchElementException:
         assert False, "Could not find X button in the graph with title %s" % graph_title
 

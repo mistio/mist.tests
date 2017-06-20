@@ -16,7 +16,7 @@ help_message() {
     echo
     echo "Argument for API tests can be one of the following:"
     echo
-    echo "clouds, machines, tunnels, keys, scripts, api_token, tunnels, schedules, orchestration, libcloud, networks"
+    echo "clouds, machines, tunnels, keys, dns, scripts, api_token, tunnels, schedules, orchestration, libcloud, networks"
     echo
     echo "Argument for UI tests can be one of the following:"
     echo
@@ -67,7 +67,7 @@ vault_login() {
 
     pytest_paths["clouds"]='misttests/api/io/clouds.py'
     pytest_paths["images"]='misttests/api/io/images.py'
-    pytest_paths["libcloud"]='misttests/api/io/libcloud.py'
+    pytest_paths["libcloud"]='misttests/api/io/libcloud_1.py misttests/api/io/libcloud_2.py'
     pytest_paths["machines"]='misttests/api/io/machines.py'
     pytest_paths["networks"]='misttests/api/io/networks.py'
     pytest_paths["keys"]='misttests/api/io/keys.py'
@@ -80,15 +80,15 @@ vault_login() {
 
     declare -A behave_tags
 
-    behave_tags["clouds"]='clouds-add-a','clouds-add-b','clouds-actions,'
+    behave_tags["clouds"]='clouds-add-1','clouds-add-2','clouds-actions,'
     behave_tags["images"]='images-networks,'
     behave_tags["keys"]='keys,'
     behave_tags["scripts"]='scripts,'
     behave_tags["machines"]='machines,'
     behave_tags["users"]='user-actions,'
-    behave_tags["rbac"]='rbac-rules','rbac-teams','rbac-rules-v2,'
-    behave_tags["schedules"]='schedulers','schedulers_v2,'
-    behave_tags["monitoring"]='monitoring,'
+    behave_tags["rbac"]='rbac-rules-1','rbac-teams','rbac-rules-2,'
+    behave_tags["schedules"]='schedulers-1','schedulers-2,'
+    behave_tags["monitoring"]='monitoring'
     behave_tags["orchestration"]='orchestration,'
 
 

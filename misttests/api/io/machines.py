@@ -133,17 +133,17 @@ class TestMachinesFunctionality:
 
     def test_list_machines(self, pretty_print, mist_core, cache, owner_api_token):
         response = mist_core.add_cloud(title='Docker', provider= 'docker', api_token=owner_api_token,
-                                       docker_host=safe_get_var('clouds/docker', 'host',
+                                       docker_host=safe_get_var('dockerhosts/godzilla', 'host',
                                                                 config.CREDENTIALS['DOCKER']['host']),
-                                       docker_port=safe_get_var('clouds/docker_orchestrator', 'port',
+                                       docker_port=safe_get_var('dockerhosts/godzilla', 'port',
                                                                 config.CREDENTIALS['DOCKER']['port']),
-                                       authentication=safe_get_var('clouds/docker', 'authentication',
+                                       authentication=safe_get_var('dockerhosts/godzilla', 'authentication',
                                                                    config.CREDENTIALS['DOCKER']['authentication']),
-                                       ca_cert_file=safe_get_var('clouds/docker', 'ca',
+                                       ca_cert_file=safe_get_var('dockerhosts/godzilla', 'ca',
                                                                  config.CREDENTIALS['DOCKER']['ca']),
-                                       key_file=safe_get_var('clouds/docker', 'key',
+                                       key_file=safe_get_var('dockerhosts/godzilla', 'key',
                                                              config.CREDENTIALS['DOCKER']['key']),
-                                       cert_file=safe_get_var('clouds/docker', 'cert',
+                                       cert_file=safe_get_var('dockerhosts/godzilla', 'cert',
                                                               config.CREDENTIALS['DOCKER']['cert'])).post()
         assert_response_ok(response)
         cache.set('cloud_id', response.json()['id'])
@@ -218,17 +218,17 @@ class TestMachinesFunctionality:
     #     assert_response_ok(response)
     #     print "Success!!!"
 
-    def test_associate_key(self, pretty_print, mist_core, cache, private_key, owner_api_token):
-        response = mist_core.add_key(
-            name='TestKey',
-            private=private_key,
-            api_token=owner_api_token).put()
-        assert_response_ok(response)
-        cache.set('key_id', response.json()['id'])
-        response = mist_core.associate_key(cloud_id=cache.get('cloud_id', ''), machine_id=cache.get('machine_id', ''),
-                                           key_id=cache.get('key_id', ''), api_token=owner_api_token).put()
-        assert_response_ok(response)
-        print "Success!!!"
+    # def test_associate_key(self, pretty_print, mist_core, cache, private_key, owner_api_token):
+    #     response = mist_core.add_key(
+    #         name='TestKey',
+    #         private=private_key,
+    #         api_token=owner_api_token).put()
+    #     assert_response_ok(response)
+    #     cache.set('key_id', response.json()['id'])
+    #     response = mist_core.associate_key(cloud_id=cache.get('cloud_id', ''), machine_id=cache.get('machine_id', ''),
+    #                                        key_id=cache.get('key_id', ''), api_token=owner_api_token).put()
+    #     assert_response_ok(response)
+    #     print "Success!!!"
 
     def test_destroy_machine(self, pretty_print, mist_core, cache, owner_api_token):
         response = mist_core.destroy_machine(cloud_id=cache.get('cloud_id', ''), api_token=owner_api_token,

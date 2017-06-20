@@ -95,12 +95,12 @@ def add_docker_api_request(context, cloud):
         payload = {
             'title': "Docker",
             'provider': "docker",
-            'docker_host': safe_get_var('clouds/docker', 'host', context.mist_config['CREDENTIALS']['DOCKER']['host']),
-            'docker_port': safe_get_var('clouds/docker', 'port', context.mist_config['CREDENTIALS']['DOCKER']['port']),
-            'authentication': safe_get_var('clouds/docker', 'authentication', context.mist_config['CREDENTIALS']['DOCKER']['authentication']),
-            'ca_cert_file': safe_get_var('clouds/docker', 'ca', context.mist_config['CREDENTIALS']['DOCKER']['ca']),
-            'key_file': safe_get_var('clouds/docker', 'key', context.mist_config['CREDENTIALS']['DOCKER']['key']),
-            'cert_file': safe_get_var('clouds/docker', 'cert', context.mist_config['CREDENTIALS']['DOCKER']['cert'])
+            'docker_host': safe_get_var('dockerhosts/godzilla', 'host', context.mist_config['CREDENTIALS']['DOCKER']['host']),
+            'docker_port': safe_get_var('dockerhosts/godzilla', 'port', context.mist_config['CREDENTIALS']['DOCKER']['port']),
+            'authentication': safe_get_var('dockerhosts/godzilla', 'authentication', context.mist_config['CREDENTIALS']['DOCKER']['authentication']),
+            'ca_cert_file': safe_get_var('dockerhosts/godzilla', 'ca', context.mist_config['CREDENTIALS']['DOCKER']['ca']),
+            'key_file': safe_get_var('dockerhosts/godzilla', 'key', context.mist_config['CREDENTIALS']['DOCKER']['key']),
+            'cert_file': safe_get_var('dockerhosts/godzilla', 'cert', context.mist_config['CREDENTIALS']['DOCKER']['cert'])
         }
 
     elif cloud == 'Docker-Monitoring':
@@ -112,6 +112,25 @@ def add_docker_api_request(context, cloud):
                                         context.mist_config['CREDENTIALS']['DOCKER_MONITORING']['host']),
             'docker_port': safe_get_var('clouds/docker_monitoring', 'port',
                                         context.mist_config['CREDENTIALS']['DOCKER_MONITORING']['port']),
+        }
+
+    elif cloud == 'Local_Monitoring':
+
+        payload = {
+            'name': 'Key1',
+            'priv': safe_get_var('keys/mistio_fullstack_key', 'private_key',
+                                        context.mist_config['CREDENTIALS']['DOCKER_MONITORING']['port'])
+        }
+
+        re = requests.put(context.mist_config['MIST_URL'] + "/api/v1/keys", data=json.dumps(payload), headers=headers)
+        key_id = re.json()['id']
+
+        payload = {
+            'title': "Local_Monitoring",
+            'provider': "bare_metal",
+            'monitoring': 'true',
+            'machine_key': key_id,
+            'machine_ip': 'mist_debugger'
         }
 
     requests.post(context.mist_config['MIST_URL'] + "/api/v1/clouds", data=json.dumps(payload), headers=headers)
