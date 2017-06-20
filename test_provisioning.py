@@ -133,36 +133,36 @@ def add_cloud(provider):
     if cloud_id == None:
         if provider == 'AWS':
             response = mist_core.add_cloud(title=provider, provider= 'ec2', api_token=config.MIST_API_TOKEN,
-                                           api_key=config.CREDENTIALS['AWS']['api_key'],
-                                           api_secret=config.CREDENTIALS['AWS']['api_secret'],
-                                           region='ec2_ap_northeast').post()
+                                       api_key=safe_get_var('clouds/aws', 'api_key', config.CREDENTIALS['EC2']['api_key']),
+                                       api_secret=safe_get_var('clouds/aws', 'api_secret', config.CREDENTIALS['EC2']['api_secret']),
+                                       region='ec2_ap_northeast').post()
 
         elif provider == 'Digital Ocean':
             response = mist_core.add_cloud(title=provider, provider= 'digitalocean', api_token=config.MIST_API_TOKEN,
-                                           token=config.CREDENTIALS['DO']['token']).post()
+                                       token=safe_get_var('clouds/digitalocean', 'token', config.CREDENTIALS['DIGITALOCEAN']['token'])).post()
 
         elif provider == "Linode":
             response = mist_core.add_cloud(title=provider, provider= 'linode', api_token=config.MIST_API_TOKEN,
-                                           api_key=config.CREDENTIALS['LINODE']['api_key']).post()
+                                       api_key=safe_get_var('clouds/linode', 'api_key', config.CREDENTIALS['LINODE']['api_key'])).post()
 
         elif provider == "Azure":
             response = mist_core.add_cloud(title=provider, provider= 'azure', api_token=config.MIST_API_TOKEN,
-                                           subscription_id=config.CREDENTIALS['AZURE']['subscription_id'],
-                                           certificate=config.CREDENTIALS['AZURE']['certificate']).post()
+                                       subscription_id=safe_get_var('clouds/azure', 'subscription_id', config.CREDENTIALS['AZURE']['subscription_id']),
+                                       certificate=safe_get_var('clouds/azure', 'certificate', config.CREDENTIALS['AZURE']['certificate'])).post()
 
         elif provider == 'Docker':
             response = mist_core.add_cloud(title=provider, provider= 'docker', api_token=config.MIST_API_TOKEN,
-                                           docker_host=config.CREDENTIALS['DOCKER']['host'],
-                                           docker_port=config.CREDENTIALS['DOCKER']['port'],
-                                           authentication=config.CREDENTIALS['DOCKER']['authentication'],
-                                           ca_cert_file=config.CREDENTIALS['DOCKER']['ca'],
-                                           key_file=config.CREDENTIALS['DOCKER']['key'],
-                                           cert_file=config.CREDENTIALS['DOCKER']['cert']).post()
+                                       docker_host=safe_get_var('dockerhosts/godzilla', 'host', config.CREDENTIALS['DOCKER']['host']),
+                                       docker_port=safe_get_var('dockerhosts/godzilla', 'port', config.CREDENTIALS['DOCKER']['port']),
+                                       authentication=safe_get_var('dockerhosts/godzilla', 'authentication', config.CREDENTIALS['DOCKER']['authentication']),
+                                       ca_cert_file=safe_get_var('dockerhosts/godzilla', 'ca', config.CREDENTIALS['DOCKER']['ca']),
+                                       key_file=safe_get_var('dockerhosts/godzilla', 'key', config.CREDENTIALS['DOCKER']['key']),
+                                       cert_file=safe_get_var('dockerhosts/godzilla', 'cert', config.CREDENTIALS['DOCKER']['cert'])).post()
 
         elif provider == "SoftLayer":
             response = mist_core.add_cloud(title=provider, provider= 'softlayer', api_token=config.MIST_API_TOKEN,
-                                           username=config.CREDENTIALS['SOFTLAYER']['username'],
-                                           api_key=config.CREDENTIALS['SOFTLAYER']['api_key']).post()
+                                       username=safe_get_var('clouds/softlayer', 'username', config.CREDENTIALS['SOFTLAYER']['username']),
+                                       api_key=safe_get_var('clouds/softlayer', 'api_key', config.CREDENTIALS['SOFTLAYER']['api_key'])).post()
 
         elif provider == "GCE":
             response = mist_core.add_cloud(title='GCE', provider= 'gce', api_token=config.MIST_API_TOKEN,
@@ -173,10 +173,10 @@ def add_cloud(provider):
 
         elif provider == "Openstack":
             response = mist_core.add_cloud(title=provider, provider= 'openstack', api_token=config.MIST_API_TOKEN,
-                                           username=config.CREDENTIALS['OPENSTACK']['username'],
-                                           auth_url=config.CREDENTIALS['OPENSTACK']['auth_url'],
-                                           tenant=config.CREDENTIALS['OPENSTACK']['tenant'],
-                                           password=config.CREDENTIALS['OPENSTACK']['password']).post()
+                                       username=safe_get_var('clouds/openstack', 'username', config.CREDENTIALS['OPENSTACK']['username']),
+                                       auth_url=safe_get_var('clouds/openstack', 'auth_url', config.CREDENTIALS['OPENSTACK']['auth_url']),
+                                       tenant=safe_get_var('clouds/openstack', 'tenant', config.CREDENTIALS['OPENSTACK']['tenant']),
+                                       password=safe_get_var('clouds/openstack', 'password', config.CREDENTIALS['OPENSTACK']['password'])).post()
 
         assert_response_ok(response)
         cloud_id = response.json()['id']
@@ -210,7 +210,7 @@ def create_machine(cloud_id, provider):
                                         name= provider.replace(" ", "").lower() + 'provisiontest' + str(randint(0,9999)),
                                         provider=provider,
                                         image=providers[provider]['image'],
-                                        image_extra=providers[provider]['image_extra'],
+                                        image_extra=image_extra,
                                         size=providers[provider]['size'],
                                         disk=disk,
                                         key_id=config.KEY_ID,
