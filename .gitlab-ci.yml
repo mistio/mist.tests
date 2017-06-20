@@ -41,3 +41,4 @@ flake8:
     - flake8 misttests/gui/steps/search.py
     - flake8 misttests/gui/steps/setup.py
     - flake8 misttests/gui/steps/team.py
+    - flake8 misttests/gui/steps/insights.py
