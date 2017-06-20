@@ -10,6 +10,7 @@ from misttests.api.utils import assert_response_ok
 from misttests.config import safe_get_var
 from misttests.api.core.core import MistIoApi
 from misttests.api.io import conftest
+from misttests.config import safe_get_var
 
 
 
@@ -74,7 +75,9 @@ providers = {
         "size": "1000",
         "name_prefix": "mpgce",
         "location": "2101",
-        "location_name":"europe-west1-b"
+        "location_name":"europe-west1-b",
+        "image":"7223507091408113841",
+        "image_extra": { "selfLink":"https://www.googleapis.com/compute/v1/projects/ubuntu-os-cloud/global/images/ubuntu-1610-yakkety-v20170619a" }
     },
     "Rackspace": {
         "credentials": "RACKSPACE",
@@ -161,6 +164,13 @@ def add_cloud(provider):
                                            username=config.CREDENTIALS['SOFTLAYER']['username'],
                                            api_key=config.CREDENTIALS['SOFTLAYER']['api_key']).post()
 
+        elif provider == "GCE":
+            response = mist_core.add_cloud(title='GCE', provider= 'gce', api_token=config.MIST_API_TOKEN,
+                                      project_id=safe_get_var('clouds/gce/mist-dev', 'project_id',
+                                                              config.CREDENTIALS['GCE']['project_id']),
+                                      private_key = json.dumps(safe_get_var('clouds/gce/mist-dev', 'private_key',
+                                                              config.CREDENTIALS['GCE']['private_key']))).post()
+
         elif provider == "Openstack":
             response = mist_core.add_cloud(title=provider, provider= 'openstack', api_token=config.MIST_API_TOKEN,
                                            username=config.CREDENTIALS['OPENSTACK']['username'],
@@ -188,14 +198,19 @@ def create_machine(cloud_id, provider):
         networks=providers[provider]['network']
     except:
         networks = ''
+    try:
+        image_extra=providers[provider]['image_extra']
+    except:
+        image_extra = ''
 
 
 
     response = mist_core.create_machine(api_token=config.MIST_API_TOKEN,
                                         cloud_id=cloud_id,
-                                        name= provider.replace(" ", "") + 'provisiontest' + str(randint(0,9999)),
+                                        name= provider.replace(" ", "").lower() + 'provisiontest' + str(randint(0,9999)),
                                         provider=provider,
                                         image=providers[provider]['image'],
+                                        image_extra=providers[provider]['image_extra'],
                                         size=providers[provider]['size'],
                                         disk=disk,
                                         key_id=config.KEY_ID,
@@ -218,7 +233,7 @@ def create_machine(cloud_id, provider):
 
 def main():
     for provider in providers:
-        if provider in ['AWS', 'Digital Ocean', 'Linode', 'Azure', 'Docker', 'SoftLayer']:
+        if provider in ['AWS', 'Digital Ocean', 'Linode', 'Azure', 'Docker', 'SoftLayer', 'GCE']:
             #add the provider if not there
             cloud_id = add_cloud(provider)
 
