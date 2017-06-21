@@ -20,7 +20,7 @@ help_message() {
     echo
     echo "Argument for UI tests can be one of the following:"
     echo
-    echo "clouds, machines, images, keys, scripts, users, rbac, schedules, orchestration, monitoring"
+    echo "clouds, machines, images, keys, scripts, users, rbac, schedules, orchestration, monitoring, insights"
     echo
     exit
 }
@@ -90,6 +90,7 @@ vault_login() {
     behave_tags["schedules"]='schedulers-1','schedulers-2,'
     behave_tags["monitoring"]='monitoring'
     behave_tags["orchestration"]='orchestration,'
+    behave_tags["insights"]='insights,'
 
 
 
