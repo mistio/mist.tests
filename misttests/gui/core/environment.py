@@ -8,6 +8,7 @@ from misttests import config
 
 from misttests.helpers.selenium_utils import choose_driver
 from misttests.helpers.selenium_utils import get_screenshot
+from misttests.helpers.selenium_utils import start_getting_screenshots
 from misttests.helpers.selenium_utils import dump_js_console_log
 
 from misttests.helpers.recording import start_recording

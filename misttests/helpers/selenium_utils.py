@@ -1,6 +1,7 @@
 import json
 
 from misttests import config
+from time import sleep
 
 from selenium import webdriver
 from selenium.webdriver.remote.errorhandler import NoSuchWindowException
@@ -52,3 +53,15 @@ def dump_js_console_log(context):
         fp = open(context.mist_config['JS_CONSOLE_LOG'], 'w')
         fp.write(formatted_js_console_logs)
         fp.close()
+
+
+def start_getting_screenshots(context):
+    log.info('Starting getting screenshots')
+    while True:
+        num = context.mist_config['ERROR_NUM'] = context.mist_config['ERROR_NUM'] + 1
+        path = context.mist_config['SCREENSHOT_PATH'] + '.{0}.png'.format(str(num))
+        try:
+            context.browser.get_screenshot_as_file(path)
+        except NoSuchWindowException:
+            pass
+        sleep(1)

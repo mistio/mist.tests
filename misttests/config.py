@@ -105,7 +105,7 @@ MAIL_PATH = get_setting("MAIL_PATH", MAIL_DIR)
 
 JS_CONSOLE_LOG = get_setting("JS_CONSOLE_LOG", '/var/log/js_console.log')
 
-SCREENSHOT_PATH = get_setting("SCREENSHOT_PATH", '/var/log/error')
+SCREENSHOT_PATH = get_setting("SCREENSHOT_PATH", '/var/log/wtf')
 
 DISPLAY_NUM = get_setting("DISPLAY_NUM", "1")
 
