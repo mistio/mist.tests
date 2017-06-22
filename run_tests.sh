@@ -91,12 +91,9 @@ vault_login() {
     behave_tags["schedules"]='schedulers-1','schedulers-2,'
     behave_tags["monitoring"]='monitoring-locally'
     behave_tags["orchestration"]='orchestration,'
-<<<<<<< HEAD
     behave_tags["rbac-rules"]='rbac-rules-1'
-=======
     behave_tags["insights"]='insights,'
 
->>>>>>> master
 
 
     if [ "$#" -eq 0 ]
