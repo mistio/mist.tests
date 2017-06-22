@@ -55,7 +55,7 @@ providers = {
     },
     "AWS": {
         "size": "m1.small",
-        "location": "ap-northeast-1a",
+        "location": "ap-northeast-1",
         "image": "ami-5e849130"
     },
     "GCE": {
@@ -129,7 +129,7 @@ def add_cloud(provider):
             response = mist_core.add_cloud(title=provider, provider= 'ec2', api_token=config.MIST_API_TOKEN,
                                        api_key=safe_get_var('clouds/aws', 'api_key', config.CREDENTIALS['EC2']['api_key']),
                                        api_secret=safe_get_var('clouds/aws', 'api_secret', config.CREDENTIALS['EC2']['api_secret']),
-                                       region='ec2_ap_northeast').post()
+                                       region=providers[provider]['location']).post()
 
         elif provider == 'Digital Ocean':
             response = mist_core.add_cloud(title=provider, provider= 'digitalocean', api_token=config.MIST_API_TOKEN,
@@ -252,7 +252,7 @@ def create_machine(cloud_id, provider):
 
 def main():
     for provider in providers:
-        if provider in ['AWS', 'Digital Ocean', 'Linode', 'Azure', 'Docker', 'SoftLayer', 'GCE', 'Rackspace', 'Packet', 'Nephoscale', 'Vultr']:
+        if provider in ['AWS', 'Digital Ocean', 'Linode', 'Azure', 'SoftLayer', 'GCE', 'Rackspace', 'Packet', 'Nephoscale', 'Vultr']:
             #add the provider if not there
             cloud_id = add_cloud(provider)
 
