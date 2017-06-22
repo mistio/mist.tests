@@ -68,7 +68,7 @@ def assert_machine_state(context, name, state, seconds):
         machine = get_machine(context, name)
         if machine:
             try:
-                if state in safe_get_element_text(machine.find_element_by_css_selector('.state span')).strip().lower()
+                if state in safe_get_element_text(machine.find_element_by_css_selector('.state span')).strip().lower():
                     return
             except NoSuchElementException:
                 pass
