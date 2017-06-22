@@ -21,73 +21,55 @@ mist_core = MistIoApi(config.MIST_URL)
 
 providers = {
     "Azure": {
-        "credentials": "AZURE",
         "size": "ExtraSmall",
-        "name_prefix": "mpazure_",
         "location": "West Europe",
         "image": "b39f27a8b8c64d52b05eac6a62ebad85__Ubuntu-17_04-amd64-server-20170412.1-en-us-30GB"
     },
     "Docker": {
-        "credentials": "DOCKER",
         "size": "",
         "location": "",
         "image": "mist/ubuntu-14.04"
     },
     "Digital Ocean": {
-        "credentials": "DIGITALOCEAN",
         "size": "512mb",
-        "name_prefix": "mpdo",
         "location": "ams2",
         "image": "21419458"
     },
     "Linode": {
-        "credentials": "LINODE",
         "size": "1",
-        "name_prefix": "mpLinode_",
         "location": "10",
         "disk":12576,
         "image": "146"
     },
     "Nephoscale": {
-        "credentials": "NEPHOSCALE",
         "size": "3",
-        "name_prefix": "mpnephoscale",
         "location": "87729",
         "disk": 50
     },
     "SoftLayer": {
-        "credentials": "SOFTLAYER",
         "size": "0",
-        "name_prefix": "mpSoftLayer",
         "location": "ams01",
         "disk": 25,
         "image": "UBUNTU_LATEST_64"
     },
     "AWS": {
-        "credentials": "EC2",
         "size": "m1.small",
-        "name_prefix": "mpec2",
         "location": "ap-northeast-1a",
         "image": "ami-5e849130"
     },
     "GCE": {
-        "credentials": "GCE",
         "size": "1000",
-        "name_prefix": "mpgce",
         "location": "2101",
         "location_name":"europe-west1-b",
         "image":"7223507091408113841",
         "image_extra": { "selfLink":"https://www.googleapis.com/compute/v1/projects/ubuntu-os-cloud/global/images/ubuntu-1610-yakkety-v20170619a" }
     },
     "Rackspace": {
-        "credentials": "RACKSPACE",
         "size": "2",
-        "name_prefix": "mpRackspace_",
         "location": "0",
         "image": "ac3dfda7-6f5a-4940-a114-b253ecb70be2"
     },
     "Openstack": {
-        "credentials": "OPENSTACK",
         "size": "1",
         "size_disk_primary": "5",
         "location": "0",
@@ -96,7 +78,12 @@ providers = {
         "associate_floating_ip":"true",
         "size_disk_swap": "1",
         "image": "d69e1f0e-5205-4698-880e-81f95774a633"
-    }
+    },
+    "Packet": {
+        "size": "baremetal_0",
+        "location": "ams1",
+        "image": "debian_8"
+    },
 }
 
 def check_machine_creation(log_line, job_id):
@@ -178,6 +165,7 @@ def add_cloud(provider):
                                        auth_url=safe_get_var('clouds/openstack', 'auth_url', config.CREDENTIALS['OPENSTACK']['auth_url']),
                                        tenant=safe_get_var('clouds/openstack', 'tenant', config.CREDENTIALS['OPENSTACK']['tenant']),
                                        password=safe_get_var('clouds/openstack', 'password', config.CREDENTIALS['OPENSTACK']['password'])).post()
+
         elif provider == "Rackspace":
             response = mist_core.add_cloud(title='Rackspace', provider= 'rackspace', api_token=config.MIST_API_TOKEN,
                                        region='dfw',
@@ -185,6 +173,12 @@ def add_cloud(provider):
                                                            config.CREDENTIALS['RACKSPACE']['username']),
                                        api_key = safe_get_var('clouds/rackspace', 'api_key',
                                                            config.CREDENTIALS['RACKSPACE']['api_key'])).post()
+
+        elif provider == "Packet":
+            response = mist_core.add_cloud(title='Packet', provider= 'packet', api_token=config.MIST_API_TOKEN,
+                                           api_key=safe_get_var('clouds/packet', 'api_key',
+                                                                config.CREDENTIALS['PACKET']['api_key'])).post()
+
 
         assert_response_ok(response)
         cloud_id = response.json()['id']
@@ -241,7 +235,7 @@ def create_machine(cloud_id, provider):
 
 def main():
     for provider in providers:
-        if provider in ['AWS', 'Digital Ocean', 'Linode', 'Azure', 'Docker', 'SoftLayer', 'GCE', 'Rackspace']:
+        if provider in ['AWS', 'Digital Ocean', 'Linode', 'Azure', 'Docker', 'SoftLayer', 'GCE', 'Rackspace', 'Packet']:
             #add the provider if not there
             cloud_id = add_cloud(provider)
 
