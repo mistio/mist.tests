@@ -48,7 +48,7 @@ def get_machine(context, name):
         machines = placeholder.find_elements_by_tag_name("vaadin-grid-table-row")
 
         for machine in machines:
-            machine_text = safe_get_element_text(machine)
+            machine_text = safe_get_element_text(machine.find_element_by_css_selector('.state')).strip().lower()
             if name in machine_text:
                 return machine
 
