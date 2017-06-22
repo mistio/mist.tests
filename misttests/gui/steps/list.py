@@ -45,22 +45,7 @@ def get_list_item(context, resource_type, name):
 def get_machine(context, name):
     try:
         placeholder = context.browser.find_element_by_tag_name("page-machines")
-        machines = placeholder.find_elements_by_tag_name("list-item")
-        for machine in machines:
-            machine_text = safe_get_element_text(machine)
-            if name in machine_text:
-                return machine
-        return None
-    except NoSuchElementException:
-        return None
-    except StaleElementReferenceException:
-        return None
-
-
-def get_machine(context, name):
-    try:
-        placeholder = context.browser.find_element_by_tag_name("page-machines")
-        machines = placeholder.find_elements_by_tag_name("list-item")
+        machines = placeholder.find_elements_by_tag_name("vaadin-grid-table-row")
 
         for machine in machines:
             machine_text = safe_get_element_text(machine)
