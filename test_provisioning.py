@@ -85,6 +85,11 @@ providers = {
         "location": "ams1",
         "image": "debian_8"
     },
+    "Vultr": {
+        "size": "201",
+        "location": "7",
+        "image": "193"
+    },
 }
 
 def check_machine_creation(log_line, job_id):
@@ -186,6 +191,11 @@ def add_cloud(provider):
                                                                  config.CREDENTIALS['NEPHOSCALE']['username']),
                                            password = safe_get_var('clouds/nephoscale', 'password', config.CREDENTIALS['NEPHOSCALE']['password'])).post()
 
+        elif provider == "Vultr":
+            response = mist_core.add_cloud(title='Vultr', provider= 'vultr', api_token=config.MIST_API_TOKEN,
+                                       api_key=safe_get_var('clouds/vultr', 'apikey',
+                                                            config.CREDENTIALS['VULTR']['apikey'])).post()
+
 
         assert_response_ok(response)
         cloud_id = response.json()['id']
@@ -242,7 +252,7 @@ def create_machine(cloud_id, provider):
 
 def main():
     for provider in providers:
-        if provider in ['AWS', 'Digital Ocean', 'Linode', 'Azure', 'Docker', 'SoftLayer', 'GCE', 'Rackspace', 'Packet', 'Nephoscale']:
+        if provider in ['AWS', 'Digital Ocean', 'Linode', 'Azure', 'Docker', 'SoftLayer', 'GCE', 'Rackspace', 'Packet', 'Nephoscale', 'Vultr']:
             #add the provider if not there
             cloud_id = add_cloud(provider)
 
