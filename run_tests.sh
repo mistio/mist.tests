@@ -20,7 +20,7 @@ help_message() {
     echo
     echo "Argument for UI tests can be one of the following:"
     echo
-    echo "clouds, clouds-actions, machines, images, keys, scripts, users, rbac, schedules, orchestration, monitoring, rbac-rules"
+    echo "clouds, clouds-actions, machines, images, keys, scripts, users, rbac, schedules, orchestration, monitoring, rbac-rules, insights"
     echo
     exit
 }
@@ -91,7 +91,12 @@ vault_login() {
     behave_tags["schedules"]='schedulers-1','schedulers-2,'
     behave_tags["monitoring"]='monitoring-locally'
     behave_tags["orchestration"]='orchestration,'
+<<<<<<< HEAD
     behave_tags["rbac-rules"]='rbac-rules-1'
+=======
+    behave_tags["insights"]='insights,'
+
+>>>>>>> master
 
 
     if [ "$#" -eq 0 ]
