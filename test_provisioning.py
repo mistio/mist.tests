@@ -83,7 +83,8 @@ providers = {
         "credentials": "RACKSPACE",
         "size": "2",
         "name_prefix": "mpRackspace_",
-        "location": "0"
+        "location": "0",
+        "image": "ac3dfda7-6f5a-4940-a114-b253ecb70be2"
     },
     "Openstack": {
         "credentials": "OPENSTACK",
@@ -177,6 +178,13 @@ def add_cloud(provider):
                                        auth_url=safe_get_var('clouds/openstack', 'auth_url', config.CREDENTIALS['OPENSTACK']['auth_url']),
                                        tenant=safe_get_var('clouds/openstack', 'tenant', config.CREDENTIALS['OPENSTACK']['tenant']),
                                        password=safe_get_var('clouds/openstack', 'password', config.CREDENTIALS['OPENSTACK']['password'])).post()
+        elif provider == "Rackspace":
+            response = mist_core.add_cloud(title='Rackspace', provider= 'rackspace', api_token=config.MIST_API_TOKEN,
+                                       region='dfw',
+                                       username = safe_get_var('clouds/rackspace', 'username',
+                                                           config.CREDENTIALS['RACKSPACE']['username']),
+                                       api_key = safe_get_var('clouds/rackspace', 'api_key',
+                                                           config.CREDENTIALS['RACKSPACE']['api_key'])).post()
 
         assert_response_ok(response)
         cloud_id = response.json()['id']
@@ -233,7 +241,7 @@ def create_machine(cloud_id, provider):
 
 def main():
     for provider in providers:
-        if provider in ['AWS', 'Digital Ocean', 'Linode', 'Azure', 'Docker', 'SoftLayer', 'GCE']:
+        if provider in ['AWS', 'Digital Ocean', 'Linode', 'Azure', 'Docker', 'SoftLayer', 'GCE', 'Rackspace']:
             #add the provider if not there
             cloud_id = add_cloud(provider)
 
