@@ -92,7 +92,6 @@ vault_login() {
     behave_tags["monitoring"]='monitoring-locally'
     behave_tags["orchestration"]='orchestration,'
     behave_tags["rbac-rules"]='rbac-rules-1'
-    behave_tags["insights"]='insights,'
 
 
 
