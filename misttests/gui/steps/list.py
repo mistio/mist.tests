@@ -48,7 +48,7 @@ def get_machine(context, name):
         machines = placeholder.find_elements_by_tag_name("vaadin-grid-table-row")
 
         for machine in machines:
-            machine_text = safe_get_element_text(machine.find_element_by_css_selector('.state > span')).strip().lower()
+            machine_text = safe_get_element_text(machine.find_element_by_css_selector('.name')).strip().lower()
             if name in machine_text:
                 return machine
 
@@ -68,7 +68,7 @@ def assert_machine_state(context, name, state, seconds):
         machine = get_machine(context, name)
         if machine:
             try:
-                if state in safe_get_element_text(machine):
+                if state in safe_get_element_text(machine_text = safe_get_element_text(machine.find_element_by_css_selector('.state > span')).strip().lower()):
                     return
             except NoSuchElementException:
                 pass
