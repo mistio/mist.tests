@@ -159,7 +159,7 @@ def click_button_in_tag_model(context, button):
 
 @step(u'I click the button "{button}" in the user menu')
 def click_the_user_menu_button(context, button):
-    dropdown = context.browser.find_element_by_css_selector('app-user-menu > #dropdown')
+    dropdown = context.browser.find_element_by_css_selector('app-user-menu #dropdown')
     buttons = dropdown.find_elements_by_tag_name('paper-item')
     click_button_from_collection(context, button, buttons)
 
