@@ -223,8 +223,8 @@ def click_menu_button_from_more_menu(context, button_name, title, form_type):
             if safe_get_element_text(button).lower() == button_name.lower():
                 clicketi_click(context, button)
                 return
-        more_dropdown = form.find_element_by_id('actionmenu-content')
-        more_dropdown_button = form.find_element_by_class_name('more')
+        more_dropdown = form.find_element_by_id('actionmenu')
+        more_dropdown_button = form.find_element_by_class_name('dropdown-trigger')
     else:
         more_dropdown = form.find_element_by_tag_name('paper-menu-button')
         more_dropdown_button = more_dropdown
