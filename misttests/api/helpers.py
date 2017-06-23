@@ -7,6 +7,7 @@ from misttests import config
 
 from misttests.config import safe_get_var
 
+
 bash_script_no_shebang = """
 touch ~/bla
 echo "whatever" > ~/bla
@@ -38,13 +39,13 @@ ansible_script = """
 """
 
 
-def add_docker(api_token, mist_core):
-        if config.LOCAL:
-            return mist_core.add_cloud(title='Docker', provider= 'docker', api_token=api_token,
+def add_docker(self, api_token, mist_core):
+    if config.LOCAL:
+        return mist_core.add_cloud(title='Docker', provider= 'docker', api_token=api_token,
                                        docker_host='172.17.0.1',
                                        docker_port='2375').post()
-        else:
-            return mist_core.add_cloud(title='Docker', provider= 'docker', api_token=api_token,
+    else:
+        return mist_core.add_cloud(title='Docker', provider= 'docker', api_token=api_token,
                                        docker_host=safe_get_var('dockerhosts/godzilla', 'host', config.CREDENTIALS['DOCKER']['host']),
                                        docker_port=safe_get_var('dockerhosts/godzilla', 'port', config.CREDENTIALS['DOCKER']['port']),
                                        authentication=safe_get_var('dockerhosts/godzilla', 'authentication', config.CREDENTIALS['DOCKER']['authentication']),
