@@ -103,8 +103,8 @@ Feature: Machines
   @machine-stop
   Scenario: Stop machine created above and check state
     When I click the button "Stop" from the menu of the "machine" edit form
-    Then I expect the dialog "Stop 1 Machines" is open within 4 seconds
-    And I click the "Stop" button in the dialog "Stop 1 Machines"
+    Then I expect the dialog "Stop 1 Machine" is open within 4 seconds
+    And I click the "Stop" button in the dialog "Stop 1 Machine"
     Then I visit the Machines page
     Then "ui-test-create-machine-random" machine state has to be "stopped" within 40 seconds
 
