@@ -77,7 +77,7 @@ vault_login() {
     pytest_paths["schedules"]='misttests/api/io/schedules.py'
     pytest_paths["tunnels"]='misttests/api/core/tunnels.py'
     pytest_paths["orchestration"]='misttests/api/core/orchestration.py'
-    pytest_paths["rbac"]='misttests/api/core/rbac.py'
+    pytest_paths["rbac"]='misttests/api/io/rbac.py'
 
     declare -A behave_tags
 
