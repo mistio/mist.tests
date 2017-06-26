@@ -113,8 +113,8 @@ Feature: Machines
     When I click the "ui-test-create-machine-random" "machine"
     Then I expect the "machine" edit form to be visible within max 5 seconds
     When I click the button "Start" from the menu of the "machine" edit form
-    Then I expect the dialog "Start 1 Machines" is open within 4 seconds
-    And I click the "Start" button in the dialog "Start 1 Machines"
+    Then I expect the dialog "Start 1 Machine" is open within 4 seconds
+    And I click the "Start" button in the dialog "Start 1 Machine"
     Then I visit the Machines page
     Then "ui-test-create-machine-random" machine state has to be "running" within 40 seconds
 
