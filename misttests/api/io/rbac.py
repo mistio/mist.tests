@@ -134,14 +134,14 @@ class TestRbacFunctionality:
 
 
 ########################
-# switch between orgs?
 # show team
-# edit team
-# invite member
-########################
 
-# show_user_invitations
+# edit team
 
 # delete team
 
+# invite member
+# show_user_invitations
+########################
+# switch between orgs?
 # delete member
