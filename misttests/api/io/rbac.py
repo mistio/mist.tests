@@ -27,7 +27,7 @@ def test_create_org_wrong_api_token(pretty_print, mist_core, owner_api_token):
     print "Success!!!"
 
 
-def test_add_org_wrong_api_token(pretty_print, mist_core, owner_api_token):
+def test_add_team_wrong_api_token(pretty_print, mist_core, owner_api_token):
     response = mist_core.add_team(api_token='00' + owner_api_token[:-2],
                                   name='test_team', org_id='dummy').post()
     assert_response_unauthorized(response)
@@ -38,6 +38,18 @@ def test_add_team_no_api_token(pretty_print, mist_core):
     response = mist_core.add_team(api_token='',
                                   name='test_org', org_id='dummy').post()
     assert_response_forbidden(response)
+    print "Success!!!"
+
+
+def test_list_orgs_no_api_token(pretty_print, mist_core):
+    response = mist_core.list_orgs(api_token='').get()
+    assert_response_unauthorized(response)
+    print "Success!!!"
+
+
+def test_list_orgs_wrong_api_token(pretty_print, mist_core, owner_api_token):
+    response = mist_core.list_orgs(api_token='00' + owner_api_token[:-2]).get()
+    assert_response_unauthorized(response)
     print "Success!!!"
 
 
@@ -70,7 +82,6 @@ class TestRbacFunctionality:
         name = 'test_org_%d' % random.randint(1, 2000)
         response = mist_core.create_org(api_token=owner_api_token, name=name).post()
         cache.set('org_id', response.json()['id'])
-        import ipdb;ipdb.set_trace()
         assert_response_ok(response)
         response = mist_core.create_org(api_token=owner_api_token, name=name).post()
         assert_response_conflict(response)
@@ -94,11 +105,11 @@ class TestRbacFunctionality:
     #     import ipdb;ipdb.set_trace()
 
 
-# list_orgs
+
+
 
 # show_org
 # show_user_org
-
 # show_user_invitations
 
 # add team
