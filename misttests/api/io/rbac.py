@@ -82,12 +82,21 @@ class TestRbacFunctionality:
         assert_response_ok(response)
         print "Success!!!"
 
-    def test_show_user_org(self, pretty_print, mist_core, owner_api_token):
+    def test_show_user_org(self, pretty_print, mist_core, owner_api_token, cache):
         response = mist_core.show_user_org(api_token=owner_api_token).get()
         assert response.json()['members_count'] == 1, "The brand new org has more than 1 members!!!"
         assert len(response.json()['teams']) == 1, "The brand new org has more than 1 teams!!!"
         assert response.json()['teams'][0]['name'] == 'Owners', "The default team was not owners!!!"
+        cache.set('default_org_id',response.json()['id'])
         print "Success!!!"
+
+    def test_add_team(self, pretty_print, mist_core, owner_api_token, cache):
+        response = mist_core.add_team(api_token=owner_api_token,
+                                      name='test_team', org_id=cache.get('default_org_id', '')).post()
+        import ipdb;ipdb.set_trace()
+        assert_response_ok(response)
+        print "Success!!!"
+
 
     # def test_create_org(self, pretty_print, mist_core, owner_api_token, cache):
     #     name = 'test_org_%d' % random.randint(1, 2000)
@@ -98,24 +107,18 @@ class TestRbacFunctionality:
     #     assert_response_conflict(response)
     #     print "Success!!!"
 
-    # def test_add_team(self, pretty_print, mist_core, owner_api_token, cache):
-    #     response = mist_core.add_team(api_token=owner_api_token,
-    #                                   name='test_team', org_id=cache.get('org_id', '')).post()
-    #     import ipdb;ipdb.set_trace()
 
 
-
-
-
-# show_user_invitations
-
-# switch between orgs?
 
 # add team
 # list teams
+# switch between orgs?
 # show team
 # edit team
+# invite member
+
+# show_user_invitations
+
 # delete team
 
-# invite member
 # delete member
