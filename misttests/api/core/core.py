@@ -34,7 +34,7 @@ class MistCoreApi(MistIoApi):
         req.put = req.unavailable_api_call
         return req
 
-    def add_team(self, api_token, org_id, name, description=None):
+    def add_team(self, api_token, org_id, name='', description=None):
         data = {'name': name,
                 }
         if description is not None:
