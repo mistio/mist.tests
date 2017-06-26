@@ -64,6 +64,8 @@ def test_show_user_org_no_api_token(pretty_print, mist_core):
     assert_response_unauthorized(response)
     print "Success!!!"
 
+    #wrong org_id
+
 # def test_add_team_missing_parameter(pretty_print, mist_core, owner_api_token):
 #     response = mist_core.add_team(api_token=owner_api_token, name='test_team', org_id='dummy').post()
 #     assert_response_bad_request(response)
@@ -92,8 +94,10 @@ class TestRbacFunctionality:
 
     def test_add_team(self, pretty_print, mist_core, owner_api_token, cache):
         response = mist_core.add_team(api_token=owner_api_token,
+                                      org_id=cache.get('default_org_id', '')).post()
+        assert_response_bad_request(response)
+        response = mist_core.add_team(api_token=owner_api_token,
                                       name='test_team', org_id=cache.get('default_org_id', '')).post()
-        import ipdb;ipdb.set_trace()
         assert_response_ok(response)
         print "Success!!!"
 
@@ -110,12 +114,12 @@ class TestRbacFunctionality:
 
 
 
-# add team
 # list teams
 # switch between orgs?
 # show team
 # edit team
 # invite member
+########################
 
 # show_user_invitations
 
