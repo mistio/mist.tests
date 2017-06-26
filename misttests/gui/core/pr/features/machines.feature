@@ -103,8 +103,8 @@ Feature: Machines
   @machine-stop
   Scenario: Stop machine created above and check state
     When I click the button "Stop" from the menu of the "machine" edit form
-    Then I expect the dialog "Stop 1 Machine" is open within 4 seconds
-    And I click the "Stop" button in the dialog "Stop 1 Machine"
+    Then I expect the dialog "Stop Machine" is open within 4 seconds
+    And I click the "Stop" button in the dialog "Stop Machine"
     Then I visit the Machines page
     Then "ui-test-create-machine-random" machine state has to be "stopped" within 40 seconds
 
@@ -113,8 +113,8 @@ Feature: Machines
     When I click the "ui-test-create-machine-random" "machine"
     Then I expect the "machine" edit form to be visible within max 5 seconds
     When I click the button "Start" from the menu of the "machine" edit form
-    Then I expect the dialog "Start 1 Machine" is open within 4 seconds
-    And I click the "Start" button in the dialog "Start 1 Machine"
+    Then I expect the dialog "Start Machine" is open within 4 seconds
+    And I click the "Start" button in the dialog "Start Machine"
     Then I visit the Machines page
     Then "ui-test-create-machine-random" machine state has to be "running" within 40 seconds
 
@@ -129,7 +129,7 @@ Feature: Machines
     And I expect the "machine" edit form to be visible within max 5 seconds
     And I wait for 2 seconds
     Then I click the button "Destroy" from the menu of the "machine" edit form
-    And I expect the dialog "Destroy 1 Machines" is open within 4 seconds
-    And I click the "Destroy" button in the dialog "Destroy 1 Machines"
+    And I expect the dialog "Destroy Machine" is open within 4 seconds
+    And I click the "Destroy" button in the dialog "Destroy Machine"
     Then I visit the Machines page
     Then "ui-test-create-machine-random" machine should be absent within 60 seconds
