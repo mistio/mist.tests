@@ -78,14 +78,13 @@ class TestRbacFunctionality:
 
     def test_list_orgs(self, pretty_print, mist_core, owner_api_token, cache):
         response = mist_core.list_orgs(api_token=owner_api_token).get()
-        assert len(response.json()) == 2, "User should belong to 2 orgs, but instead belongs to %s" % len(response.json())
+        assert len(response.json()) == 1, "User should belong to 1 orgs, but instead belongs to %s" % len(response.json())
         assert_response_ok(response)
         print "Success!!!"
 
     def test_show_user_org(self, pretty_print, mist_core, owner_api_token):
         response = mist_core.show_user_org(api_token=owner_api_token).get()
-        import ipdb;ipdb.set_trace()
-        assert len(response.json()['members_count']) == 1, "The brand new org has more than 1 members!!!"
+        assert response.json()['members_count'] == 1, "The brand new org has more than 1 members!!!"
         assert len(response.json()['teams']) == 1, "The brand new org has more than 1 teams!!!"
         print "Success!!!"
 
