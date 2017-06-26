@@ -63,20 +63,10 @@ def test_add_team_no_api_token(pretty_print, mist_core):
 @pytest.mark.incremental
 class TestRbacFunctionality:
 
-    def test_add_template_missing_parameter(self, pretty_print, mist_core, owner_api_token):
-        response = mist_core.add_template(api_token=owner_api_token, name='Template1', location_type='github',
-                                          template_github='https://github.com/mistio/kubernetes-blueprint').post()
-        assert_response_bad_request(response)
-        response = mist_core.add_template(api_token=owner_api_token, name='Template1', location_type='github',
-                                          template_github='',
-                                          entrypoint='blueprint.yaml').post()
-        assert_response_bad_request(response)
-        response = mist_core.add_template(api_token=owner_api_token, name='Template1', location_type='url',
-                                          template_github='https://github.com/mistio/kubernetes-blueprint',
-                                          entrypoint='blueprint.yaml').post()
-        assert_response_bad_request(response)
-        response = mist_core.add_template(api_token=owner_api_token, name='Template1', location_type='inline',
-                                          template_github='https://github.com/mistio/kubernetes-blueprint',
-                                          entrypoint='blueprint.yaml').post()
-        assert_response_bad_request(response)
+    def test_create_org(self, pretty_print, mist_core, owner_api_token, cache):
+        name = 'test_org_%d' % random.randint(1, 2000)
+        response = mist_core.create_org(api_token=owner_api_token, name=name).post()
+        # cache.set('template_id', response.json()['id'])
+        import ipdb;ipdb.set_trace()
+        assert_response_ok(response)
         print "Success!!!"
