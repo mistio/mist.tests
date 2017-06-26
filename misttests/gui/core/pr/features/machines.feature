@@ -102,6 +102,7 @@ Feature: Machines
 
   @machine-stop
   Scenario: Stop machine created above and check state
+    And I wait for 1 seconds
     When I click the button "Stop" from the menu of the "machine" edit form
     Then I expect the dialog "Stop Machine" is open within 4 seconds
     And I click the "Stop" button in the dialog "Stop Machine"
