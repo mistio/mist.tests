@@ -53,6 +53,24 @@ def test_list_orgs_wrong_api_token(pretty_print, mist_core, owner_api_token):
     print "Success!!!"
 
 
+def test_list_teams_no_api_token(pretty_print, mist_core):
+    response = mist_core.list_teams(api_token='', org_id='dummy').get()
+    assert_response_unauthorized(response)
+    print "Success!!!"
+
+
+def test_list_teams_wrong_api_token(pretty_print, mist_core, owner_api_token):
+    response = mist_core.list_teams(api_token='00' + owner_api_token[:-2], org_id='dummy').get()
+    assert_response_unauthorized(response)
+    print "Success!!!"
+
+
+def test_list_teams_wrong_org_id(pretty_print, mist_core, owner_api_token):
+    response = mist_core.list_teams(api_token=owner_api_token, org_id='dummy').get()
+    assert_response_unauthorized(response)
+    print "Success!!!"
+
+
 def test_show_user_org_wrong_api_token(pretty_print, mist_core, owner_api_token):
     response = mist_core.show_user_org(api_token='00' + owner_api_token[:-2]).get()
     assert_response_unauthorized(response)
@@ -63,13 +81,6 @@ def test_show_user_org_no_api_token(pretty_print, mist_core):
     response = mist_core.show_user_org(api_token='').get()
     assert_response_unauthorized(response)
     print "Success!!!"
-
-    #wrong org_id
-
-# def test_add_team_missing_parameter(pretty_print, mist_core, owner_api_token):
-#     response = mist_core.add_team(api_token=owner_api_token, name='test_team', org_id='dummy').post()
-#     assert_response_bad_request(response)
-#     print "Success!!!"
 
 ############################################################################
 #                          Functional Testing                              #
@@ -102,6 +113,9 @@ class TestRbacFunctionality:
         print "Success!!!"
 
 
+# list teams success
+
+
     # def test_create_org(self, pretty_print, mist_core, owner_api_token, cache):
     #     name = 'test_org_%d' % random.randint(1, 2000)
     #     response = mist_core.create_org(api_token=owner_api_token, name=name).post()
@@ -114,7 +128,6 @@ class TestRbacFunctionality:
 
 
 
-# list teams
 # switch between orgs?
 # show team
 # edit team
