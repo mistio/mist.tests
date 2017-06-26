@@ -69,4 +69,6 @@ class TestRbacFunctionality:
         # cache.set('template_id', response.json()['id'])
         import ipdb;ipdb.set_trace()
         assert_response_ok(response)
+        response = mist_core.create_org(api_token=owner_api_token, name=name).post()
+        assert_response_conflict(response)
         print "Success!!!"
