@@ -66,8 +66,7 @@ class TestRbacFunctionality:
     def test_create_org(self, pretty_print, mist_core, owner_api_token, cache):
         name = 'test_org_%d' % random.randint(1, 2000)
         response = mist_core.create_org(api_token=owner_api_token, name=name).post()
-        # cache.set('template_id', response.json()['id'])
-        import ipdb;ipdb.set_trace()
+        cache.set('org_id', response.json()['id'])
         assert_response_ok(response)
         response = mist_core.create_org(api_token=owner_api_token, name=name).post()
         assert_response_conflict(response)
