@@ -80,6 +80,10 @@ class TestRbacFunctionality:
         response = mist_core.list_orgs(api_token=owner_api_token).get()
         import ipdb;
         ipdb.set_trace()
+        assert len(response.json()) == 2, "User should belong to 2 orgs, but instead belongs to %s" % response.json()
+        assert_response_ok(response)
+        print "Success!!!"
+
 
     # def test_show_user_org(self, pretty_print, mist_core, owner_api_token):
     #     response = mist_core.show_user_org(api_token=owner_api_token).get()
@@ -91,6 +95,8 @@ class TestRbacFunctionality:
     #                                   name='test_team', org_id=cache.get('org_id', '')).post()
     #     import ipdb;ipdb.set_trace()
 
+
+# list_orgs
 
 # show_org
 # show_user_org
