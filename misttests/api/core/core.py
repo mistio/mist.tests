@@ -16,15 +16,6 @@ class MistCoreApi(MistIoApi):
         req.put = req.unavailable_api_call
         return req
 
-    def show_org(self, api_token, org_id):
-        req = MistRequests(uri=self.uri + '/api/v1/org/%s' % org_id,
-                           api_token=api_token)
-
-        req.post = req.unavailable_api_call
-        req.delete = req.unavailable_api_call
-        req.put = req.unavailable_api_call
-        return req
-
     def show_user_org(self, api_token):
         req = MistRequests(uri=self.uri + '/api/v1/org',
                            api_token=api_token)
