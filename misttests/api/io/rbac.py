@@ -103,6 +103,12 @@ class TestRbacFunctionality:
         cache.set('default_org_id',response.json()['id'])
         print "Success!!!"
 
+    def test_list_teams(self, pretty_print, mist_core, owner_api_token, cache):
+        response = mist_core.list_teams(api_token=owner_api_token, org_id=cache.get('default_org_id', '')).get()
+        assert_response_ok(response)
+        assert len(response.json()) == 1, "The brand new org has more than 1 teams!!!"
+        print "Success!!!"
+
     def test_add_team(self, pretty_print, mist_core, owner_api_token, cache):
         response = mist_core.add_team(api_token=owner_api_token,
                                       org_id=cache.get('default_org_id', '')).post()
@@ -110,10 +116,10 @@ class TestRbacFunctionality:
         response = mist_core.add_team(api_token=owner_api_token,
                                       name='test_team', org_id=cache.get('default_org_id', '')).post()
         assert_response_ok(response)
+        response = mist_core.list_teams(api_token=owner_api_token, org_id=cache.get('default_org_id', '')).get()
+        assert_response_ok(response)
+        assert len(response.json()) == 2, "Although a new team was added, it is not visible in list_teams request!!!"
         print "Success!!!"
-
-
-# list teams success
 
 
     # def test_create_org(self, pretty_print, mist_core, owner_api_token, cache):
@@ -127,7 +133,7 @@ class TestRbacFunctionality:
 
 
 
-
+########################
 # switch between orgs?
 # show team
 # edit team
