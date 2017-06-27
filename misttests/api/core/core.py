@@ -66,7 +66,7 @@ class MistCoreApi(MistIoApi):
         req.put = req.unavailable_api_call
         return req
 
-    def edit_team(self, api_token, org_id, team_id, name, visibility= None,
+    def edit_team(self, api_token, org_id, team_id, name, visibility=None,
                   description=None,):
         data = {'new_name': name,
                 }
