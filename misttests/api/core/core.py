@@ -94,7 +94,7 @@ class MistCoreApi(MistIoApi):
         return req
 
     def invite_member_to_team(self, api_token, org_id, team_id, email):
-        data = {'email': email}
+        data = {'emails': email}
         req = MistRequests(uri=self.uri + '/api/v1/org/%s/teams/%s/members' %
                                           (org_id, team_id),
                            api_token=api_token, data=data)
