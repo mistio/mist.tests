@@ -55,6 +55,24 @@ def test_edit_team_wrong_api_token(pretty_print, mist_core, owner_api_token):
     print "Success!!!"
 
 
+def test_edit_team_wrong_org_id(pretty_print, mist_core, owner_api_token):
+    response = mist_core.edit_team(api_token=owner_api_token,
+                                   name='test_team', org_id='dummy', team_id='dummy').put()
+    assert_response_unauthorized(response)
+    print "Success!!!"
+
+
+def test_delete_team_no_api_token(pretty_print, mist_core):
+    response = mist_core.delete_team(api_token='', team_id= 'dummy',
+                                     org_id='dummy').delete()
+    assert_response_forbidden(response)
+    print "Success!!!"
+
+## delete team wrong token
+# delete team wrong org_id
+
+
+
 def test_list_orgs_no_api_token(pretty_print, mist_core):
     response = mist_core.list_orgs(api_token='').get()
     assert_response_unauthorized(response)
@@ -96,9 +114,6 @@ def test_show_user_org_no_api_token(pretty_print, mist_core):
     assert_response_unauthorized(response)
     print "Success!!!"
 
-
-# edit_team wrong org_id
-
 ############################################################################
 #                          Functional Testing                              #
 ############################################################################
@@ -138,9 +153,18 @@ class TestRbacFunctionality:
         assert len(response.json()) == 2, "Although a new team was added, it is not visible in list_teams request!!!"
         print "Success!!!"
 
-# edit team wrong team_id,
+    def test_edit_team_wrong_team_id(self, pretty_print, mist_core, owner_api_token, cache):
+        response = mist_core.edit_team(api_token=owner_api_token,org_id=cache.get('default_org_id', ''),
+                                       name='dummy', team_id= 'dummy').put()
+        assert_response_not_found(response)
+        print "Success!!!"
+
 
 # edit team successfully update name and description
+# delete team wrong_team_id
+# delete team success
+
+
 
         # def test_create_org(self, pretty_print, mist_core, owner_api_token, cache):
     #     name = 'test_org_%d' % random.randint(1, 2000)
@@ -154,11 +178,6 @@ class TestRbacFunctionality:
 
 ########################
 # show team
-
-# edit team
-
-# delete team
-
 # invite member
 # show_user_invitations
 ########################
