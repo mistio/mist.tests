@@ -192,22 +192,21 @@ class TestRbacFunctionality:
         assert len(response.json()) == 1, "Although team was deleted, it is still visible in list_teams"
         print "Success!!!"
 
+    def test_create_org(self, pretty_print, mist_core, owner_api_token, cache):
+        name = 'test_org_%d' % random.randint(1, 2000)
+        response = mist_core.create_org(api_token=owner_api_token, name=name).post()
+        cache.set('org_id', response.json()['id'])
+        assert_response_ok(response)
+        response = mist_core.create_org(api_token=owner_api_token, name=name).post()
+        assert_response_conflict(response)
+        print "Success!!!"
 
+
+########################
 # switch between orgs?
 # show team
 
 
-    # def test_create_org(self, pretty_print, mist_core, owner_api_token, cache):
-    #     name = 'test_org_%d' % random.randint(1, 2000)
-    #     response = mist_core.create_org(api_token=owner_api_token, name=name).post()
-    #     cache.set('org_id', response.json()['id'])
-    #     assert_response_ok(response)
-    #     response = mist_core.create_org(api_token=owner_api_token, name=name).post()
-    #     assert_response_conflict(response)
-    #     print "Success!!!"
-
-
-########################
 # invite member
 # show_user_invitations
 # delete member
