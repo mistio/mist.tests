@@ -62,6 +62,27 @@ def test_edit_team_wrong_org_id(pretty_print, mist_core, owner_api_token):
     print "Success!!!"
 
 
+def test_show_team_no_api_token(pretty_print, mist_core):
+    response = mist_core.show_team(api_token='', team_id= 'dummy',
+                                   org_id='dummy').get()
+    assert_response_unauthorized(response)
+    print "Success!!!"
+
+
+def test_show_team_wrong_api_token(pretty_print, mist_core, owner_api_token):
+    response = mist_core.show_team(api_token='00' + owner_api_token[:-2],
+                                   org_id='dummy', team_id='dummy').get()
+    assert_response_unauthorized(response)
+    print "Success!!!"
+
+
+def test_show_team_wrong_org_id(pretty_print, mist_core, owner_api_token):
+    response = mist_core.show_team(api_token=owner_api_token,
+                                   org_id='dummy', team_id='dummy').get()
+    assert_response_unauthorized(response)
+    print "Success!!!"
+
+
 def test_delete_team_no_api_token(pretty_print, mist_core):
     response = mist_core.delete_team(api_token='', team_id= 'dummy',
                                      org_id='dummy').delete()
@@ -174,7 +195,13 @@ class TestRbacFunctionality:
         response = mist_core.edit_team(api_token=owner_api_token,org_id=cache.get('default_org_id', ''),
                                        name='Renamed team', team_id=cache.get('team_id', '')).put()
         assert_response_ok(response)
-        assert response.json()['name'] == 'Renamed team', "Although team was renamed, the name has not changed"
+        print "Success!!!"
+
+    def test_show_team(self, pretty_print, mist_core, owner_api_token, cache):
+        response = mist_core.show_team(api_token=owner_api_token,org_id=cache.get('default_org_id', ''),
+                                       team_id=cache.get('team_id', '')).get()
+        assert_response_ok(response)
+        assert response.json()['name'] == 'Renamed team', "Although team was renamed above, the name has not changed"
         print "Success!!!"
 
     def test_delete_team_wrong_team_id(self, pretty_print, mist_core, owner_api_token, cache):
@@ -203,10 +230,18 @@ class TestRbacFunctionality:
 
 
 ########################
-# switch between orgs?
-# show team
+# show team wrong team id
 
+# change team visibility
+########################
 
 # invite member
+
 # show_user_invitations
+########################
 # delete member
+########################
+# switch between orgs?
+
+# check_everything
+########################
