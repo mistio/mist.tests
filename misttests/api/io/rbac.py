@@ -268,25 +268,29 @@ class TestRbacFunctionality:
         assert_response_conflict(response)
         print "Success!!!"
 
-
-
 # show_user_pending_invitations
-# confirm invitation
-########################
-# for member verify that he cannot see non-visible team
-# delete member
-# delete teams
 
-# non-owner invites, should fail
-########################
-# '''
-#    There are three cases:
+
 #    1) If user is not a member of the organization:
-#        a) If user is registered in the service then an email will be sent with
+#       If user is registered in the service then an email will be sent with
 #           a link to confirm the invitation
-#        b) If user is not registered then a new entry will be created and an
+
+
+# If user is not registered then a new entry will be created and an
 #           email will be sent inviting him to set a password and confirm his
 #           invitation to the organization
-#    2) User is already a member then add the user directly to the organization
-#       and send an email notification about the change in status.
-#    """
+
+
+# confirm invitation
+
+
+# for member verify that he cannot see non-visible team
+
+
+# delete member
+
+
+# delete teams
+
+
+# non-owner invites, should fail
