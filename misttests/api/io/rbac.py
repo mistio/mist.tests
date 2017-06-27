@@ -179,12 +179,20 @@ class TestRbacFunctionality:
 
     def test_delete_team_wrong_team_id(self, pretty_print, mist_core, owner_api_token, cache):
         response = mist_core.delete_team(api_token=owner_api_token,org_id=cache.get('default_org_id', ''),
-                                         team_id= 'dummy').delete()
+                                         team_id='dummy').delete()
         assert_response_not_found(response)
         print "Success!!!"
 
+    def test_delete_team(self, pretty_print, mist_core, owner_api_token, cache):
+        response = mist_core.delete_team(api_token=owner_api_token,org_id=cache.get('default_org_id', ''),
+                                         team_id=cache.get('team_id', '')).delete()
+        assert_response_ok(response)
+        print "Success!!!"
+        response = mist_core.list_teams(api_token=owner_api_token, org_id=cache.get('default_org_id', '')).get()
+        assert_response_ok(response)
+        assert len(response.json()) == 1, "The brand new org has more than 1 teams!!!"
+        print "Success!!!"
 
-# delete team success
 
 # switch between orgs?
 # show team
