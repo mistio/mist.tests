@@ -41,6 +41,20 @@ def test_add_team_no_api_token(pretty_print, mist_core):
     print "Success!!!"
 
 
+def test_edit_team_no_api_token(pretty_print, mist_core):
+    response = mist_core.edit_team(api_token='', team_id= 'dummy',
+                                   name='test_org', org_id='dummy').put()
+    assert_response_forbidden(response)
+    print "Success!!!"
+
+
+def test_edit_team_wrong_api_token(pretty_print, mist_core, owner_api_token):
+    response = mist_core.edit_team(api_token='00' + owner_api_token[:-2],
+                                   name='test_team', org_id='dummy', team_id='dummy').put()
+    assert_response_unauthorized(response)
+    print "Success!!!"
+
+
 def test_list_orgs_no_api_token(pretty_print, mist_core):
     response = mist_core.list_orgs(api_token='').get()
     assert_response_unauthorized(response)
@@ -82,6 +96,9 @@ def test_show_user_org_no_api_token(pretty_print, mist_core):
     assert_response_unauthorized(response)
     print "Success!!!"
 
+
+# edit_team wrong org_id
+
 ############################################################################
 #                          Functional Testing                              #
 ############################################################################
@@ -121,8 +138,11 @@ class TestRbacFunctionality:
         assert len(response.json()) == 2, "Although a new team was added, it is not visible in list_teams request!!!"
         print "Success!!!"
 
+# edit team wrong team_id,
 
-    # def test_create_org(self, pretty_print, mist_core, owner_api_token, cache):
+# edit team successfully update name and description
+
+        # def test_create_org(self, pretty_print, mist_core, owner_api_token, cache):
     #     name = 'test_org_%d' % random.randint(1, 2000)
     #     response = mist_core.create_org(api_token=owner_api_token, name=name).post()
     #     cache.set('org_id', response.json()['id'])
@@ -130,7 +150,6 @@ class TestRbacFunctionality:
     #     response = mist_core.create_org(api_token=owner_api_token, name=name).post()
     #     assert_response_conflict(response)
     #     print "Success!!!"
-
 
 
 ########################
