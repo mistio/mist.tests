@@ -75,7 +75,12 @@ def test_delete_team_wrong_api_token(pretty_print, mist_core, owner_api_token):
     assert_response_unauthorized(response)
     print "Success!!!"
 
-# delete team wrong org_id
+
+def test_delete_team_wrong_org_id(pretty_print, mist_core, owner_api_token):
+    response = mist_core.delete_team(api_token=owner_api_token,
+                                     org_id='dummy', team_id='dummy').delete()
+    assert_response_unauthorized(response)
+    print "Success!!!"
 
 
 def test_list_orgs_no_api_token(pretty_print, mist_core):
@@ -172,10 +177,17 @@ class TestRbacFunctionality:
         assert response.json()['name'] == 'Renamed team'
         print "Success!!!"
 
+    def test_delete_team_wrong_team_id(self, pretty_print, mist_core, owner_api_token, cache):
+        response = mist_core.delete_team(api_token=owner_api_token,org_id=cache.get('default_org_id', ''),
+                                         team_id= 'dummy').delete()
+        assert_response_not_found(response)
+        print "Success!!!"
 
-# delete team wrong_team_id
+
 # delete team success
 
+# switch between orgs?
+# show team
 
 
     # def test_create_org(self, pretty_print, mist_core, owner_api_token, cache):
@@ -189,9 +201,6 @@ class TestRbacFunctionality:
 
 
 ########################
-# show team
 # invite member
 # show_user_invitations
-########################
-# switch between orgs?
 # delete member
