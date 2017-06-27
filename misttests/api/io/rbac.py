@@ -68,9 +68,14 @@ def test_delete_team_no_api_token(pretty_print, mist_core):
     assert_response_forbidden(response)
     print "Success!!!"
 
-## delete team wrong token
-# delete team wrong org_id
 
+def test_delete_team_wrong_api_token(pretty_print, mist_core, owner_api_token):
+    response = mist_core.delete_team(api_token='00' + owner_api_token[:-2],
+                                     name='test_team', org_id='dummy', team_id='dummy').delete()
+    assert_response_unauthorized(response)
+    print "Success!!!"
+
+# delete team wrong org_id
 
 
 def test_list_orgs_no_api_token(pretty_print, mist_core):
