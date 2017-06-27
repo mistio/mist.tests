@@ -166,6 +166,18 @@ def test_invite_member_wrong_org_id(pretty_print, mist_core, owner_api_token):
     assert_response_unauthorized(response)
     print "Success!!!"
 
+
+def test_show_pending_invitations_no_api_token(pretty_print, mist_core):
+    response = mist_core.show_user_invitations(api_token='').get()
+    assert_response_unauthorized(response)
+    print "Success!!!"
+
+
+def test_show_pending_invitations_wrong_api_token(pretty_print, mist_core, owner_api_token):
+    response = mist_core.show_user_invitations(api_token='00' + owner_api_token[:-2]).get()
+    assert_response_unauthorized(response)
+    print "Success!!!"
+
 ############################################################################
 #                          Functional Testing                              #
 ############################################################################
@@ -268,9 +280,14 @@ class TestRbacFunctionality:
         assert_response_conflict(response)
         print "Success!!!"
 
-# show_user_pending_invitations
+    # def test_show_pending_invitations(self, pretty_print, mist_core, owner_api_token):
+    #     response = mist_core.show_user_invitations(api_token=owner_api_token).get()
 
 
+
+
+
+########################################################################################
 #    1) If user is not a member of the organization:
 #       If user is registered in the service then an email will be sent with
 #           a link to confirm the invitation
@@ -283,14 +300,12 @@ class TestRbacFunctionality:
 
 # confirm invitation
 
+# show_pending_invitations_ok
 
 # for member verify that he cannot see non-visible team
 
-
 # delete member
 
-
 # delete teams
-
 
 # non-owner invites, should fail
