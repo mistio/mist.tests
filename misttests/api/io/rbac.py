@@ -145,6 +145,20 @@ import pytest
 #     assert_response_unauthorized(response)
 #     print "Success!!!"
 
+
+def test_invite_member_no_api_token(pretty_print, mist_core):
+    response = mist_core.invite_member_to_team(api_token='', org_id='dummy',
+                                               team_id='dummy', email='').post()
+    assert_response_forbidden(response)
+    print "Success!!!"
+
+
+def test_invite_member_wrong_api_token(pretty_print, mist_core, owner_api_token):
+    response = mist_core.invite_member_to_team(api_token='00' + owner_api_token[:-2], org_id='dummy',
+                                               team_id='dummy', email='').post()
+    assert_response_unauthorized(response)
+    print "Success!!!"
+
 ############################################################################
 #                          Functional Testing                              #
 ############################################################################
@@ -220,6 +234,7 @@ class TestRbacFunctionality:
     def test_invite_member(self, pretty_print, mist_core, owner_api_token, cache, member1_email):
         response = mist_core.invite_member_to_team(api_token=owner_api_token, org_id=cache.get('default_org_id',''),
                                                    team_id=cache.get('team_id', ''), email=member1_email).post()
+        import ipdb;ipdb.set_trace()
         assert_response_ok(response)
         print "Success!!!"
 
@@ -242,7 +257,11 @@ class TestRbacFunctionality:
         print "Success!!!"
 
 
-# invite member
+
+# wrong org_id
+# wrong team_id
+# wrong email
+
 # show_user_pending_invitations
 # confirm invitation
 ########################
