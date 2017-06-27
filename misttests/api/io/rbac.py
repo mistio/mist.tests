@@ -179,6 +179,7 @@ class TestRbacFunctionality:
         response = mist_core.add_team(api_token=owner_api_token,
                                       name='test_team', org_id=cache.get('default_org_id', '')).post()
         cache.set('team_id', response.json()['id'])
+        assert response.json()['visible'], "Team added is non-visible by default!!!"
         assert_response_ok(response)
         response = mist_core.list_teams(api_token=owner_api_token, org_id=cache.get('default_org_id', '')).get()
         assert_response_ok(response)
@@ -236,12 +237,11 @@ class TestRbacFunctionality:
 
 
 ########################
-# change team visibility
-
 # invite member
 
 # show_user_invitations
 ########################
+# for member verify that he cannot see non-visible team
 # delete member
 ########################
 # switch between orgs?
