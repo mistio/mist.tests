@@ -238,6 +238,12 @@ class TestRbacFunctionality:
         assert_response_not_found(response)
         print "Success!!!"
 
+    def test_invite_member_wrong_team_id(self, pretty_print, mist_core, owner_api_token, cache, member1_email):
+        response = mist_core.invite_member_to_team(api_token=owner_api_token, org_id=cache.get('default_org_id',''),
+                                                   team_id='dummy', email=member1_email).post()
+        assert_response_not_found(response)
+        print "Success!!!"
+
     def test_invite_member(self, pretty_print, mist_core, owner_api_token, cache, member1_email):
         response = mist_core.invite_member_to_team(api_token=owner_api_token, org_id=cache.get('default_org_id',''),
                                                    team_id=cache.get('team_id', ''), email=member1_email).post()
@@ -263,8 +269,6 @@ class TestRbacFunctionality:
         print "Success!!!"
 
 
-# wrong team_id
-# wrong email
 
 # show_user_pending_invitations
 # confirm invitation
