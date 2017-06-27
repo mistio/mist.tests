@@ -59,7 +59,8 @@ def owner_password():
 
 @pytest.fixture
 def member1_email():
-    return config.MEMBER1_EMAIL
+    BASE_EMAIL = config.BASE_EMAIL
+    return "%s+%d@gmail.com" % (BASE_EMAIL, random.randint(1, 200000))
 
 
 @pytest.fixture
@@ -69,7 +70,8 @@ def member1_password():
 
 @pytest.fixture
 def member2_email():
-    return config.MEMBER2_EMAIL
+    BASE_EMAIL = config.BASE_EMAIL
+    return "%s+%d@gmail.com" % (BASE_EMAIL, random.randint(1, 200000))
 
 
 @pytest.fixture
