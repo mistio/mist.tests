@@ -74,7 +74,7 @@ class MistCoreApi(MistIoApi):
         if description is not None:
             data.update({'new_description': description})
         if visibility is not None:
-            data.update({'new_visibility': visibility})
+            data.update({'new_visible': visibility})
         req = MistRequests(uri=self.uri + '/api/v1/org/%s/teams/%s'
                                           % (org_id, team_id), data=data,
                            api_token=api_token)
