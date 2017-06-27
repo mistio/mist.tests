@@ -71,7 +71,7 @@ def test_delete_team_no_api_token(pretty_print, mist_core):
 
 def test_delete_team_wrong_api_token(pretty_print, mist_core, owner_api_token):
     response = mist_core.delete_team(api_token='00' + owner_api_token[:-2],
-                                     name='test_team', org_id='dummy', team_id='dummy').delete()
+                                     org_id='dummy', team_id='dummy').delete()
     assert_response_unauthorized(response)
     print "Success!!!"
 
@@ -152,6 +152,7 @@ class TestRbacFunctionality:
         assert_response_bad_request(response)
         response = mist_core.add_team(api_token=owner_api_token,
                                       name='test_team', org_id=cache.get('default_org_id', '')).post()
+        cache.set('team_id', response.json()['id'])
         assert_response_ok(response)
         response = mist_core.list_teams(api_token=owner_api_token, org_id=cache.get('default_org_id', '')).get()
         assert_response_ok(response)
@@ -164,14 +165,20 @@ class TestRbacFunctionality:
         assert_response_not_found(response)
         print "Success!!!"
 
+    def test_edit_team(self, pretty_print, mist_core, owner_api_token, cache):
+        response = mist_core.edit_team(api_token=owner_api_token,org_id=cache.get('default_org_id', ''),
+                                       name='Renamed team', team_id=cache.get('team_id', '')).put()
+        assert_response_ok(response)
+        assert response.json()['name'] == 'Renamed team'
+        print "Success!!!"
 
-# edit team successfully update name and description
+
 # delete team wrong_team_id
 # delete team success
 
 
 
-        # def test_create_org(self, pretty_print, mist_core, owner_api_token, cache):
+    # def test_create_org(self, pretty_print, mist_core, owner_api_token, cache):
     #     name = 'test_org_%d' % random.randint(1, 2000)
     #     response = mist_core.create_org(api_token=owner_api_token, name=name).post()
     #     cache.set('org_id', response.json()['id'])
