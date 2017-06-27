@@ -179,17 +179,16 @@ def member1_api_token(request):
     _mist_core = mist_core()
     email = member1_email()
     password = member1_password()
+    setup_user_if_not_exists(email, password)
     personal_api_token = common_valid_api_token(request,
                                                 email=email,
                                                 password=password)
-    _org_name = org_name()
     response = _mist_core.list_orgs(api_token=personal_api_token).get()
     assert_response_ok(response)
     org_id = None
-    for org in response.json():
-        if _org_name == org['name']:
-            org_id = org['id']
-            break
+    org = response.json()
+
+    org_id = org[0]['id']
     assert_is_not_none(org_id)
 
     return common_valid_api_token(request,
