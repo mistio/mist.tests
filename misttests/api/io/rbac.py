@@ -285,14 +285,16 @@ class TestRbacFunctionality:
 
     def test_show_pending_invitations(self, pretty_print, mist_core, member1_api_token):
         response = mist_core.show_user_invitations(api_token=member1_api_token).get()
-        import ipdb; ipdb.set_trace()
-
+        assert_response_ok(response)
+        assert len(response.json()) == 1, "Although member has been invited, there are no pending invitations!!!"
+        print "Success"
+        
 # confirm invitation
 
 # for member verify that he cannot see non-visible team
 
 # delete member
 
-# delete teams
+# delete team / teams
 
 # non-owner invites, should fail
