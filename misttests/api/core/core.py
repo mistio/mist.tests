@@ -105,8 +105,8 @@ class MistCoreApi(MistIoApi):
         return req
 
     def confirm_invitation(self, api_token, invitoken):
-        payload = {'invitoken': invitoken}
-        req = MistRequests(uri=self.uri + '/confirm-invitation?invitoken=%s' % invitoken,
+        req = MistRequests(uri=self.uri + '/confirm-invitation?invitoken=%s' %
+                                          invitoken,
                            api_token=api_token)
         req.post = req.unavailable_api_call
         req.delete = req.unavailable_api_call
