@@ -205,7 +205,6 @@ class TestRbacFunctionality:
     def test_list_teams(self, pretty_print, mist_core, owner_api_token, cache):
         response = mist_core.list_teams(api_token=owner_api_token, org_id=cache.get('default_org_id', '')).get()
         assert_response_ok(response)
-        import ipdb; ipdb.set_trace()
         assert len(response.json()) == 1, "The brand new org has more than 1 teams!!!"
         print "Success!!!"
 
@@ -266,14 +265,14 @@ class TestRbacFunctionality:
         assert_response_ok(response)
         print "Success!!!"
 
-    def test_delete_team(self, pretty_print, mist_core, owner_api_token, cache):
-        response = mist_core.delete_team(api_token=owner_api_token,org_id=cache.get('default_org_id', ''),
-                                         team_id=cache.get('team_id', '')).delete()
-        assert_response_ok(response)
-        response = mist_core.list_teams(api_token=owner_api_token, org_id=cache.get('default_org_id', '')).get()
-        assert_response_ok(response)
-        assert len(response.json()) == 1, "Although team was deleted, it is still visible in list_teams"
-        print "Success!!!"
+    # def test_delete_team(self, pretty_print, mist_core, owner_api_token, cache):
+    #     response = mist_core.delete_team(api_token=owner_api_token,org_id=cache.get('default_org_id', ''),
+    #                                      team_id=cache.get('team_id', '')).delete()
+    #     assert_response_ok(response)
+    #     response = mist_core.list_teams(api_token=owner_api_token, org_id=cache.get('default_org_id', '')).get()
+    #     assert_response_ok(response)
+    #     assert len(response.json()) == 1, "Although team was deleted, it is still visible in list_teams"
+    #     print "Success!!!"
 
     def test_create_org(self, pretty_print, mist_core, owner_api_token, cache):
         name = 'test_org_%d' % random.randint(1, 2000)
@@ -285,7 +284,8 @@ class TestRbacFunctionality:
         print "Success!!!"
 
     def test_show_pending_invitations(self, pretty_print, mist_core, member1_api_token):
-        response = mist_core.show_user_invitations(api_token=owner_api_token).get()
+        response = mist_core.show_user_invitations(api_token=member1_api_token).get()
+        import ipdb; ipdb.set_trace()
 
 # confirm invitation
 
