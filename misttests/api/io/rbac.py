@@ -263,6 +263,7 @@ class TestRbacFunctionality:
         response = mist_core.invite_member_to_team(api_token=owner_api_token, org_id=cache.get('default_org_id',''),
                                                    team_id=cache.get('team_id', ''), email=member1_email).post()
         assert_response_ok(response)
+        import ipdb; ipdb.set_trace()
         print "Success!!!"
 
     # def test_delete_team(self, pretty_print, mist_core, owner_api_token, cache):
@@ -286,9 +287,14 @@ class TestRbacFunctionality:
     def test_show_pending_invitations(self, pretty_print, mist_core, member1_api_token):
         response = mist_core.show_user_invitations(api_token=member1_api_token).get()
         assert_response_ok(response)
+        cache.set('invitation_token', response.json())
         assert len(response.json()) == 1, "Although member has been invited, there are no pending invitations!!!"
         print "Success"
-        
+
+# list teams --> only rename team available
+    def test_confirm_invitation(self, pretty_print, mist_core, member1_api_token):
+        response = mist_core.confirm_invitation
+
 # confirm invitation
 
 # for member verify that he cannot see non-visible team
