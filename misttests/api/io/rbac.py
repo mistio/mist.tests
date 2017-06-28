@@ -287,7 +287,7 @@ class TestRbacFunctionality:
     def test_show_pending_invitations(self, pretty_print, mist_core, member1_api_token):
         response = mist_core.show_user_invitations(api_token=member1_api_token).get()
         assert_response_ok(response)
-        cache.set('invitation_token', response.json())
+        cache.set('invitation_token', response.json()['token'])
         assert len(response.json()) == 1, "Although member has been invited, there are no pending invitations!!!"
         print "Success"
 
