@@ -290,18 +290,19 @@ class TestRbacFunctionality:
         assert len(response.json()) == 1, "Although member has been invited, there are no pending invitations!!!"
         print "Success"
 
-    def test_confirm_invitation(self, pretty_print, mist_core, member1_api_token, cache):
-        response = mist_core.confirm_invitation(api_token=member1_api_token, invitoken=cache.get('invitation_token','')).get()
-        assert_response_ok(response)
+    def test_confirm_invitation_invalid_token(self, pretty_print, mist_core, member1_api_token, cache):
+        response = mist_core.confirm_invitation(api_token=member1_api_token, invitoken= '00' + cache.get('invitation_token','')[:-2]).get()
+        assert_response_not_found(response)
         print "Success!!!"
+
+    # def test_confirm_invitation(self, pretty_print, mist_core, member1_api_token, cache):
+    #     response = mist_core.confirm_invitation(api_token=member1_api_token, invitoken=cache.get('invitation_token','')).get()
+    #     assert_response_ok(response)
+    #     print "Success!!!"
 
 # confirm invitation
 
-# # list teams --> only rename team available
-
-# 404 --> invalid invitoken
-
-# list_teams
+# list teams --> only rename team available
 
 # for member verify that he cannot see non-visible team
 
