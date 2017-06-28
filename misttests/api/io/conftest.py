@@ -160,8 +160,6 @@ def common_valid_api_token(request, email, password, org_id=None):
 @pytest.fixture(scope='module')
 def owner_api_token(request):
     _mist_core = mist_core()
-    import ipdb;ipdb.set_trace()
-
     email = owner_email()
     password = owner_password()
     setup_user_if_not_exists(email, password, 'Owner')
