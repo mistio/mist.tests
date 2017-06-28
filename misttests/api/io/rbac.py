@@ -8,175 +8,175 @@ import pytest
 ############################################################################
 
 
-def test_create_org_missing_parameter(pretty_print, mist_core, owner_api_token):
-    response = mist_core.create_org(api_token=owner_api_token).post()
-    assert_response_bad_request(response)
-    print "Success!!!"
-
-
-def test_create_org_no_api_token(pretty_print, mist_core):
-    response = mist_core.create_org(api_token='', name='test_org').post()
-    assert_response_forbidden(response)
-    print "Success!!!"
-
-
-def test_create_org_wrong_api_token(pretty_print, mist_core, owner_api_token):
-    response = mist_core.create_org(api_token='00' + owner_api_token[:-2],
-                                    name='test_org').post()
-    assert_response_unauthorized(response)
-    print "Success!!!"
-
-
-def test_add_team_wrong_api_token(pretty_print, mist_core, owner_api_token):
-    response = mist_core.add_team(api_token='00' + owner_api_token[:-2],
-                                  name='test_team', org_id='dummy').post()
-    assert_response_unauthorized(response)
-    print "Success!!!"
-
-
-def test_add_team_no_api_token(pretty_print, mist_core):
-    response = mist_core.add_team(api_token='',
-                                  name='test_org', org_id='dummy').post()
-    assert_response_forbidden(response)
-    print "Success!!!"
-
-
-def test_edit_team_no_api_token(pretty_print, mist_core):
-    response = mist_core.edit_team(api_token='', team_id= 'dummy',
-                                   name='test_org', org_id='dummy').put()
-    assert_response_forbidden(response)
-    print "Success!!!"
-
-
-def test_edit_team_wrong_api_token(pretty_print, mist_core, owner_api_token):
-    response = mist_core.edit_team(api_token='00' + owner_api_token[:-2],
-                                   name='test_team', org_id='dummy', team_id='dummy').put()
-    assert_response_unauthorized(response)
-    print "Success!!!"
-
-
-def test_edit_team_wrong_org_id(pretty_print, mist_core, owner_api_token):
-    response = mist_core.edit_team(api_token=owner_api_token,
-                                   name='test_team', org_id='dummy', team_id='dummy').put()
-    assert_response_unauthorized(response)
-    print "Success!!!"
-
-
-def test_show_team_no_api_token(pretty_print, mist_core):
-    response = mist_core.show_team(api_token='', team_id= 'dummy',
-                                   org_id='dummy').get()
-    assert_response_unauthorized(response)
-    print "Success!!!"
-
-
-def test_show_team_wrong_api_token(pretty_print, mist_core, owner_api_token):
-    response = mist_core.show_team(api_token='00' + owner_api_token[:-2],
-                                   org_id='dummy', team_id='dummy').get()
-    assert_response_unauthorized(response)
-    print "Success!!!"
-
-
-def test_show_team_wrong_org_id(pretty_print, mist_core, owner_api_token):
-    response = mist_core.show_team(api_token=owner_api_token,
-                                   org_id='dummy', team_id='dummy').get()
-    assert_response_unauthorized(response)
-    print "Success!!!"
-
-
-def test_delete_team_no_api_token(pretty_print, mist_core):
-    response = mist_core.delete_team(api_token='', team_id= 'dummy',
-                                     org_id='dummy').delete()
-    assert_response_forbidden(response)
-    print "Success!!!"
-
-
-def test_delete_team_wrong_api_token(pretty_print, mist_core, owner_api_token):
-    response = mist_core.delete_team(api_token='00' + owner_api_token[:-2],
-                                     org_id='dummy', team_id='dummy').delete()
-    assert_response_unauthorized(response)
-    print "Success!!!"
-
-
-def test_delete_team_wrong_org_id(pretty_print, mist_core, owner_api_token):
-    response = mist_core.delete_team(api_token=owner_api_token,
-                                     org_id='dummy', team_id='dummy').delete()
-    assert_response_unauthorized(response)
-    print "Success!!!"
-
-
-def test_list_orgs_no_api_token(pretty_print, mist_core):
-    response = mist_core.list_orgs(api_token='').get()
-    assert_response_unauthorized(response)
-    print "Success!!!"
-
-
-def test_list_orgs_wrong_api_token(pretty_print, mist_core, owner_api_token):
-    response = mist_core.list_orgs(api_token='00' + owner_api_token[:-2]).get()
-    assert_response_unauthorized(response)
-    print "Success!!!"
-
-
-def test_list_teams_no_api_token(pretty_print, mist_core):
-    response = mist_core.list_teams(api_token='', org_id='dummy').get()
-    assert_response_unauthorized(response)
-    print "Success!!!"
-
-
-def test_list_teams_wrong_api_token(pretty_print, mist_core, owner_api_token):
-    response = mist_core.list_teams(api_token='00' + owner_api_token[:-2], org_id='dummy').get()
-    assert_response_unauthorized(response)
-    print "Success!!!"
-
-
-def test_list_teams_wrong_org_id(pretty_print, mist_core, owner_api_token):
-    response = mist_core.list_teams(api_token=owner_api_token, org_id='dummy').get()
-    assert_response_unauthorized(response)
-    print "Success!!!"
-
-
-def test_show_user_org_wrong_api_token(pretty_print, mist_core, owner_api_token):
-    response = mist_core.show_user_org(api_token='00' + owner_api_token[:-2]).get()
-    assert_response_unauthorized(response)
-    print "Success!!!"
-
-
-def test_show_user_org_no_api_token(pretty_print, mist_core):
-    response = mist_core.show_user_org(api_token='').get()
-    assert_response_unauthorized(response)
-    print "Success!!!"
-
-
-def test_invite_member_no_api_token(pretty_print, mist_core):
-    response = mist_core.invite_member_to_team(api_token='', org_id='dummy',
-                                               team_id='dummy', email='').post()
-    assert_response_forbidden(response)
-    print "Success!!!"
-
-
-def test_invite_member_wrong_api_token(pretty_print, mist_core, owner_api_token):
-    response = mist_core.invite_member_to_team(api_token='00' + owner_api_token[:-2], org_id='dummy',
-                                               team_id='dummy', email='').post()
-    assert_response_unauthorized(response)
-    print "Success!!!"
-
-
-def test_invite_member_wrong_org_id(pretty_print, mist_core, owner_api_token):
-    response = mist_core.invite_member_to_team(api_token=owner_api_token, org_id='dummy',
-                                               team_id='dummy', email='').post()
-    assert_response_unauthorized(response)
-    print "Success!!!"
-
-
-def test_show_pending_invitations_no_api_token(pretty_print, mist_core):
-    response = mist_core.show_user_invitations(api_token='').get()
-    assert_response_unauthorized(response)
-    print "Success!!!"
-
-
-def test_show_pending_invitations_wrong_api_token(pretty_print, mist_core, owner_api_token):
-    response = mist_core.show_user_invitations(api_token='00' + owner_api_token[:-2]).get()
-    assert_response_unauthorized(response)
-    print "Success!!!"
+# def test_create_org_missing_parameter(pretty_print, mist_core, owner_api_token):
+#     response = mist_core.create_org(api_token=owner_api_token).post()
+#     assert_response_bad_request(response)
+#     print "Success!!!"
+#
+#
+# def test_create_org_no_api_token(pretty_print, mist_core):
+#     response = mist_core.create_org(api_token='', name='test_org').post()
+#     assert_response_forbidden(response)
+#     print "Success!!!"
+#
+#
+# def test_create_org_wrong_api_token(pretty_print, mist_core, owner_api_token):
+#     response = mist_core.create_org(api_token='00' + owner_api_token[:-2],
+#                                     name='test_org').post()
+#     assert_response_unauthorized(response)
+#     print "Success!!!"
+#
+#
+# def test_add_team_wrong_api_token(pretty_print, mist_core, owner_api_token):
+#     response = mist_core.add_team(api_token='00' + owner_api_token[:-2],
+#                                   name='test_team', org_id='dummy').post()
+#     assert_response_unauthorized(response)
+#     print "Success!!!"
+#
+#
+# def test_add_team_no_api_token(pretty_print, mist_core):
+#     response = mist_core.add_team(api_token='',
+#                                   name='test_org', org_id='dummy').post()
+#     assert_response_forbidden(response)
+#     print "Success!!!"
+#
+#
+# def test_edit_team_no_api_token(pretty_print, mist_core):
+#     response = mist_core.edit_team(api_token='', team_id= 'dummy',
+#                                    name='test_org', org_id='dummy').put()
+#     assert_response_forbidden(response)
+#     print "Success!!!"
+#
+#
+# def test_edit_team_wrong_api_token(pretty_print, mist_core, owner_api_token):
+#     response = mist_core.edit_team(api_token='00' + owner_api_token[:-2],
+#                                    name='test_team', org_id='dummy', team_id='dummy').put()
+#     assert_response_unauthorized(response)
+#     print "Success!!!"
+#
+#
+# def test_edit_team_wrong_org_id(pretty_print, mist_core, owner_api_token):
+#     response = mist_core.edit_team(api_token=owner_api_token,
+#                                    name='test_team', org_id='dummy', team_id='dummy').put()
+#     assert_response_unauthorized(response)
+#     print "Success!!!"
+#
+#
+# def test_show_team_no_api_token(pretty_print, mist_core):
+#     response = mist_core.show_team(api_token='', team_id= 'dummy',
+#                                    org_id='dummy').get()
+#     assert_response_unauthorized(response)
+#     print "Success!!!"
+#
+#
+# def test_show_team_wrong_api_token(pretty_print, mist_core, owner_api_token):
+#     response = mist_core.show_team(api_token='00' + owner_api_token[:-2],
+#                                    org_id='dummy', team_id='dummy').get()
+#     assert_response_unauthorized(response)
+#     print "Success!!!"
+#
+#
+# def test_show_team_wrong_org_id(pretty_print, mist_core, owner_api_token):
+#     response = mist_core.show_team(api_token=owner_api_token,
+#                                    org_id='dummy', team_id='dummy').get()
+#     assert_response_unauthorized(response)
+#     print "Success!!!"
+#
+#
+# def test_delete_team_no_api_token(pretty_print, mist_core):
+#     response = mist_core.delete_team(api_token='', team_id= 'dummy',
+#                                      org_id='dummy').delete()
+#     assert_response_forbidden(response)
+#     print "Success!!!"
+#
+#
+# def test_delete_team_wrong_api_token(pretty_print, mist_core, owner_api_token):
+#     response = mist_core.delete_team(api_token='00' + owner_api_token[:-2],
+#                                      org_id='dummy', team_id='dummy').delete()
+#     assert_response_unauthorized(response)
+#     print "Success!!!"
+#
+#
+# def test_delete_team_wrong_org_id(pretty_print, mist_core, owner_api_token):
+#     response = mist_core.delete_team(api_token=owner_api_token,
+#                                      org_id='dummy', team_id='dummy').delete()
+#     assert_response_unauthorized(response)
+#     print "Success!!!"
+#
+#
+# def test_list_orgs_no_api_token(pretty_print, mist_core):
+#     response = mist_core.list_orgs(api_token='').get()
+#     assert_response_unauthorized(response)
+#     print "Success!!!"
+#
+#
+# def test_list_orgs_wrong_api_token(pretty_print, mist_core, owner_api_token):
+#     response = mist_core.list_orgs(api_token='00' + owner_api_token[:-2]).get()
+#     assert_response_unauthorized(response)
+#     print "Success!!!"
+#
+#
+# def test_list_teams_no_api_token(pretty_print, mist_core):
+#     response = mist_core.list_teams(api_token='', org_id='dummy').get()
+#     assert_response_unauthorized(response)
+#     print "Success!!!"
+#
+#
+# def test_list_teams_wrong_api_token(pretty_print, mist_core, owner_api_token):
+#     response = mist_core.list_teams(api_token='00' + owner_api_token[:-2], org_id='dummy').get()
+#     assert_response_unauthorized(response)
+#     print "Success!!!"
+#
+#
+# def test_list_teams_wrong_org_id(pretty_print, mist_core, owner_api_token):
+#     response = mist_core.list_teams(api_token=owner_api_token, org_id='dummy').get()
+#     assert_response_unauthorized(response)
+#     print "Success!!!"
+#
+#
+# def test_show_user_org_wrong_api_token(pretty_print, mist_core, owner_api_token):
+#     response = mist_core.show_user_org(api_token='00' + owner_api_token[:-2]).get()
+#     assert_response_unauthorized(response)
+#     print "Success!!!"
+#
+#
+# def test_show_user_org_no_api_token(pretty_print, mist_core):
+#     response = mist_core.show_user_org(api_token='').get()
+#     assert_response_unauthorized(response)
+#     print "Success!!!"
+#
+#
+# def test_invite_member_no_api_token(pretty_print, mist_core):
+#     response = mist_core.invite_member_to_team(api_token='', org_id='dummy',
+#                                                team_id='dummy', email='').post()
+#     assert_response_forbidden(response)
+#     print "Success!!!"
+#
+#
+# def test_invite_member_wrong_api_token(pretty_print, mist_core, owner_api_token):
+#     response = mist_core.invite_member_to_team(api_token='00' + owner_api_token[:-2], org_id='dummy',
+#                                                team_id='dummy', email='').post()
+#     assert_response_unauthorized(response)
+#     print "Success!!!"
+#
+#
+# def test_invite_member_wrong_org_id(pretty_print, mist_core, owner_api_token):
+#     response = mist_core.invite_member_to_team(api_token=owner_api_token, org_id='dummy',
+#                                                team_id='dummy', email='').post()
+#     assert_response_unauthorized(response)
+#     print "Success!!!"
+#
+#
+# def test_show_pending_invitations_no_api_token(pretty_print, mist_core):
+#     response = mist_core.show_user_invitations(api_token='').get()
+#     assert_response_unauthorized(response)
+#     print "Success!!!"
+#
+#
+# def test_show_pending_invitations_wrong_api_token(pretty_print, mist_core, owner_api_token):
+#     response = mist_core.show_user_invitations(api_token='00' + owner_api_token[:-2]).get()
+#     assert_response_unauthorized(response)
+#     print "Success!!!"
 
 ############################################################################
 #                          Functional Testing                              #
@@ -184,6 +184,9 @@ def test_show_pending_invitations_wrong_api_token(pretty_print, mist_core, owner
 
 @pytest.mark.incremental
 class TestRbacFunctionality:
+
+    def test_initialize_members(pretty_print, initialize_members):
+        print "Success!!!"
 
     def test_list_orgs(self, pretty_print, mist_core, owner_api_token, cache):
         response = mist_core.list_orgs(api_token=owner_api_token).get()
@@ -202,6 +205,7 @@ class TestRbacFunctionality:
     def test_list_teams(self, pretty_print, mist_core, owner_api_token, cache):
         response = mist_core.list_teams(api_token=owner_api_token, org_id=cache.get('default_org_id', '')).get()
         assert_response_ok(response)
+        import ipdb; ipdb.set_trace()
         assert len(response.json()) == 1, "The brand new org has more than 1 teams!!!"
         print "Success!!!"
 
@@ -280,27 +284,10 @@ class TestRbacFunctionality:
         assert_response_conflict(response)
         print "Success!!!"
 
-    # def test_show_pending_invitations(self, pretty_print, mist_core, owner_api_token):
-    #     response = mist_core.show_user_invitations(api_token=owner_api_token).get()
-
-
-
-
-
-########################################################################################
-#    1) If user is not a member of the organization:
-#       If user is registered in the service then an email will be sent with
-#           a link to confirm the invitation
-
-
-# If user is not registered then a new entry will be created and an
-#           email will be sent inviting him to set a password and confirm his
-#           invitation to the organization
-
+    def test_show_pending_invitations(self, pretty_print, mist_core, member1_api_token):
+        response = mist_core.show_user_invitations(api_token=owner_api_token).get()
 
 # confirm invitation
-
-# show_pending_invitations_ok
 
 # for member verify that he cannot see non-visible team
 
