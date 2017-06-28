@@ -48,8 +48,6 @@ def mist_core():
 
 @pytest.fixture
 def owner_email():
-    import ipdb; ipdb.set_trace()
-
     BASE_EMAIL = config.BASE_EMAIL
     return "%s+%d@gmail.com" % (BASE_EMAIL, random.randint(1, 200000))
 
@@ -61,13 +59,14 @@ def owner_password():
 
 @pytest.fixture
 def initialize_members():
-    import ipdb;ipdb.set_trace()
     BASE_EMAIL = config.BASE_EMAIL
     config.MEMBER1_EMAIL = "%s+%d@gmail.com" % (BASE_EMAIL, random.randint(1, 200000))
+    email = config.MEMBER1_EMAIL
+    password = member1_password()
+    setup_user_if_not_exists(email, password)
 
-@pytest.fixture(scope='module')
-def member1_email(request):
-    import ipdb; ipdb.set_trace()
+@pytest.fixture()
+def member1_email():
     return config.MEMBER1_EMAIL
 
 
@@ -185,9 +184,8 @@ def owner_api_token(request):
 @pytest.fixture(scope='module')
 def member1_api_token(request):
     _mist_core = mist_core()
-    email = member1_email(request)
+    email = member1_email()
     password = member1_password()
-    setup_user_if_not_exists(email, password)
     personal_api_token = common_valid_api_token(request,
                                                 email=email,
                                                 password=password)
