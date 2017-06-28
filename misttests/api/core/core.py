@@ -104,16 +104,6 @@ class MistCoreApi(MistIoApi):
         req.put = req.unavailable_api_call
         return req
 
-    def confirm_invitation(self, api_token, invitoken):
-        import ipdb;ipdb.set_trace()
-        payload = {'invitoken': invitoken}
-        req = MistRequests(uri=self.uri + '/confirm-invitation?invitoken= %s' % invitoken,
-                           api_token=api_token)
-        req.post = req.unavailable_api_call
-        req.delete = req.unavailable_api_call
-        req.put = req.unavailable_api_call
-        return req
-
     def delete_member_from_team(self, api_token, org_id, team_id, user_id):
         req = MistRequests(uri=self.uri + '/api/v1/org/%s/teams/%s/members/%s'
                                           % (org_id, team_id, user_id),
