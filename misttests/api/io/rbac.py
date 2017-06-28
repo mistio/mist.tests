@@ -295,14 +295,16 @@ class TestRbacFunctionality:
         assert_response_not_found(response)
         print "Success!!!"
 
-    # def test_confirm_invitation(self, pretty_print, mist_core, member1_api_token, cache):
-    #     response = mist_core.confirm_invitation(api_token=member1_api_token, invitoken=cache.get('invitation_token','')).get()
-    #     assert_response_ok(response)
-    #     print "Success!!!"
-
-# confirm invitation
+    def test_list_orgs_member1(self, pretty_print, mist_core, member1_api_token, cache):
+        response = mist_core.list_orgs(api_token=member1_api_token).get()
+        # verify that member1 belongs only to his own org since he has not confirmed invitation
+        assert len(response.json()) == 1, "User should belong to 1 orgs, but instead belongs to %s" % len(response.json())
+        assert_response_ok(response)
+        print "Success!!!"
 
 # list teams --> only rename team available
+
+# list_orgs --> 2 members?
 
 # for member verify that he cannot see non-visible team
 
