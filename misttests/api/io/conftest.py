@@ -63,7 +63,7 @@ def initialize_members():
     config.MEMBER1_EMAIL = "%s+%d@gmail.com" % (BASE_EMAIL, random.randint(1, 200000))
     email = config.MEMBER1_EMAIL
     password = member1_password()
-    setup_user_if_not_exists(email, password)
+    setup_user_if_not_exists(email, password, 'Member1')
 
 @pytest.fixture()
 def member1_email():
@@ -162,7 +162,7 @@ def owner_api_token(request):
     _mist_core = mist_core()
     email = owner_email()
     password = owner_password()
-    setup_user_if_not_exists(email, password)
+    setup_user_if_not_exists(email, password, 'Owner')
     _mist_core.login(email, password)
     personal_api_token = common_valid_api_token(request,
                                                 email=email,
