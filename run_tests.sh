@@ -16,7 +16,7 @@ help_message() {
     echo
     echo "Argument for API tests can be one of the following:"
     echo
-    echo "clouds, machines, tunnels, keys, dns, scripts, api_token, tunnels, schedules, orchestration, libcloud, networks"
+    echo "clouds, machines, tunnels, keys, dns, scripts, api_token, tunnels, schedules, orchestration, libcloud, networks, rbac"
     echo
     echo "Argument for UI tests can be one of the following:"
     echo
@@ -77,6 +77,7 @@ vault_login() {
     pytest_paths["schedules"]='misttests/api/io/schedules.py'
     pytest_paths["tunnels"]='misttests/api/core/tunnels.py'
     pytest_paths["orchestration"]='misttests/api/core/orchestration.py'
+    pytest_paths["rbac"]='misttests/api/io/rbac.py'
 
     declare -A behave_tags
 
