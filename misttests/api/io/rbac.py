@@ -265,15 +265,6 @@ class TestRbacFunctionality:
         assert_response_ok(response)
         print "Success!!!"
 
-    # def test_delete_team(self, pretty_print, mist_core, owner_api_token, cache):
-    #     response = mist_core.delete_team(api_token=owner_api_token,org_id=cache.get('default_org_id', ''),
-    #                                      team_id=cache.get('team_id', '')).delete()
-    #     assert_response_ok(response)
-    #     response = mist_core.list_teams(api_token=owner_api_token, org_id=cache.get('default_org_id', '')).get()
-    #     assert_response_ok(response)
-    #     assert len(response.json()) == 1, "Although team was deleted, it is still visible in list_teams"
-    #     print "Success!!!"
-
     def test_create_org(self, pretty_print, mist_core, owner_api_token, cache):
         name = 'test_org_%d' % random.randint(1, 2000)
         response = mist_core.create_org(api_token=owner_api_token, name=name).post()
@@ -301,6 +292,16 @@ class TestRbacFunctionality:
         assert len(response.json()) == 1, "User should belong to 1 orgs, but instead belongs to %s" % len(response.json())
         assert_response_ok(response)
         print "Success!!!"
+
+    def test_delete_team(self, pretty_print, mist_core, owner_api_token, cache):
+        response = mist_core.delete_team(api_token=owner_api_token,org_id=cache.get('default_org_id', ''),
+                                         team_id=cache.get('team_id', '')).delete()
+        assert_response_ok(response)
+        response = mist_core.list_teams(api_token=owner_api_token, org_id=cache.get('default_org_id', '')).get()
+        assert_response_ok(response)
+        assert len(response.json()) == 1, "Although team was deleted, it is still visible in list_teams"
+        print "Success!!!"
+
 
 # delete member
 
