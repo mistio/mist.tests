@@ -97,7 +97,7 @@ class MistCoreApi(MistIoApi):
         data = {'team_ids': team_ids}
         req = MistRequests(uri=self.uri + '/api/v1/org/%s/teams'
                                           % org_id,
-                           api_token=api_token, data=data)
+                           api_token=api_token, data=json.dumps(data))
         req.get = req.unavailable_api_call
         req.post = req.unavailable_api_call
         req.put = req.unavailable_api_call
