@@ -3,6 +3,10 @@ import string
 import random
 
 from misttests.api.utils import *
+from misttests import config
+
+from misttests.config import safe_get_var
+
 
 bash_script_no_shebang = """
 touch ~/bla
@@ -34,6 +38,20 @@ ansible_script = """
        msg: "Hello World"
 """
 
+
+def add_docker(self, api_token, mist_core):
+    if config.LOCAL:
+        return mist_core.add_cloud(title='Docker', provider= 'docker', api_token=api_token,
+                                       docker_host='172.17.0.1',
+                                       docker_port='2375').post()
+    else:
+        return mist_core.add_cloud(title='Docker', provider= 'docker', api_token=api_token,
+                                       docker_host=safe_get_var('dockerhosts/godzilla', 'host', config.CREDENTIALS['DOCKER']['host']),
+                                       docker_port=safe_get_var('dockerhosts/godzilla', 'port', config.CREDENTIALS['DOCKER']['port']),
+                                       authentication=safe_get_var('dockerhosts/godzilla', 'authentication', config.CREDENTIALS['DOCKER']['authentication']),
+                                       ca_cert_file=safe_get_var('dockerhosts/godzilla', 'ca', config.CREDENTIALS['DOCKER']['ca']),
+                                       key_file=safe_get_var('dockerhosts/godzilla', 'key', config.CREDENTIALS['DOCKER']['key']),
+                                       cert_file=safe_get_var('dockerhosts/godzilla', 'cert', config.CREDENTIALS['DOCKER']['cert'])).post()
 
 def get_scripts_with_name(name, scripts):
     return filter(lambda x: x['name'] == name, scripts)

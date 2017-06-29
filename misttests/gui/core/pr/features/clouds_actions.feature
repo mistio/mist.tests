@@ -33,7 +33,7 @@ Feature: Cloud actions for polymer
     And I wait for the links in homepage to appear
     Then cloud "Docker" should be "disabled"
     When I visit the Machines page
-    Then "testerrr" machine should be absent within 60 seconds
+    Then "mistcore_debugger_1" machine should be absent within 60 seconds
     When I visit the Home page
     And I wait for the links in homepage to appear
     And I open the cloud menu for "Docker"
@@ -43,7 +43,7 @@ Feature: Cloud actions for polymer
     And I wait for the dashboard to load
     Then cloud "Docker" should be "enabled"
     When I visit the Machines page
-    Then "testerrr" machine should be present within 60 seconds
+    Then "mistcore_debugger_1" machine should be present within 60 seconds
     And I visit the Home page
 
 #  @cloud-rename
