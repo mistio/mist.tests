@@ -222,12 +222,6 @@ class TestRbacFunctionality:
         assert len(response.json()) == 2, "Although a new team was added, it is not visible in list_teams request!!!"
         print "Success!!!"
 
-    def test_add_team(self, pretty_print, mist_core, owner_api_token, cache):
-        response = mist_core.add_team(api_token=owner_api_token,
-                                      name='test_team', org_id=cache.get('default_org_id', '')).post()
-        assert_response_conflict(response)
-        print "Success!!!"
-
     def test_edit_team_wrong_team_id(self, pretty_print, mist_core, owner_api_token, cache):
         response = mist_core.edit_team(api_token=owner_api_token,org_id=cache.get('default_org_id', ''),
                                        name='dummy', team_id= 'dummy').put()
@@ -308,41 +302,3 @@ class TestRbacFunctionality:
         assert len(response.json()) == 1, "Although team was deleted, it is still visible in list_teams"
         print "Success!!!"
 
-    def test_delete_teams(self, pretty_print, mist_core, owner_api_token, cache):
-        response = mist_core.add_team(api_token=owner_api_token,
-                                      name='Team2', org_id=cache.get('default_org_id', '')).post()
-        cache.set('team2_id', response.json()['id'])
-        assert_response_ok(response)
-
-
-        import ipdb;ipdb.set_trace()
-        response = mist_core.show_team(api_token=owner_api_token, org_id=cache.get('default_org_id', ''),
-                                       team_id=cache.get('team2_id', '')).get()
-        assert_response_ok(response)
-
-
-
-        response = mist_core.add_team(api_token=owner_api_token,
-                                      name='Team3', org_id=cache.get('default_org_id', '')).post()
-        cache.set('team3_id', response.json()['id'])
-        assert_response_ok(response)
-        response = mist_core.add_team(api_token=owner_api_token,
-                                      name='Team4', org_id=cache.get('default_org_id', '')).post()
-        cache.set('team4_id', response.json()['id'])
-        assert_response_ok(response)
-        response = mist_core.list_teams(api_token=owner_api_token, org_id=cache.get('default_org_id', '')).get()
-        assert_response_ok(response)
-        assert len(response.json()) == 4
-        # delete two valid and one invalid team
-        team_ids = []
-        team_ids.append(cache.get('team2_id',''))
-        team_ids.append(cache.get('team3_id',''))
-        team_ids.append('dummy_id')
-        response = mist_core.delete_teams(api_token=owner_api_token, org_id=cache.get('default_org_id', ''),
-                                          team_ids=team_ids).delete()
-        import ipdb;ipdb.set_trace()
-        assert_response_ok(response)
-        response = mist_core.list_teams(api_token=owner_api_token, org_id=cache.get('default_org_id', '')).get()
-        assert_response_ok(response)
-        assert len(response.json()) == 2, "Something went wrong when deleting multiple teams!!!"
-        print "Success!!!"
