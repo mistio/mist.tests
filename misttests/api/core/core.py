@@ -93,6 +93,16 @@ class MistCoreApi(MistIoApi):
         req.put = req.unavailable_api_call
         return req
 
+    def delete_teams(self, api_token, org_id, team_ids):
+        data = {'team_ids': team_ids}
+        req = MistRequests(uri=self.uri + '/api/v1/org/%s/teams'
+                                          % org_id,
+                           api_token=api_token, data=data)
+        req.get = req.unavailable_api_call
+        req.post = req.unavailable_api_call
+        req.put = req.unavailable_api_call
+        return req
+
     def invite_member_to_team(self, api_token, org_id, team_id, email):
         data = {'emails': email}
         req = MistRequests(uri=self.uri + '/api/v1/org/%s/teams/%s/members' %
