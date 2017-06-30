@@ -25,6 +25,7 @@ import sys
 import string
 import random
 import logging
+import requests
 
 log = logging.getLogger(__name__)
 logging.basicConfig(level=logging.INFO)
@@ -37,6 +38,23 @@ except IOError:
     log.warning("No test_settings.py file found.")
 except Exception as exc:
     log.error("Error parsing test_settings py: %r", exc)
+
+
+def safe_get_var(vault_path, vault_key, test_settings_var = None):
+
+    if VAULT_ENABLED:
+
+        headers = {"X-Vault-Token": os.environ['VAULT_CLIENT_TOKEN']}
+
+        re = requests.get(VAULT_SERVER + '/v1/secret/%s' % vault_path, headers=headers)
+
+        json_data = re.json().get('data')
+
+        return json_data.get(vault_key)
+
+    else:
+
+        return test_settings_var
 
 
 def get_setting(setting, default_value=None, priority='config_file'):
@@ -63,8 +81,11 @@ def get_setting(setting, default_value=None, priority='config_file'):
     elif type(default_value) == bool:
         return True if setting in ["True", "true"] else False
 
-
 LOCAL = get_setting("LOCAL", True)
+
+VAULT_ENABLED = get_setting("VAULT_ENABLED", True, priority='environment')
+
+VAULT_SERVER = get_setting("VAULT_SERVER", "https://vault.ops.mist.io:8200")
 
 DEBUG = get_setting("DEBUG", False)
 
@@ -109,9 +130,6 @@ WEBDRIVER_LOG = get_setting("WEBDRIVER_LOG",
                              os.path.join(BASE_DIR, LOG_DIR,
                                           'chromedriver.log'))
 
-# ----------CREDENTIALS-----------
-CREDENTIALS = get_setting("CREDENTIALS", {})
-
 MIST_API_TOKEN = get_setting("MIST_API_TOKEN", "")
 
 MIST_URL = get_setting("MIST_URL", "http://localhost:8000")
@@ -128,9 +146,9 @@ GMAIL_FATBOY_USER = get_setting("GMAIL_FATBOY_USER", "%s@gmail.com" % BASE_EMAIL
 GMAIL_FATBOY_PASSWORD = get_setting("GMAIL_FATBOY_PASSWORD", "")
 EMAIL = get_setting("EMAIL", "%s+%d@gmail.com" % (BASE_EMAIL, random.randint(1,200000)))
 PASSWORD1 = get_setting("PASSWORD1",
-                        ''.join(random.choice(string.ascii_letters + string.digits) for _ in range(10)))
+                        ''.join(random.choice(string.ascii_letters + string.digits) for _ in range(20)))
 PASSWORD2 = get_setting("PASSWORD2",
-                        ''.join(random.choice(string.ascii_letters + string.digits) for _ in range(10)))
+                        ''.join(random.choice(string.ascii_letters + string.digits) for _ in range(20)))
 
 DEMO_EMAIL = get_setting("DEMO_EMAIL", "")
 DEMO_PASSWORD = get_setting("DEMO_PASSWORD", "")
@@ -139,8 +157,8 @@ MIST_DEMO_REQUEST_EMAIL = get_setting("MIST_DEMO_REQUEST_EMAIL",
                                       "demo@mist.io")
 
 # CREDENTIALS FOR TESTING RBAC
-OWNER_EMAIL = get_setting("OWNER_EMAIL", "")
-OWNER_PASSWORD = get_setting("OWNER_PASSWORD", "")
+OWNER_EMAIL = get_setting("OWNER_EMAIL", "%s+%d@gmail.com" % (BASE_EMAIL, random.randint(1,200000)))
+OWNER_PASSWORD = get_setting("OWNER_PASSWORD", ''.join(random.choice(string.ascii_letters + string.digits) for _ in range(10)))
 
 MEMBER1_EMAIL = get_setting("MEMBER1_EMAIL", "")
 MEMBER1_PASSWORD = get_setting("MEMBER1_PASSWORD", PASSWORD1)
@@ -192,7 +210,7 @@ SETUP_ENVIRONMENT = get_setting("SETUP_ENVIRONMENT", False)
 WEBDRIVER_OPTIONS = get_setting('WEBDRIVER_OPTIONS',
                                  ['--dns-prefetch-disable'])
 
-REGISTER_USER_BEFORE_FEATURE = get_setting('REGISTER_USER_BEFORE_FEATURE', False, priority='environment')
+REGISTER_USER_BEFORE_FEATURE = get_setting('REGISTER_USER_BEFORE_FEATURE', True, priority='environment')
 
 IMAP_SERVER = get_setting('IMAP_SERVER', 'imap.gmail.com', priority='environment')
 
@@ -203,3 +221,27 @@ IMAP_USER = get_setting('IMAP_USER', EMAIL)
 IMAP_PASSWORD = get_setting('IMAP_PASSWORD', '')
 
 KEY_ID = get_setting('KEY_ID', '')
+
+DEFAULT_CREDENTIALS = {'AWS': {'api_key': '', 'api_secret': '', 'region': ''},
+               'KVM': {'key': """ """, 'hostname': ''},
+               'AZURE': {'certificate': """ """, 'subscription_id': ''},
+               'AZURE_ARM': {'client_key': '', 'client_secret': '', 'subscription_id': '', 'tenant_id': ''},
+               'DIGITALOCEAN': {'token': ''},
+               'DOCKER': {'authentication': '', 'ca': """ """, 'cert': """ """, 'host': '', 'key': """""", 'port': ''},
+               'EC2': {'api_key': '', 'api_secret': '', 'region': ''},
+               'LINODE': {'api_key': ''},
+               'NEPHOSCALE': {'password': '', 'username': ''},
+               'GCE': {'project_id': '', 'private_key': {}},
+               'OPENSTACK': {'auth_url': '', 'password': '', 'tenant': '', 'username': ''},
+               'DOCKER_ORCHESTRATOR':{"host": "", "port": ""},
+               'OPENSTACK_2': {'auth_url': '', 'password': '', 'tenant': '', 'username': ''},
+               'PACKET': {'api_key': ''},
+               'PACKET_2': {'api_key': ''},
+               'VMWARE': {'username': '', 'password': '', 'organization': '', 'host': '' },
+               'RACKSPACE': {'api_key': '', 'region': '', 'username': ''},
+               'SOFTLAYER': {'api_key': '', 'username': ''},
+               'VULTR': {'apikey': ''},
+               'DOCKER_MONITORING':{'host': '', 'port': ''}
+               }
+
+CREDENTIALS = get_setting("CREDENTIALS", DEFAULT_CREDENTIALS)

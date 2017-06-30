@@ -6,6 +6,7 @@ Feature: Images and Networks
 
   @image-search
   Scenario: Search image
+    When I expect for "addBtn" to be clickable within max 20 seconds
     Given "OpenStack" cloud has been added
     When I visit the Images page
     And I search for "CoreOS"
@@ -16,6 +17,29 @@ Feature: Images and Networks
     And "CoreOS-Beta" image should be absent within 3 seconds
     When I clear the search bar
     Then "CoreOS-Beta" image should be present within 5 seconds
+
+  @image-unstar
+  Scenario: Unstar image
+    When I click the "CoreOS-Beta" "image"
+    And I expect the "image" edit form to be visible within max 5 seconds
+    Then I click the button "Unstar" in "image" edit form
+    Then  I visit the Home page
+    And I wait for 2 seconds
+    When I visit the Images page
+    And I wait for 2 seconds
+    Then the "CoreOS-Beta" image should be "unstarred" within 200 seconds
+
+  @image-star
+  Scenario: Star image
+    When I click the "CoreOS-Beta" "image"
+    And I expect the "image" edit form to be visible within max 5 seconds
+    Then I click the button "Star" in "image" edit form
+    Then  I visit the Home page
+    And I refresh the page
+    And I wait for the links in homepage to appear
+    When I visit the Images page
+    And I wait for 2 seconds
+    Then the "CoreOS-Beta" image should be "starred" within 200 seconds
 
   @network-add
   Scenario: Add Network
@@ -32,13 +56,10 @@ Feature: Images and Networks
     Then I expect the "network" edit form to be visible within max 5 seconds
     When I visit the Networks page
     Then "network_random" network should be present within 20 seconds
-    And I visit the Home page
-    And I wait for the dashboard to load
 
   @network-delete
   Scenario: Delete Network
-    When I visit the Networks page
-    And I click the "network_random" "network"
+    When I click the "network_random" "network"
     Then I expect the "network" edit form to be visible within max 5 seconds
     And I expect for the button "Delete" in "network" edit form to be clickable within 5 seconds
     When I click the button "Delete" in "network" edit form

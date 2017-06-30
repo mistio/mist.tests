@@ -9,7 +9,8 @@ from misttests.gui.steps.machines import *
 from misttests.gui.steps.popups import *
 from misttests.gui.steps.modals import *
 from misttests.gui.steps.ssh import *
-from misttests.gui.steps.utils import focus_on_element
+from misttests.gui.steps.browser import *
+from misttests.gui.steps.utils import safe_get_element_text
 
 from selenium.webdriver import ActionChains
 from selenium.webdriver.common.keys import Keys
@@ -26,6 +27,7 @@ def search_for_mayday_machine(context):
         search_bar.send_keys(letter)
     sleep(2)
 
+
 @step(u'I delete old mayday emails')
 def delete_old_mayday_emails(context):
     box = login_email(context)
@@ -39,6 +41,7 @@ def delete_old_mayday_emails(context):
     box.expunge()
     logout_email(box)
 
+
 @step(u'I click the mayday machine')
 def click_mayday_machine(context):
     """
@@ -51,6 +54,7 @@ def click_mayday_machine(context):
         text = context.mist_config['MAYDAY_MACHINE']
     button = context.browser.find_element_by_xpath("//a[@title='%s']" % text)
     clicketi_click(context, button)
+
 
 @step(u'Mayday machine state should be "{state}" within {seconds} seconds')
 def assert_mayday_machine_state(context, state, seconds):
@@ -71,6 +75,7 @@ def assert_mayday_machine_state(context, state, seconds):
 
     assert False, u'%s state is not "%s"' % (name, state)
 
+
 @step(u'I choose the mayday machine')
 def choose_mayday_machine(context):
     if context.mist_config.get('MAYDAY_MACHINE'):
@@ -86,6 +91,7 @@ def choose_mayday_machine(context):
 
         sleep(2)
     assert False, u'Could not choose/tick %s machine' % name
+
 
 @step(u'I fill "{value}" as metric value')
 def rule_value(context, value):
@@ -104,3 +110,14 @@ def rule_value(context, value):
 #    value_input.send_keys(u'\ue003')
 #    context.execute_steps(u'When I wait for 2 seconds')
 #    value_input.send_keys(value)
+
+
+@step(u'I should see the incident "{incident}"')
+def check_for_incident(context, incident):
+    incidents_list = context.browser.find_elements_by_css_selector('div.block div.list')
+
+    for item in incidents_list:
+        if incident in safe_get_element_text(item) :
+            return
+
+    assert False, "Incident %s was not found in the home page" % incident

@@ -39,9 +39,7 @@ def open_login_popup(context, kind):
         inner_shadow_root = get_shadow_root(context, landing_home)
         container = inner_shadow_root.find_element_by_id('container')
         landing_fold = container.find_element_by_tag_name('landing-fold')
-        landing_fold_shadow_root = get_shadow_root(context, landing_fold)
-        inner_div = landing_fold_shadow_root.find_element_by_css_selector('div')
-        a = inner_div.find_element_by_tag_name("a")
+        a = landing_fold.find_element_by_tag_name("a")
         button_to_click = a.find_element_by_tag_name("paper-button")
 
     if button_to_click.is_displayed():
@@ -107,12 +105,10 @@ def get_mist_config_email(context,kind):
 
 
 def get_mist_config_password(context,kind):
-    if kind == 'alt':
+    if kind in ['alt', 'new_creds']:
         return context.mist_config['PASSWORD2']
     elif kind == 'rbac_member1':
         return context.mist_config['MEMBER1_PASSWORD']
-    elif kind == 'new_creds':
-        return context.mist_config['GMAIL_FATBOY_PASSWORD']
     elif kind == 'rbac_member2':
         return context.mist_config['MEMBER2_PASSWORD']
     else:

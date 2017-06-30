@@ -9,20 +9,24 @@ from .buttons import click_button_from_collection
 
 from .forms import get_input_from_form
 from .forms import clear_input_and_send_keys
+from selenium.common.exceptions import StaleElementReferenceException
 
 
 def get_dialog(context, title):
     title = title.lower()
     dialogs = context.browser.find_elements_by_tag_name('paper-dialog')
     for dialog in dialogs:
-        if dialog.is_displayed():
-            try:
-                t = safe_get_element_text(dialog.find_element_by_tag_name(
-                    'h2')).strip().lower()
-                if title in t:
-                    return dialog
-            except:
-                pass
+        try:
+            if dialog.is_displayed():
+                try:
+                    t = safe_get_element_text(dialog.find_element_by_tag_name(
+                        'h2')).strip().lower()
+                    if title in t:
+                        return dialog
+                except:
+                    pass
+        except StaleElementReferenceException:
+            pass
     return None
 
 

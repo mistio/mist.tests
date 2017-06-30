@@ -1,5 +1,7 @@
 from misttests.gui.steps.team import *
 
+from time import sleep
+
 
 @step(u'I select {action} action in schedules add form')
 def select_action_for_schedule(context, action):
@@ -22,6 +24,9 @@ def select_option_from_radiogroup(context, option_to_select, radio_group):
 
 @step(u'I select the "{option_to_select}" checkbox')
 def select_checkbox(context, option_to_select):
+    if context.mist_config.get(option_to_select):
+        option_to_select = context.mist_config.get(option_to_select)
+    sleep(1)
     paper_check_boxes = context.browser.find_elements_by_tag_name('paper-checkbox')
     for checkbox in paper_check_boxes:
         if safe_get_element_text(checkbox) == option_to_select:

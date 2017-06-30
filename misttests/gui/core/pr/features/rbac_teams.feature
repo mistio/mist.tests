@@ -1,7 +1,6 @@
 @rbac-teams
 Feature: Rbac
 
-
   @create-org
   Scenario: Owner creates a new organization
     Given rbac members are initialized
@@ -43,7 +42,7 @@ Feature: Rbac
   Scenario: Add member1
     When I visit the Home page
     When I refresh the page
-    And I wait for the dashboard to load
+    And I wait for the links in homepage to appear
     And I visit the Teams page
     When I click the "Test team" "team"
     And I expect the "team" edit form to be visible within max 8 seconds
@@ -60,7 +59,7 @@ Feature: Rbac
     Then I enter my rbac_member1 credentials for login
     And I click the sign in button in the landing page popup
     Given that I am redirected within 5 seconds
-    When I wait for the dashboard to load
+    And I wait for the links in homepage to appear
     Then I ensure that I am in the "ORG_NAME" organization context
     When I visit the Teams page
     Then "Test Team" team should be present within 5 seconds
@@ -85,7 +84,7 @@ Feature: Rbac
     And I follow the link inside the email
     Then I enter my rbac_member2 credentials for signup_password_set
     And I click the go button in the landing page popup
-    When I wait for the dashboard to load
+    And I wait for the links in homepage to appear
     Then I ensure that I am in the "ORG_NAME" organization context
     When I visit the Teams page
     And "Test Team" team should be present within 5 seconds
@@ -113,31 +112,27 @@ Feature: Rbac
     Then I click the button "Edit Team" in "team" edit form
     And I expect the dialog "Edit Team" is open within 4 seconds
     Then I expect the field "Name" in the dialog with title "Edit Team" to be visible within max 2 seconds
-    When I set the value "Rbac Test Team" to field "Name" in "Edit Team" dialog
+    When I set the value "Rbac Team" to field "Name" in "Edit Team" dialog
     And I wait for 1 seconds
     And I click the "Submit" button in the dialog "Edit Team"
     And I expect the dialog "Edit Team" is closed within 4 seconds
     Then I visit the Home page
     Then I visit the Teams page
     And "Test Team" team should be absent within 5 seconds
-    And "Rbac Test Team" team should be present within 5 seconds
+    And "Rbac Team" team should be present within 5 seconds
     Then I logout
 
    @verify-delete-member
     Scenario: Member2 has been removed from org
     Given I am logged in to mist.core as rbac_member2
-    And I am in the new UI
-    When I wait for the dashboard to load
     Then I should see the form to set name for new organization
     Then I logout
 
   @delete-team
   Scenario: Owner deletes a team
     Given I am logged in to mist.core as rbac_owner
-    And I am in the new UI
-    When I wait for the dashboard to load
     When I visit the Teams page
-    When I click the "Rbac Test Team" "team"
+    When I click the "Rbac Team" "team"
     And I expect the "team" edit form to be visible within max 5 seconds
     Then I click the button "Delete Team" from the menu of the "team" edit form
     And I expect the dialog "Delete Team" is open within 4 seconds
@@ -146,8 +141,7 @@ Feature: Rbac
     Then I visit the Home page
     And I wait for 2 seconds
     And I visit the Teams page
-    And "Rbac Test Team" team should be absent within 10 seconds
-    Then I logout
+    And "Rbac Team" team should be absent within 10 seconds
 
 #  @tag-team
 #  Scenario: Owner tags a team
@@ -155,7 +149,7 @@ Feature: Rbac
 #    And I am in the new UI
 #    When I wait for the dashboard to load
 #    And I visit the Teams page
-#    When I click the button "tag" from the menu of the "Rbac Test Team" team
+#    When I click the button "tag" from the menu of the "Rbac Team" team
 #    And I expect for the tag popup to open within 4 seconds
 #    When I remove all the previous tags
 #    Then I add a tag with key "team" and value "ops"

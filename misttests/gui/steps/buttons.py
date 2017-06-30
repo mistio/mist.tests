@@ -159,27 +159,45 @@ def click_button_in_tag_model(context, button):
 
 @step(u'I click the button "{button}" in the user menu')
 def click_the_user_menu_button(context, button):
-    dropdown = context.browser.find_element_by_id('dropdown')
+    dropdown = context.browser.find_element_by_css_selector('app-user-menu #dropdown')
     buttons = dropdown.find_elements_by_tag_name('paper-item')
     click_button_from_collection(context, button, buttons)
+
+
+@step(u'I click the action "{button}" from the {resource_type} list actions')
+def click_action_of_list(context,button,resource_type):
+    resource_type = resource_type.lower()
+    if resource_type not in ['machine', 'key', 'script', 'network', 'team', 'template', 'stack', 'image', 'schedule']:
+        raise Exception('Unknown resource type')
+    buttons = context.browser.find_elements_by_css_selector('page-%ss mist-list mist-actions > paper-button' % resource_type)
+    click_button_from_collection(context, button.lower(), buttons)
 
 
 @step(u'I click the "{text}" "{type_of_item}"')
 def click_item(context, text, type_of_item):
     type_of_item = type_of_item.lower()
-    if type_of_item not in ['machine', 'key', 'script', 'network', 'team', 'template', 'stack', 'schedule']:
+    if type_of_item not in ['machine', 'key', 'script', 'network', 'team', 'template', 'stack', 'image', 'schedule']:
         raise Exception('Unknown type of button')
     if context.mist_config.get(text):
         text = context.mist_config[text]
     text = text.lower()
-    item_selector = 'page-%ss iron-list div.row' % type_of_item
+    if type_of_item in ['team', 'key', 'script', 'network', 'template', 'stack', 'schedule']:
+        item_selector = 'page-%ss mist-list vaadin-grid-table-body#items > vaadin-grid-table-row' % type_of_item
+    else:
+        item_selector = 'page-%ss iron-list div.row' % type_of_item
     #buttons = context.driver.findElements(By.CSS_SELECTOR(item_selector))
     items = context.browser.find_elements_by_css_selector(item_selector)
     for item in items:
-        name = safe_get_element_text(item.find_element_by_css_selector('div.name')).strip().lower()
-        if text == name:
-            clicketi_click_list_row(context, item)
-            return True
+        if type_of_item in ['team', 'key', 'script', 'network', 'template', 'stack', 'schedule']:
+            name = safe_get_element_text(item.find_element_by_css_selector('strong.name')).strip().lower()
+            if text in name:
+                clicketi_click_list_row(context, item)
+                return True
+        else:
+            name = safe_get_element_text(item.find_element_by_css_selector('div.name')).strip().lower()
+            if text == name:
+                clicketi_click_list_row(context, item)
+                return True
     assert False, "Could not click item %s" % text
 
 
@@ -211,7 +229,43 @@ def get_color_from_state(state):
 def click_mist_io(context):
     clicketi_click(context, context.browser.find_element_by_id('logo-link'))
 
+#TODO: "{button}" and ids should have the exact same name
 
+@step(u'I click the "{button}" button')
+def click_button_by_id(context,button):
+    if button == 'new cloud':
+      button_to_click = context.browser.find_element_by_id('addBtn')
+    elif button == 'save title':
+      button_to_click = context.browser.find_element_by_id('rename-cloud')
+    elif button == 'delete cloud':
+      button_to_click = context.browser.find_element_by_id('delete-cloud')
+    elif button == 'Account':
+        button_to_click = context.browser.find_element_by_id('Account')
+    elif button == 'API Tokens':
+        button_to_click = context.browser.find_element_by_id('API Tokens')
+    elif button == 'Create API Token':
+        button_to_click = context.browser.find_element_by_id('Create API Token')
+    elif button == 'Create':
+        button_to_click = context.browser.find_element_by_id('Create')
+    elif button == 'Launch':
+        button_to_click = context.browser.find_element_by_id('appformsubmit')
+    elif button == 'toggle':
+        button_to_click = context.browser.find_element_by_id('enable-disable-cloud')
+    elif button == 'more options':
+        button_to_click = context.browser.find_element_by_class_name('more')
+    elif button == 'Add graph':
+        button_to_click = context.browser.find_element_by_class_name('add-button')
+    elif button == 'enable monitoring':
+        button_to_click = context.browser.find_element_by_id('monitoring')
+    elif button == 'entropy':
+        button_to_click = context.browser.find_element_by_id('enropy')
+    elif button == 'Disable Monitoring':
+        menu_button = context.browser.find_element_by_id('monitoring-menu-wrapper')
+        clicketi_click(context,menu_button)
+        button_to_click = context.browser.find_element_by_id('monitoring-actions')
+    else:
+        raise Exception('Unknown type of button')
+    #assert button_to_click.is_displayed(), "%s button is not displayed" %button
 @step(u'I click the "{button}" button with id "{button_id}"')
 def click_button_by_id(context, button, button_id):
     button_to_click = context.browser.find_element_by_id(button_id)

@@ -48,7 +48,7 @@ machine_values_dict = {
     "nephoscale": ["Ubuntu Server 14.04 LTS 64-bit", "CS05 - Cloud Server 0.5 GB RAM, 1 Core", "SJC-1"],
     "softlayer": ["Ubuntu - Latest (64 bit) ", "1 CPU, 1GB ram, 25GB ", "AMS01 - Amsterdam"],
     "azure": ["Ubuntu Server 14.04 LTS", "ExtraSmall (1 cores, 768 MB) ", "West Europe"],
-    "docker": ["Fedora 20"]
+    "docker": ["mist/ubuntu-14.04:latest"]
 }
 
 
@@ -57,6 +57,8 @@ def set_values_to_create_machine_form(context,provider,machine_name):
                 Then I set the value "%s" to field "Machine Name" in "machine" add form
                 When I open the "Image" drop down
                 And I click the button "%s" in the "Image" dropdown
+                And I open the "Key" drop down
+                And I click the button "Key1" in the "Key" dropdown
             ''' % (machine_name,
                    machine_values_dict.get(provider)[0]))
 
@@ -293,6 +295,7 @@ def check_machine_deletion(context, name, provider, seconds):
             if name not in machines_names_list:
                 break
 
+
 @step(u'I search for the machine "{name}"')
 def search_for_mayday_machine(context, name):
     if context.mist_config.get(name):
@@ -301,3 +304,37 @@ def search_for_mayday_machine(context, name):
     for letter in name:
         search_bar.send_keys(letter)
     sleep(2)
+
+
+@step(u'"{key}" key should be associated with the machine "{machine}"')
+def check_for_associated_key(context, key, machine):
+    machine_keys_class = context.browser.find_elements_by_css_selector('div.machine-key.style-scope.machine-page')
+    for element in machine_keys_class:
+        if safe_get_element_text(element) == key:
+            return
+    assert False, "The key has not been associated with the machine!"
+
+
+@step(u'I delete the associated key "{key}"')
+def disassociate_key(context, key):
+    machine_keys_class = context.browser.find_elements_by_css_selector('div.machine-key.style-scope.machine-page')
+
+    for element in machine_keys_class:
+        if safe_get_element_text(element) == key:
+            delete_btn = element.find_element_by_class_name('delete')
+            clicketi_click(context, delete_btn)
+            return
+
+
+@step(u'there should be {keys} keys associated with the machine')
+def keys_associated_with_machine(context, keys):
+    machine_keys_class = context.browser.find_elements_by_css_selector('div.machine-key.style-scope.machine-page')
+    associated_keys_with_machine = 0
+    for element in machine_keys_class:
+        try:
+            element.find_element_by_tag_name('a')
+            associated_keys_with_machine += 1
+        except:
+            pass
+
+    assert associated_keys_with_machine == int(keys), "There are %s keys associated with the machine" % associated_keys_with_machine

@@ -4,8 +4,6 @@ import requests
 import logging
 import random
 
-from .requirements import chrome_driver_setup
-
 from misttests import config
 
 from misttests.helpers.selenium_utils import choose_driver
@@ -25,7 +23,6 @@ def before_all(context):
     """
     Load the configuration config and setup the context
     """
-    chrome_driver_setup()
     log.info("Starting before all hook")
     log.info("Webdriver path:" + config.WEBDRIVER_PATH)
     log.info("Webdriver log:" + config.WEBDRIVER_LOG)
@@ -76,7 +73,6 @@ def before_all(context):
     context.link_inside_email = ''
     context.mist_config['ORG_ID'] = ''
 
-    log.info("Finished with the bulk of the test settings")
     if config.LOCAL:
         log.info("Initializing behaving mail for path: %s" % config.MAIL_PATH)
         from behaving.mail import environment as behaving_mail
@@ -88,10 +84,6 @@ def before_all(context):
     if context.mist_config.get('recording_session', False):
         start_recording()
 
-    log.info("Finished with before_all hook. Starting tests")
-
-
-def before_feature(context, feature):
     if config.REGISTER_USER_BEFORE_FEATURE:
         payload = {
             'email': context.mist_config['EMAIL'],
@@ -103,6 +95,8 @@ def before_feature(context, feature):
 
         context.mist_config['ORG_ID'] = re.json().get('org_id')
         context.mist_config['ORG_NAME'] = re.json().get('org_name')
+
+    log.info("Finished with before_all hook. Starting tests")
 
 
 def after_step(context, step):
@@ -140,7 +134,8 @@ def kill_yolomachine(context, machines, headers, cloud_id):
         if 'yolomachine' in machine['name']:
             log.info('Killing yolomachine...')
             payload= {'action': 'destroy'}
-            uri = context.mist_config['MIST_URL'] + '/api/v1/clouds/' + cloud_id + '/machines/' + machine['id']
+            uri = context.mist_config['MIST_URL'] + '/api/v1/clouds/' + \
+                  cloud_id + '/machines/' + machine['machine_id']
             requests.post(uri, data=json.dumps(payload), headers=headers)
 
 
@@ -150,44 +145,25 @@ def kill_orchestration_machines(context):
 
     response = requests.get("%s/api/v1/clouds" % context.mist_config['MIST_URL'], headers=headers)
     for cloud in response.json():
-        if 'digitalocean' in cloud['provider']:
+        if 'docker' in cloud['provider']:
             cloud_id = cloud['id']
             uri = context.mist_config['MIST_URL'] + '/api/v1/clouds/' + cloud_id + '/machines'
             response = requests.get(uri, headers=headers)
             kill_yolomachine(context, response.json(), headers, cloud_id)
 
 
-def kill_docker_machine(context):
-    api_token = get_api_token(context)
-    headers = {'Authorization': api_token}
-
-    response = requests.get("%s/api/v1/clouds" % context.mist_config['MIST_URL'], headers=headers)
-    for cloud in response.json():
-        if 'docker' in cloud['provider']:
-            cloud_id = cloud['id']
-            uri = context.mist_config['MIST_URL'] + '/api/v1/clouds/' + cloud_id + '/machines'
-            response = requests.get(uri, headers=headers)
-            for machine in response.json():
-                if 'docker-ui-test-machine-' in machine['name']:
-                    log.info('Killing docker machine...')
-                    payload = {'action': 'destroy'}
-                    uri = context.mist_config['MIST_URL'] + '/api/v1/clouds/' + cloud_id + '/machines/' + machine['id']
-                    requests.post(uri, data=json.dumps(payload), headers=headers)
-
-
 def delete_schedules(context):
-    log.info('Deleting schedule...')
     api_token = get_api_token(context)
     headers = {'Authorization': api_token}
 
     response = requests.get("%s/api/v1/schedules" % context.mist_config['MIST_URL'], headers=headers)
     for schedule in response.json():
+        log.info('Deleting schedule...')
         uri = context.mist_config['MIST_URL'] + '/api/v1/schedules/' + schedule['id']
         requests.delete(uri, headers=headers)
 
 
-def start_ui_machines(context):
-    log.info('Starting ui-docker machines...')
+def kill_docker_machine(context, machine_to_destroy):
     api_token = get_api_token(context)
     headers = {'Authorization': api_token}
     response = requests.get("%s/api/v1/clouds" % context.mist_config['MIST_URL'], headers=headers)
@@ -196,10 +172,11 @@ def start_ui_machines(context):
             uri = context.mist_config['MIST_URL'] + '/api/v1/clouds/' + cloud['id'] + '/machines'
             response = requests.get(uri, headers=headers)
             for machine in response.json():
-                if 'ui-testing' in machine['name']:
-                    log.info('Starting ui-testing machine...')
-                    payload = {'action': 'start'}
-                    uri = context.mist_config['MIST_URL'] + '/api/v1/clouds/' + cloud['id'] + '/machines/' + machine['id']
+                if machine_to_destroy in machine['name']:
+                    log.info('Killing docker machine...')
+                    payload = {'action': 'destroy'}
+                    uri = context.mist_config['MIST_URL'] + '/api/v1/clouds/' + cloud['id'] + '/machines/' + \
+                          machine['machine_id']
                     requests.post(uri, data=json.dumps(payload), headers=headers)
 
 
@@ -213,10 +190,18 @@ def finish_and_cleanup(context):
 
 
 def after_feature(context, feature):
-    if 'Orchestration' in feature.name:
+    if 'Orchestration' == feature.name:
         kill_orchestration_machines(context)
-    if 'Schedulers' in feature.name:
+    if 'Schedulers' == feature.name:
         delete_schedules(context)
-        start_ui_machines(context)
-    if 'Machines' in feature.name:
-        kill_docker_machine(context)
+        kill_docker_machine(context, context.mist_config.get('test-machine-random'))
+    if 'Schedulers-b' == feature.name:
+        delete_schedules(context)
+        kill_docker_machine(context, context.mist_config.get('test-ui-machine-random'))
+        kill_docker_machine(context, context.mist_config.get('test-ui-machine-2-random'))
+    if 'Machines' == feature.name:
+       kill_docker_machine(context, context.mist_config.get('ui-test-create-machine-random'))
+    if 'RBAC' == feature.name:
+        kill_docker_machine(context, context.mist_config.get('docker-ui-test-machine-random'))
+    if 'Monitoring' == feature.name:
+        kill_docker_machine(context, context.mist_config.get('monitored-machine-random'))

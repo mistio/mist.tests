@@ -83,7 +83,7 @@ def am_in_new_UI(context):
 
 @step(u'I make sure the menu is open')
 def make_sure_menu_is_open(context):
-    end_time = time() + 10
+    end_time = time() + 15
     while time() < end_time:
         try:
             menu = context.browser.find_element_by_id('sidebar')
@@ -147,8 +147,7 @@ def go_to_some_page_without_waiting(context, title):
     title = title.lower()
     if title not in ['machines', 'images', 'keys', 'networks', 'tunnels',
                      'scripts', 'schedules', 'templates', 'stacks', 'teams',
-                     'account',
-                     'home']:
+                     'account', 'insights', 'home']:
         raise ValueError('The page given is unknown')
     if title.lower() == 'home':
         context.execute_steps(u'When I click the mist.io button')
@@ -215,7 +214,7 @@ def given_logged_in(context):
         When I open the login popup
         And I enter my standard credentials for login
         And I click the sign in button in the landing page popup
-        Then I wait for the dashboard to load
+        Then I wait for the links in homepage to appear
     """)
 
 
@@ -253,14 +252,14 @@ def given_logged_in(context, kind):
             When I open the login popup
             And I enter my %s credentials for login
             And I click the sign in button in the landing page popup
-            Then I wait for the dashboard to load
+            And I wait for the links in homepage to appear
         """ % kind)
     elif kind == 'reg_member':
         context.execute_steps(u"""
             When I open the login popup
             And I enter my standard credentials for login
             And I click the sign in button in the landing page popup
-            Then I wait for the dashboard to load
+            And I wait for the links in homepage to appear
         """)
 
 
