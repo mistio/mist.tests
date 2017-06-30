@@ -141,7 +141,7 @@ NAME = get_setting("NAME", "Atheofovos Gkikas")
 MAYDAY_MACHINE = get_setting("MAYDAY_MACHINE", "")
 
 # DEFAULT CREDENTIALS FOR ACCESSING MIST.CORE
-BASE_EMAIL = get_setting("BASE_EMAIL", "fatboy.tester.mist.io")
+BASE_EMAIL = get_setting("BASE_EMAIL", "stager.mist.io")
 GMAIL_FATBOY_USER = get_setting("GMAIL_FATBOY_USER", "%s@gmail.com" % BASE_EMAIL)
 GMAIL_FATBOY_PASSWORD = get_setting("GMAIL_FATBOY_PASSWORD", "")
 EMAIL = get_setting("EMAIL", "%s+%d@gmail.com" % (BASE_EMAIL, random.randint(1,200000)))
