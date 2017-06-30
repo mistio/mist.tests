@@ -52,6 +52,7 @@ def test_list_api_tokens(pretty_print, cache, mist_core, owner_api_token):
     assert_response_ok(response)
     print "Success"
 
+
 def test_create_api_token_wrong_ttl(pretty_print, mist_core, email,
                                     password1):
     response = mist_core.create_token(email=email, password=password1,
@@ -61,3 +62,16 @@ def test_create_api_token_wrong_ttl(pretty_print, mist_core, email,
                                       ttl='10a').post()
     assert_response_bad_request(response)
     print "Success!!!"
+
+
+def test_create_api_token_empty_password(pretty_print, mist_core, email, owner_api_token):
+    response = mist_core.create_token(email=email, password='').post()
+    assert_response_bad_request(response)
+    print "Success!!!"
+
+
+# def test_create_api_token_wrong_password(pretty_print, mist_core, email, owner_api_token):
+#     response = mist_core.create_token(email=email, password='wrong',
+#                                       api_token=owner_api_token).post()
+#     assert_response_bad_request(response)
+#     print "Success!!!"

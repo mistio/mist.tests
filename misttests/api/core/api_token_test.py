@@ -6,50 +6,12 @@ from misttests.api.helpers import *
 ############################################################################
 
 
-def test_create_api_token_empty_password(pretty_print, mist_core, email, owner_api_token):
-    response = mist_core.create_token(email=email, password='', api_token=owner_api_token).post()
-    assert_response_bad_request(response)
-    print "Success!!!"
-
-
-def test_create_api_token_wrong_password(pretty_print, mist_core, email, owner_api_token):
-    response = mist_core.create_token(email=email, password='wrong',
-                                      api_token=owner_api_token).post()
-    assert_response_bad_request(response)
-    print "Success!!!"
-
-
 def test_create_api_token_wrong_org_id(pretty_print, mist_core, email,
                                        password1):
     response = mist_core.create_token(email=email, password=password1,
                                       org_id='bla').post()
     assert_response_unauthorized(response)
     print "Success!!!"
-
-
-def test_008_test_su(pretty_print, cache, mist_core):
-    response = mist_core.su(
-        api_token=cache.get('api_token_test/api_token', '')).get()
-    assert_response_unauthorized(response)
-    print "Success!!!!"
-
-
-# def test_create_api_token_ttl_ok(pretty_print, cache, mist_core, email, password1, owner_api_token):
-#     response = mist_core.create_token(email=email, password=password1,
-#                                       api_token=owner_api_token, ttl=300).post()
-#     assert_response_ok(response)
-#     assert_is_not_none(response.json().get('token', None),
-#                        "Did not get an api token back in the response")
-#     assert_is_not_none(response.json().get('name', None),
-#                        "Did not get the api token name in the response")
-#     response = mist_core.create_token(email=email, password=password1, ttl=300, new_api_token_name='testToken').post()
-#     assert_response_ok(response)
-#     assert_is_not_none(response.json().get('token', None),
-#                        "Did not get an api token back in the response")
-#     assert_is_not_none(response.json().get('name', None),
-#                        "Did not get the api token name in the response")
-#
-#     print "Success!!!!"
 
 
 ############################################################################
