@@ -146,9 +146,9 @@ GMAIL_FATBOY_USER = get_setting("GMAIL_FATBOY_USER", "%s@gmail.com" % BASE_EMAIL
 GMAIL_FATBOY_PASSWORD = get_setting("GMAIL_FATBOY_PASSWORD", "")
 EMAIL = get_setting("EMAIL", "%s+%d@gmail.com" % (BASE_EMAIL, random.randint(1,200000)))
 PASSWORD1 = get_setting("PASSWORD1",
-                        ''.join(random.choice(string.ascii_letters + string.digits) for _ in range(10)))
+                        ''.join(random.choice(string.ascii_letters + string.digits) for _ in range(20)))
 PASSWORD2 = get_setting("PASSWORD2",
-                        ''.join(random.choice(string.ascii_letters + string.digits) for _ in range(10)))
+                        ''.join(random.choice(string.ascii_letters + string.digits) for _ in range(20)))
 
 DEMO_EMAIL = get_setting("DEMO_EMAIL", "")
 DEMO_PASSWORD = get_setting("DEMO_PASSWORD", "")
