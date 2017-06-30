@@ -1,5 +1,7 @@
 from misttests.api.utils import *
 
+import pytest
+
 
 def test_get_api_token_empty_fields(pretty_print, mist_core):
     print "\n>>>  POSTing /auth and /tokens to get a token with empty creds:"
@@ -64,14 +66,13 @@ def test_create_api_token_wrong_ttl(pretty_print, mist_core, email,
     print "Success!!!"
 
 
-def test_create_api_token_empty_password(pretty_print, mist_core, email, owner_api_token):
+def test_create_api_token_empty_password(pretty_print, mist_core, email):
     response = mist_core.create_token(email=email, password='').post()
     assert_response_bad_request(response)
     print "Success!!!"
 
 
-# def test_create_api_token_wrong_password(pretty_print, mist_core, email, owner_api_token):
-#     response = mist_core.create_token(email=email, password='wrong',
-#                                       api_token=owner_api_token).post()
-#     assert_response_bad_request(response)
-#     print "Success!!!"
+def test_create_api_token_wrong_password(pretty_print, mist_core, email, owner_api_token):
+    response = mist_core.create_token(email=email, password='wrong').post()
+    assert_response_unauthorized(response)
+    print "Success!!!"
