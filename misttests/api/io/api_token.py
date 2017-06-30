@@ -1,7 +1,5 @@
 from misttests.api.utils import *
 
-import pytest
-
 
 def test_get_api_token_empty_fields(pretty_print, mist_core):
     print "\n>>>  POSTing /auth and /tokens to get a token with empty creds:"
