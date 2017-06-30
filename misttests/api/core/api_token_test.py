@@ -19,17 +19,6 @@ def test_create_api_token_wrong_password(pretty_print, mist_core, email, owner_a
     print "Success!!!"
 
 
-def test_create_api_token_wrong_ttl(pretty_print, mist_core, email,
-                                    password1):
-    response = mist_core.create_token(email=email, password=password1,
-                                      ttl='bla').post()
-    assert_response_bad_request(response)
-    response = mist_core.create_token(email=email, password=password1,
-                                      ttl='10a').post()
-    assert_response_bad_request(response)
-    print "Success!!!"
-
-
 def test_create_api_token_wrong_org_id(pretty_print, mist_core, email,
                                        password1):
     response = mist_core.create_token(email=email, password=password1,

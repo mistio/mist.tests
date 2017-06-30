@@ -41,7 +41,23 @@ def test_su(pretty_print, cache, mist_core):
     print "Success!!!!"
 
 
+def test_list_api_tokens_no_api_token(pretty_print, cache, mist_core):
+    response = mist_core.list_tokens(api_token='').get()
+    assert_response_unauthorized(response)
+    print "Success"
+
+
 def test_list_api_tokens(pretty_print, cache, mist_core, owner_api_token):
     response = mist_core.list_tokens(api_token=owner_api_token).get()
     assert_response_ok(response)
     print "Success"
+
+def test_create_api_token_wrong_ttl(pretty_print, mist_core, email,
+                                    password1):
+    response = mist_core.create_token(email=email, password=password1,
+                                      ttl='bla').post()
+    assert_response_bad_request(response)
+    response = mist_core.create_token(email=email, password=password1,
+                                      ttl='10a').post()
+    assert_response_bad_request(response)
+    print "Success!!!"
