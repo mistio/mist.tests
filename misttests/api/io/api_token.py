@@ -1,5 +1,4 @@
-from misttests.api.utils import assert_response_bad_request
-from misttests.api.utils import assert_response_unauthorized
+from misttests.api.utils import *
 
 
 def test_get_api_token_empty_fields(pretty_print, mist_core):
@@ -40,3 +39,9 @@ def test_su(pretty_print, cache, mist_core):
         api_token=cache.get('api_token_test/api_token', '')).get()
     assert_response_unauthorized(response)
     print "Success!!!!"
+
+
+def test_list_api_tokens(pretty_print, cache, mist_core, owner_api_token):
+    response = mist_core.list_tokens(api_token=owner_api_token).get()
+    assert_response_ok(response)
+    print "Success"
