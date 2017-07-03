@@ -92,28 +92,28 @@ def add_docker_api_request(context, cloud):
 
     if cloud == 'Docker':
 
-        payload = {
-            'title': "Docker",
-            'provider': "docker",
-            'docker_host': safe_get_var('clouds/docker', 'host', context.mist_config['CREDENTIALS']['DOCKER']['host']),
-            'docker_port': safe_get_var('clouds/docker', 'port', context.mist_config['CREDENTIALS']['DOCKER']['port']),
-            'authentication': safe_get_var('clouds/docker', 'authentication', context.mist_config['CREDENTIALS']['DOCKER']['authentication']),
-            'ca_cert_file': safe_get_var('clouds/docker', 'ca', context.mist_config['CREDENTIALS']['DOCKER']['ca']),
-            'key_file': safe_get_var('clouds/docker', 'key', context.mist_config['CREDENTIALS']['DOCKER']['key']),
-            'cert_file': safe_get_var('clouds/docker', 'cert', context.mist_config['CREDENTIALS']['DOCKER']['cert']),
-            'show_all': True
-        }
+        if context.mist_config['LOCAL']:
+            payload = {
+                'title': "Docker",
+                'provider': "docker",
+                'docker_host': '172.17.0.1',
+                'docker_port': '2375',
+                'show_all': True
+            }
 
-    elif cloud == 'Docker-Monitoring':
+        else:
 
-        payload = {
-            'title': "Docker",
-            'provider': "docker",
-            'docker_host': safe_get_var('clouds/docker_monitoring', 'host',
-                                        context.mist_config['CREDENTIALS']['DOCKER_MONITORING']['host']),
-            'docker_port': safe_get_var('clouds/docker_monitoring', 'port',
-                                        context.mist_config['CREDENTIALS']['DOCKER_MONITORING']['port']),
-        }
+            payload = {
+                'title': "Docker",
+                'provider': "docker",
+                'docker_host': safe_get_var('dockerhosts/godzilla', 'host', context.mist_config['CREDENTIALS']['DOCKER']['host']),
+                'docker_port': safe_get_var('dockerhosts/godzilla', 'port', context.mist_config['CREDENTIALS']['DOCKER']['port']),
+                'authentication': safe_get_var('dockerhosts/godzilla', 'authentication', context.mist_config['CREDENTIALS']['DOCKER']['authentication']),
+                'ca_cert_file': safe_get_var('dockerhosts/godzilla', 'ca', context.mist_config['CREDENTIALS']['DOCKER']['ca']),
+                'key_file': safe_get_var('dockerhosts/godzilla', 'key', context.mist_config['CREDENTIALS']['DOCKER']['key']),
+                'cert_file': safe_get_var('dockerhosts/godzilla', 'cert', context.mist_config['CREDENTIALS']['DOCKER']['cert']),
+                'show_all': True
+            }
 
     elif cloud == 'Local_Monitoring':
 

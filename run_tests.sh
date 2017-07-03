@@ -13,14 +13,15 @@ help_message() {
     echo "-h            Display this message"
     echo "-api          Run api tests suite. If no argument provided, the entire API tests suite will be invoked"
     echo "-gui          Run gui tests suite. If no argument provided, the entire GUI tests suite will be invoked"
+    echo "-provision    Run libcloud provision test."
     echo
     echo "Argument for API tests can be one of the following:"
     echo
-    echo "clouds, machines, tunnels, keys, dns, scripts, api_token, tunnels, schedules, orchestration, libcloud, networks"
+    echo "clouds, machines, tunnels, keys, dns, scripts, api_token, tunnels, schedules, orchestration, libcloud, networks, rbac"
     echo
     echo "Argument for UI tests can be one of the following:"
     echo
-    echo "clouds, machines, images, keys, scripts, users, rbac, schedules, orchestration, monitoring"
+    echo "clouds, clouds-actions, machines, images, keys, scripts, users, rbac, schedules, orchestration, monitoring, rbac-rules, insights"
     echo
     exit
 }
@@ -43,6 +44,10 @@ run_api_tests_suite() {
     pytest -s $pytest_args
 }
 
+run_provision_tests_suite() {
+    python test_provisioning.py
+}
+
 vault_login() {
     export vault_server=${VAULT_ADDR:-https://vault.ops.mist.io:8200}
     echo Vault username:
@@ -53,7 +58,7 @@ vault_login() {
     VAULT_CLIENT_TOKEN=$(curl $vault_server/v1/auth/userpass/login/$username -d '{ "password": "'${password}'" }' |
      python -c "import sys, json; print(json.load(sys.stdin)['auth']['client_token'])")
 
-    if [ -z "VAULT_CLIENT_TOKEN" ]
+    if [[ -z "${VAULT_CLIENT_TOKEN// }" ]]
     then
         echo 'Wrong credentials given...'
         vault_login
@@ -67,7 +72,7 @@ vault_login() {
 
     pytest_paths["clouds"]='misttests/api/io/clouds.py'
     pytest_paths["images"]='misttests/api/io/images.py'
-    pytest_paths["libcloud"]='misttests/api/io/libcloud.py misttests/api/io/libcloud_b.py'
+    pytest_paths["libcloud"]='misttests/api/io/libcloud_1.py misttests/api/io/libcloud_2.py'
     pytest_paths["machines"]='misttests/api/io/machines.py'
     pytest_paths["networks"]='misttests/api/io/networks.py'
     pytest_paths["keys"]='misttests/api/io/keys.py'
@@ -77,19 +82,22 @@ vault_login() {
     pytest_paths["schedules"]='misttests/api/io/schedules.py'
     pytest_paths["tunnels"]='misttests/api/core/tunnels.py'
     pytest_paths["orchestration"]='misttests/api/core/orchestration.py'
+    pytest_paths["rbac"]='misttests/api/io/rbac.py'
 
     declare -A behave_tags
 
-    behave_tags["clouds"]='clouds-add-a','clouds-add-b','clouds-actions,'
+    behave_tags["clouds"]='clouds-add-1','clouds-add-2'
+    behave_tags["clouds-actions"]='clouds-actions,'
     behave_tags["images"]='images-networks,'
     behave_tags["keys"]='keys,'
-    behave_tags["scripts"]='scripts,'
+    behave_tags["scripts"]='scripts','scripts-actions'
     behave_tags["machines"]='machines,'
     behave_tags["users"]='user-actions,'
-    behave_tags["rbac"]='rbac-rules','rbac-teams','rbac-rules-v2,'
-    behave_tags["schedules"]='schedulers','schedulers_v2,'
-    behave_tags["monitoring"]='monitoring-locally,'
+    behave_tags["rbac"]='rbac-teams'
+    behave_tags["schedules"]='schedulers-1','schedulers-2,'
+    behave_tags["monitoring"]='monitoring-locally'
     behave_tags["orchestration"]='orchestration,'
+    behave_tags["rbac-rules"]='rbac-rules-1'
 
 
 
@@ -118,6 +126,10 @@ vault_login() {
         then
             vault_login
             run_gui_tests_suite
+        elif [ $1 == '-provision' ]
+        then
+            vault_login
+            run_provision_tests_suite
         elif [ $1 == '-t' ]
         then
             export VAULT_ENABLED=False

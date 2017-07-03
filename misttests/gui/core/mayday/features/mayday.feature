@@ -31,13 +31,14 @@ Feature: Production
     Then I wait for the graphs to appear
     When I remove previous rules
     When I delete old mayday emails
-    And I wait for 7 seconds
+    And I wait for 2 seconds
     And I focus on the "add new rule" button
     And I click the button "add new rule"
     Then I expect for "newrule" to be visible within max 20 seconds
     And I click the "metricName" rule
-#    And I click the "RAM" button in the dropdown with id "metricName"
+    And I click the "RAM" button in the dropdown with id "metricName"
     When I fill "0" as metric value
+    And I wait for 2 seconds
     And I save the rule
 #    When I remove previous rules
 
@@ -102,12 +103,12 @@ Feature: Production
     When I wait for the dashboard to load
     Then I logout
 
+  @confirm_alert_email
+  Scenario: Confirm that alert email arrived
+    Then I should receive an email within 200 seconds
+
   @incidents
   Scenario: Verify that incident gets triggered
     Given I am logged in to mist.core
     And I wait for the links in homepage to appear
-    Then I should see the incident "Load > 0.0"
-
-  @confirm_alert_email
-  Scenario: Confirm that alert email arrived
-    Then I should receive an email within 200 seconds
+    Then I should see the incident "RAM > 0.0%"

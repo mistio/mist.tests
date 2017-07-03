@@ -5,7 +5,7 @@ Feature: Monitoring
   @enable-monitoring
   Scenario: Create Machine,deploy monitoring agent and check the graphs
     Given I am logged in to mist.core
-    And cloud "Docker-Monitoring" has been added via API request
+    And cloud "Docker" has been added via API request
     And "Key1" key has been added
     When I visit the Machines page
     And I wait for 1 seconds
@@ -35,6 +35,7 @@ Feature: Monitoring
   Scenario: Add custom graph and make sure an extra graph is visible
     When I refresh the page
     And I wait for 10 seconds
+    And I focus on the "Add Graph" button
     And I click the button "Add Graph"
     Then I expect for "selectTarget" modal to appear within max 20 seconds
     And I expect the metric buttons to appear within 30 seconds
