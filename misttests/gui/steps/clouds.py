@@ -109,25 +109,34 @@ def set_docker_orchestrator_creds(context):
 
 
 def set_docker_creds(context):
-    host = safe_get_var('dockerhosts/godzilla', 'host', context.mist_config['CREDENTIALS']['DOCKER']['host'])
-    authentication = safe_get_var('dockerhosts/godzilla', 'authentication', context.mist_config['CREDENTIALS']['DOCKER']['authentication'])
-    port = safe_get_var('dockerhosts/godzilla', 'port', context.mist_config['CREDENTIALS']['DOCKER']['port'])
-    context.execute_steps(u'''
-            Then I set the value "Docker" to field "Title" in "cloud" add form
-            Then I set the value "%s" to field "Host" in "cloud" add form
-            Then I set the value "%s" to field "Port" in "cloud" add form
-            Then I open the "Authentication" drop down
-            And I wait for 1 seconds
-            When I click the button "%s" in the "Authentication" dropdown
-        ''' % (host, port, authentication))
+    if context.mist_config['LOCAL']:
+        host = '172.17.0.1'
+        port = '2375'
+        context.execute_steps(u'''
+                Then I set the value "Docker" to field "Title" in "cloud" add form
+                Then I set the value "%s" to field "Host" in "cloud" add form
+                Then I set the value "%s" to field "Port" in "cloud" add form
+        ''' % (host, port))
+    else:
+        host = safe_get_var('dockerhosts/godzilla', 'host', context.mist_config['CREDENTIALS']['DOCKER']['host'])
+        authentication = safe_get_var('dockerhosts/godzilla', 'authentication', context.mist_config['CREDENTIALS']['DOCKER']['authentication'])
+        port = safe_get_var('dockerhosts/godzilla', 'port', context.mist_config['CREDENTIALS']['DOCKER']['port'])
+        context.execute_steps(u'''
+                Then I set the value "Docker" to field "Title" in "cloud" add form
+                Then I set the value "%s" to field "Host" in "cloud" add form
+                Then I set the value "%s" to field "Port" in "cloud" add form
+                Then I open the "Authentication" drop down
+                And I wait for 1 seconds
+                When I click the button "%s" in the "Authentication" dropdown
+            ''' % (host, port, authentication))
 
-    certificate = safe_get_var('dockerhosts/godzilla', 'cert', context.mist_config['CREDENTIALS']['DOCKER']['cert'])
-    key = safe_get_var('dockerhosts/godzilla', 'key', context.mist_config['CREDENTIALS']['DOCKER']['key'])
-    ca = safe_get_var('dockerhosts/godzilla', 'ca', context.mist_config['CREDENTIALS']['DOCKER']['ca'])
+        certificate = safe_get_var('dockerhosts/godzilla', 'cert', context.mist_config['CREDENTIALS']['DOCKER']['cert'])
+        key = safe_get_var('dockerhosts/godzilla', 'key', context.mist_config['CREDENTIALS']['DOCKER']['key'])
+        ca = safe_get_var('dockerhosts/godzilla', 'ca', context.mist_config['CREDENTIALS']['DOCKER']['ca'])
 
-    set_value_to_field(context, key, 'key', 'cloud', 'add')
-    set_value_to_field(context, certificate, 'certificate', 'cloud', 'add')
-    set_value_to_field(context, ca, 'ca certificate', 'cloud', 'add')
+        set_value_to_field(context, key, 'key', 'cloud', 'add')
+        set_value_to_field(context, certificate, 'certificate', 'cloud', 'add')
+        set_value_to_field(context, ca, 'ca certificate', 'cloud', 'add')
 
 
 def set_packet_creds(context):

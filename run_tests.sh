@@ -17,11 +17,11 @@ help_message() {
     echo
     echo "Argument for API tests can be one of the following:"
     echo
-    echo "clouds, machines, tunnels, keys, dns, scripts, api_token, tunnels, schedules, orchestration, libcloud, networks"
+    echo "clouds, machines, tunnels, keys, dns, scripts, api_token, tunnels, schedules, orchestration, libcloud, networks, rbac"
     echo
     echo "Argument for UI tests can be one of the following:"
     echo
-    echo "clouds, machines, images, keys, scripts, users, rbac, schedules, orchestration, monitoring"
+    echo "clouds, clouds-actions, machines, images, keys, scripts, users, rbac, schedules, orchestration, monitoring, rbac-rules, insights"
     echo
     exit
 }
@@ -58,7 +58,7 @@ vault_login() {
     VAULT_CLIENT_TOKEN=$(curl $vault_server/v1/auth/userpass/login/$username -d '{ "password": "'${password}'" }' |
      python -c "import sys, json; print(json.load(sys.stdin)['auth']['client_token'])")
 
-    if [ -z "VAULT_CLIENT_TOKEN" ]
+    if [[ -z "${VAULT_CLIENT_TOKEN// }" ]]
     then
         echo 'Wrong credentials given...'
         vault_login
@@ -82,19 +82,22 @@ vault_login() {
     pytest_paths["schedules"]='misttests/api/io/schedules.py'
     pytest_paths["tunnels"]='misttests/api/core/tunnels.py'
     pytest_paths["orchestration"]='misttests/api/core/orchestration.py'
+    pytest_paths["rbac"]='misttests/api/io/rbac.py'
 
     declare -A behave_tags
 
-    behave_tags["clouds"]='clouds-add-1','clouds-add-2','clouds-actions,'
+    behave_tags["clouds"]='clouds-add-1','clouds-add-2'
+    behave_tags["clouds-actions"]='clouds-actions,'
     behave_tags["images"]='images-networks,'
     behave_tags["keys"]='keys,'
-    behave_tags["scripts"]='scripts,'
+    behave_tags["scripts"]='scripts','scripts-actions'
     behave_tags["machines"]='machines,'
     behave_tags["users"]='user-actions,'
-    behave_tags["rbac"]='rbac-rules-1','rbac-teams','rbac-rules-2,'
+    behave_tags["rbac"]='rbac-teams'
     behave_tags["schedules"]='schedulers-1','schedulers-2,'
-    behave_tags["monitoring"]='monitoring'
+    behave_tags["monitoring"]='monitoring-locally'
     behave_tags["orchestration"]='orchestration,'
+    behave_tags["rbac-rules"]='rbac-rules-1'
 
 
 

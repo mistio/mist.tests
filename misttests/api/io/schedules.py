@@ -113,7 +113,12 @@ def test_show_schedule_wrong_schedule_id(pretty_print, mist_core, owner_api_toke
 class TestSchedulesFunctionality:
 
     def test_create_resources(self, pretty_print, mist_core, owner_api_token, cache):
-        response = mist_core.add_cloud(title='Docker', provider= 'docker', api_token=owner_api_token,
+        if config.LOCAL:
+            response = mist_core.add_cloud(title='Docker', provider='docker', api_token=owner_api_token,
+                                       docker_host='172.17.0.1',
+                                       docker_port='2375').post()
+        else:
+            response = mist_core.add_cloud(title='Docker', provider='docker', api_token=owner_api_token,
                                        docker_host=safe_get_var('dockerhosts/godzilla', 'host',
                                                                 config.CREDENTIALS['DOCKER']['host']),
                                        docker_port=safe_get_var('dockerhosts/godzilla', 'port',
