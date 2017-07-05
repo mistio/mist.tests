@@ -13,6 +13,7 @@ help_message() {
     echo "-h            Display this message"
     echo "-api          Run api tests suite. If no argument provided, the entire API tests suite will be invoked"
     echo "-gui          Run gui tests suite. If no argument provided, the entire GUI tests suite will be invoked"
+    echo "-provision    Run libcloud provision test."
     echo
     echo "Argument for API tests can be one of the following:"
     echo
@@ -41,6 +42,10 @@ run_api_tests_suite() {
       pytest_args="${pytest_args} ${path}"
     done
     pytest -s $pytest_args
+}
+
+run_provision_tests_suite() {
+    python test_provisioning.py
 }
 
 vault_login() {
@@ -121,6 +126,10 @@ vault_login() {
         then
             vault_login
             run_gui_tests_suite
+        elif [ $1 == '-provision' ]
+        then
+            vault_login
+            run_provision_tests_suite
         elif [ $1 == '-t' ]
         then
             export VAULT_ENABLED=False
