@@ -216,8 +216,7 @@ def click_menu_button_from_more_menu(context, button_name, title, form_type):
     form = get_add_form(context, form_type) if form_type == 'add' else \
         get_edit_form(context, title)
     if title == 'machine':
-        item_actions = context.browser.find_element_by_id('actions_machine')
-        actions = item_actions.find_element_by_class_name('mist-actions')
+        actions = context.browser.find_element_by_tag_name('mist-actions')
         buttons = actions.find_elements_by_tag_name('paper-button')
         for button in buttons:
             if safe_get_element_text(button).lower() == button_name.lower():
