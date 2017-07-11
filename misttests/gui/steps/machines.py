@@ -111,7 +111,7 @@ def choose_machine(context, name):
     while time() < end_time:
         machine = get_machine(context, name)
         if machine:
-            checkbox = machine.find_element_by_class_name("ui-checkbox")
+            checkbox = machine.find_element_by_tag_name("mist-check")
             checkbox.click()
             return
 
@@ -137,7 +137,7 @@ def assert_machine_added(context, name, seconds):
 def get_machine(context, name):
     try:
         placeholder = context.browser.find_element_by_tag_name("page-machines").find_element_by_id("items")
-        machines = placeholder.find_elements_by_tag_name("div")
+        machines = placeholder.find_elements_by_tag_name("vaadin-grid-table-row")
 
         for machine in machines:
             machine_text = safe_get_element_text(machine)
