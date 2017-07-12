@@ -52,7 +52,7 @@ def click_mayday_machine(context):
     """
     if context.mist_config.get('MAYDAY_MACHINE'):
         text = context.mist_config['MAYDAY_MACHINE']
-    button = context.browser.find_element_by_xpath("//a[@title='%s']" % text)
+    button = context.browser.find_element_by_xpath("//vaadin-grid-table-row[.//strong[text()='%s']]" % text)
     clicketi_click(context, button)
 
 
@@ -77,7 +77,7 @@ def assert_mayday_machine_state(context, state, seconds):
 
 
 @step(u'I choose the mayday machine')
-def choose_mayday_machine(context):
+def reboot_mayday_machine(context):
     if context.mist_config.get('MAYDAY_MACHINE'):
         name = context.mist_config.get('MAYDAY_MACHINE')
 
@@ -85,7 +85,7 @@ def choose_mayday_machine(context):
     while time() < end_time:
         machine = get_machine(context, name)
         if machine:
-            checkbox = machine.find_element_by_class_name("ui-checkbox")
+            checkbox = machine.find_element_by_class_name("mist-check")
             checkbox.click()
             return
 
