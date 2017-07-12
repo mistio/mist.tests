@@ -13,7 +13,7 @@ from selenium.common.exceptions import StaleElementReferenceException
 
 # TODO: below method doesn't bring all the items, as you scroll more items become visible
 def get_list(context, resource_type):
-    if resource_type in ['team', 'key', 'network', 'script', 'schedule', 'template', 'stack']:
+    if resource_type in ['machine', 'team', 'key', 'network', 'script', 'schedule', 'template', 'stack']:
         return context.browser.find_elements_by_css_selector('page-%ss mist-list vaadin-grid-table-body#items > vaadin-grid-table-row' % resource_type)
     else:
         return context.browser.find_elements_by_css_selector('page-%ss iron-list div.row' % resource_type)
@@ -29,7 +29,7 @@ def get_list_item(context, resource_type, name):
     try:
         items = get_list(context, resource_type)
         for item in items:
-            if resource_type in ['team', 'key', 'network', 'script', 'schedule', 'template', 'stack']:
+            if resource_type in ['machine', 'team', 'key', 'network', 'script', 'schedule', 'template', 'stack']:
                 name = safe_get_element_text(item.find_element_by_css_selector('strong.name')).strip().lower()
                 if item_name == name:
                     return item
@@ -45,25 +45,10 @@ def get_list_item(context, resource_type, name):
 def get_machine(context, name):
     try:
         placeholder = context.browser.find_element_by_tag_name("page-machines")
-        machines = placeholder.find_elements_by_tag_name("list-item")
-        for machine in machines:
-            machine_text = safe_get_element_text(machine)
-            if name in machine_text:
-                return machine
-        return None
-    except NoSuchElementException:
-        return None
-    except StaleElementReferenceException:
-        return None
-
-
-def get_machine(context, name):
-    try:
-        placeholder = context.browser.find_element_by_tag_name("page-machines")
-        machines = placeholder.find_elements_by_tag_name("list-item")
+        machines = placeholder.find_elements_by_tag_name("vaadin-grid-table-row")
 
         for machine in machines:
-            machine_text = safe_get_element_text(machine)
+            machine_text = safe_get_element_text(machine.find_element_by_css_selector('.name')).strip().lower()
             if name in machine_text:
                 return machine
 
@@ -83,7 +68,7 @@ def assert_machine_state(context, name, state, seconds):
         machine = get_machine(context, name)
         if machine:
             try:
-                if state in safe_get_element_text(machine):
+                if state in safe_get_element_text(machine.find_element_by_css_selector('.state span')).strip().lower():
                     return
             except NoSuchElementException:
                 pass
