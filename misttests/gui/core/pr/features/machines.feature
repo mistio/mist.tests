@@ -76,6 +76,7 @@ Feature: Machines
    @machine-run-script
    Scenario: Run script to machine created above
     When I refresh the page
+    And I wait for the links in homepage to appear
     When I visit the machines page
     When I click the "ui-test-create-machine-random" "machine"
     And I expect the "machine" edit form to be visible within max 5 seconds
@@ -90,6 +91,7 @@ Feature: Machines
   @machine-shell
   Scenario: Check shell access and verify that script run
     When I refresh the page
+    And I wait for the links in homepage to appear
     When I visit the Machines page
     When I click the "ui-test-create-machine-random" "machine"
     And I expect the "machine" edit form to be visible within max 5 seconds
