@@ -186,14 +186,13 @@ def click_item(context, text, type_of_item):
     else:
         item_selector = 'page-%ss iron-list div.row' % type_of_item
     #buttons = context.driver.findElements(By.CSS_SELECTOR(item_selector))
-    items = context.browser.find_elements_by_css_selector(item_selector)
-    for item in items:
-        if type_of_item in ['machine', 'team', 'key', 'script', 'network', 'template', 'stack', 'schedule']:
-            name = safe_get_element_text(item.find_element_by_css_selector('strong.name')).strip().lower()
-            if text in name:
-                clicketi_click_list_row(context, item)
-                return True
-        else:
+    if type_of_item in ['machine', 'team', 'key', 'script', 'network', 'template', 'stack', 'schedule']:
+        context.browser.find_element_by_xpath("//vaadin-grid-table-row[.//strong[text()='%s']]" % text)
+        clicketi_click(context, button)
+        return True
+    else:
+        items = context.browser.find_elements_by_css_selector(item_selector)
+        for item in items:
             name = safe_get_element_text(item.find_element_by_css_selector('div.name')).strip().lower()
             if text == name:
                 clicketi_click_list_row(context, item)
