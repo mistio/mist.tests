@@ -19,6 +19,7 @@ Feature: Schedulers-b
     And I click the button "Save Tags" in the tag menu
     Then I expect for the tag popup to close within 4 seconds
     When I visit the Machines page
+    And I wait for 2 seconds
     And I click the "test-ui-machine-2-random" "machine"
     And I wait for 10 seconds
     Then I ensure that the "machine" has the tags "test:awesome"
