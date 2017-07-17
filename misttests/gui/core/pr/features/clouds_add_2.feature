@@ -26,7 +26,6 @@ Feature: Add second-tier clouds in Polymist
     | Softlayer      |
 #    | Packet	     |
 #    | Vmware         |
-#    | Indonesian     |
 #    | HostVirtual    |
 
   @KVM-add

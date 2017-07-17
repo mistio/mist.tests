@@ -98,6 +98,7 @@ def add_docker_api_request(context, cloud):
                 'provider': "docker",
                 'docker_host': '172.17.0.1',
                 'docker_port': '2375',
+                'show_all': True
             }
 
         else:
@@ -110,7 +111,8 @@ def add_docker_api_request(context, cloud):
                 'authentication': safe_get_var('dockerhosts/godzilla', 'authentication', context.mist_config['CREDENTIALS']['DOCKER']['authentication']),
                 'ca_cert_file': safe_get_var('dockerhosts/godzilla', 'ca', context.mist_config['CREDENTIALS']['DOCKER']['ca']),
                 'key_file': safe_get_var('dockerhosts/godzilla', 'key', context.mist_config['CREDENTIALS']['DOCKER']['key']),
-                'cert_file': safe_get_var('dockerhosts/godzilla', 'cert', context.mist_config['CREDENTIALS']['DOCKER']['cert'])
+                'cert_file': safe_get_var('dockerhosts/godzilla', 'cert', context.mist_config['CREDENTIALS']['DOCKER']['cert']),
+                'show_all': True
             }
 
     elif cloud == 'Local_Monitoring':
