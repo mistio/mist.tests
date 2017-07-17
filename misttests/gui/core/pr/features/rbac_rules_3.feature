@@ -50,3 +50,26 @@ Feature: RBAC
     And I expect the dialog "Delete Script" is closed within 4 seconds
     Then "touch_kati" script should be absent within 5 seconds
     And I logout
+
+  @allow-all-read
+  Scenario: ALLOW-ALL-READ
+    Given I am logged in to mist.core as rbac_owner
+    And I visit the Teams page
+    When I click the "Test team" "team"
+    Then I expect the "team" edit form to be visible within max 5 seconds
+    When I focus on the button "Add a new rule" in "policy" edit form
+    And I click the button "Add a new rule" in "policy" edit form
+    And I wait for 1 seconds
+    Then I add the rule always "ALLOW" "all" "read"
+    And I click the button "Save Policy" in "policy" edit form
+    And I wait for 2 seconds
+    Then I logout
+
+  @member1-view-cloud-and-machine-success
+  Scenario: Verify that member1 can view cloud and machine
+    Given I am logged in to mist.core as rbac_member1
+    And I ensure that I am in the "ORG_NAME" organization context
+    When I visit the Machines page
+    Then "Test Team" team should be present within 5 seconds
+    When I visit the Home page
+    Then I should have 1 clouds added
