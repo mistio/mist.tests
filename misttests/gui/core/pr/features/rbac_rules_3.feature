@@ -10,7 +10,7 @@ Feature: RBAC
     And script "touch_kati" is added via API request
 
   @add-member1
-  Scenario: Add member1 and allow-read-cloud
+  Scenario: Add member1 and ALLOW-script-ALL
     When I visit the Teams page
     And I click the "Test team" "team"
     Then I expect the "team" edit form to be visible within max 5 seconds
@@ -24,7 +24,30 @@ Feature: RBAC
     When I focus on the button "Add a new rule" in "policy" edit form
     And I click the button "Add a new rule" in "policy" edit form
     And I wait for 1 seconds
-    Then I add the rule always "ALLOW" "cloud" "read"
+    Then I add the rule always "ALLOW" "script" "all"
     And I click the button "Save Policy" in "policy" edit form
     And I wait for 2 seconds
     Then I logout
+
+  @view-delete-script-success
+  Scenario: Verify that member1 cannot view the machine created above
+    Then I should receive an email at the address "MEMBER1_EMAIL" with subject "[mist.io] Confirm your invitation" within 30 seconds
+    And I follow the link inside the email
+    Then I enter my rbac_member1 credentials for login
+    And I click the sign in button in the landing page popup
+    Given that I am redirected within 10 seconds
+    And I wait for the links in homepage to appear
+    When I ensure that I am in the "ORG_NAME" organization context
+    And I visit the Teams page
+    Then "Test Team" team should be present within 5 seconds
+    When I visit the Scripts page
+    Then "touch_kati" script should be present within 5 seconds
+    When I select list item "touch_kati" script
+    And I click the action "Delete" from the script list actions
+    And I expect the dialog "Delete Script" is open within 4 seconds
+    And I wait for 2 seconds
+    And I click the "Delete" button in the dialog "Delete Script"
+    And I expect the dialog "Delete Script" is closed within 4 seconds
+    Then "touch_kati" script should be absent within 5 seconds
+    And I logout
+    
