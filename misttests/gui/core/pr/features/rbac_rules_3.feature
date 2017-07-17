@@ -1,6 +1,11 @@
-# Created by spiros at 17/7/2017
-Feature: #Enter feature name here
-  # Enter feature description here
+@rbac-rules-2
+Feature: RBAC
 
-  Scenario: # Enter scenario name here
-    # Enter steps here
+  @create-users-org-team
+  Scenario: Owner creates a new organization and adds a Softlayer cloud
+    Given rbac members, organization and team are initialized
+    Given I am logged in to mist.core
+    Then I expect for "addBtn" to be clickable within max 20 seconds
+    Given cloud "Docker" has been added via API request
+
+
