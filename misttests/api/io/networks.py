@@ -173,7 +173,7 @@ def test_delete_subnet_wrong_cloud_id(pretty_print, mist_core, owner_api_token):
     #     response = mist_core.add_cloud(provider='ec2', title='AWS', api_token=owner_api_token,
     #                                    api_key=config.CREDENTIALS['AWS']['api_key'],
     #                                    api_secret=config.CREDENTIALS['AWS']['api_secret'],
-    #                                    region='ec2_ap_northeast'
+    #                                    region='ap-northeast-1'
     #                                    ).post()
     #     assert_response_ok(response)
     #     cache.set('cloud_ids/ec2', response.json()['id'])
