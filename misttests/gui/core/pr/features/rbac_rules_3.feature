@@ -1,4 +1,4 @@
-@rbac-rules-2
+@rbac-rules-3
 Feature: RBAC
 
   @create-users-org-team
@@ -29,7 +29,7 @@ Feature: RBAC
     And I wait for 2 seconds
     Then I logout
 
-  @view-delete-script-success
+  @view-and-delete-script-success
   Scenario: Verify that member1 cannot view the machine created above
     Then I should receive an email at the address "MEMBER1_EMAIL" with subject "[mist.io] Confirm your invitation" within 30 seconds
     And I follow the link inside the email
@@ -50,4 +50,3 @@ Feature: RBAC
     And I expect the dialog "Delete Script" is closed within 4 seconds
     Then "touch_kati" script should be absent within 5 seconds
     And I logout
-    
