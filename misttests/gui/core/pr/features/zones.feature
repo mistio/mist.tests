@@ -4,15 +4,17 @@ Feature: Zones
   @zone-add
   Scenario: Add a zone
     Given I am logged in to mist.core
-    Given cloud "GCE" has been added via API request
+    And cloud "GCE" has been added via API request
     When I visit the Zones page
-    When I click the button "+"
+    And I click the button "+"
     Then I expect the "Zone" add form to be visible within max 10 seconds
-    Then I fill in a "zone-random" zone name
-    And I open the "Choose Cloud" drop down
+    When I open the "Choose Cloud" drop down
     And I wait for 1 seconds
-    When I click the button "GCE" in the "Cloud" dropdown
-    And I expect for the button "Add" in "Zone" add form to be clickable within 5 seconds
+    And I click the button "GCE" in the "Choose Cloud" dropdown
+    And I fill in a "zone-random" zone name
+    Then I expect for the button "Add" in "Zone" add form to be clickable within 5 seconds
+
+
     When I focus on the button "Add" in "Zone" add form
     And I click the button "Add" in "Zone" add form
     Then I expect the "Zone" edit form to be visible within max 20 seconds
