@@ -11,11 +11,11 @@ Feature: Zones
     When I open the "Choose Cloud" drop down
     And I wait for 1 seconds
     And I click the button "GCE" in the "Choose Cloud" dropdown
-    And I set the value "test-zone-random.com" to field "Domain" in "Zone" add form
+    And I set the value "test-zone-random.com." to field "Domain" in "Zone" add form
     Then I expect for the button "Add" in "Zone" add form to be clickable within 5 seconds
     When I focus on the button "Add" in "Zone" add form
     And I click the button "Add" in "Zone" add form
-    Then I expect the "Zone" edit form to be visible within max 10 seconds
+    Then I expect the "Zone" edit form to be visible within max 5 seconds
     When I visit the Zones page
     Then "test-zone-random.com." zone should be present within 5 seconds
 
