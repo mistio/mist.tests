@@ -7,17 +7,18 @@ Feature: Zones
     And cloud "GCE" has been added via API request
     When I visit the Zones page
     And I click the button "+"
-    Then I expect the "zone" add form to be visible within max 10 seconds
+    Then I expect the "Zone" add form to be visible within max 10 seconds
     When I open the "Choose Cloud" drop down
     And I wait for 1 seconds
     And I click the button "GCE" in the "Choose Cloud" dropdown
-    And I set the value "test-zone-random.com" to field "Domain" in "zone" add form
+    And I set the value "test-zone-random.com" to field "Domain" in "Zone" add form
     Then I expect for the button "Add" in "Zone" add form to be clickable within 5 seconds
-#
-#
-#    When I focus on the button "Add" in "Zone" add form
-#    And I click the button "Add" in "Zone" add form
-#    Then I expect the "Zone" edit form to be visible within max 20 seconds
+    When I focus on the button "Add" in "Zone" add form
+    And I click the button "Add" in "Zone" add form
+    Then I expect the "Zone" edit form to be visible within max 10 seconds
+    When I visit the Zones page
+    Then "test-zone-random.com." zone should be present within 5 seconds
+
 #    Then I expect the domain "zone-random" to be populated within 300 seconds
 #    Then I visit the Home page
 #    When I wait for the dashboard to load
