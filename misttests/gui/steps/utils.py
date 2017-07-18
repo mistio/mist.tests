@@ -139,7 +139,7 @@ def check_page_is_visible(context, page_title, seconds):
     if page not in ['machines', 'images', 'keys', 'networks', 'tunnels',
                     'scripts', 'schedules', 'templates', 'stacks', 'insights', 'teams', 'zones']:
         raise ValueError('The page given is unknown')
-    if page in ['machines', 'teams','keys', 'networks', 'scripts', 'schedules', 'templates', 'stacks']:
+    if page in ['machines', 'teams','keys', 'networks', 'scripts', 'schedules', 'templates', 'stacks', 'zones']:
         element = 'page-%s > mist-list' % page
     elif page in ['insights']:
         element = 'page-%s' % page
