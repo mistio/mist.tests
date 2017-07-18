@@ -41,7 +41,6 @@ Feature: Zones
     Then I expect for the tag popup to close within 4 seconds
     And I ensure that the "zone" has the tags "second:tag"
 
-
   @zone-delete
   Scenario: Delete a zone
     When I click the button "Delete" in "zone" edit form
@@ -49,11 +48,3 @@ Feature: Zones
     When I click the "Delete" button in the dialog "Delete Zone"
     Then I expect the dialog "Delete Zone" is open within 4 seconds
     And "test-zone-random.com." zone should be absent within 5 seconds
-
-#    Then I click the button "Delete" from the menu of the "zone-random" zone
-#    And I expect the dialog "Delete Zone" is open within 4 seconds
-#    And I click the "Delete" button in the dialog "Delete Zone"
-#    And I expect the dialog "Delete Zone" is closed within 4 seconds
-#    Then "zone-random" zone should be absent within 30 seconds
-#    Then I visit the Home page
-#    When I wait for the dashboard to load
