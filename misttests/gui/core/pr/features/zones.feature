@@ -4,8 +4,8 @@ Feature: Zones
   @zone-add
   Scenario: Add a zone
     Given I am logged in to mist.core
-    Given "GCE" cloud has been added
-    When I visit the Zones page after the counter has loaded
+    Given cloud "GCE" has been added via API request
+    When I visit the Zones page
     When I click the button "+"
     Then I expect the "Zone" add form to be visible within max 10 seconds
     Then I fill in a "zone-random" zone name
