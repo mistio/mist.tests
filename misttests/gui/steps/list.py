@@ -60,32 +60,6 @@ def get_machine(context, name):
         return None
 
 
-# <<<<<<< HEAD
-# @step(u'I click the button "{button_name}" from the menu of the "{item_name}"'
-#       u' {resource_type}')
-# def click_menu_button_of_list_item(context, button_name, item_name,
-#                                    resource_type):
-#     if 'random' in item_name:
-#         if context.mist_config.get(item_name):
-#             item_name = context.mist_config.get(item_name)
-#         else:
-#             assert False, "Got a name that contains random but could not find a value in the context"
-#
-#     item = get_list_item(context, resource_type, item_name)
-#     if item:
-#         more_dialog = context.browser.find_element_by_css_selector('page-%ss item-list paper-dialog#select-action' % resource_type)
-#         more_button = item.find_element_by_css_selector('paper-button.more')
-#         from .buttons import clicketi_click
-#         clicketi_click(context, more_button)
-#         sleep(1)
-#         more_buttons = more_dialog.find_elements_by_tag_name('paper-button')
-#         click_button_from_collection(context, button_name, more_buttons)
-#         return True
-#     assert False, "Could not click button %s" % button_name
-#
-#
-# =======
-# >>>>>>> master
 @step(u'"{name}" machine state has to be "{state}" within {seconds} seconds')
 def assert_machine_state(context, name, state, seconds):
     if context.mist_config.get(name):
@@ -103,6 +77,7 @@ def assert_machine_state(context, name, state, seconds):
                 pass
         sleep(2)
     assert False, u'%s state is not "%s"' % (name, state)
+
 
 @step(u'I select list item "{item_name}" {resource_type}')
 def select_item_from_list(context, item_name, resource_type):
