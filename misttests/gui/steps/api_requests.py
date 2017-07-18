@@ -141,7 +141,8 @@ def add_docker_api_request(context, cloud):
             'project_id': safe_get_var('clouds/gce/mist-dev', 'project_id',
                                       context.mist_config['CREDENTIALS']['GCE']['project_id']),
             'private_key': json.dumps(safe_get_var('clouds/gce/mist-dev', 'private_key',
-                                   context.mist_config['CREDENTIALS']['GCE']['private_key']))
+                                   context.mist_config['CREDENTIALS']['GCE']['private_key'])),
+            'dns_enabled': True
         }
 
     import ipdb;ipdb.set_trace()
