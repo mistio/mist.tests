@@ -9,10 +9,10 @@ Feature: Zones
     When I click the button "+"
     Then I expect the "Zone" add form to be visible within max 10 seconds
     Then I fill in a "zone-random" zone name
-    And I open the "Cloud" drop down
+    And I open the "Choose Cloud" drop down
     And I wait for 1 seconds
     When I click the button "GCE" in the "Cloud" dropdown
-    And I expect for the button "Add" in "Zone" add form to be clickable within 9 seconds
+    And I expect for the button "Add" in "Zone" add form to be clickable within 5 seconds
     When I focus on the button "Add" in "Zone" add form
     And I click the button "Add" in "Zone" add form
     Then I expect the "Zone" edit form to be visible within max 20 seconds
