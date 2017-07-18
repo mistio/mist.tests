@@ -11,10 +11,7 @@ Feature: Zones
     When I open the "Choose Cloud" drop down
     And I wait for 1 seconds
     And I click the button "GCE" in the "Choose Cloud" dropdown
-
-    When I set the value "zone-random" to field "Domain" in "zone" add form
-
-    And I fill in a "zone-random.com" zone name
+    And I set the value "test-zone-random.com" to field "Domain" in "zone" add form
     Then I expect for the button "Add" in "Zone" add form to be clickable within 5 seconds
 
 
