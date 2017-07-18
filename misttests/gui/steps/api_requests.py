@@ -145,7 +145,7 @@ def add_docker_api_request(context, cloud):
             'dns_enabled': True
         }
 
-    re = requests.post(context.mist_config['MIST_URL'] + "/api/v1/clouds", data=json.dumps(payload), headers=headers)
+    requests.post(context.mist_config['MIST_URL'] + "/api/v1/clouds", data=json.dumps(payload), headers=headers)
 
 
 @step(u'Docker machine "{machine_name}" has been added via API request')
