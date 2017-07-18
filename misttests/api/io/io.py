@@ -508,6 +508,73 @@ class MistIoApi(object):
         return req
 
     #################################################
+    #                     ZONES                     #
+    #################################################
+
+    def list_zones(self, api_token, cloud_id):
+        req = MistRequests(uri=self.uri + '/api/v1/clouds/' + cloud_id +
+                           '/dns/zones', api_token=api_token)
+        req.post = req.unavailable_api_call
+        req.put = req.unavailable_api_call
+        req.delete = req.unavailable_api_call
+        return req
+
+    def list_records(self, api_token, cloud_id, zone_id):
+        req = MistRequests(uri=self.uri + '/api/v1/clouds/' + cloud_id +
+                           '/dns/zones/' + zone_id + '/records',
+                           api_token=api_token)
+        req.post = req.unavailable_api_call
+        req.put = req.unavailable_api_call
+        req.delete = req.unavailable_api_call
+        return req
+
+    def create_zone(self, api_token, cloud_id, domain, type, ttl):
+        data = {
+            'domain': domain,
+            'type': type,
+            'ttl': ttl
+        }
+        req = MistRequests(uri=self.uri + '/api/v1/clouds/' + cloud_id +
+                           '/dns/zones', api_token=api_token, data=data)
+        req.get = req.unavailable_api_call
+        req.put = req.unavailable_api_call
+        req.delete = req.unavailable_api_call
+        return req
+
+    def delete_zone(self, api_token, cloud_id, zone_id):
+        req = MistRequests(uri=self.uri + '/api/v1/clouds/' + cloud_id +
+                           '/dns/zones/' + zone_id, api_token=api_token)
+        req.get = req.unavailable_api_call
+        req.post = req.unavailable_api_call
+        req.put = req.unavailable_api_call
+        return req
+
+    def create_record(self, api_token, cloud_id, zone_id, name, type,
+                      data, ttl):
+        data = {
+            'name': name,
+            'type': type,
+            'data': data,
+            'ttl': ttl
+        }
+        req = MistRequests(uri=self.uri + '/api/v1/clouds/' + cloud_id +
+                           '/dns/zones/' + zone_id + '/records',
+                           api_token=api_token, data=data)
+        req.get = req.unavailable_api_call
+        req.put = req.unavailable_api_call
+        req.delete = req.unavailable_api_call
+        return req
+
+    def delete_record(self, api_token, cloud_id, zone_id, record_id):
+        req = MistRequests(uri=self.uri + '/api/v1/clouds/' + cloud_id +
+                           '/dns/zones/' + zone_id + '/records/' + record_id,
+                           api_token=api_token)
+        req.get = req.unavailable_api_call
+        req.post = req.unavailable_api_call
+        req.put = req.unavailable_api_call
+        return req
+
+    #################################################
     #                    TUNNELS                    #
     #################################################
 
@@ -568,6 +635,69 @@ class MistIoApi(object):
         req.get = req.unavailable_api_call
         req.post = req.unavailable_api_call
         req.delete = req.unavailable_api_call
+        return req
+
+    #################################################
+    #                   NETWORKS                    #
+    #################################################
+
+    def list_networks(self, cloud_id, api_token):
+        req = MistRequests(uri=self.uri + '/api/v1/clouds/' + cloud_id +
+                           '/networks', api_token=api_token)
+
+        req.post = req.unavailable_api_call
+        req.put = req.unavailable_api_call
+        req.delete = req.unavailable_api_call
+        return req
+
+    def list_subnets(self, cloud_id, network_id, api_token):
+        req = MistRequests(uri=self.uri + '/api/v1/clouds/' + cloud_id +
+                           '/networks/' + network_id + '/subnets',
+                           api_token=api_token)
+        req.post = req.unavailable_api_call
+        req.put = req.unavailable_api_call
+        req.delete = req.unavailable_api_call
+        return req
+
+    def create_network(self, cloud_id, api_token, network_params=''):
+        data = {}
+        if network_params:
+            data.update(network_params)
+
+        req = MistRequests(uri=self.uri + '/api/v1/clouds/' + cloud_id
+                           + '/networks', api_token=api_token,
+                           data=json.dumps(data))
+        req.get = req.unavailable_api_call
+        req.put = req.unavailable_api_call
+        req.delete = req.unavailable_api_call
+        return req
+
+    def delete_network(self, cloud_id, network_id, api_token):
+        req = MistRequests(uri=self.uri + '/api/v1/clouds/' + cloud_id
+                           + '/networks/' + network_id, api_token=api_token)
+
+        req.get = req.unavailable_api_call
+        req.post = req.unavailable_api_call
+        req.put = req.unavailable_api_call
+        return req
+
+    def create_subnet(self, cloud_id, network_id, api_token):
+        req = MistRequests(uri=self.uri + '/api/v1/clouds/' + cloud_id
+                           + '/networks/' + network_id + '/subnets',
+                           api_token=api_token)
+
+        req.get = req.unavailable_api_call
+        req.put = req.unavailable_api_call
+        req.delete = req.unavailable_api_call
+        return req
+
+    def delete_subnet(self, cloud_id, network_id, subnet_id, api_token):
+        req = MistRequests(uri=self.uri + '/api/v1/clouds/' + cloud_id
+                           + '/networks/' + network_id +
+                           '/subnets/' + subnet_id, api_token=api_token)
+        req.get = req.unavailable_api_call
+        req.post = req.unavailable_api_call
+        req.put = req.unavailable_api_call
         return req
 
     #################################################

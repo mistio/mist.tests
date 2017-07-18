@@ -1,4 +1,5 @@
 from misttests.api.helpers import *
+from misttests.config import safe_get_var
 from misttests import config
 
 import pytest
@@ -38,7 +39,8 @@ def test_add_cloud_no_api_token(pretty_print, mist_core):
 
 def test_add_cloud_ok(pretty_print, mist_core, owner_api_token, name='Linode'):
     response = mist_core.add_cloud(name, 'linode', api_token=owner_api_token,
-                                   api_key=config.CREDENTIALS['LINODE']['api_key']).post()
+                                   api_key=safe_get_var('clouds/linode', 'api_key',
+                                   config.CREDENTIALS['LINODE']['api_key'])).post()
     assert_response_ok(response)
     print "Success!!!"
 

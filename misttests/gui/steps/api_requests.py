@@ -1,5 +1,6 @@
 from behave import step
 
+from misttests.config import safe_get_var
 import requests
 import random
 import json
@@ -77,8 +78,8 @@ def create_script_api_request(context, script_name):
     requests.post(context.mist_config['MIST_URL'] + "/api/v1/scripts" , data=json.dumps(script_data), headers=headers)
 
 
-@step(u'cloud Docker has been added via API request')
-def add_docker_api_request(context):
+@step(u'cloud "{cloud}" has been added via API request')
+def add_docker_api_request(context, cloud):
     payload = {
         'email': context.mist_config['EMAIL'],
         'password': context.mist_config['PASSWORD1'],
@@ -89,18 +90,51 @@ def add_docker_api_request(context):
     api_token = re.json()['token']
     headers = {'Authorization': api_token}
 
-    payload = {
-        'title': "Docker",
-        'provider': "docker",
-        'docker_host': context.mist_config['CREDENTIALS']['DOCKER']['host'],
-        'docker_port': context.mist_config['CREDENTIALS']['DOCKER']['port'],
-        'authentication': context.mist_config['CREDENTIALS']['DOCKER']['authentication'],
-        'ca_cert_file': context.mist_config['CREDENTIALS']['DOCKER']['ca'],
-        'key_file': context.mist_config['CREDENTIALS']['DOCKER']['key'],
-        'cert_file': context.mist_config['CREDENTIALS']['DOCKER']['cert']
-    }
+    if cloud == 'Docker':
 
-    re = requests.post(context.mist_config['MIST_URL'] + "/api/v1/clouds", data=json.dumps(payload), headers=headers)
+        if context.mist_config['LOCAL']:
+            payload = {
+                'title': "Docker",
+                'provider': "docker",
+                'docker_host': '172.17.0.1',
+                'docker_port': '2375',
+                'show_all': True
+            }
+
+        else:
+
+            payload = {
+                'title': "Docker",
+                'provider': "docker",
+                'docker_host': safe_get_var('dockerhosts/godzilla', 'host', context.mist_config['CREDENTIALS']['DOCKER']['host']),
+                'docker_port': safe_get_var('dockerhosts/godzilla', 'port', context.mist_config['CREDENTIALS']['DOCKER']['port']),
+                'authentication': safe_get_var('dockerhosts/godzilla', 'authentication', context.mist_config['CREDENTIALS']['DOCKER']['authentication']),
+                'ca_cert_file': safe_get_var('dockerhosts/godzilla', 'ca', context.mist_config['CREDENTIALS']['DOCKER']['ca']),
+                'key_file': safe_get_var('dockerhosts/godzilla', 'key', context.mist_config['CREDENTIALS']['DOCKER']['key']),
+                'cert_file': safe_get_var('dockerhosts/godzilla', 'cert', context.mist_config['CREDENTIALS']['DOCKER']['cert']),
+                'show_all': True
+            }
+
+    elif cloud == 'Local_Monitoring':
+
+        payload = {
+            'name': 'Key1',
+            'priv': safe_get_var('keys/mistio_fullstack_key', 'private_key',
+                                        context.mist_config['CREDENTIALS']['DOCKER_MONITORING']['port'])
+        }
+
+        re = requests.put(context.mist_config['MIST_URL'] + "/api/v1/keys", data=json.dumps(payload), headers=headers)
+        key_id = re.json()['id']
+
+        payload = {
+            'title': "Local_Monitoring",
+            'provider': "bare_metal",
+            'monitoring': 'true',
+            'machine_key': key_id,
+            'machine_ip': 'mist_debugger'
+        }
+
+    requests.post(context.mist_config['MIST_URL'] + "/api/v1/clouds", data=json.dumps(payload), headers=headers)
 
 
 @step(u'Docker machine "{machine_name}" has been added via API request')
@@ -142,4 +176,4 @@ def create_docker_machine(context, machine_name):
         'size': ''
     }
 
-    re = requests.post(context.mist_config['MIST_URL'] + "/api/v1/clouds/" + cloud_id + "/machines", data=json.dumps(payload), headers=headers)
+    requests.post(context.mist_config['MIST_URL'] + "/api/v1/clouds/" + cloud_id + "/machines", data=json.dumps(payload), headers=headers)

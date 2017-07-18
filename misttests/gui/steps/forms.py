@@ -216,15 +216,14 @@ def click_menu_button_from_more_menu(context, button_name, title, form_type):
     form = get_add_form(context, form_type) if form_type == 'add' else \
         get_edit_form(context, title)
     if title == 'machine':
-        item_actions = context.browser.find_element_by_id('actions_machine')
-        actions = item_actions.find_element_by_tag_name('div')
+        actions = context.browser.find_element_by_tag_name('mist-actions')
         buttons = actions.find_elements_by_tag_name('paper-button')
         for button in buttons:
             if safe_get_element_text(button).lower() == button_name.lower():
                 clicketi_click(context, button)
                 return
-        more_dropdown = form.find_element_by_id('select-multi-action-dropdown')
-        more_dropdown_button = form.find_element_by_class_name('more')
+        more_dropdown = actions.find_element_by_id('actionmenu')
+        more_dropdown_button = actions.find_element_by_class_name('dropdown-trigger')
     else:
         more_dropdown = form.find_element_by_tag_name('paper-menu-button')
         more_dropdown_button = more_dropdown

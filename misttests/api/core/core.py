@@ -6,20 +6,12 @@ from misttests.api.mistrequests import MistRequests
 
 
 class MistCoreApi(MistIoApi):
+
     def create_org(self, api_token, name=''):
         req = MistRequests(uri=self.uri + '/api/v1/org',
                            json={'name': name},
                            api_token=api_token)
         req.get = req.unavailable_api_call
-        req.delete = req.unavailable_api_call
-        req.put = req.unavailable_api_call
-        return req
-
-    def show_org(self, api_token, org_id):
-        req = MistRequests(uri=self.uri + '/api/v1/org/%s' % org_id,
-                           api_token=api_token)
-
-        req.post = req.unavailable_api_call
         req.delete = req.unavailable_api_call
         req.put = req.unavailable_api_call
         return req
@@ -42,7 +34,7 @@ class MistCoreApi(MistIoApi):
         req.put = req.unavailable_api_call
         return req
 
-    def add_team(self, api_token, org_id, name, description=None):
+    def add_team(self, api_token, org_id, name='', description=None):
         data = {'name': name,
                 }
         if description is not None:
@@ -74,12 +66,15 @@ class MistCoreApi(MistIoApi):
         req.put = req.unavailable_api_call
         return req
 
-    def edit_team(self, api_token, org_id, team_id, name, description=None):
+    def edit_team(self, api_token, org_id, team_id, name, visibility=None,
+                  description=None,):
         data = {'new_name': name,
                 }
 
         if description is not None:
             data.update({'new_description': description})
+        if visibility is not None:
+            data.update({'new_visible': visibility})
         req = MistRequests(uri=self.uri + '/api/v1/org/%s/teams/%s'
                                           % (org_id, team_id), data=data,
                            api_token=api_token)
@@ -98,13 +93,32 @@ class MistCoreApi(MistIoApi):
         req.put = req.unavailable_api_call
         return req
 
+    def delete_teams(self, api_token, org_id, team_ids):
+        data = {'team_ids': team_ids}
+        req = MistRequests(uri=self.uri + '/api/v1/org/%s/teams'
+                                          % org_id,
+                           api_token=api_token, data=json.dumps(data))
+        req.get = req.unavailable_api_call
+        req.post = req.unavailable_api_call
+        req.put = req.unavailable_api_call
+        return req
+
     def invite_member_to_team(self, api_token, org_id, team_id, email):
-        data = {'email': email}
+        data = {'emails': email}
         req = MistRequests(uri=self.uri + '/api/v1/org/%s/teams/%s/members' %
                                           (org_id, team_id),
                            api_token=api_token, data=data)
 
         req.get = req.unavailable_api_call
+        req.delete = req.unavailable_api_call
+        req.put = req.unavailable_api_call
+        return req
+
+    def confirm_invitation(self, api_token, invitoken):
+        req = MistRequests(uri=self.uri + '/confirm-invitation?invitoken=%s' %
+                                          invitoken,
+                           api_token=api_token)
+        req.post = req.unavailable_api_call
         req.delete = req.unavailable_api_call
         req.put = req.unavailable_api_call
         return req

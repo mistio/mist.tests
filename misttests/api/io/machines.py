@@ -1,4 +1,5 @@
 from misttests.api.helpers import *
+from misttests.config import safe_get_var
 from misttests import config
 
 import pytest
@@ -131,13 +132,24 @@ def test_associate_key_wrong_ids(pretty_print, mist_core, owner_api_token):
 class TestMachinesFunctionality:
 
     def test_list_machines(self, pretty_print, mist_core, cache, owner_api_token):
-        response = mist_core.add_cloud(title='Docker', provider= 'docker', api_token=owner_api_token,
-                                       docker_host=config.CREDENTIALS['DOCKER']['host'],
-                                       docker_port=config.CREDENTIALS['DOCKER']['port'],
-                                       authentication=config.CREDENTIALS['DOCKER']['authentication'],
-                                       ca_cert_file=config.CREDENTIALS['DOCKER']['ca'],
-                                       key_file=config.CREDENTIALS['DOCKER']['key'],
-                                       cert_file=config.CREDENTIALS['DOCKER']['cert']).post()
+        if config.LOCAL:
+            response = mist_core.add_cloud(title='Docker', provider='docker', api_token=owner_api_token,
+                                       docker_host='172.17.0.1',
+                                       docker_port='2375').post()
+        else:
+            response = mist_core.add_cloud(title='Docker', provider='docker', api_token=owner_api_token,
+                                       docker_host=safe_get_var('dockerhosts/godzilla', 'host',
+                                                                config.CREDENTIALS['DOCKER']['host']),
+                                       docker_port=safe_get_var('dockerhosts/godzilla', 'port',
+                                                                config.CREDENTIALS['DOCKER']['port']),
+                                       authentication=safe_get_var('dockerhosts/godzilla', 'authentication',
+                                                                   config.CREDENTIALS['DOCKER']['authentication']),
+                                       ca_cert_file=safe_get_var('dockerhosts/godzilla', 'ca',
+                                                                 config.CREDENTIALS['DOCKER']['ca']),
+                                       key_file=safe_get_var('dockerhosts/godzilla', 'key',
+                                                             config.CREDENTIALS['DOCKER']['key']),
+                                       cert_file=safe_get_var('dockerhosts/godzilla', 'cert',
+                                                              config.CREDENTIALS['DOCKER']['cert']), show_all=True).post()
         assert_response_ok(response)
         cache.set('cloud_id', response.json()['id'])
         response = mist_core.list_machines(cloud_id=cache.get('cloud_id', ''), api_token=owner_api_token).get()
@@ -211,17 +223,17 @@ class TestMachinesFunctionality:
     #     assert_response_ok(response)
     #     print "Success!!!"
 
-    def test_associate_key(self, pretty_print, mist_core, cache, private_key, owner_api_token):
-        response = mist_core.add_key(
-            name='TestKey',
-            private=private_key,
-            api_token=owner_api_token).put()
-        assert_response_ok(response)
-        cache.set('key_id', response.json()['id'])
-        response = mist_core.associate_key(cloud_id=cache.get('cloud_id', ''), machine_id=cache.get('machine_id', ''),
-                                           key_id=cache.get('key_id', ''), api_token=owner_api_token).put()
-        assert_response_ok(response)
-        print "Success!!!"
+    # def test_associate_key(self, pretty_print, mist_core, cache, private_key, owner_api_token):
+    #     response = mist_core.add_key(
+    #         name='TestKey',
+    #         private=private_key,
+    #         api_token=owner_api_token).put()
+    #     assert_response_ok(response)
+    #     cache.set('key_id', response.json()['id'])
+    #     response = mist_core.associate_key(cloud_id=cache.get('cloud_id', ''), machine_id=cache.get('machine_id', ''),
+    #                                        key_id=cache.get('key_id', ''), api_token=owner_api_token).put()
+    #     assert_response_ok(response)
+    #     print "Success!!!"
 
     def test_destroy_machine(self, pretty_print, mist_core, cache, owner_api_token):
         response = mist_core.destroy_machine(cloud_id=cache.get('cloud_id', ''), api_token=owner_api_token,
@@ -230,4 +242,9 @@ class TestMachinesFunctionality:
         response = mist_core.destroy_machine(cloud_id=cache.get('cloud_id', ''), api_token=owner_api_token,
                                              machine_id=cache.get('machine_id', ''), ).post()
         assert_response_ok(response)
+        response = mist_core.list_machines(cloud_id=cache.get('cloud_id', ''), api_token=owner_api_token).get()
+        assert_response_ok(response)
+        for machine in response.json():
+            if machine['name'] == cache.get('machine_name', ''):
+                assert False, "Machine was not destroyed!!!"
         print "Success!!!"

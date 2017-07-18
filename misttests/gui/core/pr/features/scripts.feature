@@ -24,10 +24,6 @@ Feature: Scripts
     And I click the button "Add" in "script" add form
     And I wait for 3 seconds
     When I visit the Scripts page after the counter has loaded
-    # FIXME: below has been commented out because script is not available immediately..need for redirection to another page first...
-    Then I visit the Home page
-    And I wait for the links in homepage to appear
-    When I visit the Scripts page
     Then "<name>" script should be present within 3 seconds
     And I visit the Home page
 
@@ -45,11 +41,3 @@ Feature: Scripts
     When I clear the search bar
     Then "Script2" script should be present within 5 seconds
 
-  @script-delete
-  Scenario: Delete script
-    When I visit the Scripts page
-    And I click the button "Delete" from the menu of the "Script1" script
-    And I expect the dialog "Delete Script" is open within 4 seconds
-    And I click the "Delete" button in the dialog "Delete Script"
-    And I expect the dialog "Delete Script" is closed within 4 seconds
-    Then "Script1" script should be absent within 5 seconds
