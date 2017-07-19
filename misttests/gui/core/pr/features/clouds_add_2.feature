@@ -22,8 +22,6 @@ Feature: Add second-tier clouds in Polymist
     Examples: Providers
     | provider       |
     | Azure ARM      |
-    | Linode         |
-    | Softlayer      |
 #    | Packet	     |
 #    | Vmware         |
 #    | HostVirtual    |
@@ -44,7 +42,7 @@ Feature: Add second-tier clouds in Polymist
     When I wait for the dashboard to load
     And I scroll the clouds list into view
     Then the "KVM" provider should be added within 20 seconds
-#
+
   @bare-metal-add
   Scenario: Add bare-metal
     When I click the "new cloud" button with id "addBtn"
