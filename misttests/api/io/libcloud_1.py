@@ -16,7 +16,7 @@ class TestLibcloudFunctionality:
     def test_list_machines_docker(self, pretty_print, mist_core, cache, owner_api_token):
         if config.LOCAL:
             response = mist_core.add_cloud(title='Docker', provider='docker', api_token=owner_api_token,
-                                       docker_host='172.17.0.1',
+                                       docker_host=config.MIST_URL,
                                        docker_port='2375', show_all=True).post()
         else:
             response = mist_core.add_cloud(title='Docker', provider='docker', api_token=owner_api_token,

@@ -42,7 +42,7 @@ ansible_script = """
 def add_docker(self, api_token, mist_core):
     if config.LOCAL:
         return mist_core.add_cloud(title='Docker', provider= 'docker', api_token=api_token,
-                                       docker_host='172.17.0.1',
+                                       docker_host=config.MIST_URL,
                                        docker_port='2375').post()
     else:
         return mist_core.add_cloud(title='Docker', provider= 'docker', api_token=api_token,
