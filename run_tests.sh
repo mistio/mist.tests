@@ -124,7 +124,6 @@ vault_login() {
         then
             vault_login
             run_api_tests_suite
-            exit
         elif [ $1 == '-gui' ]
         then
             vault_login
