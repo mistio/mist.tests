@@ -109,7 +109,6 @@ vault_login() {
         vault_login
         run_api_tests_suite
         run_gui_tests_suite
-        exit
     fi
 
     if [ $1 == '-h' ] || [ "$#" -gt 3 ]
