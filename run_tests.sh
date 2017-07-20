@@ -49,22 +49,25 @@ run_provision_tests_suite() {
 }
 
 vault_login() {
-    export vault_server=${VAULT_ADDR:-https://vault.ops.mist.io:8200}
-    echo Vault username:
-    read username
-    echo Vault password:
-    read -s password
-    export PYTHONIOENCODING=utf8
-    VAULT_CLIENT_TOKEN=$(curl $vault_server/v1/auth/userpass/login/$username -d '{ "password": "'${password}'" }' |
-     python -c "import sys, json; print(json.load(sys.stdin)['auth']['client_token'])")
-
-    if [[ -z "${VAULT_CLIENT_TOKEN// }" ]]
+    if [ -z "$VAULT_CLIENT_TOKEN" ]
     then
-        echo 'Wrong credentials given...'
-        vault_login
-    else
-        export VAULT_CLIENT_TOKEN
-        echo 'Successfully logged in. About to start running tests...'
+        export vault_server=${VAULT_ADDR:-https://vault.ops.mist.io:8200}
+        echo Vault username:
+        read username
+        echo Vault password:
+        read -s password
+        export PYTHONIOENCODING=utf8
+        VAULT_CLIENT_TOKEN=$(curl $vault_server/v1/auth/userpass/login/$username -d '{ "password": "'${password}'" }' |
+         python -c "import sys, json; print(json.load(sys.stdin)['auth']['client_token'])")
+
+        if [[ -z "${VAULT_CLIENT_TOKEN// }" ]]
+        then
+            echo 'Wrong credentials given...'
+            vault_login
+        else
+            export VAULT_CLIENT_TOKEN
+            echo 'Successfully logged in. About to start running tests...'
+        fi
     fi
 }
 
@@ -106,7 +109,6 @@ vault_login() {
         vault_login
         run_api_tests_suite
         run_gui_tests_suite
-        exit
     fi
 
     if [ $1 == '-h' ] || [ "$#" -gt 3 ]
@@ -121,7 +123,6 @@ vault_login() {
         then
             vault_login
             run_api_tests_suite
-            exit
         elif [ $1 == '-gui' ]
         then
             vault_login

@@ -4,6 +4,9 @@ import requests
 import logging
 import random
 
+
+from subprocess import call
+
 from misttests import config
 
 from misttests.helpers.selenium_utils import choose_driver
@@ -27,6 +30,9 @@ def before_all(context):
     log.info("Webdriver path:" + config.WEBDRIVER_PATH)
     log.info("Webdriver log:" + config.WEBDRIVER_LOG)
     log.info("JS console log:" + config.JS_CONSOLE_LOG)
+
+    # kill chrome, otherwise it will crash
+    call(["pkill", "-9", "chrom"])
 
     context.mist_config = dict()
     context.mist_config['browser'] = choose_driver()

@@ -110,7 +110,7 @@ def set_docker_orchestrator_creds(context):
 
 def set_docker_creds(context):
     if context.mist_config['LOCAL']:
-        host = '172.17.0.1'
+        host = context.mist_config['MIST_URL']
         port = '2375'
         context.execute_steps(u'''
                 Then I set the value "Docker" to field "Title" in "cloud" add form
