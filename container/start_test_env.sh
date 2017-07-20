@@ -1,4 +1,5 @@
-#!/bin/sh
+#!/bin/bash
+
 set -e
 
 XVFB_WHD=${XVFB_WHD:-1280x1024x16}
@@ -15,4 +16,4 @@ cd /mist.core/src/mist.io/tests
 
 sleep .5
 
-./run_tests.sh && /bin/bash
+source run_tests.sh && /bin/bash
