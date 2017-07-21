@@ -86,7 +86,6 @@ def reboot_mayday_machine(context):
     while time() < end_time:
         machine = get_machine(context, name)
         if machine:
-            click_mayday_machine
             checkbox = machine.find_element_by_class_name("mist-check")
             checkbox.click()
             return
