@@ -342,8 +342,12 @@ def find_cloud_info(context, cloud_title):
 
 @step(u'"{cloud}" cloud has been added')
 def given_cloud(context, cloud):
-    if find_cloud(context, cloud.lower()):
-        return True
+    end_time = time() + 10
+    while time() < end_time:
+        if find_cloud(context, cloud.lower()):
+            return True
+        sleep(2)
+
 
     context.execute_steps(u'''
         When I click the "new cloud" button with id "addBtn"

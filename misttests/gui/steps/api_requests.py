@@ -134,6 +134,17 @@ def add_docker_api_request(context, cloud):
             'machine_ip': 'mist_debugger'
         }
 
+    elif cloud == 'GCE':
+        payload = {
+            'title': 'GCE',
+            'provider': 'gce',
+            'project_id': safe_get_var('clouds/gce/mist-dev', 'project_id',
+                                      context.mist_config['CREDENTIALS']['GCE']['project_id']),
+            'private_key': json.dumps(safe_get_var('clouds/gce/mist-dev', 'private_key',
+                                   context.mist_config['CREDENTIALS']['GCE']['private_key'])),
+            'dns_enabled': True
+        }
+
     requests.post(context.mist_config['MIST_URL'] + "/api/v1/clouds", data=json.dumps(payload), headers=headers)
 
 

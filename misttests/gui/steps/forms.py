@@ -33,7 +33,7 @@ def get_add_form(context, title):
     title = title.lower()
     if title not in ['cloud', 'machine', 'image', 'key', 'network', 'tunnel',
                      'script', 'schedule', 'template', 'stack', 'team',
-                     'members']:
+                     'members', 'zone']:
         raise ValueError('The title given is unknown')
     if title == 'stack' or title == 'machine':
         add_form_selector = 'div#content.%s-create' % title
@@ -45,7 +45,7 @@ def get_add_form(context, title):
 def get_edit_form(context, title):
     title = title.lower()
     if title not in ['machine', 'image', 'key', 'network', 'tunnel', 'script',
-                     'template', 'stack', 'team', 'policy', 'cloud', 'schedule']:
+                     'template', 'stack', 'team', 'policy', 'cloud', 'schedule', 'zone']:
         raise Exception('The title given is unknown')
     try:
         if title == 'policy':
