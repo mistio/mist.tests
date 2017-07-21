@@ -19,15 +19,13 @@ Feature: Add second-tier clouds in Polymist
     And I scroll the clouds list into view
     Then the "<provider>" provider should be added within 120 seconds
 
-# gce to be transferred once zones UI tests are merged
 
     Examples: Providers
     | provider       |
-#    | Azure          |
-#    | NephoScale     |
-#    | Rackspace      |
-#    | GCE            |
-#    | AWS            |
-#    | Digital Ocean  |
-#    | Linode         |
+    | Azure          |
+    | NephoScale     |
+    | Rackspace      |
+    | AWS            |
+    | Digital Ocean  |
+    | Linode         |
     | OnApp          |

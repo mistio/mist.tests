@@ -4,7 +4,7 @@ Feature: Zones
   @zone-add
   Scenario: Add a zone
     Given I am logged in to mist.core
-    And cloud "GCE" has been added via API request
+    Given "GCE" cloud has been added
     When I visit the Zones page
     And I click the button "+"
     Then I expect the "Zone" add form to be visible within max 10 seconds
