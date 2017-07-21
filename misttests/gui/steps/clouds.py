@@ -36,6 +36,7 @@ def set_gce_creds(context):
             Then I set the value "%s" to field "Title" in "cloud" add form
             Then I set the value "%s" to field "Project ID" in "cloud" add form
             Then I set the value "%s" to field "Private Key" in "cloud" add form
+            And I click the "Enable DNS support" button with id "dns_enabled"
         ''' % ('GCE', project_id, json.dumps(private_key)))
 
 
@@ -221,6 +222,17 @@ def set_vmware_creds(context):
                    safe_get_var('clouds/vmware', 'host', context.mist_config['CREDENTIALS']['VMWARE']['host']),))
 
 
+def set_onapp_creds(context):
+    context.execute_steps(u'''
+                Then I set the value "%s" to field "Username" in "cloud" add form
+                Then I set the value "%s" to field "Password" in "cloud" add form
+                Then I set the value "%s" to field "Host" in "cloud" add form
+                And I click the "Verify SSL certificate" button with id "verify"
+            ''' % (safe_get_var('clouds/onapp', 'username', context.mist_config['CREDENTIALS']['ONAPP']['username']),
+                   safe_get_var('clouds/onapp', 'password', context.mist_config['CREDENTIALS']['ONAPP']['password']),
+                   safe_get_var('clouds/onapp', 'host', context.mist_config['CREDENTIALS']['ONAPP']['host']),))
+
+
 def set_second_packet_creds(context):
     api_key = safe_get_var('clouds/packet_2', 'api_key', context.mist_config['CREDENTIALS']['PACKET_2']['api_key'])
     context.execute_steps(u'Then I set the value "%s" to field "API Key" in '
@@ -257,7 +269,8 @@ cloud_creds_dict = {
     "kvm (via libvirt)": set_kvm_creds,
     "other server": set_other_server_creds,
     "vmware": set_vmware_creds,
-    "docker_orchestrator": set_docker_orchestrator_creds
+    "docker_orchestrator": set_docker_orchestrator_creds,
+    "onapp": set_onapp_creds
 }
 
 
