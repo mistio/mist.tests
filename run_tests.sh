@@ -27,15 +27,13 @@ help_message() {
 }
 
 run_gui_tests_suite() {
-    behave_tags=""
-    for tag in "${behave_tags[@]}"
-    do
-      behave_tags+="${tag}"
-    done
+    # behave_tags=""
+    # for tag in "${behave_tags[@]}"
+    # do
+    #   behave_tags+="${tag}"
+    # done
 
-    echo $behave_tags
-
-    behave -k --no-capture --no-capture-stderr --tags=$behave_tags misttests/gui/core/pr/features
+    behave -k --no-capture --no-capture-stderr --tags=clouds-actions,images-networks,rbac-rules-1,orchestration,scripts-actions,user-actions,machines,monitoring-locally,keys,scripts,zones,rbac-teams misttests/gui/core/pr/features
 }
 
 run_api_tests_suite() {
@@ -94,7 +92,7 @@ vault_login() {
 
     behave_tags["clouds"]='clouds-add-1,'
     behave_tags["clouds-actions"]='clouds-actions,'
-    #behave_tags["images"]='images-networks,'
+    behave_tags["images"]='images-networks,'
     behave_tags["keys"]='keys,'
     behave_tags["scripts"]='scripts','scripts-actions,'
     behave_tags["machines"]='machines,'
