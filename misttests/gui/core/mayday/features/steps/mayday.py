@@ -10,6 +10,7 @@ from misttests.gui.steps.popups import *
 from misttests.gui.steps.modals import *
 from misttests.gui.steps.ssh import *
 from misttests.gui.steps.browser import *
+from misttests.gui.steps.dialog import *
 from misttests.gui.steps.utils import safe_get_element_text
 
 from selenium.webdriver import ActionChains
@@ -85,6 +86,7 @@ def reboot_mayday_machine(context):
     while time() < end_time:
         machine = get_machine(context, name)
         if machine:
+            click_mayday_machine
             checkbox = machine.find_element_by_class_name("mist-check")
             checkbox.click()
             return

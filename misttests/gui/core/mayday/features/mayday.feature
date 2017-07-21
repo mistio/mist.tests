@@ -58,12 +58,14 @@ Feature: Production
     Given I am logged in to mist.core
     When I visit the Machines page after the counter has loaded
     Then I search for the mayday machine
-    And I choose the mayday machine
-    And I click the button "Reboot"
+    And I click the mayday machine
+    And I expect the "machine" edit form to be visible within max 5 seconds
     And I wait for 2 seconds
-    And I click the button "Reboot"
+    Then I click the button "Reboot" from the menu of the "machine" edit form
+    Then I expect the dialog "Reboot Machine" is open within 4 seconds
+    And I click the "Reboot" button in the dialog "Reboot Machine"
     And I wait for 25 seconds
-    And I click the button "Shell"
+    Then I click the button "Shell" from the menu of the "machine" edit form
     And I expect terminal to open within 3 seconds
     And I wait for 5 seconds
     And I type in the terminal "uptime"
