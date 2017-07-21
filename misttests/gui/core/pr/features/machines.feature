@@ -11,7 +11,7 @@ Feature: Machines
     When I visit the Keys page
     When I click the button "+"
     Then I expect the "Key" add form to be visible within max 10 seconds
-    When I set the value "Key1" to field "Name" in "key" add form
+    When I set the value "DummyKey" to field "Name" in "key" add form
     And I focus on the button "Generate" in "key" add form
     And I click the button "Generate" in "key" add form
     And I wait for 4 seconds
@@ -22,7 +22,7 @@ Feature: Machines
     When I visit the Keys page
     And I click the button "+"
     Then I expect the "Key" add form to be visible within max 10 seconds
-    When I set the value "Key2" to field "Name" in "key" add form
+    When I set the value "DummyKey2" to field "Name" in "key" add form
     And I focus on the button "Generate" in "key" add form
     And I click the button "Generate" in "key" add form
     And I wait for 4 seconds
@@ -59,15 +59,15 @@ Feature: Machines
     Then I click the button "Associate Key" from the menu of the "machine" edit form
     Then I expect the dialog "Associate a key" is open within 4 seconds
     And I open the "Select key" drop down
-    And I click the button "Key2" in the "Select key" dropdown
+    And I click the button "DummyKey2" in the "Select key" dropdown
     And I click the "Associate" button in the dialog "Associate a key"
     And I wait for 5 seconds
     Then there should be 2 keys associated with the machine
-    Then "Key2" key should be associated with the machine "ui-test-create-machine-random"
+    Then "DummyKey2" key should be associated with the machine "ui-test-create-machine-random"
 
   @key-disassociate
   Scenario: Disassociate key
-    When I delete the associated key "Key2"
+    When I delete the associated key "DummyKey2"
     Then I expect the dialog "Disassociate Key" is open within 4 seconds
     When I click the "Disassociate" button in the dialog "Disassociate Key"
     And I wait for 10 seconds
