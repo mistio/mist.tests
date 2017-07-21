@@ -32,6 +32,9 @@ run_gui_tests_suite() {
     do
       behave_tags+="${tag}"
     done
+
+    echo $behave_tags
+
     behave -k --no-capture --no-capture-stderr --tags=$behave_tags misttests/gui/core/pr/features
 }
 
@@ -97,7 +100,7 @@ vault_login() {
     behave_tags["machines"]='machines,'
     behave_tags["users"]='user-actions,'
     behave_tags["rbac"]='rbac-teams,'
-    behave_tags["schedules"]='schedulers-1,','schedulers-2,'
+    behave_tags["schedules"]='schedulers-1','schedulers-2,'
     behave_tags["monitoring"]='monitoring-locally,'
     behave_tags["orchestration"]='orchestration,'
     behave_tags["rbac-rules"]='rbac-rules-1,'
