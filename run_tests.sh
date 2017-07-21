@@ -89,19 +89,19 @@ vault_login() {
 
     declare -A behave_tags
 
-    behave_tags["clouds"]='clouds-add-1','clouds-add-2'
+    behave_tags["clouds"]='clouds-add-1,'
     behave_tags["clouds-actions"]='clouds-actions,'
-    behave_tags["images"]='images-networks,'
+    #behave_tags["images"]='images-networks,'
     behave_tags["keys"]='keys,'
-    behave_tags["scripts"]='scripts','scripts-actions'
+    behave_tags["scripts"]='scripts','scripts-actions,'
     behave_tags["machines"]='machines,'
     behave_tags["users"]='user-actions,'
-    behave_tags["rbac"]='rbac-teams'
-    behave_tags["schedules"]='schedulers-1','schedulers-2,'
-    behave_tags["monitoring"]='monitoring-locally'
+    behave_tags["rbac"]='rbac-teams,'
+    behave_tags["schedules"]='schedulers-1,','schedulers-2,'
+    behave_tags["monitoring"]='monitoring-locally,'
     behave_tags["orchestration"]='orchestration,'
-    behave_tags["rbac-rules"]='rbac-rules-1'
-    behave_tags["zones"]='zones'
+    behave_tags["rbac-rules"]='rbac-rules-1,'
+    behave_tags["zones"]='zones,'
 
 
     if [ "$#" -eq 0 ]
