@@ -13,7 +13,7 @@ from selenium.common.exceptions import StaleElementReferenceException
 
 # TODO: below method doesn't bring all the items, as you scroll more items become visible
 def get_list(context, resource_type):
-    if resource_type in ['machine', 'team', 'key', 'network', 'script', 'schedule', 'template', 'stack']:
+    if resource_type in ['machine', 'team', 'key', 'network', 'script', 'schedule', 'template', 'stack', 'zone']:
         return context.browser.find_elements_by_css_selector('page-%ss mist-list vaadin-grid-table-body#items > vaadin-grid-table-row' % resource_type)
     else:
         return context.browser.find_elements_by_css_selector('page-%ss iron-list div.row' % resource_type)
@@ -24,18 +24,19 @@ def get_list_item(context, resource_type, name):
     item_name = name.lower()
     if resource_type not in ['machine', 'image', 'key', 'network',
                              'tunnel', 'script', 'template', 'stack',
-                             'team', 'schedule']:
+                             'team', 'schedule', 'zone']:
         raise ValueError('The resource type given is unknown')
     try:
         items = get_list(context, resource_type)
+
         for item in items:
-            if resource_type in ['machine', 'team', 'key', 'network', 'script', 'schedule', 'template', 'stack']:
+            if resource_type in ['machine', 'team', 'key', 'network', 'script', 'schedule', 'template', 'stack', 'zone']:
                 name = safe_get_element_text(item.find_element_by_css_selector('strong.name')).strip().lower()
-                if item_name == name:
-                    return item
+            # elif resource_type == 'zone':
+            #     name = safe_get_element_text(item.find_element_by_css_selector('div.domain')).strip().lower()
             else:
                 name = safe_get_element_text(item.find_element_by_css_selector('div.name')).strip().lower()
-                if item_name == name:
+            if item_name == name:
                     return item
     except (NoSuchElementException, StaleElementReferenceException):
         pass
@@ -76,6 +77,7 @@ def assert_machine_state(context, name, state, seconds):
                 pass
         sleep(2)
     assert False, u'%s state is not "%s"' % (name, state)
+
 
 @step(u'I select list item "{item_name}" {resource_type}')
 def select_item_from_list(context, item_name, resource_type):
