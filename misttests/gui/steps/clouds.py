@@ -36,6 +36,7 @@ def set_gce_creds(context):
             Then I set the value "%s" to field "Title" in "cloud" add form
             Then I set the value "%s" to field "Project ID" in "cloud" add form
             Then I set the value "%s" to field "Private Key" in "cloud" add form
+            And I click the "Enable DNS support" button with id "dns_enabled"
         ''' % ('GCE', project_id, json.dumps(private_key)))
 
 
