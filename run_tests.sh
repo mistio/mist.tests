@@ -27,11 +27,6 @@ help_message() {
 }
 
 run_gui_tests_suite() {
-    # behave_tags=""
-    # for tag in "${behave_tags[@]}"
-    # do
-    #   behave_tags+="${tag}"
-    # done
     behave -k --no-capture --no-capture-stderr --tags=clouds-actions,images-networks,keys,orchestration,user-actions,machines,monitoring-locally,keys,rbac-teams misttests/gui/core/pr/features
 }
 
