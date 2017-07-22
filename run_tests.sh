@@ -32,8 +32,7 @@ run_gui_tests_suite() {
     # do
     #   behave_tags+="${tag}"
     # done
-
-    behave -k --no-capture --no-capture-stderr --tags=clouds-actions,images-networks,orchestration,user-actions,machines,monitoring-locally,keys,scripts,zones,rbac-teams misttests/gui/core/pr/features
+    behave -k --no-capture --no-capture-stderr --tags=clouds-actions,images-networks,keys,orchestration,user-actions,machines,monitoring-locally,keys,rbac-teams misttests/gui/core/pr/features
 }
 
 run_api_tests_suite() {
