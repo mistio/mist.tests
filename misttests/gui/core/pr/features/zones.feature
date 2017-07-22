@@ -4,6 +4,8 @@ Feature: Zones
   @zone-add
   Scenario: Add a zone
     Given I am logged in to mist.core
+    When I visit the Home page
+    Then I expect for "addBtn" to be clickable within max 20 seconds
     Given "GCE" cloud has been added
     When I visit the Zones page
     And I click the button "+"
