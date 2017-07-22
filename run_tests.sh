@@ -27,9 +27,14 @@ help_message() {
 }
 
 run_gui_tests_suite() {
-    behave -k --no-capture --no-capture-stderr --tags=clouds-actions,images-networks,keys,orchestration,user-actions,machines,monitoring-locally misttests/gui/core/pr/features
-    #behave -k --no-capture --no-capture-stderr --tags=images-networks,keys,orchestration,user-actions,machines,monitoring-locally,keys,rbac-teams misttests/gui/core/pr/features
+    behave -k --no-capture --no-capture-stderr --tags=clouds-actions,images-networks,keys,monitoring-locally,machines,scripts,schedulers-1,schedulers-2,orchestration misttests/gui/core/pr/features
 }
+
+# must have 16
+
+# rbac-teams, user-actions, scripts-actions,zones
+
+# rbac-rules-1, rbac-rules-2, rbac-rules-3
 
 run_api_tests_suite() {
     pytest_args=""
