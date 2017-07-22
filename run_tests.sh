@@ -27,7 +27,8 @@ help_message() {
 }
 
 run_gui_tests_suite() {
-    behave -k --no-capture --no-capture-stderr --tags=clouds-actions,images-networks,keys,orchestration,user-actions,machines,monitoring-locally,keys,rbac-teams misttests/gui/core/pr/features
+    behave -k --no-capture --no-capture-stderr --tags=clouds-actions,images-networks,keys,orchestration,user-actions,machines,monitoring-locally misttests/gui/core/pr/features
+    #behave -k --no-capture --no-capture-stderr --tags=images-networks,keys,orchestration,user-actions,machines,monitoring-locally,keys,rbac-teams misttests/gui/core/pr/features
 }
 
 run_api_tests_suite() {
