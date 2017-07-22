@@ -27,14 +27,12 @@ help_message() {
 }
 
 run_gui_tests_suite() {
-    behave -k --no-capture --no-capture-stderr --tags=clouds-actions,images-networks,keys,monitoring-locally,machines,scripts,schedulers-1,schedulers-2,orchestration misttests/gui/core/pr/features
+    behave -k --no-capture --no-capture-stderr --tags=clouds-actions,images-networks,keys,monitoring-locally,machines,scripts,scripts-actions,schedulers-1,schedulers-2,orchestration,rbac-teams,user-actions,zones misttests/gui/core/pr/features
 }
 
 # must have 16
 
-# rbac-teams, user-actions, scripts-actions,zones
-
-# rbac-rules-1, rbac-rules-2, rbac-rules-3
+#rbac-rules-1, rbac-rules-2, rbac-rules-3
 
 run_api_tests_suite() {
     pytest_args=""
@@ -108,7 +106,7 @@ vault_login() {
     if [ "$#" -eq 0 ]
     then
         vault_login
-        run_api_tests_suite
+        # run_api_tests_suite
         run_gui_tests_suite
     fi
 
@@ -128,6 +126,7 @@ vault_login() {
         then
             vault_login
             run_gui_tests_suite
+            exit
         elif [ $1 == '-provision' ]
         then
             vault_login
