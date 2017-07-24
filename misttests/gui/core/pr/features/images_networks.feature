@@ -66,4 +66,6 @@ Feature: Images and Networks
     Then I expect the dialog "Delete Network" is open within 4 seconds
     When I click the "Delete" button in the dialog "Delete Network"
     Then I expect the dialog "Delete Network" is closed within 4 seconds
-    And "network_random" network should be absent within 20 seconds
+    When I visit the Home page
+    And I visit the Networks page
+    Then "network_random" network should be absent within 20 seconds
