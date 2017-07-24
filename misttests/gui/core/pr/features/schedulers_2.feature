@@ -18,7 +18,7 @@ Feature: Schedulers-b
     And I add a tag with key "test" and value "awesome"
     And I click the button "Save Tags" in the tag menu
     Then I expect for the tag popup to close within 4 seconds
-    When I visit the Machines page
+    When I visit the Machines page after the counter has loaded
     And I wait for 2 seconds
     And I click the "test-ui-machine-2-random" "machine"
     And I wait for 10 seconds
