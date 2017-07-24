@@ -27,14 +27,15 @@ help_message() {
 }
 
 run_gui_tests_suite() {
-    behave -k --no-capture --no-capture-stderr --tags=clouds-actions,monitoring-locally,orchestration,rbac-teams,schedulers-1,schedulers-2,scripts,scripts-actions,user-actions,zones misttests/gui/core/pr/features
+    behave -k --no-capture --no-capture-stderr --tags=clouds-actions,orchestration,rbac-teams,scripts,scripts-actions,user-actions,zones misttests/gui/core/pr/features
+    behave -k --no-capture --no-capture-stderr --tags=schedulers-1,schedulers-2 misttests/gui/core/pr/features
 }
 
 # must have 16
 ##########################################
-# BELOW ARE GOOD TO GO
+# BELOW 9 ARE GOOD TO GO
 
-# clouds-actions,monitoring-locally,orchestration,rbac-teams,schedulers-1,schedulers-2,scripts,scripts-actions,user-actions,zones
+# clouds-actions,orchestration,rbac-teams,schedulers-1,schedulers-2,scripts,scripts-actions,user-actions,zones
 ##########################################
 
 # images-networks
@@ -49,9 +50,9 @@ run_gui_tests_suite() {
 
 # Then I should see the form to set name for new organization -- rbac-teams
 ##########################################
-# BELOW SHOULD BE FIXED
+# BELOW SHOULD BE FIXED NOT BY ME
 
-# I expect the metric buttons to appear within 30 seconds
+# monitoring-locally
 
 
 run_api_tests_suite() {
