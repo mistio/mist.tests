@@ -27,28 +27,19 @@ help_message() {
 }
 
 run_gui_tests_suite() {
-    behave -k --no-capture --no-capture-stderr --tags=clouds-actions,orchestration,rbac-teams,scripts,scripts-actions,user-actions,zones misttests/gui/core/pr/features
-    behave -k --no-capture --no-capture-stderr --tags=schedulers-1,schedulers-2 misttests/gui/core/pr/features
+    #behave -k --no-capture --no-capture-stderr --tags=clouds-actions,images-networks,orchestration,scripts,scripts-actions,user-actions,zones misttests/gui/core/pr/features
+    behave -k --no-capture --no-capture-stderr --tags=keys,schedulers-1,schedulers-2 misttests/gui/core/pr/features
 }
 
-# must have 16
+# must have 15 -- 10 ARE GOOD TO GO
 ##########################################
-# BELOW 9 ARE GOOD TO GO
-
-# clouds-actions,orchestration,rbac-teams,schedulers-1,schedulers-2,scripts,scripts-actions,user-actions,zones
-##########################################
-
-# images-networks
-
-# keys
-
 # machines
 
 # rbac-rules-1, rbac-rules-2, rbac-rules-3
-##########################################
-# BELOW CHECK AGAIN!!!!
 
+# rbac-teams
 # Then I should see the form to set name for new organization -- rbac-teams
+##########################################
 ##########################################
 # BELOW SHOULD BE FIXED NOT BY ME
 
