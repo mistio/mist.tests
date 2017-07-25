@@ -5,6 +5,7 @@ Feature: RBAC
   Scenario: Owner creates a new organization and adds a Softlayer cloud
     Given rbac members, organization and team are initialized
     Given I am logged in to mist.core
+    And I visit the Home page
     Then I expect for "addBtn" to be clickable within max 20 seconds
     Given "SoftLayer" cloud has been added
 
@@ -122,4 +123,3 @@ Feature: RBAC
     And I visit the Home page
     # deletion did not work
     Then I should have 2 clouds added
-
