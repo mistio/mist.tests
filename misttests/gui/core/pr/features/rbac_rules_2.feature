@@ -42,7 +42,7 @@ Feature: RBAC
     When I visit the Home page
     Then I should have 1 clouds added
     When I visit the Machines page
-    Then "testerrr" machine should be absent within 5 seconds
+    Then "mistcore_debugger_1" machine should be absent within 5 seconds
     And I logout
 
   @allow-read-machine
@@ -132,7 +132,7 @@ Feature: RBAC
     Given I am logged in to mist.core as rbac_member1
     Then I ensure that I am in the "ORG_NAME" organization context
     When I visit the Machines page
-    Then "testerrr" machine should be absent within 5 seconds
+    Then "mistcore_debugger_1" machine should be absent within 5 seconds
 
   @member-edit-script-success
   Scenario: Member 1 should be able to edit the script
