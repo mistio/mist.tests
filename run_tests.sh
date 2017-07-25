@@ -27,22 +27,14 @@ help_message() {
 }
 
 run_gui_tests_suite() {
-    #behave -k --no-capture --no-capture-stderr --tags=clouds-actions,images-networks,orchestration,scripts,scripts-actions,user-actions,zones misttests/gui/core/pr/features
-    behave -o test.txt -k --no-capture --no-capture-stderr --tags=rbac-rules-1 misttests/gui/core/pr/features
-
-    #behave -k --no-capture --no-capture-stderr --tags=keys,machines,schedulers-1 misttests/gui/core/pr/features
+    #behave -o gui_test_suite_1_result.txt -k --no-capture --no-capture-stderr --tags=clouds-actions,images-networks,orchestration,scripts,scripts-actions,user-actions,zones misttests/gui/core/pr/features
+    #behave -o gui_test_suite_2_result.txt -k --no-capture --no-capture-stderr --tags=keys,rbac-teams misttests/gui/core/pr/features
+    behave -o gui_test_schedules_result.txt -k --no-capture --no-capture-stderr --tags=schedulers-1,schedulers-2 misttests/gui/core/pr/features
+    #behave -o gui_test_rbac_rules_result.txt -k --no-capture --no-capture-stderr --tags=rbac-rules-1 misttests/gui/core/pr/features
+    #behave -o gui_test_machines_result.txt -k --no-capture --no-capture-stderr --tags=machines misttests/gui/core/pr/features
 }
 
-##########################################
-# rbac-rules-1
-
-# rbac-teams
-# Then I should see the form to set name for new organization -- rbac-teams
-##########################################
-# BELOW SHOULD BE FIXED NOT BY ME
-
-# monitoring-locally
-
+# rbac-rules-2
 
 run_api_tests_suite() {
     pytest_args=""
@@ -116,7 +108,7 @@ vault_login() {
     if [ "$#" -eq 0 ]
     then
         vault_login
-        # run_api_tests_suite
+        #run_api_tests_suite
         run_gui_tests_suite
     fi
 
