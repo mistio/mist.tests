@@ -5,7 +5,7 @@ Feature: Login Scenarios and Api Token
   Scenario: Create api token and test it with API call
     Given I am logged in to mist.core
     When I visit the Account page
-    And I wait for 3 seconds
+    And I wait for 5 seconds
     Then I click the "API Tokens" button with id "API Tokens"
     # below needs to be fixed in the backend
     # When I revoke all api tokens
