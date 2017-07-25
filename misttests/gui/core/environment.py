@@ -177,13 +177,14 @@ def kill_docker_machine(context, machine_to_destroy):
         if 'docker' in cloud['provider']:
             uri = context.mist_config['MIST_URL'] + '/api/v1/clouds/' + cloud['id'] + '/machines'
             response = requests.get(uri, headers=headers)
-            for machine in response.json():
-                if machine_to_destroy in machine['name']:
-                    log.info('Killing docker machine...')
-                    payload = {'action': 'destroy'}
-                    uri = context.mist_config['MIST_URL'] + '/api/v1/clouds/' + cloud['id'] + '/machines/' + \
-                          machine['machine_id']
-                    requests.post(uri, data=json.dumps(payload), headers=headers)
+            if len(response.json()) > 0:
+                for machine in response.json():
+                    if machine_to_destroy in machine['name']:
+                        log.info('Killing docker machine...')
+                        payload = {'action': 'destroy'}
+                        uri = context.mist_config['MIST_URL'] + '/api/v1/clouds/' + cloud['id'] + '/machines/' + \
+                              machine['machine_id']
+                        requests.post(uri, data=json.dumps(payload), headers=headers)
 
 
 # def delete_gce_zones(context):
