@@ -28,13 +28,13 @@ help_message() {
 
 run_gui_tests_suite() {
     #behave -k --no-capture --no-capture-stderr --tags=clouds-actions,images-networks,orchestration,scripts,scripts-actions,user-actions,zones misttests/gui/core/pr/features
-    behave -k --no-capture --no-capture-stderr --tags=keys,machines,schedulers-1 misttests/gui/core/pr/features
+    behave -o test.txt -k --no-capture --no-capture-stderr --tags=rbac-rules-1 misttests/gui/core/pr/features
+
+    #behave -k --no-capture --no-capture-stderr --tags=keys,machines,schedulers-1 misttests/gui/core/pr/features
 }
 
 ##########################################
 # rbac-rules-1
-
-# rbac-rules-2
 
 # rbac-teams
 # Then I should see the form to set name for new organization -- rbac-teams
