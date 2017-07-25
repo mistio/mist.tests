@@ -8,7 +8,7 @@ Feature: Schedulers-b
     And Docker machine "test-ui-machine-random" has been added via API request
     And Docker machine "test-ui-machine-2-random" has been added via API request
     When I visit the Machines page
-    Then "test-ui-machine-random" machine state has to be "running" within 10 seconds
+    Then "test-ui-machine-random" machine state has to be "running" within 20 seconds
     And "test-ui-machine-2-random" machine state has to be "running" within 10 seconds
     When I click the "test-ui-machine-2-random" "machine"
     Then I expect the "machine" edit form to be visible within max 5 seconds
