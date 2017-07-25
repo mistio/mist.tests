@@ -5,7 +5,6 @@ Feature: RBAC
   Scenario: Owner creates a new organization and adds a Softlayer cloud
     Given rbac members, organization and team are initialized
     Given I am logged in to mist.core
-    And I visit the Home page
     Then I expect for "addBtn" to be clickable within max 20 seconds
     Given cloud "Docker" has been added via API request
 
@@ -79,7 +78,7 @@ Feature: RBAC
     Given I am logged in to mist.core as rbac_member1
     Then I ensure that I am in the "ORG_NAME" organization context
     When I visit the Machines page
-    Then "testerrr" machine should be present within 10 seconds
+    Then "mistcore_debugger_1" machine should be present within 10 seconds
 
   @member1-create-machine-success
   Scenario: Member 1 should now be able to create machine
