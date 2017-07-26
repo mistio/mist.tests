@@ -41,6 +41,15 @@ pytest_paths["tunnels"]='misttests/api/core/tunnels.py'
 pytest_paths["orchestration"]='misttests/api/core/orchestration.py'
 pytest_paths["rbac"]='misttests/api/io/rbac.py'
 
+run_api_tests_suite() {
+  pytest_args=""
+  for path in "${pytest_paths[@]}"
+  do
+    pytest_args="${pytest_args} ${path}"
+  done
+  pytest $pytest_args
+}
+
 validate_api_args(){
   for arg in $@
   do
@@ -57,19 +66,25 @@ while getopts ":a:" opt; do
     a)
       IFS=','
       echo "Api tests will be triggered. Parameters are: $OPTARG"
-      validate_api_args "$OPTARG"
-      for arg in $OPTARG
-      do
-          pytest ${pytest_paths["$arg"]}
-      done
+      if [ -z "$OPTARG" ]
+      then
+        run_api_tests_suite
+      else
+        validate_api_args "$OPTARG"
+        for arg in $OPTARG
+        do
+            pytest ${pytest_paths["$arg"]}
+        done
+      fi
       ;;
     \?)
       echo "Invalid option: -$OPTARG" >&2
       exit 1
       ;;
     :)
-      echo "Option -$OPTARG requires an argument." >&2
-      exit 1
+      run_api_tests_suite
+      #echo "Option -$OPTARG requires an argument." >&2
+      #exit 1
       ;;
   esac
 done
