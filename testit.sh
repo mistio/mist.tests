@@ -121,41 +121,52 @@ validate_gui_args(){
   done
 }
 
-while getopts ":a:g:" opt; do
-  case $opt in
-    a)
-      IFS=','
-      echo "Api tests will be triggered. Parameters are: $OPTARG"
-      if [ -z "$OPTARG" ]
-      then
-        run_api_tests_suite
-      else
-        validate_api_args "$OPTARG"
-        for arg in $OPTARG
-        do
-            pytest ${pytest_paths["$arg"]}
-        done
-      fi
-      ;;
-    g)
-      IFS=','
-      echo "Gui tests will be triggered. Parameters are: $OPTARG"
-      if [ -z "$OPTARG" ]
-      then
-        run_gui_tests_suite
-      else
-        validate_gui_args "$OPTARG"
-        for arg in $OPTARG
-        do
-            behave -k --no-capture --no-capture-stderr --stop --tags=${behave_tags["$arg"]} misttests/gui/core/pr/features
-        done
-      fi
-      ;;
-   \?)
-      echo "Invalid option: -$OPTARG" >&2
-      ;;
-   :)
-      echo nothing
-      ;;
-  esac
-done
+# run provision tests
+# run entire api suite
+# run entire gui suite
+
+if [ "$#" -eq 0 ]
+then
+    vault_login
+    run_api_tests_suite
+    run_gui_tests_suite
+else
+  while getopts ":a:g:" opt; do
+    case $opt in
+      a)
+        IFS=','
+        echo "Api tests will be triggered. Parameters are: $OPTARG"
+        if [ -z "$OPTARG" ]
+        then
+          run_api_tests_suite
+        else
+          validate_api_args "$OPTARG"
+          for arg in $OPTARG
+          do
+              pytest ${pytest_paths["$arg"]}
+          done
+        fi
+        ;;
+      g)
+        IFS=','
+        echo "Gui tests will be triggered. Parameters are: $OPTARG"
+        if [ -z "$OPTARG" ]
+        then
+          run_gui_tests_suite
+        else
+          validate_gui_args "$OPTARG"
+          for arg in $OPTARG
+          do
+              behave -k --no-capture --no-capture-stderr --stop --tags=${behave_tags["$arg"]} misttests/gui/core/pr/features
+          done
+        fi
+        ;;
+     \?)
+        echo "Invalid option: -$OPTARG" >&2
+        ;;
+     :)
+        echo nothing
+        ;;
+    esac
+  done
+fi
