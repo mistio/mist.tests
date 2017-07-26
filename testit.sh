@@ -11,8 +11,8 @@ help_message() {
     echo
     echo "[no option]   First API tests and then GUI tests will be invoked"
     echo "-h            Display this message"
-    echo "-api          Run api tests suite. If no argument provided, the entire API tests suite will be invoked"
-    echo "-gui          Run gui tests suite. If no argument provided, the entire GUI tests suite will be invoked"
+    echo "-a            Run api tests suite. If no argument provided, the entire API tests suite will be invoked"
+    echo "-g            Run gui tests suite. If no argument provided, the entire GUI tests suite will be invoked"
     echo "-provision    Run libcloud provision test."
     echo
     echo "Argument for API tests can be one of the following:"
