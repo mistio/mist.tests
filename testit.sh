@@ -91,12 +91,12 @@ run_api_tests_suite() {
 }
 
 run_gui_tests_suite() {
-    behave_tags=""
-    for tag in "${behave_tags[@]}"
-    do
-      behave_tags+="${tag}"
-    done
-    behave -k --no-capture --no-capture-stderr --tags=$behave_tags misttests/gui/core/pr/features
+  behave -o gui_test_suite_1_result.txt -k --no-capture --no-capture-stderr --tags=clouds-actions,images-networks,orchestration,scripts,scripts-actions,user-actions misttests/gui/core/pr/features
+  behave -o gui_test_suite_2_result.txt -k --no-capture --no-capture-stderr --tags=keys,rbac-teams,zones misttests/gui/core/pr/features
+  behave -o gui_test_schedules_result.txt -k --no-capture --no-capture-stderr --tags=schedulers-1,schedulers-2 misttests/gui/core/pr/features
+  behave -o gui_test_rbac_rules_result.txt -k --no-capture --no-capture-stderr --tags=rbac-rules-1 misttests/gui/core/pr/features
+  behave -o gui_test_rbac_rules_2_result.txt -k --no-capture --no-capture-stderr --tags=rbac-rules-2 misttests/gui/core/pr/features
+  behave -o gui_test_machines_result.txt -k --no-capture --no-capture-stderr --tags=machines misttests/gui/core/pr/features
 }
 
 validate_api_args(){
@@ -122,14 +122,28 @@ validate_gui_args(){
 }
 
 # run provision tests
-# run entire api suite
-# run entire gui suite
 
 if [ "$#" -eq 0 ]
 then
     vault_login
     run_api_tests_suite
     run_gui_tests_suite
+elif [ "$#" -eq 1 ]
+then
+    if [ $1 == '-a' ]
+    then
+        vault_login
+        run_api_tests_suite
+    elif [ $1 == '-g' ]
+    then
+        vault_login
+        run_gui_tests_suite
+        exit
+    elif [ $1 == '-provision' ]
+    then
+        vault_login
+        run_provision_tests_suite
+    fi
 else
   while getopts ":a:g:" opt; do
     case $opt in
