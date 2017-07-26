@@ -99,6 +99,10 @@ run_gui_tests_suite() {
   behave -o gui_test_machines_result.txt -k --no-capture --no-capture-stderr --tags=machines misttests/gui/core/pr/features
 }
 
+run_provision_tests_suite() {
+    python test_provisioning.py
+}
+
 validate_api_args(){
   for arg in $@
   do
@@ -121,14 +125,14 @@ validate_gui_args(){
   done
 }
 
-# run provision tests
-
 if [ "$#" -eq 0 ]
 then
     vault_login
     run_api_tests_suite
     run_gui_tests_suite
-elif [ "$#" -eq 1 ]
+fi
+
+if [ "$#" -eq 1 ]
 then
     if [ $1 == '-a' ]
     then
@@ -139,7 +143,7 @@ then
         vault_login
         run_gui_tests_suite
         exit
-    elif [ $1 == '-provision' ]
+    elif [ $1 == '-p' ]
     then
         vault_login
         run_provision_tests_suite
