@@ -19,6 +19,17 @@ Feature: Zones
     When I visit the Zones page
     Then "test-zone-random.com." zone should be present within 5 seconds
 
+  @zone-search
+  Scenario: Filter a zone
+    When I search for "test-zone-random.com."
+    Then "test-zone-random.com." zone should be present within 10 seconds
+    When I clear the search bar
+    Then "test-zone-random.com." zone should be present within 10 seconds
+    When I search for "Non-existing zone"
+    Then "test-zone-random.com." zone should be absent within 10 seconds
+    When I clear the search bar
+    And I wait for 1 seconds
+
   @zone-tags
   Scenario: Add tags to a zone
     When I click the "test-zone-random.com." "zone"
