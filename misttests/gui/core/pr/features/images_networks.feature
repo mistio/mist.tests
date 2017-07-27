@@ -41,6 +41,28 @@ Feature: Images and Networks
     And I wait for 2 seconds
     Then the "CoreOS-Beta" image should be "starred" within 200 seconds
 
+  @image-tags
+  Scenario: Add tags to image
+    When I click the ""CoreOS-Beta" "image"
+    And I expect the "image" edit form to be visible within max 5 seconds
+    Then I click the button "Tags" in "image" edit form
+    And I expect for the tag popup to open within 4 seconds
+    When I remove all the previous tags
+    Then I add a tag with key "first" and value "tag"
+    Then I add a tag with key "second" and value "tag"
+    And I click the button "Save Tags" in the tag menu
+    Then I expect for the tag popup to close within 4 seconds
+    And I wait for 2 seconds
+    Then I ensure that the "image" has the tags "first:tag,second:tag"
+    Then I click the button "Tags" in "image" edit form
+    And I expect for the tag popup to open within 4 seconds
+    And I wait for 1 seconds
+    When I remove the tag with key "first"
+    And I wait for 1 seconds
+    And I click the button "Save Tags" in the tag menu
+    Then I expect for the tag popup to close within 4 seconds
+    And I ensure that the "image" has the tags "second:tag"
+
   @network-add
   Scenario: Add Network
     When I visit the Networks page
