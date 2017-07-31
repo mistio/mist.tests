@@ -233,6 +233,19 @@ def set_onapp_creds(context):
                    safe_get_var('clouds/onapp', 'host', context.mist_config['CREDENTIALS']['ONAPP']['host']),))
 
 
+def set_solusvm_creds(context):
+    context.execute_steps(u'''
+                Then I set the value "%s" to field "Username" in "cloud" add form
+                Then I set the value "%s" to field "Password" in "cloud" add form
+                Then I set the value "%s" to field "Host" in "cloud" add form
+                And I set the value "%s" to field "Host Port" in "cloud" add form
+                And I click the "Verify SSL certificate" button with id "verify"
+            ''' % (safe_get_var('clouds/solusvm', 'username', context.mist_config['CREDENTIALS']['SOLUS_VM']['username']),
+                   safe_get_var('clouds/solusvm', 'password', context.mist_config['CREDENTIALS']['SOLUS_VM']['password']),
+                   safe_get_var('clouds/solusvm', 'host', context.mist_config['CREDENTIALS']['SOLUS_VM']['host']),
+                   safe_get_var('clouds/solusvm', 'port', context.mist_config['CREDENTIALS']['SOLUS_VM']['port']),))
+
+
 def set_second_packet_creds(context):
     api_key = safe_get_var('clouds/packet_2', 'api_key', context.mist_config['CREDENTIALS']['PACKET_2']['api_key'])
     context.execute_steps(u'Then I set the value "%s" to field "API Key" in '
@@ -270,7 +283,8 @@ cloud_creds_dict = {
     "other server": set_other_server_creds,
     "vmware": set_vmware_creds,
     "docker_orchestrator": set_docker_orchestrator_creds,
-    "onapp": set_onapp_creds
+    "onapp": set_onapp_creds,
+    "solusvm": set_solusvm_creds
 }
 
 
