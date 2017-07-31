@@ -15,6 +15,7 @@ Feature: Rbac
     And I wait for 2 seconds
     And I click the "Switch" button in the dialog "Add Organization"
     Then I expect the dialog "Add Organization" is closed within 4 seconds
+    And I wait for 1 seconds
 
   @create-dup-org
   Scenario: Creating an org with the name used above, should bring a 409 error
@@ -27,6 +28,8 @@ Feature: Rbac
     And I click the "Add" button in the dialog "Add Organization"
     And I wait for 2 seconds
     Then there should be a "409" error message in "Add Organization" dialog
+    And I click the "Cancel" button in the dialog "Add Organization"
+    And I wait for 1 seconds
 
   @add-team
   Scenario: Owner creates a team
