@@ -34,11 +34,13 @@ vault_login() {
         echo Vault password:
         read -s password
         export PYTHONIOENCODING=utf8
-        VAULT_CLIENT_TOKEN=$(curl $vault_server/v1/auth/userpass/login/$username -d '{ "password": "'${password}'" }' |
-         python -c "import sys, json; print(json.load(sys.stdin)['auth']['client_token'])")
+        response=$(curl $vault_server/v1/auth/userpass/login/$username -d '{ "password": "'${password}'" }')
+         #python -c "import sys, json; fi print(json.load(sys.stdin)['auth']['client_token'])")
 
-        if [[ -z "${VAULT_CLIENT_TOKEN// }" ]]
-        then
+        if [[ $response == *"errors"* ]]; then
+
+        #if [[ -z "${VAULT_CLIENT_TOKEN// }" ]]
+        #then
             echo 'Wrong credentials given...'
             vault_login
         else
