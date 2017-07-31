@@ -89,6 +89,8 @@ VAULT_SERVER = get_setting("VAULT_SERVER", "https://vault.ops.mist.io:8200")
 
 DEBUG = get_setting("DEBUG", False)
 
+LOCAL_DOCKER = get_setting("api","")
+
 RECORD_SELENIUM = get_setting("RECORD_SELENIUM", False)
 
 # Directories and paths used for the tests
