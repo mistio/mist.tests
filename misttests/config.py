@@ -242,8 +242,8 @@ DEFAULT_CREDENTIALS = {'AWS': {'api_key': '', 'api_secret': '', 'region': ''},
                        'SOFTLAYER': {'api_key': '', 'username': ''},
                        'VULTR': {'apikey': ''},
                        'DOCKER_MONITORING':{'host': '', 'port': ''},
-                       'ONAPP':{'username':'', 'password':'', 'host':'', 'verify_ssl': False}
-
+                       'ONAPP':{'username':'', 'password':'', 'host':'', 'verify_ssl': False},
+                       'SOLUS_VM':{'username':'', 'password':'', 'host':'', 'port': ''}
                        }
 
 CREDENTIALS = get_setting("CREDENTIALS", DEFAULT_CREDENTIALS)
