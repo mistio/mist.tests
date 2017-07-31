@@ -3,6 +3,7 @@ import json
 import requests
 import logging
 import random
+import datetime
 
 
 from subprocess import call
@@ -115,6 +116,8 @@ def after_step(context, step):
 
 
 def after_all(context):
+    log.info("****************************************")
+    log.info("Time: %s" % datetime.datetime.time(datetime.datetime.now()))
     log.info("USER: %s" % context.mist_config['EMAIL'])
     log.info("PASSWORD1: %s" % context.mist_config['PASSWORD1'])
     log.info("MEMBER_1: %s" % context.mist_config['MEMBER1_EMAIL'])
@@ -179,7 +182,10 @@ def kill_docker_machine(context, machine_to_destroy):
             response = requests.get(uri, headers=headers)
             for machine in response.json():
                 if machine_to_destroy in machine['name']:
+                    log.info("****************************************")
                     log.info('Killing docker machine...')
+                    log.info("Time: %s" % datetime.datetime.time(datetime.datetime.now()))
+                    log.info("****************************************")
                     payload = {'action': 'destroy'}
                     uri = context.mist_config['MIST_URL'] + '/api/v1/clouds/' + cloud['id'] + '/machines/' + \
                           machine['machine_id']
