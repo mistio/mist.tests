@@ -89,7 +89,7 @@ VAULT_SERVER = get_setting("VAULT_SERVER", "https://vault.ops.mist.io:8200")
 
 DEBUG = get_setting("DEBUG", False)
 
-LOCAL_DOCKER = get_setting("api","")
+LOCAL_DOCKER = get_setting("LOCAL_DOCKER","api")
 
 RECORD_SELENIUM = get_setting("RECORD_SELENIUM", False)
 
