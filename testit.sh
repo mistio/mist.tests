@@ -129,7 +129,7 @@ if [ "$#" -eq 0 ]
 then
     vault_login
     run_api_tests_suite
-    run_gui_tests_suite
+    #run_gui_tests_suite
 fi
 
 if [ "$#" -eq 1 ]
