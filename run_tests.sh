@@ -1,7 +1,16 @@
 #!/bin/bash
 
+# TODO
+
+# fix key error
+# do not exit in case vnc is open
+# is it possible to check both params, so that if 2nd args are wrong to exit?
+# an failarei to TELEUTAIO test(ui h api), me petaei apo to container
+
+
 help_message() {
-    echo "****************************************************************************************************************************"
+    echo "********************************************************************************************************************************"
+    echo "********************************************************************************************************************************"
     echo "Usage: ./run_tests.sh [-t] [option] {argument}"
     echo "Options:"
     echo
@@ -18,7 +27,8 @@ help_message() {
     echo "Argument for UI tests can be one of the following:"
     echo
     echo "clouds, clouds-actions, machines, images, keys, scripts, users, rbac, schedules, orchestration, monitoring, rbac-rules, insights"
-    echo "****************************************************************************************************************************"
+    echo "********************************************************************************************************************************"
+    echo "********************************************************************************************************************************"
     echo
 }
 
@@ -192,6 +202,8 @@ else
         ;;
      \?)
         echo "Invalid option: -$OPTARG" >&2
+        help_message
+        exit
         ;;
      :)
         echo nothing
