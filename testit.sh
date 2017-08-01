@@ -34,19 +34,30 @@ vault_login() {
         echo Vault password:
         read -s password
         export PYTHONIOENCODING=utf8
-        response=$(curl $vault_server/v1/auth/userpass/login/$username -d '{ "password": "'${password}'" }')
-         #python -c "import sys, json; fi print(json.load(sys.stdin)['auth']['client_token'])")
 
-        if [[ $response == *"errors"* ]]; then
+        VAULT_CLIENT_TOKEN=$(curl $vault_server/v1/auth/userpass/login/$username -d '{ "password": "'${password}'" }' |
+         python -c "import sys, json; print(json.load(sys.stdin)['auth']['client_token'])")
 
-        #if [[ -z "${VAULT_CLIENT_TOKEN// }" ]]
-        #then
+        if [[ -z "${VAULT_CLIENT_TOKEN// }" ]]
+        then
             echo 'Wrong credentials given...'
             vault_login
         else
             export VAULT_CLIENT_TOKEN
             echo 'Successfully logged in. About to start running tests...'
         fi
+
+#        response=$(curl $vault_server/v1/auth/userpass/login/$username -d '{ "password": "'${password}'" }')
+
+#        if [[ $response == *"errors"* ]]; then
+#            echo 'Wrong credentials given...'
+#            vault_login
+#        else
+#            echo $response
+#            VAULT_CLIENT_TOKEN= "$("$response" | python -c "import sys, json; print(json.load(sys.stdin)['auth']['client_token'])")"
+#            export VAULT_CLIENT_TOKEN
+#            echo 'Successfully logged in. About to start running tests...'
+#        fi
     fi
 }
 
@@ -131,7 +142,7 @@ if [ "$#" -eq 0 ]
 then
     vault_login
     run_api_tests_suite
-    #run_gui_tests_suite
+    run_gui_tests_suite
 fi
 
 if [ "$#" -eq 1 ]
