@@ -1,12 +1,8 @@
 #!/bin/bash
 
 help_message() {
-    echo
+    echo "****************************************************************************************************************************"
     echo "Usage: ./run_tests.sh [-t] [option] {argument}"
-    echo
-    echo "-t"           If given, then all variables will be read from test_settings.py,
-    echo                otherwise, Vault credentials will be asked.
-    echo
     echo "Options:"
     echo
     echo "[no option]   First API tests and then GUI tests will be invoked"
@@ -22,6 +18,7 @@ help_message() {
     echo "Argument for UI tests can be one of the following:"
     echo
     echo "clouds, clouds-actions, machines, images, keys, scripts, users, rbac, schedules, orchestration, monitoring, rbac-rules, insights"
+    echo "****************************************************************************************************************************"
     echo
 }
 
