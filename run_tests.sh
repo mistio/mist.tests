@@ -94,7 +94,6 @@ behave_tags["rbac-rules"]='rbac-rules-1',
 behave_tags["zones"]='zones,'
 
 run_api_tests_suite() {
-  echo "Running entire api tests suite..."
   pytest_args=""
   for path in "${pytest_paths[@]}"
   do
@@ -117,7 +116,6 @@ run_provision_tests_suite() {
 }
 
 validate_api_args(){
-  echo "Validating api"
   for arg in $@
   do
     if [ -z "${pytest_paths["$arg"]}" ]
@@ -139,23 +137,17 @@ validate_gui_args(){
   done
 }
 
-
-echo "Arguments in run_tests:"
-echo $@
-
 if [ "$#" -eq 0 ]
 then
-    #vault_login
-    #run_api_tests_suite
-    echo "No argument"
-    #run_gui_tests_suite
+    vault_login
+    run_api_tests_suite
+    run_gui_tests_suite
 fi
 
 if [ "$#" -eq 1 ]
 then
     if [ $1 == '-a' ]
     then
-      echo "Api tests to be triggered"
         vault_login
         run_api_tests_suite
     elif [ $1 == '-g' ]
@@ -168,8 +160,6 @@ then
         run_provision_tests_suite
     fi
 else
-  echo "Special arguments"
-
   while getopts ":a:g:" opt; do
     case $opt in
       a)
