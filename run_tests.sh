@@ -117,6 +117,7 @@ run_provision_tests_suite() {
 }
 
 validate_api_args(){
+  echo "Validating api"
   for arg in $@
   do
     if [ -z "${pytest_paths["$arg"]}" ]
@@ -138,30 +139,37 @@ validate_gui_args(){
   done
 }
 
+
+echo "Arguments in run_tests:"
+echo $@
+
 if [ "$#" -eq 0 ]
 then
-    vault_login
-    run_api_tests_suite
-    run_gui_tests_suite
+    #vault_login
+    #run_api_tests_suite
+    echo "No argument"
+    #run_gui_tests_suite
 fi
 
 if [ "$#" -eq 1 ]
 then
     if [ $1 == '-a' ]
     then
+      echo "Api tests to be triggered"
         vault_login
         run_api_tests_suite
     elif [ $1 == '-g' ]
     then
         vault_login
         run_gui_tests_suite
-        exit
     elif [ $1 == '-p' ]
     then
         vault_login
         run_provision_tests_suite
     fi
 else
+  echo "Special arguments"
+
   while getopts ":a:g:" opt; do
     case $opt in
       a)
@@ -169,9 +177,11 @@ else
         echo "Api tests will be triggered. Parameters are: $OPTARG"
         if [ -z "$OPTARG" ]
         then
+          vault_login
           run_api_tests_suite
         else
           validate_api_args "$OPTARG"
+          vault_login
           for arg in $OPTARG
           do
               pytest ${pytest_paths["$arg"]}
@@ -186,6 +196,7 @@ else
           run_gui_tests_suite
         else
           validate_gui_args "$OPTARG"
+          vault_login
           for arg in $OPTARG
           do
               behave -k --no-capture --no-capture-stderr --stop --tags=${behave_tags["$arg"]} misttests/gui/core/pr/features
