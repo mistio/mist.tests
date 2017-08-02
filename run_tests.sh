@@ -1,11 +1,8 @@
 #!/bin/bash
 
-# TODO
-
 # fix key error
 # do not exit in case vnc is open
 # is it possible to check both params, so that if 2nd args are wrong to exit?
-# an failarei to TELEUTAIO test(ui h api), me petaei apo to container
 
 
 help_message() {
@@ -181,7 +178,7 @@ else
           vault_login
           for arg in $OPTARG
           do
-              pytest ${pytest_paths["$arg"]}
+              pytest ${pytest_paths["$arg"]} || echo Failed
           done
         fi
         ;;
