@@ -159,6 +159,9 @@ then
     then
         vault_login
         run_provision_tests_suite || echo Failed
+    elif [ $1 == '-h' ]
+    then
+        help_message
     fi
 else
   while getopts ":a:g:" opt; do
