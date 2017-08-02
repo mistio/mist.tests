@@ -103,20 +103,20 @@ run_api_tests_suite() {
   do
     pytest_args="${pytest_args} ${path}"
   done
-  pytest $pytest_args
+  pytest $pytest_args || echo Failed
 }
 
 run_gui_tests_suite() {
-  behave -o gui_test_suite_1_result.txt -k --no-capture --no-capture-stderr --tags=clouds-actions,images-networks,orchestration,scripts,scripts-actions,user-actions misttests/gui/core/pr/features
-  behave -o gui_test_suite_2_result.txt -k --no-capture --no-capture-stderr --tags=keys,rbac-teams,zones misttests/gui/core/pr/features
-  behave -o gui_test_schedules_result.txt -k --no-capture --no-capture-stderr --tags=schedulers-1,schedulers-2 misttests/gui/core/pr/features
-  behave -o gui_test_rbac_rules_result.txt -k --no-capture --no-capture-stderr --tags=rbac-rules-1 misttests/gui/core/pr/features
-  behave -o gui_test_rbac_rules_2_result.txt -k --no-capture --no-capture-stderr --tags=rbac-rules-2 misttests/gui/core/pr/features
-  behave -o gui_test_machines_result.txt -k --no-capture --no-capture-stderr --tags=machines misttests/gui/core/pr/features
+  behave -o gui_test_suite_1_result.txt -k --no-capture --no-capture-stderr --tags=clouds-actions,images-networks,orchestration,scripts,scripts-actions,user-actions misttests/gui/core/pr/features || echo Failed
+  behave -o gui_test_suite_2_result.txt -k --no-capture --no-capture-stderr --tags=keys,rbac-teams,zones misttests/gui/core/pr/features || echo Failed
+  behave -o gui_test_schedules_result.txt -k --no-capture --no-capture-stderr --tags=schedulers-1,schedulers-2 misttests/gui/core/pr/features || echo Failed
+  behave -o gui_test_rbac_rules_result.txt -k --no-capture --no-capture-stderr --tags=rbac-rules-1 misttests/gui/core/pr/features || echo Failed
+  behave -o gui_test_rbac_rules_2_result.txt -k --no-capture --no-capture-stderr --tags=rbac-rules-2 misttests/gui/core/pr/features || echo Failed
+  behave -o gui_test_machines_result.txt -k --no-capture --no-capture-stderr --tags=machines misttests/gui/core/pr/features || echo Failed
 }
 
 run_provision_tests_suite() {
-    python test_provisioning.py
+    python test_provisioning.py || echo Failed
 }
 
 validate_api_args(){
@@ -144,8 +144,8 @@ validate_gui_args(){
 if [ "$#" -eq 0 ]
 then
     vault_login
-    run_api_tests_suite
-    run_gui_tests_suite
+    run_api_tests_suite || echo Failed
+    run_gui_tests_suite || echo Failed
 fi
 
 if [ "$#" -eq 1 ]
@@ -153,15 +153,15 @@ then
     if [ $1 == '-a' ]
     then
         vault_login
-        run_api_tests_suite
+        run_api_tests_suite || echo Failed
     elif [ $1 == '-g' ]
     then
         vault_login
-        run_gui_tests_suite
+        run_gui_tests_suite || echo Failed
     elif [ $1 == '-p' ]
     then
         vault_login
-        run_provision_tests_suite
+        run_provision_tests_suite || echo Failed
     fi
 else
   while getopts ":a:g:" opt; do
@@ -172,7 +172,7 @@ else
         if [ -z "$OPTARG" ]
         then
           vault_login
-          run_api_tests_suite
+          run_api_tests_suite || echo Failed
         else
           validate_api_args "$OPTARG"
           vault_login
@@ -187,13 +187,13 @@ else
         echo "Gui tests will be triggered. Parameters are: $OPTARG"
         if [ -z "$OPTARG" ]
         then
-          run_gui_tests_suite
+          run_gui_tests_suite || echo Failed
         else
           validate_gui_args "$OPTARG"
           vault_login
           for arg in $OPTARG
           do
-              behave -k --no-capture --no-capture-stderr --stop --tags=${behave_tags["$arg"]} misttests/gui/core/pr/features
+              behave -k --no-capture --no-capture-stderr --stop --tags=${behave_tags["$arg"]} misttests/gui/core/pr/features || echo Failed
           done
         fi
         ;;
