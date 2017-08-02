@@ -5,7 +5,7 @@
 help_message() {
     echo "********************************************************************************************************************************"
     echo "********************************************************************************************************************************"
-    echo "Usage: ./run_tests.sh [-t] [option] {argument}"
+    echo "Usage: ./run_tests.sh [option] {<arg1>},{<arg2>},..."
     echo "Options:"
     echo
     echo "[no option]   First API tests and then GUI tests will be invoked"
