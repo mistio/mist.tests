@@ -1,9 +1,6 @@
 #!/bin/bash
 
 # fix key error
-# do not exit in case vnc is open
-# is it possible to check both params, so that if 2nd args are wrong to exit?
-
 
 help_message() {
     echo "********************************************************************************************************************************"
@@ -124,8 +121,8 @@ validate_api_args(){
   do
     if [ -z "${pytest_paths["$arg"]}" ]
     then
+      echo "Wrong parameter has been given!"
       help_message
-      exit
     fi
   done
 }
@@ -135,8 +132,8 @@ validate_gui_args(){
   do
     if [ -z "${behave_tags["$arg"]}" ]
     then
+      echo "Wrong parameter has been given!"
       help_message
-      exit
     fi
   done
 }
