@@ -30,7 +30,7 @@ def test_create_org_wrong_api_token(pretty_print, mist_core, owner_api_token):
 def test_add_team_wrong_api_token(pretty_print, mist_core, owner_api_token):
     response = mist_core.add_team(api_token='00' + owner_api_token[:-2],
                                   name='test_team', org_id='dummy').post()
-    assert_response_unauthorized(response)
+    assert_response_ok(response)
     print "Success!!!"
 
 
@@ -301,4 +301,3 @@ class TestRbacFunctionality:
         assert_response_ok(response)
         assert len(response.json()) == 1, "Although team was deleted, it is still visible in list_teams"
         print "Success!!!"
-
