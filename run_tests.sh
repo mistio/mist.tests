@@ -36,7 +36,7 @@ vault_login() {
         read -s password
         export PYTHONIOENCODING=utf8
 
-        VAULT_CLIENT_TOKEN=$(curl $vault_server/v1/auth/userpass/login/$username -d '{ "password": "'${password}'" }' |
+        VAULT_CLIENT_TOKEN=$(curl -k $vault_server/v1/auth/userpass/login/$username -d '{ "password": "'${password}'" }' |
          python -c "import sys, json; print(json.load(sys.stdin)['auth']['client_token'])")
 
         if [[ -z "${VAULT_CLIENT_TOKEN// }" ]]
@@ -193,7 +193,7 @@ else
           vault_login
           for arg in $OPTARG
           do
-              behave -k --no-capture --no-capture-stderr --stop --tags=${behave_tags["$arg"]} misttests/gui/core/pr/features || echo Failed
+              behave -k --no-capture --no-capture-stderr --tags=${behave_tags["$arg"]} misttests/gui/core/pr/features || echo Failed
           done
         fi
         ;;
