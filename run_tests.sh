@@ -85,7 +85,7 @@ behave_tags["clouds-actions"]='clouds-actions,'
 behave_tags["images"]='images-networks,'
 behave_tags["keys"]='keys,'
 behave_tags["scripts"]='scripts','scripts-actions'
-behave_tags["machines"]='machines,'
+behave_tags["machines"]='machines-locally'
 behave_tags["users"]='user-actions,'
 behave_tags["rbac"]='rbac-teams'
 behave_tags["schedules"]='schedulers-1','schedulers-2,'
@@ -193,7 +193,7 @@ else
           vault_login
           for arg in $OPTARG
           do
-              behave -k --no-capture --no-capture-stderr --tags=${behave_tags["$arg"]} misttests/gui/core/pr/features || echo Failed
+              behave -k --no-capture --no-capture-stderr --tags="${behave_tags["$arg"]}" misttests/gui/core/pr/features || echo Failed
           done
         fi
         ;;
