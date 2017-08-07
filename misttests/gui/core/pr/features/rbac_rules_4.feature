@@ -38,3 +38,19 @@ Feature: RBAC-rules-v4
     And I click the button "Save Policy" in "policy" edit form
     And I wait for 1 seconds
     Then I logout
+
+  @view-cloud-and-script-fail
+  Scenario: Verify that member1 cannot view the script and the cloud added above, since 'DENY-READ-ALL superseeds 'ALLOW-ALL-ALL rule'
+    Then I should receive an email at the address "MEMBER1_EMAIL" with subject "[mist.io] Confirm your invitation" within 30 seconds
+    And I follow the link inside the email
+    Then I enter my rbac_member1 credentials for login
+    And I click the sign in button in the landing page popup
+    Given that I am redirected within 10 seconds
+    And I wait for the links in homepage to appear
+    When I ensure that I am in the "ORG_NAME" organization context
+    And I visit the Teams page
+    Then "Test Team" team should be present within 5 seconds
+    When I visit the Home page
+    Then I should have 0 clouds added
+    When I visit the Scripts page
+    Then "touch_kati" script should be absent within 5 seconds
