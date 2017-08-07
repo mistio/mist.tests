@@ -16,4 +16,4 @@ cd /mist.core/src/mist.io/tests
 
 sleep .5
 
-source run_tests.sh && /bin/bash
+/bin/bash
