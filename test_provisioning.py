@@ -25,6 +25,11 @@ providers = {
         "location": "West Europe",
         "image": "b39f27a8b8c64d52b05eac6a62ebad85__Ubuntu-17_04-amd64-server-20170412.1-en-us-30GB"
     },
+    "Azure_ARM": {
+        "size": "Standard_DS1",
+        "location": "westeurope",
+        "image": "Canonical:UbuntuServer:17.04-DAILY:17.04.201707280"
+    },
     "Docker": {
         "size": "",
         "location": "",
@@ -144,6 +149,17 @@ def add_cloud(provider):
                                        subscription_id=safe_get_var('clouds/azure', 'subscription_id', config.CREDENTIALS['AZURE']['subscription_id']),
                                        certificate=safe_get_var('clouds/azure', 'certificate', config.CREDENTIALS['AZURE']['certificate'])).post()
 
+        elif provider == "Azure_ARM":
+            response = mist_core.add_cloud(title=provider, provider= 'azure_arm', api_token=config.MIST_API_TOKEN,
+                                       tenant_id=safe_get_var('clouds/azure_arm', 'tenant_id',
+                                                              config.CREDENTIALS['AZURE_ARM']['tenant_id']),
+                                       subscription_id=safe_get_var('clouds/azure_arm', 'subscription_id',
+                                                              config.CREDENTIALS['AZURE_ARM']['subscription_id']),
+                                       key=safe_get_var('clouds/azure_arm', 'client_key',
+                                                              config.CREDENTIALS['AZURE_ARM']['client_key']),
+                                       secret=safe_get_var('clouds/azure_arm', 'client_secret',
+                                                              config.CREDENTIALS['AZURE_ARM']['client_secret'])).post()
+
         elif provider == 'Docker':
             response = mist_core.add_cloud(title=provider, provider= 'docker', api_token=config.MIST_API_TOKEN,
                                        docker_host=safe_get_var('dockerhosts/godzilla', 'host', config.CREDENTIALS['DOCKER']['host']),
@@ -226,7 +242,7 @@ def create_machine(cloud_id, provider):
 
     response = mist_core.create_machine(api_token=config.MIST_API_TOKEN,
                                         cloud_id=cloud_id,
-                                        name= provider.replace(" ", "").lower() + 'provisiontest' + str(randint(0,9999)),
+                                        name= provider.replace(" ", "").replace("_","").lower() + 'provisiontest' + str(randint(0,9999)),
                                         provider=provider,
                                         image=providers[provider]['image'],
                                         image_extra=image_extra,
@@ -252,7 +268,7 @@ def create_machine(cloud_id, provider):
 
 def main():
     for provider in providers:
-        if provider in ['AWS', 'Digital Ocean', 'Linode', 'Azure', 'SoftLayer', 'GCE', 'Rackspace', 'Packet', 'Nephoscale', 'Vultr']:
+        if provider in ['AWS', 'Digital Ocean', 'Linode', 'Azure', 'SoftLayer', 'GCE', 'Rackspace', 'Packet', 'Nephoscale', 'Vultr', 'Azure_ARM']:
             #add the provider if not there
             cloud_id = add_cloud(provider)
 
