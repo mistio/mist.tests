@@ -30,7 +30,7 @@ def get_list_item(context, resource_type, name):
         items = get_list(context, resource_type)
 
         for item in items:
-            if resource_type in ['machine', 'team', 'key', 'network', 'script', 'schedule', 'template', 'stack', 'zone']:
+            if resource_type in ['machine', 'image', 'team', 'key', 'network', 'script', 'schedule', 'template', 'stack', 'zone']:
                 name = safe_get_element_text(item.find_element_by_css_selector('strong.name')).strip().lower()
             # elif resource_type == 'zone':
             #     name = safe_get_element_text(item.find_element_by_css_selector('div.domain')).strip().lower()
