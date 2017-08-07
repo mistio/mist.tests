@@ -167,7 +167,7 @@ def click_the_user_menu_button(context, button):
 @step(u'I click the action "{button}" from the {resource_type} list actions')
 def click_action_of_list(context,button,resource_type):
     resource_type = resource_type.lower()
-    if resource_type not in ['machine', 'image', 'key', 'script', 'network', 'team', 'template', 'stack', 'image', 'schedule']:
+    if resource_type not in ['machine', 'key', 'script', 'network', 'team', 'template', 'stack', 'image', 'schedule']:
         raise Exception('Unknown resource type')
     buttons = context.browser.find_elements_by_css_selector('page-%ss mist-list mist-actions > paper-button' % resource_type)
     click_button_from_collection(context, button.lower(), buttons)
