@@ -16,7 +16,7 @@ def find_starred_images(images_list):
     starred_images = []
     for image in images_list:
         try:
-            starred_image = image.find_element_by_class_name('star')
+            starred_image = image.find_element_by_class_name('starred')
             starred_images.append(starred_image)
         except:
             pass
@@ -26,7 +26,7 @@ def find_starred_images(images_list):
 def find_image(image, images_list):
     for check_image in images_list:
         if image in safe_get_element_text(check_image):
-            return check_image.find_element_by_tag_name('list-item')
+            return check_image.find_element_by_tag_name('vaadin-grid-table-row')
 
 
 @step(u'the "{image}" image should be "{state}" within {seconds} seconds')
@@ -34,8 +34,9 @@ def assert_starred_unstarred_image(context,image,state,seconds):
     state = state.lower()
     if state not in ['starred', 'unstarred']:
         raise Exception('Unknown type of state')
-    images = context.browser.find_element_by_tag_name('item-list').find_element_by_tag_name('iron-list')
-    images_list = images.find_element_by_id("items").find_elements_by_class_name("row")
+    # return context.browser.find_elements_by_css_selector('page-images mist-list vaadin-grid-table-body#items > vaadin-grid-table-row')
+    # images = context.browser.find_element_by_tag_name('item-list').find_element_by_tag_name('iron-list')
+    images_list = context.browser.find_elements_by_css_selector('page-images mist-list vaadin-grid-table-body#items')
     end_time = time() + int(seconds)
     image_to_check_state= find_image(image, images_list)
     sleep(1)
