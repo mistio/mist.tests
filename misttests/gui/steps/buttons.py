@@ -167,7 +167,7 @@ def click_the_user_menu_button(context, button):
 @step(u'I click the action "{button}" from the {resource_type} list actions')
 def click_action_of_list(context,button,resource_type):
     resource_type = resource_type.lower()
-    if resource_type not in ['machine', 'key', 'script', 'network', 'team', 'template', 'stack', 'image', 'schedule']:
+    if resource_type not in ['machine', 'image', 'key', 'script', 'network', 'team', 'template', 'stack', 'image', 'schedule']:
         raise Exception('Unknown resource type')
     buttons = context.browser.find_elements_by_css_selector('page-%ss mist-list mist-actions > paper-button' % resource_type)
     click_button_from_collection(context, button.lower(), buttons)
@@ -181,13 +181,13 @@ def click_item(context, text, type_of_item):
     if context.mist_config.get(text):
         text = context.mist_config[text]
     text = text.lower()
-    if type_of_item in ['machine', 'team', 'key', 'script', 'network', 'template', 'stack', 'schedule', 'zone']:
+    if type_of_item in ['machine', 'image', 'team', 'key', 'script', 'network', 'template', 'stack', 'schedule', 'zone']:
         item_selector = 'page-%ss mist-list vaadin-grid-table-body#items > vaadin-grid-table-row' % type_of_item
     else:
         item_selector = 'page-%ss iron-list div.row' % type_of_item
     items = context.browser.find_elements_by_css_selector(item_selector)
     for item in items:
-        if type_of_item in ['machine', 'team', 'key', 'script', 'network', 'template', 'stack', 'schedule', 'zone']:
+        if type_of_item in ['machine', 'image', 'team', 'key', 'script', 'network', 'template', 'stack', 'schedule', 'zone']:
             name = safe_get_element_text(item.find_element_by_css_selector('strong.name')).strip().lower()
             if text in name:
                 clicketi_click_list_row(context, item)
