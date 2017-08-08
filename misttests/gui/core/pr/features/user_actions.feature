@@ -18,6 +18,9 @@ Feature: Login Scenarios and Api Token
     Then I expect for "addBtn" to be clickable within max 20 seconds
     Given "Nephoscale" cloud has been added
     And I logout
+
+  @signup-conflict
+  Scenario: Already registered user gets conflict error when trying to sign up
     Given I am not logged in to mist.core
     When I open the signup popup
     And I wait for 3 seconds
