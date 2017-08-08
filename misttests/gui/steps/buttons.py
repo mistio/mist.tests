@@ -176,19 +176,18 @@ def click_action_of_list(context,button,resource_type):
 @step(u'I click the "{text}" "{type_of_item}"')
 def click_item(context, text, type_of_item):
     type_of_item = type_of_item.lower()
-    if type_of_item not in ['machine', 'key', 'script', 'network', 'team', 'template', 'stack', 'image', 'schedule']:
+    if type_of_item not in ['machine', 'key', 'script', 'network', 'team', 'template', 'stack', 'image', 'schedule', 'zone']:
         raise Exception('Unknown type of button')
     if context.mist_config.get(text):
         text = context.mist_config[text]
     text = text.lower()
-    if type_of_item in ['machine', 'team', 'key', 'script', 'network', 'template', 'stack', 'schedule']:
+    if type_of_item in ['machine', 'team', 'key', 'script', 'network', 'template', 'stack', 'schedule', 'zone']:
         item_selector = 'page-%ss mist-list vaadin-grid-table-body#items > vaadin-grid-table-row' % type_of_item
     else:
         item_selector = 'page-%ss iron-list div.row' % type_of_item
-    #buttons = context.driver.findElements(By.CSS_SELECTOR(item_selector))
     items = context.browser.find_elements_by_css_selector(item_selector)
     for item in items:
-        if type_of_item in ['machine', 'team', 'key', 'script', 'network', 'template', 'stack', 'schedule']:
+        if type_of_item in ['machine', 'team', 'key', 'script', 'network', 'template', 'stack', 'schedule', 'zone']:
             name = safe_get_element_text(item.find_element_by_css_selector('strong.name')).strip().lower()
             if text in name:
                 clicketi_click_list_row(context, item)
@@ -266,6 +265,8 @@ def click_button_by_id(context,button):
     else:
         raise Exception('Unknown type of button')
     #assert button_to_click.is_displayed(), "%s button is not displayed" %button
+
+
 @step(u'I click the "{button}" button with id "{button_id}"')
 def click_button_by_id(context, button, button_id):
     button_to_click = context.browser.find_element_by_id(button_id)

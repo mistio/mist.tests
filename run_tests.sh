@@ -27,12 +27,13 @@ help_message() {
 }
 
 run_gui_tests_suite() {
-    behave_tags=""
-    for tag in "${behave_tags[@]}"
-    do
-      behave_tags+="${tag}"
-    done
-    behave -k --no-capture --no-capture-stderr --tags=$behave_tags misttests/gui/core/pr/features
+    # behave_tags=""
+    # for tag in "${behave_tags[@]}"
+    # do
+    #   behave_tags+="${tag}"
+    # done
+
+    behave -k --no-capture --no-capture-stderr --tags=clouds-actions,images-networks,orchestration,user-actions,machines,monitoring-locally,keys,scripts,zones,rbac-teams misttests/gui/core/pr/features
 }
 
 run_api_tests_suite() {
@@ -49,22 +50,25 @@ run_provision_tests_suite() {
 }
 
 vault_login() {
-    export vault_server=${VAULT_ADDR:-https://vault.ops.mist.io:8200}
-    echo Vault username:
-    read username
-    echo Vault password:
-    read -s password
-    export PYTHONIOENCODING=utf8
-    VAULT_CLIENT_TOKEN=$(curl $vault_server/v1/auth/userpass/login/$username -d '{ "password": "'${password}'" }' |
-     python -c "import sys, json; print(json.load(sys.stdin)['auth']['client_token'])")
-
-    if [[ -z "${VAULT_CLIENT_TOKEN// }" ]]
+    if [ -z "$VAULT_CLIENT_TOKEN" ]
     then
-        echo 'Wrong credentials given...'
-        vault_login
-    else
-        export VAULT_CLIENT_TOKEN
-        echo 'Successfully logged in. About to start running tests...'
+        export vault_server=${VAULT_ADDR:-https://vault.ops.mist.io:8200}
+        echo Vault username:
+        read username
+        echo Vault password:
+        read -s password
+        export PYTHONIOENCODING=utf8
+        VAULT_CLIENT_TOKEN=$(curl $vault_server/v1/auth/userpass/login/$username -d '{ "password": "'${password}'" }' |
+         python -c "import sys, json; print(json.load(sys.stdin)['auth']['client_token'])")
+
+        if [[ -z "${VAULT_CLIENT_TOKEN// }" ]]
+        then
+            echo 'Wrong credentials given...'
+            vault_login
+        else
+            export VAULT_CLIENT_TOKEN
+            echo 'Successfully logged in. About to start running tests...'
+        fi
     fi
 }
 
@@ -86,19 +90,19 @@ vault_login() {
 
     declare -A behave_tags
 
-    behave_tags["clouds"]='clouds-add-1','clouds-add-2'
+    behave_tags["clouds"]='clouds-add-1,'
     behave_tags["clouds-actions"]='clouds-actions,'
     behave_tags["images"]='images-networks,'
     behave_tags["keys"]='keys,'
-    behave_tags["scripts"]='scripts','scripts-actions'
+    behave_tags["scripts"]='scripts','scripts-actions,'
     behave_tags["machines"]='machines,'
     behave_tags["users"]='user-actions,'
-    behave_tags["rbac"]='rbac-teams'
+    behave_tags["rbac"]='rbac-teams,'
     behave_tags["schedules"]='schedulers-1','schedulers-2,'
-    behave_tags["monitoring"]='monitoring-locally'
+    behave_tags["monitoring"]='monitoring-locally,'
     behave_tags["orchestration"]='orchestration,'
-    behave_tags["rbac-rules"]='rbac-rules-1'
-
+    behave_tags["rbac-rules"]='rbac-rules-1,'
+    behave_tags["zones"]='zones,'
 
 
     if [ "$#" -eq 0 ]
@@ -106,7 +110,6 @@ vault_login() {
         vault_login
         run_api_tests_suite
         run_gui_tests_suite
-        exit
     fi
 
     if [ $1 == '-h' ] || [ "$#" -gt 3 ]
@@ -121,7 +124,6 @@ vault_login() {
         then
             vault_login
             run_api_tests_suite
-            exit
         elif [ $1 == '-gui' ]
         then
             vault_login

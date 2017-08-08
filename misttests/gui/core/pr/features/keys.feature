@@ -9,7 +9,7 @@ Feature: Actions for Keys
   Scenario: Add Key
     When I click the button "+"
     Then I expect the "Key" add form to be visible within max 10 seconds
-    When I set the value "Key1" to field "Name" in "key" add form
+    When I set the value "TestKey" to field "Name" in "key" add form
     And I focus on the button "Generate" in "key" add form
     And I click the button "Generate" in "key" add form
     And I wait for 7 seconds
@@ -18,7 +18,7 @@ Feature: Actions for Keys
     And I click the button "Add" in "key" add form
     Then I expect the "key" edit form to be visible within max 10 seconds
     When I visit the Keys page
-    Then "Key1" key should be present within 15 seconds
+    Then "TestKey" key should be present within 15 seconds
     And I visit the Home page
     And I wait for the links in homepage to appear
 
@@ -45,9 +45,9 @@ Feature: Actions for Keys
  @key-search
   Scenario: Filter a key
     When I search for "Key2"
-    Then "Key1" key should be absent within 15 seconds
+    Then "TestKey" key should be absent within 15 seconds
     When I clear the search bar
-    Then "Key1" key should be present within 15 seconds
+    Then "TestKey" key should be present within 15 seconds
     And I visit the Home page
     And I wait for the links in homepage to appear
 
@@ -68,7 +68,7 @@ Feature: Actions for Keys
 
   @key-tags
   Scenario: Add tags to key
-    When I click the "Key1" "key"
+    When I click the "TestKey" "key"
     Then I expect the "key" edit form to be visible within max 5 seconds
     When I click the button "Tags" in "key" edit form
     And I expect for the tag popup to open within 4 seconds
@@ -94,13 +94,13 @@ Feature: Actions for Keys
   Scenario: Delete Key
     When I visit the Keys page
     And I select list item "Second" key
-    And I select list item "Key1" key
+    And I select list item "TestKey" key
     And I click the action "Delete" from the key list actions
     Then I expect the dialog "Delete Key" is open within 4 seconds
     And I wait for 2 seconds
     When I click the "Delete" button in the dialog "Delete Key"
     And I expect the dialog "Delete Key" is closed within 4 seconds
-    Then "Key1" key should be absent within 15 seconds
+    Then "TestKey" key should be absent within 15 seconds
     When I click the "Second" "key"
     And I expect the "key" edit form to be visible within max 5 seconds
     Then I click the button "Delete" in "key" edit form

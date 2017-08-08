@@ -4,6 +4,9 @@ import requests
 import logging
 import random
 
+
+from subprocess import call
+
 from misttests import config
 
 from misttests.helpers.selenium_utils import choose_driver
@@ -27,6 +30,9 @@ def before_all(context):
     log.info("Webdriver path:" + config.WEBDRIVER_PATH)
     log.info("Webdriver log:" + config.WEBDRIVER_LOG)
     log.info("JS console log:" + config.JS_CONSOLE_LOG)
+
+    # kill chrome, otherwise it will crash
+    call(["pkill", "-9", "chrom"])
 
     context.mist_config = dict()
     context.mist_config['browser'] = choose_driver()
@@ -180,6 +186,20 @@ def kill_docker_machine(context, machine_to_destroy):
                     requests.post(uri, data=json.dumps(payload), headers=headers)
 
 
+# def delete_gce_zones(context):
+#     api_token = get_api_token(context)
+#     headers = {'Authorization': api_token}
+#     response = requests.get("%s/api/v1/clouds" % context.mist_config['MIST_URL'], headers=headers)
+#     cloud_id = response.json()[0]['id']
+#     uri = context.mist_config['MIST_URL'] + '/api/v1/clouds/' + cloud_id + '/dns/zones'
+#     response = requests.get(uri, headers=headers)
+#     for zone in response.json()['zones']:
+#         zone_id = zone['id']
+#         log.info('Deleting zone...')
+#         uri = context.mist_config['MIST_URL'] + '/api/v1/clouds/' + cloud_id + '/dns/zones/' + zone_id
+#         requests.delete(uri, headers=headers)
+
+
 def finish_and_cleanup(context):
     dump_js_console_log(context)
     context.mist_config['browser'].quit()
@@ -205,3 +225,5 @@ def after_feature(context, feature):
         kill_docker_machine(context, context.mist_config.get('docker-ui-test-machine-random'))
     if 'Monitoring' == feature.name:
         kill_docker_machine(context, context.mist_config.get('monitored-machine-random'))
+    # if 'Zones' == feature.name:
+    #     delete_gce_zones(context)

@@ -96,8 +96,9 @@ def add_docker_api_request(context, cloud):
             payload = {
                 'title': "Docker",
                 'provider': "docker",
-                'docker_host': '172.17.0.1',
+                'docker_host': context.mist_config['MIST_URL'],
                 'docker_port': '2375',
+                'show_all': True
             }
 
         else:
@@ -110,7 +111,8 @@ def add_docker_api_request(context, cloud):
                 'authentication': safe_get_var('dockerhosts/godzilla', 'authentication', context.mist_config['CREDENTIALS']['DOCKER']['authentication']),
                 'ca_cert_file': safe_get_var('dockerhosts/godzilla', 'ca', context.mist_config['CREDENTIALS']['DOCKER']['ca']),
                 'key_file': safe_get_var('dockerhosts/godzilla', 'key', context.mist_config['CREDENTIALS']['DOCKER']['key']),
-                'cert_file': safe_get_var('dockerhosts/godzilla', 'cert', context.mist_config['CREDENTIALS']['DOCKER']['cert'])
+                'cert_file': safe_get_var('dockerhosts/godzilla', 'cert', context.mist_config['CREDENTIALS']['DOCKER']['cert']),
+                'show_all': True
             }
 
     elif cloud == 'Local_Monitoring':
@@ -130,6 +132,17 @@ def add_docker_api_request(context, cloud):
             'monitoring': 'true',
             'machine_key': key_id,
             'machine_ip': 'mist_debugger'
+        }
+
+    elif cloud == 'GCE':
+        payload = {
+            'title': 'GCE',
+            'provider': 'gce',
+            'project_id': safe_get_var('clouds/gce/mist-dev', 'project_id',
+                                      context.mist_config['CREDENTIALS']['GCE']['project_id']),
+            'private_key': json.dumps(safe_get_var('clouds/gce/mist-dev', 'private_key',
+                                   context.mist_config['CREDENTIALS']['GCE']['private_key'])),
+            'dns_enabled': True
         }
 
     requests.post(context.mist_config['MIST_URL'] + "/api/v1/clouds", data=json.dumps(payload), headers=headers)

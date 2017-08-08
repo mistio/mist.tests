@@ -82,7 +82,7 @@ def some_counter_loaded(context, counter_title, counter_number, seconds):
     counter_title = counter_title.lower()
     if counter_title not in ['machines', 'images', 'keys', 'networks',
                              'tunnels', 'scripts', 'templates', 'stacks',
-                             'teams']:
+                             'teams', 'zones']:
         raise ValueError('The counter given is unknown')
     try:
         counter = context.browser.find_element_by_css_selector('a#%s.mist-sidebar'
@@ -137,9 +137,9 @@ def become_visible_waiting_with_timeout(context, element_id, seconds):
 def check_page_is_visible(context, page_title, seconds):
     page = page_title.lower()
     if page not in ['machines', 'images', 'keys', 'networks', 'tunnels',
-                    'scripts', 'schedules', 'templates', 'stacks', 'insights', 'teams']:
+                    'scripts', 'schedules', 'templates', 'stacks', 'insights', 'teams', 'zones']:
         raise ValueError('The page given is unknown')
-    if page in ['machines', 'teams','keys', 'networks', 'scripts', 'schedules', 'templates', 'stacks']:
+    if page in ['machines', 'teams','keys', 'networks', 'scripts', 'schedules', 'templates', 'stacks', 'zones']:
         element = 'page-%s > mist-list' % page
     elif page in ['insights']:
         element = 'page-%s' % page

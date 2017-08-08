@@ -115,7 +115,7 @@ class TestSchedulesFunctionality:
     def test_create_resources(self, pretty_print, mist_core, owner_api_token, cache):
         if config.LOCAL:
             response = mist_core.add_cloud(title='Docker', provider='docker', api_token=owner_api_token,
-                                       docker_host='172.17.0.1',
+                                       docker_host=config.MIST_URL,
                                        docker_port='2375').post()
         else:
             response = mist_core.add_cloud(title='Docker', provider='docker', api_token=owner_api_token,
@@ -130,7 +130,7 @@ class TestSchedulesFunctionality:
                                        key_file=safe_get_var('dockerhosts/godzilla', 'key',
                                                              config.CREDENTIALS['DOCKER']['key']),
                                        cert_file=safe_get_var('dockerhosts/godzilla', 'cert',
-                                                              config.CREDENTIALS['DOCKER']['cert'])).post()
+                                                              config.CREDENTIALS['DOCKER']['cert']), show_all=True).post()
         assert_response_ok(response)
         cache.set('cloud_id', response.json()['id'])
 

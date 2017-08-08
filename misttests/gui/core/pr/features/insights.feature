@@ -36,6 +36,7 @@ Feature: Actions for Insights
     And I click the button "Save Tags" in the tag menu
     Then I expect for the tag popup to close within 4 seconds
     When I visit the Machines page
+    And I wait for 2 seconds
     And I click the "testerrr" "machine"
     And I wait for 10 seconds
     Then I ensure that the "machine" has the tags "cost_per_month:100"
@@ -44,4 +45,3 @@ Feature: Actions for Insights
     And I refresh the page
     And I wait for 5 seconds
     Then "cost" in "quick-overview" section should be "greater than $0.00"
-  

@@ -25,7 +25,7 @@ Feature: Add second-tier clouds in Polymist
     | Azure          |
     | NephoScale     |
     | Rackspace      |
-    | GCE            |
     | AWS            |
     | Digital Ocean  |
-
+    | Linode         |
+    | OnApp          |

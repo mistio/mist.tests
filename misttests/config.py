@@ -223,25 +223,27 @@ IMAP_PASSWORD = get_setting('IMAP_PASSWORD', '')
 KEY_ID = get_setting('KEY_ID', '')
 
 DEFAULT_CREDENTIALS = {'AWS': {'api_key': '', 'api_secret': '', 'region': ''},
-               'KVM': {'key': """ """, 'hostname': ''},
-               'AZURE': {'certificate': """ """, 'subscription_id': ''},
-               'AZURE_ARM': {'client_key': '', 'client_secret': '', 'subscription_id': '', 'tenant_id': ''},
-               'DIGITALOCEAN': {'token': ''},
-               'DOCKER': {'authentication': '', 'ca': """ """, 'cert': """ """, 'host': '', 'key': """""", 'port': ''},
-               'EC2': {'api_key': '', 'api_secret': '', 'region': ''},
-               'LINODE': {'api_key': ''},
-               'NEPHOSCALE': {'password': '', 'username': ''},
-               'GCE': {'project_id': '', 'private_key': {}},
-               'OPENSTACK': {'auth_url': '', 'password': '', 'tenant': '', 'username': ''},
-               'DOCKER_ORCHESTRATOR':{"host": "", "port": ""},
-               'OPENSTACK_2': {'auth_url': '', 'password': '', 'tenant': '', 'username': ''},
-               'PACKET': {'api_key': ''},
-               'PACKET_2': {'api_key': ''},
-               'VMWARE': {'username': '', 'password': '', 'organization': '', 'host': '' },
-               'RACKSPACE': {'api_key': '', 'region': '', 'username': ''},
-               'SOFTLAYER': {'api_key': '', 'username': ''},
-               'VULTR': {'apikey': ''},
-               'DOCKER_MONITORING':{'host': '', 'port': ''}
-               }
+                       'KVM': {'key': """ """, 'hostname': ''},
+                       'AZURE': {'certificate': """ """, 'subscription_id': ''},
+                       'AZURE_ARM': {'client_key': '', 'client_secret': '', 'subscription_id': '', 'tenant_id': ''},
+                       'DIGITALOCEAN': {'token': ''},
+                       'DOCKER': {'authentication': '', 'ca': """ """, 'cert': """ """, 'host': '', 'key': """""", 'port': ''},
+                       'EC2': {'api_key': '', 'api_secret': '', 'region': ''},
+                       'LINODE': {'api_key': ''},
+                       'NEPHOSCALE': {'password': '', 'username': ''},
+                       'GCE': {'project_id': '', 'private_key': {}},
+                       'OPENSTACK': {'auth_url': '', 'password': '', 'tenant': '', 'username': ''},
+                       'DOCKER_ORCHESTRATOR':{"host": "", "port": ""},
+                       'OPENSTACK_2': {'auth_url': '', 'password': '', 'tenant': '', 'username': ''},
+                       'PACKET': {'api_key': ''},
+                       'PACKET_2': {'api_key': ''},
+                       'VMWARE': {'username': '', 'password': '', 'organization': '', 'host': '' },
+                       'RACKSPACE': {'api_key': '', 'region': '', 'username': ''},
+                       'SOFTLAYER': {'api_key': '', 'username': ''},
+                       'VULTR': {'apikey': ''},
+                       'DOCKER_MONITORING':{'host': '', 'port': ''},
+                       'ONAPP':{'username':'', 'password':'', 'host':'', 'verify_ssl': False}
+
+                       }
 
 CREDENTIALS = get_setting("CREDENTIALS", DEFAULT_CREDENTIALS)
