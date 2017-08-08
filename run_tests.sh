@@ -95,7 +95,7 @@ run_gui_tests_suite() {
   behave -o gui_test_schedules_result.txt -k --no-capture --no-capture-stderr --tags=schedulers-1,schedulers-2 misttests/gui/core/pr/features || echo Failed
   behave -o gui_test_rbac_rules_result.txt -k --no-capture --no-capture-stderr --tags=rbac-rules-1 misttests/gui/core/pr/features || echo Failed
   behave -o gui_test_rbac_rules_2_result.txt -k --no-capture --no-capture-stderr --tags=rbac-rules-2 misttests/gui/core/pr/features || echo Failed
-  behave -o gui_test_machines_result.txt -k --no-capture --no-capture-stderr --tags=machines misttests/gui/core/pr/features || echo Failed
+  behave -o gui_test_machines_result.txt -k --no-capture --no-capture-stderr --tags=machines-locally misttests/gui/core/pr/features || echo Failed
 }
 
 run_provision_tests_suite() {
