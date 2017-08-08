@@ -73,9 +73,8 @@ def click_button_in_dialog(context, button_name, dialog_title):
     click_button_from_collection(context, button_name, dialog_buttons)
 
 
-@step(u'I click the toggle button in the dialog "{dialog_title}" with id "{button_id}"')
-def click_button_in_dialog(context, dialog_title, button_id):
-    import ipdb;ipdb.set_trace()
+@step(u'I click the toggle button with id "{button_id}" in the dialog "{dialog_title}"')
+def click_button_in_dialog(context, button_id, dialog_title):
     dialog = get_dialog(context, dialog_title)
     assert dialog, "Could not find dialog with title %s" % dialog_title
     button_to_click = dialog.find_element_by_id(button_id)
