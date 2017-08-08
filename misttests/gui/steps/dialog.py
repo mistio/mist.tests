@@ -73,11 +73,11 @@ def click_button_in_dialog(context, button_name, dialog_title):
     click_button_from_collection(context, button_name, dialog_buttons)
 
 
-@step(u'I click the toggle button with id "{button_id}" in the dialog "{dialog_title}"')
-def click_button_in_dialog(context, button_id, dialog_title):
-    dialog = get_dialog(context, dialog_title)
-    assert dialog, "Could not find dialog with title %s" % dialog_title
-    button_to_click = dialog.find_element_by_id(button_id)
+@step(u'I click the toggle button with id "{btn_id}" in the dialog "{dialog}"')
+def click_toggle_button_in_dialog(context, btn_id, dialog):
+    open_dialog = get_dialog(context, dialog)
+    assert open_dialog, "Could not find dialog with title %s" % dialog
+    button_to_click = dialog.find_element_by_id(btn_id)
     clicketi_click(context, button_to_click)
 
 
