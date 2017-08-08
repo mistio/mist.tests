@@ -30,6 +30,11 @@ Feature: Zones
     When I clear the search bar
     And I wait for 1 seconds
 
+  @disable-dns-support
+  Scenario: Disable dns support and verify that zone created above is not visible
+    When I visit the Home page
+    ANd I wait for 1 seconds
+
   @zone-tags
   Scenario: Add tags to a zone
     When I click the "test-zone-random.com." "zone"
