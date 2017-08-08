@@ -77,7 +77,7 @@ def click_button_in_dialog(context, button_name, dialog_title):
 def click_toggle_button_in_dialog(context, btn_id, dialog):
     open_dialog = get_dialog(context, dialog)
     assert open_dialog, "Could not find dialog with title %s" % dialog
-    button_to_click = dialog.find_element_by_id(btn_id)
+    button_to_click = open_dialog.find_element_by_id(btn_id)
     clicketi_click(context, button_to_click)
 
 
