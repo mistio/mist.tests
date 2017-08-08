@@ -1,7 +1,5 @@
 #!/bin/bash
 
-# fix key error
-
 help_message() {
     echo "********************************************************************************************************************************"
     echo "********************************************************************************************************************************"
@@ -47,18 +45,6 @@ vault_login() {
             export VAULT_CLIENT_TOKEN
             echo 'Successfully logged in. About to start running tests...'
         fi
-
-#        response=$(curl $vault_server/v1/auth/userpass/login/$username -d '{ "password": "'${password}'" }')
-
-#        if [[ $response == *"errors"* ]]; then
-#            echo 'Wrong credentials given...'
-#            vault_login
-#        else
-#            echo $response
-#            VAULT_CLIENT_TOKEN= "$("$response" | python -c "import sys, json; print(json.load(sys.stdin)['auth']['client_token'])")"
-#            export VAULT_CLIENT_TOKEN
-#            echo 'Successfully logged in. About to start running tests...'
-#        fi
     fi
 }
 
