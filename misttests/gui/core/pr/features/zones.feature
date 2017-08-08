@@ -33,10 +33,20 @@ Feature: Zones
   @disable-dns-support
   Scenario: Disable dns support and verify that zone created above is not visible
     When I visit the Home page
-    ANd I wait for 1 seconds
+    And I wait for 1 seconds
+    And I open the cloud menu for "GCE"
+    And I click the "Enable DNS" button with id "DNS-enable-disable"
+    And I visit the Zones page
+    Then "test-zone-random.com." zone should be absent within 10 seconds
 
   @zone-tags
-  Scenario: Add tags to a zone
+  Scenario: Reenable dns-support and add tags to a zone
+    When I visit the Home page
+    And I wait for 1 seconds
+    And I open the cloud menu for "GCE"
+    And I click the "Enable DNS" button with id "DNS-enable-disable"
+    And I visit the Zones page
+    Then "test-zone-random.com." zone should be present within 10 seconds
     When I click the "test-zone-random.com." "zone"
     Then I expect the "zone" edit form to be visible within max 5 seconds
     When I click the button "Tags" in "zone" edit form
