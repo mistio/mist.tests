@@ -5,7 +5,7 @@ from time import sleep
 
 from .utils import safe_get_element_text
 
-from .buttons import click_button_from_collection
+from .buttons import click_button_from_collection, clicketi_click
 
 from .forms import get_input_from_form
 from .forms import clear_input_and_send_keys
@@ -73,13 +73,15 @@ def click_button_in_dialog(context, button_name, dialog_title):
     click_button_from_collection(context, button_name, dialog_buttons)
 
 
-@step(u'I click the "{button_name}" toggle button in the dialog "{dialog_title}"')
-def click_button_in_dialog(context, button_name, dialog_title):
+@step(u'I click the toggle button in the dialog "{dialog_title}" with id "{button_id}"')
+def click_button_in_dialog(context, dialog_title, button_id):
     import ipdb;ipdb.set_trace()
     dialog = get_dialog(context, dialog_title)
     assert dialog, "Could not find dialog with title %s" % dialog_title
-    dialog_buttons = dialog.find_elements_by_tag_name('paper-toggle-button')
-    click_button_from_collection(context, button_name, dialog_buttons)
+    button_to_click = dialog.find_element_by_id(button_id)
+    clicketi_click(context, button_to_click)
+    #dialog_buttons = dialog.find_elements_by_tag_name('paper-toggle-button')
+    #click_button_from_collection(context, button_name, dialog_buttons)
 
 
 @step(u'I set the value "{value}" to field "{name}" in "{title}" dialog')
