@@ -79,8 +79,6 @@ def click_button_in_dialog(context, button_id, dialog_title):
     assert dialog, "Could not find dialog with title %s" % dialog_title
     button_to_click = dialog.find_element_by_id(button_id)
     clicketi_click(context, button_to_click)
-    #dialog_buttons = dialog.find_elements_by_tag_name('paper-toggle-button')
-    #click_button_from_collection(context, button_name, dialog_buttons)
 
 
 @step(u'I set the value "{value}" to field "{name}" in "{title}" dialog')
