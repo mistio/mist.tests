@@ -73,6 +73,15 @@ def click_button_in_dialog(context, button_name, dialog_title):
     click_button_from_collection(context, button_name, dialog_buttons)
 
 
+@step(u'I click the "{button_name}" toggle button in the dialog "{dialog_title}"')
+def click_button_in_dialog(context, button_name, dialog_title):
+    import ipdb;ipdb.set_trace()
+    dialog = get_dialog(context, dialog_title)
+    assert dialog, "Could not find dialog with title %s" % dialog_title
+    dialog_buttons = dialog.find_elements_by_tag_name('paper-toggle-button')
+    click_button_from_collection(context, button_name, dialog_buttons)
+
+
 @step(u'I set the value "{value}" to field "{name}" in "{title}" dialog')
 def set_value_to_field(context, value, name, title):
     if context.mist_config.get(value):
