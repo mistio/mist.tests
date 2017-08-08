@@ -26,9 +26,14 @@ providers = {
         "image": "b39f27a8b8c64d52b05eac6a62ebad85__Ubuntu-17_04-amd64-server-20170412.1-en-us-30GB"
     },
     "Azure_ARM": {
-        "size": "Standard_DS1",
+        "size": "Standard_F1",
         "location": "westeurope",
-        "image": "Canonical:UbuntuServer:17.04-DAILY:17.04.201707280"
+        "image": "Canonical:UbuntuServer:17.04-DAILY:17.04.201707280",
+        "image_name": "Canonical UbuntuServer 16.04-LTS 16.04.201612140",
+        "image_extra": {"location": "westeurope"},
+        "networks":["mike-vnet"],
+        "ex_storage_account":"miketeststor",
+        "ex_resource_group":"mike"
     },
     "Docker": {
         "size": "",
@@ -230,30 +235,48 @@ def create_machine(cloud_id, provider):
     except:
         location_name = ''
     try:
-        networks=providers[provider]['network']
+        networks=providers[provider]['networks']
     except:
-        networks = ''
+        networks = []
     try:
         image_extra=providers[provider]['image_extra']
     except:
         image_extra = ''
 
+    try:
+        ex_storage_account=providers[provider]['ex_storage_account']
+    except:
+        ex_storage_account = ''
 
+    try:
+        ex_resource_group=providers[provider]['ex_resource_group']
+    except:
+        ex_resource_group = ''
 
-    response = mist_core.create_machine(api_token=config.MIST_API_TOKEN,
-                                        cloud_id=cloud_id,
-                                        name= provider.replace(" ", "").replace("_","").lower() + 'provisiontest' + str(randint(0,9999)),
-                                        provider=provider,
-                                        image=providers[provider]['image'],
-                                        image_extra=image_extra,
-                                        size=providers[provider]['size'],
-                                        disk=disk,
-                                        key_id=config.KEY_ID,
-                                        location=providers[provider]['location'],
-                                        location_name=location_name,
-                                        async=True,
-                                        cron_enable=False,
-                                        monitoring=False).post()
+    payload = {'cloud_id':cloud_id,
+                    'name': provider.replace(" ", "").replace("_","").lower() + 'provisiontest' + str(randint(0,9999)),
+                    'provider':provider,
+                    'image':providers[provider]['image'],
+                    'image_extra':image_extra,
+                    'size':providers[provider]['size'],
+                    'disk':disk,
+                    'key_id':config.KEY_ID,
+                    'location':providers[provider]['location'],
+                    'location_name':location_name,
+                    'ex_storage_account':ex_storage_account,
+                    'ex_resource_group':ex_resource_group,
+                    'networks':networks,
+                    'async':True,
+                    'cron_enable':False,
+                    'monitoring':False
+            }
+
+    response = requests.post(
+        config.MIST_URL + '/api/v1/clouds/' + cloud_id + '/machines',
+            headers={'Authorization': config.MIST_API_TOKEN},
+            data=json.dumps(payload)
+        )
+
     try:
         assert_response_ok(response)
         print "\n " + provider + ": Machine creation command has been submitted successfully. Now polling!\n"
