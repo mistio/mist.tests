@@ -77,6 +77,7 @@ Feature: Rbac
     Then I ensure that I am in the "ORG_NAME" organization context
     When I visit the Teams page
     Then "Test Team" team should be present within 5 seconds
+    And "Non-visible Team" team should be absent within 5 seconds
     Then I logout
 
   @add-member2
