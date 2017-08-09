@@ -41,17 +41,6 @@ Feature: Rbac
     When I visit the Teams page
     Then "Test Team" team should be present within 5 seconds
 
-  @add-non-visible-team
-  Scenario: Owner creates a non-visible team
-    When I click the button "+"
-    Then I expect the dialog "Add Team" is open within 4 seconds
-    When I set the value "Non-visible Team" to field "Name" in "Add Team" dialog
-    And I click the toggle button with id "visible" in the dialog "Add Team"
-    And I click the "Add" button in the dialog "Add Team"
-    And I visit the Teams page
-    Then "Non-visible Team" team should be present within 5 seconds
-    And "Test Team" team should be present within 5 seconds
-
   @add-member1
   Scenario: Add member1
     When I visit the Home page
@@ -77,7 +66,6 @@ Feature: Rbac
     Then I ensure that I am in the "ORG_NAME" organization context
     When I visit the Teams page
     Then "Test Team" team should be present within 5 seconds
-    And "Non-visible Team" team should be absent within 5 seconds
     Then I logout
 
   @add-member2

@@ -27,10 +27,22 @@ Feature: RBAC-rules-v3
     Then I add the rule always "ALLOW" "script" "all"
     And I click the button "Save Policy" in "policy" edit form
     And I wait for 2 seconds
+
+  @add-non-visible-team
+  Scenario: Owner creates a non-visible team
+    When I visit the Teams page
+    And I click the button "+"
+    Then I expect the dialog "Add Team" is open within 4 seconds
+    When I set the value "Non-visible Team" to field "Name" in "Add Team" dialog
+    And I click the toggle button with id "visible" in the dialog "Add Team"
+    And I click the "Add" button in the dialog "Add Team"
+    And I visit the Teams page
+    Then "Non-visible Team" team should be present within 5 seconds
+    And "Test Team" team should be present within 5 seconds
     Then I logout
 
   @view-and-delete-script-success
-  Scenario: Verify that member1 cannot view the machine created above
+  Scenario: Verify that member1 cannot view the team created above but can delete script
     Then I should receive an email at the address "MEMBER1_EMAIL" with subject "[mist.io] Confirm your invitation" within 30 seconds
     And I follow the link inside the email
     Then I enter my rbac_member1 credentials for login
@@ -40,6 +52,7 @@ Feature: RBAC-rules-v3
     When I ensure that I am in the "ORG_NAME" organization context
     And I visit the Teams page
     Then "Test Team" team should be present within 5 seconds
+    And "Non-visible Team" team should be absent within 5 seconds
     When I visit the Scripts page
     Then "touch_kati" script should be present within 5 seconds
     When I select list item "touch_kati" script
