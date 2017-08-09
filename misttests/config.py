@@ -150,6 +150,9 @@ PASSWORD1 = get_setting("PASSWORD1",
 PASSWORD2 = get_setting("PASSWORD2",
                         ''.join(random.choice(string.ascii_letters + string.digits) for _ in range(20)))
 
+CHANGED_PASSWORD = get_setting("CHANGED_PASSWORD",
+                        ''.join(random.choice(string.ascii_letters + string.digits) for _ in range(20)))
+
 DEMO_EMAIL = get_setting("DEMO_EMAIL", "")
 DEMO_PASSWORD = get_setting("DEMO_PASSWORD", "")
 
