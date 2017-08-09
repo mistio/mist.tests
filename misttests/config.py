@@ -149,15 +149,8 @@ PASSWORD1 = get_setting("PASSWORD1",
                         ''.join(random.choice(string.ascii_letters + string.digits) for _ in range(20)))
 PASSWORD2 = get_setting("PASSWORD2",
                         ''.join(random.choice(string.ascii_letters + string.digits) for _ in range(20)))
-
 CHANGED_PASSWORD = get_setting("CHANGED_PASSWORD",
                         ''.join(random.choice(string.ascii_letters + string.digits) for _ in range(20)))
-
-DEMO_EMAIL = get_setting("DEMO_EMAIL", "")
-DEMO_PASSWORD = get_setting("DEMO_PASSWORD", "")
-
-MIST_DEMO_REQUEST_EMAIL = get_setting("MIST_DEMO_REQUEST_EMAIL",
-                                      "demo@mist.io")
 
 # CREDENTIALS FOR TESTING RBAC
 OWNER_EMAIL = get_setting("OWNER_EMAIL", "%s+%d@gmail.com" % (BASE_EMAIL, random.randint(1,200000)))
