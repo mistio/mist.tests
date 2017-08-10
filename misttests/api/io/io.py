@@ -781,3 +781,14 @@ class MistIoApi(object):
         req.delete = req.unavailable_api_call
         req.put = req.unavailable_api_call
         return req
+
+    #################################################
+    #                WHITELIST_IPS                  #
+    #################################################
+
+    def request_whitelist_ip(self, api_token):
+        req = MistRequests(uri=self.uri + '/request-whitelist-ip', cookie=cookie)
+        req.delete = req.unavailable_api_call
+        req.get = req.unavailable_api_call
+        req.put = req.unavailable_api_call
+        return req
