@@ -1,7 +1,6 @@
 @rbac-rules-4
 Feature: RBAC-rules-v4
 
-
   @create-users-org-team
   Scenario: Owner creates a new organization and adds a cloud and a script
     Given rbac members, organization and team are initialized
