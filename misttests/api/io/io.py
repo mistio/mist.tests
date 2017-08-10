@@ -799,3 +799,10 @@ class MistIoApi(object):
         req.delete = req.unavailable_api_call
         req.put = req.unavailable_api_call
         return req
+
+    def whitelist_ips(self, api_token, ips=[]):
+        req = MistRequests(uri=self.uri + '/api/v1/users/whitelist')
+        req.get = req.unavailable_api_call
+        req.delete = req.unavailable_api_call
+        req.put = req.unavailable_api_call
+        return req
