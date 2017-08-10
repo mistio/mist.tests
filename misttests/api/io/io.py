@@ -787,7 +787,7 @@ class MistIoApi(object):
     #################################################
 
     def request_whitelist_ip(self, api_token):
-        req = MistRequests(uri=self.uri + '/request-whitelist-ip', cookie=cookie)
+        req = MistRequests(uri=self.uri + '/request-whitelist-ip')
         req.delete = req.unavailable_api_call
         req.get = req.unavailable_api_call
         req.put = req.unavailable_api_call
@@ -795,7 +795,7 @@ class MistIoApi(object):
 
         # below get and post... ?
     def confirm_whitelist_ip(self, api_token):
-        req = MistRequests(uri=self.uri + '/confirm-whitelist', cookie=cookie)
+        req = MistRequests(uri=self.uri + '/confirm-whitelist')
         req.delete = req.unavailable_api_call
         req.put = req.unavailable_api_call
         return req
