@@ -35,24 +35,27 @@ def test_request_whitelist_ip_no_api_token(pretty_print, mist_core):
 #    assert_response_ok(response)
 #    print "Success!!!"
 
-def test_confirm_whitelist_ip_no_api_token(pretty_print, mist_core):
-    response = mist_core.confirm_whitelist_ip(api_token='').post()
-    assert_response_forbidden(response)
-    print "Success!!!"
-
- # shouldn't below return unauthorized?
-#def test_confirm_whitelist_ip_wrong_api_token(pretty_print, mist_core, owner_api_token):
-#    response = mist_core.confirm_whitelist_ip(api_token='00' + owner_api_token[:-2]).post()
-#    assert_response_not_found(response)
+# below returns bad request
+#def test_confirm_whitelist_ip_no_api_token(pretty_print, mist_core):
+#    response = mist_core.confirm_whitelist_ip(api_token='').get()
+#    assert_response_unauthorized(response)
 #    print "Success!!!"
 
-# shouldn't below return bad request?
+# below returns bad request
+#def test_confirm_whitelist_ip_wrong_api_token(pretty_print, mist_core, owner_api_token):
+#    response = mist_core.confirm_whitelist_ip(api_token='00' + owner_api_token[:-2]).get()
+#    assert_response_unauthorized(response)
+#    print "Success!!!"
+
 def test_confirm_whitelist_ip_missing_parameter(pretty_print, mist_core, owner_api_token):
-    response = mist_core.confirm_whitelist_ip(api_token=owner_api_token).post()
-    assert_response_not_found(response)
+    response = mist_core.confirm_whitelist_ip(api_token=owner_api_token).get()
+    assert_response_bad_request(response)
     print "Success!!!"
 
-# wrong key
+def test_confirm_whitelist_ip_wrong_parameter(pretty_print, mist_core, owner_api_token):
+    response = mist_core.confirm_whitelist_ip(api_token=owner_api_token, key='dummy').get()
+    assert_response_bad_request(response)
+    print "Success!!!"
 
 ############################################################################
 #                         Functional Testing                               #
