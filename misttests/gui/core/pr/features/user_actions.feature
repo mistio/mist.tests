@@ -6,7 +6,7 @@ Feature: Login Scenarios and Api Token
     Given I am logged in to mist.core
     When I visit the Account page
     And I wait for 3 seconds
-    Then I click the "API Tokens" button with id "API Tokens"
+    Then I click the "API Tokens" button with id "tokens"
     # below needs to be fixed in the backend
     # When I revoke all api tokens
     Then I click the "Create API Token" button with id "Create API Token"
