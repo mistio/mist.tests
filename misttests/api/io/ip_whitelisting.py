@@ -32,7 +32,7 @@ def test_request_whitelist_ip_no_api_token(pretty_print, mist_core):
 # below returns ok
 #def test_request_whitelist_ip_wrong_api_token(pretty_print, mist_core, owner_api_token):
 #    response = mist_core.request_whitelist_ip(api_token='00' + owner_api_token[:-2]).post()
-#    assert_response_unauthorized(response)
+#    assert_response_ok(response)
 #    print "Success!!!"
 
 def test_confirm_whitelist_ip_no_api_token(pretty_print, mist_core):
@@ -40,8 +40,17 @@ def test_confirm_whitelist_ip_no_api_token(pretty_print, mist_core):
     assert_response_forbidden(response)
     print "Success!!!"
 
-# wrong api token
-# missing key
+ # shouldn't below return unauthorized?
+#def test_confirm_whitelist_ip_wrong_api_token(pretty_print, mist_core, owner_api_token):
+#    response = mist_core.confirm_whitelist_ip(api_token='00' + owner_api_token[:-2]).post()
+#    assert_response_not_found(response)
+#    print "Success!!!"
+
+#def test_confirm_whitelist_ip_missing_parameter(pretty_print, mist_core, owner_api_token):
+#    response = mist_core.confirm_whitelist_ip(api_token=owner_api_token).post()
+#    assert_response_bad_request(response)
+#    print "Success!!!"
+
 # wrong key
 
 
