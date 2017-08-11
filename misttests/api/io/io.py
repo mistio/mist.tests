@@ -802,9 +802,12 @@ class MistIoApi(object):
         req.post = req.unavailable_api_call
         return req
 
-    def whitelist_ips(self, api_token, ips=[]):
+    def whitelist_ips(self, api_token, ips=None):
+        data = {
+            'ips': ips
+        }
         req = MistRequests(uri=self.uri + '/api/v1/users/whitelist',
-                           api_token=api_token)
+                           api_token=api_token, data=data)
         req.get = req.unavailable_api_call
         req.delete = req.unavailable_api_call
         req.put = req.unavailable_api_call
