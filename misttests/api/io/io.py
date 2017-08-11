@@ -794,7 +794,7 @@ class MistIoApi(object):
         req.put = req.unavailable_api_call
         return req
 
-    def confirm_whitelist_ip(self, api_token, key=None):
+    def confirm_whitelist_ip(self, api_token, key=''):
         data = {
             'key': key
         }
