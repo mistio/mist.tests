@@ -39,3 +39,9 @@ def test_confirm_whitelist_ip_no_api_token(pretty_print, mist_core):
     response = mist_core.confirm_whitelist_ip(api_token='').post()
     assert_response_forbidden(response)
     print "Success!!!"
+
+# wrong api token
+# missing key
+# wrong key
+# check expired?
+# vault_enabled
