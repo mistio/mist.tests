@@ -46,13 +46,13 @@ def test_confirm_whitelist_ip_no_api_token(pretty_print, mist_core):
 #    assert_response_not_found(response)
 #    print "Success!!!"
 
-#def test_confirm_whitelist_ip_missing_parameter(pretty_print, mist_core, owner_api_token):
-#    response = mist_core.confirm_whitelist_ip(api_token=owner_api_token).post()
-#    assert_response_bad_request(response)
-#    print "Success!!!"
+# shouldn't below return bad request?
+def test_confirm_whitelist_ip_missing_parameter(pretty_print, mist_core, owner_api_token):
+    response = mist_core.confirm_whitelist_ip(api_token=owner_api_token).post()
+    assert_response_not_found(response)
+    print "Success!!!"
 
 # wrong key
-
 
 ############################################################################
 #                         Functional Testing                               #

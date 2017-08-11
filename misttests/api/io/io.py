@@ -794,9 +794,12 @@ class MistIoApi(object):
         req.put = req.unavailable_api_call
         return req
 
-    def confirm_whitelist_ip(self, api_token):
+    def confirm_whitelist_ip(self, api_token, key=None):
+        data = {
+            'key': key
+        }
         req = MistRequests(uri=self.uri + '/confirm-whitelist',
-                           api_token=api_token)
+                           api_token=api_token, data=data)
         req.delete = req.unavailable_api_call
         req.put = req.unavailable_api_call
         req.post = req.unavailable_api_call
