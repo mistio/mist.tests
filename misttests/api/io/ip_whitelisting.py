@@ -43,5 +43,8 @@ def test_confirm_whitelist_ip_no_api_token(pretty_print, mist_core):
 # wrong api token
 # missing key
 # wrong key
-# check expired?
-# vault_enabled
+
+
+############################################################################
+#                         Functional Testing                               #
+############################################################################
