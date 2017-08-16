@@ -79,6 +79,7 @@ Feature: Zones
   And I set the value "test-record-random" to field "Name" in "record" add form
   And I set the value "1.2.3.4" to field "Rdata" in "record" add form
   And I click the button "Add" in "record" add form
+  Then "test-record-random" record should be present within 10 seconds
 
 #  @zone-delete
 #  Scenario: Delete a zone
