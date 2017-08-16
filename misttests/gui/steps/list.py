@@ -13,7 +13,7 @@ from selenium.common.exceptions import StaleElementReferenceException
 
 # TODO: below method doesn't bring all the items, as you scroll more items become visible
 def get_list(context, resource_type):
-    if resource_type in ['machine', 'team', 'key', 'network', 'script', 'schedule', 'template', 'stack', 'zone']:
+    if resource_type in ['machine', 'team', 'key', 'network', 'script', 'schedule', 'template', 'stack', 'zone', 'record']:
         return context.browser.find_elements_by_css_selector('page-%ss mist-list vaadin-grid-table-body#items > vaadin-grid-table-row' % resource_type)
     else:
         return context.browser.find_elements_by_css_selector('page-%ss iron-list div.row' % resource_type)
@@ -24,10 +24,11 @@ def get_list_item(context, resource_type, name):
     item_name = name.lower()
     if resource_type not in ['machine', 'image', 'key', 'network',
                              'tunnel', 'script', 'template', 'stack',
-                             'team', 'schedule', 'zone']:
+                             'team', 'schedule', 'zone', 'record']:
         raise ValueError('The resource type given is unknown')
     try:
         items = get_list(context, resource_type)
+        import ipdb;ipdb.set_trace()
 
         for item in items:
             if resource_type in ['machine', 'team', 'key', 'network', 'script', 'schedule', 'template', 'stack', 'zone']:
