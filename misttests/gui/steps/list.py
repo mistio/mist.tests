@@ -13,8 +13,10 @@ from selenium.common.exceptions import StaleElementReferenceException
 
 # TODO: below method doesn't bring all the items, as you scroll more items become visible
 def get_list(context, resource_type):
-    if resource_type in ['machine', 'team', 'key', 'network', 'script', 'schedule', 'template', 'stack', 'zone', 'record']:
+    if resource_type in ['machine', 'team', 'key', 'network', 'script', 'schedule', 'template', 'stack', 'zone']:
         return context.browser.find_elements_by_css_selector('page-%ss mist-list vaadin-grid-table-body#items > vaadin-grid-table-row' % resource_type)
+    elif resource_type == 'record':
+        return context.browser.find_elements_by_css_selector('page-zones iron-list div.row')
     else:
         return context.browser.find_elements_by_css_selector('page-%ss iron-list div.row' % resource_type)
 
@@ -31,10 +33,8 @@ def get_list_item(context, resource_type, name):
         import ipdb;ipdb.set_trace()
 
         for item in items:
-            if resource_type in ['machine', 'team', 'key', 'network', 'script', 'schedule', 'template', 'stack', 'zone']:
+            if resource_type in ['machine', 'team', 'key', 'network', 'script', 'schedule', 'template', 'stack', 'zone','record']:
                 name = safe_get_element_text(item.find_element_by_css_selector('strong.name')).strip().lower()
-            # elif resource_type == 'zone':
-            #     name = safe_get_element_text(item.find_element_by_css_selector('div.domain')).strip().lower()
             else:
                 name = safe_get_element_text(item.find_element_by_css_selector('div.name')).strip().lower()
             if item_name == name:
