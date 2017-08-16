@@ -29,10 +29,9 @@ def get_list_item(context, resource_type, name):
                              'team', 'schedule', 'zone', 'record']:
         raise ValueError('The resource type given is unknown')
     try:
-        import ipdb;ipdb.set_trace()
         items = get_list(context, resource_type)
         for item in items:
-            if resource_type in ['machine', 'team', 'key', 'network', 'script', 'schedule', 'template', 'stack', 'zone','record']:
+            if resource_type in ['machine', 'team', 'key', 'network', 'script', 'schedule', 'template', 'stack', 'zone']:
                 name = safe_get_element_text(item.find_element_by_css_selector('strong.name')).strip().lower()
             else:
                 name = safe_get_element_text(item.find_element_by_css_selector('div.name')).strip().lower()
@@ -116,8 +115,9 @@ def wait_for_item_show(context, name, resource_type, state, seconds):
         name = context.mist_config.get(name)
     else:
         name = name.lower()
-    import ipdb;ipdb.set_trace()
     if resource_type in ['record']:
+        import ipdb;
+        ipdb.set_trace()
         name = name + '.' + context.mist_config.get('test-zone-random.com.')
     state = state.lower()
     if state not in ['present', 'absent']:
