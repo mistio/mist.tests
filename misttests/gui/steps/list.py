@@ -116,8 +116,6 @@ def wait_for_item_show(context, name, resource_type, state, seconds):
     else:
         name = name.lower()
     if resource_type in ['record']:
-        import ipdb;
-        ipdb.set_trace()
         name = name + '.' + context.mist_config.get('test-zone-random.com.')
     state = state.lower()
     if state not in ['present', 'absent']:
