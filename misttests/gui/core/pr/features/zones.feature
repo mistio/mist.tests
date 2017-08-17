@@ -79,10 +79,10 @@ Feature: Zones
     And I click the button "Add" in "record" add form
     Then "test-record-random" record should be present within 10 seconds
 
-  @zone-delete
-  Scenario: Delete a zone
-    When I click the button "Delete" in "zone" edit form
-    Then I expect the dialog "Delete Zone" is open within 4 seconds
-    When I click the "Delete" button in the dialog "Delete Zone"
-    Then I expect the dialog "Delete Zone" is closed within 4 seconds
-    And "test-zone-random.com." zone should be absent within 5 seconds
+#  @zone-delete
+#  Scenario: Delete a zone
+#    When I click the button "Delete" in "zone" edit form
+#    Then I expect the dialog "Delete Zone" is open within 4 seconds
+#    When I click the "Delete" button in the dialog "Delete Zone"
+#    Then I expect the dialog "Delete Zone" is closed within 4 seconds
+#    And "test-zone-random.com." zone should be absent within 5 seconds
