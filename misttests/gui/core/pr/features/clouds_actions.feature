@@ -62,7 +62,7 @@ Feature: Cloud actions for polymer
     When I open the cloud menu for "Renamed"
     And I click the "delete cloud" button with id "delete-cloud"
     Then I expect the dialog "Delete Renamed" is open within 4 seconds
-    When I click the "Delete" button in the dialog "Delete Docker"
+    When I click the "Delete" button in the dialog "Delete Renamed"
     Then I expect the dialog "Delete Renamed" is closed within 4 seconds
     And I wait for 2 seconds
     Then I should have 1 clouds added
