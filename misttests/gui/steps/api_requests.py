@@ -25,7 +25,7 @@ def initialize_rbac_members(context):
 
     return
 
-def get_owner_api_token():
+def get_owner_api_token(context):
     payload = {
         'email': context.mist_config['EMAIL'],
         'password': context.mist_config['PASSWORD1'],
@@ -40,7 +40,7 @@ def get_owner_api_token():
 
 @step(u'member1 has been invited to "{rbac_team}"')
 def invite_member1(context,rbac_team):
-    headers = {'Authorization': get_owner_api_token()}
+    headers = {'Authorization': get_owner_api_token(context)}
 
     re = requests.get("%s/api/v1/org/%s/teams" % (context.mist_config['MIST_URL'],context.mist_config['ORG_ID']), headers = headers)
 
@@ -67,7 +67,7 @@ def initialize_rbac_members(context):
     }
     requests.post("%s/api/v1/dev/register" % context.mist_config['MIST_URL'], data=json.dumps(payload))
 
-    headers = {'Authorization': get_owner_api_token()}
+    headers = {'Authorization': get_owner_api_token(context)}
 
     payload = {
         'name': "Test Team"
@@ -82,7 +82,7 @@ def create_script_api_request(context, script_name):
     script_data = {'location_type':'inline','exec_type':'executable', 'name': script_name}
     bash_script = """#!/bin/bash\ntouch /root/dummy_file
     """
-    headers = {'Authorization': get_owner_api_token()}
+    headers = {'Authorization': get_owner_api_token(context)}
 
     script_data['script'] = bash_script
 
@@ -91,7 +91,7 @@ def create_script_api_request(context, script_name):
 
 @step(u'cloud "{cloud}" has been added via API request')
 def add_docker_api_request(context, cloud):
-    headers = {'Authorization': get_owner_api_token()}
+    headers = {'Authorization': get_owner_api_token(context)}
 
     if cloud == 'Docker':
 
@@ -153,7 +153,7 @@ def add_docker_api_request(context, cloud):
 
 @step(u'Docker machine "{machine_name}" has been added via API request')
 def create_docker_machine(context, machine_name):
-    headers = {'Authorization': get_owner_api_token()}
+    headers = {'Authorization': get_owner_api_token(context)}
 
     re = requests.get(context.mist_config['MIST_URL'] + "/api/v1/clouds", headers=headers)
 
