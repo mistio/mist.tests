@@ -231,36 +231,10 @@ def click_mist_io(context):
 
 @step(u'I click the "{button}" button')
 def click_button_by_class(context,button):
-    if button == 'new cloud':
-      button_to_click = context.browser.find_element_by_id('addBtn')
-    elif button == 'save title':
-      button_to_click = context.browser.find_element_by_id('rename-cloud')
-    elif button == 'delete cloud':
-      button_to_click = context.browser.find_element_by_id('delete-cloud')
-    elif button == 'Account':
-        button_to_click = context.browser.find_element_by_id('Account')
-    elif button == 'API Tokens':
-        button_to_click = context.browser.find_element_by_id('API Tokens')
-    elif button == 'Create API Token':
-        button_to_click = context.browser.find_element_by_id('Create API Token')
-    elif button == 'Create':
-        button_to_click = context.browser.find_element_by_id('Create')
-    elif button == 'Launch':
-        button_to_click = context.browser.find_element_by_id('appformsubmit')
-    elif button == 'toggle':
-        button_to_click = context.browser.find_element_by_id('enable-disable-cloud')
-    elif button == 'more options':
+    if button == 'more options':
         button_to_click = context.browser.find_element_by_class_name('more')
     elif button == 'Add graph':
         button_to_click = context.browser.find_element_by_class_name('add-button')
-    elif button == 'enable monitoring':
-        button_to_click = context.browser.find_element_by_id('monitoring')
-    elif button == 'entropy':
-        button_to_click = context.browser.find_element_by_id('enropy')
-    elif button == 'Disable Monitoring':
-        menu_button = context.browser.find_element_by_id('monitoring-menu-wrapper')
-        clicketi_click(context,menu_button)
-        button_to_click = context.browser.find_element_by_id('monitoring-actions')
     else:
         raise Exception('Unknown type of button')
 
