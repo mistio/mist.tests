@@ -16,7 +16,6 @@ from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.support.color import Color
 
-
 from selenium.common.exceptions import WebDriverException
 from selenium.common.exceptions import TimeoutException
 from selenium.common.exceptions import NoSuchElementException
@@ -231,7 +230,7 @@ def click_mist_io(context):
 #TODO: "{button}" and ids should have the exact same name
 
 @step(u'I click the "{button}" button')
-def click_button_by_id(context,button):
+def click_button_by_class(context,button):
     if button == 'new cloud':
       button_to_click = context.browser.find_element_by_id('addBtn')
     elif button == 'save title':
