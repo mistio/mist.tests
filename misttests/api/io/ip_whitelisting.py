@@ -1,6 +1,5 @@
 from misttests.api.helpers import *
 from misttests import config
-from misttests.api.io.clouds import test_add_cloud_ok
 
 import pytest
 
@@ -67,12 +66,7 @@ def test_confirm_whitelist_ip_wrong_parameter(pretty_print, mist_core, owner_api
 class TestWhitelistingIpsFunctionality:
 
 
-    def test_user_can_create_resources(self, pretty_print, mist_core, owner_api_token):
-        import ipdb; ipdb.set_trace()
-        response = mist_core.add_cloud(name='Linode', provider='linode', api_token=owner_api_token,
-                                       api_key=safe_get_var('clouds/linode', 'api_key',
-                                       config.CREDENTIALS['LINODE']['api_key'])).post()
-        assert_response_ok(response)
+    def test_user_whitelists_his_own_ip(self, pretty_print, mist_core, owner_api_token):
         print "Success!!!"
 
 #-- User saves his IP as whitelisted
