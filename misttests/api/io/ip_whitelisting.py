@@ -66,6 +66,13 @@ def test_confirm_whitelist_ip_wrong_parameter(pretty_print, mist_core, owner_api
 @pytest.mark.incremental
 class TestWhitelistingIpsFunctionality:
 
+    def test_user_can_create_resources(self, pretty_print, cache, mist_core,
+                             owner_api_token):
+        script_data = {'location_type':'inline','exec_type':'executable', 'name': 'Script1'}
+        response = mist_core.add_script(api_token=owner_api_token, script_data=script_data,
+                                        script=bash_script).post()
+        assert_response_ok(response)
+        print "Success!!!"
 
     def test_user_whitelists_his_own_ip(self, pretty_print, mist_core, owner_api_token):
         ip = socket.gethostbyname(socket.gethostname())
