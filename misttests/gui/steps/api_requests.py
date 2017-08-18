@@ -13,7 +13,6 @@ def initialize_rbac_members(context):
     BASE_EMAIL = context.mist_config['BASE_EMAIL']
     context.mist_config['MEMBER1_EMAIL'] = "%s+%d@gmail.com" % (BASE_EMAIL, random.randint(1,200000))
     context.mist_config['MEMBER2_EMAIL'] = "%s+%d@gmail.com" % (BASE_EMAIL, random.randint(1,200000))
-
     context.mist_config['ORG_NAME'] = "rbac_org_%d" % random.randint(1,200000)
 
     payload = {
@@ -26,9 +25,7 @@ def initialize_rbac_members(context):
 
     return
 
-
-@step(u'member1 has been invited to "{rbac_team}"')
-def invite_member1(context,rbac_team):
+def get_owner_api_token():
     payload = {
         'email': context.mist_config['EMAIL'],
         'password': context.mist_config['PASSWORD1'],
@@ -37,7 +34,13 @@ def invite_member1(context,rbac_team):
     re = requests.post("%s/api/v1/tokens" % context.mist_config['MIST_URL'], data=json.dumps(payload))
 
     api_token = re.json()['token']
-    headers = {'Authorization': api_token}
+
+    return api_token
+
+
+@step(u'member1 has been invited to "{rbac_team}"')
+def invite_member1(context,rbac_team):
+    headers = {'Authorization': get_owner_api_token()}
 
     re = requests.get("%s/api/v1/org/%s/teams" % (context.mist_config['MIST_URL'],context.mist_config['ORG_ID']), headers = headers)
 
@@ -48,7 +51,7 @@ def invite_member1(context,rbac_team):
 
     data = {'emails': context.mist_config['MEMBER1_EMAIL']}
 
-    re = requests.post("%s/api/v1/org/%s/teams/%s/members"  % (context.mist_config['MIST_URL'],context.mist_config['ORG_ID'], team_id),
+    requests.post("%s/api/v1/org/%s/teams/%s/members"  % (context.mist_config['MIST_URL'],context.mist_config['ORG_ID'], team_id),
     data=data, headers=headers)
 
 
@@ -64,15 +67,7 @@ def initialize_rbac_members(context):
     }
     requests.post("%s/api/v1/dev/register" % context.mist_config['MIST_URL'], data=json.dumps(payload))
 
-    payload = {
-        'email': context.mist_config['EMAIL'],
-        'password': context.mist_config['PASSWORD1'],
-        'org_id': context.mist_config['ORG_ID']
-    }
-    re = requests.post("%s/api/v1/tokens" % context.mist_config['MIST_URL'], data=json.dumps(payload))
-
-    api_token = re.json()['token']
-    headers = {'Authorization': api_token}
+    headers = {'Authorization': get_owner_api_token()}
 
     payload = {
         'name': "Test Team"
