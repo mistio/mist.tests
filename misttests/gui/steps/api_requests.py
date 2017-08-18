@@ -39,8 +39,6 @@ def invite_member1(context,rbac_team):
     api_token = re.json()['token']
     headers = {'Authorization': api_token}
 
-    import ipdb;
-    ipdb.set_trace()
     re = requests.get("%s/api/v1/org/%s/teams" % (context.mist_config['MIST_URL'],context.mist_config['ORG_ID']), headers = headers)
 
     for team in re.json():
@@ -50,7 +48,8 @@ def invite_member1(context,rbac_team):
 
     data = {'emails': context.mist_config['MEMBER1_EMAIL']}
 
-    re = requests.post("%s/api/v1/org/%s/teams/%s/members"  % (context.mist_config['MIST_URL'],context.mist_config['ORG_ID'], team_id), data=data, headers=headers)
+    re = requests.post("%s/api/v1/org/%s/teams/%s/members"  % (context.mist_config['MIST_URL'],context.mist_config['ORG_ID'], team_id),
+    data=data, headers=headers)
 
 
 @step(u'rbac members, organization and team are initialized')
