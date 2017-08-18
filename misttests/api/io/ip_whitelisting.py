@@ -1,5 +1,6 @@
 from misttests.api.helpers import *
 from misttests import config
+from misttests.api.io.clouds import test_add_cloud_ok
 
 import pytest
 
@@ -60,3 +61,34 @@ def test_confirm_whitelist_ip_wrong_parameter(pretty_print, mist_core, owner_api
 ############################################################################
 #                         Functional Testing                               #
 ############################################################################
+
+
+@pytest.mark.incremental
+class TestWhitelistingIpsFunctionality:
+
+
+    def test_user_can_create_resources(self, pretty_print, mist_core, owner_api_token):
+        import ipdb; ipdb.set_trace()
+        response = mist_core.add_cloud(name='Linode', provider='linode', api_token=owner_api_token,
+                                       api_key=safe_get_var('clouds/linode', 'api_key',
+                                       config.CREDENTIALS['LINODE']['api_key'])).post()
+        assert_response_ok(response)
+        print "Success!!!"
+
+#-- User saves his IP as whitelisted
+
+#-- User can still create resources
+
+#-- User updates whitelisted ips (removes his current IP, whitelisted IPs are now [])
+
+#-- User can still create resources
+
+#-- User saves a mock IP as whitelisted
+
+#-- User gets 403 as responses (in everything except logout)
+
+#-- User requests whitelist
+
+#-- User confirms whitelist
+
+#-- User can now successfully create resources
