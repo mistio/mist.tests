@@ -59,7 +59,6 @@ Feature: Monitoring
     And I click the "monitored-machine-random" "machine"
     And I wait for 2 seconds
     And I click the "Disable Monitoring" button with id "monitoring-menu-wrapper"
-    monitoring-menu-wrapper
     And I wait for 2 seconds
     And I click the "Disable Monitoring" button with id "monitoring-menu-wrapper"
     Then I expect the dialog "Disable Machine Monitoring" is open within 5 seconds
