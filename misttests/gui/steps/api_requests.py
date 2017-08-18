@@ -82,16 +82,7 @@ def create_script_api_request(context, script_name):
     script_data = {'location_type':'inline','exec_type':'executable', 'name': script_name}
     bash_script = """#!/bin/bash\ntouch /root/dummy_file
     """
-    payload = {
-        'email': context.mist_config['EMAIL'],
-        'password': context.mist_config['PASSWORD1'],
-        'org_id': context.mist_config['ORG_ID']
-    }
-
-    re = requests.post("%s/api/v1/tokens" % context.mist_config['MIST_URL'], data=json.dumps(payload))
-
-    api_token = re.json()['token']
-    headers = {'Authorization': api_token}
+    headers = {'Authorization': get_owner_api_token()}
 
     script_data['script'] = bash_script
 
@@ -100,15 +91,7 @@ def create_script_api_request(context, script_name):
 
 @step(u'cloud "{cloud}" has been added via API request')
 def add_docker_api_request(context, cloud):
-    payload = {
-        'email': context.mist_config['EMAIL'],
-        'password': context.mist_config['PASSWORD1'],
-        'org_id': context.mist_config['ORG_ID']
-    }
-
-    re = requests.post("%s/api/v1/tokens" % context.mist_config['MIST_URL'], data=json.dumps(payload))
-    api_token = re.json()['token']
-    headers = {'Authorization': api_token}
+    headers = {'Authorization': get_owner_api_token()}
 
     if cloud == 'Docker':
 
