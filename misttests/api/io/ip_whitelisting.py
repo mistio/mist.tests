@@ -2,6 +2,7 @@ from misttests.api.helpers import *
 from misttests import config
 
 import pytest
+import socket
 
 
 ############################################################################
@@ -67,6 +68,8 @@ class TestWhitelistingIpsFunctionality:
 
 
     def test_user_whitelists_his_own_ip(self, pretty_print, mist_core, owner_api_token):
+        ip = socket.gethostbyname(socket.gethostname())
+        print ip
         print "Success!!!"
 
 #-- User saves his IP as whitelisted
