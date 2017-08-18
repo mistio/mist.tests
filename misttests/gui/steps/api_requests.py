@@ -27,6 +27,32 @@ def initialize_rbac_members(context):
     return
 
 
+@step(u'member1 has been invited to "{rbac_team}"')
+def invite_member1(context,rbac_team):
+    payload = {
+        'email': context.mist_config['EMAIL'],
+        'password': context.mist_config['PASSWORD1'],
+        'org_id': context.mist_config['ORG_ID']
+    }
+    re = requests.post("%s/api/v1/tokens" % context.mist_config['MIST_URL'], data=json.dumps(payload))
+
+    api_token = re.json()['token']
+    headers = {'Authorization': api_token}
+
+    import ipdb;
+    ipdb.set_trace()
+    re = requests.get("%s/api/v1/org/%s/teams" % (context.mist_config['MIST_URL'],context.mist_config['ORG_ID']), headers = headers)
+
+    for team in re.json():
+        if team['name'] in rbac_team:
+            team_id = team['id']
+            break
+
+    data = {'emails': context.mist_config['MEMBER1_EMAIL']}
+
+    re = requests.post("%s/api/v1/org/%s/teams/%s/members"  % (context.mist_config['MIST_URL'],context.mist_config['ORG_ID'], team_id), data=data, headers=headers)
+
+
 @step(u'rbac members, organization and team are initialized')
 def initialize_rbac_members(context):
     BASE_EMAIL = context.mist_config['BASE_EMAIL']
