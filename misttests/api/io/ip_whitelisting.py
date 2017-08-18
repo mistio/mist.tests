@@ -10,20 +10,20 @@ import socket
 ############################################################################
 
 
-def test_whitelist_ips_no_api_token(pretty_print, mist_core):
-    response = mist_core.whitelist_ips(api_token='').post()
-    assert_response_forbidden(response)
-    print "Success!!!"
+#def test_whitelist_ips_no_api_token(pretty_print, mist_core):
+#    response = mist_core.whitelist_ips(api_token='').post()
+#    assert_response_forbidden(response)
+#    print "Success!!!"
 
-def test_whitelist_ips_wrong_api_token(pretty_print, mist_core, owner_api_token):
-    response = mist_core.whitelist_ips(api_token='00' + owner_api_token[:-2]).post()
-    assert_response_unauthorized(response)
-    print "Success!!!"
+#def test_whitelist_ips_wrong_api_token(pretty_print, mist_core, owner_api_token):
+#    response = mist_core.whitelist_ips(api_token='00' + owner_api_token[:-2]).post()
+#    assert_response_unauthorized(response)
+#    print "Success!!!"
 
-def test_whitelist_ips_missing_parameter(pretty_print, mist_core, owner_api_token):
-    response = mist_core.whitelist_ips(api_token=owner_api_token).post()
-    assert_response_bad_request(response)
-    print "Success!!!"
+#def test_whitelist_ips_missing_parameter(pretty_print, mist_core, owner_api_token):
+#    response = mist_core.whitelist_ips(api_token=owner_api_token).post()
+#    assert_response_bad_request(response)
+#    print "Success!!!"
 
 def test_request_whitelist_ip_no_api_token(pretty_print, mist_core):
     response = mist_core.request_whitelist_ip(api_token='').post()
@@ -67,7 +67,7 @@ def test_confirm_whitelist_ip_wrong_parameter(pretty_print, mist_core, owner_api
 class TestWhitelistingIpsFunctionality:
 
     def test_user_can_create_resources(self, pretty_print, cache, mist_core,
-                             owner_api_token):
+                                       owner_api_token):
         script_data = {'location_type':'inline','exec_type':'executable', 'name': 'Script1'}
         response = mist_core.add_script(api_token=owner_api_token, script_data=script_data,
                                         script=bash_script).post()
@@ -75,11 +75,11 @@ class TestWhitelistingIpsFunctionality:
         print "Success!!!"
 
     def test_user_whitelists_his_own_ip(self, pretty_print, mist_core, owner_api_token):
-        ip = socket.gethostbyname(socket.gethostname())
-        print ip
+        import ipdb;ipdb.set_trace()
+        response = mist_core.whitelist_ips(owner_api_token, ips=[{'cidr':socket.gethostbyname(socket.gethostname()),'description':''}]).post()
+        assert_response_ok(response)
         print "Success!!!"
 
-#-- User saves his IP as whitelisted
 
 #-- User can still create resources
 
