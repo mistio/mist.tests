@@ -94,7 +94,14 @@ class TestWhitelistingIpsFunctionality:
         assert_response_ok(response)
         print "Success!!!"
 
-#-- User can still create resources
+    def test_user_can_still_create_resources(self, pretty_print, cache, mist_core,
+                             owner_api_token, private_key):
+        response = mist_core.add_key(
+            name='TestKey',
+            private=private_key,
+            api_token=owner_api_token).put()
+        assert_response_ok(response)
+        print "Success!!!"
 
 #-- User saves a mock IP as whitelisted
 
