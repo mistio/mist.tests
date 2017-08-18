@@ -4,6 +4,8 @@ from misttests import config
 import pytest
 import socket
 
+from time import sleep
+
 
 ############################################################################
 #                             Unit Testing                                 #
@@ -75,13 +77,17 @@ class TestWhitelistingIpsFunctionality:
         print "Success!!!"
 
     def test_user_whitelists_his_own_ip(self, pretty_print, mist_core, owner_api_token):
-        import ipdb;ipdb.set_trace()
         response = mist_core.whitelist_ips(owner_api_token, ips=[{'cidr':socket.gethostbyname(socket.gethostname()),'description':''}]).post()
         assert_response_ok(response)
         print "Success!!!"
 
-
-#-- User can still create resources
+    def test_user_can_add_key(self, pretty_print, cache, mist_core,
+                             owner_api_token, private_key):
+        response = mist_core.add_key(
+            name='TestKey',
+            private=private_key,
+            api_token=owner_api_token).put()
+        assert_response_ok(response)
 
 #-- User updates whitelisted ips (removes his current IP, whitelisted IPs are now [])
 
