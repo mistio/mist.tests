@@ -76,20 +76,23 @@ class TestWhitelistingIpsFunctionality:
         assert_response_ok(response)
         print "Success!!!"
 
-    def test_user_whitelists_his_own_ip(self, pretty_print, mist_core, owner_api_token):
-        response = mist_core.whitelist_ips(owner_api_token, ips=[{'cidr':socket.gethostbyname(socket.gethostname()),'description':''}]).post()
+#    def test_user_whitelists_his_own_ip(self, pretty_print, mist_core, owner_api_token):
+#        response = mist_core.whitelist_ips(owner_api_token, ips=[{'cidr':socket.gethostbyname(socket.gethostname()),'description':''}]).post()
+#        assert_response_ok(response)
+#        print "Success!!!"
+
+#    def test_user_can_still_create_resources(self, pretty_print, cache, mist_core,
+#                             owner_api_token, private_key):
+#        response = mist_core.add_key(
+#            name='TestKey',
+#            private=private_key,
+#            api_token=owner_api_token).put()
+#        assert_response_ok(response)
+
+    def test_set_whitelisted_ips_to_empty(self, pretty_print, mist_core, owner_api_token):
+        response = mist_core.whitelist_ips(owner_api_token, ips=[]).post()
         assert_response_ok(response)
         print "Success!!!"
-
-    def test_user_can_add_key(self, pretty_print, cache, mist_core,
-                             owner_api_token, private_key):
-        response = mist_core.add_key(
-            name='TestKey',
-            private=private_key,
-            api_token=owner_api_token).put()
-        assert_response_ok(response)
-
-#-- User updates whitelisted ips (removes his current IP, whitelisted IPs are now [])
 
 #-- User can still create resources
 
