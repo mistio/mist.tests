@@ -809,8 +809,9 @@ class MistIoApi(object):
         data = {
             'ips': ips
         }
+        import ipdb;ipdb.set_trace()
         req = MistRequests(uri=self.uri + '/api/v1/users/whitelist',
-                           api_token=api_token, data=data)
+                           api_token=api_token, data=json.dumps(data))
         req.get = req.unavailable_api_call
         req.delete = req.unavailable_api_call
         req.put = req.unavailable_api_call
