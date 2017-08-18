@@ -103,7 +103,11 @@ class TestWhitelistingIpsFunctionality:
         assert_response_ok(response)
         print "Success!!!"
 
-#-- User saves a mock IP as whitelisted
+    def test_whitelist_dummy_ip(self, pretty_print, mist_core, owner_api_token):
+        response = mist_core.whitelist_ips(owner_api_token, ips=[{'cidr':'1.2.3.4','description':'dummy'}]).post()
+        assert_response_ok(response)
+        print "Success!!!"
+
 
 #-- User gets 403 as responses (in everything except logout)
 
