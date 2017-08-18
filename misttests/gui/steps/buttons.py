@@ -263,7 +263,6 @@ def click_button_by_class(context,button):
         button_to_click = context.browser.find_element_by_id('monitoring-actions')
     else:
         raise Exception('Unknown type of button')
-    #assert button_to_click.is_displayed(), "%s button is not displayed" %button
 
 
 @step(u'I click the "{button}" button with id "{button_id}"')
