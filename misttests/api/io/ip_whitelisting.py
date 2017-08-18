@@ -108,9 +108,20 @@ class TestWhitelistingIpsFunctionality:
         assert_response_ok(response)
         print "Success!!!"
 
+#    shouldn't below receive 403? gets 502...
+#    def test_user_cannot_create_resources(self, pretty_print, cache, mist_core,
+#                             owner_api_token, private_key):
+#        response = mist_core.add_key(
+#            name='TestKey2',
+#            private=private_key,
+#            api_token=owner_api_token).put()
+#        assert_response_forbidden(response)
+#        print "Success!!!"
 
-#-- User gets 403 as responses (in everything except logout)
-
+def test_request_whitelist_ip(pretty_print, mist_core, owner_api_token):
+    response = mist_core.request_whitelist_ip(api_token=owner_api_token).post()
+    assert_response_forbidden(response)
+    print "Success!!!"
 #-- User requests whitelist
 
 #-- User confirms whitelist
