@@ -77,11 +77,10 @@ Feature: Ip-whitelisting
     Then I expect the dialog "Save IPs" is open within 4 seconds
     When I click the "Save Anyway" button in the dialog "Save IPs"
     Then I expect the dialog "Save IPs" is closed within 4 seconds
+    And I should see the landing page within 10 seconds
 
-#-- User gets 403 as responses (in everything except logout)
 ##############################################################
 #-- User requests whitelist
-#
 #-- User confirms whitelist
-#
 #-- User can now successfully create resources
+#-- then "current_ip" should be present

@@ -269,7 +269,7 @@ def ensure_redirection(context, seconds):
     timeout = time() + int(seconds)
     while time() < timeout:
         try:
-            context.browser.find_element_by_id("top-signup-button")
+            context.browser.find_element_by_class_name("signin-btn-container")
             sleep(1)
         except NoSuchElementException:
             return True
