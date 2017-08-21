@@ -46,8 +46,21 @@ Feature: Ip-whitelisting
     When I click the "Save Anyway" button in the dialog "Save IPs"
     Then I expect the dialog "Save IPs" is closed within 4 seconds
 
-
-#-- User can still create resources
+  @user-can-still-create-resources
+  Scenario: Verify that user can still create resources after removing all whitelisted IPs
+    When I visit the Keys page
+    And I click the button "+"
+    Then I expect the "Key" add form to be visible within max 10 seconds
+    When I set the value "TestKey2" to field "Name" in "key" add form
+    And I focus on the button "Generate" in "key" add form
+    And I click the button "Generate" in "key" add form
+    And I wait for 5 seconds
+    Then I expect for the button "Add" in "key" add form to be clickable within 10 seconds
+    When I focus on the button "Add" in "key" add form
+    And I click the button "Add" in "key" add form
+    Then I expect the "key" edit form to be visible within max 10 seconds
+    When I visit the Keys page
+    Then "TestKey2" key should be present within 10 seconds
 
 #-- User saves a mock IP as whitelisted
 
