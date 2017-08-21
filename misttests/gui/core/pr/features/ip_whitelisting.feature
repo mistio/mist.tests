@@ -33,7 +33,18 @@ Feature: Ip-whitelisting
     When I visit the Keys page
     Then "TestKey" key should be present within 10 seconds
 
-#-- User updates whitelisted ips (removes his current IP, whitelisted IPs are now [])
+  @set-whitelisted-ips-to-empty
+  Scenario:  User sets whitelisted IPs as empty
+    When I visit the Account page
+    And I wait for 5 seconds
+    And I click the "Whitelisted IPs" button with id "ips"
+    And I wait for 1 seconds
+    And I remove all whitelisted ips
+    And I click the "Save IPs" button with id "save_ips"
+    Then I expect the dialog "Save IPs" is open within 4 seconds
+    # TODO: below 'Save Anyway' is wrong! User won't be locked out
+    When I click the "Save Anyway" button in the dialog "Save IPs"
+    Then I expect the dialog "Save IPs" is closed within 4 seconds
 
 #-- User can still create resources
 
