@@ -20,7 +20,6 @@ def remove_whitelisted_ips(context):
 
 @step(u'I add the IP "{ip}" as whitelisted')
 def add_whitelisted_ip(context,ip):
-    import ipdb;ipdb.set_trace()
     whitelisted_ips_tag = context.browser.find_element_by_tag_name('multi-inputs')
     new_whitelisted_ip_field = whitelisted_ips_tag.find_element_by_tag_name('div')
     whitelisted_ip = new_whitelisted_ip_field.find_element_by_tag_name('paper-input')
