@@ -1,6 +1,8 @@
 @ip-whitelisting
 Feature: Ip-whitelisting
 
+# TODO: check what happens when i trigger tests in test_env
+
   @whitelist-current-ip
   Scenario:  User whitelists his current IP
     Given I am logged in to mist.core
