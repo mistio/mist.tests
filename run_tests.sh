@@ -21,7 +21,7 @@ help_message() {
     echo
     echo "Argument for UI tests can be one of the following:"
     echo
-    echo "clouds, clouds-actions, machines, images, keys, scripts, users, rbac, schedules, orchestration, monitoring, rbac-rules, insights"
+    echo "clouds, clouds-actions, machines, images, keys, scripts, users, rbac, schedules, orchestration, monitoring, rbac-rules, insights, ip-whitelisting"
     echo
     exit
 }
@@ -104,6 +104,7 @@ vault_login() {
     behave_tags["orchestration"]='orchestration,'
     behave_tags["rbac-rules"]='rbac-rules-1,'
     behave_tags["zones"]='zones,'
+    behave_tags["ip-whitelisting"]='ip-whitelisting,'
 
 
     if [ "$#" -eq 0 ]
