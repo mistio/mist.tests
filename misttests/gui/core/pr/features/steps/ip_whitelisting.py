@@ -39,6 +39,12 @@ def get_forbidden_error_element(context):
 
 @step(u'I should see the error message "{error_msg}"')
 def see_error_msg(context, error_msg):
-    import ipdb;ipdb.set_trace()
     forbidden_error = get_forbidden_error_element(context)
     assert error_msg in safe_get_element_text(forbidden_error), "%s error message is not visible" %error_msg
+
+
+@step(u'I click the forbidden link in the sign-in page')
+def click_forbidden_link(context):
+    forbidden_error = get_forbidden_error_element(context)
+    forbidden_link = forbidden_error.find_element_by_id('forbiddenlink')
+    clicketi_click(context,forbidden_link)
