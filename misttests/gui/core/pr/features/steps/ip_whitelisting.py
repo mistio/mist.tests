@@ -26,9 +26,7 @@ def add_whitelisted_ip(context,ip):
     input = whitelisted_ip.find_element_by_id('input')
     clear_input_and_send_keys(input, ip)
 
-@step(u'I should see the error message "{error_msg}"')
-def see_error_msg(context, error_msg):
-    import ipdb;ipdb.set_trace()
+def get_forbidden_error_element(context):
     landing_app = context.browser.find_element_by_tag_name("landing-app")
     shadow_root = get_shadow_root(context, landing_app)
     landing_pages = shadow_root.find_element_by_css_selector("landing-pages")
@@ -36,6 +34,11 @@ def see_error_msg(context, error_msg):
     shadow_root = get_shadow_root(context, page)
     sign_in_form = shadow_root.find_element_by_id('signInForm')
     form = sign_in_form.find_element_by_tag_name('form')
-    forbidden_error = form.find_element_by_class_name('forbidden-error')
+    return form.find_element_by_class_name('forbidden-error')
+
+
+@step(u'I should see the error message "{error_msg}"')
+def see_error_msg(context, error_msg):
+    import ipdb;ipdb.set_trace()
+    forbidden_error = get_forbidden_error_element(context)
     assert error_msg in safe_get_element_text(forbidden_error), "%s error message is not visible" %error_msg
-    
