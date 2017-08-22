@@ -79,8 +79,11 @@ Feature: Ip-whitelisting
     Then I expect the dialog "Save IPs" is closed within 4 seconds
     And I should see the landing page within 10 seconds
 
+  @user-requests-whitelist
+  Scenario:  User logs in and requests his ip to be whitelisted. He should receive an email
+
+
 ##############################################################
-#-- User requests whitelist
 #-- User confirms whitelist
 #-- User can now successfully create resources
 #-- then "current_ip" should be present
