@@ -82,18 +82,15 @@ Feature: Ip-whitelisting
   @user-requests-whitelist
   Scenario:  User logs in and requests his ip to be whitelisted. He should receive an email
     When I visit mist.core
-    And I wait for 2 seconds
-    When I open the login popup
-    And I wait for 2 seconds
+    And I wait for 1 seconds
+    And I open the login popup
+    And I wait for 1 seconds
     And I enter my standard credentials for login
     And I click the sign in button in the landing page popup
     And I wait for 2 seconds
     Then I should see the error message "Trying to login from a non-whitelisted IP address. You can request whitelisting your current IP via email"
     When I click the forbidden link in the sign-in page
     Then I should receive an email at the address "EMAIL" with subject "[mist.io] Account IP whitelist request" within 30 seconds
-
-  @user-confirms-whitelist
-  Scenario:  User clicks on the link received in the email. He should be able to login
     When I follow the link inside the email
     And I delete old emails
 
