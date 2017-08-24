@@ -233,7 +233,6 @@ def get_color_from_state(state):
 def click_mist_io(context):
     clicketi_click(context, context.browser.find_element_by_id('logo-link'))
 
-#TODO: "{button}" and ids should have the exact same name
 
 @step(u'I click the "{button}" button')
 def click_button_by_class(context,button):
