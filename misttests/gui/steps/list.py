@@ -80,6 +80,8 @@ def assert_machine_state(context, name, state, seconds):
 
 @step(u'I select list item "{item_name}" {resource_type}')
 def select_item_from_list(context, item_name, resource_type):
+    if resource_type in ['record']:
+        item_name = item_name + '.' + context.mist_config.get('test-zone-random.com.')
     item = get_list_item(context, resource_type, item_name)
     if item:
         from .buttons import clicketi_click
@@ -118,8 +120,8 @@ def wait_for_item_show(context, name, resource_type, state, seconds):
         name = context.mist_config.get(name)
     else:
         name = name.lower()
-#    if resource_type in ['record']:
-#        name = name + '.' + context.mist_config.get('test-zone-random.com.')
+    if resource_type in ['record']:
+        name = name + '.' + context.mist_config.get('test-zone-random.com.')
     state = state.lower()
     if state not in ['present', 'absent']:
         raise Exception('Unknown state %s' % state)
