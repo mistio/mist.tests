@@ -80,6 +80,8 @@ def assert_machine_state(context, name, state, seconds):
 
 @step(u'I select list item "{item_name}" {resource_type}')
 def select_item_from_list(context, item_name, resource_type):
+    if context.mist_config.get(item_name):
+        item_name = context.mist_config.get(item_name)
     if resource_type in ['record']:
         item_name = item_name + '.' + context.mist_config.get('test-zone-random.com.')
     item = get_list_item(context, resource_type, item_name)
