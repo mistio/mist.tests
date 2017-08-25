@@ -1,7 +1,7 @@
 @zones
 Feature: Zones
 
-  @zone-add
+@zone-add
   Scenario: Add a zone
     Given I am logged in to mist.core
     When I visit the Home page
@@ -17,12 +17,38 @@ Feature: Zones
     Then I expect for the button "Add" in "Zone" add form to be clickable within 5 seconds
     When I focus on the button "Add" in "Zone" add form
     And I click the button "Add" in "Zone" add form
-    Then I expect the "Zone" edit form to be visible within max 5 seconds
+    Then I expect the "Zone" edit form to be visible within max 25 seconds
     When I visit the Zones page
     Then "test-zone-random.com." zone should be present within 5 seconds
 
+  @zone-search
+  Scenario: Filter a zone
+    When I search for "test-zone-random.com."
+    Then "test-zone-random.com." zone should be present within 10 seconds
+    When I clear the search bar
+    Then "test-zone-random.com." zone should be present within 10 seconds
+    When I search for "Non-existing zone"
+    Then "test-zone-random.com." zone should be absent within 10 seconds
+    When I clear the search bar
+    And I wait for 1 seconds
+
+  @disable-dns-support
+  Scenario: Disable dns support and verify that zone created above is not visible
+    When I visit the Home page
+    And I wait for 1 seconds
+    And I open the cloud menu for "GCE"
+    And I click the "Enable DNS" button with id "DNS-enable-disable"
+    And I visit the Zones page
+    Then "test-zone-random.com." zone should be absent within 10 seconds
+
   @zone-tags
-  Scenario: Add tags to a zone
+  Scenario: Reenable dns-support and add tags to a zone
+    When I visit the Home page
+    And I wait for 1 seconds
+    And I open the cloud menu for "GCE"
+    And I click the "Enable DNS" button with id "DNS-enable-disable"
+    And I visit the Zones page
+    Then "test-zone-random.com." zone should be present within 10 seconds
     When I click the "test-zone-random.com." "zone"
     Then I expect the "zone" edit form to be visible within max 5 seconds
     When I click the button "Tags" in "zone" edit form
@@ -42,6 +68,27 @@ Feature: Zones
     And I click the button "Save Tags" in the tag menu
     Then I expect for the tag popup to close within 4 seconds
     And I ensure that the "zone" has the tags "second:tag"
+
+  @record-add
+  Scenario: Add a record
+    When I click the button "+"
+    Then I expect the "record" add form to be visible within max 5 seconds
+    When I open the "Choose Record Type" drop down
+    And I wait for 1 seconds
+    And I click the button "A" in the "Choose Record Type" dropdown
+    And I set the value "test-record-random" to field "Name" in "record" add form
+    And I set the value "1.2.3.4" to field "Rdata" in "record" add form
+    And I click the button "Add" in "record" add form
+    Then "test-record-random" record should be present within 10 seconds
+
+  @record-delete
+  Scenario: Delete the record created above
+    When I select list item "test-record-random" record
+    And I click the action "Delete" from the record list actions
+    Then I expect the dialog "Delete 1 Record" is open within 4 seconds
+    When I click the "Delete" button in the dialog "Delete 1 Record"
+    Then I expect the dialog "Delete 1 Record" is closed within 4 seconds
+    And "test-record-random" record should be absent within 10 seconds
 
   @zone-delete
   Scenario: Delete a zone

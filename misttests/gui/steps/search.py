@@ -7,6 +7,8 @@ from .buttons import clicketi_click
 @step(u'I search for "{search_text}"')
 def search_for_something(context, search_text):
     search_field = context.browser.find_element_by_id('query')
+    if context.mist_config.get(search_text):
+        search_text = context.mist_config.get(search_text)
     clear_input_and_send_keys(search_field, search_text)
 
 
