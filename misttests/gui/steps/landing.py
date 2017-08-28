@@ -107,6 +107,8 @@ def get_mist_config_email(context,kind):
 def get_mist_config_password(context,kind):
     if kind in ['alt', 'new_creds']:
         return context.mist_config['PASSWORD2']
+    elif kind == 'changed':
+        return context.mist_config['CHANGED_PASSWORD']
     elif kind == 'rbac_member1':
         return context.mist_config['MEMBER1_PASSWORD']
     elif kind == 'rbac_member2':
@@ -124,7 +126,7 @@ def enter_credentials(context, kind, action):
                       'demo request']:
         raise ValueError("Cannot input %s credentials" % action)
     if kind not in ['standard', 'alt', 'rbac_owner', 'rbac_member1',
-                    'rbac_member2', 'new_creds'] and not kind.startswith('invalid'):
+                    'rbac_member2', 'new_creds', 'changed'] and not kind.startswith('invalid'):
         raise ValueError("No idea what %s credentials are" % kind)
 
     landing_app = context.browser.find_element_by_tag_name("landing-app")
