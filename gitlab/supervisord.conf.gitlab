@@ -79,14 +79,14 @@ command = /usr/local/bin/uwsgi --http-socket=0.0.0.0:9000 --wsgi-file=/builds/mi
 priority = 100
 
 [program:uwsgi-monitor]
-command = /usr/local/bin/uwsgi  --paste-logger --ini-paste /builds/mistio/mist.core/src/mist.monitor/development.ini --http-socket=127.0.0.1:7000 -H /monitor.env
+command = /usr/local/bin/uwsgi  --paste-logger --ini-paste /builds/mistio/mist.core/mist.monitor/development.ini --http-socket=127.0.0.1:7000 -H /monitor.env
 process_name = uwsgi-monitor
-directory = /builds/mistio/mist.core/src/mist.monitor
+directory = /builds/mistio/mist.core/mist.monitor
 priority = 110
 
 [program:bucky]
-command = /monitor.env/bin/python /builds/mistio/mist.core/src/mist.monitor/src/bucky/bucky.py /builds/mistio/mist.core/containers/fullstack/bucky_conf.py
-directory = /builds/mistio/mist.core/src/mist.monitor
+command = /monitor.env/bin/python /builds/mistio/mist.core/mist.monitor/src/bucky/bucky.py /builds/mistio/mist.core/containers/fullstack/bucky_conf.py
+directory = /builds/mistio/mist.core/mist.monitor
 priority = 120
 
 [program:alert]
