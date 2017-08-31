@@ -34,8 +34,6 @@ def assert_starred_unstarred_image(context,image,state,seconds):
     state = state.lower()
     if state not in ['starred', 'unstarred']:
         raise Exception('Unknown type of state')
-    # return context.browser.find_elements_by_css_selector('page-images mist-list vaadin-grid-table-body#items > vaadin-grid-table-row')
-    # images = context.browser.find_element_by_tag_name('item-list').find_element_by_tag_name('iron-list')
     images_list = context.browser.find_elements_by_css_selector('page-images mist-list vaadin-grid-table-body#items > vaadin-grid-table-row')
     end_time = time() + int(seconds)
     image_to_check_state = find_image(image, images_list)
