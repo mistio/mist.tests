@@ -1,8 +1,6 @@
 @ip-whitelisting
 Feature: Ip-whitelisting
 
-# TODO: check what happens when i trigger tests in test_env
-
   @whitelist-current-ip
   Scenario:  User whitelists his current IP
     Given I am logged in to mist.core
@@ -16,8 +14,6 @@ Feature: Ip-whitelisting
     Then I expect the dialog "Save IPs" is open within 4 seconds
     When I click the "Save IPs" button in the dialog "Save IPs"
     Then I expect the dialog "Save IPs" is closed within 4 seconds
-  # TODO
-  # then "current_ip" should be present
 
   @user-can-create-resources
   Scenario: Verify that user can create resources after whitelisting his own IP
@@ -115,6 +111,3 @@ Feature: Ip-whitelisting
     Then "TestKey3" key should be present within 10 seconds
     And "TestKey2" key should be present within 10 seconds
     And "TestKey" key should be present within 10 seconds
-
-##############################################################
-#-- then "current_ip" should be present
