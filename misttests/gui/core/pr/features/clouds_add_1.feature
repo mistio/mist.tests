@@ -27,4 +27,4 @@ Feature: Add second-tier clouds in Polymist
     | AWS            |
     | Digital Ocean  |
     | Linode         |
-    #| OnApp          |
+    | OnApp          |
