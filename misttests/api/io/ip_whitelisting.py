@@ -29,10 +29,10 @@ def test_request_whitelist_ip_no_api_token(pretty_print, owner_email, mist_core)
     assert_response_forbidden(response)
     print "Success!!!"
 
-def test_request_whitelist_ip_wrong_api_token(pretty_print, owner_email, mist_core, owner_api_token):
-    response = mist_core.request_whitelist_ip(owner_email, api_token='00' + owner_api_token[:-2]).post()
-    assert_response_ok(response)
-    print "Success!!!"
+#def test_request_whitelist_ip_wrong_api_token(pretty_print, owner_email, mist_core, owner_api_token):
+#    response = mist_core.request_whitelist_ip(owner_email, api_token='00' + owner_api_token[:-2]).post()
+#    assert_response_ok(response)
+#    print "Success!!!"
 
 # def test_confirm_whitelist_ip_no_api_token(pretty_print, mist_core):
 #     response = mist_core.confirm_whitelist_ip(api_token='').get()
@@ -61,38 +61,17 @@ def test_confirm_whitelist_ip_wrong_parameter(pretty_print, mist_core, owner_api
 
 @pytest.mark.incremental
 class TestWhitelistingIpsFunctionality:
+
+    def test_user_whitelists_empty_ip(self, pretty_print, mist_core, owner_api_token):
+        response = mist_core.whitelist_ips(owner_api_token, ips=[]).post()
+        assert_response_ok(response)
+        print "Success!!!"
+
     def test_user_can_create_resources(self, pretty_print, cache, mist_core,
                                        owner_api_token):
         script_data = {'location_type':'inline','exec_type':'executable', 'name': 'Script1'}
         response = mist_core.add_script(api_token=owner_api_token, script_data=script_data,
                                         script=bash_script).post()
-        assert_response_ok(response)
-        print "Success!!!"
-
-    def test_user_whitelists_his_own_ip(self, pretty_print, mist_core, owner_api_token):
-        response = mist_core.whitelist_ips(owner_api_token, ips=[{'cidr': '172.18.0.1','description':''}]).post()
-        assert_response_ok(response)
-        print "Success!!!"
-
-    def test_user_can_still_create_resources(self, pretty_print, cache, mist_core,
-                                owner_api_token, private_key):
-        response = mist_core.add_key(
-            name='TestKey',
-            private=private_key,
-            api_token=owner_api_token).put()
-        assert_response_ok(response)
-
-    def test_set_whitelisted_ips_to_empty(self, pretty_print, mist_core, owner_api_token):
-        response = mist_core.whitelist_ips(owner_api_token, ips=[]).post()
-        assert_response_ok(response)
-        print "Success!!!"
-
-    def test_user_can_still_create_resources_v2(self, pretty_print, cache, mist_core,
-                             owner_api_token, private_key):
-        response = mist_core.add_key(
-            name='TestKey2',
-            private=private_key,
-            api_token=owner_api_token).put()
         assert_response_ok(response)
         print "Success!!!"
 
