@@ -178,10 +178,10 @@ def set_azure_arm_creds(context):
                     Then I set the value "%s" to field "Subscription ID" in "cloud" add form
                     Then I set the value "%s" to field "Client Key" in "cloud" add form
                     Then I set the value "%s" to field "Client Secret" in "cloud" add form
-                ''' % (safe_get_var('clouds/azure_arm', 'tenant_id', context.mist_config['CREDENTIALS']['AZURE_ARM']['tenant_id']),
-                       safe_get_var('clouds/azure_arm', 'subscription_id', context.mist_config['CREDENTIALS']['AZURE_ARM']['subscription_id']),
-                       safe_get_var('clouds/azure_arm', 'client_key', context.mist_config['CREDENTIALS']['AZURE_ARM']['client_key']),
-                       safe_get_var('clouds/azure_arm', 'client_secret', context.mist_config['CREDENTIALS']['AZURE_ARM']['client_secret']),))
+                ''' % (safe_get_var('clouds/arm2', 'tenant_id', context.mist_config['CREDENTIALS']['AZURE_ARM']['tenant_id']),
+                       safe_get_var('clouds/arm2', 'subscription_id', context.mist_config['CREDENTIALS']['AZURE_ARM']['subscription_id']),
+                       safe_get_var('clouds/arm2', 'client_key', context.mist_config['CREDENTIALS']['AZURE_ARM']['client_key']),
+                       safe_get_var('clouds/arm2', 'client_secret', context.mist_config['CREDENTIALS']['AZURE_ARM']['client_secret']),))
 
 
 def set_kvm_creds(context):

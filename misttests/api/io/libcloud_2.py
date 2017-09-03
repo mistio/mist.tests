@@ -57,13 +57,13 @@ class TestLibcloudFunctionality:
 
     def test_list_machines_azure_arm(self, pretty_print, mist_core, cache, owner_api_token):
         response = mist_core.add_cloud(title='Azure_arm', provider= 'azure_arm', api_token=owner_api_token,
-                                       tenant_id=safe_get_var('clouds/azure_arm', 'tenant_id',
+                                       tenant_id=safe_get_var('clouds/arm2', 'tenant_id',
                                                               config.CREDENTIALS['AZURE_ARM']['tenant_id']),
-                                       subscription_id=safe_get_var('clouds/azure_arm', 'subscription_id',
+                                       subscription_id=safe_get_var('clouds/arm2', 'subscription_id',
                                                               config.CREDENTIALS['AZURE_ARM']['subscription_id']),
-                                       key=safe_get_var('clouds/azure_arm', 'client_key',
+                                       key=safe_get_var('clouds/arm2', 'client_key',
                                                               config.CREDENTIALS['AZURE_ARM']['client_key']),
-                                       secret=safe_get_var('clouds/azure_arm', 'client_secret',
+                                       secret=safe_get_var('clouds/arm2', 'client_secret',
                                                               config.CREDENTIALS['AZURE_ARM']['client_secret'])).post()
         assert_response_ok(response)
         cache.set('azure_arm_cloud_id', response.json()['id'])
