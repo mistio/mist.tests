@@ -4,6 +4,9 @@ import requests
 import logging
 import random
 
+
+from subprocess import call
+
 from misttests import config
 
 from misttests.helpers.selenium_utils import choose_driver
@@ -30,6 +33,9 @@ def before_all(context):
     log.info("Webdriver log:" + config.WEBDRIVER_LOG)
     log.info("JS console log:" + config.JS_CONSOLE_LOG)
 
+    # kill chrome, otherwise it will crash
+    call(["pkill", "-9", "chrom"])
+
     context.mist_config = dict()
     context.mist_config['browser'] = choose_driver()
     context.browser = context.mist_config['browser']
@@ -38,11 +44,9 @@ def before_all(context):
     context.mist_config['EMAIL'] = config.EMAIL
     context.mist_config['PASSWORD1'] = config.PASSWORD1
     context.mist_config['PASSWORD2'] = config.PASSWORD2
+    context.mist_config['CHANGED_PASSWORD'] = config.CHANGED_PASSWORD
     context.mist_config['SETUP_ENVIRONMENT'] = config.SETUP_ENVIRONMENT
     context.mist_config['MAYDAY_MACHINE'] = config.MAYDAY_MACHINE
-    context.mist_config['DEMO_EMAIL'] = config.DEMO_EMAIL
-    context.mist_config['DEMO_PASSWORD'] = config.DEMO_PASSWORD
-    context.mist_config['MIST_DEMO_REQUEST_EMAIL'] = config.MIST_DEMO_REQUEST_EMAIL
     context.mist_config['OWNER_EMAIL'] = config.OWNER_EMAIL
     context.mist_config['OWNER_PASSWORD'] = config.OWNER_PASSWORD
     context.mist_config['MEMBER1_EMAIL'] = config.MEMBER1_EMAIL
@@ -183,6 +187,20 @@ def kill_docker_machine(context, machine_to_destroy):
                     requests.post(uri, data=json.dumps(payload), headers=headers)
 
 
+# def delete_gce_zones(context):
+#     api_token = get_api_token(context)
+#     headers = {'Authorization': api_token}
+#     response = requests.get("%s/api/v1/clouds" % context.mist_config['MIST_URL'], headers=headers)
+#     cloud_id = response.json()[0]['id']
+#     uri = context.mist_config['MIST_URL'] + '/api/v1/clouds/' + cloud_id + '/dns/zones'
+#     response = requests.get(uri, headers=headers)
+#     for zone in response.json()['zones']:
+#         zone_id = zone['id']
+#         log.info('Deleting zone...')
+#         uri = context.mist_config['MIST_URL'] + '/api/v1/clouds/' + cloud_id + '/dns/zones/' + zone_id
+#         requests.delete(uri, headers=headers)
+
+
 def finish_and_cleanup(context):
     dump_js_console_log(context)
     context.mist_config['browser'].quit()
@@ -208,3 +226,5 @@ def after_feature(context, feature):
         kill_docker_machine(context, context.mist_config.get('docker-ui-test-machine-random'))
     if 'Monitoring' == feature.name:
         kill_docker_machine(context, context.mist_config.get('monitored-machine-random'))
+    # if 'Zones' == feature.name:
+    #     delete_gce_zones(context)

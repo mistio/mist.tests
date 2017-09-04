@@ -4,7 +4,7 @@ import requests
 from misttests import config
 
 
-def setup_user_if_not_exists(email, password):
+def setup_user_if_not_exists(email, password, role):
 
     payload = {
         'email': email,
@@ -13,8 +13,8 @@ def setup_user_if_not_exists(email, password):
         'request_demo': False
     }
 
-    print "The user used for API tests is " + email
-    print "The password used for API tests is " + password
+    print role + " used for API tests is " + email
+    print "The password used for user " + email + " is " + password
 
     requests.post("%s/api/v1/dev/register" % config.MIST_URL, data=json.dumps(payload))
     return
@@ -68,7 +68,7 @@ def setup_org_if_not_exists(org_name, owner_email, clean_org=True, add_cloud=Tru
                 if config.API_TESTING_CLOUD_PROVIDER == 'EC2':
                     apikey = config.CREDENTIALS['EC2']['api_key']
                     apisecret = config.CREDENTIALS['EC2']['api_secret']
-                    region = 'ec2_ap_northeast'
+                    region = 'ap-northeast-1'
                     clouds_models.AmazonCloud(apikey=apikey,
                                               apisecret=apisecret,
                                               region=region, **kwargs).save()

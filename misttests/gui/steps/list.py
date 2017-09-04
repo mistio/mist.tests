@@ -13,8 +13,10 @@ from selenium.common.exceptions import StaleElementReferenceException
 
 # TODO: below method doesn't bring all the items, as you scroll more items become visible
 def get_list(context, resource_type):
-    if resource_type in ['team', 'key', 'network', 'script', 'schedule', 'template', 'stack']:
+    if resource_type in ['machine', 'image', 'team', 'key', 'network', 'script', 'schedule', 'template', 'stack', 'zone']:
         return context.browser.find_elements_by_css_selector('page-%ss mist-list vaadin-grid-table-body#items > vaadin-grid-table-row' % resource_type)
+    elif resource_type == 'record':
+        return context.browser.find_elements_by_css_selector('page-zones iron-list div.row')
     else:
         return context.browser.find_elements_by_css_selector('page-%ss iron-list div.row' % resource_type)
 
@@ -24,18 +26,16 @@ def get_list_item(context, resource_type, name):
     item_name = name.lower()
     if resource_type not in ['machine', 'image', 'key', 'network',
                              'tunnel', 'script', 'template', 'stack',
-                             'team', 'schedule']:
+                             'team', 'schedule', 'zone', 'record']:
         raise ValueError('The resource type given is unknown')
     try:
         items = get_list(context, resource_type)
         for item in items:
-            if resource_type in ['team', 'key', 'network', 'script', 'schedule', 'template', 'stack']:
+            if resource_type in ['machine', 'image', 'team', 'key', 'network', 'script', 'schedule', 'template', 'stack', 'zone']:
                 name = safe_get_element_text(item.find_element_by_css_selector('strong.name')).strip().lower()
-                if item_name == name:
-                    return item
             else:
                 name = safe_get_element_text(item.find_element_by_css_selector('div.name')).strip().lower()
-                if item_name == name:
+            if item_name == name:
                     return item
     except (NoSuchElementException, StaleElementReferenceException):
         pass
@@ -45,25 +45,10 @@ def get_list_item(context, resource_type, name):
 def get_machine(context, name):
     try:
         placeholder = context.browser.find_element_by_tag_name("page-machines")
-        machines = placeholder.find_elements_by_tag_name("list-item")
-        for machine in machines:
-            machine_text = safe_get_element_text(machine)
-            if name in machine_text:
-                return machine
-        return None
-    except NoSuchElementException:
-        return None
-    except StaleElementReferenceException:
-        return None
-
-
-def get_machine(context, name):
-    try:
-        placeholder = context.browser.find_element_by_tag_name("page-machines")
-        machines = placeholder.find_elements_by_tag_name("list-item")
+        machines = placeholder.find_elements_by_tag_name("vaadin-grid-table-row")
 
         for machine in machines:
-            machine_text = safe_get_element_text(machine)
+            machine_text = safe_get_element_text(machine.find_element_by_css_selector('.name')).strip().lower()
             if name in machine_text:
                 return machine
 
@@ -83,7 +68,7 @@ def assert_machine_state(context, name, state, seconds):
         machine = get_machine(context, name)
         if machine:
             try:
-                if state in safe_get_element_text(machine):
+                if state in safe_get_element_text(machine.find_element_by_css_selector('.state span')).strip().lower():
                     return
             except NoSuchElementException:
                 pass
@@ -92,12 +77,20 @@ def assert_machine_state(context, name, state, seconds):
         sleep(2)
     assert False, u'%s state is not "%s"' % (name, state)
 
+
 @step(u'I select list item "{item_name}" {resource_type}')
 def select_item_from_list(context, item_name, resource_type):
+    if context.mist_config.get(item_name):
+        item_name = context.mist_config.get(item_name)
+    if resource_type in ['record']:
+        item_name = item_name + '.' + context.mist_config.get('test-zone-random.com.')
     item = get_list_item(context, resource_type, item_name)
     if item:
         from .buttons import clicketi_click
-        select_button = item.find_element_by_css_selector('mist-check')
+        if resource_type == 'record':
+            select_button = item.find_element_by_id('check')
+        else:
+            select_button = item.find_element_by_css_selector('mist-check')
         clicketi_click(context, select_button)
         sleep(1)
         return True
@@ -129,6 +122,8 @@ def wait_for_item_show(context, name, resource_type, state, seconds):
         name = context.mist_config.get(name)
     else:
         name = name.lower()
+    if resource_type in ['record']:
+        name = name + '.' + context.mist_config.get('test-zone-random.com.')
     state = state.lower()
     if state not in ['present', 'absent']:
         raise Exception('Unknown state %s' % state)

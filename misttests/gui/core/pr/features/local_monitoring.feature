@@ -8,7 +8,7 @@ Feature: Monitoring tested locally
     And cloud "Local_Monitoring" has been added via API request
     And I wait for 3 seconds
     When I visit the Machines page
-    And I wait for 5 seconds
+    And I wait for 7 seconds
     When I click the "Local_Monitoring" "machine"
     And I wait for 2 seconds
     Then 9 graphs should be visible within max 30 seconds

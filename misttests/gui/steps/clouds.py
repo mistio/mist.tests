@@ -36,6 +36,7 @@ def set_gce_creds(context):
             Then I set the value "%s" to field "Title" in "cloud" add form
             Then I set the value "%s" to field "Project ID" in "cloud" add form
             Then I set the value "%s" to field "Private Key" in "cloud" add form
+            And I click the "Enable DNS support" button with id "dns_enabled"
         ''' % ('GCE', project_id, json.dumps(private_key)))
 
 
@@ -109,25 +110,34 @@ def set_docker_orchestrator_creds(context):
 
 
 def set_docker_creds(context):
-    host = safe_get_var('dockerhosts/godzilla', 'host', context.mist_config['CREDENTIALS']['DOCKER']['host'])
-    authentication = safe_get_var('dockerhosts/godzilla', 'authentication', context.mist_config['CREDENTIALS']['DOCKER']['authentication'])
-    port = safe_get_var('dockerhosts/godzilla', 'port', context.mist_config['CREDENTIALS']['DOCKER']['port'])
-    context.execute_steps(u'''
-            Then I set the value "Docker" to field "Title" in "cloud" add form
-            Then I set the value "%s" to field "Host" in "cloud" add form
-            Then I set the value "%s" to field "Port" in "cloud" add form
-            Then I open the "Authentication" drop down
-            And I wait for 1 seconds
-            When I click the button "%s" in the "Authentication" dropdown
-        ''' % (host, port, authentication))
+    if context.mist_config['LOCAL']:
+        host = context.mist_config['MIST_URL']
+        port = '2375'
+        context.execute_steps(u'''
+                Then I set the value "Docker" to field "Title" in "cloud" add form
+                Then I set the value "%s" to field "Host" in "cloud" add form
+                Then I set the value "%s" to field "Port" in "cloud" add form
+        ''' % (host, port))
+    else:
+        host = safe_get_var('dockerhosts/godzilla', 'host', context.mist_config['CREDENTIALS']['DOCKER']['host'])
+        authentication = safe_get_var('dockerhosts/godzilla', 'authentication', context.mist_config['CREDENTIALS']['DOCKER']['authentication'])
+        port = safe_get_var('dockerhosts/godzilla', 'port', context.mist_config['CREDENTIALS']['DOCKER']['port'])
+        context.execute_steps(u'''
+                Then I set the value "Docker" to field "Title" in "cloud" add form
+                Then I set the value "%s" to field "Host" in "cloud" add form
+                Then I set the value "%s" to field "Port" in "cloud" add form
+                Then I open the "Authentication" drop down
+                And I wait for 1 seconds
+                When I click the button "%s" in the "Authentication" dropdown
+            ''' % (host, port, authentication))
 
-    certificate = safe_get_var('dockerhosts/godzilla', 'cert', context.mist_config['CREDENTIALS']['DOCKER']['cert'])
-    key = safe_get_var('dockerhosts/godzilla', 'key', context.mist_config['CREDENTIALS']['DOCKER']['key'])
-    ca = safe_get_var('dockerhosts/godzilla', 'ca', context.mist_config['CREDENTIALS']['DOCKER']['ca'])
+        certificate = safe_get_var('dockerhosts/godzilla', 'cert', context.mist_config['CREDENTIALS']['DOCKER']['cert'])
+        key = safe_get_var('dockerhosts/godzilla', 'key', context.mist_config['CREDENTIALS']['DOCKER']['key'])
+        ca = safe_get_var('dockerhosts/godzilla', 'ca', context.mist_config['CREDENTIALS']['DOCKER']['ca'])
 
-    set_value_to_field(context, key, 'key', 'cloud', 'add')
-    set_value_to_field(context, certificate, 'certificate', 'cloud', 'add')
-    set_value_to_field(context, ca, 'ca certificate', 'cloud', 'add')
+        set_value_to_field(context, key, 'key', 'cloud', 'add')
+        set_value_to_field(context, certificate, 'certificate', 'cloud', 'add')
+        set_value_to_field(context, ca, 'ca certificate', 'cloud', 'add')
 
 
 def set_packet_creds(context):
@@ -159,17 +169,6 @@ def set_vultr_creds(context):
     api_key = safe_get_var('clouds/vultr', 'apikey', context.mist_config['CREDENTIALS']['VULTR']['apikey'])
     context.execute_steps(u'Then I set the value "%s" to field "API Key" in '
                           u'"cloud" add form' % api_key)
-
-
-def set_indonesian_creds(context):
-    context.execute_steps(u'''
-                Then I set the value "Indonesian" to field "Title" in "cloud" add form
-                Then I set the value "%s" to field "Username" in "cloud" add form
-                Then I set the value "%s" to field "Password" in "cloud" add form
-                Then I set the value "%s" to field "Organization" in "cloud" add form
-            ''' % (safe_get_var('clouds/indonesian', 'username', context.mist_config['CREDENTIALS']['INDONESIAN']['username']),
-                   safe_get_var('clouds/indonesian', 'password', context.mist_config['CREDENTIALS']['INDONESIAN']['password']),
-                   safe_get_var('clouds/indonesian', 'organization', context.mist_config['CREDENTIALS']['INDONESIAN']['organization']),))
 
 
 def set_azure_arm_creds(context):
@@ -223,6 +222,17 @@ def set_vmware_creds(context):
                    safe_get_var('clouds/vmware', 'host', context.mist_config['CREDENTIALS']['VMWARE']['host']),))
 
 
+def set_onapp_creds(context):
+    context.execute_steps(u'''
+                Then I set the value "%s" to field "Username" in "cloud" add form
+                Then I set the value "%s" to field "Password" in "cloud" add form
+                Then I set the value "%s" to field "Host" in "cloud" add form
+                And I click the "Verify SSL certificate" button with id "verify"
+            ''' % (safe_get_var('clouds/onapp', 'username', context.mist_config['CREDENTIALS']['ONAPP']['username']),
+                   safe_get_var('clouds/onapp', 'password', context.mist_config['CREDENTIALS']['ONAPP']['password']),
+                   safe_get_var('clouds/onapp', 'host', context.mist_config['CREDENTIALS']['ONAPP']['host']),))
+
+
 def set_second_packet_creds(context):
     api_key = safe_get_var('clouds/packet_2', 'api_key', context.mist_config['CREDENTIALS']['PACKET_2']['api_key'])
     context.execute_steps(u'Then I set the value "%s" to field "API Key" in '
@@ -254,13 +264,13 @@ cloud_creds_dict = {
     "packet": set_packet_creds,
     "openstack": set_openstack_creds,
     "hostvirtual": set_hostvirtual_creds,
-    "indonesian": set_indonesian_creds,
     "vultr": set_vultr_creds,
     "azure arm": set_azure_arm_creds,
     "kvm (via libvirt)": set_kvm_creds,
     "other server": set_other_server_creds,
     "vmware": set_vmware_creds,
-    "docker_orchestrator": set_docker_orchestrator_creds
+    "docker_orchestrator": set_docker_orchestrator_creds,
+    "onapp": set_onapp_creds
 }
 
 
@@ -345,8 +355,12 @@ def find_cloud_info(context, cloud_title):
 
 @step(u'"{cloud}" cloud has been added')
 def given_cloud(context, cloud):
-    if find_cloud(context, cloud.lower()):
-        return True
+    end_time = time() + 10
+    while time() < end_time:
+        if find_cloud(context, cloud.lower()):
+            return True
+        sleep(2)
+
 
     context.execute_steps(u'''
         When I click the "new cloud" button with id "addBtn"

@@ -11,7 +11,7 @@ Feature: Machines
     When I visit the Keys page
     When I click the button "+"
     Then I expect the "Key" add form to be visible within max 10 seconds
-    When I set the value "Key1" to field "Name" in "key" add form
+    When I set the value "DummyKey" to field "Name" in "key" add form
     And I focus on the button "Generate" in "key" add form
     And I click the button "Generate" in "key" add form
     And I wait for 3 seconds
@@ -22,7 +22,7 @@ Feature: Machines
     When I visit the Keys page
     And I click the button "+"
     Then I expect the "Key" add form to be visible within max 10 seconds
-    When I set the value "Key2" to field "Name" in "key" add form
+    When I set the value "DummyKey2" to field "Name" in "key" add form
     And I focus on the button "Generate" in "key" add form
     And I click the button "Generate" in "key" add form
     And I wait for 3 seconds
@@ -59,15 +59,15 @@ Feature: Machines
     Then I click the button "Associate Key" from the menu of the "machine" edit form
     Then I expect the dialog "Associate a key" is open within 4 seconds
     And I open the "Select key" drop down
-    And I click the button "Key2" in the "Select key" dropdown
+    And I click the button "DummyKey2" in the "Select key" dropdown
     And I click the "Associate" button in the dialog "Associate a key"
     And I wait for 7 seconds
     Then there should be 2 keys associated with the machine
-    Then "Key2" key should be associated with the machine "ui-test-create-machine-random"
+    Then "DummyKey2" key should be associated with the machine "ui-test-create-machine-random"
 
   @key-disassociate
   Scenario: Disassociate key
-    When I delete the associated key "Key2"
+    When I delete the associated key "DummyKey2"
     Then I expect the dialog "Disassociate Key" is open within 4 seconds
     When I click the "Disassociate" button in the dialog "Disassociate Key"
     And I wait for 10 seconds
@@ -76,6 +76,7 @@ Feature: Machines
    @machine-run-script
    Scenario: Run script to machine created above
     When I visit the machines page
+    And I wait for 2 seconds
     When I click the "ui-test-create-machine-random" "machine"
     And I expect the "machine" edit form to be visible within max 5 seconds
     And I wait for 2 seconds
@@ -89,6 +90,7 @@ Feature: Machines
   @machine-shell
   Scenario: Check shell access and verify that script run
     When I visit the Machines page
+    And I wait for 2 seconds
     When I click the "ui-test-create-machine-random" "machine"
     And I expect the "machine" edit form to be visible within max 5 seconds
     And I wait for 2 seconds
@@ -103,8 +105,8 @@ Feature: Machines
   @machine-stop
   Scenario: Stop machine created above and check state
     When I click the button "Stop" from the menu of the "machine" edit form
-    Then I expect the dialog "Stop 1 Machines" is open within 4 seconds
-    And I click the "Stop" button in the dialog "Stop 1 Machines"
+    Then I expect the dialog "Stop Machine" is open within 4 seconds
+    And I click the "Stop" button in the dialog "Stop Machine"
     Then I visit the Machines page
     Then "ui-test-create-machine-random" machine state has to be "stopped" within 40 seconds
 
@@ -113,8 +115,8 @@ Feature: Machines
     When I click the "ui-test-create-machine-random" "machine"
     Then I expect the "machine" edit form to be visible within max 5 seconds
     When I click the button "Start" from the menu of the "machine" edit form
-    Then I expect the dialog "Start 1 Machines" is open within 4 seconds
-    And I click the "Start" button in the dialog "Start 1 Machines"
+    Then I expect the dialog "Start Machine" is open within 4 seconds
+    And I click the "Start" button in the dialog "Start Machine"
     Then I visit the Machines page
     Then "ui-test-create-machine-random" machine state has to be "running" within 40 seconds
 
@@ -129,7 +131,7 @@ Feature: Machines
     And I expect the "machine" edit form to be visible within max 5 seconds
     And I wait for 2 seconds
     Then I click the button "Destroy" from the menu of the "machine" edit form
-    And I expect the dialog "Destroy 1 Machines" is open within 4 seconds
-    And I click the "Destroy" button in the dialog "Destroy 1 Machines"
+    And I expect the dialog "Destroy Machine" is open within 4 seconds
+    And I click the "Destroy" button in the dialog "Destroy Machine"
     Then I visit the Machines page
     Then "ui-test-create-machine-random" machine should be absent within 60 seconds
