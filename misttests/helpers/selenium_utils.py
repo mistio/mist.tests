@@ -17,15 +17,17 @@ def choose_driver(flavor=None):
     """
 
     flavor = flavor if flavor is not None else config.BROWSER_FLAVOR
-
     log.info("Initializing driver")
     if flavor == "firefox":
         driver = webdriver.Firefox()
     elif flavor == "chrome":
-        chrome_options = Options()
-        for opt in config.WEBDRIVER_OPTIONS:
-            chrome_options.add_argument(opt)
-        driver = webdriver.Chrome()
+        options = webdriver.ChromeOptions()
+        options.binary_location = '/usr/bin/google-chrome'
+        options.add_argument('headless')
+        #chrome_options = Options()
+        #for opt in config.WEBDRIVER_OPTIONS:
+        #    chrome_options.add_argument(opt)
+        driver = webdriver.Chrome(chrome_options=options)
     elif flavor == "phantomjs":
         driver = webdriver.PhantomJS(executable_path=config.WEBDRIVER_PATH)
     else:
