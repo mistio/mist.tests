@@ -18,6 +18,8 @@ Feature: Monitoring
     Then I set the value "monitored-machine-random" to field "Machine Name" in "machine" add form
     When I open the "Image" drop down
     And I click the button "mist/ubuntu-14.04:collectd" in the "Image" dropdown
+    When I open the "Key" drop down
+    And I click the button "Key1" in the "Key" dropdown
     Then I expect for the button "Launch" in "machine" add form to be clickable within 10 seconds
     When I focus on the button "Launch" in "machine" add form
     And I wait for 2 seconds
