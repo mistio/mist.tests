@@ -9,7 +9,6 @@ RUN echo "deb http://ftp.debian.org/debian jessie-backports main" >> /etc/apt/so
         wget \
         xvfb \
         unzip \
-        chromium \
         libgconf-2-4 \
         libav-tools \
         vim \
