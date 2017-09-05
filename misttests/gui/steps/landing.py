@@ -256,12 +256,15 @@ def already_registered(context):
 
 @step(u'I should see the landing page within {seconds} seconds')
 def wait_for_landing_page(context, seconds):
-    try:
-        WebDriverWait(context.browser, int(seconds)).until(
-            EC.element_to_be_clickable((By.ID, "top-signup-button")))
-    except TimeoutException:
-        raise TimeoutException("Landing page has not appeared after %s seconds"
-                               % seconds)
+    timeout = time() + int(seconds)
+    while time() < timeout:
+        try:
+            context.browser.find_element_by_tag_name('landing-app')
+            return
+        except NoSuchElementException:
+            sleep(1)
+    assert False, "Landing page is not visible after waiting for %s seconds"\
+                  % seconds
 
 
 @step(u'that I am redirected within {seconds} seconds')
