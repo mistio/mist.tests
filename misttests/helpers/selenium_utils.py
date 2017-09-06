@@ -25,7 +25,7 @@ def choose_driver(flavor=None):
         options.binary_location = '/usr/bin/google-chrome'
         options.add_argument('headless')
         options.add_argument('no-sandbox')
-        options.add_argument('disable-gpu')
+        #options.add_argument('disable-gpu')
         options.add_argument('window-size=1920x1080')
         #chrome_options = Options()
         #for opt in config.WEBDRIVER_OPTIONS:
