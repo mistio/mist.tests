@@ -126,6 +126,7 @@ Feature: Machines
     And I wait for the links in homepage to appear
     And I visit the Machines page after the counter has loaded
     Then I search for the machine "ui-test-create-machine-random"
+    And I wait for 1 seconds
     When I click the "ui-test-create-machine-random" "machine"
     And I clear the machines search bar
     And I expect the "machine" edit form to be visible within max 5 seconds
