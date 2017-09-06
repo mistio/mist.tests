@@ -43,5 +43,3 @@ RUN  ln -s /mist.tests/container/vnc_server.sh /usr/bin/vnc && \
      ln -s /mist.tests/container/start_test_env.sh /test_env.sh
 
 ENV DISPLAY=:1.0
-
-RUN Xvfb $DISPLAY -ac -screen 0 1280x1024x8 &
