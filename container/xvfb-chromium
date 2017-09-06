@@ -17,8 +17,8 @@ xvfb=$!
 
 export DISPLAY=:1.0
 
-chromium --no-sandbox --window-size=1280,1024 $@ &
-chromium=$!
+#chromium --no-sandbox --window-size=1280,1024 $@ &
+#chromium=$!
 
-wait $chromium
+#wait $chromium
 wait $xvfb
