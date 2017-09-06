@@ -22,7 +22,7 @@ RUN wget -q -O - https://dl-ssl.google.com/linux/linux_signing_key.pub | apt-key
     apt-get update -y && \
     apt-get -y install google-chrome-stable
 
-ARG CHROMEDRIVER_VERSION=2.29
+ARG CHROMEDRIVER_VERSION=2.31
 RUN curl -SLO "https://chromedriver.storage.googleapis.com/$CHROMEDRIVER_VERSION/chromedriver_linux64.zip" && \
     unzip chromedriver_linux64.zip && \
     mv chromedriver /usr/local/bin && \
@@ -38,5 +38,8 @@ COPY . /mist.tests/
 WORKDIR /mist.tests/
 
 RUN pip install -e .
+
+RUN  ln -s /mist.tests/container/vnc_server.sh /usr/bin/vnc && \
+     ln -s /mist.tests/container/start_test_env.sh /test_env.sh
 
 ENV DISPLAY=:1.0
