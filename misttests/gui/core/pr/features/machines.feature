@@ -14,7 +14,6 @@ Feature: Machines
     When I set the value "DummyKey" to field "Name" in "key" add form
     And I focus on the button "Generate" in "key" add form
     And I click the button "Generate" in "key" add form
-    And I wait for 4 seconds
     Then I expect for the button "Add" in "key" add form to be clickable within 12 seconds
     When I focus on the button "Add" in "key" add form
     And I click the button "Add" in "key" add form
@@ -25,7 +24,6 @@ Feature: Machines
     When I set the value "DummyKey2" to field "Name" in "key" add form
     And I focus on the button "Generate" in "key" add form
     And I click the button "Generate" in "key" add form
-    And I wait for 4 seconds
     Then I expect for the button "Add" in "key" add form to be clickable within 12 seconds
     When I focus on the button "Add" in "key" add form
     And I click the button "Add" in "key" add form
@@ -47,7 +45,6 @@ Feature: Machines
     And I wait for 3 seconds
     Then I expect for the button "Launch" in "machine" add form to be clickable within 10 seconds
     When I focus on the button "Launch" in "machine" add form
-    And I wait for 2 seconds
     And I click the "Launch" button with id "appformsubmit"
     Then "ui-test-create-machine-random" machine state has to be "running" within 30 seconds
 
@@ -61,7 +58,7 @@ Feature: Machines
     And I open the "Select key" drop down
     And I click the button "DummyKey2" in the "Select key" dropdown
     And I click the "Associate" button in the dialog "Associate a key"
-    And I wait for 5 seconds
+    And I wait for 3 seconds
     Then there should be 2 keys associated with the machine
     Then "DummyKey2" key should be associated with the machine "ui-test-create-machine-random"
 
