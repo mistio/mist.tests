@@ -46,6 +46,7 @@ Feature: Zones
     And I open the cloud menu for "GCE"
     And I click the "Enable DNS" button with id "DNS-enable-disable"
     And I visit the Zones page
+    And I search for "test-zone-random.com."
     Then "test-zone-random.com." zone should be present within 10 seconds
     When I click the "test-zone-random.com." "zone"
     Then I expect the "zone" edit form to be visible within max 5 seconds
