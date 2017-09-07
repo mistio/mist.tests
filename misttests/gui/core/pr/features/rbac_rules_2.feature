@@ -128,6 +128,7 @@ Feature: RBAC
     Then I ensure that I am in the "ORG_NAME" organization context
     When I visit the Machines page
     Then "testerrr" machine should be absent within 5 seconds
+    And "dummyspiros" machine should be present within 5 seconds
 
   @member-edit-script-success
   Scenario: Member 1 should be able to edit the script
