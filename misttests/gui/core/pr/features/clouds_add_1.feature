@@ -28,4 +28,3 @@ Feature: Add second-tier clouds in Polymist
     | Digital Ocean  |
     | Linode         |
     | OnApp          |
-    | Docker         |
