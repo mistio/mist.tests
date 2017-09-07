@@ -85,8 +85,8 @@ def before_all(context):
         # calling behaving to setup it's context variables.
         behaving_mail.before_all(context)
 
-    if context.mist_config.get('recording_session', False):
-        start_recording()
+#    if context.mist_config.get('recording_session', False):
+#        start_recording()
 
     if config.REGISTER_USER_BEFORE_FEATURE:
         payload = {
