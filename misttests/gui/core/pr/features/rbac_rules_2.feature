@@ -24,7 +24,7 @@ Feature: RBAC
     Then I logout
 
   @view-machine-fail
-  Scenario: Verify that member1 cannot view the machine created above
+  Scenario: Verify that member1 can view clouds but not machines
     Then I should receive an email at the address "MEMBER1_EMAIL" with subject "[mist.io] Confirm your invitation" within 30 seconds
     And I follow the link inside the email
     Then I enter my rbac_member1 credentials for login
@@ -102,6 +102,9 @@ Feature: RBAC
     And I click the "Test team" "team"
     Then I expect the "team" edit form to be visible within max 5 seconds
     When I remove the rule with index "0"
+    And I click the button "Save Policy" in "policy" edit form
+    And I wait for 1 seconds
+    And I remove the rule with index "0"
     And I click the button "Save Policy" in "policy" edit form
     And I wait for 1 seconds
 
