@@ -42,7 +42,10 @@ Feature: Cloud actions for polymer
     And I visit the Home page
     And I wait for the dashboard to load
     Then cloud "Docker" should be "enabled"
-    When I visit the Machines page
+    when I visit the Machines page after the counter has loaded
+    And I wait for 1 seconds
+    And I search for the machine "mistcore_debugger_1"
+    And I wait for 1 seconds
     Then "mistcore_debugger_1" machine should be present within 60 seconds
     And I visit the Home page
 
