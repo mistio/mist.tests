@@ -5,7 +5,7 @@ Feature: Ip-whitelisting
   Scenario:  User whitelists his current IP
     Given I am logged in to mist.core
     When I visit the Account page
-    And I wait for 5 seconds
+    And I wait for 2 seconds
     And I click the "Whitelisted IPs" button with id "ips"
     And I wait for 1 seconds
     And I click the "Add your current ip" button with id "add_current_ip"
@@ -23,7 +23,6 @@ Feature: Ip-whitelisting
     When I set the value "TestKey" to field "Name" in "key" add form
     And I focus on the button "Generate" in "key" add form
     And I click the button "Generate" in "key" add form
-    And I wait for 5 seconds
     Then I expect for the button "Add" in "key" add form to be clickable within 10 seconds
     When I focus on the button "Add" in "key" add form
     And I click the button "Add" in "key" add form
@@ -34,7 +33,7 @@ Feature: Ip-whitelisting
   @set-whitelisted-ips-to-empty
   Scenario:  User sets whitelisted IPs as empty
     When I visit the Account page
-    And I wait for 5 seconds
+    And I wait for 2 seconds
     And I click the "Whitelisted IPs" button with id "ips"
     And I wait for 1 seconds
     And I remove all whitelisted ips
@@ -52,7 +51,6 @@ Feature: Ip-whitelisting
     When I set the value "TestKey2" to field "Name" in "key" add form
     And I focus on the button "Generate" in "key" add form
     And I click the button "Generate" in "key" add form
-    And I wait for 5 seconds
     Then I expect for the button "Add" in "key" add form to be clickable within 10 seconds
     When I focus on the button "Add" in "key" add form
     And I click the button "Add" in "key" add form
@@ -63,7 +61,7 @@ Feature: Ip-whitelisting
   @save-only-dummy-ip-as-whitelisted
   Scenario:  User sets only a dummy ip as whitelisted. He should be locked out
     When I visit the Account page
-    And I wait for 5 seconds
+    And I wait for 2 seconds
     And I click the "Whitelisted IPs" button with id "ips"
     And I wait for 1 seconds
     And I remove all whitelisted ips
@@ -102,7 +100,6 @@ Feature: Ip-whitelisting
     When I set the value "TestKey3" to field "Name" in "key" add form
     And I focus on the button "Generate" in "key" add form
     And I click the button "Generate" in "key" add form
-    And I wait for 5 seconds
     Then I expect for the button "Add" in "key" add form to be clickable within 10 seconds
     When I focus on the button "Add" in "key" add form
     And I click the button "Add" in "key" add form

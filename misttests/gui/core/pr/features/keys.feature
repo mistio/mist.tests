@@ -12,7 +12,6 @@ Feature: Actions for Keys
     When I set the value "TestKey" to field "Name" in "key" add form
     And I focus on the button "Generate" in "key" add form
     And I click the button "Generate" in "key" add form
-    And I wait for 7 seconds
     Then I expect for the button "Add" in "key" add form to be clickable within 12 seconds
     When I focus on the button "Add" in "key" add form
     And I click the button "Add" in "key" add form
@@ -28,8 +27,7 @@ Feature: Actions for Keys
     Then I expect the "Key" add form to be visible within max 10 seconds
     When I set the value "Key2" to field "Name" in "key" add form
     And I click the button "Generate" in "key" add form
-    And I wait for 5 seconds
-    Then I expect for the button "Add" in "key" add form to be clickable within 9 seconds
+    Then I expect for the button "Add" in "key" add form to be clickable within 12 seconds
     When I focus on the button "Add" in "key" add form
     And I click the button "Add" in "key" add form
     Then I expect the "key" edit form to be visible within max 5 seconds
