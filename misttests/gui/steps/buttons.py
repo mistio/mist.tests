@@ -196,7 +196,6 @@ def click_item(context, text, type_of_item):
             name = safe_get_element_text(item.find_element_by_css_selector('strong.name')).strip().lower()
             if text in name:
                 clicketi_click(context,item)
-                #clicketi_click_list_row(context, item)
                 return True
         else:
             name = safe_get_element_text(item.find_element_by_css_selector('div.name')).strip().lower()
