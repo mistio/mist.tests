@@ -95,25 +95,12 @@ Feature: RBAC
     Then "docker-ui-test-machine-random" machine state has to be "running" within 30 seconds
     And I logout
 
-  @owner-deletes-allow-read-machine-rule
-  Scenario: Owner deletes rule "ALLOW" "read" "machine"
+  @owner-allows-edit-script
+  Scenario: Owner creates rule "ALLOW" "script" "edit"
     Given I am logged in to mist.core as rbac_owner
     When I visit the Teams page
     And I click the "Test team" "team"
     Then I expect the "team" edit form to be visible within max 5 seconds
-    When I remove the rule with index "0"
-    And I click the button "Save Policy" in "policy" edit form
-    And I wait for 1 seconds
-    And I remove the rule with index "0"
-    And I focus on the button "Add a new rule" in "policy" edit form
-    And I click the button "Add a new rule" in "policy" edit form
-    And I wait for 1 seconds
-    Then I add the rule always "DENY" "machine" "read"
-    And I click the button "Save Policy" in "policy" edit form
-    And I wait for 1 seconds
-
-  @owner-allows-edit-script
-  Scenario: Owner creates rule "ALLOW" "script" "edit"
     When I focus on the button "Add a new rule" in "policy" edit form
     And I click the button "Add a new rule" in "policy" edit form
     And I wait for 1 seconds
@@ -129,15 +116,10 @@ Feature: RBAC
     And script "TestScript" is added via API request
     Then I logout
 
-  @member-reads-machine-fail
-  Scenario: Member cannot view the machine
-    Given I am logged in to mist.core as rbac_member1
-    Then I ensure that I am in the "ORG_NAME" organization context
-    #When I visit the Machines page
-    #Then "testerrr" machine should be absent within 5 seconds
-
   @member-edit-script-success
   Scenario: Member 1 should be able to edit the script
+    Given I am logged in to mist.core as rbac_member1
+    Then I ensure that I am in the "ORG_NAME" organization context
     When I visit the Scripts page
     And I click the "TestScript" "script"
     Then I expect the "script" edit form to be visible within max 5 seconds
