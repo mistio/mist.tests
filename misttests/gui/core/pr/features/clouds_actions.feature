@@ -6,7 +6,6 @@ Feature: Cloud actions for polymer
 
   @cloud-edit-creds
   Scenario: Edit credentials of a cloud
-    When cloud "Docker" has been added via API request
     Then I expect for "addBtn" to be clickable within max 20 seconds
     Given "Openstack" cloud has been added
     When I visit the Networks page
@@ -26,6 +25,7 @@ Feature: Cloud actions for polymer
 
   @cloud-toggle
    Scenario: Toggle a cloud
+    Given "Docker" cloud has been added
     When I open the cloud menu for "Docker"
     And I click the "toggle" button with id "enable-disable-cloud"
     And I wait for 2 seconds
