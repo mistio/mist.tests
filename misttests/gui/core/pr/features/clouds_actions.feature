@@ -25,7 +25,8 @@ Feature: Cloud actions for polymer
 
   @cloud-toggle
    Scenario: Toggle a cloud
-    Given "Docker" cloud has been added
+    Given cloud "Docker" has been added via API request
+    And I wait for 2 seconds
     When I open the cloud menu for "Docker"
     And I click the "toggle" button with id "enable-disable-cloud"
     And I wait for 2 seconds
