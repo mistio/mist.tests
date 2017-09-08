@@ -107,6 +107,8 @@ def get_mist_config_email(context,kind):
 def get_mist_config_password(context,kind):
     if kind in ['alt', 'new_creds']:
         return context.mist_config['PASSWORD2']
+    elif kind == 'changed':
+        return context.mist_config['CHANGED_PASSWORD']
     elif kind == 'rbac_member1':
         return context.mist_config['MEMBER1_PASSWORD']
     elif kind == 'rbac_member2':
@@ -124,7 +126,7 @@ def enter_credentials(context, kind, action):
                       'demo request']:
         raise ValueError("Cannot input %s credentials" % action)
     if kind not in ['standard', 'alt', 'rbac_owner', 'rbac_member1',
-                    'rbac_member2', 'new_creds'] and not kind.startswith('invalid'):
+                    'rbac_member2', 'new_creds', 'changed'] and not kind.startswith('invalid'):
         raise ValueError("No idea what %s credentials are" % kind)
 
     landing_app = context.browser.find_element_by_tag_name("landing-app")
@@ -254,12 +256,15 @@ def already_registered(context):
 
 @step(u'I should see the landing page within {seconds} seconds')
 def wait_for_landing_page(context, seconds):
-    try:
-        WebDriverWait(context.browser, int(seconds)).until(
-            EC.element_to_be_clickable((By.ID, "top-signup-button")))
-    except TimeoutException:
-        raise TimeoutException("Landing page has not appeared after %s seconds"
-                               % seconds)
+    timeout = time() + int(seconds)
+    while time() < timeout:
+        try:
+            context.browser.find_element_by_tag_name('landing-app')
+            return
+        except NoSuchElementException:
+            sleep(1)
+    assert False, "Landing page is not visible after waiting for %s seconds"\
+                  % seconds
 
 
 @step(u'that I am redirected within {seconds} seconds')

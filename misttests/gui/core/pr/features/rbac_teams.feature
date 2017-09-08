@@ -7,8 +7,8 @@ Feature: Rbac
     Given I am logged in to mist.core
     When I click the Gravatar
     And I wait for 1 seconds
-    Then I click the button "Add Organisation" in the user menu
-    And I expect the dialog "Add Organization" is open within 4 seconds
+    And I click the button "Add Organisation" in the user menu
+    Then I expect the dialog "Add Organization" is open within 4 seconds
     And I wait for 1 seconds
     When I set the value "ORG_NAME" to field "Name" in "Add Organization" dialog
     And I click the "Add" button in the dialog "Add Organization"
@@ -35,11 +35,11 @@ Feature: Rbac
   Scenario: Owner creates a team
     When I visit the Teams page
     When I click the button "+"
-    And I expect the dialog "Add Team" is open within 4 seconds
+    Then I expect the dialog "Add Team" is open within 4 seconds
     When I set the value "Test Team" to field "Name" in "Add Team" dialog
     And I click the "Add" button in the dialog "Add Team"
     When I visit the Teams page
-    And "Test Team" team should be present within 5 seconds
+    Then "Test Team" team should be present within 5 seconds
 
   @add-member1
   Scenario: Add member1
