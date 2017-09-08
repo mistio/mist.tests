@@ -21,6 +21,7 @@ Feature: Add second-tier clouds in Polymist
 
     Examples: Providers
     | provider       |
+    | Docker         |
     | Azure ARM      |
 #    | Packet	     |
 #    | Vmware         |
