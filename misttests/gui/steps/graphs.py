@@ -116,11 +116,13 @@ def graph_some_value(context, graph_title):
     while time() < timeout:
         #click on the canvas to show the value
         from selenium.webdriver.common import action_chains, keys
+        context.browser.get_screenshot_as_file('before.png')
         action_chain = ActionChains(context.browser)
-        action_chain.move_to_element_with_offset(graph_panel, 370, 150)
+        action_chain.move_to_element_with_offset(graph_panel, 650, 120)
         action_chain.click()
         action_chain.perform()
 
+        context.browser.get_screenshot_as_file('after_1.png')
         src = context.browser.page_source
         text_found = re.search(graph_title.capitalize() + r" : [0-999]", src)
 
