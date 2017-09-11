@@ -9,7 +9,17 @@ Feature: Machines
     Given script "touch_kati" is added via API request
     And cloud "Docker" has been added via API request
     And key "DummyKey" has been added via API request
-    And key "DummyKey2" has been added via API request
+    When I visit the Keys page
+    When I click the button "+"
+    Then I expect the "Key" add form to be visible within max 10 seconds
+    When I set the value "DummyKey2" to field "Name" in "key" add form
+    And I focus on the button "Generate" in "key" add form
+    And I click the button "Generate" in "key" add form
+    And I wait for 4 seconds
+    Then I expect for the button "Add" in "key" add form to be clickable within 12 seconds
+    When I focus on the button "Add" in "key" add form
+    And I click the button "Add" in "key" add form
+    Then I expect the "key" edit form to be visible within max 10 seconds
 
   @machine-create
   Scenario: Create a machine in Docker provider
