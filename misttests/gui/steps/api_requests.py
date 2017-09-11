@@ -97,7 +97,8 @@ def add_key_api_request(context, key_name):
     }
     headers = {'Authorization': get_owner_api_token(context)}
 
-    re = requests.post(context.mist_config['MIST_URL'] + "/api/v1/keys" , data=json.dumps(payload), headers=headers)
+    import ipdb;ipdb.set_trace()
+    re = requests.put(context.mist_config['MIST_URL'] + "/api/v1/keys" , data=json.dumps(payload), headers=headers)
 
 
 @step(u'cloud "{cloud}" has been added via API request')
