@@ -8,34 +8,11 @@ Feature: Machines
   Scenario: Add script, Docker cloud and key that will be used for ssh access
     Given script "touch_kati" is added via API request
     And cloud "Docker" has been added via API request
-    When I visit the Keys page
-    When I click the button "+"
-    Then I expect the "Key" add form to be visible within max 10 seconds
-    When I set the value "DummyKey" to field "Name" in "key" add form
-    And I focus on the button "Generate" in "key" add form
-    And I click the button "Generate" in "key" add form
-    And I wait for 4 seconds
-    Then I expect for the button "Add" in "key" add form to be clickable within 12 seconds
-    When I focus on the button "Add" in "key" add form
-    And I click the button "Add" in "key" add form
-    Then I expect the "key" edit form to be visible within max 10 seconds
-    When I visit the Keys page
-    And I click the button "+"
-    Then I expect the "Key" add form to be visible within max 10 seconds
-    When I set the value "DummyKey2" to field "Name" in "key" add form
-    And I focus on the button "Generate" in "key" add form
-    And I click the button "Generate" in "key" add form
-    And I wait for 4 seconds
-    Then I expect for the button "Add" in "key" add form to be clickable within 12 seconds
-    When I focus on the button "Add" in "key" add form
-    And I click the button "Add" in "key" add form
-    Then I expect the "key" edit form to be visible within max 10 seconds
+    And key "DummyKey" has been added via API request
+    And key "DummyKey2" has been added via API request
 
   @machine-create
   Scenario: Create a machine in Docker provider
-    When I visit the Home page
-    And I refresh the page
-    And I wait for the links in homepage to appear
     When I visit the Machines page
     And I click the button "+"
     Then I expect the "Machine" add form to be visible within max 10 seconds
