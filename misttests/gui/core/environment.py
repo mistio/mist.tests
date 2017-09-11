@@ -62,6 +62,7 @@ def before_all(context):
     context.mist_config['SCREENSHOT_PATH'] = config.SCREENSHOT_PATH
     context.mist_config['JS_CONSOLE_LOG'] = config.JS_CONSOLE_LOG
     context.mist_config['BROWSER_FLAVOR'] = config.BROWSER_FLAVOR
+    context.mist_config['API_TESTING_MACHINE_PRIVATE_KEY'] = config.API_TESTING_MACHINE_PRIVATE_KEY
     context.mist_config['CREDENTIALS'] = config.CREDENTIALS
     context.mist_config['GOOGLE_TEST_EMAIL'] = config.GOOGLE_TEST_EMAIL
     context.mist_config['GOOGLE_TEST_PASSWORD'] = config.GOOGLE_TEST_PASSWORD
