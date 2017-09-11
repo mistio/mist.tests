@@ -93,7 +93,7 @@ def create_script_api_request(context, script_name):
 def add_key_api_request(context, key_name):
     payload = {
         'name': key_name,
-        'priv': safe_get_var('keys/api_testing_machine_private_key', 'private_key', context.mist_config.API_TESTING_MACHINE_PRIVATE_KEY)
+        'priv': safe_get_var('keys/api_testing_machine_private_key', 'private_key', context.mist_config.TESTING_PRIVATE_KEY)
     }
     headers = {'Authorization': get_owner_api_token(context)}
 
