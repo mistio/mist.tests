@@ -159,10 +159,10 @@ def add_cloud_api_request(context, cloud):
             'dns_enabled': True
         }
 
-    re = requests.post(context.mist_config['MIST_URL'] + "/api/v1/clouds", data=json.dumps(payload), headers=headers)
+    response = requests.post(context.mist_config['MIST_URL'] + "/api/v1/clouds", data=json.dumps(payload), headers=headers)
 
     # make sure that cloud has been added properly
-    assert response.status_code, "Cloud %s was not added via API" %cloud
+    assert response.status_code == 200, "Cloud %s was not added via API" %cloud
 
 
 @step(u'Docker machine "{machine_name}" has been added via API request')
