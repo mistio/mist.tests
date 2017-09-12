@@ -11,9 +11,7 @@ Feature: Ip-whitelisting
     And I click the "Add your current ip" button with id "add_current_ip"
     And I wait for 1 seconds
     And I click the "Save IPs" button with id "save_ips"
-    Then I expect the dialog "Save IPs" is open within 4 seconds
-    When I click the "Save IPs" button in the dialog "Save IPs"
-    Then I expect the dialog "Save IPs" is closed within 4 seconds
+    And I wait for 5 seconds
 
   @user-can-create-resources
   Scenario: Verify that user can create resources after whitelisting his own IP
@@ -39,10 +37,7 @@ Feature: Ip-whitelisting
     And I wait for 1 seconds
     And I remove all whitelisted ips
     And I click the "Save IPs" button with id "save_ips"
-    Then I expect the dialog "Save IPs" is open within 4 seconds
-    # TODO: below 'Save Anyway' is wrong! User won't be locked out
-    When I click the "Save Anyway" button in the dialog "Save IPs"
-    Then I expect the dialog "Save IPs" is closed within 4 seconds
+    And I wait for 5 seconds
 
   @user-can-still-create-resources
   Scenario: Verify that user can still create resources after removing all whitelisted IPs
