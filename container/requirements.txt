@@ -1,9 +1,11 @@
 behave==1.2.5
 behaving==1.5.5
+celery
 pycrypto
 pymongo
 pytest
 python-jose
+crontab
 PyYAML
 requests
 selenium==3.0.2
