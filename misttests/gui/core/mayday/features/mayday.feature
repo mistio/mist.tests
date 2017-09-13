@@ -10,6 +10,7 @@ Feature: Production
     And I clear the machines search bar
     And I expect the "machine" edit form to be visible within max 5 seconds
     Then I wait for the graphs to appear
+    And "Load" graph should have some values
     And I click the button "Add Graph"
     Then I expect for "selectTarget" modal to appear within max 30 seconds
     And I expect the metric buttons to appear within 30 seconds
