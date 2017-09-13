@@ -9,10 +9,10 @@ from time import sleep
 from threading import Thread
 from threading import Lock
 
-from crontab import CronTab
+from multiprocessing import Process, Queue
 
 import logging
-#import schedule
+import schedule
 
 log = logging.getLogger(__name__)
 
@@ -24,19 +24,6 @@ recording_process_lock = Lock()
 recording_sub_process = None
 
 
-#def start_recording(output='test.mp4', dimension='1280x720',
-#                    display_num='1'):
-#    log.info("Starting recording of the session")
-#    if os.path.isfile(output):
-#        os.remove(output)
-
-#    command = 'ffmpeg -f x11grab -video_size {0} -y -r 12 -i 127.0.0.1:{1} ' \
-#              '-codec:v libx264 -preset ultrafast {2}'.format(dimension, display_num, output)
-
-    # This is valid for debian, but we should update this for alpine.
-    # Commenting it out for the time being
-    # command = 'ffmpeg -f x11grab -video_size {0} -i 127.0.0.1:{1} ' \
-    #           '-codec:v libx264 -r 12 -preset ultrafast {2}'.format(dimension, display_num, output)
 #    global recording_sub_process
 #    recording_sub_process = subprocess.Popen(split(command),
 #                                             stdout=subprocess.PIPE,
@@ -53,14 +40,41 @@ recording_sub_process = None
 def take_screenshot(context):
     context.browser.get_screenshot_as_file('testit.png')
 
-def start_taking_screenshots(context):
-    import ipdb;ipdb.set_trace()
-    cron = CronTab()
-    job = cron.new(command=take_screenshot(context))
-    job.enable()
-    job.hour.every(4)
+def start_recording(context):
+    log.info("Starting recording of the session")
 
-    cron.write()
+    #queue = Queue()
+    #p = Process(target=start_taking_screenshots, args=(queue, context))
+    #p.start()
+
+    command = start_taking_screenshots(context)
+    global recording_sub_process
+    recording_sub_process = subprocess.Popen(split(command),
+                                             stdout=subprocess.PIPE,
+                                             stderr=subprocess.STDOUT,
+                                             stdin=subprocess.PIPE,
+                                             bufsize=0)
+
+    thr = Thread(target=discard_output,
+                 args=[recording_sub_process])
+    thr.daemon = True
+    thr.start()
+
+def start_taking_screenshots(context):
+
+    schedule.every(10).seconds.do(take_screenshot, context)
+
+
+    #while 1:
+    #    schedule.run_pending()
+    #    sleep(1)
+
+    #cron = CronTab()
+    #job = cron.new(command=take_screenshot(context))
+    #cron.write()
+    #job.hour.every(4)
+
+    #cron.write()
 
 
 def discard_output(sub_process):
