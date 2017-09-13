@@ -89,7 +89,7 @@ VAULT_SERVER = get_setting("VAULT_SERVER", "https://vault.ops.mist.io:8200")
 
 DEBUG = get_setting("DEBUG", False)
 
-RECORD_SELENIUM = get_setting("RECORD_SELENIUM", False)
+RECORD_SELENIUM = get_setting("RECORD_SELENIUM", True)
 
 # Directories and paths used for the tests
 BASE_DIR = get_setting("BASE_DIR", os.getcwd())
