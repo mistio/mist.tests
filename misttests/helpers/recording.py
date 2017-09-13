@@ -60,8 +60,8 @@ def start_recording(context):
     thr.start()
 
 def start_taking_screenshots(context):
-
-    schedule.every(10).seconds.do(take_screenshot, context)
+    return
+    #schedule.every(10).seconds.do(take_screenshot, context)
 
 
     #while 1:
