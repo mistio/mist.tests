@@ -13,7 +13,7 @@ from misttests.helpers.selenium_utils import choose_driver
 from misttests.helpers.selenium_utils import get_screenshot
 from misttests.helpers.selenium_utils import dump_js_console_log
 
-from misttests.helpers.recording import start_recording
+from misttests.helpers.recording import start_taking_screenshots
 from misttests.helpers.recording import stop_recording
 
 
@@ -86,8 +86,8 @@ def before_all(context):
         # calling behaving to setup it's context variables.
         behaving_mail.before_all(context)
 
-#    if context.mist_config.get('recording_session', False):
-#        start_recording()
+    if config.RECORD_SELENIUM:
+        start_taking_screenshots()
 
     if config.REGISTER_USER_BEFORE_FEATURE:
         payload = {
