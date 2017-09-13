@@ -87,7 +87,7 @@ def before_all(context):
         behaving_mail.before_all(context)
 
     if config.RECORD_SELENIUM:
-        start_taking_screenshots()
+        start_taking_screenshots(context)
 
     if config.REGISTER_USER_BEFORE_FEATURE:
         payload = {
