@@ -12,7 +12,6 @@ from threading import Lock
 from multiprocessing import Process, Queue
 
 import logging
-import schedule
 
 log = logging.getLogger(__name__)
 
