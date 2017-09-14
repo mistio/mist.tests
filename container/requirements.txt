@@ -5,7 +5,6 @@ pycrypto
 pymongo
 pytest
 python-jose
-crontab
 PyYAML
 requests
 selenium==3.0.2
