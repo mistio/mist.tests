@@ -107,6 +107,8 @@ JS_CONSOLE_LOG = get_setting("JS_CONSOLE_LOG", '/var/log/js_console.log')
 
 SCREENSHOT_PATH = get_setting("SCREENSHOT_PATH", 'artifacts/screenshot')
 
+ARTIFACTS_PATH = get_setting("ARTIFACTS_PATH", 'artifacts')
+
 DISPLAY_NUM = get_setting("DISPLAY_NUM", "1")
 
 # This is the path to the json file used for the multi-provisioning tests
