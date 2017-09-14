@@ -3,13 +3,15 @@ import json
 import requests
 import logging
 import random
+import shutil
+import os
 
 from subprocess import call
 
 from misttests import config
 
 from misttests.helpers.selenium_utils import choose_driver
-from misttests.helpers.selenium_utils import get_screenshot,get_error_screenshot
+from misttests.helpers.selenium_utils import get_screenshot,get_error_screenshot,produce_video_artifact
 from misttests.helpers.selenium_utils import dump_js_console_log
 
 from misttests.helpers.recording import stop_recording
@@ -57,6 +59,7 @@ def before_all(context):
     context.mist_config['MP_DB_DIR'] = config.MP_DB_DIR
     context.mist_config['MAIL_PATH'] = config.MAIL_PATH
     context.mist_config['SCREENSHOT_PATH'] = config.SCREENSHOT_PATH
+    context.mist_config['ARTIFACTS_PATH'] = config.ARTIFACTS_PATH
     context.mist_config['JS_CONSOLE_LOG'] = config.JS_CONSOLE_LOG
     context.mist_config['BROWSER_FLAVOR'] = config.BROWSER_FLAVOR
     context.mist_config['TESTING_PRIVATE_KEY'] = config.TESTING_PRIVATE_KEY
@@ -74,6 +77,10 @@ def before_all(context):
     context.mist_config['recording_session'] = config.RECORD_SELENIUM
     context.link_inside_email = ''
     context.mist_config['ORG_ID'] = ''
+
+    if os.path.isdir(config.ARTIFACTS_PATH):
+        import ipdb;ipdb.set_trace()
+        shutil.rmtree(config.ARTIFACTS_PATH)
 
     if config.LOCAL:
         log.info("Initializing behaving mail for path: %s" % config.MAIL_PATH)
@@ -107,6 +114,7 @@ def after_step(context, step):
     if config.RECORD_SELENIUM:
         get_screenshot(context)
     if step.status == "failed":
+        produce_video_artifact();
         try:
             get_error_screenshot(context)
         except Exception as e:
