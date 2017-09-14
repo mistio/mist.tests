@@ -7,6 +7,7 @@ from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.remote.errorhandler import NoSuchWindowException
 
 import logging
+import os
 
 log = logging.getLogger(__name__)
 
@@ -37,14 +38,28 @@ def choose_driver(flavor=None):
     return driver
 
 
+def produce_video_artifact():
+    if os.path.isfile('output.mp4'):
+        os.remove('output.mp4')
+    log.info('Producing video...')
+    os.system('ffmpeg -framerate 5 -pattern_type glob -i "artifacts/*.png" -c:v libx264 -r 30 output.mp4')
+
+
 def get_screenshot(context):
-    if context.mist_config['NON_STOP']:
-        num = context.mist_config['ERROR_NUM'] = context.mist_config['ERROR_NUM'] + 1
-        path = context.mist_config['SCREENSHOT_PATH'] + '.{0}.png'.format(str(num))
-    else:
-        path = context.mist_config['SCREENSHOT_PATH'] + '.png'
+    if not os.path.isdir(context.mist_config['ARTIFACTS_PATH']):
+        os.mkdir(context.mist_config['ARTIFACTS_PATH'])
+    num = context.mist_config['ERROR_NUM'] = context.mist_config['ERROR_NUM'] + 1
+    path = context.mist_config['SCREENSHOT_PATH'] + '{0}.png'.format(str(num))
+
     try:
         context.browser.get_screenshot_as_file(path)
+    except NoSuchWindowException:
+        pass
+
+
+def get_error_screenshot(context):
+    try:
+        context.browser.get_screenshot_as_file('error.png')
     except NoSuchWindowException:
         pass
 
