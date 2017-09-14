@@ -49,7 +49,7 @@ def get_screenshot(context):
     if not os.path.isdir(context.mist_config['ARTIFACTS_PATH']):
         os.mkdir(context.mist_config['ARTIFACTS_PATH'])
     num = context.mist_config['ERROR_NUM'] = context.mist_config['ERROR_NUM'] + 1
-    path = context.mist_config['SCREENSHOT_PATH'] + '{0}.png'.format(str(num))
+    path = context.mist_config['SCREENSHOT_PATH'] + '{0}.png'.format(str(num).zfill(4))
 
     try:
         context.browser.get_screenshot_as_file(path)
