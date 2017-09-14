@@ -18,7 +18,7 @@ Feature: Actions for Keys
     And I click the button "Add" in "key" add form
     Then I expect the "key" edit form to be visible within max 10 seconds
     When I visit the Keys page
-    Then "Test2Key" key should be present within 15 seconds
+    Then "TestKey" key should be present within 15 seconds
     And I visit the Home page
     And I wait for the links in homepage to appear
 
