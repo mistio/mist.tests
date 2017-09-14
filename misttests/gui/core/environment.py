@@ -86,8 +86,6 @@ def before_all(context):
         # calling behaving to setup it's context variables.
         behaving_mail.before_all(context)
 
-    #if config.RECORD_SELENIUM:
-        #start_recording(context)
 
     if config.REGISTER_USER_BEFORE_FEATURE:
         payload = {
@@ -105,10 +103,12 @@ def before_all(context):
 
 
 def before_step(context, step):
-    get_screenshot(context)
+    if config.RECORD_SELENIUM:
+        get_screenshot(context)
 
 def after_step(context, step):
-    get_screenshot(context)
+    if config.RECORD_SELENIUM:
+        get_screenshot(context)
     if step.status == "failed":
         try:
             get_screenshot(context)
