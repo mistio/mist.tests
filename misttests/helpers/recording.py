@@ -35,47 +35,6 @@ recording_sub_process = None
 #    thr.daemon = True
 #    thr.start()
 
-
-def take_screenshot(context):
-    context.browser.get_screenshot_as_file('testit.png')
-
-def start_recording(context):
-    log.info("Starting recording of the session")
-
-    #queue = Queue()
-    #p = Process(target=start_taking_screenshots, args=(queue, context))
-    #p.start()
-
-    command = start_taking_screenshots(context)
-    global recording_sub_process
-    recording_sub_process = subprocess.Popen(split(command),
-                                             stdout=subprocess.PIPE,
-                                             stderr=subprocess.STDOUT,
-                                             stdin=subprocess.PIPE,
-                                             bufsize=0)
-
-    thr = Thread(target=discard_output,
-                 args=[recording_sub_process])
-    thr.daemon = True
-    thr.start()
-
-def start_taking_screenshots(context):
-    return
-    #schedule.every(10).seconds.do(take_screenshot, context)
-
-
-    #while 1:
-    #    schedule.run_pending()
-    #    sleep(1)
-
-    #cron = CronTab()
-    #job = cron.new(command=take_screenshot(context))
-    #cron.write()
-    #job.hour.every(4)
-
-    #cron.write()
-
-
 def discard_output(sub_process):
     log.info("Started recording subprocess and handling thread")
     global kill_recording_process
