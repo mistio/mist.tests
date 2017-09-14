@@ -5,6 +5,7 @@ from misttests import config
 from selenium.common.exceptions import TimeoutException
 
 from .navigation import i_am_in_homepage
+from .utils import safe_get_element_text
 
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
@@ -13,6 +14,13 @@ from selenium.webdriver.support import expected_conditions as EC
 
 @step(u'I input my "{email}" in the field with id "{element_id}"')
 def give_input_to_a_field(context, email, element_id):
+    import ipdb;ipdb.set_trace()
+    #inputs = context.browser.find_elements_by_tag_name('input')
+
+
+    #for input in inputs:
+    #    if input.getAttribute("id")  == 'identifierId':
+    #        import ipdb; ipdb.set_trace()
     email = context.mist_config.get(email, None)
     if not email:
         raise ValueError("No such email has been configured(%s)", email)
@@ -57,6 +65,7 @@ def press_button_with_id(context):
     This is a very specific method only for the Google sign in form
     """
     try:
+        #password = context.browser.find_element_by_id('element_id')
         password = context.browser.find_element_by_xpath("//input[@type='password']")
         password.send_keys(context.mist_config.get('GOOGLE_TEST_PASSWORD'))
     except:
