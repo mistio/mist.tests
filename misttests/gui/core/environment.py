@@ -9,7 +9,7 @@ from subprocess import call
 from misttests import config
 
 from misttests.helpers.selenium_utils import choose_driver
-from misttests.helpers.selenium_utils import get_screenshot
+from misttests.helpers.selenium_utils import get_screenshot,get_error_screenshot
 from misttests.helpers.selenium_utils import dump_js_console_log
 
 from misttests.helpers.recording import stop_recording
@@ -108,8 +108,7 @@ def after_step(context, step):
         get_screenshot(context)
     if step.status == "failed":
         try:
-            #save with diff name
-            get_screenshot(context)
+            get_error_screenshot(context)
         except Exception as e:
             log.error("Could not get screen shot: %s" % repr(e))
             pass
