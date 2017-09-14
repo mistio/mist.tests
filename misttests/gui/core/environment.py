@@ -79,7 +79,6 @@ def before_all(context):
     context.mist_config['ORG_ID'] = ''
 
     if os.path.isdir(config.ARTIFACTS_PATH):
-        import ipdb;ipdb.set_trace()
         shutil.rmtree(config.ARTIFACTS_PATH)
 
     if config.LOCAL:
