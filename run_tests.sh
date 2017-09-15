@@ -14,13 +14,11 @@ help_message() {
     echo
     echo "Argument for API tests can be one of the following:"
     echo
-    echo "clouds, machines, keys, dns, scripts, api_token, tunnels, schedules, orchestration, libcloud, networks, rbac, images"
+    echo "clouds, machines, tunnels, keys, dns, scripts, api_token, tunnels, schedules, orchestration, libcloud, networks, rbac, ip-whitelisting"
     echo
     echo "Argument for UI tests can be one of the following:"
     echo
-    echo "clouds, clouds-actions, machines, images, keys, scripts, users, rbac, schedules, orchestration, monitoring, rbac-rules, insights"
-    echo "********************************************************************************************************************************"
-    echo "********************************************************************************************************************************"
+    echo "clouds, clouds-actions, machines, images, keys, scripts, users, rbac, schedules, orchestration, monitoring, rbac-rules, insights, ip-whitelisting"
     echo
 }
 
@@ -48,37 +46,6 @@ vault_login() {
     fi
 }
 
-declare -A pytest_paths
-
-pytest_paths["clouds"]='misttests/api/io/clouds.py'
-pytest_paths["images"]='misttests/api/io/images.py'
-pytest_paths["libcloud"]='misttests/api/io/libcloud_1.py misttests/api/io/libcloud_2.py'
-pytest_paths["machines"]='misttests/api/io/machines.py'
-pytest_paths["networks"]='misttests/api/io/networks.py'
-pytest_paths["keys"]='misttests/api/io/keys.py'
-pytest_paths["dns"]='misttests/api/io/dns.py'
-pytest_paths["scripts"]='misttests/api/io/scripts.py'
-pytest_paths["api_token"]='misttests/api/io/api_token.py'
-pytest_paths["schedules"]='misttests/api/io/schedules.py'
-pytest_paths["tunnels"]='misttests/api/core/tunnels.py'
-pytest_paths["orchestration"]='misttests/api/core/orchestration.py'
-pytest_paths["rbac"]='misttests/api/io/rbac.py'
-
-declare -A behave_tags
-
-behave_tags["clouds"]='clouds-add-1','clouds-add-2'
-behave_tags["clouds-actions"]='clouds-actions,'
-behave_tags["images"]='images-networks,'
-behave_tags["keys"]='keys,'
-behave_tags["scripts"]='scripts','scripts-actions'
-behave_tags["machines"]='machines-locally'
-behave_tags["users"]='user-actions,'
-behave_tags["rbac"]='rbac-teams'
-behave_tags["schedules"]='schedulers-1','schedulers-2,'
-behave_tags["monitoring"]='monitoring-locally'
-behave_tags["orchestration"]='orchestration,'
-behave_tags["rbac-rules"]='rbac-rules-1',
-behave_tags["zones"]='zones,'
 
 run_api_tests_suite() {
   pytest_args=""
@@ -97,6 +64,40 @@ run_gui_tests_suite() {
   behave -o gui_test_rbac_rules_2_result.txt -k --no-capture --no-capture-stderr --tags=rbac-rules-2 misttests/gui/core/pr/features || echo Failed
   behave -o gui_test_machines_result.txt -k --no-capture --no-capture-stderr --tags=machines-locally misttests/gui/core/pr/features || echo Failed
 }
+
+    declare -A pytest_paths
+
+    pytest_paths["clouds"]='misttests/api/io/clouds.py'
+    pytest_paths["images"]='misttests/api/io/images.py'
+    pytest_paths["libcloud"]='misttests/api/io/libcloud_1.py misttests/api/io/libcloud_2.py'
+    pytest_paths["machines"]='misttests/api/io/machines.py'
+    pytest_paths["networks"]='misttests/api/io/networks.py'
+    pytest_paths["keys"]='misttests/api/io/keys.py'
+    pytest_paths["dns"]='misttests/api/io/dns.py'
+    pytest_paths["scripts"]='misttests/api/io/scripts.py'
+    pytest_paths["api_token"]='misttests/api/io/api_token.py'
+    pytest_paths["schedules"]='misttests/api/io/schedules.py'
+    pytest_paths["tunnels"]='misttests/api/core/tunnels.py'
+    pytest_paths["orchestration"]='misttests/api/core/orchestration.py'
+    pytest_paths["rbac"]='misttests/api/io/rbac.py'
+    pytest_paths["ip-whitelisting"]='misttests/api/io/ip_whitelisting.py'
+
+    declare -A behave_tags
+
+    behave_tags["clouds"]='clouds-add-1,'
+    behave_tags["clouds-actions"]='clouds-actions,'
+    behave_tags["images"]='images-networks,'
+    behave_tags["keys"]='keys,'
+    behave_tags["scripts"]='scripts','scripts-actions,'
+    behave_tags["machines"]='machines,'
+    behave_tags["users"]='user-actions,'
+    behave_tags["rbac"]='rbac-teams,'
+    behave_tags["schedules"]='schedulers-1','schedulers-2,'
+    behave_tags["monitoring"]='monitoring-locally,'
+    behave_tags["orchestration"]='orchestration,'
+    behave_tags["rbac-rules"]='rbac-rules-1,'
+    behave_tags["zones"]='zones,'
+    behave_tags["ip-whitelisting"]='ip-whitelisting,'
 
 run_provision_tests_suite() {
     python test_provisioning.py || echo Failed
