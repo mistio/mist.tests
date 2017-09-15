@@ -34,7 +34,7 @@ Feature: Actions for Keys
     And I click the button "Add" in "key" add form
     Then I expect the "key" edit form to be visible within max 5 seconds
     When I visit the Keys page
-    Then "Key2" key should be present within 15 seconds
+    Then "Keyf2" key should be present within 15 seconds
     When I select list item "Key2" key
     And I click the action "Make Default" from the key list actions
     And I wait for 1 seconds
