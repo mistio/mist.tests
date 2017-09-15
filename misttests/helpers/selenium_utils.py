@@ -42,7 +42,7 @@ def produce_video_artifact():
     if os.path.isfile('output.mp4'):
         os.remove('output.mp4')
     log.info('Producing video...')
-    os.system('ffmpeg -framerate 5 -pattern_type glob -i "artifacts/*.png" -c:v libx264 -r 30 output.mp4')
+    os.system('ffmpeg -loglevel panic -framerate 5 -pattern_type glob -i "artifacts/*.png" -c:v libx264 -r 30 output.mp4')
 
 
 def get_screenshot(context):
