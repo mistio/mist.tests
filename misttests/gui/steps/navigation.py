@@ -222,7 +222,7 @@ def given_logged_in(context):
         Then I wait for the links in homepage to appear
     """)
 
-    sleep(0.5)
+    sleep(1)
 
 
 def found_one(context):
