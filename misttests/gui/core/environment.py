@@ -105,10 +105,6 @@ def before_all(context):
     log.info("Finished with before_all hook. Starting tests")
 
 
-def before_step(context, step):
-    if config.RECORD_SELENIUM:
-        get_screenshot(context)
-
 def after_step(context, step):
     if config.RECORD_SELENIUM:
         get_screenshot(context)
