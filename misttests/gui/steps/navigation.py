@@ -222,6 +222,8 @@ def given_logged_in(context):
         Then I wait for the links in homepage to appear
     """)
 
+    sleep(0.5)
+
 
 def found_one(context):
     success = 0
