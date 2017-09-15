@@ -14,8 +14,6 @@ from misttests.helpers.selenium_utils import choose_driver
 from misttests.helpers.selenium_utils import get_screenshot,get_error_screenshot,produce_video_artifact
 from misttests.helpers.selenium_utils import dump_js_console_log
 
-from misttests.helpers.recording import stop_recording
-
 log = logging.getLogger(__name__)
 
 logging.basicConfig(level=logging.INFO)
