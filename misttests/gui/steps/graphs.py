@@ -116,7 +116,6 @@ def graph_some_value(context, graph_title):
     while time() < timeout:
         #click on the canvas to show the value
         from selenium.webdriver.common import action_chains, keys
-        context.browser.get_screenshot_as_file('before.png')
         action_chain = ActionChains(context.browser)
         action_chain.move_to_element_with_offset(graph_panel, 650, 120)
         action_chain.click()
