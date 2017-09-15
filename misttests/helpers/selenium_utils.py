@@ -21,17 +21,17 @@ def choose_driver(flavor=None):
     log.info("Initializing driver")
     if flavor == "firefox":
         driver = webdriver.Firefox()
+
     elif flavor == "chrome":
         options = webdriver.ChromeOptions()
         options.binary_location = '/usr/bin/google-chrome'
-        options.add_argument('headless')
-        options.add_argument('no-sandbox')
-        options.add_argument('window-size=1920x1080')
-        #for opt in config.WEBDRIVER_OPTIONS:
-        #    chrome_options.add_argument(opt)
+        for opt in config.WEBDRIVER_OPTIONS:
+            options.add_argument(opt)
         driver = webdriver.Chrome(chrome_options=options)
+
     elif flavor == "phantomjs":
         driver = webdriver.PhantomJS(executable_path=config.WEBDRIVER_PATH)
+
     else:
         raise Exception("%s is not supported!" % flavor)
 
