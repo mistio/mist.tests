@@ -1,6 +1,5 @@
 behave==1.2.5
 behaving==1.5.5
-celery
 pycrypto
 pymongo
 pytest
