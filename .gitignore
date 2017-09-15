@@ -6,7 +6,7 @@ test_settings.py
 ### artifacts
 artifacts/
 output.mp4
-error.png
+*.png
 
 ### Python template
 # Byte-compiled / optimized / DLL files
