@@ -6,7 +6,7 @@ Feature: Login Scenarios and Api Token
     Given I am logged in to mist.core
     When I visit the Account page
     And I wait for 3 seconds
-    Then I click the "API Tokens" button with id "API Tokens"
+    Then I click the "API Tokens" button with id "tokens"
     # below needs to be fixed in the backend
     # When I revoke all api tokens
     Then I click the "Create API Token" button with id "Create API Token"
@@ -27,7 +27,7 @@ Feature: Login Scenarios and Api Token
     #Then I test the api token "BLABLA_TOKEN". It should fail.
 
   @signup
-  Scenario: Sign Up success
+  Scenario: Sign Up success and verify that user can create resources
     When I make sure user with email "EMAIL" is absent
     Given I am not logged in to mist.core
     When I open the signup popup
@@ -39,7 +39,32 @@ Feature: Login Scenarios and Api Token
     And I enter my standard credentials for signup_password_set
     And I click the go button in the landing page popup
     Then I wait for the links in homepage to appear
+    Then I expect for "addBtn" to be clickable within max 20 seconds
+    Given "Nephoscale" cloud has been added
+
+  @change-password
+  Scenario: Change password from Account page and verify it worked
+#    When I visit the Account page
+#    And I wait for 3 seconds
+#    And I click the "Password" button with id "Password"
+#    And I wait for 2 seconds
+#    Then I type "PASSWORD1" in input with id "currentPassword"
+#    Then I type "CHANGED_PASSWORD" in input with id "newPassword"
+#    Then I type "CHANGED_PASSWORD" in input with id "confirmNewPassword"
+#    And I click the button "Change Password"
+#    And I wait for 2 seconds
+#    And I logout
+#    When I visit mist.core
+#    And I open the login popup
+#    And I wait for 3 seconds
+#    And I enter my changed credentials for login
+#    And I click the sign in button in the landing page popup
+#    And I wait for 3 seconds
+#    Then I wait for the links in homepage to appear
     And I logout
+
+  @signup-conflict
+  Scenario: Already registered user gets conflict error when trying to sign up
     Given I am not logged in to mist.core
     When I open the signup popup
     And I wait for 3 seconds
