@@ -52,14 +52,14 @@ def get_screenshot(context):
     path = context.mist_config['SCREENSHOT_PATH'] + '{0}.png'.format(str(num).zfill(4))
 
     try:
-        context.browser.get_screenshot_as_file(path)
+        context.browser.save_screenshot(path)
     except NoSuchWindowException:
         pass
 
 
 def get_error_screenshot(context):
     try:
-        context.browser.get_screenshot_as_file('error.png')
+        context.browser.save_screenshot('error.png')
     except NoSuchWindowException:
         pass
 
