@@ -104,7 +104,7 @@ def before_all(context):
 
 
 def after_step(context, step):
-    if config.RECORD_SELENIUM:
+    if config.RECORD_SELENIUM and step.name != 'I am logged in to mist.core':
         get_screenshot(context)
     if step.status == "failed":
         produce_video_artifact();
