@@ -100,7 +100,7 @@ def make_sure_menu_is_open(context):
 
 @step(u'I wait for the links in homepage to appear')
 def wait_for_buttons_to_appear(context):
-    #context.execute_steps(u'Then I make sure the menu is open')
+    context.execute_steps(u'Then I make sure the menu is open')
     end_time = time() + 10
     while time() < end_time:
         try:
@@ -219,11 +219,8 @@ def given_logged_in(context):
         When I open the login popup
         And I enter my standard credentials for login
         And I click the sign in button in the landing page popup
-        And I make sure the menu is open
         Then I wait for the links in homepage to appear
     """)
-
-    sleep(2)
 
 
 def found_one(context):
