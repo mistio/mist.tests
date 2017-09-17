@@ -121,7 +121,6 @@ def graph_some_value(context, graph_title):
         action_chain.click()
         action_chain.perform()
 
-        context.browser.get_screenshot_as_file('after_1.png')
         src = context.browser.page_source
         text_found = re.search(graph_title.capitalize() + r" : [0-999]", src)
 
