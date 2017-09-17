@@ -5,7 +5,6 @@ from misttests import config
 from selenium.common.exceptions import TimeoutException
 
 from .navigation import i_am_in_homepage
-from .utils import safe_get_element_text
 
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
