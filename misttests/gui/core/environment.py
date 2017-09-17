@@ -102,15 +102,10 @@ def before_all(context):
 
     log.info("Finished with before_all hook. Starting tests")
 
-    #start_taking_screenshots(context)
-
-def before_step(context, step):
-    get_screenshot(context)
 
 def after_step(context, step):
-    #if config.RECORD_SELENIUM and step.name != 'I am logged in to mist.core':
-        #log.info(step.name)
-        #get_screenshot(context)
+    if config.RECORD_SELENIUM:
+        get_screenshot(context)
     if step.status == "failed":
         produce_video_artifact();
         try:
