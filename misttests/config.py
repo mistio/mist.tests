@@ -206,7 +206,7 @@ ORG_ID = get_setting('ORG_ID', '')
 SETUP_ENVIRONMENT = get_setting("SETUP_ENVIRONMENT", False)
 
 WEBDRIVER_OPTIONS = get_setting('WEBDRIVER_OPTIONS',
-                                 ['headless','no-sandbox','window-size=1920x1080'])
+                                 ['headless','window-size=1920x1080'])
 
 REGISTER_USER_BEFORE_FEATURE = get_setting('REGISTER_USER_BEFORE_FEATURE', True, priority='environment')
 
