@@ -7,7 +7,7 @@ Feature: Actions for Insights
     And I am logged in to mist.core
     When I visit the Insights page
     And I wait for 2 seconds
-    Then the "filter" section should be visible within 2 seconds
+    Then the "filtering" section should be visible within 2 seconds
     And the "quick-overview" section should be visible within 2 seconds
     And the "cost_overview" section should be visible within 2 seconds
     And the "graphRow" section should be visible within 2 seconds
