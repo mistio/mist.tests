@@ -1,7 +1,6 @@
 @monitoring
 Feature: Monitoring
 
-
   @enable-monitoring
   Scenario: Create Machine,deploy monitoring agent and check the graphs
     Given I am logged in to mist.core
