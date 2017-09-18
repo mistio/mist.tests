@@ -5,7 +5,7 @@ test_settings.py
 
 ### artifacts
 artifacts/
-output.mp4
+*.mp4
 *.png
 
 ### Python template
