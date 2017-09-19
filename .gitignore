@@ -45,6 +45,9 @@ var/
 pip-log.txt
 pip-delete-this-directory.txt
 
+# test_results
+*result.txt
+
 # Unit test / coverage reports
 htmlcov/
 .tox/

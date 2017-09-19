@@ -91,6 +91,8 @@ DEBUG = get_setting("DEBUG", False)
 
 RECORD_SELENIUM = get_setting("RECORD_SELENIUM", True)
 
+LOCAL_DOCKER = get_setting("LOCAL_DOCKER","api")
+
 # Directories and paths used for the tests
 BASE_DIR = get_setting("BASE_DIR", os.getcwd())
 

@@ -1,18 +1,15 @@
 #!/bin/bash
 
 help_message() {
-    echo
-    echo "Usage: ./run_tests.sh [-t] [option] {argument}"
-    echo
-    echo "-t"           If given, then all variables will be read from test_settings.py,
-    echo                otherwise, Vault credentials will be asked.
-    echo
+    echo "********************************************************************************************************************************"
+    echo "********************************************************************************************************************************"
+    echo "Usage: ./run_tests.sh [option] {<arg1>},{<arg2>},..."
     echo "Options:"
     echo
     echo "[no option]   First API tests and then GUI tests will be invoked"
     echo "-h            Display this message"
-    echo "-api          Run api tests suite. If no argument provided, the entire API tests suite will be invoked"
-    echo "-gui          Run gui tests suite. If no argument provided, the entire GUI tests suite will be invoked"
+    echo "-a            Run api tests suite. If no argument provided, the entire API tests suite will be invoked"
+    echo "-g            Run gui tests suite. If no argument provided, the entire GUI tests suite will be invoked"
     echo "-provision    Run libcloud provision test."
     echo
     echo "Argument for API tests can be one of the following:"
@@ -23,30 +20,6 @@ help_message() {
     echo
     echo "clouds, clouds-actions, machines, images, keys, scripts, users, rbac, schedules, orchestration, monitoring, rbac-rules, insights, ip-whitelisting"
     echo
-    exit
-}
-
-run_gui_tests_suite() {
-    # behave_tags=""
-    # for tag in "${behave_tags[@]}"
-    # do
-    #   behave_tags+="${tag}"
-    # done
-
-    behave -k --no-capture --no-capture-stderr --tags=clouds-actions,images-networks,orchestration,user-actions,machines,monitoring-locally,keys,scripts,zones,rbac-teams misttests/gui/core/pr/features
-}
-
-run_api_tests_suite() {
-    pytest_args=""
-    for path in "${pytest_paths[@]}"
-    do
-      pytest_args="${pytest_args} ${path}"
-    done
-    pytest -s $pytest_args
-}
-
-run_provision_tests_suite() {
-    python test_provisioning.py
 }
 
 vault_login() {
@@ -58,7 +31,8 @@ vault_login() {
         echo Vault password:
         read -s password
         export PYTHONIOENCODING=utf8
-        VAULT_CLIENT_TOKEN=$(curl $vault_server/v1/auth/userpass/login/$username -d '{ "password": "'${password}'" }' |
+
+        VAULT_CLIENT_TOKEN=$(curl -k $vault_server/v1/auth/userpass/login/$username -d '{ "password": "'${password}'" }' |
          python -c "import sys, json; print(json.load(sys.stdin)['auth']['client_token'])")
 
         if [[ -z "${VAULT_CLIENT_TOKEN// }" ]]
@@ -70,6 +44,25 @@ vault_login() {
             echo 'Successfully logged in. About to start running tests...'
         fi
     fi
+}
+
+
+run_api_tests_suite() {
+  pytest_args=""
+  for path in "${pytest_paths[@]}"
+  do
+    pytest_args="${pytest_args} ${path}"
+  done
+  pytest $pytest_args || echo Failed
+}
+
+run_gui_tests_suite() {
+  behave -o gui_test_suite_1_result.txt -k --no-capture --no-capture-stderr --tags=clouds-actions,images-networks,orchestration,scripts,scripts-actions,user-actions misttests/gui/core/pr/features || echo Failed
+  behave -o gui_test_suite_2_result.txt -k --no-capture --no-capture-stderr --tags=keys,rbac-teams,zones misttests/gui/core/pr/features || echo Failed
+  behave -o gui_test_schedules_result.txt -k --no-capture --no-capture-stderr --tags=schedulers-1,schedulers-2 misttests/gui/core/pr/features || echo Failed
+  behave -o gui_test_rbac_rules_result.txt -k --no-capture --no-capture-stderr --tags=rbac-rules-1 misttests/gui/core/pr/features || echo Failed
+  behave -o gui_test_rbac_rules_2_result.txt -k --no-capture --no-capture-stderr --tags=rbac-rules-2 misttests/gui/core/pr/features || echo Failed
+  behave -o gui_test_machines_result.txt -k --no-capture --no-capture-stderr --tags=machines-locally misttests/gui/core/pr/features || echo Failed
 }
 
     declare -A pytest_paths
@@ -106,83 +99,99 @@ vault_login() {
     behave_tags["zones"]='zones,'
     behave_tags["ip-whitelisting"]='ip-whitelisting,'
 
+run_provision_tests_suite() {
+    python test_provisioning.py || echo Failed
+}
 
-    if [ "$#" -eq 0 ]
+validate_api_args(){
+  for arg in $@
+  do
+    if [ -z "${pytest_paths["$arg"]}" ]
+    then
+      echo "Wrong parameter has been given!"
+      help_message
+    fi
+  done
+}
+
+validate_gui_args(){
+  for arg in $@
+  do
+    if [ -z "${behave_tags["$arg"]}" ]
+    then
+      echo "Wrong parameter has been given!"
+      help_message
+    fi
+  done
+}
+
+if [ "$#" -eq 0 ]
+then
+    vault_login
+    run_api_tests_suite || echo Failed
+    run_gui_tests_suite || echo Failed
+fi
+
+if [ "$#" -eq 1 ]
+then
+    if [ $1 == '-a' ]
     then
         vault_login
-        run_api_tests_suite
-        run_gui_tests_suite
-    fi
-
-    if [ $1 == '-h' ] || [ "$#" -gt 3 ]
+        run_api_tests_suite || echo Failed
+    elif [ $1 == '-g' ]
+    then
+        vault_login
+        run_gui_tests_suite || echo Failed
+    elif [ $1 == '-p' ]
+    then
+        vault_login
+        run_provision_tests_suite || echo Failed
+    elif [ $1 == '-h' ]
     then
         help_message
+    fi
+else
+  while getopts ":a:g:" opt; do
+    case $opt in
+      a)
+        IFS=','
+        echo "Api tests will be triggered. Parameters are: $OPTARG"
+        if [ -z "$OPTARG" ]
+        then
+          vault_login
+          run_api_tests_suite || echo Failed
+        else
+          validate_api_args "$OPTARG"
+          vault_login
+          for arg in $OPTARG
+          do
+              pytest ${pytest_paths["$arg"]} || echo Failed
+          done
+        fi
+        ;;
+      g)
+        IFS=','
+        echo "Gui tests will be triggered. Parameters are: $OPTARG"
+        if [ -z "$OPTARG" ]
+        then
+          run_gui_tests_suite || echo Failed
+        else
+          validate_gui_args "$OPTARG"
+          vault_login
+          for arg in $OPTARG
+          do
+              behave -k --no-capture --no-capture-stderr --tags="${behave_tags["$arg"]}" misttests/gui/core/pr/features || echo Failed
+          done
+        fi
+        ;;
+     \?)
+        echo "Invalid option: -$OPTARG" >&2
+        help_message
         exit
-    fi
-
-    if [ "$#" -eq 1 ]
-    then
-        if [ $1 == '-api' ]
-        then
-            vault_login
-            run_api_tests_suite
-        elif [ $1 == '-gui' ]
-        then
-            vault_login
-            run_gui_tests_suite
-        elif [ $1 == '-provision' ]
-        then
-            vault_login
-            run_provision_tests_suite
-        elif [ $1 == '-t' ]
-        then
-            export VAULT_ENABLED=False
-            run_api_tests_suite
-            run_gui_tests_suite
-        else
-            help_message
-        fi
-    fi
-
-    if [ "$#" -eq 2 ]
-    then
-        if [ $1 == '-t' ]
-        then
-            if [ $2 == '-api' ]
-            then
-                export VAULT_ENABLED=False
-                run_api_tests_suite
-            elif [ $2 == '-gui' ]
-            then
-                export VAULT_ENABLED=False
-                run_gui_tests_suite
-            else
-                help_message
-            fi
-        elif [ $1 == '-api' ] && [[ " ${!pytest_paths[@]} " == *" $2 "* ]]; then
-            vault_login
-            pytest -s ${pytest_paths["$2"]}
-        elif [ $1 == '-gui' ] && [[ " ${!behave_tags[@]} " == *" $2 "* ]]; then
-            vault_login
-            behave -k --no-capture --no-capture-stderr --stop --tags=${behave_tags["$2"]} misttests/gui/core/pr/features
-        else
-            help_message
-        fi
-    fi
-
-    if [ "$#" -eq 3 ]
-    then
-        if [ $1 != '-t' ]
-        then
-            help_message
-            exit
-        fi
-        export VAULT_ENABLED=False
-        if [ $2 == '-api' ] && [[ " ${!pytest_paths[@]} " == *" $3 "* ]]; then
-            pytest -s ${pytest_paths["$3"]}
-        elif [ $2 == '-gui' ] && [[ " ${!behave_tags[@]} " == *" $3 "* ]]; then
-            behave -k --no-capture --no-capture-stderr --stop --tags=${behave_tags["$3"]} misttests/gui/core/pr/features
-        else
-            help_message
-        fi
-    fi
+        ;;
+     :)
+        echo nothing
+        ;;
+    esac
+  done
+fi
