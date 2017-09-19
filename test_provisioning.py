@@ -28,12 +28,13 @@ providers = {
     "Azure_ARM": {
         "size": "Standard_F1",
         "location": "westeurope",
-        "image": "Canonical:UbuntuServer:17.04-DAILY:17.04.201707280",
-        "image_name": "Canonical UbuntuServer 16.04-LTS 16.04.201612140",
+        "image": "MicrosoftWindowsServer:WindowsServer:2008-R2-SP1:2.127.20170712",
+        "image_name": "MicrosoftWindowsServer WindowsServer 2008-R2-SP1 2.127.20170712",
         "image_extra": {"location": "westeurope"},
         "networks":["mike-vnet"],
-        "ex_storage_account":"miketeststor",
-        "ex_resource_group":"mike"
+        "ex_storage_account":"testmikestor",
+        "ex_resource_group":"mike",
+        "machine_password":"Aw3somepass"
     },
     "Docker": {
         "size": "",
@@ -249,12 +250,17 @@ def create_machine(cloud_id, provider):
         ex_storage_account = ''
 
     try:
+        machine_password=providers[provider]['machine_password']
+    except:
+        machine_password = ''
+
+    try:
         ex_resource_group=providers[provider]['ex_resource_group']
     except:
         ex_resource_group = ''
 
     payload = {'cloud_id':cloud_id,
-                    'name': provider.replace(" ", "").replace("_","").lower() + 'provisiontest' + str(randint(0,9999)),
+                    'name': provider.replace(" ", "").replace("_","").lower() + str(randint(0,9999)),
                     'provider':provider,
                     'image':providers[provider]['image'],
                     'image_extra':image_extra,
@@ -264,6 +270,7 @@ def create_machine(cloud_id, provider):
                     'location':providers[provider]['location'],
                     'location_name':location_name,
                     'ex_storage_account':ex_storage_account,
+                    'machine_password':machine_password,
                     'ex_resource_group':ex_resource_group,
                     'networks':networks,
                     'async':True,
