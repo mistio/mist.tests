@@ -8,7 +8,7 @@ Feature: Schedulers-b
     And Docker machine "test-ui-machine-2-random" has been added via API request
     Given I am logged in to mist.core
     When I visit the Machines page
-    Then "test-ui-machine-random" machine state has to be "running" within 10 seconds
+    Then "test-ui-machine-random" machine state has to be "running" within 20 seconds
     And "test-ui-machine-2-random" machine state has to be "running" within 10 seconds
     When I click the "test-ui-machine-2-random" "machine"
     Then I expect the "machine" edit form to be visible within max 5 seconds
@@ -18,7 +18,7 @@ Feature: Schedulers-b
     And I add a tag with key "test" and value "awesome"
     And I click the button "Save Tags" in the tag menu
     Then I expect for the tag popup to close within 4 seconds
-    When I visit the Machines page
+    When I visit the Machines page after the counter has loaded
     And I wait for 2 seconds
     And I click the "test-ui-machine-2-random" "machine"
     And I wait for 10 seconds

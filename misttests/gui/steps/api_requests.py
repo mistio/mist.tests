@@ -99,7 +99,7 @@ def add_docker_api_request(context, cloud):
             payload = {
                 'title': "Docker",
                 'provider': "docker",
-                'docker_host': context.mist_config['MIST_URL'],
+                'docker_host': context.mist_config['LOCAL_DOCKER'],
                 'docker_port': '2375',
                 'show_all': True
             }

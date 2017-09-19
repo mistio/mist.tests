@@ -6,6 +6,7 @@ Feature: RBAC
     Given rbac members, organization and team are initialized
     And member1 has been invited to "Test Team"
     Given I am logged in to mist.core
+    And I visit the Home page
     Then I expect for "addBtn" to be clickable within max 20 seconds
     Given "SoftLayer" cloud has been added
 
