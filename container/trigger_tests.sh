@@ -15,4 +15,4 @@ cd /mist.core/mist.io/tests
 
 sleep .5
 
-/bin/bash
+source run_tests.sh $@ && /bin/bash
