@@ -95,5 +95,5 @@ Feature: Schedulers-b
   @check-machines-state
   Scenario: Check machine's state
     When I visit the Machines page
-    Then "test-ui-machine-random" machine state has to be "stopped" within 240 seconds
-    Then "test-ui-machine-2-random" machine state has to be "stopped" within 240 seconds
+    Then "test-ui-machine-random" machine state has to be "stopped" within 120 seconds
+    Then "test-ui-machine-2-random" machine state has to be "stopped" within 120 seconds
