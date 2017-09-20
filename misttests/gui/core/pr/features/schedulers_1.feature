@@ -43,7 +43,7 @@ Feature: Schedulers
   @check-machines-state
   Scenario: Check machine's state
     When I visit the Machines page
-    Then "test-machine-random" machine state has to be "stopped" within 90 seconds
+    Then "test-machine-random" machine state has to be "stopped" within 100 seconds
 
   @schedule-delete
   Scenario: Delete schedule
