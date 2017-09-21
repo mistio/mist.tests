@@ -57,6 +57,7 @@ def before_all(context):
     context.mist_config['NON_STOP'] = '--stop' not in sys.argv
     context.mist_config['ERROR_NUM'] = 0
     context.mist_config['MIST_URL'] = config.MIST_URL
+    context.mist_config['LOCAL_DOCKER'] = config.LOCAL_DOCKER
     context.mist_config['MP_DB_DIR'] = config.MP_DB_DIR
     context.mist_config['MAIL_PATH'] = config.MAIL_PATH
     context.mist_config['SCREENSHOT_PATH'] = config.SCREENSHOT_PATH
@@ -110,6 +111,11 @@ def after_step(context, step):
         except Exception as e:
             log.error("Could not get screen shot: %s" % repr(e))
             pass
+    #below is to debug ip-whitelisting tests
+        mist_app = context.browser.execute_script('return document.getElementsByTagName("mist-app")[0]')
+        current_ip = context.browser.execute_script('return arguments[0].model.user.current_ip',mist_app)
+        log.info('*** The current ip of the user is: %s ***' % current_ip)
+
 
 
 def after_all(context):
@@ -175,13 +181,14 @@ def kill_docker_machine(context, machine_to_destroy):
         if 'docker' in cloud['provider']:
             uri = context.mist_config['MIST_URL'] + '/api/v1/clouds/' + cloud['id'] + '/machines'
             response = requests.get(uri, headers=headers)
-            for machine in response.json():
-                if machine_to_destroy in machine['name']:
-                    log.info('Killing docker machine...')
-                    payload = {'action': 'destroy'}
-                    uri = context.mist_config['MIST_URL'] + '/api/v1/clouds/' + cloud['id'] + '/machines/' + \
-                          machine['machine_id']
-                    requests.post(uri, data=json.dumps(payload), headers=headers)
+            if len(response.json()) > 0:
+                for machine in response.json():
+                    if machine_to_destroy in machine['name']:
+                        log.info('Killing docker machine...')
+                        payload = {'action': 'destroy'}
+                        uri = context.mist_config['MIST_URL'] + '/api/v1/clouds/' + cloud['id'] + '/machines/' + \
+                              machine['machine_id']
+                        requests.post(uri, data=json.dumps(payload), headers=headers)
 
 
 # def delete_gce_zones(context):

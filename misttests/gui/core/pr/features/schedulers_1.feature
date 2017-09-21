@@ -7,7 +7,7 @@ Feature: Schedulers
     And Docker machine "test-machine-random" has been added via API request
     Given I am logged in to mist.core
     When I visit the Machines page
-    Then "test-machine-random" machine state has to be "running" within 10 seconds
+    Then "test-machine-random" machine state has to be "running" within 30 seconds
     When I visit the Schedules page
     And I click the button "+"
     Then I expect the "schedule" add form to be visible within max 10 seconds
@@ -43,7 +43,7 @@ Feature: Schedulers
   @check-machines-state
   Scenario: Check machine's state
     When I visit the Machines page
-    Then "test-machine-random" machine state has to be "stopped" within 90 seconds
+    Then "test-machine-random" machine state has to be "stopped" within 120 seconds
 
   @schedule-delete
   Scenario: Delete schedule
@@ -85,4 +85,4 @@ Feature: Schedulers
   @check-machines-state
   Scenario: Check machine's state
     When I visit the Machines page
-    Then "test-machine-random" machine state has to be "running" within 60 seconds
+    Then "test-machine-random" machine state has to be "running" within 120 seconds

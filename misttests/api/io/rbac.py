@@ -301,4 +301,3 @@ class TestRbacFunctionality:
         assert_response_ok(response)
         assert len(response.json()) == 1, "Although team was deleted, it is still visible in list_teams"
         print "Success!!!"
-

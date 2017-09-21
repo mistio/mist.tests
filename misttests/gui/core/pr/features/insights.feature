@@ -10,12 +10,11 @@ Feature: Actions for Insights
     Then the "filtering" section should be visible within 2 seconds
     And the "quick-overview" section should be visible within 2 seconds
     And the "cost_overview" section should be visible within 2 seconds
-    And the "run_rate" section should be visible within 2 seconds
+    And the "graphRow" section should be visible within 2 seconds
     And the "utilization_overview" section should be visible within 2 seconds
     And the "average_load" section should be visible within 2 seconds
     And the "machines_overview" section should be visible within 2 seconds
     And the "machinesCount" section should be visible within 2 seconds
-    And the "machinesList" section should be visible within 2 seconds
 
   @cost-and-machine_count-for-docker
   Scenario: Verify that cost and machine count data for docker cloud added above have arrived
