@@ -93,7 +93,7 @@ def api_test_machine_name():
 
 @pytest.fixture
 def private_key():
-    return safe_get_var('keys/api_testing_machine_private_key', 'private_key', config.API_TESTING_MACHINE_PRIVATE_KEY)
+    return safe_get_var('keys/api_testing_machine_private_key', 'private_key2', config.API_TESTING_MACHINE_PRIVATE_KEY).get('key')
 
 
 @pytest.fixture

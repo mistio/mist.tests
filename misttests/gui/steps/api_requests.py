@@ -122,8 +122,8 @@ def add_docker_api_request(context, cloud):
 
         payload = {
             'name': 'Key1',
-            'priv': safe_get_var('keys/mistio_fullstack_key', 'private_key',
-                                        context.mist_config['CREDENTIALS']['DOCKER_MONITORING']['port'])
+            'priv': safe_get_var('keys/mistio_fullstack_key', 'private_key2',
+                                        context.mist_config['CREDENTIALS']['DOCKER_MONITORING']['port']).get('key')
         }
 
         re = requests.put(context.mist_config['MIST_URL'] + "/api/v1/keys", data=json.dumps(payload), headers=headers)
