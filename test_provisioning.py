@@ -27,13 +27,11 @@ providers = {
     },
     "Azure_ARM": {
         "size": "Standard_F1",
-        "location": "westeurope",
-        "image": "MicrosoftWindowsServer:WindowsServer:2008-R2-SP1:2.127.20170712",
-        "image_name": "MicrosoftWindowsServer WindowsServer 2008-R2-SP1 2.127.20170712",
-        "image_extra": {"location": "westeurope"},
-        "networks":["mike-vnet"],
-        "ex_storage_account":"testmikestor",
-        "ex_resource_group":"mike",
+        "location": "eastus",
+        "image": "MicrosoftWindowsServer:WindowsServer:2008-R2-SP1:2.127.20170406",
+        "networks":"3294333995dd4413ab241d0d53ea9a30",
+        "ex_storage_account":"testmikediag637",
+        "ex_resource_group":"testmike",
         "machine_password":"Aw3somepass"
     },
     "Docker": {
