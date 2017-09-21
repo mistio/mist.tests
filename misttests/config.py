@@ -39,7 +39,7 @@ except IOError:
 except Exception as exc:
     log.error("Error parsing test_settings py: %r", exc)
 
-
+# TODO: modify so that it can parse nested objects as well
 def safe_get_var(vault_path, vault_key, test_settings_var = None):
 
     if VAULT_ENABLED:
