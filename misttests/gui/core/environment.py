@@ -114,6 +114,11 @@ def after_step(context, step):
         except Exception as e:
             log.error("Could not get screen shot: %s" % repr(e))
             pass
+    #below is to debug ip-whitelisting tests
+        mist_app = context.browser.execute_script('return document.getElementsByTagName("mist-app")[0]')
+        current_ip = context.browser.execute_script('return arguments[0].model.user.current_ip',mist_app)
+        log.info('*** The current ip of the user is: %s ***' % current_ip)
+
 
 
 def after_all(context):

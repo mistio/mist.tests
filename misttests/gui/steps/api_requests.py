@@ -133,7 +133,7 @@ def add_cloud_api_request(context, cloud):
 
         payload = {
             'name': 'Key1',
-            'priv': safe_get_var('keys/mistio_fullstack_key', 'private_key',
+            'priv': safe_get_var('keys/mistio_fullstack_key', 'priv_key',
                                         context.mist_config['CREDENTIALS']['DOCKER_MONITORING']['port'])
         }
 

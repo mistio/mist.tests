@@ -97,6 +97,7 @@ run_gui_tests_suite() {
     behave_tags["orchestration"]='orchestration,'
     behave_tags["rbac-rules"]='rbac-rules-1,'
     behave_tags["zones"]='zones,'
+    behave_tags["insights"]='insights,'
     behave_tags["ip-whitelisting"]='ip-whitelisting,'
 
 run_provision_tests_suite() {

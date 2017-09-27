@@ -93,7 +93,6 @@ Feature: Actions for Keys
   @key-delete
   Scenario: Delete Key
     When I visit the Keys page
-    And I select list item "Second" key
     And I select list item "TestKey" key
     And I click the action "Delete" from the key list actions
     Then I expect the dialog "Delete Key" is open within 4 seconds
