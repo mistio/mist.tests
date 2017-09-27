@@ -49,12 +49,12 @@ def refresh_until_data_are_available(context):
             data_element = section_element.\
                 find_element_by_id('quick-overview-data')
             cost = data_element.find_element_by_id('quick-overview-cost')
-            if safe_get_element_text(cost) == 'COST\n$':
+            if safe_get_element_text(cost) == 'COST\nNo data':
                 context.execute_steps(u'When I wait for 2 seconds')
-                context.execute_steps(u'When I refresh the page')
-                context.execute_steps(u'When I wait for 3 seconds')
+                context.execute_steps(u'And I refresh the page')
+                context.execute_steps(u'And I wait for 3 seconds')
             else:
                 return
         except StaleElementReferenceException:
             pass
-    assert False, "No insights data have arrived after 45 seconds"
+    assert False, "No insights data have arrived after 60 seconds"
