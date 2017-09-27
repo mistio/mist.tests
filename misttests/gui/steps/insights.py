@@ -51,8 +51,8 @@ def refresh_until_data_are_available(context):
             cost = data_element.find_element_by_id('quick-overview-cost')
             if safe_get_element_text(cost) == 'COST\nNo data':
                 context.execute_steps(u'When I wait for 2 seconds')
-                context.execute_steps(u'And I refresh the page')
-                context.execute_steps(u'And I wait for 3 seconds')
+                context.execute_steps(u'When I refresh the page')
+                context.execute_steps(u'When I wait for 3 seconds')
             else:
                 return
         except StaleElementReferenceException:
