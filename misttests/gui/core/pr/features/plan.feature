@@ -15,8 +15,7 @@ Feature: Upgrade plan test
     When I click the upgrade button under small plan
     And I set the card details in the purchase plan dialog
     And I click the button "Purchase"
-    And I wait for 10 seconds
+    And I wait for 12 seconds
     Then the current plan should be "SMALL"
     When I visit the Home page
     Then the attention message should be absent
-    
