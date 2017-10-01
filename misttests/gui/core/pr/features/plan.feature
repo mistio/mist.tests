@@ -17,3 +17,6 @@ Feature: Upgrade plan test
     And I click the button "Purchase"
     And I wait for 10 seconds
     Then the current plan should be "SMALL"
+    When I visit the Home page
+    Then the attention message should be absent
+    

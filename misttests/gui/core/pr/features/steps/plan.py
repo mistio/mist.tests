@@ -33,3 +33,8 @@ def set_card_details(context):
     inputs[2].send_keys('22')
     inputs[3].send_keys('007')
     inputs[4].send_keys('17675')
+
+@step(u'the attention message should be absent')
+def check_for_attention_message(context):
+    plan_overusage = context.browser.find_element_by_tag_name('plan-overusage')
+    assert safe_get_element_text(plan_overusage) == '', "Attention message is not absent"
