@@ -14,4 +14,6 @@ Feature: Upgrade plan test
     Then the current plan should be "FREE"
     When I click the upgrade button under small plan
     And I set the card details in the purchase plan dialog
-    
+    And I click the button "Purchase"
+    And I wait for 10 seconds
+    Then the current plan should be "SMALL"

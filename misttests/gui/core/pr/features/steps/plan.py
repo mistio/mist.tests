@@ -33,4 +33,3 @@ def set_card_details(context):
     inputs[2].send_keys('22')
     inputs[3].send_keys('007')
     inputs[4].send_keys('17675')
-    import ipdb;ipdb.set_trace()
