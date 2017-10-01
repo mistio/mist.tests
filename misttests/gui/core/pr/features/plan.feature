@@ -9,3 +9,6 @@ Feature: Upgrade plan test
     Then there should be a message with text "Attention: You have exceeded the limits of the Free plan! The Free plan includes unlimited clouds and up to 5 machines with monitoring for 1 of them. To continue using Mist.io upgrade your plan."
     When I visit the Account page
     And I wait for 3 seconds
+    Then I click the "Billing" button with id "billing"
+    And I wait for 1 seconds
+    Then the current plan should be "FREE\n$0 forever\nUp to 5 machines.\nMonitoring for one of them."
