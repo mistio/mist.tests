@@ -107,9 +107,9 @@ MAIL_PATH = get_setting("MAIL_PATH", MAIL_DIR)
 
 JS_CONSOLE_LOG = get_setting("JS_CONSOLE_LOG", '/var/log/js_console.log')
 
-SCREENSHOT_PATH = get_setting("SCREENSHOT_PATH", 'artifacts/screenshot')
+SCREENSHOT_PATH = os.getenv('DATADIR') or get_setting("SCREENSHOT_PATH", 'artifacts/screenshot')
 
-ARTIFACTS_PATH = get_setting("ARTIFACTS_PATH", 'artifacts')
+ARTIFACTS_PATH = os.getenv('DATADIR') or get_setting("ARTIFACTS_PATH", 'artifacts')
 
 DISPLAY_NUM = get_setting("DISPLAY_NUM", "1")
 
@@ -204,7 +204,8 @@ ORG_ID = get_setting('ORG_ID', '')
 SETUP_ENVIRONMENT = get_setting("SETUP_ENVIRONMENT", False)
 
 WEBDRIVER_OPTIONS = get_setting('WEBDRIVER_OPTIONS',
-                                 ['headless','no-sandbox','window-size=1920x1080','disable-gpu'])
+                                 ['headless','disable-gpu','window-size=1920x1080',
+                                 'remote-debugging-port=9222'])
 
 REGISTER_USER_BEFORE_FEATURE = get_setting('REGISTER_USER_BEFORE_FEATURE', True, priority='environment')
 
