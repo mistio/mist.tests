@@ -8,15 +8,20 @@ import os
 
 from subprocess import call
 
+from distutils.util import strtobool as _bool
+
 from misttests import config
 
 from misttests.helpers.selenium_utils import choose_driver
-from misttests.helpers.selenium_utils import get_screenshot,get_error_screenshot,produce_video_artifact
+from misttests.helpers.selenium_utils import get_screenshot
+from misttests.helpers.selenium_utils import get_error_screenshot
+from misttests.helpers.selenium_utils import produce_video_artifact
 from misttests.helpers.selenium_utils import dump_js_console_log
 
 log = logging.getLogger(__name__)
-
 logging.basicConfig(level=logging.INFO)
+
+BEHAVE_DEBUG_ON_ERROR = _bool(os.environ.get("BEHAVE_DEBUG_ON_ERROR", "no"))
 
 
 def before_all(context):
@@ -96,29 +101,44 @@ def before_all(context):
             'name': "Atheofovos Gkikas"
         }
 
-        re = requests.post("%s/api/v1/dev/register" % context.mist_config['MIST_URL'], data=json.dumps(payload))
+        response = requests.post(
+            "%s/api/v1/dev/register" % context.mist_config['MIST_URL'],
+            data=json.dumps(payload)
+        )
 
-        context.mist_config['ORG_ID'] = re.json().get('org_id')
-        context.mist_config['ORG_NAME'] = re.json().get('org_name')
+        context.mist_config['ORG_ID'] = response.json().get('org_id')
+        context.mist_config['ORG_NAME'] = response.json().get('org_name')
 
     log.info("Finished with before_all hook. Starting tests")
 
 
 def after_step(context, step):
     if config.RECORD_SELENIUM:
-        get_screenshot(context)
+        get_screenshot(context, step)
+
     if step.status == "failed":
-        produce_video_artifact();
         try:
-            get_error_screenshot(context)
+            get_error_screenshot(context, step)
         except Exception as e:
             log.error("Could not get screen shot: %s" % repr(e))
-            pass
-    #below is to debug ip-whitelisting tests
-        mist_app = context.browser.execute_script('return document.getElementsByTagName("mist-app")[0]')
-        current_ip = context.browser.execute_script('return arguments[0].model.user.current_ip',mist_app)
+
+        produce_video_artifact(context, step)
+
+        # debug code for ip-whitelisting tests
+        mist_app = context.browser.execute_script(
+            'return document.getElementsByTagName("mist-app")[0]'
+        )
+        current_ip = context.browser.execute_script(
+            'return arguments[0].model.user.current_ip',
+            mist_app
+        )
         log.info('*** The current ip of the user is: %s ***' % current_ip)
 
+        # break into post mortem
+        if BEHAVE_DEBUG_ON_ERROR:
+            import ipdb
+            ipdb.set_trace()
+            ipdb.post_mortem(step.exc_traceback)
 
 
 def after_all(context):
@@ -146,7 +166,7 @@ def kill_yolomachine(context, machines, headers, cloud_id):
     for machine in machines:
         if 'yolomachine' in machine['name']:
             log.info('Killing yolomachine...')
-            payload= {'action': 'destroy'}
+            payload = {'action': 'destroy'}
             uri = context.mist_config['MIST_URL'] + '/api/v1/clouds/' + \
                   cloud_id + '/machines/' + machine['machine_id']
             requests.post(uri, data=json.dumps(payload), headers=headers)
@@ -169,7 +189,10 @@ def delete_schedules(context):
     api_token = get_api_token(context)
     headers = {'Authorization': api_token}
 
-    response = requests.get("%s/api/v1/schedules" % context.mist_config['MIST_URL'], headers=headers)
+    response = requests.get(
+        "%s/api/v1/schedules" % context.mist_config['MIST_URL'],
+        headers=headers
+    )
     for schedule in response.json():
         log.info('Deleting schedule...')
         uri = context.mist_config['MIST_URL'] + '/api/v1/schedules/' + schedule['id']
@@ -189,8 +212,9 @@ def kill_docker_machine(context, machine_to_destroy):
                     if machine_to_destroy in machine['name']:
                         log.info('Killing docker machine...')
                         payload = {'action': 'destroy'}
-                        uri = context.mist_config['MIST_URL'] + '/api/v1/clouds/' + cloud['id'] + '/machines/' + \
-                              machine['machine_id']
+                        uri = context.mist_config['MIST_URL'] + \
+                                '/api/v1/clouds/' + cloud['id'] + \
+                                '/machines/' + machine['machine_id']
                         requests.post(uri, data=json.dumps(payload), headers=headers)
 
 
@@ -202,18 +226,21 @@ def finish_and_cleanup(context):
 
 
 def after_feature(context, feature):
-    if 'Orchestration' == feature.name:
+    if feature.name == 'Orchestration':
         kill_orchestration_machines(context)
-    if 'Schedulers' == feature.name:
+    if feature.name == 'Schedulers':
         delete_schedules(context)
         kill_docker_machine(context, context.mist_config.get('test-machine-random'))
-    if 'Schedulers-b' == feature.name:
+    if feature.name == 'Schedulers-b':
         delete_schedules(context)
         kill_docker_machine(context, context.mist_config.get('test-ui-machine-random'))
         kill_docker_machine(context, context.mist_config.get('test-ui-machine-2-random'))
-    if 'Machines' == feature.name:
-       kill_docker_machine(context, context.mist_config.get('ui-test-create-machine-random'))
-    if 'RBAC' == feature.name:
+    if feature.name == 'Machines':
+        kill_docker_machine(
+            context,
+            context.mist_config.get('ui-test-create-machine-random')
+        )
+    if feature.name == 'RBAC':
         kill_docker_machine(context, context.mist_config.get('docker-ui-test-machine-random'))
-    if 'Monitoring' == feature.name:
+    if feature.name == 'Monitoring':
         kill_docker_machine(context, context.mist_config.get('monitored-machine-random'))
