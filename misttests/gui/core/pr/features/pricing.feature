@@ -1,4 +1,4 @@
-@plan
+@pricing
 Feature: Upgrade plan test
 
   @upgrade-plan-test
