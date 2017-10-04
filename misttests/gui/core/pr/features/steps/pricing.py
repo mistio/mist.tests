@@ -3,6 +3,7 @@ from behave import step
 from misttests.gui.steps.utils import safe_get_element_text
 from misttests.gui.steps.buttons import clicketi_click
 
+
 @step(u'there should be a message with text "{text}"')
 def check_plan_overusage_message(context, text):
     plan_overusage = context.browser.find_element_by_tag_name('plan-overusage')
@@ -33,6 +34,7 @@ def set_card_details(context):
     inputs[2].send_keys('22')
     inputs[3].send_keys('007')
     inputs[4].send_keys('17675')
+
 
 @step(u'the attention message should be absent')
 def check_for_attention_message(context):
