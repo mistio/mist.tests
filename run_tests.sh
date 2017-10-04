@@ -99,7 +99,6 @@ run_gui_tests_suite() {
     behave_tags["zones"]='zones,'
     behave_tags["insights"]='insights,'
     behave_tags["ip-whitelisting"]='ip-whitelisting,'
-    behave_tags["pricing"]='pricing'
 
 run_provision_tests_suite() {
     python test_provisioning.py || echo Failed
