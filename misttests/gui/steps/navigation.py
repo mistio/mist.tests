@@ -87,14 +87,10 @@ def make_sure_menu_is_open(context):
     while time() < end_time:
         try:
             menu = context.browser.find_element_by_id('sidebar')
-            if menu.get_attribute('isclosed') == 'true':
-                top_bar = context.browser.find_element_by_id('topBar')
-                button = top_bar.find_element_by_xpath('./paper-icon-button["icon=menu"]')
-                button.click()
-                break
+            return
         except (NoSuchElementException, ValueError, AttributeError):
             assert time() + 1 < end_time, "Menu button has not" \
-                                          " appeared after 10 seconds"
+                                          " appeared after 15 seconds"
             sleep(1)
 
 
