@@ -15,7 +15,7 @@ from selenium.common.exceptions import StaleElementReferenceException
 def get_list(context, resource_type):
     if resource_type in ['machine', 'image', 'team', 'key', 'network', 'script', 'schedule', 'template', 'stack', 'zone']:
         return context.browser.find_elements_by_css_selector('page-%ss mist-list vaadin-grid-table-body#items > vaadin-grid-table-row' % resource_type)
-    elif resource_type in ['record']:
+    if resource_type in ['record']:
         return context.browser.find_elements_by_css_selector('zone-page mist-list vaadin-grid-table-body#items > vaadin-grid-table-row')
     else:
         return context.browser.find_elements_by_css_selector('page-%ss iron-list div.row' % resource_type)

@@ -168,7 +168,7 @@ def click_action_of_list(context,button,resource_type):
     resource_type = resource_type.lower()
     if resource_type not in ['machine', 'key', 'script', 'network', 'team', 'template', 'stack', 'image', 'schedule', 'record']:
         raise Exception('Unknown resource type')
-    elif resource_type == 'record':
+    if resource_type == 'record':
         buttons = context.browser.find_elements_by_css_selector('zone-page mist-list mist-actions > paper-button')
     else:
         buttons = context.browser.find_elements_by_css_selector('page-%ss mist-list mist-actions > paper-button' % resource_type)
