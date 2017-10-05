@@ -144,7 +144,7 @@ def test_delete_record_wrong_record_id(pretty_print, mist_core, cache, owner_api
 ############################################################################
 
 @pytest.mark.incremental
-class TestSchedulesFunctionality:
+class TestZonesFunctionality:
 
     def test_list_zones_contains_created_zone(self, pretty_print, mist_core, owner_api_token, cache):
         response = mist_core.list_zones(api_token=owner_api_token,
