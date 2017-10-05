@@ -95,7 +95,7 @@ def make_sure_menu_is_open(context):
             return
         except (NoSuchElementException, ValueError, AttributeError):
             assert time() + 1 < end_time, "Menu button has not" \
-                                          " appeared after 15 seconds"
+                                          " appeared after 10 seconds"
             sleep(1)
 
 
