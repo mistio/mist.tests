@@ -44,7 +44,7 @@ RUN pip install --no-cache-dir -r /mist.tests/requirements.txt
 COPY . /mist.tests/
 WORKDIR /mist.tests/
 
-RUN pip install -e .
+RUN pip install -e . && pip install git+https://github.com/mverteuil/pytest-ipdb.git#egg=pytest-ipdb
 
 RUN  ln -s /mist.tests/container/start_test_env.sh /test_env.sh
 
