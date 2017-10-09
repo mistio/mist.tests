@@ -33,9 +33,6 @@ def before_all(context):
     log.info("Webdriver log:" + config.WEBDRIVER_LOG)
     log.info("JS console log:" + config.JS_CONSOLE_LOG)
 
-    # kill chrome, otherwise it will crash
-    call(["pkill", "-9", "chrom"])
-
     context.mist_config = dict()
     context.mist_config['browser'] = choose_driver()
     context.browser = context.mist_config['browser']
@@ -81,9 +78,6 @@ def before_all(context):
     context.mist_config['recording_session'] = config.RECORD_SELENIUM
     context.link_inside_email = ''
     context.mist_config['ORG_ID'] = ''
-
-    if os.path.isdir(config.ARTIFACTS_PATH):
-        shutil.rmtree(config.ARTIFACTS_PATH)
 
     if config.LOCAL:
         log.info("Initializing behaving mail for path: %s" % config.MAIL_PATH)
