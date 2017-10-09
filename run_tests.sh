@@ -124,7 +124,8 @@ run_gui_tests_suite() {
     if [ "${test_suite_paths}" == "" ]; then
         echo "No gui tests available for $suite"
     else
-        time parallel -j 1 --no-notice --fg --tmuxpane /mist.core/mist.io/tests/wrapper.sh gui $datadir $break_on_failure ::: $test_suite_paths
+        pkill -9 chrom
+        time parallel --no-notice --fg --tmuxpane /mist.core/mist.io/tests/wrapper.sh gui $datadir $break_on_failure ::: $test_suite_paths
     fi
 }
 
@@ -222,8 +223,8 @@ if [ $run_gui_tests -eq 1 ]; then
     run_gui_tests_suite
 fi
 
-failed=$(ls $datadir)
-failed_count=$(ls $datadir.txt|wc -w)
+failed=$(ls $datadir/*.txt)
+failed_count=$(ls $datadir/*.txt  2>/dev/null|wc -w)
 
 if [ "$failed_count" == "0" ]; then
     echo "All tests passed!"
@@ -234,9 +235,7 @@ else
     if [ "$response" == "n" ]; then
         exit 0
     else
-        cd $datadir
-        less *.txt
-        cd -
+        cat $datadir/*.txt | more
     fi
 fi
 echo "Logs are available at $datadir"
