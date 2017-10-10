@@ -23,6 +23,7 @@ Feature: Schedulers-b
     Then I expect for the tag popup to close within 4 seconds
     When I visit the Machines page after the counter has loaded
     And I wait for 2 seconds
+    And I search for "test-ui-machine-2-random"
     And I click the "test-ui-machine-2-random" "machine"
     And I wait for 10 seconds
     Then I ensure that the "machine" has the tags "test:awesome"
