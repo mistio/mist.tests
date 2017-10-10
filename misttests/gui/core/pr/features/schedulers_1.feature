@@ -45,6 +45,7 @@ Feature: Schedulers
   @check-machines-state
   Scenario: Check machine's state
     When I visit the Machines page
+    And I search for "test-machine-random"
     Then "test-machine-random" machine state has to be "stopped" within 120 seconds
 
   @schedule-delete
