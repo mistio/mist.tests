@@ -63,6 +63,7 @@ Feature: Machines
    Scenario: Run script to machine created above
     When I visit the machines page
     And I wait for 2 seconds
+    And I search for "ui-test-create-machine-random"
     When I click the "ui-test-create-machine-random" "machine"
     And I expect the "machine" edit form to be visible within max 5 seconds
     And I wait for 2 seconds
@@ -92,8 +93,10 @@ Feature: Machines
   Scenario: Stop machine created above and check state
     When I click the button "Stop" from the menu of the "machine" edit form
     Then I expect the dialog "Stop Machine" is open within 4 seconds
-    And I click the "Stop" button in the dialog "Stop Machine"
-    Then I visit the Machines page
+    When I click the "Stop" button in the dialog "Stop Machine"
+    And I visit the Machines page
+    And I wait for 2 seconds
+    And I search for "ui-test-create-machine-random"
     Then "ui-test-create-machine-random" machine state has to be "stopped" within 40 seconds
 
   @machine-start
