@@ -37,6 +37,8 @@ def press_button_with_id(context, button_id):
     if not button:
         raise ValueError("Could not find any button with id %s", button_id)
     button.click()
+    if context.browser.find_element_by_id('submit_approve_access'):
+        context.browser.find_element_by_id('submit_approve_access').click()
 
 
 @step(u'I click the Sign In button in the Github form')
