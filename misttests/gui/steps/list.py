@@ -15,8 +15,8 @@ from selenium.common.exceptions import StaleElementReferenceException
 def get_list(context, resource_type):
     if resource_type in ['machine', 'image', 'team', 'key', 'network', 'script', 'schedule', 'template', 'stack', 'zone']:
         return context.browser.find_elements_by_css_selector('page-%ss mist-list vaadin-grid-table-body#items > vaadin-grid-table-row' % resource_type)
-    elif resource_type == 'record':
-        return context.browser.find_elements_by_css_selector('page-zones iron-list div.row')
+    if resource_type in ['record']:
+        return context.browser.find_elements_by_css_selector('zone-page mist-list vaadin-grid-table-body#items > vaadin-grid-table-row')
     else:
         return context.browser.find_elements_by_css_selector('page-%ss iron-list div.row' % resource_type)
 
@@ -31,7 +31,7 @@ def get_list_item(context, resource_type, name):
     try:
         items = get_list(context, resource_type)
         for item in items:
-            if resource_type in ['machine', 'image', 'team', 'key', 'network', 'script', 'schedule', 'template', 'stack', 'zone']:
+            if resource_type in ['machine', 'image', 'team', 'key', 'network', 'script', 'schedule', 'template', 'stack', 'zone', 'record']:
                 name = safe_get_element_text(item.find_element_by_css_selector('strong.name')).strip().lower()
             else:
                 name = safe_get_element_text(item.find_element_by_css_selector('div.name')).strip().lower()
@@ -87,10 +87,7 @@ def select_item_from_list(context, item_name, resource_type):
     item = get_list_item(context, resource_type, item_name)
     if item:
         from .buttons import clicketi_click
-        if resource_type == 'record':
-            select_button = item.find_element_by_id('check')
-        else:
-            select_button = item.find_element_by_css_selector('mist-check')
+        select_button = item.find_element_by_css_selector('mist-check')
         clicketi_click(context, select_button)
         sleep(1)
         return True
