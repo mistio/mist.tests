@@ -27,11 +27,8 @@ providers = {
     },
     "Azure_ARM": {
         "size": "Standard_F1",
-        "location": "eastus",
+        "location": "westeurope",
         "image": "MicrosoftWindowsServer:WindowsServer:2008-R2-SP1:2.127.20170406",
-        "networks":"3294333995dd4413ab241d0d53ea9a30",
-        "ex_storage_account":"testmikediag637",
-        "ex_resource_group":"testmike",
         "machine_password":"Aw3somepass"
     },
     "Docker": {
@@ -275,6 +272,14 @@ def create_machine(cloud_id, provider):
                     'cron_enable':False,
                     'monitoring':False
             }
+
+    if provider == "Azure_ARM":
+        payload['create_resource_group'] = True
+        payload['create_storage_account'] = True
+        payload['create_network'] = True
+        payload['new_resource_group'] = 'testprovision' + str(randint(0,9999))
+        payload['new_storage_account'] = 'testprovision' + str(randint(0,9999))
+        payload['new_network'] = 'testprovision' + str(randint(0,9999))
 
     response = requests.post(
         config.MIST_URL + '/api/v1/clouds/' + cloud_id + '/machines',
