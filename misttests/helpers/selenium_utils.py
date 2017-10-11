@@ -39,7 +39,10 @@ def choose_driver(flavor=None):
 
 def produce_video_artifact(context, step):
     feature = context.feature.name.replace(' ', '_')
-    filename = context.mist_config['ARTIFACTS_PATH'] + '/' + feature + '.mp4'
+    if context.mist_config['LOCAL']:
+        filename = context.mist_config['ARTIFACTS_PATH'] + '/' + feature + '.mp4'
+    else:
+        filename = context.mist_config['ARTIFACTS_PATH'] + '/output.mp4'
     if os.path.isfile(filename):
         os.remove(filename)
     log.info('Producing video...')
