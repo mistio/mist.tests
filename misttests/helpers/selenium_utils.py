@@ -63,8 +63,11 @@ def get_screenshot(context, step):
 
 def get_error_screenshot(context, step):
     feature = context.feature.name.replace(' ', '_')
-    try:
+    if context.mist_config['LOCAL']:
         path = context.mist_config['ARTIFACTS_PATH'] + '/' + feature + '__error.png'
+    else:
+        path = context.mist_config['ARTIFACTS_PATH'] + '/error.png'
+    try:
         context.browser.save_screenshot(path)
     except NoSuchWindowException:
         pass
