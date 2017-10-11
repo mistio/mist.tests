@@ -1,13 +1,12 @@
+import os
 import json
+import logging
 
 from misttests import config
 
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.remote.errorhandler import NoSuchWindowException
-
-import logging
-import os
 
 log = logging.getLogger(__name__)
 
@@ -38,30 +37,38 @@ def choose_driver(flavor=None):
     return driver
 
 
-def produce_video_artifact():
-    if os.path.isfile('output.mp4'):
-        os.remove('output.mp4')
+def produce_video_artifact(context, step):
+    feature = context.feature.name.replace(' ', '_')
+    filename = context.mist_config['ARTIFACTS_PATH'] + '/' + feature + '.mp4'
+    if os.path.isfile(filename):
+        os.remove(filename)
     log.info('Producing video...')
-    os.system('ffmpeg -loglevel panic -framerate 4 -pattern_type glob -i "artifacts/*.png" -c:v libx264 -r 30 output.mp4')
+    os.system('ffmpeg -loglevel panic -framerate 4 -pattern_type glob \
+                      -i "%s/%s-*.png" -c:v libx264 -r 30 %s' %
+              (context.mist_config['ARTIFACTS_PATH'], feature, filename))
+    log.info('http://172.17.0.1:8222/' + filename.replace('/data/', ''))
 
 
-def get_screenshot(context):
+def get_screenshot(context, step):
+    feature = context.feature.name.replace(' ', '_')
     if not os.path.isdir(context.mist_config['ARTIFACTS_PATH']):
         os.mkdir(context.mist_config['ARTIFACTS_PATH'])
     num = context.mist_config['ERROR_NUM'] = context.mist_config['ERROR_NUM'] + 1
-    path = context.mist_config['SCREENSHOT_PATH'] + '{0}.png'.format(str(num).zfill(4))
-
+    path = context.mist_config['ARTIFACTS_PATH'] + '/' + feature + '-{0}.png'.format(str(num).zfill(4))
     try:
         context.browser.save_screenshot(path)
     except NoSuchWindowException:
         pass
 
 
-def get_error_screenshot(context):
+def get_error_screenshot(context, step):
+    feature = context.feature.name.replace(' ', '_')
     try:
-        context.browser.save_screenshot('error.png')
+        path = context.mist_config['ARTIFACTS_PATH'] + '/' + feature + '__error.png'
+        context.browser.save_screenshot(path)
     except NoSuchWindowException:
         pass
+    log.info('http://172.17.0.1:8222/' + path.replace('/data/', ''))
 
 
 def dump_js_console_log(context):
