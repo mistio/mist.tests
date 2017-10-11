@@ -39,7 +39,7 @@ def press_button_with_id(context, button_id):
     button.click()
     try:
         context.execute_steps(u'When I wait for 1 seconds')
-        approve = context.browser.find_element_by_id('submit_approve_access'):
+        approve = context.browser.find_element_by_id('submit_approve_access')
         approve.click()
     except Exception as e:
         pass
