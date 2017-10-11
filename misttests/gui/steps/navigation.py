@@ -92,7 +92,6 @@ def make_sure_menu_is_open(context):
                 button = top_bar.find_element_by_xpath('./paper-icon-button["icon=menu"]')
                 button.click()
                 break
-            return
         except (NoSuchElementException, ValueError, AttributeError):
             assert time() + 1 < end_time, "Menu button has not" \
                                           " appeared after 10 seconds"
