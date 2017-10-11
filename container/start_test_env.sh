@@ -42,8 +42,4 @@ cd /mist.core/mist.io/tests
 
 sleep .5
 
-vault_login
-
-./run_tests.sh $args
-
 /bin/bash
