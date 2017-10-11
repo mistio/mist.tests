@@ -7,7 +7,7 @@ Feature: Actions for Keys
 
   @key-add
   Scenario: Add Key
-    When I click the button "+"
+    When I click the button "+v"
     Then I expect the "Key" add form to be visible within max 10 seconds
     When I set the value "TestKey" to field "Name" in "key" add form
     And I focus on the button "Generate" in "key" add form
