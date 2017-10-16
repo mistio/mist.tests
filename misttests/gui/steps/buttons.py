@@ -169,10 +169,7 @@ def click_action_of_list(context,button,resource_type):
     if resource_type not in ['machine', 'key', 'script', 'network', 'team', 'template', 'stack', 'image', 'schedule', 'record']:
         raise Exception('Unknown resource type')
     if resource_type == 'record':
-        records = context.browser.find_element_by_tag_name('list-records')
-        actions = records.find_element_by_id('actions')
-        div = actions.find_element_by_tag_name('div')
-        buttons = div.find_elements_by_tag_name('paper-button')
+        buttons = context.browser.find_elements_by_css_selector('zone-page mist-list mist-actions > paper-button')
     else:
         buttons = context.browser.find_elements_by_css_selector('page-%ss mist-list mist-actions > paper-button' % resource_type)
     click_button_from_collection(context, button.lower(), buttons)
