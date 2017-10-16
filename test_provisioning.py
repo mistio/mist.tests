@@ -29,7 +29,7 @@ providers = {
         "size": "Standard_F1",
         "location": "westeurope",
         "image": "MicrosoftWindowsServer:WindowsServer:2008-R2-SP1:2.127.20170406",
-        "machine_password":"Aw3somepass"
+        "machine_password":"Aw3somep@ss123"
     },
     "Docker": {
         "size": "",
@@ -39,7 +39,7 @@ providers = {
     "Digital Ocean": {
         "size": "512mb",
         "location": "ams2",
-        "image": "21419458"
+        "image": "27663881"
     },
     "Linode": {
         "size": "1",
@@ -277,9 +277,9 @@ def create_machine(cloud_id, provider):
         payload['create_resource_group'] = True
         payload['create_storage_account'] = True
         payload['create_network'] = True
-        payload['new_resource_group'] = 'testprovision' + str(randint(0,9999))
-        payload['new_storage_account'] = 'testprovision' + str(randint(0,9999))
-        payload['new_network'] = 'testprovision' + str(randint(0,9999))
+        payload['new_resource_group'] = 'test' + str(randint(0,9999))
+        payload['new_storage_account'] = 'test' + str(randint(0,9999))
+        payload['new_network'] = 'test' + str(randint(0,9999)) + '-vnet'
 
     response = requests.post(
         config.MIST_URL + '/api/v1/clouds/' + cloud_id + '/machines',
