@@ -254,8 +254,10 @@ def create_machine(cloud_id, provider):
     except:
         ex_resource_group = ''
 
+    name = provider.replace(" ", "").replace("_","").lower() + str(randint(0,9999))
+
     payload = {'cloud_id':cloud_id,
-                    'name': provider.replace(" ", "").replace("_","").lower() + str(randint(0,9999)),
+                    'name': name,
                     'provider':provider,
                     'image':providers[provider]['image'],
                     'image_extra':image_extra,
@@ -277,9 +279,9 @@ def create_machine(cloud_id, provider):
         payload['create_resource_group'] = True
         payload['create_storage_account'] = True
         payload['create_network'] = True
-        payload['new_resource_group'] = 'test' + str(randint(0,9999))
-        payload['new_storage_account'] = 'test' + str(randint(0,9999)) + 'disks'
-        payload['new_network'] = 'test' + str(randint(0,9999)) + '-vnet'
+        payload['new_resource_group'] = name
+        payload['new_storage_account'] = name + 'disks'
+        payload['new_network'] = name + '-vnet'
         payload['machine_username'] = 'azureuser'
 
     response = requests.post(
