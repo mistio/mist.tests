@@ -278,8 +278,9 @@ def create_machine(cloud_id, provider):
         payload['create_storage_account'] = True
         payload['create_network'] = True
         payload['new_resource_group'] = 'test' + str(randint(0,9999))
-        payload['new_storage_account'] = 'test' + str(randint(0,9999))
+        payload['new_storage_account'] = 'test' + str(randint(0,9999)) + 'disks'
         payload['new_network'] = 'test' + str(randint(0,9999)) + '-vnet'
+        payload['machine_username'] = 'azureuser'
 
     response = requests.post(
         config.MIST_URL + '/api/v1/clouds/' + cloud_id + '/machines',
