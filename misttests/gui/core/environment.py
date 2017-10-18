@@ -104,6 +104,8 @@ def before_all(context):
         context.mist_config['ORG_NAME'] = response.json().get('org_name')
 
     log.info("Finished with before_all hook. Starting tests")
+    log.info("USER: %s" % context.mist_config['EMAIL'])
+    log.info("PASSWORD1: %s" % context.mist_config['PASSWORD1'])
 
 
 def after_step(context, step):
