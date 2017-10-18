@@ -38,6 +38,7 @@ Feature: Zones
     And I wait for 1 seconds
     And I open the cloud menu for "GCE"
     And I click the "Enable DNS" button with id "DNS-enable-disable"
+    And I wait for 1 seconds
     And I visit the Zones page
     Then "test-zone-random.com." zone should be absent within 10 seconds
 
@@ -47,6 +48,7 @@ Feature: Zones
     And I wait for 1 seconds
     And I open the cloud menu for "GCE"
     And I click the "Enable DNS" button with id "DNS-enable-disable"
+    And I wait for 1 seconds
     And I visit the Zones page
     And I search for "test-zone-random.com."
     Then "test-zone-random.com." zone should be present within 10 seconds
