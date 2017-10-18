@@ -49,7 +49,8 @@ def produce_video_artifact(context, step):
     os.system('ffmpeg -loglevel panic -framerate 4 -pattern_type glob \
                       -i "%s/%s-*.png" -c:v libx264 -r 30 %s' %
               (context.mist_config['ARTIFACTS_PATH'], feature, filename))
-    log.info('http://172.17.0.1:8222/' + filename.replace('/data/', ''))
+    if context.mist_config['LOCAL']:
+        log.info('http://172.17.0.1:8222/' + filename.replace('/data/', ''))
 
 
 def get_screenshot(context, step):
@@ -74,7 +75,8 @@ def get_error_screenshot(context, step):
         context.browser.save_screenshot(path)
     except NoSuchWindowException:
         pass
-    log.info('http://172.17.0.1:8222/' + path.replace('/data/', ''))
+    if context.mist_config['LOCAL']:
+        log.info('http://172.17.0.1:8222/' + path.replace('/data/', ''))
 
 
 def dump_js_console_log(context):
