@@ -17,9 +17,9 @@ Feature: Zones
     Then I expect for the button "Add" in "Zone" add form to be clickable within 5 seconds
     When I focus on the button "Add" in "Zone" add form
     And I click the button "Add" in "Zone" add form
-    Then I expect the "Zone" edit form to be visible within max 25 seconds
+    Then I expect the "Zone" edit form to be visible within max 10 seconds
     When I visit the Zones page
-    Then "test-zone-random.com." zone should be present within 5 seconds
+    Then "test-zone-random.com." zone should be present within 10 seconds
 
   @zone-search
   Scenario: Filter a zone
@@ -99,4 +99,4 @@ Feature: Zones
     Then I expect the dialog "Delete Zone" is closed within 4 seconds
     When I visit the Zones page
     And I wait for 2 seconds
-    And "test-zone-random.com." zone should be absent within 5 seconds
+    And "test-zone-random.com." zone should be absent within 10 seconds
