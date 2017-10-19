@@ -125,6 +125,8 @@ def wait_for_item_show(context, name, resource_type, state, seconds):
     if state not in ['present', 'absent']:
         raise Exception('Unknown state %s' % state)
     timeout = time() + int(seconds)
+    if context.mist_config['LOCAL'] and resource_type == 'machine':
+        timeout = 2 * timeout
     while time() < timeout:
         item = get_list_item(context, resource_type, name)
         if state == 'present' and item:
