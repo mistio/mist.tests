@@ -61,7 +61,7 @@ Feature: Zones
     And I add a tag with key "second" and value "tag"
     And I click the button "Save Tags" in the tag menu
     Then I expect for the tag popup to close within 4 seconds
-    And I wait for 4 seconds
+    And I wait for 6 seconds
     And I ensure that the "zone" has the tags "first:tag,second:tag"
     When I click the button "Tags" in "zone" edit form
     And I expect for the tag popup to open within 4 seconds
