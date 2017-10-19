@@ -42,7 +42,7 @@ Feature: Schedulers
     Then "TestScheduler" schedule should be absent within 5 seconds
     And "RenamedSchedule" schedule should be present within 5 seconds
 
-  @check-machines-state
+  @check-state
   Scenario: Check machine's state
     When I visit the Machines page
     And I search for "test-machine-random"
