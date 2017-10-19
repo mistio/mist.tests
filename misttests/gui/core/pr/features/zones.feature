@@ -19,8 +19,6 @@ Feature: Zones
     And I click the button "Add" in "Zone" add form
     Then I expect the "Zone" edit form to be visible within max 10 seconds
     When I visit the Zones page
-    And I refresh the page
-    And I wait for 3 seconds
     Then "test-zone-random.com." zone should be present within 10 seconds
 
   @zone-search
