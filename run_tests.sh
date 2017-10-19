@@ -33,7 +33,7 @@ behave_tags["monitoring"]='monitoring-locally'
 behave_tags["orchestration"]='orchestration'
 behave_tags["rbac-rules-1"]='rbac-rules-1'
 behave_tags["rbac-rules-2"]='rbac-rules-2'
-behave_tags["rbac-rules-3"]='rbac-rules-3'
+behave_tags["rbac-rules-4"]='rbac-rules-4'
 behave_tags["zones"]='zones'
 behave_tags["insights"]='insights'
 #behave_tags["ip-whitelisting"]='ip-whitelisting'
@@ -58,7 +58,7 @@ help_message() {
     echo
     echo "Argument for UI tests can be one of the following:"
     echo
-    echo "clouds, clouds-actions, machines, images, keys, scripts, users, rbac, schedules, orchestration, monitoring, rbac-rules-1, rbac-rules-2, insights, ip-whitelisting"
+    echo "clouds, clouds-actions, machines, images, keys, scripts, users, rbac, schedules, orchestration, monitoring, rbac-rules-1, rbac-rules-2, rbac-rules-4, insights, ip-whitelisting"
     echo
 }
 
