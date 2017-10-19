@@ -98,8 +98,8 @@ Feature: RBAC
     And I wait for 2 seconds
     And I visit the Home page
     And I wait for the dashboard to load
-    And I wait for 2 seconds
-    Then I should have 2 clouds added
+    Then the "Vultr" provider should be added within 120 seconds
+    And I should have 2 clouds added
 
   @member1-delete-cloud-fail
   Scenario: Member 1 should not be able to delete cloud
