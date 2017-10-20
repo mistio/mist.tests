@@ -19,7 +19,7 @@ Feature: Zones
     And I click the button "Add" in "Zone" add form
     Then I expect the "Zone" edit form to be visible within max 10 seconds
     When I visit the Zones page
-    Then "test-zone-random.com." zone should be present within 10 seconds
+    Then "test-zone-random.com." zone should be present within 20 seconds
 
   @zone-search
   Scenario: Filter a zone
@@ -82,7 +82,7 @@ Feature: Zones
     And I set the value "test-record-random" to field "Name" in "record" add form
     And I set the value "1.2.3.4" to field "Rdata" in "record" add form
     And I click the button "Add" in "record" add form
-    Then "test-record-random" record should be present within 10 seconds
+    Then "test-record-random" record should be present within 20 seconds
 
   @record-delete
   Scenario: Delete the record created above
