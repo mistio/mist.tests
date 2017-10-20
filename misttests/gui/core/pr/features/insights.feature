@@ -19,6 +19,7 @@ Feature: Actions for Insights
   @cost-and-machine_count-for-docker
   Scenario: Verify that cost and machine count data for docker cloud added above have arrived
     When I refresh the Insights page until data are available
+    And I wait for 5 seconds
     Then "cost" in "quick-overview" section should be "$0.00"
     And "machine_count" in "quick-overview" section should be "greater than 0"
 
@@ -42,5 +43,5 @@ Feature: Actions for Insights
     When I visit the Insights page
     And I wait for 40 seconds
     And I refresh the page
-    And I wait for 5 seconds
+    And I wait for 10 seconds
     Then "cost" in "quick-overview" section should be "greater than $0.00"
