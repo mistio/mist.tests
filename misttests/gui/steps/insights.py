@@ -41,7 +41,7 @@ def check_value_in_section(context, element, section, value):
 
 @step(u'I refresh the Insights page until data are available')
 def refresh_until_data_are_available(context):
-    end_time = time() + 90
+    end_time = time() + 120
     while time() < end_time:
         try:
             section_element = context.browser.\
@@ -49,7 +49,7 @@ def refresh_until_data_are_available(context):
             data_element = section_element.\
                 find_element_by_id('quick-overview-data')
             cost = data_element.find_element_by_id('quick-overview-cost')
-            if safe_get_element_text(cost) == 'COST\nNo data':
+            if 'COST\nNo data' in safe_get_element_text(cost):
                 context.execute_steps(u'When I wait for 2 seconds')
                 context.execute_steps(u'When I refresh the page')
                 context.execute_steps(u'When I wait for 3 seconds')
@@ -57,4 +57,4 @@ def refresh_until_data_are_available(context):
                 return
         except StaleElementReferenceException:
             pass
-    assert False, "No insights data have arrived after 90 seconds"
+    assert False, "No insights data have arrived after 120 seconds"
