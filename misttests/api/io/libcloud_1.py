@@ -99,19 +99,6 @@ class TestLibcloudFunctionality:
         assert len(response.json()) >= 0, "List Softlayer machines did not return a proper result"
         print "Success!!!"
 
-    def test_list_machines_openstack(self, pretty_print, mist_core, cache, owner_api_token):
-        response = mist_core.add_cloud(title='Openstack', provider= 'openstack', api_token=owner_api_token,
-                                       username=safe_get_var('clouds/openstack', 'username', config.CREDENTIALS['OPENSTACK']['username']),
-                                       auth_url=safe_get_var('clouds/openstack', 'auth_url', config.CREDENTIALS['OPENSTACK']['auth_url']),
-                                       tenant=safe_get_var('clouds/openstack', 'tenant', config.CREDENTIALS['OPENSTACK']['tenant']),
-                                       password=safe_get_var('clouds/openstack', 'password', config.CREDENTIALS['OPENSTACK']['password'])).post()
-        assert_response_ok(response)
-        cache.set('openstack_cloud_id', response.json()['id'])
-        response = mist_core.list_machines(cloud_id=cache.get('openstack_cloud_id', ''), api_token=owner_api_token).get()
-        assert_response_ok(response)
-        assert len(response.json()) >= 0, "List Openstack machines did not return a proper result"
-        print "Success!!!"
-
     def test_list_machines_azure(self, pretty_print, mist_core, cache, owner_api_token):
         response = mist_core.add_cloud(title='Azure', provider= 'azure', api_token=owner_api_token,
                                        subscription_id=safe_get_var('clouds/azure', 'subscription_id', config.CREDENTIALS['AZURE']['subscription_id']),
@@ -159,12 +146,6 @@ class TestLibcloudFunctionality:
         assert len(response.json()) > 0, "List Softlayer sizes did not return any sizes"
         print "Success!!!"
 
-    def test_list_sizes_openstack(self, pretty_print, mist_core, cache, owner_api_token):
-        response = mist_core.list_sizes(cloud_id=cache.get('openstack_cloud_id', ''), api_token=owner_api_token).get()
-        assert_response_ok(response)
-        assert len(response.json()) > 0, "List Openstack sizes did not return any sizes"
-        print "Success!!!"
-
     def test_list_sizes_azure(self, pretty_print, mist_core, cache, owner_api_token):
         response = mist_core.list_sizes(cloud_id=cache.get('azure_cloud_id', ''), api_token=owner_api_token).get()
         assert_response_ok(response)
@@ -205,12 +186,6 @@ class TestLibcloudFunctionality:
         response = mist_core.list_images(cloud_id=cache.get('softlayer_cloud_id', ''), api_token=owner_api_token).get()
         assert_response_ok(response)
         assert len(response.json()) > 0, "List Softlayer images did not return any images"
-        print "Success!!!"
-
-    def test_list_images_openstack(self, pretty_print, mist_core, cache, owner_api_token):
-        response = mist_core.list_images(cloud_id=cache.get('openstack_cloud_id', ''), api_token=owner_api_token).get()
-        assert_response_ok(response)
-        assert len(response.json()) > 0, "List Openstack images did not return any images"
         print "Success!!!"
 
     def test_list_images_azure(self, pretty_print, mist_core, cache, owner_api_token):
