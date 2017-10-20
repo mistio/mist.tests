@@ -64,6 +64,8 @@ def assert_machine_state(context, name, state, seconds):
     if context.mist_config.get(name):
         name = context.mist_config.get(name)
     end_time = time() + int(seconds)
+    if context.mist_config['LOCAL']:
+        end_time = 2 * end_time
     while time() < end_time:
         machine = get_machine(context, name)
         if machine:
@@ -125,8 +127,6 @@ def wait_for_item_show(context, name, resource_type, state, seconds):
     if state not in ['present', 'absent']:
         raise Exception('Unknown state %s' % state)
     timeout = time() + int(seconds)
-    if context.mist_config['LOCAL'] and resource_type == 'machine':
-        timeout = 2 * timeout
     while time() < timeout:
         item = get_list_item(context, resource_type, name)
         if state == 'present' and item:
