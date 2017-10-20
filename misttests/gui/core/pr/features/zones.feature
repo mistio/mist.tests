@@ -89,6 +89,7 @@ Feature: Zones
     When I select list item "test-record-random" record
     And I click the action "Delete" from the record list actions
     Then I expect the dialog "Delete Record?" is open within 4 seconds
+    And I wait for 1 seconds
     When I click the "Delete" button in the dialog "Delete Record?"
     Then I expect the dialog "Delete Record?" is closed within 4 seconds
     And "test-record-random" record should be absent within 10 seconds
@@ -97,6 +98,7 @@ Feature: Zones
   Scenario: Delete a zone
     When I click the button "Delete" in "zone" edit form
     Then I expect the dialog "Delete Zone" is open within 4 seconds
+    And I wait for 1 seconds
     When I click the "Delete" button in the dialog "Delete Zone"
     Then I expect the dialog "Delete Zone" is closed within 4 seconds
     When I visit the Zones page
