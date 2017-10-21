@@ -182,13 +182,6 @@ def add_cloud(provider):
                                       private_key = json.dumps(safe_get_var('clouds/gce/mist-dev', 'private_key',
                                                               config.CREDENTIALS['GCE']['private_key']))).post()
 
-        elif provider == "Openstack":
-            response = mist_core.add_cloud(title=provider, provider= 'openstack', api_token=config.MIST_API_TOKEN,
-                                       username=safe_get_var('clouds/openstack', 'username', config.CREDENTIALS['OPENSTACK']['username']),
-                                       auth_url=safe_get_var('clouds/openstack', 'auth_url', config.CREDENTIALS['OPENSTACK']['auth_url']),
-                                       tenant=safe_get_var('clouds/openstack', 'tenant', config.CREDENTIALS['OPENSTACK']['tenant']),
-                                       password=safe_get_var('clouds/openstack', 'password', config.CREDENTIALS['OPENSTACK']['password'])).post()
-
         elif provider == "Rackspace":
             response = mist_core.add_cloud(title='Rackspace', provider= 'rackspace', api_token=config.MIST_API_TOKEN,
                                        region='dfw',

@@ -37,6 +37,7 @@ Feature: Zones
     When I visit the Home page
     And I wait for 1 seconds
     And I open the cloud menu for "GCE"
+    And I wait for 1 seconds
     And I click the "Enable DNS" button with id "DNS-enable-disable"
     And I wait for 1 seconds
     And I visit the Zones page
@@ -103,4 +104,4 @@ Feature: Zones
     Then I expect the dialog "Delete Zone" is closed within 4 seconds
     When I visit the Zones page
     And I wait for 2 seconds
-    And "test-zone-random.com." zone should be absent within 10 seconds
+    And "test-zone-random.com." zone should be absent within 20 seconds
