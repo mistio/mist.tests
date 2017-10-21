@@ -8,8 +8,11 @@ Feature: Schedulers-b
     And Docker machine "test-ui-machine-2-random" has been added via API request
     Given I am logged in to mist.core
     When I visit the Machines page
-    Then "test-ui-machine-random" machine state has to be "running" within 20 seconds
-    And "test-ui-machine-2-random" machine state has to be "running" within 10 seconds
+    And I wait for 3 seconds
+    And I search for "test-ui-machine-random"
+    Then "test-ui-machine-random" machine state has to be "running" within 30 seconds
+    When I search for "test-ui-machine-2-random"
+    Then "test-ui-machine-2-random" machine state has to be "running" within 10 seconds
     When I click the "test-ui-machine-2-random" "machine"
     Then I expect the "machine" edit form to be visible within max 5 seconds
     Then I click the button "Tag" from the menu of the "machine" edit form
@@ -20,6 +23,7 @@ Feature: Schedulers-b
     Then I expect for the tag popup to close within 4 seconds
     When I visit the Machines page after the counter has loaded
     And I wait for 2 seconds
+    And I search for "test-ui-machine-2-random"
     And I click the "test-ui-machine-2-random" "machine"
     And I wait for 10 seconds
     Then I ensure that the "machine" has the tags "test:awesome"
@@ -95,5 +99,7 @@ Feature: Schedulers-b
   @check-machines-state
   Scenario: Check machine's state
     When I visit the Machines page
+    And I search for "test-ui-machine-random"
     Then "test-ui-machine-random" machine state has to be "stopped" within 120 seconds
+    When I search for "test-ui-machine-2-random"
     Then "test-ui-machine-2-random" machine state has to be "stopped" within 120 seconds
