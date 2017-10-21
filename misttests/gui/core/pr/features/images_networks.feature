@@ -26,6 +26,7 @@ Feature: Images and Networks
     And I wait for 2 seconds
     And I visit the Images page
     And I wait for 2 seconds
+    And I search for "CentOS 6.7 x32"
     Then the "CentOS 6.7 x32" image should be "unstarred" within 200 seconds
 
   @image-star
@@ -38,6 +39,7 @@ Feature: Images and Networks
     Then I wait for the links in homepage to appear
     When I visit the Images page
     And I wait for 2 seconds
+    And I search for "CentOS 6.7 x32"
     Then the "CentOS 6.7 x32" image should be "starred" within 200 seconds
 
 #  @image-tags
