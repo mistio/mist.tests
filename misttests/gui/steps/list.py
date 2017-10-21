@@ -64,6 +64,8 @@ def assert_machine_state(context, name, state, seconds):
     if context.mist_config.get(name):
         name = context.mist_config.get(name)
     end_time = time() + int(seconds)
+    if context.mist_config['LOCAL']:
+        end_time = 2 * end_time
     while time() < end_time:
         machine = get_machine(context, name)
         if machine:

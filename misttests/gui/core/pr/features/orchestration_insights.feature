@@ -4,6 +4,7 @@ Feature: Orchestration
   @template-add
   Scenario: Add a template
     Given I am logged in to mist.core
+    And cloud "Docker" has been added via API request
     When I visit the Templates page
     And I click the button "+"
     Then I expect the "Template" add form to be visible within max 10 seconds
@@ -67,7 +68,7 @@ Feature: Orchestration
 
   @template-search
   Scenario: Filter a template
-#    When I visit the Templates page
+    When I visit the Templates page
     When I search for "Simple Python Template"
     Then "Simple Python Template" template should be present within 10 seconds
     When I clear the search bar
@@ -159,7 +160,7 @@ Feature: Orchestration
 
   @template-delete
   Scenario: Delete a template
-#    When I visit the Templates page
+    When I visit the Templates page
     When I click the "Renamed Template" "template"
     And I expect the "template" edit form to be visible within max 5 seconds
     Then I click the button "Delete Template" from the menu of the "template" edit form

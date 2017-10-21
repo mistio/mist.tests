@@ -1,4 +1,4 @@
-@clouds-add-1
+@clouds-add-3
 Feature: Add second-tier clouds in Polymist
 
   Background:
@@ -22,8 +22,5 @@ Feature: Add second-tier clouds in Polymist
 
     Examples: Providers
     | provider       |
-    | Azure          |
-    | Rackspace      |
-    | AWS            |
-    | Linode         |
-    | OnApp          |
+    | Digital Ocean  |
+    | Docker         |

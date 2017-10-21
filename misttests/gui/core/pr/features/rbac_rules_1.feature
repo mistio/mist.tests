@@ -95,10 +95,11 @@ Feature: RBAC
     When I use my "Vultr" credentials
     And I focus on the button "Add Cloud" in "cloud" add form
     And I click the button "Add Cloud" in "cloud" add form
-    Then I wait for 2 seconds
-    Then I visit the Home page
-    Then I wait for the dashboard to load
-    Then I should have 2 clouds added
+    And I wait for 2 seconds
+    And I visit the Home page
+    And I wait for the dashboard to load
+    Then the "Vultr" provider should be added within 120 seconds
+    And I should have 2 clouds added
 
   @member1-delete-cloud-fail
   Scenario: Member 1 should not be able to delete cloud

@@ -3,6 +3,11 @@
 passwordless
 test_settings.py
 
+### artifacts
+artifacts/
+*.mp4
+*.png
+
 ### Python template
 # Byte-compiled / optimized / DLL files
 __pycache__/
