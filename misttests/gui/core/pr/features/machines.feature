@@ -35,7 +35,9 @@ Feature: Machines
     Then I expect for the button "Launch" in "machine" add form to be clickable within 10 seconds
     When I focus on the button "Launch" in "machine" add form
     And I click the "Launch" button with id "appformsubmit"
-    Then "ui-test-create-machine-random" machine state has to be "running" within 30 seconds
+    When I visit the Home page
+    And I visit the Machines page
+    Then "ui-test-create-machine-random" machine state has to be "running" within 40 seconds
 
   @key-associate
   Scenario: Associate key with machine
