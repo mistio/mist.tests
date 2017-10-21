@@ -120,17 +120,6 @@ def after_step(context, step):
 
         produce_video_artifact(context, step)
 
-        try: # debug code for ip-whitelisting tests
-            mist_app = context.browser.execute_script(
-                'return document.getElementsByTagName("mist-app")[0]'
-            )
-            current_ip = context.browser.execute_script(
-                'return arguments[0].model.user.current_ip',
-                mist_app
-            )
-            log.info('*** The current ip of the user is: %s ***' % current_ip)
-        except Exception as e:
-            log.warn('Could not get ip: %s' % repr(e))
         # break into post mortem
         if BEHAVE_DEBUG_ON_ERROR:
             import ipdb
