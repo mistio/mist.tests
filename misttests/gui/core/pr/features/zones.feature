@@ -104,4 +104,4 @@ Feature: Zones
     Then I expect the dialog "Delete Zone" is closed within 4 seconds
     When I visit the Zones page
     And I wait for 2 seconds
-    And "test-zone-random.com." zone should be absent within 10 seconds
+    And "test-zone-random.com." zone should be absent within 20 seconds
