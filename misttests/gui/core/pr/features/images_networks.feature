@@ -7,39 +7,38 @@ Feature: Images and Networks
   @image-search
   Scenario: Search image
     When I expect for "addBtn" to be clickable within max 20 seconds
-    Given "OpenStack" cloud has been added
+    Given "Digital Ocean" cloud has been added
     When I visit the Images page
-    And I search for "CoreOS"
-    Then "CoreOS-Alpha" image should be present within 3 seconds
-    And "CoreOS-Beta" image should be present within 3 seconds
-    When I search for "CoreOS-Alpha"
-    Then "CoreOS-Alpha" image should be present within 3 seconds
-    And "CoreOS-Beta" image should be absent within 3 seconds
+    And I search for "CentOS 6.7"
+    Then "CentOS 6.7 x32" image should be present within 3 seconds
+    And "CentOS 6.7 x64" image should be present within 3 seconds
+    And "Fedora 26 x64" image should be absent within 3 seconds
     When I clear the search bar
-    Then "CoreOS-Beta" image should be present within 5 seconds
+    Then "Fedora 26 x64" image should be present within 5 seconds
 
   @image-unstar
   Scenario: Unstar image
-    When I click the "CoreOS-Beta" "image"
-    And I expect the "image" edit form to be visible within max 5 seconds
-    Then I click the button "Unstar" in "image" edit form
-    Then  I visit the Home page
+    When I search for "CentOS 6.7 x32"
+    And I click the "CentOS 6.7 x32" "image"
+    Then I expect the "image" edit form to be visible within max 5 seconds
+    When I click the button "Unstar" in "image" edit form
+    And  I visit the Home page
     And I wait for 2 seconds
-    When I visit the Images page
+    And I visit the Images page
     And I wait for 2 seconds
-    Then the "CoreOS-Beta" image should be "unstarred" within 200 seconds
+    Then the "CentOS 6.7 x32" image should be "unstarred" within 200 seconds
 
   @image-star
   Scenario: Star image
-    When I click the "CoreOS-Beta" "image"
-    And I expect the "image" edit form to be visible within max 5 seconds
-    Then I click the button "Star" in "image" edit form
-    Then  I visit the Home page
+    When I click the "CentOS 6.7 x32" "image"
+    Then I expect the "image" edit form to be visible within max 5 seconds
+    When I click the button "Star" in "image" edit form
+    And  I visit the Home page
     And I refresh the page
-    And I wait for the links in homepage to appear
+    Then I wait for the links in homepage to appear
     When I visit the Images page
     And I wait for 2 seconds
-    Then the "CoreOS-Beta" image should be "starred" within 200 seconds
+    Then the "CentOS 6.7 x32" image should be "starred" within 200 seconds
 
 #  @image-tags
 #  Scenario: Add tags to image
