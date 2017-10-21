@@ -89,9 +89,9 @@ VAULT_SERVER = get_setting("VAULT_SERVER", "https://vault.ops.mist.io:8200")
 
 DEBUG = get_setting("DEBUG", False)
 
-LOCAL_DOCKER = get_setting("LOCAL_DOCKER","api")
+RECORD_SELENIUM = get_setting("RECORD_SELENIUM", True)
 
-RECORD_SELENIUM = get_setting("RECORD_SELENIUM", False)
+LOCAL_DOCKER = get_setting("LOCAL_DOCKER","api")
 
 # Directories and paths used for the tests
 BASE_DIR = get_setting("BASE_DIR", os.getcwd())
@@ -107,7 +107,9 @@ MAIL_PATH = get_setting("MAIL_PATH", MAIL_DIR)
 
 JS_CONSOLE_LOG = get_setting("JS_CONSOLE_LOG", '/var/log/js_console.log')
 
-SCREENSHOT_PATH = get_setting("SCREENSHOT_PATH", '/var/log/error')
+SCREENSHOT_PATH = os.getenv('DATADIR') or get_setting("SCREENSHOT_PATH", 'artifacts/screenshot')
+
+ARTIFACTS_PATH = os.getenv('DATADIR') or get_setting("ARTIFACTS_PATH", 'artifacts')
 
 DISPLAY_NUM = get_setting("DISPLAY_NUM", "1")
 
@@ -183,12 +185,8 @@ GITHUB_REGISTRATION_TEST_EMAIL = get_setting(
 GITHUB_REGISTRATION_TEST_PASSWORD = get_setting(
     "GITHUB_REGISTRATION_TEST_PASSWORD", "")
 
-API_TESTS_PRIVATE_KEY = get_setting("API_TESTS_PRIVATE_KEY", '')
-
-API_TESTS_PUBLIC_KEY = get_setting("API_TESTS_PUBLIC_KEY", '')
-
-API_TESTING_MACHINE_PRIVATE_KEY = get_setting(
-    "API_TESTING_MACHINE_PRIVATE_KEY", '')
+TESTING_PRIVATE_KEY = get_setting(
+    "TESTING_PRIVATE_KEY", '')
 
 API_TESTING_MACHINE_PUBLIC_KEY = get_setting(
     "API_TESTING_MACHINE_PUBLIC_KEY", '')
@@ -206,7 +204,8 @@ ORG_ID = get_setting('ORG_ID', '')
 SETUP_ENVIRONMENT = get_setting("SETUP_ENVIRONMENT", False)
 
 WEBDRIVER_OPTIONS = get_setting('WEBDRIVER_OPTIONS',
-                                 ['--dns-prefetch-disable'])
+                                ['headless', 'no-sandbox', 'disable-gpu',
+                                 'window-size=1920x1080'])
 
 REGISTER_USER_BEFORE_FEATURE = get_setting('REGISTER_USER_BEFORE_FEATURE', True, priority='environment')
 
