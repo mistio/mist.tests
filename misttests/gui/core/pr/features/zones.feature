@@ -51,7 +51,7 @@ Feature: Zones
     And I wait for 1 seconds
     And I visit the Zones page
     And I search for "test-zone-random.com."
-    Then "test-zone-random.com." zone should be present within 10 seconds
+    Then "test-zone-random.com." zone should be present within 15 seconds
     When I click the "test-zone-random.com." "zone"
     Then I expect the "zone" edit form to be visible within max 5 seconds
     When I click the button "Tags" in "zone" edit form
