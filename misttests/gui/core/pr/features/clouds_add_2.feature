@@ -26,6 +26,7 @@ Feature: Add second-tier clouds in Polymist
 #    | Packet	     |
 #    | Vmware         |
 #    | HostVirtual    |
+#    | OpenStack      |
 
   @bare-metal-add
   Scenario: Add bare-metal
