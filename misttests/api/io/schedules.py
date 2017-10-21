@@ -132,9 +132,9 @@ class TestSchedulesFunctionality:
                                        cert_file=safe_get_var('dockerhosts/godzilla', 'cert',
                                                               config.CREDENTIALS['DOCKER']['cert']), show_all=True).post()
         assert_response_ok(response)
-        cache.set('cloud_id', response.json()['id'])
+        cache.set('docker_id', response.json()['id'])
 
-        response = mist_core.list_images(cloud_id=cache.get('cloud_id', ''), api_token=owner_api_token).post()
+        response = mist_core.list_images(cloud_id=cache.get('docker_id', ''), api_token=owner_api_token).post()
         assert_response_ok(response)
         for image in response.json():
             if 'Ubuntu 14.04' in image['name']:
@@ -144,12 +144,12 @@ class TestSchedulesFunctionality:
         for i in range(1,4):
             name = 'api_test_machine_%d' % random.randint(1, 10000000)
             cache.set('machine_%d_name' %i, name)
-            response = mist_core.create_machine(cloud_id=cache.get('cloud_id', ''), api_token=owner_api_token,
+            response = mist_core.create_machine(cloud_id=cache.get('docker_id', ''), api_token=owner_api_token,
                                                 key_id='', name=name, provider='', location='',
                                                 image=cache.get('image_id', ''), size='').post()
             assert_response_ok(response)
 
-        response = mist_core.list_machines(cloud_id=cache.get('cloud_id', ''), api_token=owner_api_token).get()
+        response = mist_core.list_machines(cloud_id=cache.get('docker_id', ''), api_token=owner_api_token).get()
 
         for machine in response.json():
             if cache.get('machine_1_name','') in machine['name']:
@@ -161,7 +161,7 @@ class TestSchedulesFunctionality:
                 assert machine['state'] == 'running',\
                     "Machine's state is not running in the beginning of the tests"
                 # response = mist_core.set_machine_tags(api_token=owner_api_token,
-                #                                       cloud_id=cache.get('cloud_id', ''),
+                #                                       cloud_id=cache.get('docker_id', ''),
                 #                                       machine_id=machine['uuid'],
                 #                                       tags={'key': 'schedule_test', 'value': ''}).post()
                 # assert_response_ok(response)
@@ -186,7 +186,7 @@ class TestSchedulesFunctionality:
         print "Success!!!"
 
     def test_add_interval_schedule_run_immediately_ok(self, pretty_print, mist_core, owner_api_token, cache):
-        response = mist_core.list_machines(cloud_id=cache.get('cloud_id', ''), api_token=owner_api_token).get()
+        response = mist_core.list_machines(cloud_id=cache.get('docker_id', ''), api_token=owner_api_token).get()
         assert_response_ok(response)
         machines_uuids = []
         machines_uuids.append(cache.get('machine_1_id', ''))
@@ -366,7 +366,7 @@ class TestSchedulesFunctionality:
     def test_check_schedules(self, pretty_print, mist_core, owner_api_token, cache, schedules_cleanup):
         print "Sleeping to check state of machines..."
         sleep(90)
-        response = mist_core.list_machines(cloud_id=cache.get('cloud_id', ''), api_token=owner_api_token).get()
+        response = mist_core.list_machines(cloud_id=cache.get('docker_id', ''), api_token=owner_api_token).get()
         for machine in response.json():
             if cache.get('machine_1_name', '') in machine['name']:
                 assert machine['state'] == 'stopped', "Machine'state is not stopped although schedule was supposed to run immediately"

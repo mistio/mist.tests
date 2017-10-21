@@ -117,7 +117,7 @@ def graph_some_value(context, graph_title):
         #click on the canvas to show the value
         from selenium.webdriver.common import action_chains, keys
         action_chain = ActionChains(context.browser)
-        action_chain.move_to_element_with_offset(graph_panel, 370, 150)
+        action_chain.move_to_element_with_offset(graph_panel, 650, 120)
         action_chain.click()
         action_chain.perform()
 

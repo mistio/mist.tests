@@ -17,9 +17,9 @@ Feature: Zones
     Then I expect for the button "Add" in "Zone" add form to be clickable within 5 seconds
     When I focus on the button "Add" in "Zone" add form
     And I click the button "Add" in "Zone" add form
-    Then I expect the "Zone" edit form to be visible within max 25 seconds
+    Then I expect the "Zone" edit form to be visible within max 10 seconds
     When I visit the Zones page
-    Then "test-zone-random.com." zone should be present within 5 seconds
+    Then "test-zone-random.com." zone should be present within 20 seconds
 
   @zone-search
   Scenario: Filter a zone
@@ -38,6 +38,7 @@ Feature: Zones
     And I wait for 1 seconds
     And I open the cloud menu for "GCE"
     And I click the "Enable DNS" button with id "DNS-enable-disable"
+    And I wait for 1 seconds
     And I visit the Zones page
     Then "test-zone-random.com." zone should be absent within 10 seconds
 
@@ -47,7 +48,9 @@ Feature: Zones
     And I wait for 1 seconds
     And I open the cloud menu for "GCE"
     And I click the "Enable DNS" button with id "DNS-enable-disable"
+    And I wait for 1 seconds
     And I visit the Zones page
+    And I search for "test-zone-random.com."
     Then "test-zone-random.com." zone should be present within 10 seconds
     When I click the "test-zone-random.com." "zone"
     Then I expect the "zone" edit form to be visible within max 5 seconds
@@ -58,7 +61,7 @@ Feature: Zones
     And I add a tag with key "second" and value "tag"
     And I click the button "Save Tags" in the tag menu
     Then I expect for the tag popup to close within 4 seconds
-    And I wait for 4 seconds
+    And I wait for 10 seconds
     And I ensure that the "zone" has the tags "first:tag,second:tag"
     When I click the button "Tags" in "zone" edit form
     And I expect for the tag popup to open within 4 seconds
@@ -79,13 +82,14 @@ Feature: Zones
     And I set the value "test-record-random" to field "Name" in "record" add form
     And I set the value "1.2.3.4" to field "Rdata" in "record" add form
     And I click the button "Add" in "record" add form
-    Then "test-record-random" record should be present within 10 seconds
+    Then "test-record-random" record should be present within 20 seconds
 
   @record-delete
   Scenario: Delete the record created above
     When I select list item "test-record-random" record
     And I click the action "Delete" from the record list actions
     Then I expect the dialog "Delete Record?" is open within 4 seconds
+    And I wait for 1 seconds
     When I click the "Delete" button in the dialog "Delete Record?"
     Then I expect the dialog "Delete Record?" is closed within 4 seconds
     And "test-record-random" record should be absent within 10 seconds
@@ -94,8 +98,9 @@ Feature: Zones
   Scenario: Delete a zone
     When I click the button "Delete" in "zone" edit form
     Then I expect the dialog "Delete Zone" is open within 4 seconds
+    And I wait for 1 seconds
     When I click the "Delete" button in the dialog "Delete Zone"
     Then I expect the dialog "Delete Zone" is closed within 4 seconds
     When I visit the Zones page
     And I wait for 2 seconds
-    And "test-zone-random.com." zone should be absent within 5 seconds
+    And "test-zone-random.com." zone should be absent within 10 seconds

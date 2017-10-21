@@ -6,10 +6,11 @@ Feature: Production
     Given I am logged in to mist.core
     When I visit the Machines page after the counter has loaded
     Then I search for the mayday machine
-    When I click the mayday machine
+    When I click the "MAYDAY_MACHINE" "machine"
     And I clear the machines search bar
     And I expect the "machine" edit form to be visible within max 5 seconds
     Then I wait for the graphs to appear
+    And "Load" graph should have some values
     And I click the button "Add Graph"
     Then I expect for "selectTarget" modal to appear within max 30 seconds
     And I expect the metric buttons to appear within 30 seconds
@@ -25,7 +26,7 @@ Feature: Production
     Given I am logged in to mist.core
     When I visit the Machines page after the counter has loaded
     Then I search for the mayday machine
-    When I click the mayday machine
+    When I click the "MAYDAY_MACHINE" "machine"
     And I clear the machines search bar
     And I expect the "machine" edit form to be visible within max 5 seconds
     Then I wait for the graphs to appear
@@ -47,7 +48,7 @@ Feature: Production
     Given I am logged in to mist.core
     When I visit the Machines page after the counter has loaded
     Then I search for the mayday machine
-    When I click the mayday machine
+    When I click the "MAYDAY_MACHINE" "machine"
     And I clear the machines search bar
     And I expect the "machine" edit form to be visible within max 5 seconds
     Then I wait for the graphs to appear
@@ -58,7 +59,7 @@ Feature: Production
     Given I am logged in to mist.core
     When I visit the Machines page after the counter has loaded
     Then I search for the mayday machine
-    And I click the mayday machine
+    When I click the "MAYDAY_MACHINE" "machine"
     And I expect the "machine" edit form to be visible within max 5 seconds
     And I wait for 2 seconds
     Then I click the button "Reboot" from the menu of the "machine" edit form
@@ -92,14 +93,14 @@ Feature: Production
     Given I am not logged in to mist.core
     When I open the login popup
     And I wait for 2 seconds
-    Then I click the google button in the landing page popup
-    Then I input my "GOOGLE_TEST_EMAIL" in the field with id "identifierId"
-    And I click the "next" button with id "identifierNext"
+    And I click the google button in the landing page popup
+    And I input my "GOOGLE_TEST_EMAIL" in the field with id "Email"
+    And I click the "next" button with id "next"
     And I wait for 2 seconds
     And I type the password in the Google form
-    And I press the button with id "passwordNext"
-    When I wait for the dashboard to load
-    Then I logout
+    And I press the button with id "signIn"
+    Then I wait for the dashboard to load
+    And I logout
 
   @confirm_alert_email
   Scenario: Confirm that alert email arrived

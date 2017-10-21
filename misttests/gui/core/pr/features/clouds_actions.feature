@@ -25,7 +25,8 @@ Feature: Cloud actions for polymer
 
   @cloud-toggle
    Scenario: Toggle a cloud
-    Given "Docker" cloud has been added
+    Given cloud "Docker" has been added via API request
+    And I wait for 2 seconds
     When I open the cloud menu for "Docker"
     And I click the "toggle" button with id "enable-disable-cloud"
     And I wait for 2 seconds
@@ -42,7 +43,10 @@ Feature: Cloud actions for polymer
     And I visit the Home page
     And I wait for the dashboard to load
     Then cloud "Docker" should be "enabled"
-    When I visit the Machines page
+    when I visit the Machines page after the counter has loaded
+    And I wait for 1 seconds
+    And I search for the machine "mistcore_debugger_1"
+    And I wait for 1 seconds
     Then "mistcore_debugger_1" machine should be present within 60 seconds
     And I visit the Home page
 
