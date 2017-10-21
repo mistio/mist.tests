@@ -37,6 +37,7 @@ Feature: Zones
     When I visit the Home page
     And I wait for 1 seconds
     And I open the cloud menu for "GCE"
+    And I wait for 1 seconds
     And I click the "Enable DNS" button with id "DNS-enable-disable"
     And I wait for 1 seconds
     And I visit the Zones page
