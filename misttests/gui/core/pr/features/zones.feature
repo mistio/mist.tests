@@ -93,7 +93,7 @@ Feature: Zones
     And I wait for 1 seconds
     When I click the "Delete" button in the dialog "Delete Record?"
     Then I expect the dialog "Delete Record?" is closed within 4 seconds
-    And "test-record-random" record should be absent within 10 seconds
+    And "test-record-random" record should be absent within 20 seconds
 
   @zone-delete
   Scenario: Delete a zone

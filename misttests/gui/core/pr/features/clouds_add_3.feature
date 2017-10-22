@@ -22,5 +22,5 @@ Feature: Add second-tier clouds in Polymist
 
     Examples: Providers
     | provider       |
-    | Digital Ocean  |
+    | Linode         |
     | Docker         |

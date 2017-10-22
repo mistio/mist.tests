@@ -24,5 +24,4 @@ Feature: Add second-tier clouds in Polymist
     | provider       |
     | Azure          |
     | Rackspace      |
-    | Linode         |
     | OnApp          |
