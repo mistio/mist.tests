@@ -120,7 +120,6 @@ def graph_some_value(context, graph_title):
         action_chain.move_to_element_with_offset(graph_panel, 600, 150)
         action_chain.click()
         action_chain.perform()
-        import ipdb; ipdb.set_trace()
         src = context.browser.page_source
         text_found = re.search(graph_title.capitalize() + r" : [0-999]", src)
 
