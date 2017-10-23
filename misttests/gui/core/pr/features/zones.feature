@@ -18,7 +18,9 @@ Feature: Zones
     When I focus on the button "Add" in "Zone" add form
     And I click the button "Add" in "Zone" add form
     Then I expect the "Zone" edit form to be visible within max 10 seconds
-    When I visit the Zones page
+    When I visit the Home page
+    And I wait for 1 seconds
+    And I visit the Zones page
     Then "test-zone-random.com." zone should be present within 20 seconds
 
   @zone-search
