@@ -40,6 +40,7 @@ Feature: Zones
     And I wait for 1 seconds
     And I click the "Enable DNS" button with id "DNS-enable-disable"
     And I wait for 1 seconds
+    And I visit the Home page
     And I visit the Zones page
     Then "test-zone-random.com." zone should be absent within 10 seconds
 
