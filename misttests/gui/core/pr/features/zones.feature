@@ -83,6 +83,8 @@ Feature: Zones
     And I click the button "A" in the "Choose Record Type" dropdown
     And I set the value "test-record-random" to field "Name" in "record" add form
     And I set the value "1.2.3.4" to field "Rdata" in "record" add form
+    Then I expect for the button "Add" in "Record" add form to be clickable within 5 seconds
+    When I focus on the button "Add" in "Record" add form
     And I click the button "Add" in "record" add form
     Then "test-record-random" record should be present within 20 seconds
 
