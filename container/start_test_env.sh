@@ -2,7 +2,6 @@
 set -e
 export DISPLAY=:1.0
 export MIST_URL=${MIST_URL:-http://172.17.0.1}
-args=$@
 
 mkdir /data
 cd /data
