@@ -203,7 +203,6 @@ def set_other_server_creds(context):
                     And I wait for 2 seconds
                     And I click the button "KVMKEY" in the "SSH Key" dropdown
                     And I wait for 1 seconds
-                    Then I set the value "user" to field "User" in "cloud" add form
                 ''' % (safe_get_var('clouds/other_server', 'hostname', context.mist_config['CREDENTIALS']['KVM']['hostname']),))
 
 
