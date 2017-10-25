@@ -111,8 +111,6 @@ SCREENSHOT_PATH = os.getenv('DATADIR') or get_setting("SCREENSHOT_PATH", 'artifa
 
 ARTIFACTS_PATH = os.getenv('DATADIR') or get_setting("ARTIFACTS_PATH", 'artifacts')
 
-DISPLAY_NUM = get_setting("DISPLAY_NUM", "1")
-
 # This is the path to the json file used for the multi-provisioning tests
 MP_DB_DIR = get_setting("MP_DB_DIR", os.path.join(BASE_DIR, 'mp_db.json'))
 

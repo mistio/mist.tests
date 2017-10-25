@@ -18,7 +18,9 @@ Feature: Zones
     When I focus on the button "Add" in "Zone" add form
     And I click the button "Add" in "Zone" add form
     Then I expect the "Zone" edit form to be visible within max 10 seconds
-    When I visit the Zones page
+    When I visit the Home page
+    And I wait for 1 seconds
+    And I visit the Zones page
     Then "test-zone-random.com." zone should be present within 20 seconds
 
   @zone-search
@@ -39,6 +41,8 @@ Feature: Zones
     And I open the cloud menu for "GCE"
     And I wait for 1 seconds
     And I click the "Enable DNS" button with id "DNS-enable-disable"
+    And I wait for 2 seconds
+    And I visit the Home page
     And I wait for 1 seconds
     And I visit the Zones page
     Then "test-zone-random.com." zone should be absent within 10 seconds
@@ -82,6 +86,8 @@ Feature: Zones
     And I click the button "A" in the "Choose Record Type" dropdown
     And I set the value "test-record-random" to field "Name" in "record" add form
     And I set the value "1.2.3.4" to field "Rdata" in "record" add form
+    Then I expect for the button "Add" in "Record" add form to be clickable within 5 seconds
+    When I focus on the button "Add" in "Record" add form
     And I click the button "Add" in "record" add form
     Then "test-record-random" record should be present within 20 seconds
 
