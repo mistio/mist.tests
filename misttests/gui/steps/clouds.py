@@ -255,7 +255,7 @@ def set_second_aws_creds(context):
                 Then I set the value "%s" to field "API KEY" in "cloud" edit form
                 Then I set the value "%s" to field "API SECRET" in "cloud" edit form
             ''' % (safe_get_var('clouds/aws_2', 'api_key', context.mist_config['CREDENTIALS']['AWS_2']['api_key']),
-                   safe_get_var('clouds/aws', 'api_secret', context.mist_config['CREDENTIALS']['AWS_2']['api_secret']),))
+                   safe_get_var('clouds/aws_2', 'api_secret', context.mist_config['CREDENTIALS']['AWS_2']['api_secret']),))
 
 
 cloud_creds_dict = {
