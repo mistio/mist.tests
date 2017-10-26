@@ -257,6 +257,7 @@ def set_second_aws_creds(context):
             ''' % (safe_get_var('clouds/aws_2', 'api_key', context.mist_config['CREDENTIALS']['AWS_2']['api_key']),
                    safe_get_var('clouds/aws', 'api_secret', context.mist_config['CREDENTIALS']['AWS_2']['api_secret']),))
 
+
 cloud_creds_dict = {
     "azure": set_azure_creds,
     "gce": set_gce_creds,
