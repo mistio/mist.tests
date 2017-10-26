@@ -55,8 +55,8 @@ class TestLibcloudFunctionality:
 
     def test_list_machines_aws(self, pretty_print, mist_core, cache, owner_api_token):
         response = mist_core.add_cloud(title='AWS', provider= 'ec2', api_token=owner_api_token,
-                                       api_key=safe_get_var('clouds/aws', 'api_key', config.CREDENTIALS['EC2']['api_key']),
-                                       api_secret=safe_get_var('clouds/aws', 'api_secret', config.CREDENTIALS['EC2']['api_secret']),
+                                       api_key=safe_get_var('clouds/aws_2', 'api_key', config.CREDENTIALS['EC2']['api_key']),
+                                       api_secret=safe_get_var('clouds/aws_2', 'api_secret', config.CREDENTIALS['EC2']['api_secret']),
                                        region='ap-northeast-1').post()
         assert_response_ok(response)
         cache.set('aws_cloud_id', response.json()['id'])

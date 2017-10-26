@@ -27,20 +27,21 @@ Feature: Images and Networks
     And I visit the Images page
     And I wait for 2 seconds
     And I search for "CentOS 6.7 x32"
-    Then the "CentOS 6.7 x32" image should be "unstarred" within 200 seconds
+    Then the "CentOS 6.7 x32" image should be "unstarred" within 20 seconds
 
   @image-star
   Scenario: Star image
     When I click the "CentOS 6.7 x32" "image"
     Then I expect the "image" edit form to be visible within max 5 seconds
-    When I click the button "Star" in "image" edit form
+    When I wait for 1 seconds
+    And I click the button "Star" in "image" edit form
     And  I visit the Home page
     And I refresh the page
     Then I wait for the links in homepage to appear
     When I visit the Images page
     And I wait for 2 seconds
     And I search for "CentOS 6.7 x32"
-    Then the "CentOS 6.7 x32" image should be "starred" within 200 seconds
+    Then the "CentOS 6.7 x32" image should be "starred" within 20 seconds
 
 #  @image-tags
 #  Scenario: Add tags to image
