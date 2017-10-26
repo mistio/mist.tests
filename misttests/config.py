@@ -218,6 +218,7 @@ IMAP_PASSWORD = get_setting('IMAP_PASSWORD', '')
 KEY_ID = get_setting('KEY_ID', '')
 
 DEFAULT_CREDENTIALS = {'AWS': {'api_key': '', 'api_secret': '', 'region': ''},
+                       'AWS_2': {'api_key': '', 'api_secret': '', 'region': ''},
                        'KVM': {'key': """ """, 'hostname': ''},
                        'AZURE': {'certificate': """ """, 'subscription_id': ''},
                        'AZURE_ARM': {'client_key': '', 'client_secret': '', 'subscription_id': '', 'tenant_id': ''},
@@ -238,7 +239,6 @@ DEFAULT_CREDENTIALS = {'AWS': {'api_key': '', 'api_secret': '', 'region': ''},
                        'VULTR': {'apikey': ''},
                        'DOCKER_MONITORING':{'host': '', 'port': ''},
                        'ONAPP':{'username':'', 'password':'', 'host':'', 'verify_ssl': False}
-
                        }
 
 CREDENTIALS = get_setting("CREDENTIALS", DEFAULT_CREDENTIALS)
