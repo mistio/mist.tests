@@ -7,26 +7,25 @@ Feature: Cloud actions for polymer
   @cloud-edit-creds
   Scenario: Edit credentials of a cloud
     Then I expect for "addBtn" to be clickable within max 20 seconds
+    Given cloud "Docker" has been added via API request
     Given "AWS" cloud has been added
     When I visit the Images page
     Then "CoreOS stable 1068.8.0 (PV)" image should be absent within 10 seconds
     Then I visit the Home page
     And I wait for the dashboard to load
     When I open the cloud menu for "AWS"
-#    And  I use my second "Openstack" credentials in cloud edit form
-#    And I focus on the button "Edit Credentials" in "cloud" edit form
-#    And I click the button "Edit Credentials" in "cloud" edit form
-#    And I wait for 5 seconds
-#    And I visit the Networks page
-#    Then "private_network" network should be absent within 10 seconds
-#    Then I visit the Home page
-#    And I wait for the links in homepage to appear
-#    And I expect for "addBtn" to be clickable within max 20 seconds
+    And  I use my second "AWS" credentials in cloud edit form
+    And I focus on the button "Edit Credentials" in "cloud" edit form
+    And I click the button "Edit Credentials" in "cloud" edit form
+    And I wait for 3 seconds
+    And I visit the Images page
+    Then "CoreOS stable 1068.8.0 (PV)" image should be absent within 10 seconds
+    Then I visit the Home page
+    And I wait for the links in homepage to appear
+    And I expect for "addBtn" to be clickable within max 20 seconds
 
   @cloud-toggle
    Scenario: Toggle a cloud
-    Given cloud "Docker" has been added via API request
-    And I wait for 2 seconds
     When I open the cloud menu for "Docker"
     And I click the "toggle" button with id "enable-disable-cloud"
     And I wait for 2 seconds
