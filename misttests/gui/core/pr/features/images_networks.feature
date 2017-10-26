@@ -27,7 +27,7 @@ Feature: Images and Networks
     And I visit the Images page
     And I wait for 2 seconds
     And I search for "CentOS 6.7 x32"
-    Then the "CentOS 6.7 x32" image should be "unstarred" within 200 seconds
+    Then the "CentOS 6.7 x32" image should be "unstarred" within 20 seconds
 
   @image-star
   Scenario: Star image
@@ -41,7 +41,7 @@ Feature: Images and Networks
     When I visit the Images page
     And I wait for 2 seconds
     And I search for "CentOS 6.7 x32"
-    Then the "CentOS 6.7 x32" image should be "starred" within 200 seconds
+    Then the "CentOS 6.7 x32" image should be "starred" within 20 seconds
 
 #  @image-tags
 #  Scenario: Add tags to image
