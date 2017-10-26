@@ -33,7 +33,8 @@ Feature: Images and Networks
   Scenario: Star image
     When I click the "CentOS 6.7 x32" "image"
     Then I expect the "image" edit form to be visible within max 5 seconds
-    When I click the button "Star" in "image" edit form
+    When I wait for 1 seconds
+    And I click the button "Star" in "image" edit form
     And  I visit the Home page
     And I refresh the page
     Then I wait for the links in homepage to appear
