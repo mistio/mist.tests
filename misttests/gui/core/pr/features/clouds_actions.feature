@@ -4,15 +4,15 @@ Feature: Cloud actions for polymer
   Background:
     Given I am logged in to mist.core
 
-#  @cloud-edit-creds
-#  Scenario: Edit credentials of a cloud
-#    Then I expect for "addBtn" to be clickable within max 20 seconds
-#    Given "Openstack" cloud has been added
-#    When I visit the Networks page
-#    Then "private_network" network should be present within 10 seconds
-#    Then I visit the Home page
-#    And I wait for the dashboard to load
-#    When I open the cloud menu for "Openstack"
+  @cloud-edit-creds
+  Scenario: Edit credentials of a cloud
+    Then I expect for "addBtn" to be clickable within max 20 seconds
+    Given "AWS" cloud has been added
+    When I visit the Images page
+    Then "CoreOS stable 1068.8.0 (PV)" image should be absent within 10 seconds
+    Then I visit the Home page
+    And I wait for the dashboard to load
+    When I open the cloud menu for "AWS"
 #    And  I use my second "Openstack" credentials in cloud edit form
 #    And I focus on the button "Edit Credentials" in "cloud" edit form
 #    And I click the button "Edit Credentials" in "cloud" edit form
