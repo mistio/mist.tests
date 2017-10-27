@@ -33,7 +33,7 @@ Feature: Login Scenarios and Api Token
     When I open the signup popup
     And I enter my standard credentials for signup
     And I click the sign up button in the landing page popup
-    Then I should receive an email at the address "EMAIL" with subject "[mist.io] Confirm your registration" within 120 seconds
+    Then I should receive an email at the address "EMAIL" with subject "[mist.io] Confirm your registration" within 360 seconds
     When I follow the link inside the email
     And I delete old emails
     And I enter my standard credentials for signup_password_set
