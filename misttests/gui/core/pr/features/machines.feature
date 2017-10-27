@@ -37,6 +37,7 @@ Feature: Machines
     And I click the "Launch" button with id "appformsubmit"
     When I visit the Home page
     And I visit the Machines page
+    And I search for "ui-test-create-machine-random"
     Then "ui-test-create-machine-random" machine state has to be "running" within 40 seconds
 
   @key-associate
