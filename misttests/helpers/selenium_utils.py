@@ -8,6 +8,11 @@ from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.remote.errorhandler import NoSuchWindowException
 
+from PIL import ImageDraw
+from PIL import ImageFont
+from PIL import Image
+
+
 log = logging.getLogger(__name__)
 
 
@@ -63,6 +68,17 @@ def get_screenshot(context, step):
         context.browser.save_screenshot(path)
     except NoSuchWindowException:
         pass
+    insert_caption_to_image(path, step.name)
+
+
+def insert_caption_to_image(path, step_name):
+    img = Image.open(path)
+    W,H = img.size
+    draw = ImageDraw.Draw(img)
+    font = ImageFont.truetype("helpers/LiberationSans-Bold.ttf", 32)
+    w,h = draw.textsize(step_name)
+    draw.text(((W-w)/2,H-100),step_name,(0,0,0,0),font=font)
+    img.save(path)
 
 
 def get_error_screenshot(context, step):

@@ -38,7 +38,7 @@ RUN git clone https://github.com/tmux/tmux.git && cd tmux && sh autogen.sh && ./
 RUN git clone https://github.com/commixon/gmail && \
     cd gmail && python setup.py install
 
-COPY requirements.txt /mist.tests/requirements.txt
+COPY container/requirements.txt /mist.tests/requirements.txt
 RUN pip install --no-cache-dir -r /mist.tests/requirements.txt
 
 COPY . /mist.tests/

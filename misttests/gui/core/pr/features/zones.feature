@@ -90,6 +90,7 @@ Feature: Zones
     When I focus on the button "Add" in "Record" add form
     And I click the button "Add" in "record" add form
     Then "test-record-random" record should be present within 20 seconds
+    And I wait for 1 seconds
 
   @record-delete
   Scenario: Delete the record created above

@@ -217,11 +217,10 @@ def after_feature(context, feature):
     if feature.name == 'Schedulers':
         delete_schedules(context)
         kill_docker_machine(context, context.mist_config.get('test-machine-random'))
-# for debugging purpose, do not kill destroy neither schedules nor machines
-#    if feature.name == 'Schedulers-b':
-#        delete_schedules(context)
-#        kill_docker_machine(context, context.mist_config.get('test-ui-machine-random'))
-#        kill_docker_machine(context, context.mist_config.get('test-ui-machine-2-random'))
+    if feature.name == 'Schedulers-b':
+        delete_schedules(context)
+        kill_docker_machine(context, context.mist_config.get('test-ui-machine-random'))
+        kill_docker_machine(context, context.mist_config.get('test-ui-machine-2-random'))
     if feature.name == 'Machines':
         kill_docker_machine(
             context,

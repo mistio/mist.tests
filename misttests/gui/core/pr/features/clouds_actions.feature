@@ -5,7 +5,7 @@ Feature: Cloud actions for polymer
     Given I am logged in to mist.core
 
   @cloud-edit-creds
-  Scenario: Edit credentials of a cloud
+  Scenario: AWS cloud added in the beginning, does not have access to list images (DenyDescribeImages policy in aws), whereas the seconds one has (EC2FullAccess)
     Then I expect for "addBtn" to be clickable within max 20 seconds
     Given cloud "Docker" has been added via API request
     Given "AWS" cloud has been added

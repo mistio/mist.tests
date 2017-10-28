@@ -61,7 +61,7 @@ Feature: Add second-tier clouds in Polymist
   @machine-shell
   Scenario: Check shell access in bare metal
     When I visit the machines page after the counter has loaded
-    And I wait for 3 seconds
+    And I wait for 10 seconds
     And I click the "Bare Metal" "machine"
     And I expect the "machine" edit form to be visible within max 5 seconds
     And I wait for 2 seconds
