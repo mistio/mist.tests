@@ -20,7 +20,9 @@ pytest_paths["rbac"]='misttests/api/io/rbac.py'
 
 declare -A behave_tags
 
-behave_tags["clouds"]='clouds-add-1'
+behave_tags["clouds-add-1"]='clouds-add-1'
+behave_tags["clouds-add-2"]='clouds-add-2'
+behave_tags["clouds-add-3"]='clouds-add-3'
 behave_tags["clouds-actions"]='clouds-actions'
 behave_tags["images"]='images-networks'
 behave_tags["keys"]='keys'
