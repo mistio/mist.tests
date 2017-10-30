@@ -1,8 +1,6 @@
 @clouds-add-2
 Feature: Add second-tier clouds in Polymist
 
-# -- change bare metal and kvm
-
   Background:
     Given I am logged in to mist.core
     Then I expect for "addBtn" to be clickable within max 20 seconds
