@@ -144,8 +144,8 @@ MAYDAY_MACHINE = get_setting("MAYDAY_MACHINE", "")
 
 # DEFAULT CREDENTIALS FOR ACCESSING MIST.CORE
 BASE_EMAIL = get_setting("BASE_EMAIL", "thingirl.tester.mist.io")
-GMAIL_FATBOY_USER = get_setting("GMAIL_FATBOY_USER", "%s@gmail.com" % BASE_EMAIL)
-GMAIL_FATBOY_PASSWORD = get_setting("GMAIL_FATBOY_PASSWORD", "")
+GMAIL_THINGIRL_USER = get_setting("GMAIL_THINGIRL_USER", "%s@gmail.com" % BASE_EMAIL)
+GMAIL_THINGIRL_PASSWORD = get_setting("GMAIL_THINGIRL_PASSWORD", "")
 EMAIL = get_setting("EMAIL", "%s+%d@gmail.com" % (BASE_EMAIL, random.randint(1,200000)))
 PASSWORD1 = get_setting("PASSWORD1",
                         ''.join(random.choice(string.ascii_letters + string.digits) for _ in range(20)))
