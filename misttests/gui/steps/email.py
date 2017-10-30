@@ -139,8 +139,8 @@ def check_if_email_arrived_with_delay(context, email_address, subject, seconds):
 
 @step(u'I delete old emails')
 def delete_emails(context):
-    g = gmail.login(safe_get_var('accounts/gmail_fatboy', 'gmail_fatboy_user', context.mist_config['GMAIL_FATBOY_USER']),
-                    safe_get_var('accounts/gmail_fatboy', 'gmail_fatboy_password', context.mist_config['GMAIL_FATBOY_PASSWORD']))
+    g = gmail.login(safe_get_var('accounts/gmail_thingirl', 'gmail_thingirl_user', context.mist_config['GMAIL_THINGIRL_USER']),
+                    safe_get_var('accounts/gmail_thingirl', 'gmail_thingirl_password', context.mist_config['GMAIL_THINGIRL_PASSWORD']))
     mails = g.inbox().mail(unread=True, to=context.mist_config['EMAIL'])
     for mail in mails:
         mail.delete()
@@ -180,10 +180,11 @@ def receive_mail(context, seconds):
 
 
 def email_find(context, email, subject):
-    g = gmail.login(safe_get_var('accounts/gmail_fatboy', 'gmail_fatboy_user', context.mist_config['GMAIL_FATBOY_USER']),
-                    safe_get_var('accounts/gmail_fatboy', 'gmail_fatboy_password', context.mist_config['GMAIL_FATBOY_PASSWORD']))
+    g = gmail.login(safe_get_var('accounts/gmail_thingirl', 'gmail_thingirl_user', context.mist_config['GMAIL_THINGIRL_USER']),
+                    safe_get_var('accounts/gmail_thingirl', 'gmail_thingirl_password', context.mist_config['GMAIL_THINGIRL_PASSWORD']))
     mails = g.inbox().mail(unread=True, to=email)
 
+    import ipdb; ipdb.set_trace()
     fetched_mails = []
     for mail in mails:
         mail.fetch()
