@@ -1,21 +1,5 @@
 #!/bin/bash
 
-# TODO
-
-# Make it possible to run only tests related to io
-
-# Make it possible to run tests using xvfb and vnc
-
-# Include incidents tests in run_tests.sh
-
-# Include monitoring tests in run_tests.sh
-
-# Include clouds-add-2 tests in run_tests.sh
-
-# Mail should be sent to thingirl
-
-# Fix clouds-add-2
-
 declare -A pytest_paths
 
 pytest_paths["clouds"]='misttests/api/io/clouds.py'
