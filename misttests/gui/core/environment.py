@@ -38,9 +38,7 @@ def before_all(context):
     context.browser = context.mist_config['browser']
     context.mist_config['NAME'] = config.NAME
     context.mist_config['BASE_EMAIL'] = config.BASE_EMAIL
-    log.info("BASE_EMAIL: %s" % context.mist_config['BASE_EMAIL'])
     context.mist_config['EMAIL'] = config.EMAIL
-    log.info("EMAIL: %s" % context.mist_config['EMAIL'])
     context.mist_config['PASSWORD1'] = config.PASSWORD1
     context.mist_config['PASSWORD2'] = config.PASSWORD2
     context.mist_config['CHANGED_PASSWORD'] = config.CHANGED_PASSWORD
