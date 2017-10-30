@@ -184,7 +184,6 @@ def email_find(context, email, subject):
                     safe_get_var('accounts/gmail_thingirl', 'gmail_thingirl_password', context.mist_config['GMAIL_THINGIRL_PASSWORD']))
     mails = g.inbox().mail(unread=True, to=email)
 
-    import ipdb; ipdb.set_trace()
     fetched_mails = []
     for mail in mails:
         mail.fetch()
