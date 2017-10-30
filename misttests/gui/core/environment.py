@@ -75,8 +75,8 @@ def before_all(context):
     context.mist_config['GOOGLE_REGISTRATION_TEST_PASSWORD'] = config.GOOGLE_REGISTRATION_TEST_PASSWORD
     context.mist_config['GITHUB_REGISTRATION_TEST_EMAIL'] = config.GITHUB_REGISTRATION_TEST_EMAIL
     context.mist_config['GITHUB_REGISTRATION_TEST_PASSWORD'] = config.GITHUB_REGISTRATION_TEST_PASSWORD
-    context.mist_config['GMAIL_THINGIRL_USER'] = config.GMAIL_THINGIRL_USER
-    context.mist_config['GMAIL_THINGIRL_PASSWORD'] = config.GMAIL_THINGIRL_PASSWORD
+    context.mist_config['GMAIL_FATBOY_USER'] = config.GMAIL_FATBOY_USER
+    context.mist_config['GMAIL_FATBOY_PASSWORD'] = config.GMAIL_FATBOY_PASSWORD
     context.mist_config['recording_session'] = config.RECORD_SELENIUM
     context.link_inside_email = ''
     context.mist_config['ORG_ID'] = ''
