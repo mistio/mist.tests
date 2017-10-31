@@ -103,7 +103,8 @@ def delete_rule(context, index):
         rule_index = rule_index.replace('.','')
         if rule_index == index:
             delete_btn = rule.find_element_by_class_name('delete')
-            clicketi_click(context, delete_btn)
+            icon = delete_btn.find_element_by_tag_name('iron-icon')
+            clicketi_click(context, icon)
             return
     assert False, "There is no rule with index %s" % index
 

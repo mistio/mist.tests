@@ -57,7 +57,7 @@ Feature: Rbac
     And I expect the "team" edit form to be visible within max 5 seconds
     Then user with email "MEMBER1_EMAIL" should be pending
     Then I logout
-    Then I should receive an email at the address "MEMBER1_EMAIL" with subject "[mist.io] Confirm your invitation" within 30 seconds
+    Then I should receive an email at the address "MEMBER1_EMAIL" with subject "[mist.io] Confirm your invitation" within 60 seconds
     And I follow the link inside the email
     Then I enter my rbac_member1 credentials for login
     And I click the sign in button in the landing page popup
@@ -83,7 +83,7 @@ Feature: Rbac
     Then user with email "MEMBER2_EMAIL" should be pending
     And user with email "MEMBER1_EMAIL" should be confirmed
     Then I logout
-    Then I should receive an email at the address "MEMBER2_EMAIL" with subject "[mist.io] Confirm your invitation" within 30 seconds
+    Then I should receive an email at the address "MEMBER2_EMAIL" with subject "[mist.io] Confirm your invitation" within 60 seconds
     And I follow the link inside the email
     Then I enter my rbac_member2 credentials for signup_password_set
     And I click the go button in the landing page popup

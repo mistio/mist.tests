@@ -19,6 +19,7 @@ Feature: Actions for Insights
   @cost-and-machine_count-for-docker
   Scenario: Verify that cost and machine count data for docker cloud added above have arrived
     When I refresh the Insights page until data are available
+    And I wait for 5 seconds
     Then "cost" in "quick-overview" section should be "$0.00"
     And "machine_count" in "quick-overview" section should be "greater than 0"
 
@@ -26,7 +27,7 @@ Feature: Actions for Insights
   Scenario: Add tag for custom pricing and verify that cost will appear
     When I visit the Machines page
     And I wait for 2 seconds
-    And I click the "testerrr" "machine"
+    And I click the "mistcore_debugger_1" "machine"
     Then I expect the "machine" edit form to be visible within max 5 seconds
     Then I click the button "Tag" from the menu of the "machine" edit form
     And I expect for the tag popup to open within 4 seconds
@@ -36,11 +37,11 @@ Feature: Actions for Insights
     Then I expect for the tag popup to close within 4 seconds
     When I visit the Machines page
     And I wait for 2 seconds
-    And I click the "testerrr" "machine"
+    And I click the "mistcore_debugger_1" "machine"
     And I wait for 10 seconds
     Then I ensure that the "machine" has the tags "cost_per_month:100"
     When I visit the Insights page
     And I wait for 40 seconds
     And I refresh the page
-    And I wait for 5 seconds
+    And I wait for 10 seconds
     Then "cost" in "quick-overview" section should be "greater than $0.00"

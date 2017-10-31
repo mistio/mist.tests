@@ -25,6 +25,12 @@ providers = {
         "location": "West Europe",
         "image": "b39f27a8b8c64d52b05eac6a62ebad85__Ubuntu-17_04-amd64-server-20170412.1-en-us-30GB"
     },
+    "Azure_ARM": {
+        "size": "Standard_F1",
+        "location": "westeurope",
+        "image": "MicrosoftWindowsServer:WindowsServer:2008-R2-SP1:2.127.20170406",
+        "machine_password":"Aw3somep@ss123"
+    },
     "Docker": {
         "size": "",
         "location": "",
@@ -33,7 +39,7 @@ providers = {
     "Digital Ocean": {
         "size": "512mb",
         "location": "ams2",
-        "image": "21419458"
+        "image": "27663881"
     },
     "Linode": {
         "size": "1",
@@ -144,6 +150,17 @@ def add_cloud(provider):
                                        subscription_id=safe_get_var('clouds/azure', 'subscription_id', config.CREDENTIALS['AZURE']['subscription_id']),
                                        certificate=safe_get_var('clouds/azure', 'certificate', config.CREDENTIALS['AZURE']['certificate'])).post()
 
+        elif provider == "Azure_ARM":
+            response = mist_core.add_cloud(title=provider, provider= 'azure_arm', api_token=config.MIST_API_TOKEN,
+                                       tenant_id=safe_get_var('clouds/azure_arm', 'tenant_id',
+                                                              config.CREDENTIALS['AZURE_ARM']['tenant_id']),
+                                       subscription_id=safe_get_var('clouds/azure_arm', 'subscription_id',
+                                                              config.CREDENTIALS['AZURE_ARM']['subscription_id']),
+                                       key=safe_get_var('clouds/azure_arm', 'client_key',
+                                                              config.CREDENTIALS['AZURE_ARM']['client_key']),
+                                       secret=safe_get_var('clouds/azure_arm', 'client_secret',
+                                                              config.CREDENTIALS['AZURE_ARM']['client_secret'])).post()
+
         elif provider == 'Docker':
             response = mist_core.add_cloud(title=provider, provider= 'docker', api_token=config.MIST_API_TOKEN,
                                        docker_host=safe_get_var('dockerhosts/godzilla', 'host', config.CREDENTIALS['DOCKER']['host']),
@@ -164,13 +181,6 @@ def add_cloud(provider):
                                                               config.CREDENTIALS['GCE']['project_id']),
                                       private_key = json.dumps(safe_get_var('clouds/gce/mist-dev', 'private_key',
                                                               config.CREDENTIALS['GCE']['private_key']))).post()
-
-        elif provider == "Openstack":
-            response = mist_core.add_cloud(title=provider, provider= 'openstack', api_token=config.MIST_API_TOKEN,
-                                       username=safe_get_var('clouds/openstack', 'username', config.CREDENTIALS['OPENSTACK']['username']),
-                                       auth_url=safe_get_var('clouds/openstack', 'auth_url', config.CREDENTIALS['OPENSTACK']['auth_url']),
-                                       tenant=safe_get_var('clouds/openstack', 'tenant', config.CREDENTIALS['OPENSTACK']['tenant']),
-                                       password=safe_get_var('clouds/openstack', 'password', config.CREDENTIALS['OPENSTACK']['password'])).post()
 
         elif provider == "Rackspace":
             response = mist_core.add_cloud(title='Rackspace', provider= 'rackspace', api_token=config.MIST_API_TOKEN,
@@ -214,30 +224,65 @@ def create_machine(cloud_id, provider):
     except:
         location_name = ''
     try:
-        networks=providers[provider]['network']
+        networks=providers[provider]['networks']
     except:
-        networks = ''
+        networks = []
     try:
         image_extra=providers[provider]['image_extra']
     except:
         image_extra = ''
 
+    try:
+        ex_storage_account=providers[provider]['ex_storage_account']
+    except:
+        ex_storage_account = ''
 
+    try:
+        machine_password=providers[provider]['machine_password']
+    except:
+        machine_password = ''
 
-    response = mist_core.create_machine(api_token=config.MIST_API_TOKEN,
-                                        cloud_id=cloud_id,
-                                        name= provider.replace(" ", "").lower() + 'provisiontest' + str(randint(0,9999)),
-                                        provider=provider,
-                                        image=providers[provider]['image'],
-                                        image_extra=image_extra,
-                                        size=providers[provider]['size'],
-                                        disk=disk,
-                                        key_id=config.KEY_ID,
-                                        location=providers[provider]['location'],
-                                        location_name=location_name,
-                                        async=True,
-                                        cron_enable=False,
-                                        monitoring=False).post()
+    try:
+        ex_resource_group=providers[provider]['ex_resource_group']
+    except:
+        ex_resource_group = ''
+
+    name = provider.replace(" ", "").replace("_","").lower() + str(randint(0,9999))
+
+    payload = {'cloud_id':cloud_id,
+                    'name': name,
+                    'provider':provider,
+                    'image':providers[provider]['image'],
+                    'image_extra':image_extra,
+                    'size':providers[provider]['size'],
+                    'disk':disk,
+                    'key_id':config.KEY_ID,
+                    'location':providers[provider]['location'],
+                    'location_name':location_name,
+                    'ex_storage_account':ex_storage_account,
+                    'machine_password':machine_password,
+                    'ex_resource_group':ex_resource_group,
+                    'networks':networks,
+                    'async':True,
+                    'cron_enable':False,
+                    'monitoring':False
+            }
+
+    if provider == "Azure_ARM":
+        payload['create_resource_group'] = True
+        payload['create_storage_account'] = True
+        payload['create_network'] = True
+        payload['new_resource_group'] = name
+        payload['new_storage_account'] = name + 'disks'
+        payload['new_network'] = name + '-vnet'
+        payload['machine_username'] = 'azureuser'
+
+    response = requests.post(
+        config.MIST_URL + '/api/v1/clouds/' + cloud_id + '/machines',
+            headers={'Authorization': config.MIST_API_TOKEN},
+            data=json.dumps(payload)
+        )
+
     try:
         assert_response_ok(response)
         print "\n " + provider + ": Machine creation command has been submitted successfully. Now polling!\n"
@@ -252,7 +297,7 @@ def create_machine(cloud_id, provider):
 
 def main():
     for provider in providers:
-        if provider in ['AWS', 'Digital Ocean', 'Linode', 'Azure', 'SoftLayer', 'GCE', 'Rackspace', 'Packet', 'Nephoscale', 'Vultr']:
+        if provider in ['AWS', 'Digital Ocean', 'Linode', 'Azure', 'SoftLayer', 'GCE', 'Rackspace', 'Packet', 'Nephoscale', 'Vultr', 'Azure_ARM']:
             #add the provider if not there
             cloud_id = add_cloud(provider)
 

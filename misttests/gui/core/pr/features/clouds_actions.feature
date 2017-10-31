@@ -5,27 +5,27 @@ Feature: Cloud actions for polymer
     Given I am logged in to mist.core
 
   @cloud-edit-creds
-  Scenario: Edit credentials of a cloud
+  Scenario: AWS cloud added in the beginning, does not have access to list images (DenyDescribeImages policy in aws), whereas the seconds one has (EC2FullAccess)
     Then I expect for "addBtn" to be clickable within max 20 seconds
-    Given "Openstack" cloud has been added
-    When I visit the Networks page
-    Then "private_network" network should be present within 10 seconds
+    Given cloud "Docker" has been added via API request
+    Given "AWS" cloud has been added
+    When I visit the Images page
+    Then "CoreOS stable 1068.8.0 (PV)" image should be absent within 10 seconds
     Then I visit the Home page
     And I wait for the dashboard to load
-    When I open the cloud menu for "Openstack"
-    And  I use my second "Openstack" credentials in cloud edit form
+    When I open the cloud menu for "AWS"
+    And  I use my second "AWS" credentials in cloud edit form
     And I focus on the button "Edit Credentials" in "cloud" edit form
     And I click the button "Edit Credentials" in "cloud" edit form
-    And I wait for 5 seconds
-    And I visit the Networks page
-    Then "private_network" network should be absent within 10 seconds
+    And I wait for 3 seconds
+    And I visit the Images page
+    Then "CoreOS stable 1068.8.0 (PV)" image should be present within 10 seconds
     Then I visit the Home page
     And I wait for the links in homepage to appear
     And I expect for "addBtn" to be clickable within max 20 seconds
 
   @cloud-toggle
    Scenario: Toggle a cloud
-    Given "Docker" cloud has been added
     When I open the cloud menu for "Docker"
     And I click the "toggle" button with id "enable-disable-cloud"
     And I wait for 2 seconds
@@ -42,7 +42,10 @@ Feature: Cloud actions for polymer
     And I visit the Home page
     And I wait for the dashboard to load
     Then cloud "Docker" should be "enabled"
-    When I visit the Machines page
+    when I visit the Machines page after the counter has loaded
+    And I wait for 1 seconds
+    And I search for the machine "mistcore_debugger_1"
+    And I wait for 1 seconds
     Then "mistcore_debugger_1" machine should be present within 60 seconds
     And I visit the Home page
 

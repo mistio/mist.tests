@@ -93,7 +93,7 @@ def api_test_machine_name():
 
 @pytest.fixture
 def private_key():
-    return safe_get_var('keys/api_testing_machine_private_key', 'priv_key', config.API_TESTING_MACHINE_PRIVATE_KEY)
+    return safe_get_var('keys/api_testing_machine_private_key', 'priv_key', config.TESTING_PRIVATE_KEY)
 
 
 @pytest.fixture
@@ -108,10 +108,10 @@ def schedules_cleanup(mist_core, owner_api_token, cache):
     assert_response_ok(response)
     for schedule in response.json():
         mist_core.delete_schedule(api_token=owner_api_token, schedule_id=schedule['id']).delete()
-    response = mist_core.list_machines(cloud_id=cache.get('cloud_id', ''), api_token=owner_api_token).get()
+    response = mist_core.list_machines(cloud_id=cache.get('docker_id', ''), api_token=owner_api_token).get()
     for machine in response.json():
         if 'api_test_machine' in machine['name']:
-            mist_core.machine_action(cloud_id=cache.get('cloud_id', ''),
+            mist_core.machine_action(cloud_id=cache.get('docker_id', ''),
                                      api_token=owner_api_token,
                                      machine_id=machine['machine_id'],
                                      action='destroy').post()

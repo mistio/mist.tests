@@ -89,8 +89,19 @@ def create_script_api_request(context, script_name):
     requests.post(context.mist_config['MIST_URL'] + "/api/v1/scripts" , data=json.dumps(script_data), headers=headers)
 
 
+@step(u'key "{key_name}" has been added via API request')
+def add_key_api_request(context, key_name):
+    payload = {
+        'name': key_name,
+        'priv': safe_get_var('keys/api_testing_machine_private_key', 'priv_key', context.mist_config['TESTING_PRIVATE_KEY'])
+    }
+    headers = {'Authorization': get_owner_api_token(context)}
+
+    requests.put(context.mist_config['MIST_URL'] + "/api/v1/keys" , data=json.dumps(payload), headers=headers)
+
+
 @step(u'cloud "{cloud}" has been added via API request')
-def add_docker_api_request(context, cloud):
+def add_cloud_api_request(context, cloud):
     headers = {'Authorization': get_owner_api_token(context)}
 
     if cloud == 'Docker':

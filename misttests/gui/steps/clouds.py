@@ -191,7 +191,9 @@ def set_kvm_creds(context):
                     And I open the "SSH Key" drop down
                     And I wait for 2 seconds
                     And I click the button "KVMKEY" in the "SSH Key" dropdown
-                '''% (safe_get_var('clouds/other_server', 'hostname', context.mist_config['CREDENTIALS']['KVM']['hostname']),))
+                    And I wait for 1 seconds
+                    And I set the value "ubuntu" to field "SSH USER" in "cloud" add form
+                ''' % (safe_get_var('clouds/other_server', 'hostname', context.mist_config['CREDENTIALS']['KVM']['hostname']),))
 
 
 def set_other_server_creds(context):
@@ -203,8 +205,6 @@ def set_other_server_creds(context):
                     And I wait for 2 seconds
                     And I click the button "KVMKEY" in the "SSH Key" dropdown
                     And I wait for 1 seconds
-                    Then I set the value "user" to field "User" in "cloud" add form
-                    When I click the "monitoring" button with id "monitoring"
                 ''' % (safe_get_var('clouds/other_server', 'hostname', context.mist_config['CREDENTIALS']['KVM']['hostname']),))
 
 
@@ -250,6 +250,14 @@ def set_second_openstack_creds(context):
                    safe_get_var('clouds/openstack_2', 'tenant', context.mist_config['CREDENTIALS']['OPENSTACK_2']['tenant']),))
 
 
+def set_second_aws_creds(context):
+    context.execute_steps(u'''
+                Then I set the value "%s" to field "API KEY" in "cloud" edit form
+                Then I set the value "%s" to field "API SECRET" in "cloud" edit form
+            ''' % (safe_get_var('clouds/aws_2', 'api_key', context.mist_config['CREDENTIALS']['AWS_2']['api_key']),
+                   safe_get_var('clouds/aws_2', 'api_secret', context.mist_config['CREDENTIALS']['AWS_2']['api_secret']),))
+
+
 cloud_creds_dict = {
     "azure": set_azure_creds,
     "gce": set_gce_creds,
@@ -274,7 +282,7 @@ cloud_creds_dict = {
 
 
 cloud_second_creds_dict = {
-    "packet": set_second_packet_creds,
+    "aws": set_second_aws_creds,
     "openstack": set_second_openstack_creds
 }
 

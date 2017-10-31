@@ -1,12 +1,11 @@
 @monitoring
 Feature: Monitoring
 
-
   @enable-monitoring
   Scenario: Create Machine,deploy monitoring agent and check the graphs
     Given I am logged in to mist.core
     And cloud "Docker" has been added via API request
-    And "Key1" key has been added
+    And key "Key1" has been added via API request
     When I visit the Machines page
     And I wait for 1 seconds
     And I click the button "+"
@@ -24,8 +23,11 @@ Feature: Monitoring
     When I focus on the button "Launch" in "machine" add form
     And I wait for 2 seconds
     And I click the "Launch" button with id "appformsubmit"
-    And I wait for 5 seconds
-    Then "monitored-machine-random" machine state has to be "running" within 20 seconds
+    And I wait for 1 seconds
+    And I visit the Home page
+    And I visit the Machines page
+    And I search for "monitored-machine-random"
+    Then "monitored-machine-random" machine state has to be "running" within 30 seconds
     When I click the "monitored-machine-random" "machine"
     And I wait for 2 seconds
     And I click the button "Enable Monitoring"
