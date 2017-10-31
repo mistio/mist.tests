@@ -20,7 +20,9 @@ pytest_paths["rbac"]='misttests/api/io/rbac.py'
 
 declare -A behave_tags
 
-behave_tags["clouds"]='clouds-add-1'
+behave_tags["clouds-add-1"]='clouds-add-1'
+behave_tags["clouds-add-2"]='clouds-add-2'
+behave_tags["clouds-add-3"]='clouds-add-3'
 behave_tags["clouds-actions"]='clouds-actions'
 behave_tags["images"]='images-networks'
 behave_tags["keys"]='keys'
@@ -60,7 +62,7 @@ help_message() {
     echo
     echo "Argument for UI tests can be one of the following:"
     echo
-    echo "clouds, clouds-actions, machines, images, keys, scripts, users, rbac, schedules, orchestration, monitoring, rbac-rules-1, rbac-rules-2, rbac-rules-3, rbac-rules-4, insights, ip-whitelisting"
+    echo "clouds, clouds-actions, machines, images, keys, scripts, users, rbac, schedules, orchestration, monitoring, rbac-rules-1, rbac-rules-2, rbac-rules-3, rbac-rules-4, insights, zones"
     echo
 }
 

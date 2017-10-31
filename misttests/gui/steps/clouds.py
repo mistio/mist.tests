@@ -192,8 +192,8 @@ def set_kvm_creds(context):
                     And I wait for 2 seconds
                     And I click the button "KVMKEY" in the "SSH Key" dropdown
                     And I wait for 1 seconds
-                    And I set the value "spiros" to field "SSH USER" in "cloud" add form
-                '''% (safe_get_var('clouds/other_server', 'hostname', context.mist_config['CREDENTIALS']['KVM']['hostname']),))
+                    And I set the value "ubuntu" to field "SSH USER" in "cloud" add form
+                ''' % (safe_get_var('clouds/other_server', 'hostname', context.mist_config['CREDENTIALS']['KVM']['hostname']),))
 
 
 def set_other_server_creds(context):
@@ -205,7 +205,6 @@ def set_other_server_creds(context):
                     And I wait for 2 seconds
                     And I click the button "KVMKEY" in the "SSH Key" dropdown
                     And I wait for 1 seconds
-                    And I set the value "spiros" to field "User" in "cloud" add form
                 ''' % (safe_get_var('clouds/other_server', 'hostname', context.mist_config['CREDENTIALS']['KVM']['hostname']),))
 
 
