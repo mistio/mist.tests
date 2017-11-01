@@ -41,7 +41,7 @@ Feature: Actions for Insights
     And I wait for 10 seconds
     Then I ensure that the "machine" has the tags "cost_per_month:100"
     When I visit the Insights page
-    And I wait for 40 seconds
+    And I wait for 60 seconds
     And I refresh the page
     And I wait for 10 seconds
     Then "cost" in "quick-overview" section should be "greater than $0.00"
