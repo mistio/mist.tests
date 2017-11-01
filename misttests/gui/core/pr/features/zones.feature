@@ -45,7 +45,7 @@ Feature: Zones
     And I visit the Home page
     And I wait for 1 seconds
     And I visit the Zones page
-    Then "test-zone-random.com." zone should be absent within 10 seconds
+    Then "test-zone-random.com." zone should be absent within 20 seconds
 
   @zone-tags
   Scenario: Reenable dns-support and add tags to a zone
