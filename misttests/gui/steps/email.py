@@ -1,14 +1,13 @@
 import shutil
 import logging
 import imaplib
-import gmail
+import email
+import re
 
 from time import sleep
 from time import time
 
 from behaving.mail.steps import *
-
-from misttests.config import safe_get_var
 
 log = logging.getLogger(__name__)
 
@@ -139,12 +138,14 @@ def check_if_email_arrived_with_delay(context, email_address, subject, seconds):
 
 @step(u'I delete old emails')
 def delete_emails(context):
-    g = gmail.login(safe_get_var('accounts/gmail_thingirl', 'gmail_thingirl_user', context.mist_config['GMAIL_THINGIRL_USER']),
-                    safe_get_var('accounts/gmail_thingirl', 'gmail_thingirl_password', context.mist_config['GMAIL_THINGIRL_PASSWORD']))
-    mails = g.inbox().mail(unread=True, to=context.mist_config['EMAIL'])
-    for mail in mails:
-        mail.delete()
-    g.logout()
+    box = login_email(context)
+    box.select('INBOX')
+    typ, data = box.search(None, 'ALL')
+    for num in data[0].split():
+        box.store(num, '+FLAGS', '\\Deleted')
+    box.expunge()
+    box.close()
+    box.logout()
     return True
 
 
@@ -179,40 +180,55 @@ def receive_mail(context, seconds):
                                                                        error)
 
 
-def email_find(context, email, subject):
-    g = gmail.login(safe_get_var('accounts/gmail_thingirl', 'gmail_thingirl_user', context.mist_config['GMAIL_THINGIRL_USER']),
-                    safe_get_var('accounts/gmail_thingirl', 'gmail_thingirl_password', context.mist_config['GMAIL_THINGIRL_PASSWORD']))
-    mails = g.inbox().mail(unread=True, to=email)
-
+def email_find(context, address, subject):
+    box = login_email(context)
+    box.select("INBOX")
+    result, data = box.search(None, "ALL")
+    ids = data[0].split()
     fetched_mails = []
-    for mail in mails:
-        mail.fetch()
-        mail.read()
-        if subject in mail.subject:
-            fetched_mails.append(mail)
+    for i in ids:
+        result, msgdata = box.fetch(i, "(RFC822)")
+        raw = msgdata[0][1]
+        email_message = email.message_from_string(raw)
+        if subject in email_message.get('Subject'):
+            fetched_mails.append(raw)
 
     if not fetched_mails:
         context.link_inside_email = ''
-        g.logout()
+        box.logout()
         return fetched_mails
 
     mail = fetched_mails[0]
-    body = mail.html
 
     mist_url = context.mist_config['MIST_URL']
     link_regex = '(' + mist_url + '+[\w\d:#@%/;$()~_?\+-=\\.&][a-zA-z0-9][^<>#]*)'
-    urls = re.findall(link_regex, body)
+    urls = re.findall(link_regex, mail)
     if urls:
         context.link_inside_email = urls[0]
 
-    g.logout()
+    box.logout()
     return fetched_mails
 
 
 def login_email(context):
-    box = imaplib.IMAP4_SSL("imap.gmail.com")
+    imap_server = context.mist_config['IMAP_SERVER'].split(':')
+    imap_host = imap_server[0]
+    if len(imap_server) > 1:
+        imap_port = imap_server[1]
+    else:
+        if context.mist_config['IMAP_USE_SSL']:
+            imap_port = 993
+        else:
+            imap_port = 143
+
+    if context.mist_config['IMAP_USE_SSL']:
+        box = imaplib.IMAP4_SSL(imap_host, imap_port)
+    else:
+        box = imaplib.IMAP4(imap_host, imap_port)
+
     login = box.login(context.mist_config['GOOGLE_TEST_EMAIL'],
                       context.mist_config['GOOGLE_TEST_PASSWORD'])
+
     if 'OK' in login:
         return box
     else:
