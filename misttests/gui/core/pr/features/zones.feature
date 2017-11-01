@@ -21,7 +21,7 @@ Feature: Zones
     When I visit the Home page
     And I wait for 1 seconds
     And I visit the Zones page
-    Then "test-zone-random.com." zone should be present within 20 seconds
+    Then "test-zone-random.com." zone should be present within 30 seconds
 
   @zone-search
   Scenario: Filter a zone
