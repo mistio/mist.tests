@@ -21,12 +21,11 @@ Feature: Zones
     When I visit the Home page
     And I wait for 1 seconds
     And I visit the Zones page
-    Then "test-zone-random.com." zone should be present within 30 seconds
+    And I search for "test-zone-random.com."
+    Then "test-zone-random.com." zone should be present within 40 seconds
 
   @zone-search
   Scenario: Filter a zone
-    When I search for "test-zone-random.com."
-    Then "test-zone-random.com." zone should be present within 10 seconds
     When I clear the search bar
     Then "test-zone-random.com." zone should be present within 10 seconds
     When I search for "Non-existing zone"
@@ -39,13 +38,13 @@ Feature: Zones
     When I visit the Home page
     And I wait for 1 seconds
     And I open the cloud menu for "GCE"
-    And I wait for 1 seconds
+    And I wait for 2 seconds
     And I click the "Enable DNS" button with id "DNS-enable-disable"
     And I wait for 2 seconds
     And I visit the Home page
     And I wait for 1 seconds
     And I visit the Zones page
-    Then "test-zone-random.com." zone should be absent within 20 seconds
+    Then "test-zone-random.com." zone should be absent within 30 seconds
 
   @zone-tags
   Scenario: Reenable dns-support and add tags to a zone
