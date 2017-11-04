@@ -22,7 +22,7 @@ Feature: Zones
     And I wait for 1 seconds
     And I visit the Zones page
     And I search for "test-zone-random.com."
-    Then "test-zone-random.com." zone should be present within 40 seconds
+    Then "test-zone-random.com." zone should be present within 60 seconds
 
   @zone-search
   Scenario: Filter a zone
@@ -44,7 +44,7 @@ Feature: Zones
     And I visit the Home page
     And I wait for 1 seconds
     And I visit the Zones page
-    Then "test-zone-random.com." zone should be absent within 40 seconds
+    Then "test-zone-random.com." zone should be absent within 60 seconds
 
   @zone-tags
   Scenario: Reenable dns-support and add tags to a zone
@@ -56,7 +56,7 @@ Feature: Zones
     And I wait for 2 seconds
     And I visit the Zones page
     And I search for "test-zone-random.com."
-    Then "test-zone-random.com." zone should be present within 40 seconds
+    Then "test-zone-random.com." zone should be present within 60 seconds
     When I click the "test-zone-random.com." "zone"
     Then I expect the "zone" edit form to be visible within max 5 seconds
     When I click the button "Tags" in "zone" edit form
@@ -111,4 +111,4 @@ Feature: Zones
     Then I expect the dialog "Delete Zone" is closed within 4 seconds
     When I visit the Zones page
     And I wait for 2 seconds
-    And "test-zone-random.com." zone should be absent within 40 seconds
+    And "test-zone-random.com." zone should be absent within 60 seconds
