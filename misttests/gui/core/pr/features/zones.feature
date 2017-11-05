@@ -66,8 +66,7 @@ Feature: Zones
     And I add a tag with key "second" and value "tag"
     And I click the button "Save Tags" in the tag menu
     Then I expect for the tag popup to close within 4 seconds
-    And I wait for 15 seconds
-    And I ensure that the "zone" has the tags "first:tag,second:tag"
+    And I ensure that the "zone" has the tags "first:tag,second:tag" within 25 seconds
     When I click the button "Tags" in "zone" edit form
     And I expect for the tag popup to open within 4 seconds
     And I wait for 1 seconds
@@ -75,7 +74,7 @@ Feature: Zones
     And I wait for 1 seconds
     And I click the button "Save Tags" in the tag menu
     Then I expect for the tag popup to close within 4 seconds
-    And I ensure that the "zone" has the tags "second:tag"
+    And I ensure that the "zone" has the tags "second:tag" within 5 seconds
 
   @record-add
   Scenario: Add a record
