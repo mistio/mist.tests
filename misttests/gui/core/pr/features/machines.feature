@@ -90,7 +90,7 @@ Feature: Machines
     Then I click the button "Shell" from the menu of the "machine" edit form
     And I expect terminal to open within 3 seconds
     And shell input should be available after 8 seconds
-    And I type in the terminal "ls -l"
+    And I type in the terminal "ls -l /var"
     And I wait for 1 seconds
     Then dummy_file should be included in the output
     And I close the terminal
