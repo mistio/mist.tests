@@ -10,6 +10,7 @@ Feature: Cloud actions for polymer
     Given cloud "Docker" has been added via API request
     Given "AWS" cloud has been added
     When I visit the Images page
+    And I search for "CoreOS"
     Then "CoreOS stable 1068.8.0 (PV)" image should be absent within 10 seconds
     Then I visit the Home page
     And I wait for the dashboard to load
@@ -19,7 +20,8 @@ Feature: Cloud actions for polymer
     And I click the button "Edit Credentials" in "cloud" edit form
     And I wait for 3 seconds
     And I visit the Images page
-    Then "CoreOS stable 1068.8.0 (PV)" image should be present within 10 seconds
+    And I search for "CoreOS"
+    Then "CoreOS stable 1068.8.0 (PV)" image should be present within 20 seconds
     Then I visit the Home page
     And I wait for the links in homepage to appear
     And I expect for "addBtn" to be clickable within max 20 seconds

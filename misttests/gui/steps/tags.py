@@ -115,16 +115,21 @@ def wait_for_tag_dialog(context, action, seconds):
         assert False, "Tag modal is not closed yet"
 
 
-@step(u'I ensure that the "{type_of_item}" has the tags "{tags}"')
-def ensure_tags_are_present(context, type_of_item, tags):
+@step(u'I ensure that the "{type_of_item}" has the tags "{tags}" within {seconds} seconds')
+def ensure_tags_are_present(context, type_of_item, tags, seconds):
     from .forms import get_edit_form
     form = get_edit_form(context, type_of_item)
-    existing_tags = form.find_elements_by_class_name('tag')
-    expected_tags = dict(map(lambda t: (t.split(':')[0], t.split(':')[1]), tags.strip().lower().split(',')))
-    for existing_tag in existing_tags:
-        key = safe_get_element_text(existing_tag).lower().split('=')[0].strip()
-        if key.endswith('\n'):
-            key = key[:-1]
-        if key in expected_tags:
-            del expected_tags[key]
+    end_time = time() + int(seconds)
+    while time() < end_time:
+        existing_tags = form.find_elements_by_class_name('tag')
+        expected_tags = dict(map(lambda t: (t.split(':')[0], t.split(':')[1]), tags.strip().lower().split(',')))
+        for existing_tag in existing_tags:
+            key = safe_get_element_text(existing_tag).lower().split('=')[0].strip()
+            if key.endswith('\n'):
+                key = key[:-1]
+            if key in expected_tags:
+                del expected_tags[key]
+            if len(expected_tags) == 0:
+                return
+            sleep(2)
     assert len(expected_tags) == 0, "These keys are not available: %s" % expected_tags.keys()
