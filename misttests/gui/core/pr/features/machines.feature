@@ -23,6 +23,8 @@ Feature: Machines
 
   @machine-create
   Scenario: Create a machine in Docker provider
+    When I visit the Images page
+    Then "mist/ubuntu-14.04:latest" image should be present within 30 seconds
     When I visit the Machines page
     And I click the button "+"
     Then I expect the "Machine" add form to be visible within max 10 seconds
@@ -38,7 +40,7 @@ Feature: Machines
     When I visit the Home page
     And I visit the Machines page
     And I search for "ui-test-create-machine-random"
-    Then "ui-test-create-machine-random" machine state has to be "running" within 40 seconds
+    Then "ui-test-create-machine-random" machine state has to be "running" within 50 seconds
 
   @key-associate
   Scenario: Associate key with machine
@@ -88,7 +90,7 @@ Feature: Machines
     Then I click the button "Shell" from the menu of the "machine" edit form
     And I expect terminal to open within 3 seconds
     And shell input should be available after 8 seconds
-    And I type in the terminal "ls -l"
+    And I type in the terminal "ls -l /var"
     And I wait for 1 seconds
     Then dummy_file should be included in the output
     And I close the terminal
