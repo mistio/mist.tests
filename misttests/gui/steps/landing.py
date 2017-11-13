@@ -35,7 +35,7 @@ def click_button_get_started(context, button):
                 btn.click()
                 return
 
-    except NoSuchElementException:
+    except NoSuchElementException, ElementNotVisibleException:
         # get-started page does not make sense for io
         pass
 
