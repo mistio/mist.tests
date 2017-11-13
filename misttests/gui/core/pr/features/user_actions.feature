@@ -68,7 +68,8 @@ Feature: Login Scenarios and Api Token
   Scenario: Already registered user gets conflict error when trying to sign up
     Given I am not logged in to mist.core
     When I open the signup popup
-    And I wait for 3 seconds
+    And I wait for 2 seconds
+    And I click the "Sign Up" button in the get-started-page
     And I enter my standard credentials for signup
     And I click the sign up button in the landing page popup
     And I wait for 3 seconds
