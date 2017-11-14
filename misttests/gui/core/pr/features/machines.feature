@@ -15,7 +15,7 @@ Feature: Machines
     When I set the value "DummyKey2" to field "Name" in "key" add form
     And I focus on the button "Generate" in "key" add form
     And I click the button "Generate" in "key" add form
-    And I wait for 4 seconds
+    And I wait for 8 seconds
     Then I expect for the button "Add" in "key" add form to be clickable within 12 seconds
     When I focus on the button "Add" in "key" add form
     And I click the button "Add" in "key" add form
@@ -40,7 +40,7 @@ Feature: Machines
     When I visit the Home page
     And I visit the Machines page
     And I search for "ui-test-create-machine-random"
-    Then "ui-test-create-machine-random" machine state has to be "running" within 50 seconds
+    Then "ui-test-create-machine-random" machine state has to be "running" within 60 seconds
 
   @key-associate
   Scenario: Associate key with machine
@@ -103,7 +103,7 @@ Feature: Machines
     And I visit the Machines page
     And I wait for 2 seconds
     And I search for "ui-test-create-machine-random"
-    Then "ui-test-create-machine-random" machine state has to be "stopped" within 40 seconds
+    Then "ui-test-create-machine-random" machine state has to be "stopped" within 60 seconds
 
   @machine-start
   Scenario: Start the machine created above
@@ -114,7 +114,7 @@ Feature: Machines
     When I click the "Start" button in the dialog "Start Machine"
     And I visit the Machines page
     And I search for "ui-test-create-machine-random"
-    Then "ui-test-create-machine-random" machine state has to be "running" within 40 seconds
+    Then "ui-test-create-machine-random" machine state has to be "running" within 60 seconds
 
   @machine-destroy
   Scenario: Destroy the machine created
