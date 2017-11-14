@@ -93,7 +93,9 @@ Feature: RBAC-rules-v4
     When I visit the Teams page
     And I click the "Test team" "team"
     Then I expect the "team" edit form to be visible within max 5 seconds
-    #When I remove the rule with index "0"
+    When I remove the rule with index "0"
+    And I wait for 1 seconds
+    And I remove the rule with index "0"
     And I wait for 1 seconds
     And I focus on the button "Add a new rule" in "policy" edit form
     And I click the button "Add a new rule" in "policy" edit form
