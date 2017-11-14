@@ -24,7 +24,9 @@ Feature: Login Scenarios and Api Token
     When I get the new api token value "BLABLA_TOKEN"
     Then I test the api token "BLABLA_TOKEN". It should work.
     #When i revoke it, it should fail #needs to be fixed in the backend
-    #Then I test the api token "BLABLA_TOKEN". It should fail.
+    When I revoke all api tokens
+    And I wait for 5 seconds
+    Then I test the api token "BLABLA_TOKEN". It should fail.
 
   @signup
   Scenario: Sign Up success and verify that user can create resources
