@@ -75,8 +75,7 @@ Feature: Cloud actions for polymer
 
   @cloud-rename
   Scenario: Rename a cloud
-    When I open the cloud menu for "Docker"
-    And I rename the cloud "Docker" to "Renamed"
+    When I rename the cloud "Docker" to "Renamed"
     And I click the "save title" button with id "rename-cloud"
     And I wait for 3 seconds
     And I visit the Home page
