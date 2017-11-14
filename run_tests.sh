@@ -32,6 +32,8 @@ behave_tags["users"]='user-actions'
 behave_tags["rbac"]='rbac-teams'
 behave_tags["schedules-1"]='schedulers-1'
 behave_tags["schedules-2"]='schedulers-2'
+#behave_tags["ip-whitelisting"]='ip-whitelisting'
+
 #behave_tags["monitoring"]='monitoring-locally'
 behave_tags["orchestration"]='orchestration'
 behave_tags["rbac-rules-1"]='rbac-rules-1'
@@ -40,7 +42,7 @@ behave_tags["rbac-rules-3"]='rbac-rules-3'
 behave_tags["rbac-rules-4"]='rbac-rules-4'
 behave_tags["zones"]='zones'
 behave_tags["insights"]='insights'
-#behave_tags["ip-whitelisting"]='ip-whitelisting'
+behave_tags["pricing"]='pricing'
 
 
 help_message() {
