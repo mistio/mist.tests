@@ -7,6 +7,7 @@ from .buttons import clicketi_click
 
 @step(u'I revoke all api tokens')
 def revoke_all_api_tokens(context):
+    import ipdb; ipdb.set_trace()
     token_items = context.browser.find_elements_by_class_name('token-item')
     for token_item in token_items:
         revoke_btn = token_item.find_element_by_class_name('red')
@@ -39,6 +40,9 @@ def revoke_all_api_tokens(context, name):
 def get_new_token_value(context, token_name):
     token_text_area = context.browser.find_element_by_id('tokenValue')
     context.mist_config[token_name] = token_text_area.get_attribute('value')
+    copy_token_dialog = context.browser.find_element_by_id('copyToken')
+    ok_btn = copy_token_dialog.find_element_by_tag_name('paper-button')
+    ok_btn.click()
 
 
 @step(u'I test the api token "{token_value}". It should {work_or_fail}.')
