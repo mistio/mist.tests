@@ -7,7 +7,6 @@ from .buttons import clicketi_click
 
 @step(u'I revoke all api tokens')
 def revoke_all_api_tokens(context):
-    import ipdb; ipdb.set_trace()
     tokens_list = context.browser.find_element_by_id('tokens-list')
     token_items = tokens_list.find_elements_by_tag_name('token-item')
 
