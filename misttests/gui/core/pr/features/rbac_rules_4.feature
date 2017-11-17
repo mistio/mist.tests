@@ -110,7 +110,25 @@ Feature: RBAC-rules-v4
     And I wait for 1 seconds
     Then I logout
 
-  @view-cloud-success-and-script-fail
+  @view-cloud-fail
   Scenario: Verify that member1 cannot view the cloud that has been tagged with "rbac-test"
     Given I am logged in to mist.core as rbac_member1
     Then I should have 0 clouds added
+    And I logout
+
+  @delete-rule
+  Scenario: Delete rule DENY-VIEW-CLOUD
+    Given I am logged in to mist.core
+    When I visit the Teams page
+    And I click the "Test team" "team"
+    Then I expect the "team" edit form to be visible within max 5 seconds
+    When I remove the rule with index "0"
+    And I wait for 1 seconds
+    And I click the button "Save Policy" in "policy" edit form
+    And I wait for 1 seconds
+    And I logout
+
+  @view-cloud-success
+  Scenario: Verify that member1 can now view the cloud, since the only existing rule is ALLOW-ALL-ALL
+    Given I am logged in to mist.core as rbac_member1
+    Then I should have 1 clouds added
