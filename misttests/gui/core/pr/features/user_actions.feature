@@ -8,8 +8,6 @@ Feature: Login Scenarios and Api Token
     And I wait for 3 seconds
     And I click the "API Tokens" button with id "tokens"
     Then I click the "Create API Token" button with id "Create API Token"
-    # create a step that checks if popup with id is open
-    # And I expect for "createTokenDialog" popup to appear within max 4 seconds
     And I wait for 2 seconds
     And I type "Test token" in input with id "tokenName"
     And I wait for 1 seconds
