@@ -131,4 +131,4 @@ Feature: RBAC-rules-v4
   @view-cloud-success
   Scenario: Verify that member1 can now view the cloud, since the only existing rule is ALLOW-ALL-ALL
     Given I am logged in to mist.core as rbac_member1
-    Then I should have 0 clouds added
+    Then I should have 1 clouds added
