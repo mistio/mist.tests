@@ -227,9 +227,22 @@ def mayday_cleanup(context):
             response = requests.delete(context.mist_config['MIST_URL'] + '/api/v1/schedules/' + schedule['id'],
                                        headers=headers)
             assert response.status_code == 200, "Response no 200"
+            break
+
     # start mayday-test container
-
-
+    response = requests.get("%s/api/v1/clouds" % context.mist_config['MIST_URL'], headers=headers)
+    for cloud in response.json():
+        if 'docker' in cloud['provider']:
+            response = requests.get(context.mist_config['MIST_URL'] + '/api/v1/clouds/' + cloud['id'] + '/machines',
+                                    headers=headers)
+            for machine in response.json():
+                if 'mayday-test' in machine['name']:
+                    payload = {'action': 'start'}
+                    uri = context.mist_config['MIST_URL'] + \
+                            '/api/v1/clouds/' + cloud['id'] + \
+                            '/machines/' + machine['machine_id']
+                    requests.post(uri, data=json.dumps(payload), headers=headers)
+                    break
 
 def after_feature(context, feature):
     if feature.name == 'Orchestration':
