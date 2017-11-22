@@ -23,7 +23,7 @@ Feature: Production
     And I click the button "Add" in "schedule" add form
     Then I wait for 2 seconds
     When I visit the Schedules page
-    Then "TestScheduler" schedule should be present within 3 seconds
+    Then "MaydayScheduler" schedule should be present within 3 seconds
 
   @confirm_schedule-triggered
   Scenario: Verify that schedule got triggered
@@ -32,7 +32,6 @@ Feature: Production
     And I search for "mayday-test"
     Then "mayday-test" machine state has to be "stopped" within 600 seconds
 
-# set MAYDAY_TOKEN staging
 # add docker to tester account
 # tag mayday-test
 # set MAYDAY_TOKEN mayday
