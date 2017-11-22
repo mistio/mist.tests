@@ -21,6 +21,8 @@ from selenium.webdriver.common.keys import Keys
 from behave import step
 from time import sleep, time
 
+import requests
+
 
 @step(u'I search for the mayday machine')
 def search_for_mayday_machine(context):
@@ -125,3 +127,24 @@ def check_for_incident(context, incident):
             return
 
     assert False, "Incident %s was not found in the home page" % incident
+
+
+@step(u'I add the MaydaySchedule via api')
+def add_mayday_schedule(context):
+    headers = {'Authorization': context.mist_config['MAYDAY_TOKEN']}
+    conditions = [{'type': 'tags', 'tags': {'test': ''}}]
+
+    payload = {
+     'name': 'MaydayScheduler',
+     'description': 'Mayday Scheduler',
+     'action':'stop',
+     'schedule_type':'interval',
+     'conditions': conditions,
+     'run_immediately': False,
+     'schedule_entry': {'every': 5, 'period':'minutes'},
+     'max_run_count': 4
+    }
+
+    uri = context.mist_config['MIST_URL'] + '/api/v1/schedules'
+    re = requests.post(uri, data=json.dumps(payload), headers=headers)
+    import ipdb; ipdb.set_trace()
