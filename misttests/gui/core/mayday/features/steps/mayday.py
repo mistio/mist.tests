@@ -137,5 +137,5 @@ def add_mayday_schedule(context):
     }
 
     uri = context.mist_config['MIST_URL'] + '/api/v1/schedules'
-    re = requests.post(uri, data=json.dumps(payload), headers=headers)
+    response = requests.post(uri, data=json.dumps(payload), headers=headers)
     assert response.status_code == 200, "Could not add MaydayScheduler schedule!"
