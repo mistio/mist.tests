@@ -143,5 +143,4 @@ Feature: Production
     Then I should see the incident "RAM > 0.0%"
     When I visit the Machines page after the counter has loaded
     And I search for "mayday-test"
-    Then "mayday-test" machine state has to be "running" within 15 seconds
-    
+    Then "mayday-test" machine state has to be "stopped" within 660 seconds
