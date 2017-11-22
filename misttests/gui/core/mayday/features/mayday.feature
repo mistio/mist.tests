@@ -2,14 +2,11 @@
 Feature: Production
 
   @add-interval-schedule
-  Scenario: Add schedule
-    Given cloud "Docker" has been added via API request
-    And Docker machine "test-machine-random" has been added via API request
+  Scenario: Add schedule to be triggered after 5mins
     Given I am logged in to mist.core
-    When I visit the Machines page
-    And I wait for 3 seconds
-    And I search for "test-machine-random"
-    Then "test-machine-random" machine state has to be "running" within 60 seconds
+    When I visit the Machines page after the counter has loaded
+    And I search for "mayday-test"
+    Then "mayday-test" machine state has to be "running" within 15 seconds
     When I visit the Schedules page
     And I click the button "+"
     Then I expect the "schedule" add form to be visible within max 10 seconds
@@ -20,9 +17,9 @@ Feature: Production
     And I wait for 1 seconds
     And I select "Specific Machines" from "ids_or_tags" radio-group
     And I wait for 2 seconds
-    And I select the "test-machine-random" checkbox
+    And I select the "mayday-test" checkbox
     And I select "Repeat" from "schedule_type" radio-group
-    And I set the value "1" to field "interval" in "schedule" add form
+    And I set the value "5" to field "interval" in "schedule" add form
     And I click the button "Add" in "schedule" add form
     Then I wait for 2 seconds
     When I visit the Schedules page
