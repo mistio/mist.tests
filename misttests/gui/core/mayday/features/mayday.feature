@@ -141,4 +141,4 @@ Feature: Production
     Given I am logged in to mist.core
     When I visit the Machines page after the counter has loaded
     And I search for "mayday-test"
-    Then "mayday-test" machine state has to be "stopped" within 660 seconds
+    Then "mayday-test" machine state has to be "stopped" within 480 seconds
