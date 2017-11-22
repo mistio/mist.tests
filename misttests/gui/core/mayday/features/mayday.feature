@@ -1,6 +1,33 @@
 @mayday
 Feature: Production
 
+  @add-interval-schedule
+  Scenario: Add schedule
+    Given cloud "Docker" has been added via API request
+    And Docker machine "test-machine-random" has been added via API request
+    Given I am logged in to mist.core
+    When I visit the Machines page
+    And I wait for 3 seconds
+    And I search for "test-machine-random"
+    Then "test-machine-random" machine state has to be "running" within 60 seconds
+    When I visit the Schedules page
+    And I click the button "+"
+    Then I expect the "schedule" add form to be visible within max 10 seconds
+    When I set the value "TestScheduler" to field "Name" in "schedule" add form
+    And I open the "Task" drop down
+    And I wait for 1 seconds
+    And I click the button "stop" in the "Task" dropdown
+    And I wait for 1 seconds
+    And I select "Specific Machines" from "ids_or_tags" radio-group
+    And I wait for 2 seconds
+    And I select the "test-machine-random" checkbox
+    And I select "Repeat" from "schedule_type" radio-group
+    And I set the value "1" to field "interval" in "schedule" add form
+    And I click the button "Add" in "schedule" add form
+    Then I wait for 2 seconds
+    When I visit the Schedules page
+    Then "TestScheduler" schedule should be present within 3 seconds
+
   @graph
   Scenario: Production monitor and graph testing
     Given I am logged in to mist.core
