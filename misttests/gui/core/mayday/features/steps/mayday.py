@@ -12,7 +12,7 @@ from misttests.gui.steps.ssh import *
 from misttests.gui.steps.browser import *
 from misttests.gui.steps.dialog import *
 from misttests.gui.steps.list import *
-from misttests.gui.steps.schedulers import *
+from misttests.gui.core.pr.steps.schedulers import *
 from misttests.gui.steps.utils import safe_get_element_text
 
 from selenium.webdriver import ActionChains
