@@ -17,7 +17,7 @@ Feature: Production
     And I wait for 1 seconds
     And I select "Machines with tags" from "ids_or_tags" radio-group
     And I wait for 1 seconds
-    And I set the value "test=awesome" to field "Machines with tags" in "schedule" add form
+    And I set the value "mayday-test" to field "Machines with tags" in "schedule" add form
     And I select "Repeat" from "schedule_type" radio-group
     And I set the value "5" to field "interval" in "schedule" add form
     And I click the button "Add" in "schedule" add form
@@ -145,3 +145,5 @@ Feature: Production
 
 # delete schedule
 # start machine
+# add docker tester
+# tag mayday-test
