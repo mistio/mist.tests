@@ -226,7 +226,7 @@ def mayday_cleanup(context):
         if schedule['name'] == 'MaydayScheduler':
             response = requests.delete(context.mist_config['MIST_URL'] + '/api/v1/schedules/' + schedule['id'],
                                        headers=headers)
-            assert response.status_code == 200, "Response no 200"
+            assert response.status_code == 200, "Could not delete schedule!"
             break
 
     # start mayday-test container
@@ -241,8 +241,10 @@ def mayday_cleanup(context):
                     uri = context.mist_config['MIST_URL'] + \
                             '/api/v1/clouds/' + cloud['id'] + \
                             '/machines/' + machine['machine_id']
-                    requests.post(uri, data=json.dumps(payload), headers=headers)
+                    response = requests.post(uri, data=json.dumps(payload), headers=headers)
+                    assert response.status_code == 200, "Could not start mayday-test container!"
                     break
+
 
 def after_feature(context, feature):
     if feature.name == 'Orchestration':
