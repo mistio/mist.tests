@@ -223,7 +223,7 @@ def mayday_cleanup(context):
     )
 
     for schedule in response.json():
-        if schedule['name'] == 'test':
+        if schedule['name'] == 'MaydayScheduler':
             response = requests.delete(context.mist_config['MIST_URL'] + '/api/v1/schedules/' + schedule['id'],
                                        headers=headers)
             assert response.status_code == 200, "Response no 200"
