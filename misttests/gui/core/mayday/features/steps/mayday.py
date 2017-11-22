@@ -112,10 +112,6 @@ def rule_value(context, value):
     actions.click()
     actions.send_keys("0")
     actions.perform()
-#    context.execute_steps(u'When I wait for 2 seconds')
-#    value_input.send_keys(u'\ue003')
-#    context.execute_steps(u'When I wait for 2 seconds')
-#    value_input.send_keys(value)
 
 
 @step(u'I should see the incident "{incident}"')
@@ -132,17 +128,14 @@ def check_for_incident(context, incident):
 @step(u'I add the MaydaySchedule via api')
 def add_mayday_schedule(context):
     headers = {'Authorization': context.mist_config['MAYDAY_TOKEN']}
-    conditions = [{'type': 'tags', 'tags': {'test': ''}}]
+    conditions = [{'type': 'tags', 'tags': {'mayday-test': ''}}]
 
     payload = {
      'name': 'MaydayScheduler',
-     'description': 'Mayday Scheduler',
      'action':'stop',
      'schedule_type':'interval',
      'conditions': conditions,
-     'run_immediately': False,
      'schedule_entry': {'every': 5, 'period':'minutes'},
-     'max_run_count': 4
     }
 
     uri = context.mist_config['MIST_URL'] + '/api/v1/schedules'
