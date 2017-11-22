@@ -36,6 +36,7 @@ def before_all(context):
     context.mist_config = dict()
     context.mist_config['browser'] = choose_driver()
     context.browser = context.mist_config['browser']
+    context.mist_config['MAYDAY_TOKEN'] = config.MAYDAY_TOKEN
     context.mist_config['NAME'] = config.NAME
     context.mist_config['BASE_EMAIL'] = config.BASE_EMAIL
     context.mist_config['EMAIL'] = config.EMAIL
@@ -135,6 +136,7 @@ def after_all(context):
     log.info("MEMBER_2: %s" % context.mist_config['MEMBER2_EMAIL'])
     log.info("MEMBER2_PASSWORD: %s" % context.mist_config['MEMBER2_PASSWORD'])
     log.info("MIST_URL: %s" % context.mist_config['MIST_URL'])
+
     finish_and_cleanup(context)
 
 
@@ -211,6 +213,24 @@ def finish_and_cleanup(context):
         context.mist_config['browser2'].quit()
 
 
+def mayday_cleanup(context):
+    # delete mayday scheduler
+    headers = {'Authorization': context.mist_config['MAYDAY_TOKEN']}
+
+    response = requests.get(
+        "%s/api/v1/schedules" % context.mist_config['MIST_URL'],
+        headers=headers
+    )
+
+    for schedule in response.json():
+        if schedule['name'] == 'test':
+            response = requests.delete(context.mist_config['MIST_URL'] + '/api/v1/schedules/' + schedule['id'],
+                                       headers=headers)
+            assert response.status_code == 200, "Response no 200"
+    # start mayday-test container
+
+
+
 def after_feature(context, feature):
     if feature.name == 'Orchestration':
         kill_orchestration_machines(context)
@@ -230,3 +250,5 @@ def after_feature(context, feature):
         kill_docker_machine(context, context.mist_config.get('docker-ui-test-machine-random'))
     if feature.name == 'Monitoring':
         kill_docker_machine(context, context.mist_config.get('monitored-machine-random'))
+    if feature.name == 'Production':
+        mayday_cleanup(context)
