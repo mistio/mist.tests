@@ -134,6 +134,7 @@ def add_mayday_schedule(context):
      'schedule_type':'interval',
      'conditions': conditions,
      'schedule_entry': {'every': 5, 'period':'minutes'},
+     'task_enabled': True
     }
 
     uri = context.mist_config['MIST_URL'] + '/api/v1/schedules'
