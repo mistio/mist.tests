@@ -14,8 +14,6 @@ from misttests.gui.steps.dialog import *
 from misttests.gui.steps.list import *
 from misttests.gui.steps.utils import safe_get_element_text
 
-from misttests.gui.core.pr.features.steps.schedulers import *
-
 from selenium.webdriver import ActionChains
 from selenium.webdriver.common.keys import Keys
 from behave import step
@@ -140,3 +138,4 @@ def add_mayday_schedule(context):
 
     uri = context.mist_config['MIST_URL'] + '/api/v1/schedules'
     re = requests.post(uri, data=json.dumps(payload), headers=headers)
+    assert response.status_code == 200, "Could not add MaydayScheduler schedule!"
