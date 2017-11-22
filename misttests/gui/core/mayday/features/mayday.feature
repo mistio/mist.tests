@@ -139,8 +139,6 @@ Feature: Production
   @confirm_schedule-triggered
   Scenario: Verify that schedule got triggered
     Given I am logged in to mist.core
-    And I wait for the links in homepage to appear
-    Then I should see the incident "RAM > 0.0%"
     When I visit the Machines page after the counter has loaded
     And I search for "mayday-test"
     Then "mayday-test" machine state has to be "stopped" within 660 seconds
