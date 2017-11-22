@@ -140,4 +140,3 @@ def add_mayday_schedule(context):
 
     uri = context.mist_config['MIST_URL'] + '/api/v1/schedules'
     re = requests.post(uri, data=json.dumps(payload), headers=headers)
-    import ipdb; ipdb.set_trace()
