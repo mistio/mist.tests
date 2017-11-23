@@ -133,7 +133,7 @@ def add_mayday_schedule(context):
      'action':'stop',
      'schedule_type':'interval',
      'conditions': conditions,
-     'schedule_entry': {'every': 5, 'period':'minutes'},
+     'schedule_entry': {'every': 4, 'period':'minutes'},
      'task_enabled': True
     }
 
