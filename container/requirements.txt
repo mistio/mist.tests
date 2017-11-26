@@ -6,7 +6,7 @@ pytest
 python-jose
 PyYAML
 requests
-selenium==2.52.0
+selenium==3.7
 flake8
 ipdb
 vault
