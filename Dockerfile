@@ -29,6 +29,11 @@ RUN curl -SLO "https://chromedriver.storage.googleapis.com/$CHROMEDRIVER_VERSION
     mv chromedriver /usr/local/bin && \
     rm chromedriver_linux64.zip
 
+RUN wget http://ftp.mozilla.org/pub/firefox/releases/57.0/linux-x86_64/en-US/firefox-57.0.tar.bz2 && \
+    tar xvjf firefox-57.0.tar.bz2 && \
+    mv firefox/firefox /usr/bin/firefox && \
+    rm xvjf firefox-57.0.tar.bz2
+
 # Install latest version of GNU parallel
 RUN (wget -O - pi.dk/3 || curl pi.dk/3/ || fetch -o - http://pi.dk/3) | bash
 
