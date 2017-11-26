@@ -32,7 +32,7 @@ RUN curl -SLO "https://chromedriver.storage.googleapis.com/$CHROMEDRIVER_VERSION
 RUN wget http://ftp.mozilla.org/pub/firefox/releases/57.0/linux-x86_64/en-US/firefox-57.0.tar.bz2 && \
     tar xvjf firefox-57.0.tar.bz2 && \
     mv firefox/firefox /usr/bin/firefox && \
-    rm xvjf firefox-57.0.tar.bz2
+    rm firefox-57.0.tar.bz2
 
 RUN wget https://github.com/mozilla/geckodriver/releases/download/v0.18.0/geckodriver-v0.18.0-linux64.tar.gz && \
     tar -xvf geckodriver-v0.18.0-linux64.tar.gz && \
