@@ -30,13 +30,15 @@ RUN curl -SLO "https://chromedriver.storage.googleapis.com/$CHROMEDRIVER_VERSION
     rm chromedriver_linux64.zip
 
 ARG FIREFOX_VERSION=57.0
-RUN wget http://ftp.mozilla.org/pub/firefox/releases/$FIREFOX_VERSION/linux-x86_64/en-US/firefox-$FIREFOX_VERSION.tar.bz2 && \
+RUN cd /usr/local && \
+    wget http://ftp.mozilla.org/pub/firefox/releases/$FIREFOX_VERSION/linux-x86_64/en-US/firefox-$FIREFOX_VERSION.tar.bz2 && \
     tar xvjf firefox-$FIREFOX_VERSION.tar.bz2 && \
-    mv firefox/firefox /usr/bin/firefox && \
+    ln -s /usr/local/firefox/firefox /usr/bin/firefox && \
     rm firefox-$FIREFOX_VERSION.tar.bz2
 
-RUN wget https://github.com/mozilla/geckodriver/releases/download/v0.18.0/geckodriver-v0.18.0-linux64.tar.gz && \
-    tar xvzf geckodriver-v0.18.0-linux64.tar.gz && \
+ARG GECKODRIVER_VERSION=v0.18.0
+RUN wget https://github.com/mozilla/geckodriver/releases/download/$GECKODRIVER_VERSION/geckodriver-$GECKODRIVER_VERSION-linux64.tar.gz && \
+    tar xvzf geckodriver-$GECKODRIVER_VERSION-linux64.tar.gz && \
     chmod +x geckodriver && \
     mv geckodriver /usr/bin/geckodriver
 
