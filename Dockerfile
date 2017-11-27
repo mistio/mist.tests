@@ -35,6 +35,11 @@ RUN wget http://ftp.mozilla.org/pub/firefox/releases/$FIREFOX_VERSION/linux-x86_
     mv firefox/firefox /usr/bin/firefox && \
     rm firefox-$FIREFOX_VERSION.tar.bz2
 
+RUN wget https://github.com/mozilla/geckodriver/releases/download/v0.18.0/geckodriver-v0.18.0-linux64.tar.gz && \
+    tar xvzf geckodriver-v0.18.0-linux64.tar.gz && \
+    chmod +x geckodriver && \
+    mv geckodriver /usr/bin/geckodriver
+
 # Install latest version of GNU parallel
 RUN (wget -O - pi.dk/3 || curl pi.dk/3/ || fetch -o - http://pi.dk/3) | bash
 
