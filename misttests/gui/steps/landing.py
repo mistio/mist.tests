@@ -14,8 +14,9 @@ from selenium.common.exceptions import NoSuchElementException
 
 
 def get_shadow_root(context,web_element):
-    shadow_root = context.browser.execute_script('return arguments[0].shadowRoot', web_element)
-    return shadow_root
+    #shadow_root = context.browser.execute_script('return arguments[0].shadowRoot', web_element)
+    #return shadow_root
+    return web_element
 
 
 @step(u'I click the "{button}" button in the get-started-page')
