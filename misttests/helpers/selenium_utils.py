@@ -6,6 +6,7 @@ from misttests import config
 
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
+from selenium.webdriver.firefox.options import Options
 from selenium.webdriver.remote.errorhandler import NoSuchWindowException
 
 from PIL import ImageDraw
@@ -24,7 +25,10 @@ def choose_driver(flavor=None):
     flavor = flavor if flavor is not None else config.BROWSER_FLAVOR
     log.info("Initializing driver")
     if flavor == "firefox":
-        driver = webdriver.Firefox()
+        log.info("Initializing firefox driver")
+        options = Options()
+        options.add_argument('-headless')
+        driver = webdriver.Firefox(firefox_options=options)
 
     elif flavor == "chrome":
         options = webdriver.ChromeOptions()
