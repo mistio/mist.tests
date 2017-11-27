@@ -114,7 +114,7 @@ ARTIFACTS_PATH = os.getenv('DATADIR') or get_setting("ARTIFACTS_PATH", 'artifact
 # This is the path to the json file used for the multi-provisioning tests
 MP_DB_DIR = get_setting("MP_DB_DIR", os.path.join(BASE_DIR, 'mp_db.json'))
 
-BROWSER_FLAVOR = get_setting("BROWSER_FLAVOR", "chrome")
+BROWSER_FLAVOR = get_setting("BROWSER_FLAVOR", "firefox")
 
 default_browser_path = BASE_DIR
 if BROWSER_FLAVOR == 'chrome':
