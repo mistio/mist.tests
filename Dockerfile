@@ -29,16 +29,11 @@ RUN curl -SLO "https://chromedriver.storage.googleapis.com/$CHROMEDRIVER_VERSION
     mv chromedriver /usr/local/bin && \
     rm chromedriver_linux64.zip
 
-RUN wget http://ftp.mozilla.org/pub/firefox/releases/57.0/linux-x86_64/en-US/firefox-57.0.tar.bz2 && \
-    tar xvjf firefox-57.0.tar.bz2 && \
+ARG FIREFOX_VERSION=57.0
+RUN wget http://ftp.mozilla.org/pub/firefox/releases/$FIREFOX_VERSION/linux-x86_64/en-US/firefox-$FIREFOX_VERSION.tar.bz2 && \
+    tar xvjf firefox-$FIREFOX_VERSION.tar.bz2 && \
     mv firefox/firefox /usr/bin/firefox && \
-    rm firefox-57.0.tar.bz2
-
-RUN wget https://github.com/mozilla/geckodriver/releases/download/v0.18.0/geckodriver-v0.18.0-linux64.tar.gz && \
-    tar -xvf geckodriver-v0.18.0-linux64.tar.gz && \
-    chmod +x geckodriver && \
-    mv geckodriver /usr/bin/ && \
-    rm geckodriver-v0.18.0-linux64.tar.gz
+    rm firefox-$FIREFOX_VERSION.tar.bz2
 
 # Install latest version of GNU parallel
 RUN (wget -O - pi.dk/3 || curl pi.dk/3/ || fetch -o - http://pi.dk/3) | bash
@@ -58,5 +53,3 @@ WORKDIR /mist.tests/
 RUN pip install -e . && pip install git+https://github.com/mverteuil/pytest-ipdb.git#egg=pytest-ipdb
 
 RUN  ln -s /mist.tests/container/start_test_env.sh /test_env.sh
-
-ENV DISPLAY=:1.0
