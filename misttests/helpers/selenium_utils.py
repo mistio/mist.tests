@@ -28,7 +28,7 @@ def choose_driver(flavor=None):
         log.info("Initializing firefox driver")
         options = Options()
         options.add_argument('-headless')
-        options.add_argument('no-sandbox')
+        options.add_argument('-no-remote')
         driver = webdriver.Firefox(firefox_options=options)
 
     elif flavor == "chrome":
