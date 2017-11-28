@@ -30,7 +30,7 @@ def choose_driver(flavor=None):
 #        options.add_argument('-headless')
 #        options.add_argument('-no-remote')
 #        driver = webdriver.Firefox(firefox_options=options)
-         driver = webdriver.Firefox()
+        driver = webdriver.Firefox()
 
     elif flavor == "chrome":
         options = webdriver.ChromeOptions()
