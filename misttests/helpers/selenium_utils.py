@@ -26,10 +26,11 @@ def choose_driver(flavor=None):
     log.info("Initializing driver")
     if flavor == "firefox":
         log.info("Initializing firefox driver")
-        options = Options()
-        options.add_argument('-headless')
-        options.add_argument('-no-remote')
-        driver = webdriver.Firefox(firefox_options=options)
+#        options = Options()
+#        options.add_argument('-headless')
+#        options.add_argument('-no-remote')
+#        driver = webdriver.Firefox(firefox_options=options)
+         driver = webdriver.Firefox()
 
     elif flavor == "chrome":
         options = webdriver.ChromeOptions()
