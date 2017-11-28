@@ -53,7 +53,7 @@ Feature: Machines
     And I click the button "DummyKey2" in the "Select key" dropdown
     And I click the "Associate" button in the dialog "Associate a key"
     And I wait for 5 seconds
-    Then there should be 2 keys associated with the machine
+    Then there should be 2 keys associated with the machine within max 5 seconds
     Then "DummyKey2" key should be associated with the machine "ui-test-create-machine-random"
 
   @key-disassociate
@@ -61,8 +61,7 @@ Feature: Machines
     When I delete the associated key "DummyKey2"
     Then I expect the dialog "Disassociate Key" is open within 4 seconds
     When I click the "Disassociate" button in the dialog "Disassociate Key"
-    And I wait for 10 seconds
-    Then there should be 1 keys associated with the machine
+    Then there should be 1 keys associated with the machine within max 5 seconds
 
    @machine-run-script
    Scenario: Run script to machine created above

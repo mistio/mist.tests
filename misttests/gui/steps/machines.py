@@ -326,15 +326,22 @@ def disassociate_key(context, key):
             return
 
 
-@step(u'there should be {keys} keys associated with the machine')
-def keys_associated_with_machine(context, keys):
-    machine_keys_class = context.browser.find_elements_by_css_selector('div.machine-key.style-scope.machine-page')
-    associated_keys_with_machine = 0
-    for element in machine_keys_class:
-        try:
-            element.find_element_by_tag_name('a')
-            associated_keys_with_machine += 1
-        except:
-            pass
+@step(u'there should be {keys} keys associated with the machine within max {seconds} seconds')
+def keys_associated_with_machine(context, keys, seconds):
+    end_time = time() + int(seconds)
+    while time() < end_time:
+        machine_keys_class = context.browser.find_elements_by_css_selector('div.machine-key.style-scope.machine-page')
+        associated_keys_with_machine = 0
+        for element in machine_keys_class:
+            try:
+                element.find_element_by_tag_name('a')
+                associated_keys_with_machine += 1
+            except:
+                pass
 
-    assert associated_keys_with_machine == int(keys), "There are %s keys associated with the machine" % associated_keys_with_machine
+        if associated_keys_with_machine == int(keys):
+            return
+        else:
+            sleep(2)
+
+    assert False, "There are %s keys associated with the machine" % associated_keys_with_machine
