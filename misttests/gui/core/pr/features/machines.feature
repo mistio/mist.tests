@@ -61,7 +61,8 @@ Feature: Machines
     When I delete the associated key "DummyKey2"
     Then I expect the dialog "Disassociate Key" is open within 4 seconds
     When I click the "Disassociate" button in the dialog "Disassociate Key"
-    Then there should be 1 keys associated with the machine within max 5 seconds
+    Then there should be 1 keys associated with the machine within max 25 seconds
+    And "DummyKey" key should be associated with the machine "ui-test-create-machine-random"
 
    @machine-run-script
    Scenario: Run script to machine created above
