@@ -38,10 +38,9 @@ Feature: Actions for Insights
     When I visit the Machines page
     And I wait for 2 seconds
     And I click the "mistcore_debugger_1" "machine"
-    And I wait for 10 seconds
-    Then I ensure that the "machine" has the tags "cost_per_month:100"
+    Then I ensure that the "machine" has the tags "cost_per_month:100" within 20 seconds
     When I visit the Insights page
-    And I wait for 40 seconds
+    And I wait for 60 seconds
     And I refresh the page
     And I wait for 10 seconds
     Then "cost" in "quick-overview" section should be "greater than $0.00"

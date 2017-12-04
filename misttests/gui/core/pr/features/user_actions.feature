@@ -2,38 +2,36 @@
 Feature: Login Scenarios and Api Token
 
   @api-token-test
-  Scenario: Create api token and test it with API call
+  Scenario: Create api token and test it with API call. When it is revoked, API call should fail
     Given I am logged in to mist.core
     When I visit the Account page
     And I wait for 3 seconds
-    Then I click the "API Tokens" button with id "tokens"
-    # below needs to be fixed in the backend
-    # When I revoke all api tokens
+    And I click the "API Tokens" button with id "tokens"
     Then I click the "Create API Token" button with id "Create API Token"
-    # create a step that checks if popup with id is open
-    # And I expect for "createTokenDialog" popup to appear within max 4 seconds
     And I wait for 2 seconds
-    Then I type "Test token" in input with id "tokenName"
+    And I type "Test token" in input with id "tokenName"
     And I wait for 1 seconds
-    Then I click the button "Never" from the ttl dropdown
+    And I click the button "Never" from the ttl dropdown
     And I wait for 1 seconds
-    Then I type "PASSWORD1" in input with id "pass"
+    And I type "PASSWORD1" in input with id "pass"
     And I wait for 1 seconds
     And I click the "Create" button with id "Create"
     And I wait for 5 seconds
-    When I get the new api token value "BLABLA_TOKEN"
+    And I get the new api token value "BLABLA_TOKEN"
     Then I test the api token "BLABLA_TOKEN". It should work.
-    #When i revoke it, it should fail #needs to be fixed in the backend
-    #Then I test the api token "BLABLA_TOKEN". It should fail.
+    When I revoke all api tokens
+    And I wait for 1 seconds
+    Then I test the api token "BLABLA_TOKEN". It should fail.
 
   @signup
   Scenario: Sign Up success and verify that user can create resources
     When I make sure user with email "EMAIL" is absent
     Given I am not logged in to mist.core
     When I open the signup popup
+    And I click the "Sign Up" button in the get-started-page
     And I enter my standard credentials for signup
     And I click the sign up button in the landing page popup
-    Then I should receive an email at the address "EMAIL" with subject "[mist.io] Confirm your registration" within 60 seconds
+    Then I should receive an email at the address "EMAIL" with subject "[mist.io] Confirm your registration" within 30 seconds
     When I follow the link inside the email
     And I delete old emails
     And I enter my standard credentials for signup_password_set
@@ -67,7 +65,8 @@ Feature: Login Scenarios and Api Token
   Scenario: Already registered user gets conflict error when trying to sign up
     Given I am not logged in to mist.core
     When I open the signup popup
-    And I wait for 3 seconds
+    And I wait for 2 seconds
+    And I click the "Sign Up" button in the get-started-page
     And I enter my standard credentials for signup
     And I click the sign up button in the landing page popup
     And I wait for 3 seconds
@@ -98,7 +97,7 @@ Feature: Login Scenarios and Api Token
     And I wait for 3 seconds
     And I enter my standard credentials for password_reset_request
     And I click the reset_password_email_submit button in the landing page popup
-    Then I should receive an email at the address "EMAIL" with subject "[mist.io] Password reset request" within 60 seconds
+    Then I should receive an email at the address "EMAIL" with subject "[mist.io] Password reset request" within 30 seconds
     When I follow the link inside the email
     And I enter my new_creds credentials for password_reset
     And I click the reset_pass_submit button in the landing page popup

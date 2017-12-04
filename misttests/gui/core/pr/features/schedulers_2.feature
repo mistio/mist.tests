@@ -10,7 +10,7 @@ Feature: Schedulers-b
     When I visit the Machines page
     And I wait for 3 seconds
     And I search for "test-ui-machine-random"
-    Then "test-ui-machine-random" machine state has to be "running" within 30 seconds
+    Then "test-ui-machine-random" machine state has to be "running" within 60 seconds
     When I search for "test-ui-machine-2-random"
     Then "test-ui-machine-2-random" machine state has to be "running" within 10 seconds
     When I click the "test-ui-machine-2-random" "machine"
@@ -25,8 +25,7 @@ Feature: Schedulers-b
     And I wait for 2 seconds
     And I search for "test-ui-machine-2-random"
     And I click the "test-ui-machine-2-random" "machine"
-    And I wait for 10 seconds
-    Then I ensure that the "machine" has the tags "test:awesome"
+    Then I ensure that the "machine" has the tags "test:awesome" within 20 seconds
 
    @scheduler-add-crontab
    Scenario: Add crontab schedule

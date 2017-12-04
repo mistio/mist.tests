@@ -51,8 +51,8 @@ def produce_video_artifact(context, step):
     if os.path.isfile(filename):
         os.remove(filename)
     log.info('Producing video...')
-    os.system('ffmpeg -loglevel panic -framerate 3 -pattern_type glob \
-                      -i "%s/%s-*.png" -c:v libx264 -r 30 %s' %
+    os.system('ffmpeg -loglevel panic -framerate 3 -pattern_type glob '
+              '-i "%s/%s-*.png" -c:v libx264 -r 30 -preset ultrafast %s' %
               (context.mist_config['ARTIFACTS_PATH'], feature, filename))
     if context.mist_config['LOCAL']:
         log.info('http://172.17.0.1:8222/' + filename.replace('/data/', ''))

@@ -11,12 +11,15 @@ from misttests.gui.steps.modals import *
 from misttests.gui.steps.ssh import *
 from misttests.gui.steps.browser import *
 from misttests.gui.steps.dialog import *
+from misttests.gui.steps.list import *
 from misttests.gui.steps.utils import safe_get_element_text
 
 from selenium.webdriver import ActionChains
 from selenium.webdriver.common.keys import Keys
 from behave import step
 from time import sleep, time
+
+import requests
 
 
 @step(u'I search for the mayday machine')
@@ -107,10 +110,6 @@ def rule_value(context, value):
     actions.click()
     actions.send_keys("0")
     actions.perform()
-#    context.execute_steps(u'When I wait for 2 seconds')
-#    value_input.send_keys(u'\ue003')
-#    context.execute_steps(u'When I wait for 2 seconds')
-#    value_input.send_keys(value)
 
 
 @step(u'I should see the incident "{incident}"')
@@ -122,3 +121,22 @@ def check_for_incident(context, incident):
             return
 
     assert False, "Incident %s was not found in the home page" % incident
+
+
+@step(u'I add the MaydaySchedule via api')
+def add_mayday_schedule(context):
+    headers = {'Authorization': context.mist_config['MAYDAY_TOKEN']}
+    conditions = [{'type': 'tags', 'tags': {'mayday-test': ''}}]
+
+    payload = {
+     'name': 'MaydayScheduler',
+     'action':'stop',
+     'schedule_type':'interval',
+     'conditions': conditions,
+     'schedule_entry': {'every': 4, 'period':'minutes'},
+     'task_enabled': True
+    }
+
+    uri = context.mist_config['MIST_URL'] + '/api/v1/schedules'
+    response = requests.post(uri, data=json.dumps(payload), headers=headers)
+    assert response.status_code == 200, "Could not add MaydayScheduler schedule!"

@@ -21,12 +21,11 @@ Feature: Zones
     When I visit the Home page
     And I wait for 1 seconds
     And I visit the Zones page
-    Then "test-zone-random.com." zone should be present within 20 seconds
+    And I search for "test-zone-random.com."
+    Then "test-zone-random.com." zone should be present within 60 seconds
 
   @zone-search
   Scenario: Filter a zone
-    When I search for "test-zone-random.com."
-    Then "test-zone-random.com." zone should be present within 10 seconds
     When I clear the search bar
     Then "test-zone-random.com." zone should be present within 10 seconds
     When I search for "Non-existing zone"
@@ -39,24 +38,25 @@ Feature: Zones
     When I visit the Home page
     And I wait for 1 seconds
     And I open the cloud menu for "GCE"
-    And I wait for 1 seconds
+    And I wait for 2 seconds
     And I click the "Enable DNS" button with id "DNS-enable-disable"
     And I wait for 2 seconds
     And I visit the Home page
     And I wait for 1 seconds
     And I visit the Zones page
-    Then "test-zone-random.com." zone should be absent within 10 seconds
+    Then "test-zone-random.com." zone should be absent within 60 seconds
 
   @zone-tags
   Scenario: Reenable dns-support and add tags to a zone
     When I visit the Home page
     And I wait for 1 seconds
     And I open the cloud menu for "GCE"
+    And I wait for 2 seconds
     And I click the "Enable DNS" button with id "DNS-enable-disable"
-    And I wait for 1 seconds
+    And I wait for 2 seconds
     And I visit the Zones page
     And I search for "test-zone-random.com."
-    Then "test-zone-random.com." zone should be present within 15 seconds
+    Then "test-zone-random.com." zone should be present within 60 seconds
     When I click the "test-zone-random.com." "zone"
     Then I expect the "zone" edit form to be visible within max 5 seconds
     When I click the button "Tags" in "zone" edit form
@@ -66,8 +66,7 @@ Feature: Zones
     And I add a tag with key "second" and value "tag"
     And I click the button "Save Tags" in the tag menu
     Then I expect for the tag popup to close within 4 seconds
-    And I wait for 10 seconds
-    And I ensure that the "zone" has the tags "first:tag,second:tag"
+    And I ensure that the "zone" has the tags "first:tag,second:tag" within 25 seconds
     When I click the button "Tags" in "zone" edit form
     And I expect for the tag popup to open within 4 seconds
     And I wait for 1 seconds
@@ -75,7 +74,7 @@ Feature: Zones
     And I wait for 1 seconds
     And I click the button "Save Tags" in the tag menu
     Then I expect for the tag popup to close within 4 seconds
-    And I ensure that the "zone" has the tags "second:tag"
+    And I ensure that the "zone" has the tags "second:tag" within 5 seconds
 
   @record-add
   Scenario: Add a record
@@ -89,7 +88,7 @@ Feature: Zones
     Then I expect for the button "Add" in "Record" add form to be clickable within 5 seconds
     When I focus on the button "Add" in "Record" add form
     And I click the button "Add" in "record" add form
-    Then "test-record-random" record should be present within 20 seconds
+    Then "test-record-random" record should be present within 30 seconds
     And I wait for 1 seconds
 
   @record-delete
@@ -100,7 +99,7 @@ Feature: Zones
     And I wait for 1 seconds
     When I click the "Delete" button in the dialog "Delete Record?"
     Then I expect the dialog "Delete Record?" is closed within 4 seconds
-    And "test-record-random" record should be absent within 20 seconds
+    And "test-record-random" record should be absent within 30 seconds
 
   @zone-delete
   Scenario: Delete a zone
@@ -111,4 +110,4 @@ Feature: Zones
     Then I expect the dialog "Delete Zone" is closed within 4 seconds
     When I visit the Zones page
     And I wait for 2 seconds
-    And "test-zone-random.com." zone should be absent within 20 seconds
+    And "test-zone-random.com." zone should be absent within 60 seconds

@@ -1,6 +1,10 @@
 @mayday
 Feature: Production
 
+  @add-interval-schedule
+  Scenario: Add schedule to be triggered after 5mins
+    Given I add the MaydaySchedule via api
+
   @graph
   Scenario: Production monitor and graph testing
     Given I am logged in to mist.core
@@ -111,3 +115,10 @@ Feature: Production
     Given I am logged in to mist.core
     And I wait for the links in homepage to appear
     Then I should see the incident "RAM > 0.0%"
+
+  @confirm_schedule-triggered
+  Scenario: Verify that schedule got triggered
+    Given I am logged in to mist.core
+    When I visit the Machines page after the counter has loaded
+    And I search for "mayday-test"
+    Then "mayday-test" machine state has to be "stopped" within 240 seconds
