@@ -34,7 +34,10 @@ def search_for_mayday_machine(context):
 
 @step(u'I delete old mayday emails')
 def delete_old_mayday_emails(context):
-    box = login_email(context)
+
+    box = imaplib.IMAP4_SSL("imap.gmail.com")
+    box.login(context.mist_config['GOOGLE_TEST_EMAIL'],
+                      context.mist_config['GOOGLE_TEST_PASSWORD'])
     box.select("INBOX")
     typ, data = box.search(None, 'ALL')
     if not data[0].split():
