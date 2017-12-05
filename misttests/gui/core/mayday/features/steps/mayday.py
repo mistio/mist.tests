@@ -49,6 +49,38 @@ def delete_old_mayday_emails(context):
     logout_email(box)
 
 
+@step(u'I should receive an email within {seconds} seconds')
+def receive_mail(context, seconds):
+    end_time = time() + int(seconds)
+    error = ""
+
+    while time() < end_time:
+        log.info("Looking if email has arrived\n\n")
+        try:
+            box = imaplib.IMAP4_SSL("imap.gmail.com")
+            box.login(context.mist_config['GOOGLE_TEST_EMAIL'],
+                              context.mist_config['GOOGLE_TEST_PASSWORD'])
+            if not box:
+                error = "login failed"
+                continue
+            inbox = box.select("INBOX")
+        except Exception as e:
+            log.info("An exception occurred: %s\n\n" % str(e))
+            continue
+
+        log.info("Searching in inbox for email\n\n")
+        typ, data = box.search(None, 'ALL')
+
+        if data[0].split():
+            return
+        else:
+            logout_email(box)
+            log.info("Email has not arrived yet. Sleeping for 15 seconds\n\n")
+            sleep(15)
+
+    assert False, u'Did not receive an email within %s seconds. %s' % (seconds,
+                                                                       error)
+
 @step(u'I click the mayday machine')
 def click_mayday_machine(context):
     """
