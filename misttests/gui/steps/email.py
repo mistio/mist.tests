@@ -221,18 +221,18 @@ def login_email(context):
         else:
             imap_port = 143
 
+    import ipdb; ipdb.set_trace()
     if context.mist_config['IMAP_USE_SSL']:
         box = imaplib.IMAP4_SSL(imap_host, imap_port)
     else:
         box = imaplib.IMAP4(imap_host, imap_port)
 
-    login = box.login(context.mist_config['GOOGLE_TEST_EMAIL'],
-                      context.mist_config['GOOGLE_TEST_PASSWORD'])
+    login = box.login('test','test')
 
     if 'OK' in login:
         return box
     else:
-        return False
+        assert False, "Logging in to localmail failed!"
 
 
 def logout_email(box):
