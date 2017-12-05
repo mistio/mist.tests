@@ -148,8 +148,7 @@ MAYDAY_TOKEN = get_setting("MAYDAY_TOKEN", "")
 BASE_EMAIL = get_setting("BASE_EMAIL", "thingirl.tester.mist.io")
 GMAIL_THINGIRL_USER = get_setting("GMAIL_THINGIRL_USER", "%s@gmail.com" % BASE_EMAIL)
 GMAIL_THINGIRL_PASSWORD = get_setting("GMAIL_THINGIRL_PASSWORD", "")
-EMAIL = get_setting("EMAIL", "%s@gmail.com" % (BASE_EMAIL))
-#EMAIL = get_setting("EMAIL", "%s+%d@gmail.com" % (BASE_EMAIL, random.randint(1,200000)))
+EMAIL = get_setting("EMAIL", "%s+%d@gmail.com" % (BASE_EMAIL, random.randint(1,200000)))
 PASSWORD1 = get_setting("PASSWORD1",
                         ''.join(random.choice(string.ascii_letters + string.digits) for _ in range(20)))
 PASSWORD2 = get_setting("PASSWORD2",
@@ -158,7 +157,7 @@ CHANGED_PASSWORD = get_setting("CHANGED_PASSWORD",
                         ''.join(random.choice(string.ascii_letters + string.digits) for _ in range(20)))
 
 # CREDENTIALS FOR TESTING RBAC
-OWNER_EMAIL = get_setting("OWNER_EMAIL", "%s@gmail.com" % (BASE_EMAIL))
+OWNER_EMAIL = get_setting("OWNER_EMAIL", "%s+%d@gmail.com" % (BASE_EMAIL, random.randint(1,200000)))
 OWNER_PASSWORD = get_setting("OWNER_PASSWORD", ''.join(random.choice(string.ascii_letters + string.digits) for _ in range(10)))
 
 MEMBER1_EMAIL = get_setting("MEMBER1_EMAIL", "")
