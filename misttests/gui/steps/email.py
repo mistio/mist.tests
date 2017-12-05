@@ -12,30 +12,6 @@ from behaving.mail.steps import *
 log = logging.getLogger(__name__)
 
 
-@step('I make sure that this link is the same as before at email address'
-      ' "{email_address}"')
-def check_links_in_confirmation_emails(context, email_address):
-    def get_subject_from_mail(mail):
-        text, encoding = decode_header(mail.get('Subject'))[0]
-        return text.decode(encoding) if encoding else text
-
-    def filter_contents(mail):
-        mail = email.message_from_string(mail)
-        return '[mist.io] Confirm your registration' == get_subject_from_mail(mail)
-
-    mail = context.mail.user_messages(context.mist_config['EMAIL'], filter_contents)
-    assert len(mail) == 1, "User has either more than one or no confirmation " \
-                           "email"
-    message = email.message_from_string(mail[0]).get_payload()
-    str_end = message.find('\n\nIn the meantime')
-    if str_end == -1:
-        str_end = message.find('\n\nThis request originated')
-    link_to_follow = message[(message.find('link:\n\n') + len('link:\n\n')):str_end]
-    assert link_to_follow == context.mist_config['CONFIRMATION_LINK'], \
-        "Confirmation links %s and %s do not " \
-        "match" % (link_to_follow, context.mist_config['CONFIRMATION_LINK'])
-
-
 @step('I follow the link inside the email')
 def follow_link(context):
     link = context.link_inside_email
@@ -124,7 +100,6 @@ def email_find(context, address, subject):
         result, msgdata = box.fetch(i, "(RFC822)")
         raw = msgdata[0][1]
         email_message = email.message_from_string(raw)
-        import ipdb; ipdb.set_trace()
         if subject in email_message.get('Subject') and address in email_message.get('To'):
             fetched_mails.append(raw)
 
@@ -139,7 +114,6 @@ def email_find(context, address, subject):
     link_regex = '(' + mist_url + '+[\w\d:#@%/;$()~_?\+-=\\.&][a-zA-z0-9][^<>#]*)\n\n'
     urls = re.findall(link_regex, mail)
     link = urls[0].split('\n\n')[0]
-    import ipdb; ipdb.set_trace()
     if urls:
         context.link_inside_email = link
 
