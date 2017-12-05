@@ -15,7 +15,7 @@ Feature: Machines
     When I set the value "DummyKey2" to field "Name" in "key" add form
     And I focus on the button "Generate" in "key" add form
     And I click the button "Generate" in "key" add form
-    And I wait for 4 seconds
+    And I wait for 8 seconds
     Then I expect for the button "Add" in "key" add form to be clickable within 12 seconds
     When I focus on the button "Add" in "key" add form
     And I click the button "Add" in "key" add form
@@ -23,6 +23,8 @@ Feature: Machines
 
   @machine-create
   Scenario: Create a machine in Docker provider
+    When I visit the Images page
+    Then "mist/ubuntu-14.04:latest" image should be present within 30 seconds
     When I visit the Machines page
     And I click the button "+"
     Then I expect the "Machine" add form to be visible within max 10 seconds
@@ -38,7 +40,7 @@ Feature: Machines
     When I visit the Home page
     And I visit the Machines page
     And I search for "ui-test-create-machine-random"
-    Then "ui-test-create-machine-random" machine state has to be "running" within 40 seconds
+    Then "ui-test-create-machine-random" machine state has to be "running" within 60 seconds
 
   @key-associate
   Scenario: Associate key with machine
@@ -88,7 +90,7 @@ Feature: Machines
     Then I click the button "Shell" from the menu of the "machine" edit form
     And I expect terminal to open within 3 seconds
     And shell input should be available after 8 seconds
-    And I type in the terminal "ls -l"
+    And I type in the terminal "ls -l /var"
     And I wait for 1 seconds
     Then dummy_file should be included in the output
     And I close the terminal
@@ -101,7 +103,7 @@ Feature: Machines
     And I visit the Machines page
     And I wait for 2 seconds
     And I search for "ui-test-create-machine-random"
-    Then "ui-test-create-machine-random" machine state has to be "stopped" within 40 seconds
+    Then "ui-test-create-machine-random" machine state has to be "stopped" within 60 seconds
 
   @machine-start
   Scenario: Start the machine created above
@@ -112,7 +114,7 @@ Feature: Machines
     When I click the "Start" button in the dialog "Start Machine"
     And I visit the Machines page
     And I search for "ui-test-create-machine-random"
-    Then "ui-test-create-machine-random" machine state has to be "running" within 40 seconds
+    Then "ui-test-create-machine-random" machine state has to be "running" within 60 seconds
 
   @machine-destroy
   Scenario: Destroy the machine created

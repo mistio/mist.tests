@@ -12,7 +12,7 @@ Feature: Actions for Keys
     When I set the value "TestKey" to field "Name" in "key" add form
     And I focus on the button "Generate" in "key" add form
     And I click the button "Generate" in "key" add form
-    And I wait for 7 seconds
+    And I wait for 9 seconds
     Then I expect for the button "Add" in "key" add form to be clickable within 12 seconds
     When I focus on the button "Add" in "key" add form
     And I click the button "Add" in "key" add form
@@ -77,8 +77,7 @@ Feature: Actions for Keys
     And I add a tag with key "second" and value "tag"
     And I click the button "Save Tags" in the tag menu
     Then I expect for the tag popup to close within 4 seconds
-    And I wait for 2 seconds
-    Then I ensure that the "key" has the tags "first:tag,second:tag"
+    Then I ensure that the "key" has the tags "first:tag,second:tag" within 5 seconds
     Then I click the button "Tags" in "key" edit form
     And I expect for the tag popup to open within 4 seconds
     And I wait for 1 seconds
@@ -86,7 +85,7 @@ Feature: Actions for Keys
     And I wait for 1 seconds
     And I click the button "Save Tags" in the tag menu
     Then I expect for the tag popup to close within 4 seconds
-    And I ensure that the "key" has the tags "second:tag"
+    And I ensure that the "key" has the tags "second:tag" within 5 seconds
     And I visit the Home page
     And I wait for the links in homepage to appear
 

@@ -10,6 +10,7 @@ Feature: Cloud actions for polymer
     Given cloud "Docker" has been added via API request
     Given "AWS" cloud has been added
     When I visit the Images page
+    And I search for "CoreOS"
     Then "CoreOS stable 1068.8.0 (PV)" image should be absent within 10 seconds
     Then I visit the Home page
     And I wait for the dashboard to load
@@ -19,7 +20,8 @@ Feature: Cloud actions for polymer
     And I click the button "Edit Credentials" in "cloud" edit form
     And I wait for 3 seconds
     And I visit the Images page
-    Then "CoreOS stable 1068.8.0 (PV)" image should be present within 10 seconds
+    And I search for "CoreOS"
+    Then "CoreOS stable 1068.8.0 (PV)" image should be present within 20 seconds
     Then I visit the Home page
     And I wait for the links in homepage to appear
     And I expect for "addBtn" to be clickable within max 20 seconds
@@ -49,14 +51,34 @@ Feature: Cloud actions for polymer
     Then "mistcore_debugger_1" machine should be present within 60 seconds
     And I visit the Home page
 
+  @cloud-tags
+  Scenario: Tag a cloud
+    When I open the cloud menu for "Docker"
+    Then I expect the "cloud" edit form to be visible within max 5 seconds
+    When I click the button "Tags" in "cloud" edit form
+    Then I expect for the tag popup to open within 4 seconds
+    When I remove all the previous tags
+    And I add a tag with key "first" and value "tag"
+    And I add a tag with key "second" and value "tag"
+    And I click the button "Save Tags" in the tag menu
+    Then I expect for the tag popup to close within 4 seconds
+    And I ensure that the "cloud" has the tags "first:tag,second:tag" within 5 seconds
+    And I wait for 1 seconds
+    When I click the button "Tags" in "cloud" edit form
+    Then I expect for the tag popup to open within 4 seconds
+    And I wait for 1 seconds
+    When I remove the tag with key "first"
+    And I wait for 1 seconds
+    And I click the button "Save Tags" in the tag menu
+    Then I expect for the tag popup to close within 4 seconds
+    And I ensure that the "cloud" has the tags "second:tag" within 5 seconds
+
   @cloud-rename
   Scenario: Rename a cloud
-    Given "Docker" cloud has been added
-    Then I open the cloud menu for "Docker"
     When I rename the cloud "Docker" to "Renamed"
     And I click the "save title" button with id "rename-cloud"
     And I wait for 3 seconds
-    When I visit the Home page
+    And I visit the Home page
     And I wait for the dashboard to load
     Then "Renamed" cloud has been added
 

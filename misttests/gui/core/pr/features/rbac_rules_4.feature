@@ -11,24 +11,24 @@ Feature: RBAC-rules-v4
     And script "touch_kati" is added via API request
 
   @add-member1
-  Scenario: Add DENY-READ-ALL and ALLOW-ALL-ALL rules.
-    When I visit the Teams page
-    And I click the "Test team" "team"
-    Then I expect the "team" edit form to be visible within max 5 seconds
-    And user with email "MEMBER1_EMAIL" should be pending
-    When I focus on the button "Add a new rule" in "policy" edit form
-    And I click the button "Add a new rule" in "policy" edit form
-    And I wait for 1 seconds
-    Then I add the rule always "DENY" "all" "READ"
-    And I click the button "Save Policy" in "policy" edit form
-    And I wait for 2 seconds
-    When I focus on the button "Add a new rule" in "policy" edit form
-    And I click the button "Add a new rule" in "policy" edit form
-    And I wait for 1 seconds
-    Then I add the rule always "ALLOW" "all" "all"
-    And I click the button "Save Policy" in "policy" edit form
-    And I wait for 1 seconds
-    Then I logout
+    Scenario: Add DENY-READ-ALL and ALLOW-ALL-ALL rules.
+      When I visit the Teams page
+      And I click the "Test team" "team"
+      Then I expect the "team" edit form to be visible within max 5 seconds
+      And user with email "MEMBER1_EMAIL" should be pending
+      When I focus on the button "Add a new rule" in "policy" edit form
+      And I click the button "Add a new rule" in "policy" edit form
+      And I wait for 1 seconds
+      Then I add the rule always "DENY" "all" "READ"
+      And I click the button "Save Policy" in "policy" edit form
+      And I wait for 2 seconds
+      When I focus on the button "Add a new rule" in "policy" edit form
+      And I click the button "Add a new rule" in "policy" edit form
+      And I wait for 1 seconds
+      Then I add the rule always "ALLOW" "all" "all"
+      And I click the button "Save Policy" in "policy" edit form
+      And I wait for 1 seconds
+      Then I logout
 
   @view-cloud-and-script-fail
   Scenario: Verify that member1 cannot view the script and the cloud added above, since 'DENY-READ-ALL superseeds 'ALLOW-ALL-ALL rule'
@@ -77,3 +77,58 @@ Feature: RBAC-rules-v4
     Then I should have 1 clouds added
     When I visit the Scripts page
     Then "touch_kati" script should be absent within 5 seconds
+    And I logout
+
+  @deny-view-cloud-on-tags
+  Scenario: Tag Docker cloud, delete previous rules and add DENY-VIEW-CLOUD and ALLOW-ALL-ALL.
+    Given I am logged in to mist.core
+    When I open the cloud menu for "Docker"
+    Then I expect the "cloud" edit form to be visible within max 5 seconds
+    When I click the button "Tags" in "cloud" edit form
+    Then I expect for the tag popup to open within 4 seconds
+    When I add a tag with key "rbac" and value "test"
+    And I click the button "Save Tags" in the tag menu
+    Then I expect for the tag popup to close within 4 seconds
+    And I ensure that the "cloud" has the tags "rbac:test" within 5 seconds
+    When I visit the Teams page
+    And I click the "Test team" "team"
+    Then I expect the "team" edit form to be visible within max 5 seconds
+    When I remove the rule with index "0"
+    And I wait for 1 seconds
+    And I remove the rule with index "0"
+    And I wait for 1 seconds
+    And I focus on the button "Add a new rule" in "policy" edit form
+    And I click the button "Add a new rule" in "policy" edit form
+    And I wait for 1 seconds
+    And I add the rule "DENY" "CLOUD" "READ" where tags = "rbac=test"
+    And I wait for 2 seconds
+    And I focus on the button "Add a new rule" in "policy" edit form
+    And I click the button "Add a new rule" in "policy" edit form
+    And I wait for 1 seconds
+    Then I add the rule always "ALLOW" "all" "all"
+    And I click the button "Save Policy" in "policy" edit form
+    And I wait for 1 seconds
+    Then I logout
+
+  @view-cloud-fail
+  Scenario: Verify that member1 cannot view the cloud that has been tagged with "rbac-test"
+    Given I am logged in to mist.core as rbac_member1
+    Then I should have 0 clouds added
+    And I logout
+
+  @delete-rule
+  Scenario: Delete rule DENY-VIEW-CLOUD
+    Given I am logged in to mist.core
+    When I visit the Teams page
+    And I click the "Test team" "team"
+    Then I expect the "team" edit form to be visible within max 5 seconds
+    When I remove the rule with index "0"
+    And I wait for 1 seconds
+    And I click the button "Save Policy" in "policy" edit form
+    And I wait for 1 seconds
+    And I logout
+
+  @view-cloud-success
+  Scenario: Verify that member1 can now view the cloud, since the only existing rule is ALLOW-ALL-ALL
+    Given I am logged in to mist.core as rbac_member1
+    Then I should have 1 clouds added
