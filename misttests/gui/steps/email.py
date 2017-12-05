@@ -37,28 +37,7 @@ def follow_link_inside_email(context, address, subject):
     link_to_follow = message[(message.find('link:\n\n') + len('link:\n\n')):str_end]
     context.browser.get(link_to_follow)
     sleep(2)
-
-
-@step(u'I save the confirmation link')
-def save_link_inside_email(context):
-    def get_subject_from_mail(mail):
-        text, encoding = decode_header(mail.get('Subject'))[0]
-        return text.decode(encoding) if encoding else text
-
-    def filter_contents(mail):
-        mail = email.message_from_string(mail)
-        return '[mist.io] Confirm your registration' == get_subject_from_mail(mail)
-
-    mail = context.mail.user_messages(context.mist_config['EMAIL'], filter_contents)
-    assert len(mail) == 1, "User has either more than one or no confirmation " \
-                           "email"
-    message = email.message_from_string(mail[0]).get_payload()
-    str_end = message.find('\n\nIn the meantime')
-    if str_end == -1:
-        str_end = message.find('\n\nThis request originated')
-    link_to_follow = message[(message.find('link:\n\n') + len('link:\n\n')):str_end]
-    context.mist_config['CONFIRMATION_LINK'] = link_to_follow
-
+    
 
 @step('I make sure that this link is the same as before at email address'
       ' "{email_address}"')
