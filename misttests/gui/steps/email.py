@@ -190,7 +190,8 @@ def email_find(context, address, subject):
         result, msgdata = box.fetch(i, "(RFC822)")
         raw = msgdata[0][1]
         email_message = email.message_from_string(raw)
-        if subject in email_message.get('Subject'):
+        import ipdb; ipdb.set_trace()
+        if subject in email_message.get('Subject') and address in email_message.get('To'):
             fetched_mails.append(raw)
 
     if not fetched_mails:
@@ -206,7 +207,7 @@ def email_find(context, address, subject):
     link = urls[0].split('\n\n')[0]
     import ipdb; ipdb.set_trace()
     if urls:
-        context.link_inside_email = urls[0]
+        context.link_inside_email = link
 
     box.logout()
     return fetched_mails
