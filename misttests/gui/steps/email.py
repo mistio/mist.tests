@@ -201,8 +201,10 @@ def email_find(context, address, subject):
     mail = fetched_mails[0]
 
     mist_url = context.mist_config['MIST_URL']
-    link_regex = '(' + mist_url + '+[\w\d:#@%/;$()~_?\+-=\\.&][a-zA-z0-9][^<>#]*)'
+    link_regex = '(' + mist_url + '+[\w\d:#@%/;$()~_?\+-=\\.&][a-zA-z0-9][^<>#]*)\n\n'
     urls = re.findall(link_regex, mail)
+    link = urls[0].split('\n\n')[0]
+    import ipdb; ipdb.set_trace()
     if urls:
         context.link_inside_email = urls[0]
 
@@ -221,7 +223,6 @@ def login_email(context):
         else:
             imap_port = 143
 
-    import ipdb; ipdb.set_trace()
     if context.mist_config['IMAP_USE_SSL']:
         box = imaplib.IMAP4_SSL(imap_host, imap_port)
     else:
