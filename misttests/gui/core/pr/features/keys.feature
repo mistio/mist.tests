@@ -55,7 +55,7 @@ Feature: Actions for Keys
   Scenario: Rename Key
     When I click the "Key2" "key"
     Then I expect the "key" edit form to be visible within max 5 seconds
-    When I click the button "Rename Key" from the "key" list actions
+    When I click the button "Rename Key" from the menu of the "key" edit form
     Then I expect the dialog "Rename Key" is open within 4 seconds
     When I set the value "Second" to field "Name" in "Rename Key" dialog
     And I click the "Submit" button in the dialog "Rename Key"
