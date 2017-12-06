@@ -31,7 +31,7 @@ Feature: Scripts
   Scenario: Add tags to script
     When I click the "TestScript" "script"
     Then I expect the "script" edit form to be visible within max 5 seconds
-    When I click the button "Tags" in "script" edit form
+    When I click the button "Tag" in the "script" page actions menu
     Then I expect for the tag popup to open within 4 seconds
     And I wait for 1 seconds
     When I remove all the previous tags
@@ -40,7 +40,7 @@ Feature: Scripts
     And I click the button "Save Tags" in the tag menu
     Then I expect for the tag popup to close within 4 seconds
     Then I ensure that the "script" has the tags "first:tag,second:tag" within 5 seconds
-    Then I click the button "Tags" in "script" edit form
+    Then I click the button "Tag" in the "script" page actions menu
     And I expect for the tag popup to open within 4 seconds
     And I wait for 1 seconds
     When I remove the tag with key "first"
