@@ -157,8 +157,20 @@ def click_button_in_tag_model(context, button):
 
 @step(u'I click the button "{button}" in the "{resource_type}" page actions')
 def click_the_page_actions(context, button, resource_type):
-    buttons = context.browser.find_elements_by_css_selector('%s-page mist-actions paper-button' % resource_type)
-    click_button_from_collection(context, button, buttons)
+    # buttons = context.browser.find_elements_by_css_selector('%s-page mist-actions paper-button' % resource_type)
+    actions = context.browser.find_element_by_tag_name('mist-actions')
+    buttons = actions.find_elements_by_tag_name('paper-button')
+    for button in buttons:
+        if safe_get_element_text(button).lower() == button_name.lower():
+            clicketi_click(context, button)
+            return
+    more_dropdown = actions.find_element_by_id('actionmenu')
+    more_dropdown_button = actions.find_element_by_class_name('dropdown-trigger')
+    assert more_dropdown, "Could not find more button"
+    clicketi_click(context, more_dropdown_button)
+    more_dropdown_buttons = more_dropdown.find_elements_by_tag_name('paper-button')
+    assert more_dropdown_buttons, "There are no buttons within the more dropdown"
+    click_button_from_collection(context, button, more_dropdown_buttons)
 
 @step(u'I click the button "{button}" in the user menu')
 def click_the_user_menu_button(context, button):
