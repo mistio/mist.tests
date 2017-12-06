@@ -34,7 +34,7 @@ behave_tags["schedules-1"]='schedulers-1'
 behave_tags["schedules-2"]='schedulers-2'
 #behave_tags["ip-whitelisting"]='ip-whitelisting'
 
-#behave_tags["monitoring"]='monitoring-locally'
+behave_tags["monitoring"]='monitoring'
 behave_tags["orchestration"]='orchestration'
 behave_tags["rbac-rules-1"]='rbac-rules-1'
 behave_tags["rbac-rules-2"]='rbac-rules-2'
