@@ -70,7 +70,7 @@ Feature: Actions for Keys
   Scenario: Add tags to key
     When I click the "TestKey" "key"
     Then I expect the "key" edit form to be visible within max 5 seconds
-    When I click the button "Tags" in "key" edit form
+    When I click the button "Tag" in the "key" page actions menu
     And I expect for the tag popup to open within 4 seconds
     When I remove all the previous tags
     And I add a tag with key "first" and value "tag"
@@ -78,7 +78,7 @@ Feature: Actions for Keys
     And I click the button "Save Tags" in the tag menu
     Then I expect for the tag popup to close within 4 seconds
     Then I ensure that the "key" has the tags "first:tag,second:tag" within 5 seconds
-    Then I click the button "Tags" in "key" edit form
+    Then I click the button "Tag" in the "key" page actions menu
     And I expect for the tag popup to open within 4 seconds
     And I wait for 1 seconds
     When I remove the tag with key "first"
