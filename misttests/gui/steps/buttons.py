@@ -156,7 +156,7 @@ def click_button_in_tag_model(context, button):
     click_button_from_collection(context, button, buttons)
 
 @step(u'I click the button "{button}" in the "{resource_type}" page actions')
-def click_the_page_actions(context, button):
+def click_the_page_actions(context, button, resource_type):
     buttons = context.browser.find_elements_by_css_selector('%s-page mist-actions paper-button' % resource_type)
     click_button_from_collection(context, button, buttons)
 
