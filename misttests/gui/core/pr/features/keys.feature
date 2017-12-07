@@ -101,7 +101,7 @@ Feature: Actions for Keys
     Then "TestKey" key should be absent within 15 seconds
     When I click the "Second" "key"
     And I expect the "key" edit form to be visible within max 5 seconds
-    Then I click the button "Delete" in "key" edit form
+    Then I click the button "Delete" in the "key" page actions menu
     And I expect the dialog "Delete Key" is open within 4 seconds
     And I click the "Delete" button in the dialog "Delete Key"
     And I expect the dialog "Delete Key" is closed within 4 seconds
