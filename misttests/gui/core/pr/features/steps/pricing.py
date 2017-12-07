@@ -36,6 +36,23 @@ def set_card_details(context):
     inputs[4].send_keys('17675')
 
 
+@step(u'I set the card details in the credit card required dialog')
+def purchase_plan(context):
+    import ipdb; ipdb.set_trace()
+    purchase_plan = context.browser.find_element_by_id('ccRequired')
+    form = purchase_plan.find_element_by_id('inAddCloud')
+    cc = form.find_element_by_id('cc')
+    cvc = form.find_element_by_id('cvc')
+    expirationMonth = form.find_element_by_id('expirationMonth')
+    expirationYear = form.find_element_by_id('expirationYear')
+    zipCode = form.find_element_by_id('zipCode')
+    cc.send_keys('4242424242424242')
+    cvc.send_keys('007')
+    expirationMonth.send_keys('10')
+    expirationYear.send_keys('22')
+    zipCode.send_keys('17675')
+
+
 @step(u'the attention message should be absent')
 def check_for_attention_message(context):
     plan_overusage = context.browser.find_element_by_tag_name('plan-overusage')

@@ -17,6 +17,8 @@ from .forms import clear_input_and_send_keys
 from .buttons import clicketi_click
 from .buttons import click_button_from_collection
 
+from misttests.gui.core.pr.features.steps import pricing
+
 
 def set_azure_creds(context):
     subscription_id = safe_get_var('clouds/azure', 'subscription_id', context.mist_config['CREDENTIALS']['AZURE']['subscription_id'])
@@ -372,8 +374,9 @@ def given_cloud(context, cloud):
     context.execute_steps(u'''
         When I click the "new cloud" button with id "addBtn"
         Then I expect the "Cloud" add form to be visible within max 5 seconds
-        And I expect the dialog "Credit card required" is open within 4 seconds''')
-    import ipdb; ipdb.set_trace()
+        And I expect the dialog "Credit card required" is open within 4 seconds
+        And I set the card details in the credit card required dialog''')
+
     if 'docker_orchestrator' in cloud.lower():
         cloud_type = 'docker'
     else:
