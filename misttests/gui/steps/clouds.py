@@ -371,8 +371,9 @@ def given_cloud(context, cloud):
 
     context.execute_steps(u'''
         When I click the "new cloud" button with id "addBtn"
-        Then I expect the "Cloud" add form to be visible within max 5 seconds''')
-
+        Then I expect the "Cloud" add form to be visible within max 5 seconds
+        And I expect the dialog "Credit card required" is open within 4 seconds''')
+    import ipdb; ipdb.set_trace()
     if 'docker_orchestrator' in cloud.lower():
         cloud_type = 'docker'
     else:
