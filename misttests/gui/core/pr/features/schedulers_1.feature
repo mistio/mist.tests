@@ -32,7 +32,7 @@ Feature: Schedulers
   Scenario: Rename schedule
     When I click the "TestScheduler" "schedule"
     Then I expect the "schedule" edit form to be visible within max 5 seconds
-    When I click the button "Edit" in "schedule" edit form
+    When I click the button "Edit" in the "schedule" page actions menu
     Then I expect the dialog "Edit Schedule" is open within 4 seconds
     When I set the value "RenamedSchedule" to field "Name" in "Edit Schedule" dialog
     And I click the "Save" button in the dialog "Edit Schedule"
@@ -52,7 +52,7 @@ Feature: Schedulers
   Scenario: Delete schedule
     When I visit the Schedules page
     And I click the "RenamedSchedule" "schedule"
-    And I click the button "Delete" in "schedule" edit form
+    And I click the button "Delete" in the "schedule" page actions menu
     And I expect the dialog "Delete Schedule" is open within 4 seconds
     And I click the "Delete" button in the dialog "Delete Schedule"
     Then I expect the dialog "Delete Schedule" is closed within 4 seconds

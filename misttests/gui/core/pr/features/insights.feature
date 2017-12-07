@@ -29,7 +29,7 @@ Feature: Actions for Insights
     And I wait for 2 seconds
     And I click the "mistcore_debugger_1" "machine"
     Then I expect the "machine" edit form to be visible within max 5 seconds
-    Then I click the button "Tag" from the menu of the "machine" edit form
+    Then I click the button "Tag" in the "machine" page actions menu
     And I expect for the tag popup to open within 4 seconds
     When I remove all the previous tags
     And I add a tag with key "cost_per_month" and value "100"
