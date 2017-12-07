@@ -137,7 +137,7 @@ Feature: Rbac
     When I visit the Teams page
     When I click the "Rbac Team" "team"
     And I expect the "team" edit form to be visible within max 5 seconds
-    Then I click the button "Delete" in "team" edit form
+    Then I click the button "Delete" in the "team" page actions menu
     And I expect the dialog "Delete Team" is open within 4 seconds
     And I click the "Delete" button in the dialog "Delete Team"
     Then I expect the dialog "Delete Team" is closed within 4 seconds
