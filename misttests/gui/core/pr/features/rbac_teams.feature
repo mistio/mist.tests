@@ -49,7 +49,7 @@ Feature: Rbac
     And I visit the Teams page
     When I click the "Test team" "team"
     And I expect the "team" edit form to be visible within max 8 seconds
-    Then I click the button "Invite Members" in "team" edit form
+    Then I click the button "Invite" in "team" edit form
     And I expect the "members" add form to be visible within max 5 seconds
     When I set the value "MEMBER1_EMAIL" to field "Emails" in "members" add form
     Then I expect for the button "Add" in "members" add form to be clickable within 2 seconds
@@ -74,7 +74,7 @@ Feature: Rbac
     And I visit the Teams page
     When I click the "Test team" "team"
     And I expect the "team" edit form to be visible within max 5 seconds
-    Then I click the button "Invite Members" in "team" edit form
+    Then I click the button "Invite" in "team" edit form
     And I expect the "members" add form to be visible within max 5 seconds
     When I set the value "MEMBER2_EMAIL" to field "Emails" in "members" add form
     Then I expect for the button "Add" in "members" add form to be clickable within 2 seconds
