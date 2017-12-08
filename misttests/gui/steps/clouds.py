@@ -1,4 +1,5 @@
 import json
+import requests
 
 from behave import step
 
@@ -18,6 +19,8 @@ from .buttons import clicketi_click
 from .buttons import click_button_from_collection
 
 from misttests.gui.core.pr.features.steps import pricing
+
+from misttests.gui.core.environment import get_api_token
 
 
 def set_azure_creds(context):
@@ -361,6 +364,17 @@ def find_cloud_info(context, cloud_title):
             pass
     return None
 
+def is_core_installation(context):
+    api_token = get_api_token(context)
+    headers = {'Authorization': api_token}
+
+    response = requests.get(
+        "%s/api/v1/templates" % context.mist_config['MIST_URL'],
+        headers=headers
+    )
+
+    return True if response.status_code == 200 else False
+
 
 @step(u'"{cloud}" cloud has been added')
 def given_cloud(context, cloud):
@@ -370,12 +384,16 @@ def given_cloud(context, cloud):
             return True
         sleep(2)
 
-
     context.execute_steps(u'''
         When I click the "new cloud" button with id "addBtn"
         Then I expect the "Cloud" add form to be visible within max 5 seconds
-        And I expect the dialog "Credit card required" is open within 4 seconds
-        And I set the card details in the credit card required dialog''')
+        ''')
+
+    if is_core_installation(context):   # credit card will be asked
+        context.execute_steps(u'''
+            When I expect the dialog "Credit card required" is open within 4 seconds
+            And I set the card details in the credit card required dialog
+            ''')
 
     if 'docker_orchestrator' in cloud.lower():
         cloud_type = 'docker'
