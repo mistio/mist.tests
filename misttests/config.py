@@ -46,11 +46,9 @@ def safe_get_var(vault_path, vault_key, test_settings_var = None):
 
         headers = {"X-Vault-Token": os.environ['VAULT_CLIENT_TOKEN']}
 
-        response = requests.get(VAULT_SERVER + '/v1/secret/%s' % vault_path, headers=headers)
+        re = requests.get(VAULT_SERVER + '/v1/secret/%s' % vault_path, headers=headers)
 
-	    assert response.status_code == 200, "Response from vault was not 200, but instead it was %s" % response.status_code
-
-        json_data = response.json().get('data')
+        json_data = re.json().get('data')
 
         return json_data.get(vault_key)
 
