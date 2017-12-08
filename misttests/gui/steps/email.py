@@ -101,17 +101,14 @@ def login_email(context):
         else:
             imap_port = 143
 
-    if context.mist_config['IMAP_USE_SSL']:
-        box = imaplib.IMAP4_SSL(imap_host, imap_port)
-    else:
-        box = imaplib.IMAP4(imap_host, imap_port)
+    box = imaplib.IMAP4('mailmock.io-test-mailmock', 8143)
 
     login = box.login('test','test')
 
     if 'OK' in login:
         return box
     else:
-        assert False, "Logging in to localmail failed!"
+        assert False, "Logging in to localmail failed!. Login is %s" %login
 
 
 def logout_email(box):
