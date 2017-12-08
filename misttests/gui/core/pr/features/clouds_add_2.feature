@@ -65,5 +65,10 @@ Feature: Add second-tier clouds in Polymist
     And I click the "Bare Metal" "machine"
     And I expect the "machine" edit form to be visible within max 5 seconds
     And I wait for 2 seconds
-    Then I click the button "Shell" from the menu of the "machine" edit form
-    And I test the ssh connection
+    And I click the button "Shell" from the menu of the "machine" edit form
+    Then I expect terminal to open within 3 seconds
+    When I wait for 5 seconds
+    And I type in the terminal "ls -l"
+    And I wait for 1 seconds
+    Then total\xa00 should be included in the output
+    And I close the terminal
