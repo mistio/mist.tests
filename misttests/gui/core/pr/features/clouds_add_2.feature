@@ -70,5 +70,5 @@ Feature: Add second-tier clouds in Polymist
     When I wait for 5 seconds
     And I type in the terminal "ls -l"
     And I wait for 1 seconds
-    Then total\xa00 should be included in the output
+    Then total should be included in the output
     And I close the terminal
