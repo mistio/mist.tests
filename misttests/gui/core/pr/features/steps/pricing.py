@@ -38,4 +38,3 @@ def insert_to_card_field(field, value, form):
     _field = form.find_element_by_id(field)
     _input = _field.find_element_by_id('input')
     _input.send_keys(value)
-    import ipdb; ipdb.set_trace()
