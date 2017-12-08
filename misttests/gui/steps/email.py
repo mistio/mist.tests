@@ -101,7 +101,7 @@ def login_email(context):
         else:
             imap_port = 143
 
-    box = imaplib.IMAP4('mailmock.io-test-mailmock', 8143)
+    box = imaplib.IMAP4('mailmock.io-test-localmail', 8143)
 
     login = box.login('test','test')
 
