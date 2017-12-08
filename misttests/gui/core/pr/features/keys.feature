@@ -55,7 +55,7 @@ Feature: Actions for Keys
   Scenario: Rename Key
     When I click the "Key2" "key"
     Then I expect the "key" edit form to be visible within max 5 seconds
-    When I click the button "Rename Key" in "key" edit form
+    When I click the button "Rename" in "key" edit form
     Then I expect the dialog "Rename Key" is open within 4 seconds
     When I set the value "Second" to field "Name" in "Rename Key" dialog
     And I click the "Submit" button in the dialog "Rename Key"
@@ -70,7 +70,7 @@ Feature: Actions for Keys
   Scenario: Add tags to key
     When I click the "TestKey" "key"
     Then I expect the "key" edit form to be visible within max 5 seconds
-    When I click the button "Tags" in "key" edit form
+    When I click the button "Tag" in "key" edit form
     And I expect for the tag popup to open within 4 seconds
     When I remove all the previous tags
     And I add a tag with key "first" and value "tag"
@@ -78,7 +78,7 @@ Feature: Actions for Keys
     And I click the button "Save Tags" in the tag menu
     Then I expect for the tag popup to close within 4 seconds
     Then I ensure that the "key" has the tags "first:tag,second:tag" within 5 seconds
-    Then I click the button "Tags" in "key" edit form
+    Then I click the button "Tag" in "key" edit form
     And I expect for the tag popup to open within 4 seconds
     And I wait for 1 seconds
     When I remove the tag with key "first"
@@ -101,7 +101,7 @@ Feature: Actions for Keys
     Then "TestKey" key should be absent within 15 seconds
     When I click the "Second" "key"
     And I expect the "key" edit form to be visible within max 5 seconds
-    Then I click the button "Delete" in "key" edit form
+    Then I click the button "Delete" in the "key" page actions menu
     And I expect the dialog "Delete Key" is open within 4 seconds
     And I click the "Delete" button in the dialog "Delete Key"
     And I expect the dialog "Delete Key" is closed within 4 seconds
