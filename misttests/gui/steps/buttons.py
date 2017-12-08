@@ -19,7 +19,7 @@ from selenium.webdriver.support.color import Color
 from selenium.common.exceptions import WebDriverException
 from selenium.common.exceptions import TimeoutException
 from selenium.common.exceptions import NoSuchElementException
-
+from selenium.common.exceptions import StaleElementReferenceException
 
 log = logging.getLogger(__name__)
 
@@ -126,6 +126,24 @@ def click_button(context, text):
     click_button_from_collection(context, text.lower(),
                                  error_message='Could not find button that '
                                                'contains %s' % text)
+
+@step(u'I click the button "{button_name}" in the "{name}" page actions menu')
+def click_button_in_dropdown(context, button_name, name):
+    actions = context.browser.find_element_by_tag_name('mist-actions')
+    buttons = actions.find_elements_by_xpath('paper-button')
+    for button in buttons:
+        if safe_get_element_text(button).lower() == button_name.lower():
+            clicketi_click(context, button)
+            return
+    more_dropdown = actions.find_element_by_id('actionmenu')
+    clicketi_click(context, more_dropdown)
+    try:
+        more_dropdown_buttons = more_dropdown.find_elements_by_tag_name('paper-button')
+    except StaleElementReferenceException:
+        # sometimes actions will expand after clicking on actionmenu
+        more_dropdown_buttons = actions.find_elements_by_xpath('paper-button')
+    assert more_dropdown_buttons, "There are no buttons within the more dropdown"
+    click_button_from_collection(context, button_name, more_dropdown_buttons)
 
 
 @step(u'I click the button "{button}" in the "{name}" dropdown')

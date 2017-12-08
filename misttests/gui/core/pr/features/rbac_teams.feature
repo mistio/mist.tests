@@ -49,7 +49,7 @@ Feature: Rbac
     And I visit the Teams page
     When I click the "Test team" "team"
     And I expect the "team" edit form to be visible within max 8 seconds
-    Then I click the button "Invite Members" in "team" edit form
+    Then I click the button "Invite" in "team" edit form
     And I expect the "members" add form to be visible within max 5 seconds
     When I set the value "MEMBER1_EMAIL" to field "Emails" in "members" add form
     Then I expect for the button "Add" in "members" add form to be clickable within 2 seconds
@@ -68,13 +68,13 @@ Feature: Rbac
     Then "Test Team" team should be present within 5 seconds
     Then I logout
 
-  @add-member2
+   @add-member2
    Scenario: Add member2
     Given I am logged in to mist.core as rbac_owner
     And I visit the Teams page
     When I click the "Test team" "team"
     And I expect the "team" edit form to be visible within max 5 seconds
-    Then I click the button "Invite Members" in "team" edit form
+    Then I click the button "Invite" in "team" edit form
     And I expect the "members" add form to be visible within max 5 seconds
     When I set the value "MEMBER2_EMAIL" to field "Emails" in "members" add form
     Then I expect for the button "Add" in "members" add form to be clickable within 2 seconds
@@ -112,7 +112,7 @@ Feature: Rbac
 
   @rename-team
   Scenario: Owner renames a team
-    Then I click the button "Edit Team" in "team" edit form
+    Then I click the button "Edit" in "team" edit form
     And I expect the dialog "Edit Team" is open within 4 seconds
     Then I expect the field "Name" in the dialog with title "Edit Team" to be visible within max 2 seconds
     When I set the value "Rbac Team" to field "Name" in "Edit Team" dialog
@@ -125,8 +125,8 @@ Feature: Rbac
     And "Rbac Team" team should be present within 5 seconds
     Then I logout
 
-   @verify-delete-member
-    Scenario: Member2 has been removed from org
+ @verify-delete-member
+  Scenario: Member2 has been removed from org
     Given I am logged in to mist.core as rbac_member2
     Then I should see the form to set name for new organization
     Then I logout
@@ -137,7 +137,7 @@ Feature: Rbac
     When I visit the Teams page
     When I click the "Rbac Team" "team"
     And I expect the "team" edit form to be visible within max 5 seconds
-    Then I click the button "Delete Team" from the menu of the "team" edit form
+    Then I click the button "Delete" in the "team" page actions menu
     And I expect the dialog "Delete Team" is open within 4 seconds
     And I click the "Delete" button in the dialog "Delete Team"
     Then I expect the dialog "Delete Team" is closed within 4 seconds
