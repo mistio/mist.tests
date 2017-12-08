@@ -376,6 +376,15 @@ def is_core_installation(context):
     return True if response.status_code == 200 else False
 
 
+@step(u'I insert my card details if core is_core_installation')
+def insert_card_if_necessary(context):
+    if is_core_installation(context):   # credit card will be asked
+        context.execute_steps(u'''
+            When I expect the dialog "Credit card required" is open within 4 seconds
+            And I set the card details in the credit card required dialog
+            ''')
+
+
 @step(u'"{cloud}" cloud has been added')
 def given_cloud(context, cloud):
     end_time = time() + 10

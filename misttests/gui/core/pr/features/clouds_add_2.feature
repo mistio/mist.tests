@@ -9,6 +9,7 @@ Feature: Add second-tier clouds in Polymist
   Scenario Outline: Add cloud for multiple providers
     When I click the "new cloud" button with id "addBtn"
     Then I expect the "Cloud" add form to be visible within max 5 seconds
+    When I insert my card details if core is_core_installation
     When I select the "<provider>" provider
     Then I expect the field "Title" in the cloud add form to be visible within max 4 seconds
     When I use my "<provider>" credentials
