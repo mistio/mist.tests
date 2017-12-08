@@ -38,9 +38,10 @@ def check_user_state(context, email, user_state):
         spans = map(lambda el: safe_get_element_text(el),
                     member.find_elements_by_tag_name('span'))
         if spans[-1] == email:
-            if user_state == 'pending' and spans[1] == 'pending':
+            resend_btn = member.find_element_by_id('resend')
+            if user_state == 'pending' and resend_btn.is_displayed():
                 return True
-            elif user_state == 'confirmed' and 'pending' != spans[1]:
+            elif user_state == 'confirmed' and not resend_btn.is_displayed():
                 return True
             assert False, "User's(%s) state is not %s" \
                           % (spans[-1], user_state)
