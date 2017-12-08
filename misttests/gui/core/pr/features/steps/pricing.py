@@ -27,14 +27,15 @@ def upgrate_to_small_plan(context):
 def purchase_plan(context):
     purchase_plan = context.browser.find_element_by_id('ccRequired')
     form = purchase_plan.find_element_by_id('inAddCloud')
-    cc = form.find_element_by_id('cc')
-    cvc = form.find_element_by_id('cvc')
-    expirationMonth = form.find_element_by_id('expirationMonth')
-    expirationYear = form.find_element_by_id('expirationYear')
-    zipCode = form.find_element_by_id('zipCode')
-    _input = cc.find_element_by_id('input')
-    _input.send_keys('4242424242424242')
-    cvc.send_keys('007')
-    expirationMonth.send_keys('10')
-    expirationYear.send_keys('22')
-    zipCode.send_keys('17675')
+    insert_to_card_field('cc', '4242424242424242', form)
+    insert_to_card_field('cvc', '123', form)
+    insert_to_card_field('expirationMonth', '12', form)
+    insert_to_card_field('expirationYear', '27', form)
+    insert_to_card_field('zipCode', '17675', form)
+
+
+def insert_to_card_field(field, value, form):
+    _field = form.find_element_by_id(field)
+    _input = _field.find_element_by_id('input')
+    _input.send_keys(value)
+    import ipdb; ipdb.set_trace()
