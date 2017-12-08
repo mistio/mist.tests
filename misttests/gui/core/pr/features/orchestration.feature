@@ -141,7 +141,7 @@ Feature: Orchestration
     And I wait for 2 seconds
     When I click the "Simple Python Template" "template"
     And I expect the "template" edit form to be visible within max 5 seconds
-    Then I click the button "Edit" from the menu of the "template" edit form
+    Then I click the button "Edit" in "template" edit form
     And I expect the dialog "Edit Template" is open within 4 seconds
     When I set the value "Renamed Template" to field "Name" in "Edit Template" dialog
     And I click the "Submit" button in the dialog "Edit Template"
@@ -162,7 +162,8 @@ Feature: Orchestration
     When I visit the Templates page
     When I click the "Renamed Template" "template"
     And I expect the "template" edit form to be visible within max 5 seconds
-    Then I click the button "Delete" from the menu of the "template" edit form
+    #Then I click the button "Delete" from the menu of the "template" edit form
+    Then I click the button "Delete" in the "template" page actions menu
     And I expect the dialog "Delete Template" is open within 4 seconds
     And I click the "Delete" button in the dialog "Delete Template"
     And I expect the dialog "Delete Template" is closed within 4 seconds
