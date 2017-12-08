@@ -134,7 +134,7 @@ Feature: RBAC
     When I visit the Scripts page
     And I click the "TestScript" "script"
     Then I expect the "script" edit form to be visible within max 5 seconds
-    When I click the button "Edit Script" from the menu of the "script" edit form
+    When I click the button "Edit" from the menu of the "script" edit form
     Then I expect the dialog "Edit Script" is open within 4 seconds
     When I set the value "Second" to field "Name" in "Edit Script" dialog
     And I click the "Submit" button in the dialog "Edit Script"
