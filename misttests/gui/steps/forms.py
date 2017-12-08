@@ -169,6 +169,39 @@ def click_button_in_form(context, button_name, title, form_type):
     clicketi_click(context, button)
 
 
+@step(u'I select the action "{button_name}" in "{title}" single page')
+def click_button_in_form(context, button_name, title):
+    import ipdb; ipdb.set_trace()
+    form = get_edit_form(context, title)
+    if button_name == 'add a new rule':
+        return form.find_element_by_css_selector('div.rules span.team-policy')
+    buttons = form.find_elements_by_tag_name('paper-button')
+    assert buttons, "Could not find any buttons in the form"
+    for button in buttons:
+        if safe_get_element_text(button).lower().strip() == button_name and button.is_displayed():
+            from .buttons import clicketi_click
+            clicketi_click(context, button)
+            return
+    import ipdb; ipdb.set_trace()
+    if title == 'machine':
+        more_dropdown = actions.find_element_by_id('actionmenu')
+        more_dropdown_button = actions.find_element_by_class_name('dropdown-trigger')
+    else:
+        more_dropdown = form.find_element_by_tag_name('paper-menu-button')
+        more_dropdown_button = more_dropdown
+
+    assert more_dropdown, "Could not find more button"
+    from .buttons import clicketi_click
+    clicketi_click(context, more_dropdown_button)
+    more_dropdown_buttons = more_dropdown.find_elements_by_tag_name('paper-button')
+    assert more_dropdown_buttons, "There are no buttons within the more dropdown"
+    for button in more_dropdown_buttons:
+        if safe_get_element_text(button).lower().strip() == button_name and button.is_displayed():
+            from .buttons import clicketi_click
+            clicketi_click(context, button)
+            return
+
+
 def get_text_of_dropdown(el):
     try:
         return safe_get_element_text(
