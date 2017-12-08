@@ -162,7 +162,6 @@ Feature: Orchestration
     When I visit the Templates page
     When I click the "Renamed Template" "template"
     And I expect the "template" edit form to be visible within max 5 seconds
-    #Then I click the button "Delete" from the menu of the "template" edit form
     Then I click the button "Delete" in the "template" page actions menu
     And I expect the dialog "Delete Template" is open within 4 seconds
     And I click the "Delete" button in the dialog "Delete Template"
