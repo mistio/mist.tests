@@ -57,6 +57,7 @@ Feature: Production
     And I expect the "machine" edit form to be visible within max 5 seconds
     Then I wait for the graphs to appear
     When I test the ssh connection 2 times for max 100 seconds each time
+    And I close the terminal
 
   @celery
   Scenario: Production machine reboot testing
