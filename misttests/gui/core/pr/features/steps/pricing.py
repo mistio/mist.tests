@@ -38,7 +38,6 @@ def set_card_details(context):
 
 @step(u'I set the card details in the credit card required dialog')
 def purchase_plan(context):
-    import ipdb; ipdb.set_trace()
     purchase_plan = context.browser.find_element_by_id('ccRequired')
     form = purchase_plan.find_element_by_id('inAddCloud')
     cc = form.find_element_by_id('cc')
