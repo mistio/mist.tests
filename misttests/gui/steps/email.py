@@ -101,13 +101,13 @@ def login_email(context):
 
         imap_host = prefix + context.mist_config['MIST_URL'].replace('http://', '').replace('.io.test.ops.mist.io', '')
 
-        log.info('Imap host is %s') % imap_host
-
     imap_port = context.mist_config['IMAP_PORT']
 
     if context.mist_config['IMAP_USE_SSL']:
         box = imaplib.IMAP4_SSL(imap_host, imap_port)
     else:
+        log.info('Super!')
+        log.info(imap_host)
         box = imaplib.IMAP4(imap_host, imap_port)
 
     login = box.login('test','test')
