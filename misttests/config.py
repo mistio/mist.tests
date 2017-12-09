@@ -89,8 +89,6 @@ VAULT_ENABLED = get_setting("VAULT_ENABLED", True, priority='environment')
 
 VAULT_SERVER = get_setting("VAULT_SERVER", "https://vault.ops.mist.io:8200")
 
-DEBUG = get_setting("DEBUG", False)
-
 RECORD_SELENIUM = get_setting("RECORD_SELENIUM", True)
 
 LOCAL_DOCKER = get_setting("LOCAL_DOCKER","api")
@@ -216,10 +214,6 @@ IMAP_HOST = get_setting('IMAP_HOST', '172.17.0.1', priority='environment')
 IMAP_PORT = get_setting('IMAP_PORT', '8143', priority='environment')
 
 IMAP_USE_SSL = get_setting('IMAP_USE_SSL', False, priority='environment')
-
-IMAP_USER = get_setting('IMAP_USER', EMAIL)
-
-IMAP_PASSWORD = get_setting('IMAP_PASSWORD', '')
 
 KEY_ID = get_setting('KEY_ID', '')
 
