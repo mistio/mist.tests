@@ -90,16 +90,21 @@ def email_find(context, address, subject):
     return fetched_mails
 
 
+def get_imap_host_kubernetes(context):
+    # mailmock pod is resolvable: mailmock.{namespace}
+    if context.mist_config['CORE_TEST']:
+        prefix = 'mailmock.' + 'core-test-'
+    else:
+        prefix = 'mailmock.' + 'io-test-'
+
+    return prefix + context.mist_config['MIST_URL'].replace('http://', '').replace('.io.test.ops.mist.io', '')
+
+
 def login_email(context):
     if context.mist_config['LOCAL']:
         imap_host = context.mist_config['IMAP_HOST']
-    else:  # mailmock pod is resolvable: mailmock.{namespace}
-        if context.mist_config['CORE_TEST']:
-            prefix = 'mailmock.' + 'core-test-'
-        else:
-            prefix = 'mailmock.' + 'io-test-'
-
-            imap_host = prefix + context.mist_config['MIST_URL'].replace('http://', '').replace('.io.test.ops.mist.io', '')
+    else:
+        imap_host = get_imap_host_kubernetes(context)
 
     imap_port = context.mist_config['IMAP_PORT']
 
