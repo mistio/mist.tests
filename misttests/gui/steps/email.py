@@ -90,11 +90,28 @@ def email_find(context, address, subject):
     return fetched_mails
 
 
+def is_core_installation(context):
+    api_token = get_api_token(context)
+    headers = {'Authorization': api_token}
+
+    response = requests.get(
+        "%s/api/v1/templates" % context.mist_config['MIST_URL'],
+        headers=headers
+    )
+
+    return True if response.status_code == 200 else False
+
+
 def login_email(context):
     if context.mist_config['LOCAL']:
         imap_host = context.mist_config['IMAP_HOST']
     else:  # mailmock pod is resolvable: mailmock.{namespace}
-        imap_host = 'mailmock.' + context.mist_config['MIST_URL'].replace('http://', '').replace('.io.test.ops.mist.io', '')
+        if is_core_installation(context):
+            prefix = 'mailmock' + 'core-test-'
+        else:
+            prefix = 'mailmock' + 'io-test-'
+
+        imap_host = prefix + context.mist_config['MIST_URL'].replace('http://', '').replace('.io.test.ops.mist.io', '')
 
     imap_port = context.mist_config['IMAP_PORT']
 
