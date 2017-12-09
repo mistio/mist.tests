@@ -137,19 +137,7 @@ def get_button_from_form(form, button_name):
     for b in buttons:
         if safe_get_element_text(b).lower().strip() == button_name:
             return b
-    if title == 'machine':
-        more_dropdown = actions.find_element_by_id('actionmenu')
-        more_dropdown_button = actions.find_element_by_class_name('dropdown-trigger')
-    else:
-        more_dropdown = form.find_element_by_tag_name('paper-menu-button')
-        more_dropdown_button = more_dropdown
-
-    assert more_dropdown, "Could not find more button"
-    clicketi_click(context, more_dropdown_button)
-    more_dropdown_buttons = more_dropdown.find_elements_by_tag_name('paper-button')
-    assert more_dropdown_buttons, "There are no buttons within the more dropdown"
-    timeout = time() + 5
-    click_button_from_collection(context, button_name, more_dropdown_buttons)
+    assert button, "Could not find button %s" % button_name
 
 
 @step(u'I expect the field "{field_name}" in the {title} {form_type} form to'
