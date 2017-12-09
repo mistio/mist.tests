@@ -91,24 +91,25 @@ def email_find(context, address, subject):
 
 
 def login_email(context):
-    imap_server = context.mist_config['IMAP_SERVER'].split(':')
-    imap_host = imap_server[0]
-    if len(imap_server) > 1:
-        imap_port = imap_server[1]
-    else:
-        if context.mist_config['IMAP_USE_SSL']:
-            imap_port = 993
-        else:
-            imap_port = 143
+    if context.mist_config['LOCAL']:
+        imap_host = context.mist_config['IMAP_HOST']
+    else: # mailmock pod is resolvable: mailmock.{namespace}
+        imap_host = 'mailmock.' + context.mist_config['MIST_URL'].
+        replace('http://', '').replace('.io.test.ops.mist.io', '')
 
-    box = imaplib.IMAP4('mailmock.io-test-localmail', 8143)
+    imap_port = context.mist_config['IMAP_PORT']
+
+    if context.mist_config['IMAP_USE_SSL']:
+        box = imaplib.IMAP4_SSL(imap_host, imap_port)
+    else:
+        box = imaplib.IMAP4(imap_host, imap_port)
 
     login = box.login('test','test')
 
     if 'OK' in login:
         return box
     else:
-        assert False, "Logging in to localmail failed!. Login is %s" %login
+        assert False, "Logging in to localmail failed!"
 
 
 def logout_email(box):
