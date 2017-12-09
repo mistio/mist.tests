@@ -76,7 +76,6 @@ def before_all(context):
     context.mist_config['GMAIL_THINGIRL_USER'] = config.GMAIL_THINGIRL_USER
     context.mist_config['GMAIL_THINGIRL_PASSWORD'] = config.GMAIL_THINGIRL_PASSWORD
     context.mist_config['recording_session'] = config.RECORD_SELENIUM
-    context.mist_config['IMAP_SERVER'] = config.IMAP_SERVER
     context.mist_config['IMAP_USE_SSL'] = config.IMAP_USE_SSL
     context.link_inside_email = ''
     context.mist_config['ORG_ID'] = ''
