@@ -95,11 +95,11 @@ def login_email(context):
         imap_host = context.mist_config['IMAP_HOST']
     else:
         if context.mist_config['MIST_URL'] == 'https://mist.io': # mayday
-            imap_host = 'mailmock.' + context.mist_config['MIST_URL']
-            replace('http://', '').replace('.io.test.ops.mist.io', '')
+            imap_host = 'mailmock.' +
+            context.mist_config['MIST_URL'].replace('http://', '').replace('.io.test.ops.mist.io', '')
         else:  # mailmock pod is resolvable: mailmock.{namespace}
-            imap_host = 'mailmock.' + context.mist_config['MIST_URL']
-            replace('http://', '').replace('.io.test.ops.mist.io', '')
+            imap_host = 'mailmock.' +
+            context.mist_config['MIST_URL'].replace('http://', '').replace('.io.test.ops.mist.io', '')
 
     imap_port = context.mist_config['IMAP_PORT']
 
