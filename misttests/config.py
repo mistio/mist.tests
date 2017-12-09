@@ -209,7 +209,9 @@ WEBDRIVER_OPTIONS = get_setting('WEBDRIVER_OPTIONS',
 
 REGISTER_USER_BEFORE_FEATURE = get_setting('REGISTER_USER_BEFORE_FEATURE', True, priority='environment')
 
-IMAP_SERVER = get_setting('IMAP_SERVER', '172.17.0.1:8143', priority='environment')
+IMAP_HOST = get_setting('IMAP_HOST', '172.17.0.1', priority='environment')
+
+IMAP_PORT = get_setting('IMAP_PORT', '8143', priority='environment')
 
 IMAP_USE_SSL = get_setting('IMAP_USE_SSL', False, priority='environment')
 
