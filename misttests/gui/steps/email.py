@@ -3,9 +3,12 @@ import logging
 import imaplib
 import email
 import re
+import requests
 
 from time import sleep
 from time import time
+
+from misttests.gui.core.environment import get_api_token
 
 from behaving.mail.steps import *
 
