@@ -207,7 +207,7 @@ WEBDRIVER_OPTIONS = get_setting('WEBDRIVER_OPTIONS',
                                 ['headless', 'no-sandbox', 'disable-gpu',
                                  'window-size=1920x1080'])
 
-CORE_TEST = get_setting("SETUP_ENVIRONMENT", True)
+CORE_TEST = get_setting("CORE_TEST", True)
 
 REGISTER_USER_BEFORE_FEATURE = get_setting('REGISTER_USER_BEFORE_FEATURE', True, priority='environment')
 
