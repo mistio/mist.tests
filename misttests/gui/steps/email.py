@@ -94,13 +94,14 @@ def login_email(context):
     if context.mist_config['LOCAL']:
         imap_host = context.mist_config['IMAP_HOST']
     else:  # mailmock pod is resolvable: mailmock.{namespace}
-        if context.mist_config['CORE_TEST']:
-            prefix = 'mailmock.' + 'core-test-'
-        else:
-            prefix = 'mailmock.' + 'io-test-'
+        #if context.mist_config['CORE_TEST']:
+        #    prefix = 'mailmock.' + 'core-test-'
+        #else:
+        prefix = 'mailmock.' + 'io-test-'
 
         imap_host = prefix + context.mist_config['MIST_URL'].replace('http://', '').replace('.io.test.ops.mist.io', '')
 
+        log.info('Imap host is %s') %imap_host
     imap_port = context.mist_config['IMAP_PORT']
 
     if context.mist_config['IMAP_USE_SSL']:
