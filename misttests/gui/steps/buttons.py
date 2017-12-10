@@ -19,7 +19,7 @@ from selenium.webdriver.support.color import Color
 from selenium.common.exceptions import WebDriverException
 from selenium.common.exceptions import TimeoutException
 from selenium.common.exceptions import NoSuchElementException
-
+from selenium.common.exceptions import StaleElementReferenceException
 
 log = logging.getLogger(__name__)
 
@@ -126,6 +126,24 @@ def click_button(context, text):
     click_button_from_collection(context, text.lower(),
                                  error_message='Could not find button that '
                                                'contains %s' % text)
+
+@step(u'I click the button "{button_name}" in the "{name}" page actions menu')
+def click_button_in_dropdown(context, button_name, name):
+    actions = context.browser.find_element_by_tag_name('mist-actions')
+    buttons = actions.find_elements_by_xpath('paper-button')
+    for button in buttons:
+        if safe_get_element_text(button).lower() == button_name.lower():
+            clicketi_click(context, button)
+            return
+    more_dropdown = actions.find_element_by_id('actionmenu')
+    clicketi_click(context, more_dropdown)
+    try:
+        more_dropdown_buttons = more_dropdown.find_elements_by_tag_name('paper-button')
+    except StaleElementReferenceException:
+        # sometimes actions will expand after clicking on actionmenu
+        more_dropdown_buttons = actions.find_elements_by_xpath('paper-button')
+    assert more_dropdown_buttons, "There are no buttons within the more dropdown"
+    click_button_from_collection(context, button_name, more_dropdown_buttons)
 
 
 @step(u'I click the button "{button}" in the "{name}" dropdown')
@@ -260,68 +278,3 @@ def click_the_gravatar(context):
         clicketi_click(context, gravatar)
     except NoSuchElementException:
         get_old_gravatar(context)
-
-
-def get_old_gravatar(context):
-    from .popups import popup_waiting_with_timeout
-    gravatar = context.browser.find_element_by_class_name("gravatar-image")
-    focus_on_element(context, gravatar)
-    me_button = context.browser.find_element_by_id('me-btn')
-    try:
-        clicketi_click(context, me_button)
-        WebDriverWait(context.browser, int(2)).until(
-            EC.visibility_of_element_located((By.ID, 'user-menu-popup-screen')))
-        popup_waiting_with_timeout(context, 'user-menu-popup-popup', 'appear', 4)
-        return
-    except:
-        pass
-    try:
-        clicketi_click(context, gravatar)
-        WebDriverWait(context.browser, int(2)).until(
-            EC.visibility_of_element_located((By.ID, 'user-menu-popup-screen')))
-        popup_waiting_with_timeout(context, 'user-menu-popup-popup', 'appear', 4)
-        return
-    except:
-        pass
-
-    try:
-        clicketi_click(context, gravatar)
-        try:
-            WebDriverWait(context.browser, int(2)).until(
-                EC.visibility_of_element_located((By.ID,
-                                                  'user-menu-popup-screen')))
-            try:
-                popup_waiting_with_timeout(context, 'user-menu-popup-popup',
-                                           'appear', 4)
-                return
-            except Exception as e:
-                msg = "After clicking the gravatar the grey background " \
-                      "appeared but not the popup.(%s)" % type(e)
-        except Exception as e:
-            msg = "Grey background did not appear after 2 seconds." \
-                  "(%s)" % type(e)
-    except Exception as e:
-        msg = "There was an exception(%s) when trying to click the Gravatar" \
-              " image" % type(e)
-
-    try:
-        clicketi_click(context, me_button)
-        try:
-            WebDriverWait(context.browser, int(2)).until(
-                EC.visibility_of_element_located((By.ID, 'user-menu-popup-screen')))
-            try:
-                popup_waiting_with_timeout(context, 'user-menu-popup-popup',
-                                           'appear', 4)
-                return
-            except Exception as e:
-                msg += "\nAfter clicking the me-btn the grey background " \
-                       "appeared but not the popup.(%s)" % type(e)
-        except Exception as e:
-            msg += "\nGrey background did not appear after 2 seconds." \
-                   "(%s)" % type(e)
-    except Exception as e:
-        msg += "\nThere was an exception(%s) when trying to click the " \
-               "me-btn" % type(e)
-
-    assert False, "I tried clicking the Gravatar but it did not work :(." \
-                  "\n%s" % msg
