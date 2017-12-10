@@ -71,6 +71,9 @@ def email_find(context, address, subject):
         email_message = email.message_from_string(raw)
         if subject in email_message.get('Subject') and address in email_message.get('To'):
             fetched_mails.append(raw)
+            # delete the email
+            box.store(i, '+FLAGS', '\\Deleted')
+            box.expunge()
 
     if not fetched_mails:
         context.link_inside_email = ''
