@@ -69,6 +69,9 @@ def email_find(context, address, subject):
         result, msgdata = box.fetch(i, "(RFC822)")
         raw = msgdata[0][1]
         email_message = email.message_from_string(raw)
+        log.info("Checking email with subject: %s " % email_message.get('Subject'))
+        log.info("Checking email with email address: %s " % email_message.get('To'))
+        log.info("**************************")
         if subject in email_message.get('Subject') and address in email_message.get('To'):
             fetched_mails.append(raw)
             # delete the email
@@ -115,7 +118,6 @@ def login_email(context):
     if context.mist_config['IMAP_USE_SSL']:
         box = imaplib.IMAP4_SSL(imap_host, imap_port)
     else:
-        log.info("IMAP host is: %s" % imap_host)
         box = imaplib.IMAP4(imap_host, imap_port)
 
     login = box.login('test','test')
