@@ -74,6 +74,7 @@ Feature: Monitoring
     When I wait for 30 seconds
     And I refresh the page
     Then I should see the incident "RAM > 0.0%"
+    Then I should receive an email at the address "EMAIL" with subject "[mist.io] *** WARNING *** from monitored-machine-501: RAM" within 30 seconds
 
   @disable-monitoring
   Scenario: Disable monitoring
