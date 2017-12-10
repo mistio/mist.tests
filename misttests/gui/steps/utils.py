@@ -16,7 +16,7 @@ from selenium.webdriver.common.action_chains import ActionChains
 
 def safe_get_element_text(check_element):
     try:
-        return check_element.get_attribute('innerText').strip()
+        return check_element.text
     except StaleElementReferenceException:
         return ""
 
@@ -57,7 +57,7 @@ def focus_on_add_rule(context, name):
         button = context.browser.find_element_by_xpath("//*[contains(text(), 'Add Graph')]")
 
     context.browser.execute_script("arguments[0].scrollIntoView();", button)
-    
+
     return
 
 
@@ -143,7 +143,7 @@ def check_page_is_visible(context, page_title, seconds):
         element = 'page-%s > mist-list' % page
     elif page in ['insights']:
         element = 'page-%s' % page
-    else: 
+    else:
         element = 'page-%s > page-items > div#content.page-items' % page
     msg = "%s page is not visible after %s seconds" % (page, seconds)
     wait_for_element_to_be_visible(context, (By.CSS_SELECTOR, element),

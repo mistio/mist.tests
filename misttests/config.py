@@ -46,9 +46,11 @@ def safe_get_var(vault_path, vault_key, test_settings_var = None):
 
         headers = {"X-Vault-Token": os.environ['VAULT_CLIENT_TOKEN']}
 
-        re = requests.get(VAULT_SERVER + '/v1/secret/%s' % vault_path, headers=headers)
+        response = requests.get(VAULT_SERVER + '/v1/secret/%s' % vault_path, headers=headers)
 
-        json_data = re.json().get('data')
+        assert response.status_code == 200, "Response from vault was not 200, but instead it was %s" % response.status_code
+
+        json_data = response.json().get('data')
 
         return json_data.get(vault_key)
 
@@ -86,8 +88,6 @@ LOCAL = get_setting("LOCAL", True)
 VAULT_ENABLED = get_setting("VAULT_ENABLED", True, priority='environment')
 
 VAULT_SERVER = get_setting("VAULT_SERVER", "https://vault.ops.mist.io:8200")
-
-DEBUG = get_setting("DEBUG", False)
 
 RECORD_SELENIUM = get_setting("RECORD_SELENIUM", True)
 
@@ -207,15 +207,15 @@ WEBDRIVER_OPTIONS = get_setting('WEBDRIVER_OPTIONS',
                                 ['headless', 'no-sandbox', 'disable-gpu',
                                  'window-size=1920x1080'])
 
+CORE_TEST = get_setting("CORE_TEST", True)
+
 REGISTER_USER_BEFORE_FEATURE = get_setting('REGISTER_USER_BEFORE_FEATURE', True, priority='environment')
 
-IMAP_SERVER = get_setting('IMAP_SERVER', 'imap.gmail.com', priority='environment')
+IMAP_HOST = get_setting('IMAP_HOST', '172.17.0.1', priority='environment')
 
-IMAP_USE_SSL = get_setting('IMAP_USE_SSL', True, priority='environment')
+IMAP_PORT = get_setting('IMAP_PORT', '8143', priority='environment')
 
-IMAP_USER = get_setting('IMAP_USER', EMAIL)
-
-IMAP_PASSWORD = get_setting('IMAP_PASSWORD', '')
+IMAP_USE_SSL = get_setting('IMAP_USE_SSL', False, priority='environment')
 
 KEY_ID = get_setting('KEY_ID', '')
 
