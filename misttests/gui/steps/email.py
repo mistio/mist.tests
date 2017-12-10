@@ -74,6 +74,7 @@ def email_find(context, address, subject):
             # delete the email
             box.store(i, '+FLAGS', '\\Deleted')
             box.expunge()
+            break
 
     if not fetched_mails:
         context.link_inside_email = ''
