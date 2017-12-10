@@ -62,7 +62,7 @@ def delete_emails(context):
 def email_find(context, address, subject):
     box = login_email(context)
     box.select("INBOX")
-    result, data = box.search(None, "ALL")
+    result, data = box.search(None, '(TO ' + address + ')')
     ids = data[0].split()
     fetched_mails = []
     for i in ids:
@@ -70,8 +70,6 @@ def email_find(context, address, subject):
         raw = msgdata[0][1]
         email_message = email.message_from_string(raw)
         log.info("Checking email with subject: %s " % email_message.get('Subject'))
-        log.info("Checking email with email address: %s " % email_message.get('To'))
-        log.info("**************************")
         if subject in email_message.get('Subject') and address in email_message.get('To'):
             fetched_mails.append(raw)
             # delete the email
