@@ -34,6 +34,7 @@ Feature: Monitoring
     And I wait for 2 seconds
     Then I wait for the graphs to appear
     And 9 graphs should be visible within max 30 seconds
+    And I wait for 10 seconds
 
   @alert
   Scenario: Insert rule that will be triggered immediately
@@ -70,8 +71,9 @@ Feature: Monitoring
 
   @incidents
   Scenario: Verify that incident gets triggered
-    When I wait for 30 seconds
+    When I wait for 25 seconds
     And I refresh the page
+    And I wait for 5 seconds
     Then I should see the incident "RAM > 0.0%"
     Then I should receive an email at the address "EMAIL" with subject "[mist.io] *** WARNING *** from monitored-machine-random: RAM" within 30 seconds
 
