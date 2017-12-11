@@ -8,7 +8,7 @@ import json
 from random import randrange
 
 
-@step(u'rbac members are initialized')
+@step(u'rbac member1 has been registered')
 def initialize_rbac_members(context):
     BASE_EMAIL = context.mist_config['BASE_EMAIL']
     context.mist_config['MEMBER1_EMAIL'] = "%s+%d@gmail.com" % (BASE_EMAIL, random.randint(1,200000))
