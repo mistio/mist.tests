@@ -15,7 +15,6 @@ Feature: RBAC-rules-v3
     When I visit the Teams page
     And I click the "Test team" "team"
     Then I expect the "team" edit form to be visible within max 5 seconds
-    And user with email "MEMBER1_EMAIL" should be pending
     When I focus on the button "Add a new rule" in "policy" edit form
     And I click the button "Add a new rule" in "policy" edit form
     And I wait for 1 seconds
@@ -38,13 +37,8 @@ Feature: RBAC-rules-v3
 
   @view-and-delete-script-success
   Scenario: Verify that member1 cannot view the team created above but can delete script
-    Then I should receive an email at the address "MEMBER1_EMAIL" with subject "[mist.io] Confirm your invitation" within 30 seconds
-    And I follow the link inside the email
-    Then I enter my rbac_member1 credentials for login
-    And I click the sign in button in the landing page popup
-    Given that I am redirected within 10 seconds
+    Given I am logged in to mist.core as rbac_member1
     And I wait for the links in homepage to appear
-    When I ensure that I am in the "ORG_NAME" organization context
     And I visit the Teams page
     Then "Test Team" team should be present within 5 seconds
     And "Non-visible Team" team should be absent within 5 seconds
@@ -76,7 +70,6 @@ Feature: RBAC-rules-v3
   @member1-view-cloud-and-machine-success
   Scenario: Verify that member1 can view cloud and machine
     Given I am logged in to mist.core as rbac_member1
-    And I ensure that I am in the "ORG_NAME" organization context
     When I visit the Machines page
     Then "mistcore_debugger_1" machine should be present within 5 seconds
     When I visit the Home page
