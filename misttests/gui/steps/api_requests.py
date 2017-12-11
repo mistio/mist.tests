@@ -38,24 +38,6 @@ def get_owner_api_token(context):
     return api_token
 
 
-# to be removed
-@step(u'member1 has been invited to "{rbac_team}"')
-def invite_member1(context,rbac_team):
-    headers = {'Authorization': get_owner_api_token(context)}
-
-    re = requests.get("%s/api/v1/org/%s/teams" % (context.mist_config['MIST_URL'],context.mist_config['ORG_ID']), headers = headers)
-
-    for team in re.json():
-        if team['name'] in rbac_team:
-            team_id = team['id']
-            break
-
-    data = {'emails': context.mist_config['MEMBER1_EMAIL']}
-
-    requests.post("%s/api/v1/org/%s/teams/%s/members"  % (context.mist_config['MIST_URL'],context.mist_config['ORG_ID'], team_id),
-    data=data, headers=headers)
-
-
 def add_user_to_team(context, email):
 
     headers = {'Authorization': get_owner_api_token(context)}

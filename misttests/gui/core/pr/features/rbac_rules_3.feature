@@ -4,7 +4,6 @@ Feature: RBAC-rules-v3
   @create-users-org-team
   Scenario: Owner creates a new organization and adds a cloud
     Given rbac members, organization and team are initialized
-    And member1 has been invited to "Test Team"
     Given I am logged in to mist.core
     Then I expect for "addBtn" to be clickable within max 20 seconds
     Given cloud "Docker" has been added via API request

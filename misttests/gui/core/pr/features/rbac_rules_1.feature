@@ -14,7 +14,6 @@ Feature: RBAC
     When I visit the Teams page
     And I click the "Test team" "team"
     Then I expect the "team" edit form to be visible within max 5 seconds
-    #And user with email "MEMBER1_EMAIL" should be pending
     When I focus on the button "Add a new rule" in "policy" edit form
     And I click the button "Add a new rule" in "policy" edit form
     And I wait for 1 seconds
