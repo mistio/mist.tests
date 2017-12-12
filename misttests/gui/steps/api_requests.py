@@ -8,8 +8,8 @@ import json
 from random import randrange
 
 
-@step(u'rbac members are initialized')
-def initialize_rbac_members(context):
+@step(u'rbac member1 has been registered')
+def register_member_1(context):
     BASE_EMAIL = context.mist_config['BASE_EMAIL']
     context.mist_config['MEMBER1_EMAIL'] = "%s+%d@gmail.com" % (BASE_EMAIL, random.randint(1,200000))
     context.mist_config['MEMBER2_EMAIL'] = "%s+%d@gmail.com" % (BASE_EMAIL, random.randint(1,200000))
@@ -38,33 +38,36 @@ def get_owner_api_token(context):
     return api_token
 
 
-@step(u'member1 has been invited to "{rbac_team}"')
-def invite_member1(context,rbac_team):
+def add_user_to_team(context, email):
+
     headers = {'Authorization': get_owner_api_token(context)}
 
-    re = requests.get("%s/api/v1/org/%s/teams" % (context.mist_config['MIST_URL'],context.mist_config['ORG_ID']), headers = headers)
+    payload = {
+        'email': email
+    }
 
-    for team in re.json():
-        if team['name'] in rbac_team:
-            team_id = team['id']
-            break
+    endpoint = context.mist_config['MIST_URL'] + "/api/v1/dev/orgs/" + context.mist_config['ORG_ID'] + "/teams/" + context.mist_config['TEAM_ID']
 
-    data = {'emails': context.mist_config['MEMBER1_EMAIL']}
+    response = requests.post(endpoint, data=json.dumps(payload), headers=headers)
 
-    requests.post("%s/api/v1/org/%s/teams/%s/members"  % (context.mist_config['MIST_URL'],context.mist_config['ORG_ID'], team_id),
-    data=data, headers=headers)
+    assert response.status_code == 200, "Could not add %s to Test Team. Response was %s" % (email, response.status_code)
 
 
 @step(u'rbac members, organization and team are initialized')
 def initialize_rbac_members(context):
+
+    register_member_1(context)
+
     BASE_EMAIL = context.mist_config['BASE_EMAIL']
-    context.mist_config['MEMBER1_EMAIL'] = "%s+%d@gmail.com" % (BASE_EMAIL, random.randint(1,200000))
+    context.mist_config['MEMBER2_EMAIL'] = "%s+%d@gmail.com" % (BASE_EMAIL, random.randint(1,200000))
+    context.mist_config['ORG_NAME'] = "rbac_org_%d" % random.randint(1,200000)
 
     payload = {
-        'email': context.mist_config['MEMBER1_EMAIL'],
-        'password': context.mist_config['MEMBER1_PASSWORD'],
+        'email': context.mist_config['MEMBER2_EMAIL'],
+        'password': context.mist_config['MEMBER2_PASSWORD'],
         'name': "Atheofovos Gkikas"
     }
+
     requests.post("%s/api/v1/dev/register" % context.mist_config['MIST_URL'], data=json.dumps(payload))
 
     headers = {'Authorization': get_owner_api_token(context)}
@@ -72,7 +75,14 @@ def initialize_rbac_members(context):
     payload = {
         'name': "Test Team"
     }
-    requests.post(context.mist_config['MIST_URL'] + "/api/v1/org/" + context.mist_config['ORG_ID'] + "/teams", data=json.dumps(payload), headers=headers)
+    response = requests.post(context.mist_config['MIST_URL'] + "/api/v1/org/" + context.mist_config['ORG_ID'] + "/teams", data=json.dumps(payload), headers=headers)
+
+    assert response.status_code == 200, "Could not add Test Team. Response was %s" % response.status_code
+
+    context.mist_config['TEAM_ID'] = response.json()['id']
+
+    add_user_to_team(context, context.mist_config['MEMBER1_EMAIL'])
+    add_user_to_team(context, context.mist_config['MEMBER2_EMAIL'])
 
     return
 

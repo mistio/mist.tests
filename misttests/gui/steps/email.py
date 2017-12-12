@@ -62,15 +62,20 @@ def delete_emails(context):
 def email_find(context, address, subject):
     box = login_email(context)
     box.select("INBOX")
-    result, data = box.search(None, "ALL")
+    result, data = box.search(None, '(TO ' + address + ')')
     ids = data[0].split()
     fetched_mails = []
     for i in ids:
         result, msgdata = box.fetch(i, "(RFC822)")
         raw = msgdata[0][1]
         email_message = email.message_from_string(raw)
+        log.info("Checking email with subject: %s " % email_message.get('Subject'))
         if subject in email_message.get('Subject') and address in email_message.get('To'):
             fetched_mails.append(raw)
+            # delete the email
+            box.store(i, '+FLAGS', '\\Deleted')
+            box.expunge()
+            break
 
     if not fetched_mails:
         context.link_inside_email = ''
@@ -111,7 +116,6 @@ def login_email(context):
     if context.mist_config['IMAP_USE_SSL']:
         box = imaplib.IMAP4_SSL(imap_host, imap_port)
     else:
-        log.info("IMAP host is: %s" % imap_host)
         box = imaplib.IMAP4(imap_host, imap_port)
 
     login = box.login('test','test')

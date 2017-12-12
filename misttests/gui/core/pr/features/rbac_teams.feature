@@ -3,7 +3,7 @@ Feature: Rbac
 
   @create-org
   Scenario: Owner creates a new organization
-    Given rbac members are initialized
+    Given rbac member1 has been registered
     Given I am logged in to mist.core
     When I click the Gravatar
     And I wait for 1 seconds
