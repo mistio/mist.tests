@@ -1,4 +1,4 @@
-from misttests.api.utils import *
+from misttests.integration.api.utils import *
 
 
 ############################################################################

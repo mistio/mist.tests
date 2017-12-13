@@ -1,4 +1,4 @@
-from misttests.api.utils import *
+from misttests.integration.api.utils import *
 
 
 def test_get_api_token_empty_fields(pretty_print, mist_core):

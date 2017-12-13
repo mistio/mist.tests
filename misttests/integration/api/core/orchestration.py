@@ -1,4 +1,4 @@
-from misttests.api.helpers import *
+from misttests.integration.api.helpers import *
 
 import pytest
 
