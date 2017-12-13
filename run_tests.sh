@@ -2,21 +2,21 @@
 
 declare -A pytest_paths
 
-pytest_paths["clouds"]='misttests/api/io/clouds.py'
-pytest_paths["images"]='misttests/api/io/images.py'
-pytest_paths["libcloud1"]='misttests/api/io/libcloud_1.py'
-pytest_paths["libcloud2"]='misttests/api/io/libcloud_2.py'
-pytest_paths["machines"]='misttests/api/io/machines.py'
-pytest_paths["networks"]='misttests/api/io/networks.py'
-pytest_paths["keys"]='misttests/api/io/keys.py'
-pytest_paths["dns"]='misttests/api/io/dns.py'
-pytest_paths["scripts"]='misttests/api/io/scripts.py'
-pytest_paths["api_token"]='misttests/api/io/api_token.py'
-pytest_paths["schedules"]='misttests/api/io/schedules.py'
-pytest_paths["tunnels"]='misttests/api/core/tunnels.py'
-pytest_paths["orchestration"]='misttests/api/core/orchestration.py'
-pytest_paths["rbac"]='misttests/api/io/rbac.py'
-#pytest_paths["ip-whitelisting"]='misttests/api/io/ip_whitelisting.py'
+pytest_paths["clouds"]='misttests/integration/api/io/clouds.py'
+pytest_paths["images"]='misttests/integration/api/io/images.py'
+pytest_paths["libcloud1"]='misttests/integration/api/io/libcloud_1.py'
+pytest_paths["libcloud2"]='misttests/integration/api/io/libcloud_2.py'
+pytest_paths["machines"]='misttests/integration/api/io/machines.py'
+pytest_paths["networks"]='misttests/integration/api/io/networks.py'
+pytest_paths["keys"]='misttests/integration/api/io/keys.py'
+pytest_paths["dns"]='misttests/integration/api/io/dns.py'
+pytest_paths["scripts"]='misttests/integration/api/io/scripts.py'
+pytest_paths["api_token"]='misttests/integration/api/io/api_token.py'
+pytest_paths["schedules"]='misttests/integration/api/io/schedules.py'
+pytest_paths["tunnels"]='misttests/integration/api/core/tunnels.py'
+pytest_paths["orchestration"]='misttests/integration/api/core/orchestration.py'
+pytest_paths["rbac"]='misttests/integration/api/io/rbac.py'
+#pytest_paths["ip-whitelisting"]='misttests/integration/api/io/ip_whitelisting.py'
 
 declare -A behave_tags
 
