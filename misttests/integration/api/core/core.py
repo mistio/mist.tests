@@ -1,8 +1,8 @@
 import json
 
-from misttests.api.io.io import MistIoApi
+from misttests.integration.api.io.io import MistIoApi
 
-from misttests.api.mistrequests import MistRequests
+from misttests.integration.api.mistrequests import MistRequests
 
 
 class MistCoreApi(MistIoApi):

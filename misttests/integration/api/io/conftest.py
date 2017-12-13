@@ -2,11 +2,11 @@ import pytest
 
 from misttests import config
 from misttests.config import safe_get_var
-from misttests.api.helpers import *
+from misttests.integration.api.helpers import *
 from misttests.helpers.setup import setup_user_if_not_exists
 
 from io import MistIoApi
-from misttests.api.core.core import MistCoreApi
+from misttests.integration.api.core.core import MistCoreApi
 
 
 @pytest.fixture

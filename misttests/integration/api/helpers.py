@@ -2,7 +2,7 @@ import json
 import string
 import random
 
-from misttests.api.utils import *
+from misttests.integration.api.utils import *
 from misttests import config
 
 from misttests.config import safe_get_var
