@@ -41,7 +41,7 @@ machine_states_ordering = {
 # this dict contains image, size and location to be tested for each provider
 machine_values_dict = {
     "aws": ["Ubuntu Server 16.04 Beta2 (PV)", "m1.small - Small Instance", "ap-northeast-1a "],
-    "digital ocean": ["CentOS 5.11 x32", "512mb", "Amsterdam 2"],
+    "digital ocean": ["Ubuntu 14.04.5 x64", "512mb", "Amsterdam 2"],
     "packet": ["Ubuntu 14.04 LTS", "Type 0 - 8GB RAM", "Amsterdam, NL"],
     "openstack": ["CoreOS", "m1.tiny", "0"],
     "rackspace": ["Ubuntu 14.04 LTS (Trusty Tahr) (PV)", "512MB Standard Instance", "0"],
@@ -59,8 +59,18 @@ def set_values_to_create_machine_form(context,provider,machine_name):
                 And I click the button "%s" in the "Image" dropdown
                 And I open the "Key" drop down
                 And I click the button "DummyKey" in the "Key" dropdown
+                And I wait for 1 seconds
             ''' % (machine_name,
                    machine_values_dict.get(provider)[0]))
+
+    if 'digital ocean' in provider:
+        context.execute_steps(u'''
+                    When I open the "Size" drop down
+                    And I click the button "%s" in the "Size" dropdown
+                    When I open the "Location" drop down
+                    And I click the button "%s" in the "Location" dropdown
+                ''' % ( machine_values_dict.get(provider)[1],
+                       machine_values_dict.get(provider)[2]))
 
 
 @step(u'I select the proper values for "{provider}" to create the "{machine_name}" machine')
