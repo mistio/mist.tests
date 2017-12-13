@@ -1,8 +1,7 @@
 @multi-provisioning
-Feature: Multiprovisioning testing against prod. Make sure that create machine and enabling monitoring works fine across multiple providers
+Feature: Multiprovisioning testing against prod. Stager account is used.
 
   Background:
-    # stager account is used in multiprovisioning tests
     Given I am logged in to mist.core
 
   @machine-create
