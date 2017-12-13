@@ -1,3 +1,7 @@
+from misttests.integration.gui.steps.clouds import *
+from misttests.integration.gui.steps.utils import *
+from misttests.integration.gui.steps.setup import *
+from misttests.integration.gui.steps.scroll import *
 from misttests.integration.gui.steps.navigation import *
 from misttests.integration.gui.steps.machines import *
 from misttests.integration.gui.steps.modals import *
@@ -6,3 +10,4 @@ from misttests.integration.gui.steps.popups import *
 from misttests.integration.gui.steps.ssh import *
 from misttests.integration.gui.steps.list import *
 from misttests.integration.gui.steps.api_requests import *
+from misttests.integration.gui.core.environment import *

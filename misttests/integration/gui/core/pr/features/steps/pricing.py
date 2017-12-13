@@ -1,7 +1,7 @@
 from behave import step
 
-from misttests.gui.steps.utils import safe_get_element_text
-from misttests.gui.steps.buttons import clicketi_click
+from misttests.integration.gui.steps.utils import safe_get_element_text
+from misttests.integration.gui.steps.buttons import clicketi_click
 
 
 @step(u'there should be a message with text "{text}"')

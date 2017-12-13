@@ -1,9 +1,9 @@
 from behave import step
 
-from misttests.gui.steps.buttons import clicketi_click
-from misttests.gui.steps.forms import clear_input_and_send_keys
-from misttests.gui.steps.landing import get_shadow_root
-from misttests.gui.steps.utils import safe_get_element_text
+from misttests.integration.gui.steps.buttons import clicketi_click
+from misttests.integration.gui.steps.forms import clear_input_and_send_keys
+from misttests.integration.gui.steps.landing import get_shadow_root
+from misttests.integration.gui.steps.utils import safe_get_element_text
 
 @step(u'I remove all whitelisted ips')
 def remove_whitelisted_ips(context):

@@ -1,4 +1,4 @@
-from misttests.gui.steps.team import *
+from misttests.integration.gui.steps.team import *
 
 from time import sleep
 

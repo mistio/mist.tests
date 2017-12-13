@@ -1,1 +1,1 @@
-from misttests.gui.steps.insights import *
+from misttests.integration.gui.steps.insights import *
