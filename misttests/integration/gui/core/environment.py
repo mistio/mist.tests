@@ -249,6 +249,26 @@ def mayday_cleanup(context):
                     break
 
 
+def mp_cleanup(context):
+    # TODO: change token below!
+    headers = {'Authorization': context.mist_config['MAYDAY_TOKEN']}
+
+    response = requests.get("%s/api/v1/clouds" % context.mist_config['MIST_URL'], headers=headers)
+    for cloud in response.json():
+        response = requests.get(context.mist_config['MIST_URL'] + '/api/v1/clouds/' + cloud['id'] + '/machines',
+                                headers=headers)
+        for machine in response.json():
+            if 'mp-test-machine' in machine['name']:
+                payload = {'action': 'destroy'}
+                uri = context.mist_config['MIST_URL'] + \
+                        '/api/v1/clouds/' + cloud['id'] + \
+                        '/machines/' + machine['machine_id']
+                log.info('Killing multiprovisioning machine')
+                response = requests.post(uri, data=json.dumps(payload), headers=headers)
+                assert response.status_code == 200, "Could not start mayday-test container!"
+                break
+
+
 def after_feature(context, feature):
     if feature.name == 'Orchestration':
         kill_orchestration_machines(context)
@@ -270,3 +290,5 @@ def after_feature(context, feature):
         kill_docker_machine(context, context.mist_config.get('monitored-machine-random'))
     if feature.name == 'Production':
         mayday_cleanup(context)
+    if feature.name == 'Multiprovisioning':
+        mp_cleanup(context)
