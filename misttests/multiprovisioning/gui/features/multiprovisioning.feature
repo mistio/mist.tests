@@ -1,5 +1,5 @@
 @multi-provisioning
-Feature: Multiprovisioning testing against prod. Stager account is used.
+Feature: Multiprovisioning
 
   Background:
     Given I am logged in to mist.core
@@ -70,4 +70,5 @@ Feature: Multiprovisioning testing against prod. Stager account is used.
     Examples: Providers to be tested
     | provider      | size  | location    | image              |
     | Digital Ocean | 512mb | Amsterdam 2 | Ubuntu 14.04.5 x64 |
+    | Digital Ocean | 512mb | Amsterdam 2 | CentOS 7.4 x64     |
 #    | GCE           |
