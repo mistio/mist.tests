@@ -4,8 +4,8 @@ Feature: Multiprovisioning testing against prod. Stager account is used.
   Background:
     Given I am logged in to mist.core
 
-  @machine-create
-  Scenario Outline: Create a machine in Docker provider
+  @mp-test
+  Scenario Outline: Create a machine, enable monitoring and then destroy it.
     When I visit the Machines page
     And I click the button "+"
     Then I expect the "Machine" add form to be visible within max 10 seconds
@@ -13,8 +13,17 @@ Feature: Multiprovisioning testing against prod. Stager account is used.
     And I wait for 1 seconds
     And I click the button "<provider>" in the "Choose Cloud" dropdown
     Then I expect the field "Machine name" in the machine add form to be visible within max 4 seconds
-    When I select the proper values for "Docker" to create the "mp-test-machine-random" machine
-    And I wait for 3 seconds
+    Then I set the value "mp-test-machine-random" to field "Machine Name" in "machine" add form
+    When I open the "Image" drop down
+    And I click the button "<image>" in the "Image" dropdown
+    And I open the "Key" drop down
+    And I click the button "DummyKey" in the "Key" dropdown
+    And I wait for 1 seconds
+    When I open the "Size" drop down
+    And I click the button "<size>" in the "Size" dropdown
+    When I open the "Location" drop down
+    And I click the button "<location>" in the "Location" dropdown
+    And I wait for 2 seconds
     Then I expect for the button "Launch" in "machine" add form to be clickable within 10 seconds
     When I focus on the button "Launch" in "machine" add form
     And I click the "Launch" button with id "appformsubmit"
@@ -23,8 +32,7 @@ Feature: Multiprovisioning testing against prod. Stager account is used.
     And I search for "mp-test-machine-random"
     Then "mp-test-machine-random" machine state has to be "running" within 60 seconds
 
-  @enable-monitoring
-  Scenario: Enable monitoring on created machine
+    # enable monitoring
     When I click the "mp-test-machine-random" "machine"
     And I wait for 2 seconds
     And I click the button "Enable Monitoring"
@@ -32,9 +40,7 @@ Feature: Multiprovisioning testing against prod. Stager account is used.
     Then I wait for the graphs to appear
     And 9 graphs should be visible within max 30 seconds
 
-
-  @disable-monitoring
-  Scenario: Disable monitoring
+    # disable monitoring
     When I visit the Machines page
     And I click the "mp-test-machine-random" "machine"
     And I wait for 2 seconds
@@ -46,8 +52,7 @@ Feature: Multiprovisioning testing against prod. Stager account is used.
     Then I expect the dialog "Disable Machine Monitoring" is closed within 5 seconds
     And graphs should disappear within 15 seconds
 
-  @machine-destroy
-  Scenario: Destroy the machine created
+    # destroy the machine
     When I visit the Machines page after the counter has loaded
     Then I search for the machine "mp-test-machine-random"
     And I wait for 1 seconds
@@ -63,6 +68,6 @@ Feature: Multiprovisioning testing against prod. Stager account is used.
     Then "mp-test-machine-random" machine should be absent within 60 seconds
 
     Examples: Providers to be tested
-    | provider      |
-    | Digital Ocean |
+    | provider      | size  | location    | image              |
+    | Digital Ocean | 512mb | Amsterdam 2 | Ubuntu 14.04.5 x64 |
 #    | GCE           |
