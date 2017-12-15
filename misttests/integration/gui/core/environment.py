@@ -265,7 +265,7 @@ def mp_cleanup(context):
                         '/machines/' + machine['machine_id']
                 log.info('Killing multiprovisioning machine')
                 response = requests.post(uri, data=json.dumps(payload), headers=headers)
-                assert response.status_code == 200, "Could not start mayday-test container!"
+                assert response.status_code == 200, "Could not destroy multiprovisioning machine"
                 break
 
 
