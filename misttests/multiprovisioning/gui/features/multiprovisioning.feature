@@ -73,3 +73,4 @@ Feature: Multiprovisioning
     | Digital Ocean | 512mb   | Amsterdam 2   | CentOS 7.4 x64              |
     | GCE           |f1-micro (1 vCPU (shared physical core) and 0.6 GB RAM) |europe-west1-c | ubuntu-1404-trusty-v20171208|
     | GCE           |f1-micro (1 vCPU (shared physical core) and 0.6 GB RAM) |europe-west1-c | centos-7-v20171213          |
+    | EC2           |t2.nano - Burstable Performance Nano Instance | ap-northeast-1a | Ubuntu Server 14.04 LTS (HVM), SSD Volume Type |
