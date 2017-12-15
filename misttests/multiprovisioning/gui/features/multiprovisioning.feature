@@ -71,4 +71,4 @@ Feature: Multiprovisioning
     | provider      | size    | location      | image                       |
     | Digital Ocean | 512mb   | Amsterdam 2   | Ubuntu 14.04.5 x64          |
     | Digital Ocean | 512mb   | Amsterdam 2   | CentOS 7.4 x64              |
-    | GCE           |g1-small (1 vCPU (shared physical core) and 1.7 GB RAM) |europe-west1-c | ubuntu-1404-trusty-v20171208|
+    | GCE           |f1-micro (1 vCPU (shared physical core) and 0.6 GB RAM) |europe-west1-c | ubuntu-1404-trusty-v20171208|
