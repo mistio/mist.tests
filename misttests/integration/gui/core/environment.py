@@ -288,7 +288,7 @@ def after_feature(context, feature):
         kill_docker_machine(context, context.mist_config.get('docker-ui-test-machine-random'))
     if feature.name == 'Monitoring':
         kill_docker_machine(context, context.mist_config.get('monitored-machine-random'))
-    if feature.name == 'Production':
-        mayday_cleanup(context)
+    #if feature.name == 'Production':
+    #    mayday_cleanup(context)
     if feature.name == 'Multiprovisioning':
         mp_cleanup(context)
