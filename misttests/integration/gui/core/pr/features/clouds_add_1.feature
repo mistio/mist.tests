@@ -22,6 +22,5 @@ Feature: Add second-tier clouds in Polymist
 
     Examples: Providers
     | provider       |
-    | Azure          |
-    | Rackspace      |
+#    | Azure          |
 #    | OnApp          |
