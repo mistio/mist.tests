@@ -1,4 +1,4 @@
-@clouds-add-1
+@clouds-add-2
 Feature: Add second-tier clouds in Polymist
 
   Background:
@@ -10,7 +10,6 @@ Feature: Add second-tier clouds in Polymist
     When I click the "new cloud" button with id "addBtn"
     Then I expect the "Cloud" add form to be visible within max 5 seconds
     When I select the "<provider>" provider
-    And I wait for 3 seconds
     Then I expect the field "Title" in the cloud add form to be visible within max 4 seconds
     When I use my "<provider>" credentials
     And I focus on the button "Add Cloud" in "cloud" add form
@@ -22,5 +21,55 @@ Feature: Add second-tier clouds in Polymist
 
     Examples: Providers
     | provider       |
-#    | Azure          |
-#    | OnApp          |
+    | Azure ARM      |
+    | Rackspace      |
+#    | AWS            |
+#    | Packet	     |
+#    | Vmware         |
+#    | HostVirtual    |
+#    | OpenStack      |
+
+  @bare-metal-add
+  Scenario: Add bare-metal
+    When I refresh the page
+    When I add the key needed for Other Server
+    When I click the "new cloud" button with id "addBtn"
+    Then I expect the "Cloud" add form to be visible within max 5 seconds
+    When I select the "Other Server" provider
+    Then I expect the field "Title" in the cloud add form to be visible within max 4 seconds
+    When I use my "Other Server" credentials
+    And I focus on the button "Add Cloud" in "cloud" add form
+    Then I click the button "Add Cloud" in "cloud" add form
+    When I wait for the dashboard to load
+    And I scroll the clouds list into view
+    Then the "Bare Metal" provider should be added within 20 seconds
+
+  @KVM-add
+  Scenario: Add KVM
+    When I click the "new cloud" button with id "addBtn"
+    Then I expect the "Cloud" add form to be visible within max 5 seconds
+    When I select the "KVM (Via Libvirt)" provider
+    Then I expect the field "Title" in the cloud add form to be visible within max 4 seconds
+    When I use my "KVM (Via Libvirt)" credentials
+    And I focus on the button "Add Cloud" in "cloud" add form
+    Then I click the button "Add Cloud" in "cloud" add form
+    # w8 for it because KVM takes some time
+    And I wait for 10 seconds
+    When I wait for the dashboard to load
+    And I scroll the clouds list into view
+    Then the "KVM" provider should be added within 20 seconds
+
+  @machine-shell
+  Scenario: Check shell access in bare metal
+    When I visit the machines page after the counter has loaded
+    And I wait for 10 seconds
+    And I click the "Bare Metal" "machine"
+    And I expect the "machine" edit form to be visible within max 5 seconds
+    And I wait for 2 seconds
+    And I click the button "Shell" from the menu of the "machine" edit form
+    Then I expect terminal to open within 3 seconds
+    When I wait for 5 seconds
+    And I type in the terminal "ls -l"
+    And I wait for 1 seconds
+    Then total should be included in the output
+    And I close the terminal
