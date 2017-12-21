@@ -16,7 +16,7 @@ else
     suite=$4
     export BEHAVE_DEBUG_ON_ERROR=$3
     export DATADIR=$2
-    cmd="/usr/local/bin/behave -k --no-capture --no-capture-stderr --stop --tags=$4 misttests/gui/core/pr/features/"
+    cmd="/usr/local/bin/behave -k --no-capture --no-capture-stderr --stop --tags=$4 misttests/integration/gui/core/pr/features/"
 fi
 
 logfile=$datadir/${test_type}-${suite}.txt
