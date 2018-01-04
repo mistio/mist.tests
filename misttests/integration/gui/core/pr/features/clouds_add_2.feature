@@ -1,4 +1,4 @@
-@clouds-add-3
+@clouds-add-2
 Feature: Add second-tier clouds in Polymist
 
   Background:
