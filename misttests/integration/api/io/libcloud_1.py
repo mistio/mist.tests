@@ -176,4 +176,3 @@ class TestLibcloudFunctionality:
         assert_response_ok(response)
         assert len(response.json()) > 0, "List Softlayer images did not return any images"
         print "Success!!!"
-        sleep(5)
