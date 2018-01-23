@@ -51,8 +51,9 @@ def delete_emails(context):
     box = login_email(context)
     box.select('INBOX')
     typ, data = box.search(None, 'ALL')
-    for num in data[0].split():
-        box.store(num, '+FLAGS', '\\Deleted')
+    if data:
+        for num in data[0].split():
+            box.store(num, '+FLAGS', '\\Deleted')
     box.expunge()
     box.close()
     box.logout()
