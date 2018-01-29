@@ -8,6 +8,7 @@ Feature: Images and Networks
   Scenario: Search image
     When I expect for "addBtn" to be clickable within max 20 seconds
     Given "Digital Ocean" cloud has been added
+    Given "OpenStack" cloud has been added
     When I visit the Images page
     And I search for "CentOS 6.7"
     Then "CentOS 6.7 x32" image should be present within 10 seconds
@@ -67,7 +68,6 @@ Feature: Images and Networks
 
   @network-add
   Scenario: Add Network
-    Given "OpenStack" cloud has been added
     When I visit the Networks page
     And I click the button "+"
     Then I expect the "network" add form to be visible within max 10 seconds
