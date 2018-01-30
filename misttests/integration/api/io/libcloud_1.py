@@ -133,7 +133,7 @@ class TestLibcloudFunctionality:
         response = mist_core.list_sizes(cloud_id=cache.get('softlayer_cloud_id', ''), api_token=owner_api_token).get()
         assert_response_ok(response)
         assert len(response.json()) > 0, "List Softlayer sizes did not return any sizes"
-        print "Success!!!""
+        print "Success!!!"
 
     def test_list_locations_rackspace(self, pretty_print, mist_core, cache, owner_api_token):
         response = mist_core.list_locations(cloud_id=cache.get('rackspace_cloud_id', ''), api_token=owner_api_token).get()
