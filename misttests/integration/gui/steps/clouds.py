@@ -197,6 +197,8 @@ def set_kvm_creds(context):
 
 
 def set_other_server_creds(context):
+    hostname = safe_get_var('clouds/other_server', 'hostname', context.mist_config['CREDENTIALS']['KVM']['hostname'])
+    context.mist_config['bare_metal_host'] = hostname
     context.execute_steps(u'''
                     Then I set the value "Bare Metal" to field "Cloud Title" in "cloud" add form
                     Then I set the value "%s" to field "Hostname" in "cloud" add form
@@ -205,7 +207,7 @@ def set_other_server_creds(context):
                     And I wait for 2 seconds
                     And I click the button "KVMKEY" in the "SSH Key" dropdown
                     And I wait for 1 seconds
-                ''' % (safe_get_var('clouds/other_server', 'hostname', context.mist_config['CREDENTIALS']['KVM']['hostname']),))
+                ''' % hostname)
 
 
 def set_vmware_creds(context):
