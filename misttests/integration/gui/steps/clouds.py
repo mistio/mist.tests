@@ -404,17 +404,6 @@ def open_cloud_menu(context, action, provider):
     if action == 'close':
         close_button = cloud_info.find_element_by_id('close-btn')
         clicketi_click(context, close_button)
-    seconds = 4
-    end_time = time() + seconds
-    while time() < end_time:
-        cloud_menu = find_cloud_info(context, provider.lower())
-        if action == 'open' and cloud_menu:
-            return True
-        if action == 'close' and not cloud_menu:
-            return True
-        sleep(1)
-    assert False, u'%s menu did not %s after %s seconds' \
-                  % (provider, action, seconds)
 
 
 @step(u'I rename the cloud "{cloud}" to "{new_name}"')
