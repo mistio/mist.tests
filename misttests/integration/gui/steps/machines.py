@@ -51,6 +51,18 @@ machine_values_dict = {
     "docker": ["mist/ubuntu-14.04:latest"]
 }
 
+@step(u'I click the bare metal machine')
+def click_bare_metal_machine(context):
+    text = context.mist_config['bare_metal_host']
+    item_selector = 'page-machines mist-list vaadin-grid-table-body#items > vaadin-grid-table-row'
+    items = context.browser.find_elements_by_css_selector(item_selector)
+    for item in items:
+        name = safe_get_element_text(item.find_element_by_css_selector('strong.name')).strip().lower()
+        if text in name:
+            clicketi_click(context,item)
+            return True
+    assert False, "Could not click item %s" % text
+
 
 def set_values_to_create_machine_form(context,provider,machine_name):
     context.execute_steps(u'''
