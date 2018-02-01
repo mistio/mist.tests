@@ -47,7 +47,7 @@ def get_tags_list(tag_modal):
 def get_empty_tag(tag_modal):
     tags = get_tags_list(tag_modal)
     for tag in tags:
-        inputs = tag.find_elements_by_id('input')
+        inputs = tag.find_elements_by_tag_name('input')
         if not inputs[0].get_attribute('value').strip():
             return tag
     return None
@@ -57,14 +57,14 @@ def get_tag_with_key(tag_modal, key):
     key = key.lower()
     tags = get_tags_list(tag_modal)
     for tag in tags:
-        inputs = tag.find_elements_by_id('input')
+        inputs = tag.find_elements_by_tag_name('input')
         if inputs[0].get_attribute('value').strip().lower() == key:
             return tag
     return None
 
 
 def set_key_and_value(tag, key, value):
-    inputs = tag.find_elements_by_id('input')
+    inputs = tag.find_elements_by_tag_name('input')
     clear_input_and_send_keys(inputs[0], key)
     clear_input_and_send_keys(inputs[1], value)
 
