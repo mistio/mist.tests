@@ -198,7 +198,7 @@ def set_kvm_creds(context):
 
 def set_other_server_creds(context):
     context.execute_steps(u'''
-                    Then I set the value "Bare Metal" to field "Title" in "cloud" add form
+                    Then I set the value "Bare Metal" to field "Cloud Title" in "cloud" add form
                     Then I set the value "%s" to field "Hostname" in "cloud" add form
                     And I wait for 1 seconds
                     And I open the "SSH Key" drop down
