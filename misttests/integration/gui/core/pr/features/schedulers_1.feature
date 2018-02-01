@@ -75,7 +75,7 @@ Feature: Schedulers
     And I select "Repeat" from "schedule_type" radio-group
     #When I set the value "2" to field "Maximum Run Count" in "schedule" add form
     And I set the value "1" to field "interval" in "schedule" add form
-    And I click the "run_immediately" button with id "run_immediately"
+    And I click the "run_immediately" button with id "app-form-scheduleAddForm-run_immediately"
     And I click the button "Add" in "schedule" add form
     And I wait for 1 seconds
     When I visit the Home page
