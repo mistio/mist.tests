@@ -103,7 +103,7 @@ Feature: Zones
 
   @zone-delete
   Scenario: Delete a zone
-    When I click the button "Delete" in the "zone" page actions menu
+    When I click the button "Delete" in "zone" edit form
     Then I expect the dialog "Delete Zone" is open within 4 seconds
     And I wait for 1 seconds
     When I click the "Delete" button in the dialog "Delete Zone"
