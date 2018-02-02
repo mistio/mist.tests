@@ -15,7 +15,10 @@ Feature: Cloud actions for polymer
     Then I visit the Home page
     And I wait for the dashboard to load
     When I open the cloud menu for "AWS"
-    And  I use my second "AWS" credentials in cloud edit form
+    Then I expect the "cloud" edit form to be visible within max 10 seconds
+    When I click the button "Edit Credentials" in the "cloud" page actions menu
+    Then I expect the dialog "Edit Credentials" is open within 4 seconds
+    And I wait for 2 seconds
     And I focus on the button "Edit Credentials" in "cloud" edit form
     And I click the button "Edit Credentials" in "cloud" edit form
     And I wait for 3 seconds
