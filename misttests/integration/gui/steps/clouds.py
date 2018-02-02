@@ -17,6 +17,8 @@ from .forms import clear_input_and_send_keys
 from .buttons import clicketi_click
 from .buttons import click_button_from_collection
 
+from .dialog import set_value_to_app_form_dialog
+
 
 def set_azure_creds(context):
     subscription_id = safe_get_var('clouds/azure', 'subscription_id', context.mist_config['CREDENTIALS']['AZURE']['subscription_id'])
@@ -252,10 +254,11 @@ def set_second_openstack_creds(context):
                    safe_get_var('clouds/openstack_2', 'tenant', context.mist_config['CREDENTIALS']['OPENSTACK_2']['tenant']),))
 
 
+@step(u'I use my second AWS credentials')
 def set_second_aws_creds(context):
     context.execute_steps(u'''
-                Then I set the value "%s" to field "API KEY" in "cloud" edit form
-                Then I set the value "%s" to field "API SECRET" in "cloud" edit form
+                Then I set the value "%s" to field "API KEY" in "Edit Credentials" app-form dialog
+                Then I set the value "%s" to field "API SECRET" in "Edit Credentials" app-form dialog
             ''' % (safe_get_var('clouds/aws_2', 'api_key', context.mist_config['CREDENTIALS']['AWS_2']['api_key']),
                    safe_get_var('clouds/aws_2', 'api_secret', context.mist_config['CREDENTIALS']['AWS_2']['api_secret']),))
 
