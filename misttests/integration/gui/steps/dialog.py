@@ -10,6 +10,7 @@ from .buttons import click_button_from_collection, clicketi_click
 from .forms import get_input_from_form
 from .forms import clear_input_and_send_keys
 from selenium.common.exceptions import StaleElementReferenceException
+from selenium.common.exceptions import NoSuchElementException
 
 
 def get_dialog(context, title):
