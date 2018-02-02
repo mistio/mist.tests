@@ -68,6 +68,20 @@ def check_that_field_is_visible(context, field_name, dialog_title, seconds):
                   % (field_name, seconds)
 
 
+@step(u'I set the value "{value}" to field "{name}" in "{title}" app-form dialog')
+def set_value_to_app_form_dialog(context, value, name, title):
+    import ipdb; ipdb.set_trace()
+    dialog = get_dialog(context, title)
+    inputs = dialog.find_elements_by_class_name('input-content')
+    for element in inputs:
+        if name in element.text:
+            input = element.find_element_by_tag_name('input')
+            clear_input_and_send_keys(input, value)
+            return
+
+    assert False, "Could not set value to field %s" % name
+
+
 @step(u'I click the "{button_name}" button in the dialog "{dialog_title}"')
 def click_button_in_dialog(context, button_name, dialog_title):
     dialog = get_dialog(context, dialog_title)
