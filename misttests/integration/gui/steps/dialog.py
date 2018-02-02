@@ -21,10 +21,12 @@ def get_dialog(context, title):
                 try:
                     t = safe_get_element_text(dialog.find_element_by_tag_name(
                         'h2')).strip().lower()
-                    if title in t:
-                        return dialog
-                except:
-                    pass
+                except NoSuchElementException:
+                    # single cloud page
+                    t = safe_get_element_text(dialog.find_element_by_tag_name(
+                        'h3')).strip().lower()
+                if title in t:
+                    return dialog
         except StaleElementReferenceException:
             pass
     return None
