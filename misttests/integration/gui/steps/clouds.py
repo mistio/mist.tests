@@ -411,22 +411,6 @@ def open_cloud_menu(context, action, provider):
         clicketi_click(context, close_button)
 
 
-@step(u'I rename the cloud "{cloud}" to "{new_name}"')
-def rename_cloud(context, cloud, new_name):
-    cloud_info = find_cloud_info(context, cloud.lower())
-    assert cloud_info, "Cloud menu has not been found"
-    input_containers = cloud_info.find_elements_by_id('labelAndInputContainer')
-    for container in input_containers:
-        text = safe_get_element_text(container.find_element_by_tag_name('label')).lower().strip()
-        if text == 'title':
-            input = container.find_element_by_tag_name('input')
-            clear_input_and_send_keys(input, new_name)
-            buttons = cloud_info.find_elements_by_tag_name('paper-button')
-            click_button_from_collection(context, 'save', buttons)
-            return True
-    return False
-
-
 @step(u'I delete the "{provider}" cloud')
 def delete_cloud(context, provider):
     cloud_info = find_cloud_info(context, provider.lower())
