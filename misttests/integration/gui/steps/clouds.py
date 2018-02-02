@@ -17,6 +17,8 @@ from .forms import clear_input_and_send_keys
 from .buttons import clicketi_click
 from .buttons import click_button_from_collection
 
+from .dialog import set_value_to_app_form_dialog
+
 
 def set_azure_creds(context):
     subscription_id = safe_get_var('clouds/azure', 'subscription_id', context.mist_config['CREDENTIALS']['AZURE']['subscription_id'])
@@ -36,7 +38,7 @@ def set_gce_creds(context):
             Then I set the value "%s" to field "Title" in "cloud" add form
             Then I set the value "%s" to field "Project ID" in "cloud" add form
             Then I set the value "%s" to field "Private Key" in "cloud" add form
-            And I click the "Enable DNS support" button with id "dns_enabled"
+            And I click the "Enable DNS support" button with id "app-form--dns_enabled"
         ''' % ('GCE', project_id, json.dumps(private_key)))
 
 
@@ -197,15 +199,17 @@ def set_kvm_creds(context):
 
 
 def set_other_server_creds(context):
+    hostname = safe_get_var('clouds/other_server', 'hostname', context.mist_config['CREDENTIALS']['KVM']['hostname'])
+    context.mist_config['bare_metal_host'] = hostname
     context.execute_steps(u'''
-                    Then I set the value "Bare Metal" to field "Title" in "cloud" add form
+                    Then I set the value "Bare Metal" to field "Cloud Title" in "cloud" add form
                     Then I set the value "%s" to field "Hostname" in "cloud" add form
                     And I wait for 1 seconds
                     And I open the "SSH Key" drop down
                     And I wait for 2 seconds
                     And I click the button "KVMKEY" in the "SSH Key" dropdown
                     And I wait for 1 seconds
-                ''' % (safe_get_var('clouds/other_server', 'hostname', context.mist_config['CREDENTIALS']['KVM']['hostname']),))
+                ''' % hostname)
 
 
 def set_vmware_creds(context):
@@ -250,10 +254,11 @@ def set_second_openstack_creds(context):
                    safe_get_var('clouds/openstack_2', 'tenant', context.mist_config['CREDENTIALS']['OPENSTACK_2']['tenant']),))
 
 
+@step(u'I use my second AWS credentials')
 def set_second_aws_creds(context):
     context.execute_steps(u'''
-                Then I set the value "%s" to field "API KEY" in "cloud" edit form
-                Then I set the value "%s" to field "API SECRET" in "cloud" edit form
+                Then I set the value "%s" to field "API KEY" in "Edit Credentials" app-form dialog
+                Then I set the value "%s" to field "API SECRET" in "Edit Credentials" app-form dialog
             ''' % (safe_get_var('clouds/aws_2', 'api_key', context.mist_config['CREDENTIALS']['AWS_2']['api_key']),
                    safe_get_var('clouds/aws_2', 'api_secret', context.mist_config['CREDENTIALS']['AWS_2']['api_secret']),))
 
@@ -404,33 +409,6 @@ def open_cloud_menu(context, action, provider):
     if action == 'close':
         close_button = cloud_info.find_element_by_id('close-btn')
         clicketi_click(context, close_button)
-    seconds = 4
-    end_time = time() + seconds
-    while time() < end_time:
-        cloud_menu = find_cloud_info(context, provider.lower())
-        if action == 'open' and cloud_menu:
-            return True
-        if action == 'close' and not cloud_menu:
-            return True
-        sleep(1)
-    assert False, u'%s menu did not %s after %s seconds' \
-                  % (provider, action, seconds)
-
-
-@step(u'I rename the cloud "{cloud}" to "{new_name}"')
-def rename_cloud(context, cloud, new_name):
-    cloud_info = find_cloud_info(context, cloud.lower())
-    assert cloud_info, "Cloud menu has not been found"
-    input_containers = cloud_info.find_elements_by_id('labelAndInputContainer')
-    for container in input_containers:
-        text = safe_get_element_text(container.find_element_by_tag_name('label')).lower().strip()
-        if text == 'title':
-            input = container.find_element_by_tag_name('input')
-            clear_input_and_send_keys(input, new_name)
-            buttons = cloud_info.find_elements_by_tag_name('paper-button')
-            click_button_from_collection(context, 'save', buttons)
-            return True
-    return False
 
 
 @step(u'I delete the "{provider}" cloud')

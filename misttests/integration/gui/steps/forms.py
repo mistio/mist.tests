@@ -84,10 +84,14 @@ def get_input_from_form(form, input_name):
         if text.endswith(' *'):
             text = text[:-2]
         if text == input_name:
-            input = container.find_element_by_id('input')
-            if 'textarea' in input.get_attribute('class'):
+            try:
+                input = container.find_element_by_tag_name('input')
+                if 'textarea' in input.get_attribute('class'):
+                    input = container.find_element_by_id('textarea')
+            except NoSuchElementException:
                 input = container.find_element_by_id('textarea')
-            return input
+
+    return input
 
 
 @step(u'I click the button "{button_name}" from the menu of the "{title}" '

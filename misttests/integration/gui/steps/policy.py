@@ -74,8 +74,9 @@ def add_new_rule(context, operator, rtype='all', raction='all', rid='',
         sleep(1)
         input = new_rule_div. \
             find_element_by_css_selector('span.identifier'). \
-            find_elements_by_css_selector('input#input')[-1]
-        clear_input_and_send_keys(input, rtags)
+            find_element_by_class_name('input-element')
+        input.send_keys(rtags)
+        #clear_input_and_send_keys(input, rtags)
 
 
 @step(u'I add the rule "{operator}" "{rtype}" "{raction}" where id = "{rid}"')
