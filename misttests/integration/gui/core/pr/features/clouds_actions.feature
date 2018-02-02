@@ -79,8 +79,6 @@ Feature: Cloud actions for polymer
 
   @cloud-rename
   Scenario: Rename a cloud
-    When I open the cloud menu for "Docker"
-    Then I expect the "cloud" edit form to be visible within max 5 seconds
     When I click the button "Rename" in the "cloud" page actions menu
     Then I expect the dialog "Rename Cloud" is open within 4 seconds
     Then I set the value "Renamed" to field "TITLE" in "Rename Cloud" app-form dialog
