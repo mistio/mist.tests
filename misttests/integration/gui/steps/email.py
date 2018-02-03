@@ -64,19 +64,21 @@ def email_find(context, address, subject):
     box = login_email(context)
     box.select("INBOX")
     result, data = box.search(None, '(TO ' + address + ')')
-    ids = data[0].split()
     fetched_mails = []
-    for i in ids:
-        result, msgdata = box.fetch(i, "(RFC822)")
-        raw = msgdata[0][1]
-        email_message = email.message_from_string(raw)
-        log.info("Checking email with subject: %s " % email_message.get('Subject'))
-        if subject in email_message.get('Subject') and address in email_message.get('To'):
-            fetched_mails.append(raw)
-            # delete the email
-            box.store(i, '+FLAGS', '\\Deleted')
-            box.expunge()
-            break
+
+    if data and data[0]:
+        ids = data[0].split()
+        for i in ids:
+            result, msgdata = box.fetch(i, "(RFC822)")
+            raw = msgdata[0][1]
+            email_message = email.message_from_string(raw)
+            log.info("Checking email with subject: %s " % email_message.get('Subject'))
+            if subject in email_message.get('Subject') and address in email_message.get('To'):
+                fetched_mails.append(raw)
+                # delete the email
+                box.store(i, '+FLAGS', '\\Deleted')
+                box.expunge()
+                break
 
     if not fetched_mails:
         context.link_inside_email = ''
@@ -119,7 +121,7 @@ def login_email(context):
     else:
         box = imaplib.IMAP4(imap_host, imap_port)
 
-    login = box.login('test','test')
+    login = box.login('test', 'test')
 
     if 'OK' in login:
         return box
