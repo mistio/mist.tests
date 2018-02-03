@@ -135,6 +135,36 @@ class TestLibcloudFunctionality:
         assert len(response.json()) > 0, "List Softlayer sizes did not return any sizes"
         print "Success!!!"
 
+    def test_list_locations_rackspace(self, pretty_print, mist_core, cache, owner_api_token):
+        response = mist_core.list_locations(cloud_id=cache.get('rackspace_cloud_id', ''), api_token=owner_api_token).get()
+        assert_response_ok(response)
+        assert len(response.json()) > 0, "List Rackspace locations did not return any locations"
+        print "Success!!!"
+
+    def test_list_locations_aws(self, pretty_print, mist_core, cache, owner_api_token):
+        response = mist_core.list_locations(cloud_id=cache.get('aws_cloud_id', ''), api_token=owner_api_token).get()
+        assert_response_ok(response)
+        assert len(response.json()) > 0, "List AWS locations did not return any locations"
+        print "Success!!!"
+
+    def test_list_locations_digitalocean(self, pretty_print, mist_core, cache, owner_api_token):
+        response = mist_core.list_locations(cloud_id=cache.get('digitalocean_cloud_id', ''), api_token=owner_api_token).get()
+        assert_response_ok(response)
+        assert len(response.json()) > 0, "List Digital Ocean locations did not return any locations"
+        print "Success!!!"
+
+    def test_list_locations_gce(self, pretty_print, mist_core, cache, owner_api_token):
+       response = mist_core.list_locations(cloud_id=cache.get('gce_cloud_id', ''), api_token=owner_api_token).get()
+       assert_response_ok(response)
+       assert len(response.json()) > 0, "List GCE locations did not return any locations"
+       print "Success!!!"
+
+    def test_list_locations_softlayer(self, pretty_print, mist_core, cache, owner_api_token):
+        response = mist_core.list_locations(cloud_id=cache.get('softlayer_cloud_id', ''), api_token=owner_api_token).get()
+        assert_response_ok(response)
+        assert len(response.json()) > 0, "List Softlayer locations did not return any locations"
+        print "Success!!!"
+
     def test_list_images_docker(self, pretty_print, mist_core, cache, owner_api_token):
         response = mist_core.list_images(cloud_id=cache.get('docker_cloud_id', ''), api_token=owner_api_token).get()
         assert_response_ok(response)
