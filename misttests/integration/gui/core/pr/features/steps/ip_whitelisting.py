@@ -16,10 +16,9 @@ def remove_whitelisted_ips(context):
 @step(u'I add the IP "{ip}" as whitelisted')
 def add_whitelisted_ip(context,ip):
     whitelisted_ips_tag = context.browser.find_element_by_tag_name('multi-inputs')
-    new_whitelisted_ip_field = whitelisted_ips_tag.find_element_by_tag_name('div')
-    whitelisted_ip = new_whitelisted_ip_field.find_element_by_tag_name('paper-input')
-    input = whitelisted_ip.find_element_by_id('input')
-    clear_input_and_send_keys(input, ip)
+    new_whitelisted_ip_div = whitelisted_ips_tag.find_element_by_tag_name('div')
+    whitelisted_ip_paper_input = new_whitelisted_ip_div.find_element_by_tag_name('paper-input')
+    clear_input_and_send_keys(whitelisted_ip_paper_input, ip)
 
 def get_forbidden_error_element(context):
     landing_app = context.browser.find_element_by_tag_name("landing-app")
