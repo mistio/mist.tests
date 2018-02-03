@@ -14,6 +14,8 @@ def select_action_for_schedule(context, action):
 
 @step(u'I select "{option_to_select}" from "{radio_group}" radio-group')
 def select_option_from_radiogroup(context, option_to_select, radio_group):
+    base_btn = 'app-form-scheduleAddForm-'
+    radio_group = base_btn + radio_group
     paper_radio_group = context.browser.find_element_by_id(radio_group)
     paper_radio_buttons = paper_radio_group.find_elements_by_tag_name('paper-radio-button')
     for button in paper_radio_buttons:

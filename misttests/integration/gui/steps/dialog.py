@@ -10,6 +10,7 @@ from .buttons import click_button_from_collection, clicketi_click
 from .forms import get_input_from_form
 from .forms import clear_input_and_send_keys
 from selenium.common.exceptions import StaleElementReferenceException
+from selenium.common.exceptions import NoSuchElementException
 
 
 def get_dialog(context, title):
@@ -21,10 +22,12 @@ def get_dialog(context, title):
                 try:
                     t = safe_get_element_text(dialog.find_element_by_tag_name(
                         'h2')).strip().lower()
-                    if title in t:
-                        return dialog
-                except:
-                    pass
+                except NoSuchElementException:
+                    # single cloud page
+                    t = safe_get_element_text(dialog.find_element_by_tag_name(
+                        'h3')).strip().lower()
+                if title in t:
+                    return dialog
         except StaleElementReferenceException:
             pass
     return None
@@ -63,6 +66,19 @@ def check_that_field_is_visible(context, field_name, dialog_title, seconds):
     assert input, "Could not find field %s after %s seconds" % field_name
     assert False, "Field %s did not become visible after %s seconds" \
                   % (field_name, seconds)
+
+
+@step(u'I set the value "{value}" to field "{name}" in "{title}" app-form dialog')
+def set_value_to_app_form_dialog(context, value, name, title):
+    dialog = get_dialog(context, title)
+    inputs = dialog.find_elements_by_class_name('input-content')
+    for element in inputs:
+        if name in element.text:
+            input = element.find_element_by_tag_name('input')
+            clear_input_and_send_keys(input, value)
+            return
+
+    assert False, "Could not set value to field %s" % name
 
 
 @step(u'I click the "{button_name}" button in the dialog "{dialog_title}"')

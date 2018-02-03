@@ -33,7 +33,7 @@ Feature: Actions for Insights
     And I expect for the tag popup to open within 4 seconds
     When I remove all the previous tags
     And I add a tag with key "cost_per_month" and value "100"
-    And I click the button "Save Tags" in the tag menu
+    And I click the button "Save" in the tag menu
     Then I expect for the tag popup to close within 4 seconds
     When I visit the Machines page
     And I wait for 2 seconds

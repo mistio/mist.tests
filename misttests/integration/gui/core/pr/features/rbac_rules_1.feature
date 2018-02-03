@@ -97,11 +97,13 @@ Feature: RBAC
   Scenario: Member 1 should not be able to delete cloud
     When I wait for 1 seconds
     And I open the cloud menu for "SoftLayer"
-    And I click the "delete cloud" button with id "delete-cloud"
+    Then I expect the "cloud" edit form to be visible within max 10 seconds
+    When I click the button "Delete" in the "cloud" page actions menu
     Then I expect the dialog "Delete SoftLayer" is open within 4 seconds
-    When I click the "Delete" button in the dialog "Delete SoftLayer"
-    Then I expect the dialog "Delete SoftLayer" is closed within 4 seconds
-    When I wait for 3 seconds
+    And I wait for 2 seconds
+    And I focus on the button "Delete" in "cloud" edit form
+    And I click the button "Delete" in "cloud" edit form
+    And I wait for 3 seconds
     And I visit the Home page
     # deletion did not work
     Then I should have 2 clouds added

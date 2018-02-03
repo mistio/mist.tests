@@ -78,7 +78,7 @@ Feature: Scripts
     When I remove all the previous tags
     And I add a tag with key "first" and value "tag"
     And I add a tag with key "second" and value "tag"
-    And I click the button "Save Tags" in the tag menu
+    And I click the button "Save" in the tag menu
     Then I expect for the tag popup to close within 4 seconds
     Then I ensure that the "script" has the tags "first:tag,second:tag" within 5 seconds
     Then I click the button "Tag" in the "script" page actions menu
@@ -86,7 +86,7 @@ Feature: Scripts
     And I wait for 1 seconds
     When I remove the tag with key "first"
     And I wait for 1 seconds
-    And I click the button "Save Tags" in the tag menu
+    And I click the button "Save" in the tag menu
     Then I expect for the tag popup to close within 4 seconds
     And I ensure that the "script" has the tags "second:tag" within 5 seconds
 

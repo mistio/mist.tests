@@ -88,7 +88,7 @@ Feature: Orchestration
     When I remove all the previous tags
     Then I add a tag with key "first" and value "tag"
     Then I add a tag with key "second" and value "tag"
-    And I click the button "Save Tags" in the tag menu
+    And I click the button "Save" in the tag menu
     Then I expect for the tag popup to close within 4 seconds
     Then I ensure that the "template" has the tags "first:tag,second:tag" within 5 seconds
     Then I click the button "Tag" in "template" edit form
@@ -96,7 +96,7 @@ Feature: Orchestration
     And I wait for 1 seconds
     When I remove the tag with key "first"
     And I wait for 1 seconds
-    And I click the button "Save Tags" in the tag menu
+    And I click the button "Save" in the tag menu
     Then I expect for the tag popup to close within 4 seconds
     And I ensure that the "template" has the tags "second:tag" within 5 seconds
 

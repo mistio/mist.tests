@@ -35,7 +35,7 @@ Feature: Add second-tier clouds in Polymist
     When I click the "new cloud" button with id "addBtn"
     Then I expect the "Cloud" add form to be visible within max 5 seconds
     When I select the "Other Server" provider
-    Then I expect the field "Title" in the cloud add form to be visible within max 4 seconds
+    Then I expect the field "Cloud Title" in the cloud add form to be visible within max 4 seconds
     When I use my "Other Server" credentials
     And I focus on the button "Add Cloud" in "cloud" add form
     Then I click the button "Add Cloud" in "cloud" add form
@@ -62,10 +62,10 @@ Feature: Add second-tier clouds in Polymist
   Scenario: Check shell access in bare metal
     When I visit the machines page after the counter has loaded
     And I wait for 10 seconds
-    And I click the "Bare Metal" "machine"
+    And I click the bare metal machine
     And I expect the "machine" edit form to be visible within max 5 seconds
     And I wait for 2 seconds
-    And I click the button "Shell" from the menu of the "machine" edit form
+    And I click the action "Shell" from the machine list actions
     Then I expect terminal to open within 3 seconds
     When I wait for 5 seconds
     And I type in the terminal "ls -l"

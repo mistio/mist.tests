@@ -33,46 +33,46 @@ Feature: Zones
     When I clear the search bar
     And I wait for 1 seconds
 
-  @disable-dns-support
-  Scenario: Disable dns support and verify that zone created above is not visible
-    When I visit the Home page
-    And I wait for 1 seconds
-    And I open the cloud menu for "GCE"
-    And I wait for 2 seconds
-    And I click the "Enable DNS" button with id "DNS-enable-disable"
-    And I wait for 2 seconds
-    And I visit the Home page
-    And I wait for 1 seconds
-    And I visit the Zones page
-    Then "test-zone-random.com." zone should be absent within 60 seconds
+#  @disable-dns-support
+#  Scenario: Disable dns support and verify that zone created above is not visible
+#    When I visit the Home page
+#    And I wait for 1 seconds
+#    And I open the cloud menu for "GCE"
+#    And I wait for 2 seconds
+#    And I click the "Enable DNS" button with id "DNS-enable-disable"
+#    And I wait for 2 seconds
+#    And I visit the Home page
+#    And I wait for 1 seconds
+#    And I visit the Zones page
+#    Then "test-zone-random.com." zone should be absent within 60 seconds
 
   @zone-tags
   Scenario: Reenable dns-support and add tags to a zone
-    When I visit the Home page
-    And I wait for 1 seconds
-    And I open the cloud menu for "GCE"
-    And I wait for 2 seconds
-    And I click the "Enable DNS" button with id "DNS-enable-disable"
-    And I wait for 2 seconds
-    And I visit the Zones page
+#    When I visit the Home page
+#    And I wait for 1 seconds
+#    And I open the cloud menu for "GCE"
+#    And I wait for 2 seconds
+#    And I click the "Enable DNS" button with id "DNS-enable-disable"
+#    And I wait for 2 seconds
+#    And I visit the Zones page
     And I search for "test-zone-random.com."
     Then "test-zone-random.com." zone should be present within 60 seconds
     When I click the "test-zone-random.com." "zone"
     Then I expect the "zone" edit form to be visible within max 5 seconds
-    When I click the button "Tag" in the "zone" page actions menu
+    When I click the button "Tag" in "zone" edit form
     Then I expect for the tag popup to open within 4 seconds
     When I remove all the previous tags
     And I add a tag with key "first" and value "tag"
     And I add a tag with key "second" and value "tag"
-    And I click the button "Save Tags" in the tag menu
+    And I click the button "Save" in the tag menu
     Then I expect for the tag popup to close within 4 seconds
     And I ensure that the "zone" has the tags "first:tag,second:tag" within 25 seconds
-    When I click the button "Tag" in the "zone" page actions menu
+    When I click the button "Tag" in "zone" edit form
     And I expect for the tag popup to open within 4 seconds
     And I wait for 1 seconds
     And I remove the tag with key "first"
     And I wait for 1 seconds
-    And I click the button "Save Tags" in the tag menu
+    And I click the button "Save" in the tag menu
     Then I expect for the tag popup to close within 4 seconds
     And I ensure that the "zone" has the tags "second:tag" within 5 seconds
 
@@ -103,7 +103,7 @@ Feature: Zones
 
   @zone-delete
   Scenario: Delete a zone
-    When I click the button "Delete" in the "zone" page actions menu
+    When I click the button "Delete" in "zone" edit form
     Then I expect the dialog "Delete Zone" is open within 4 seconds
     And I wait for 1 seconds
     When I click the "Delete" button in the dialog "Delete Zone"
