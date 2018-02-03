@@ -160,10 +160,16 @@ def enter_credentials(context, kind, action):
         iron_form = shadow_root.find_element_by_css_selector('iron-form')
         form = iron_form.find_element_by_tag_name('form')
 
-        email_input = form.find_element_by_id("signin-email")
+        email_paper_input = form.find_element_by_id("signin-email")
+        email_shadow = get_shadow_root(context, email_paper_input)
+        email_container = email_shadow.find_element_by_id('container')
+        email_input = email_container.find_element_by_tag_name('input')
         email_input.send_keys(get_mist_config_email(context, kind))
 
-        password_input = form.find_element_by_id("signin-password")
+        password_paper_input = form.find_element_by_id("signin-password")
+        password_shadow = get_shadow_root(context, password_paper_input)
+        password_container = password_shadow.find_element_by_id('container')
+        password_input = password_container.find_element_by_tag_name('input')
         password_input.send_keys(get_mist_config_password(context, kind))
 
     elif action == 'signup':
@@ -172,10 +178,16 @@ def enter_credentials(context, kind, action):
         iron_form = shadow_root.find_element_by_css_selector('iron-form')
         form = iron_form.find_element_by_tag_name('form')
 
-        name_input = form.find_element_by_id("name")
+        name_paper_input = form.find_element_by_id("name")
+        name_shadow = get_shadow_root(context, name_paper_input)
+        name_container = name_shadow.find_element_by_id('container')
+        name_input = name_container.find_element_by_tag_name('input')
         name_input.send_keys(context.mist_config['NAME'])
 
-        email_input = form.find_element_by_id("signUp-email")
+        email_paper_input = form.find_element_by_id("signUp-email")
+        email_shadow = get_shadow_root(context, email_paper_input)
+        email_container = email_shadow.find_element_by_id('container')
+        email_input = email_container.find_element_by_tag_name('input')
         email_input.send_keys(get_mist_config_email(context, kind))
 
     elif action == 'password_reset_request':
@@ -184,7 +196,10 @@ def enter_credentials(context, kind, action):
         iron_form = shadow_root.find_element_by_css_selector('iron-form')
         form = iron_form.find_element_by_tag_name('form')
 
-        email_input = form.find_element_by_id("forgotPassword-email")
+        email_paper_input = form.find_element_by_id("forgotPassword-email")
+        email_shadow = get_shadow_root(context, email_paper_input)
+        email_container = email_shadow.find_element_by_id('container')
+        email_input = email_container.find_element_by_tag_name('input')
         email_input.send_keys(get_mist_config_email(context, kind))
 
     elif action == 'password_reset':
@@ -196,8 +211,11 @@ def enter_credentials(context, kind, action):
         mist_password = form.find_element_by_tag_name('mist-password')
         shadow_root = get_shadow_root(context, mist_password)
 
-        pass_input = shadow_root.find_element_by_css_selector('paper-input')
-        pass_input.send_keys(get_mist_config_password(context, kind))
+        password_paper_input = shadow_root.find_element_by_css_selector('paper-input')
+        password_shadow = get_shadow_root(context, password_paper_input)
+        password_container = password_shadow.find_element_by_id('container')
+        password_input = password_container.find_element_by_tag_name('input')
+        password_input.send_keys(get_mist_config_password(context, kind))
 
     elif action == 'signup_password_set':
         set_password_class = landing_pages.find_element_by_tag_name('landing-set-password')
@@ -208,8 +226,11 @@ def enter_credentials(context, kind, action):
         mist_password = form.find_element_by_tag_name('mist-password')
         shadow_root = get_shadow_root(context, mist_password)
 
-        pass_input = shadow_root.find_element_by_css_selector('paper-input')
-        pass_input.send_keys(get_mist_config_password(context, kind))
+        password_paper_input = shadow_root.find_element_by_css_selector('paper-input')
+        password_shadow = get_shadow_root(context, password_paper_input)
+        password_container = password_shadow.find_element_by_id('container')
+        password_input = password_container.find_element_by_tag_name('input')
+        password_input.send_keys(get_mist_config_password(context, kind))
 
 
 @step(u'there should be an "{error_message}" error message inside the "{button}" button')
