@@ -94,7 +94,7 @@ Feature: Cloud actions for polymer
   Scenario: Delete a cloud
     When I open the cloud menu for "Renamed"
     Then I expect the "cloud" edit form to be visible within max 5 seconds
-    When I click the button "Delete" from the menu of the "cloud" edit form
+    When I click the button "Delete" in the "cloud" page actions menu
     Then I expect the dialog "Delete Renamed" is open within 4 seconds
     And I wait for 1 seconds
     And I focus on the button "Delete" in "cloud" edit form
