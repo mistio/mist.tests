@@ -137,6 +137,7 @@ def click_button_in_dropdown(context, button_name, name):
             return
     more_dropdown = actions.find_element_by_id('actionmenu')
     clicketi_click(context, more_dropdown)
+    sleep(1)
     try:
         more_dropdown_buttons = more_dropdown.find_elements_by_tag_name('paper-button')
     except StaleElementReferenceException:
