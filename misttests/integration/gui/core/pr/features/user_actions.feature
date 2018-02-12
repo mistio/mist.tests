@@ -38,7 +38,7 @@ Feature: Login Scenarios and Api Token
     And I click the go button in the landing page popup
     Then I wait for the links in homepage to appear
     Then I expect for "addBtn" to be clickable within max 20 seconds
-    Given "Nephoscale" cloud has been added
+    Given "Azure ARM" cloud has been added
 
   @change-password
   Scenario: Change password from Account page and verify it worked
