@@ -83,8 +83,10 @@ Feature: RBAC
     When I focus on the button "Launch" in "machine" add form
     And I wait for 2 seconds
     And I click the "Launch" button with id "appformsubmit"
-    And I wait for 3 seconds
-    Then "docker-ui-test-machine-random" machine state has to be "running" within 30 seconds
+    When I visit the Home page
+    And I visit the Machines page
+    And I search for "docker-ui-test-machine-random"
+    Then "docker-ui-test-machine-random" machine state has to be "running" within 50 seconds
     And I logout
 
   @owner-deletes-allow-read-machine-rule
