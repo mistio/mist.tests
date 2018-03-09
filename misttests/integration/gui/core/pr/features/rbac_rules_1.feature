@@ -45,9 +45,9 @@ Feature: RBAC
   Scenario: Member1 cannot add cloud
     When I click the "new cloud" button with id "addBtn"
     Then I expect the "Cloud" add form to be visible within max 5 seconds
-    When I select the "Vultr" provider
+    When I select the "Rackspace" provider
     Then I expect the field "Title" in the cloud add form to be visible within max 4 seconds
-    When I use my "Vultr" credentials
+    When I use my "Rackspace" credentials
     And I focus on the button "Add Cloud" in "cloud" add form
     And I click the button "Add Cloud" in "cloud" add form
     And I wait for 1 seconds
@@ -82,15 +82,15 @@ Feature: RBAC
     Given I am logged in to mist.core as rbac_member1
     When I click the "new cloud" button with id "addBtn"
     Then I expect the "Cloud" add form to be visible within max 5 seconds
-    When I select the "Vultr" provider
+    When I select the "Rackspace" provider
     Then I expect the field "Title" in the cloud add form to be visible within max 4 seconds
-    When I use my "Vultr" credentials
+    When I use my "Rackspace" credentials
     And I focus on the button "Add Cloud" in "cloud" add form
     And I click the button "Add Cloud" in "cloud" add form
     And I wait for 2 seconds
     And I visit the Home page
     And I wait for the dashboard to load
-    Then the "Vultr" provider should be added within 120 seconds
+    Then the "Rackspace" provider should be added within 120 seconds
     And I should have 2 clouds added
 
   @member1-delete-cloud-fail
