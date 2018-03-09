@@ -29,11 +29,11 @@ flake8:
   before_script:
     - cd /mist.tests/
   script:
-    - flake8 misttests/api/io/io.py
-    - flake8 misttests/api/core/core.py
-    - flake8 misttests/api/mistrequests.py
-    - flake8 misttests/api/utils.py
-    - flake8 misttests/api/core/api_token.py
+    - flake8 misttests/integration/api/io/io.py
+    - flake8 misttests/integration/api/core/core.py
+    - flake8 misttests/integration/api/mistrequests.py
+    - flake8 misttests/integration/api/utils.py
+    - flake8 misttests/integration/api/core/api_token.py
     - flake8 misttests/gui/steps/browser.py
     - flake8 misttests/gui/steps/org_context.py
     - flake8 misttests/gui/steps/search.py
