@@ -126,8 +126,8 @@ def wait_for_dashboard(context):
     try:
         WebDriverWait(context.browser, timeout).until(
             EC.visibility_of_element_located((By.CSS_SELECTOR,
-                                              "mist-app div#mainPanel "
-                                              "div#mainContainer div#content")))
+                                              "mist-app page-dashboard "
+                                              "div#content")))
     except TimeoutException:
         raise TimeoutException("Dashboard did not load after %s seconds"
                                % timeout)
