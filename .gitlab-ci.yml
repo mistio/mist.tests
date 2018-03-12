@@ -13,7 +13,6 @@ build:
     - docker push $img:$CI_COMMIT_SHA
     - docker tag $img:$CI_COMMIT_SHA $img:$CI_COMMIT_REF_SLUG
     - docker tag $img:$CI_COMMIT_SHA mist/tests_base:$CI_COMMIT_SHA
-    - docker tag $img:$CI_COMMIT_REF_SLUG mist/tests_base:$CI_COMMIT_REF_SLUG
     - echo "Pushing $img:$CI_COMMIT_REF_SLUG"
     - docker push $img:$CI_COMMIT_REF_SLUG
     - echo "Pushing mist/tests_base:$CI_COMMIT_SHA"
