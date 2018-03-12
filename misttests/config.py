@@ -213,7 +213,7 @@ IMAP_HOST = get_setting('IMAP_HOST', '172.17.0.1', priority='environment')
 
 IMAP_PORT = get_setting('IMAP_PORT', '8143', priority='environment')
 
-IMAP_USE_SSL = get_setting('IMAP_USE_SSL', True, priority='environment')
+IMAP_USE_SSL = get_setting('IMAP_USE_SSL', False, priority='environment')
 
 KEY_ID = get_setting('KEY_ID', '')
 
