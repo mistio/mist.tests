@@ -90,9 +90,14 @@ def email_find(context, address, subject):
     mist_url = context.mist_config['MIST_URL']
     link_regex = '(' + mist_url + '+[\w\d:#@%/;$()~_?\+-=\\.&][a-zA-z0-9][^<>#]*)\n\n'
     urls = re.findall(link_regex, mail)
+
+    if not urls:
+        mist_url = context.mist_config['MIST_URL'].replace('http://', 'https://')
+        link_regex = '(' + mist_url + '+[\w\d:#@%/;$()~_?\+-=\\.&][a-zA-z0-9][^<>#]*)\n\n'
+        urls = re.findall(link_regex, mail)
+
     link = urls[0].split('\n\n')[0]
-    if urls:
-        context.link_inside_email = link
+    context.link_inside_email = link
 
     box.logout()
     return fetched_mails
