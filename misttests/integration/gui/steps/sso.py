@@ -62,7 +62,7 @@ def press_button_with_id(context):
     This is a very specific method only for the Google sign in form
     """
     try:
-        password = context.browser.find_element_by_xpath("//input[@type='password']")
+        password = context.browser.find_element_by_xpath("//input[@name='password']")
         password.send_keys(context.mist_config.get('GOOGLE_TEST_PASSWORD'))
     except:
         raise ValueError("Could not type password in google form")
