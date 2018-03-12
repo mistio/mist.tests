@@ -16,8 +16,6 @@ build:
     - docker tag $img:$CI_COMMIT_REF_SLUG mist/tests_base:$CI_COMMIT_REF_SLUG
     - echo "Pushing $img:$CI_COMMIT_REF_SLUG"
     - docker push $img:$CI_COMMIT_REF_SLUG
-    - echo "Pushing mist/tests_base:$CI_COMMIT_REF_SLUG"
-    - docker push mist/tests_base:$CI_COMMIT_REF_SLUG
     - echo "Pushing mist/tests_base:$CI_COMMIT_SHA"
     - docker push mist/tests_base:$CI_COMMIT_SHA
     - if [ "$CI_COMMIT_REF_SLUG" != master ]; then exit 0; fi
