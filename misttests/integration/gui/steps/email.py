@@ -100,12 +100,18 @@ def email_find(context, address, subject):
 
 def get_imap_host_kubernetes(context):
     # mailmock pod is resolvable: mailmock.{namespace}
-    if context.mist_config['CORE_TEST']:
+    if context.mist_config['MIST_URL'].endswith('.core.test.ops.mist.io')
         prefix = 'mailmock.' + 'core-test-'
         return prefix + context.mist_config['MIST_URL'].replace('http://', '').replace('.core.test.ops.mist.io', '')
-    else:
+    elif context.mist_config['MIST_URL'].endswith('.io.test.ops.mist.io'):
         prefix = 'mailmock.' + 'io-test-'
         return prefix + context.mist_config['MIST_URL'].replace('http://', '').replace('.io.test.ops.mist.io', '')
+    elif context.mist_config['MIST_URL'].endswith('community.clear.glass'):
+        prefix = 'mailmock.' + 'clearglass-clearglass-community-'
+        return prefix + context.mist_config['MIST_URL'].replace('https://', '').replace('-community.clear.glass', '')
+    else:
+        prefix = 'mailmock.' + 'clearglass-clearglass-business-'
+        return prefix + context.mist_config['MIST_URL'].replace('https://', '').replace('-business.clear.glass', '')
 
 
 def login_email(context):
