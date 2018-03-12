@@ -120,7 +120,7 @@ def login_email(context):
     else:
         imap_host = get_imap_host_kubernetes(context)
 
-    log.info('About to connect in %s', imap_host)
+    log.info('About to connect to %s', imap_host)
     imap_port = context.mist_config['IMAP_PORT']
 
     if context.mist_config['IMAP_USE_SSL']:
