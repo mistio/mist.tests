@@ -5,8 +5,24 @@ from misttests import config
 
 # needs to change in the backend: get instead of post...
 def test_list_images(pretty_print, mist_core, owner_api_token, cache):
-    response = mist_core.add_cloud('Linode', 'linode', api_token=owner_api_token,
-                                   api_key=safe_get_var('clouds/linode', 'api_key', config.CREDENTIALS['LINODE']['api_key'])).post()
+    if config.LOCAL:
+        response = mist_core.add_cloud(name, provider='docker', api_token=owner_api_token,
+                                   docker_host=config.LOCAL_DOCKER,
+                                   docker_port='2375').post()
+    else:
+        response = mist_core.add_cloud(name, provider='docker', api_token=owner_api_token,
+                                   docker_host=safe_get_var('dockerhosts/godzilla', 'host',
+                                                            config.CREDENTIALS['DOCKER']['host']),
+                                   docker_port=int(safe_get_var('dockerhosts/godzilla', 'port',
+                                                            config.CREDENTIALS['DOCKER']['port'])),
+                                   authentication=safe_get_var('dockerhosts/godzilla', 'authentication',
+                                                               config.CREDENTIALS['DOCKER']['authentication']),
+                                   ca_cert_file=safe_get_var('dockerhosts/godzilla', 'ca',
+                                                             config.CREDENTIALS['DOCKER']['ca']),
+                                   key_file=safe_get_var('dockerhosts/godzilla', 'key',
+                                                         config.CREDENTIALS['DOCKER']['key']),
+                                   cert_file=safe_get_var('dockerhosts/godzilla', 'cert',
+                                                          config.CREDENTIALS['DOCKER']['cert']), show_all=True).post()
     assert_response_ok(response)
     response = mist_core.list_clouds(api_token=owner_api_token).get()
     assert_response_ok(response)
