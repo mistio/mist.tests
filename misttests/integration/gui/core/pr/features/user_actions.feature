@@ -34,11 +34,12 @@ Feature: Login Scenarios and Api Token
     Then I should receive an email at the address "EMAIL" with subject "Confirm your registration" within 30 seconds
     When I follow the link inside the email
     And I delete old emails
+    And I wait for 2 seconds
     And I enter my standard credentials for signup_password_set
     And I click the go button in the landing page popup
     Then I wait for the links in homepage to appear
     Then I expect for "addBtn" to be clickable within max 20 seconds
-    Given cloud "Nepshoscale" has been added
+    Given "Nephoscale" cloud has been added
 
   @change-password
   Scenario: Change password from Account page and verify it worked
@@ -99,6 +100,7 @@ Feature: Login Scenarios and Api Token
     And I click the reset_password_email_submit button in the landing page popup
     Then I should receive an email at the address "EMAIL" with subject "Password reset request" within 30 seconds
     When I follow the link inside the email
+    And I wait for 2 seconds
     And I enter my new_creds credentials for password_reset
     And I click the reset_pass_submit button in the landing page popup
     And I wait for the links in homepage to appear

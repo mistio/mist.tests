@@ -59,6 +59,7 @@ Feature: Rbac
     Then I logout
     Then I should receive an email at the address "MEMBER1_EMAIL" with subject "Confirm your invitation" within 60 seconds
     And I follow the link inside the email
+    And I wait for 2 seconds
     Then I enter my rbac_member1 credentials for login
     And I click the sign in button in the landing page popup
     Given that I am redirected within 5 seconds
@@ -85,6 +86,7 @@ Feature: Rbac
     Then I logout
     Then I should receive an email at the address "MEMBER2_EMAIL" with subject "Confirm your invitation" within 60 seconds
     And I follow the link inside the email
+    And I wait for 2 seconds
     Then I enter my rbac_member2 credentials for signup_password_set
     And I click the go button in the landing page popup
     And I wait for the links in homepage to appear
