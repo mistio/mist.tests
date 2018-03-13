@@ -38,7 +38,9 @@ Feature: Login Scenarios and Api Token
     And I click the go button in the landing page popup
     Then I wait for the links in homepage to appear
     Then I expect for "addBtn" to be clickable within max 20 seconds
-    Given "Nephoscale" cloud has been added
+    Given cloud "Docker" has been added via API request
+    And I wait for 1 seconds
+    Then I should have 1 clouds added
 
   @change-password
   Scenario: Change password from Account page and verify it worked
