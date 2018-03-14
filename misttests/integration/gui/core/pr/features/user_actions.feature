@@ -31,9 +31,10 @@ Feature: Login Scenarios and Api Token
     And I click the "Sign Up" button in the get-started-page
     And I enter my standard credentials for signup
     And I click the sign up button in the landing page popup
-    Then I should receive an email at the address "EMAIL" with subject "[mist.io] Confirm your registration" within 30 seconds
+    Then I should receive an email at the address "EMAIL" with subject "Confirm your registration" within 30 seconds
     When I follow the link inside the email
     And I delete old emails
+    And I wait for 2 seconds
     And I enter my standard credentials for signup_password_set
     And I click the go button in the landing page popup
     Then I wait for the links in homepage to appear
@@ -97,8 +98,9 @@ Feature: Login Scenarios and Api Token
     And I wait for 3 seconds
     And I enter my standard credentials for password_reset_request
     And I click the reset_password_email_submit button in the landing page popup
-    Then I should receive an email at the address "EMAIL" with subject "[mist.io] Password reset request" within 30 seconds
+    Then I should receive an email at the address "EMAIL" with subject "Password reset request" within 30 seconds
     When I follow the link inside the email
+    And I wait for 2 seconds
     And I enter my new_creds credentials for password_reset
     And I click the reset_pass_submit button in the landing page popup
     And I wait for the links in homepage to appear
