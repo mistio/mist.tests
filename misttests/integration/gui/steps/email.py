@@ -111,12 +111,12 @@ def get_imap_host_kubernetes(context):
     elif context.mist_config['MIST_URL'].endswith('.io.test.ops.mist.io'):
         prefix = 'mailmock.' + 'io-test-'
         return prefix + context.mist_config['MIST_URL'].replace('http://', '').replace('.io.test.ops.mist.io', '')
-    elif context.mist_config['MIST_URL'].endswith('community.clear.glass'):
-        prefix = 'mailmock.' + 'clearglass-clearglass-community-'
-        return prefix + context.mist_config['MIST_URL'].replace('http://', '').replace('-community.clear.glass', '')
-    else:
-        prefix = 'mailmock.' + 'clearglass-clearglass-business-'
-        return prefix + context.mist_config['MIST_URL'].replace('http://', '').replace('-business.clear.glass', '')
+    elif context.mist_config['MIST_URL'].endswith('community-test.clear.glass'):
+        prefix = 'mailmock.' + 'test-clearglass-community-'
+        return prefix + context.mist_config['MIST_URL'].replace('http://', '').replace('-community-test.clear.glass', '')
+    elif context.mist_config['MIST_URL'].endswith('business-test.clear.glass'):
+        prefix = 'mailmock.' + 'test-clearglass-business-'
+        return prefix + context.mist_config['MIST_URL'].replace('http://', '').replace('-business-test.clear.glass', '')
 
 
 def login_email(context):
