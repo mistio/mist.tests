@@ -7,7 +7,7 @@ Feature: RBAC
     Given I am logged in to mist.core
     And I visit the Home page
     Then I expect for "addBtn" to be clickable within max 20 seconds
-    Given "SoftLayer" cloud has been added
+    Given cloud "Docker" has been added via API request
 
   @allow-read-cloud
    Scenario: Allow reading a cloud
@@ -45,9 +45,9 @@ Feature: RBAC
   Scenario: Member1 cannot add cloud
     When I click the "new cloud" button with id "addBtn"
     Then I expect the "Cloud" add form to be visible within max 5 seconds
-    When I select the "Rackspace" provider
+    When I select the "Nephoscale" provider
     Then I expect the field "Title" in the cloud add form to be visible within max 4 seconds
-    When I use my "Rackspace" credentials
+    When I use my "Nephoscale" credentials
     And I focus on the button "Add Cloud" in "cloud" add form
     And I click the button "Add Cloud" in "cloud" add form
     And I wait for 1 seconds
@@ -82,24 +82,24 @@ Feature: RBAC
     Given I am logged in to mist.core as rbac_member1
     When I click the "new cloud" button with id "addBtn"
     Then I expect the "Cloud" add form to be visible within max 5 seconds
-    When I select the "Rackspace" provider
+    When I select the "Nephoscale" provider
     Then I expect the field "Title" in the cloud add form to be visible within max 4 seconds
-    When I use my "Rackspace" credentials
+    When I use my "Nephoscale" credentials
     And I focus on the button "Add Cloud" in "cloud" add form
     And I click the button "Add Cloud" in "cloud" add form
     And I wait for 2 seconds
     And I visit the Home page
     And I wait for the dashboard to load
-    Then the "Rackspace" provider should be added within 120 seconds
+    Then the "Nephoscale" provider should be added within 120 seconds
     And I should have 2 clouds added
 
   @member1-delete-cloud-fail
   Scenario: Member 1 should not be able to delete cloud
     When I wait for 1 seconds
-    And I open the cloud menu for "SoftLayer"
+    And I open the cloud menu for "Nephoscale"
     Then I expect the "cloud" edit form to be visible within max 10 seconds
     When I click the button "Delete" in the "cloud" page actions menu
-    Then I expect the dialog "Delete SoftLayer" is open within 4 seconds
+    Then I expect the dialog "Delete Nephoscale" is open within 4 seconds
     And I wait for 2 seconds
     And I focus on the button "Delete" in "cloud" edit form
     And I click the button "Delete" in "cloud" edit form
