@@ -37,10 +37,25 @@ def test_add_cloud_no_api_token(pretty_print, mist_core):
     print "Success!!!"
 
 
-def test_add_cloud_ok(pretty_print, mist_core, owner_api_token, name='Linode'):
-    response = mist_core.add_cloud(name, 'linode', api_token=owner_api_token,
-                                   api_key=safe_get_var('clouds/linode', 'api_key',
-                                   config.CREDENTIALS['LINODE']['api_key'])).post()
+def test_add_cloud_ok(pretty_print, mist_core, owner_api_token, name='Docker'):
+    if config.LOCAL:
+        response = mist_core.add_cloud(name, provider='docker', api_token=owner_api_token,
+                                   docker_host=config.LOCAL_DOCKER,
+                                   docker_port='2375').post()
+    else:
+        response = mist_core.add_cloud(name, provider='docker', api_token=owner_api_token,
+                                   docker_host=safe_get_var('dockerhosts/godzilla', 'host',
+                                                            config.CREDENTIALS['DOCKER']['host']),
+                                   docker_port=int(safe_get_var('dockerhosts/godzilla', 'port',
+                                                            config.CREDENTIALS['DOCKER']['port'])),
+                                   authentication=safe_get_var('dockerhosts/godzilla', 'authentication',
+                                                               config.CREDENTIALS['DOCKER']['authentication']),
+                                   ca_cert_file=safe_get_var('dockerhosts/godzilla', 'ca',
+                                                             config.CREDENTIALS['DOCKER']['ca']),
+                                   key_file=safe_get_var('dockerhosts/godzilla', 'key',
+                                                         config.CREDENTIALS['DOCKER']['key']),
+                                   cert_file=safe_get_var('dockerhosts/godzilla', 'cert',
+                                                          config.CREDENTIALS['DOCKER']['cert']), show_all=True).post()
     assert_response_ok(response)
     print "Success!!!"
 
@@ -123,14 +138,10 @@ class TestCloudsFunctionality:
         print "Success!!!"
 
     def test_add_multiple_clouds(self, pretty_print, mist_core, owner_api_token):
-        test_add_cloud_ok(pretty_print, mist_core, owner_api_token, name='Linode2')
+        test_add_cloud_ok(pretty_print, mist_core, owner_api_token, name='Docker2')
         response = mist_core.list_clouds(api_token=owner_api_token).get()
         assert_response_ok(response)
         assert len(response.json()) == 2
-        test_add_cloud_ok(pretty_print, mist_core, owner_api_token, name='Linode3')
-        response = mist_core.list_clouds(api_token=owner_api_token).get()
-        assert_response_ok(response)
-        assert len(response.json()) == 3
         print "Success!!!"
 
     def test_add_cloud_failures(self, pretty_print, mist_core, owner_api_token):
@@ -139,7 +150,7 @@ class TestCloudsFunctionality:
         test_add_cloud_wrong_api_token(pretty_print, mist_core, owner_api_token)
         response = mist_core.list_clouds(api_token=owner_api_token).get()
         assert_response_ok(response)
-        assert len(response.json()) == 3
+        assert len(response.json()) == 2
         print "Success!!!"
 
     def test_delete_cloud(self, pretty_print, mist_core, owner_api_token):
@@ -149,12 +160,12 @@ class TestCloudsFunctionality:
         assert_response_ok(response)
         response = mist_core.list_clouds(api_token=owner_api_token).get()
         assert_response_ok(response)
-        assert len(response.json()) == 2
+        assert len(response.json()) == 1
         response = mist_core.delete_cloud(cloud_id=linode_id, api_token=owner_api_token).delete()
         assert_response_not_found(response)
         response = mist_core.list_clouds(api_token=owner_api_token).get()
         assert_response_ok(response)
-        assert len(response.json()) == 2
+        assert len(response.json()) == 1
         print "Success!!!"
 
     def test_delete_cloud_failures(self, pretty_print, mist_core, owner_api_token):
@@ -165,11 +176,11 @@ class TestCloudsFunctionality:
         print "Success!!!"
         response = mist_core.list_clouds(api_token=owner_api_token).get()
         assert_response_ok(response)
-        assert len(response.json()) == 2
+        assert len(response.json()) == 1
         test_delete_cloud_no_api_token(pretty_print, mist_core)
         response = mist_core.list_clouds(api_token=owner_api_token).get()
         assert_response_ok(response)
-        assert len(response.json()) == 2
+        assert len(response.json()) == 1
         print "Success!!!"
 
     def test_rename_cloud(self, pretty_print, mist_core, owner_api_token):

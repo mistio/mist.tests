@@ -23,4 +23,24 @@ Feature: Add second-tier clouds in Polymist
     Examples: Providers
     | provider       |
     | Linode         |
-    | Docker         |
+    | AWS            |
+
+  @cloud-edit-creds
+  Scenario: AWS cloud added in the beginning, does not have access to list images (DenyDescribeImages policy in aws), whereas the seconds one has (EC2FullAccess)
+    When I visit the Images page
+    And I search for "CoreOS"
+    Then "CoreOS stable 1068.8.0 (PV)" image should be absent within 10 seconds
+    Then I visit the Home page
+    And I wait for the dashboard to load
+    When I open the cloud menu for "AWS"
+    Then I expect the "cloud" edit form to be visible within max 10 seconds
+    When I click the button "Edit Credentials" in the "cloud" page actions menu
+    Then I expect the dialog "Edit Credentials" is open within 4 seconds
+    When I use my second AWS credentials
+    And I wait for 1 seconds
+    And I focus on the button "Edit Credentials" in "cloud" edit form
+    And I click the button "Edit Credentials" in "cloud" edit form
+    And I wait for 3 seconds
+    And I visit the Images page
+    And I search for "CoreOS"
+    Then "CoreOS stable 1068.8.0 (PV)" image should be present within 20 seconds
