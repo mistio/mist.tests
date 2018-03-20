@@ -283,7 +283,7 @@ def after_feature(context, feature):
             context,
             context.mist_config.get('ui-test-create-machine-random')
         )
-    if feature.name == 'RBAC':
+    if feature.name == 'RBAC-rules-v2':
         kill_docker_machine(context, context.mist_config.get('docker-ui-test-machine-random'))
     if feature.name == 'Monitoring':
         kill_docker_machine(context, context.mist_config.get('monitored-machine-random'))
