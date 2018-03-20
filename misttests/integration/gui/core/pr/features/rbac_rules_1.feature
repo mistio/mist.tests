@@ -1,5 +1,5 @@
 @rbac-rules-1
-Feature: RBAC
+Feature: RBAC-rules-v1
 
   @create-users-org-team
   Scenario: Owner creates a new organization,invites member1 and adds a Softlayer cloud
