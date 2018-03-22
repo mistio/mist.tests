@@ -52,7 +52,6 @@ def before_all(context):
     context.mist_config['MEMBER2_EMAIL'] = config.MEMBER2_EMAIL
     context.mist_config['MEMBER2_PASSWORD'] = config.MEMBER2_PASSWORD
     context.mist_config['LOCAL'] = config.LOCAL
-    context.mist_config['CORE_TEST'] = config.CORE_TEST
     context.mist_config['ORG_NAME'] = config.ORG_NAME + str(random.randint(1, 10000000))
     context.mist_config['NON_STOP'] = '--stop' not in sys.argv
     context.mist_config['ERROR_NUM'] = 0

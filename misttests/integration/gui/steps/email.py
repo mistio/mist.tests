@@ -36,6 +36,10 @@ def check_if_email_arrived(context, email_address, subject):
       u' "{subject}" within {seconds} seconds')
 def check_if_email_arrived_with_delay(context, email_address, subject, seconds):
     email = context.mist_config[email_address]
+
+    if 'monitored-machine-random' in subject:
+        subject = subject.replace('monitored-machine-random', context.mist_config['monitored-machine-random'])
+
     timeout = time() + int(seconds)
     while time() < timeout:
         emails = email_find(context, email, subject)
@@ -90,9 +94,14 @@ def email_find(context, address, subject):
     mist_url = context.mist_config['MIST_URL']
     link_regex = '(' + mist_url + '+[\w\d:#@%/;$()~_?\+-=\\.&][a-zA-z0-9][^<>#]*)\n\n'
     urls = re.findall(link_regex, mail)
+
+    if not urls:
+        mist_url = context.mist_config['MIST_URL'].replace('http://', 'https://')
+        link_regex = '(' + mist_url + '+[\w\d:#@%/;$()~_?\+-=\\.&][a-zA-z0-9][^<>#]*)\n\n'
+        urls = re.findall(link_regex, mail)
+
     link = urls[0].split('\n\n')[0]
-    if urls:
-        context.link_inside_email = link
+    context.link_inside_email = link
 
     box.logout()
     return fetched_mails
@@ -100,12 +109,18 @@ def email_find(context, address, subject):
 
 def get_imap_host_kubernetes(context):
     # mailmock pod is resolvable: mailmock.{namespace}
-    if context.mist_config['CORE_TEST']:
+    if context.mist_config['MIST_URL'].endswith('.core.test.ops.mist.io'):
         prefix = 'mailmock.' + 'core-test-'
         return prefix + context.mist_config['MIST_URL'].replace('http://', '').replace('.core.test.ops.mist.io', '')
-    else:
+    elif context.mist_config['MIST_URL'].endswith('.io.test.ops.mist.io'):
         prefix = 'mailmock.' + 'io-test-'
         return prefix + context.mist_config['MIST_URL'].replace('http://', '').replace('.io.test.ops.mist.io', '')
+    elif context.mist_config['MIST_URL'].endswith('community-test.clear.glass'):
+        prefix = 'mailmock.' + 'test-clearglass-community-'
+        return prefix + context.mist_config['MIST_URL'].replace('http://', '').replace('-community-test.clear.glass', '')
+    elif context.mist_config['MIST_URL'].endswith('business-test.clear.glass'):
+        prefix = 'mailmock.' + 'test-clearglass-business-'
+        return prefix + context.mist_config['MIST_URL'].replace('http://', '').replace('-business-test.clear.glass', '')
 
 
 def login_email(context):

@@ -96,11 +96,6 @@ def private_key():
     return safe_get_var('keys/api_testing_machine_private_key', 'priv_key', config.TESTING_PRIVATE_KEY)
 
 
-@pytest.fixture
-def public_key():
-    return config.API_TESTING_MACHINE_PUBLIC_KEY
-
-
 @pytest.fixture()
 def schedules_cleanup(mist_core, owner_api_token, cache):
     yield
