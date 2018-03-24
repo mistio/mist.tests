@@ -196,3 +196,7 @@ def member1_api_token(request):
                                   email=email,
                                   password=password,
                                   org_id=org_id)
+
+@pytest.fixture(scope='module')
+def network_valid_cidr(request):
+    return '10.1.0.0/16'
