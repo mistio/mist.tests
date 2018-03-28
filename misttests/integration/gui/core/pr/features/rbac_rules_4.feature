@@ -112,7 +112,7 @@ Feature: RBAC-rules-v4
     And I logout
 
   @delete-rule
-  Scenario: Delete rule DENY-VIEW-CLOUD, and add DENY-ALL-ALL where tags="denied". Tag the script as "denied"
+  Scenario: Delete rule DENY-VIEW-CLOUD, and add DENY-ALL-ALL where tags="view=denied". Tag the script as "denied"
     Given I am logged in to mist.core
     When I visit the Teams page
     And I click the "Test team" "team"
@@ -124,7 +124,7 @@ Feature: RBAC-rules-v4
     And I focus on the button "Add a new rule" in "policy" edit form
     And I click the button "Add a new rule" in "policy" edit form
     And I wait for 1 seconds
-    And I add the rule "DENY" "ALL" "ALL" where tags = "denied"
+    And I add the rule "DENY" "ALL" "ALL" where tags = "view=denied"
     And I wait for 2 seconds
     And I focus on the button "Add a new rule" in "policy" edit form
     And I click the button "Add a new rule" in "policy" edit form
@@ -138,10 +138,10 @@ Feature: RBAC-rules-v4
     When I click the button "Tag" in the "script" page actions menu
     Then I expect for the tag popup to open within 4 seconds
     And I wait for 1 seconds
-    And I add a tag with key "denied" and value ""
+    And I add a tag with key "view" and value "denied"
     And I click the button "Save" in the tag menu
     Then I expect for the tag popup to close within 4 seconds
-    Then I ensure that the "script" has the tags "denied:" within 5 seconds
+    Then I ensure that the "script" has the tags "view=denied" within 5 seconds
     And I logout
 
   @view-cloud-success
