@@ -141,7 +141,7 @@ Feature: RBAC-rules-v4
     And I add a tag with key "view" and value "denied"
     And I click the button "Save" in the tag menu
     Then I expect for the tag popup to close within 4 seconds
-    Then I ensure that the "script" has the tags "view=denied" within 5 seconds
+    Then I ensure that the "script" has the tags "view:denied" within 5 seconds
     And I logout
 
   @view-cloud-success
