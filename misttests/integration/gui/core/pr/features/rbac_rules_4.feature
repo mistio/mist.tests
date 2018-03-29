@@ -101,7 +101,6 @@ Feature: RBAC-rules-v4
     Then I add the rule always "ALLOW" "all" "all"
     And I click the button "Save Policy" in "policy" edit form
     And I wait for 1 seconds
-    And I click the "Test team" "script"
     Then I logout
 
   @view-cloud-fail
