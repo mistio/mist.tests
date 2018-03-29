@@ -44,7 +44,7 @@ def add_new_rule(context, operator, rtype='all', raction='all', rid='',
             find_element_by_css_selector('span.action').\
             find_element_by_css_selector('paper-menu-button#menuButton')
         clicketi_click(context, raction_drop)
-        sleep(4)
+        sleep(3)
         click_button_from_collection(context, raction,
                                      raction_drop.find_elements_by_tag_name('paper-item'))
 
@@ -71,12 +71,17 @@ def add_new_rule(context, operator, rtype='all', raction='all', rid='',
         sleep(1)
         click_button_from_collection(context, 'where tags',
                                      rcondition.find_elements_by_tag_name('paper-item'))
-        sleep(1)
-        input = new_rule_div. \
+        sleep(3)
+        edit_icon = new_rule_div. \
             find_element_by_css_selector('span.identifier'). \
-            find_element_by_class_name('input-element')
+            find_element_by_class_name('edit'). \
+            find_element_by_tag_name('svg')
+        clicketi_click(context, edit_icon)
+        clicketi_click(context, edit_icon)
+        input = new_rule_div.find_element_by_id('inputField'). \
+            find_element_by_tag_name('input')
+        clicketi_click(context, input)
         input.send_keys(rtags)
-        #clear_input_and_send_keys(input, rtags)
 
 
 @step(u'I add the rule "{operator}" "{rtype}" "{raction}" where id = "{rid}"')

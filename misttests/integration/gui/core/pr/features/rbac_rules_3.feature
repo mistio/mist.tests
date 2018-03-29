@@ -73,3 +73,30 @@ Feature: RBAC-rules-v3
     Then "mistcore_debugger_1" machine should be present within 5 seconds
     When I visit the Home page
     Then I should have 1 clouds added
+    Then I logout
+
+  @deny-read-cloud-by-id
+  Scenario: DENY-CLOUD-WHERE-ID-DOCKER
+    Given I am logged in to mist.core as rbac_owner
+    And I visit the Teams page
+    When I click the "Test team" "team"
+    Then I expect the "team" edit form to be visible within max 5 seconds
+    When I remove the rule with index "0"
+    And I wait for 1 seconds
+    And I remove the rule with index "0"
+    When I focus on the button "Add a new rule" in "policy" edit form
+    And I click the button "Add a new rule" in "policy" edit form
+    And I wait for 1 seconds
+    And I add the rule "DENY" "CLOUD" "READ" where id = "Docker"
+    And I focus on the button "Add a new rule" in "policy" edit form
+    And I click the button "Add a new rule" in "policy" edit form
+    And I wait for 1 seconds
+    Then I add the rule always "ALLOW" "all" "all"
+    And I click the button "Save Policy" in "policy" edit form
+    And I wait for 2 seconds
+    Then I logout
+
+  @member1-view-cloud-and-machine-success
+  Scenario: Verify that member1 cannot view docker cloud
+    Given I am logged in to mist.core as rbac_member1
+    Then I should have 0 clouds added

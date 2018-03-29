@@ -107,21 +107,46 @@ Feature: RBAC-rules-v4
   Scenario: Verify that member1 cannot view the cloud that has been tagged with "rbac-test"
     Given I am logged in to mist.core as rbac_member1
     Then I should have 0 clouds added
+    When I visit the Scripts page
+    Then "touch_kati" script should be present within 3 seconds
     And I logout
 
   @delete-rule
-  Scenario: Delete rule DENY-VIEW-CLOUD
+  Scenario: Delete rule DENY-VIEW-CLOUD, and add DENY-ALL-ALL where tags="view=denied". Tag the script as "denied"
     Given I am logged in to mist.core
     When I visit the Teams page
     And I click the "Test team" "team"
     Then I expect the "team" edit form to be visible within max 5 seconds
     When I remove the rule with index "0"
     And I wait for 1 seconds
+    And I remove the rule with index "0"
+    And I wait for 1 seconds
+    And I focus on the button "Add a new rule" in "policy" edit form
+    And I click the button "Add a new rule" in "policy" edit form
+    And I wait for 1 seconds
+    And I add the rule "DENY" "ALL" "ALL" where tags = "view=denied"
+    And I wait for 2 seconds
+    And I focus on the button "Add a new rule" in "policy" edit form
+    And I click the button "Add a new rule" in "policy" edit form
+    And I wait for 1 seconds
+    Then I add the rule always "ALLOW" "all" "all"
     And I click the button "Save Policy" in "policy" edit form
     And I wait for 1 seconds
+    When I visit the Scripts page
+    And I click the "touch_kati" "script"
+    Then I expect the "script" edit form to be visible within max 5 seconds
+    When I click the button "Tag" in the "script" page actions menu
+    Then I expect for the tag popup to open within 4 seconds
+    And I wait for 1 seconds
+    And I add a tag with key "view" and value "denied"
+    And I click the button "Save" in the tag menu
+    Then I expect for the tag popup to close within 4 seconds
+    Then I ensure that the "script" has the tags "view:denied" within 5 seconds
     And I logout
 
   @view-cloud-success
-  Scenario: Verify that member1 can now view the cloud, since the only existing rule is ALLOW-ALL-ALL
+  Scenario: Verify that member1 can now view the cloud but cannot view the script
     Given I am logged in to mist.core as rbac_member1
     Then I should have 1 clouds added
+    When I visit the Scripts page
+    Then "touch_kati" script should be absent within 5 seconds
