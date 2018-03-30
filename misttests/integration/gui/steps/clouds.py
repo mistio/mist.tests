@@ -121,16 +121,12 @@ def set_docker_creds(context):
         ''' % (host, port))
     else:
         host = safe_get_var('dockerhosts/godzilla', 'host', context.mist_config['CREDENTIALS']['DOCKER']['host'])
-        authentication = safe_get_var('dockerhosts/godzilla', 'authentication', context.mist_config['CREDENTIALS']['DOCKER']['authentication'])
         port = safe_get_var('dockerhosts/godzilla', 'port', context.mist_config['CREDENTIALS']['DOCKER']['port'])
         context.execute_steps(u'''
                 Then I set the value "Docker" to field "Title" in "cloud" add form
                 Then I set the value "%s" to field "Host" in "cloud" add form
                 Then I set the value "%s" to field "Port" in "cloud" add form
-                Then I open the "Authentication" drop down
-                And I wait for 1 seconds
-                When I click the button "%s" in the "Authentication" dropdown
-            ''' % (host, port, authentication))
+            ''' % (host, port))
 
         certificate = safe_get_var('dockerhosts/godzilla', 'cert', context.mist_config['CREDENTIALS']['DOCKER']['cert'])
         key = safe_get_var('dockerhosts/godzilla', 'key', context.mist_config['CREDENTIALS']['DOCKER']['key'])
