@@ -279,6 +279,9 @@ def click_rule_dropdown(context, rule_class):
 def save_rule(context):
     container = context.browser.find_element_by_xpath('//div[contains(@class, "rule-actions")]')
     button = container.find_element_by_xpath('.//paper-button[contains(@class, "blue")]')
+    # double click needed, one after having selected team/members
+    # and one to actually save the rule
+    clicketi_click(context, button)
     clicketi_click(context, button)
 
 
