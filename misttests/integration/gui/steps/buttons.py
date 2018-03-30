@@ -114,6 +114,7 @@ def click_button(context, text):
     to find a button that contains the text given. If text is a key inside
     mist_config dict then it's value will be used.
     """
+    context.browser.execute_script("window.scrollTo(0, 2000)")
     if context.mist_config.get(text):
         text = context.mist_config[text]
     if text == '+':
@@ -150,7 +151,12 @@ def click_button_in_dropdown(context, button_name, name):
 @step(u'I click the button "{button}" in the "{name}" dropdown')
 def click_button_in_dropdown(context, button, name):
     button = button.strip().lower()
-    dropdown = find_dropdown(context, name.lower())
+    import ipdb; ipdb.set_trace()
+    try:
+        dropdown = find_dropdown(context, name.lower())
+    except AssertionError:
+        # FIXME: this is ugly
+        dropdown = context.browser.find_element_by_id(name)
     if button == get_current_value_of_dropdown(dropdown):
         return True
     buttons = dropdown.find_elements_by_tag_name('paper-item')
@@ -160,7 +166,8 @@ def click_button_in_dropdown(context, button, name):
 @step(u'I click the "{button}" button in the dropdown with id "{dropdown_id}"')
 def click_button_in_dropdown_with_id(context, button, dropdown_id):
     button = button.strip().lower()
-    dropdown = context.browser.find_element_by_xpath('//paper-menu[@id="%s"]' % dropdown_id)
+    dropdown = context.browser.find_element_by_id(dropdown_id)
+    #dropdown = context.browser.find_element_by_xpath('//paper-menu[@id="%s"]' % dropdown_id)
     if button == get_current_value_of_dropdown(dropdown):
         return True
     buttons = dropdown.find_elements_by_tag_name('paper-item')
