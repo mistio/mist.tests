@@ -279,27 +279,27 @@ def click_rule_dropdown(context, rule_class):
 def save_rule(context):
     container = context.browser.find_element_by_xpath('//div[contains(@class, "rule-actions")]')
     button = container.find_element_by_xpath('.//paper-button[contains(@class, "blue")]')
+    # double click needed, one after having selected team/members
+    # and one to actually save the rule
+    clicketi_click(context, button)
     clicketi_click(context, button)
 
 
 @step(u'I remove previous rules')
 def remove_previous_rules(context):
-    previous_rules = context.browser.find_elements_by_tag_name('rules-item')
+    previous_rules = context.browser.find_elements_by_tag_name('rule-item')
     rule_length = len(previous_rules)
-    if rule_length > 0:
-        position = previous_rules[0].location['y']
-        context.browser.execute_script("window.scrollTo(0, %s)" % position)
     while rule_length > 0:
         rule = previous_rules.pop()
-        delete_rule_button = rule.find_element_by_xpath(".//iron-icon[@icon='close']")
+        delete_rule_button = rule.find_elements_by_tag_name('paper-icon-button')[1]
         clicketi_click(context, delete_rule_button)
-        previous_rules = context.browser.find_elements_by_tag_name('rules-item')
+        previous_rules = context.browser.find_elements_by_tag_name('rule-item')
         sleeps = 0
         while len(previous_rules) == rule_length:
             assert sleeps != 10, "Rule hasn't been deleted after 10 seconds"
             sleep(1)
             sleeps += 1
-            previous_rules = context.browser.find_elements_by_tag_name('rules-item')
+            previous_rules = context.browser.find_elements_by_tag_name('rule-item')
         rule_length = len(previous_rules)
 
 

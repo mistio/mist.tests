@@ -39,10 +39,14 @@ Feature: Production
     And I wait for 2 seconds
     And I focus on the "add new rule" button
     And I click the button "add new rule"
-    Then I expect for "newrule" to be visible within max 20 seconds
-    And I click the "metricName" rule
-    And I click the "RAM" button in the dropdown with id "metricName"
-    When I fill "0" as metric value
+    And I wait for 1 seconds
+    And I click the "RAM" button in the dropdown with id "target-0"
+    And I click the ">" button in the dropdown with id "operator-0"
+    And I type "0" in input with id "threshold-0"
+    And I click the "actionsDropdown" button with id "actionsDropdown"
+    And I click the button "alert" in the "actionsDropdown" dropdown
+    And I open the "teams" mist-dropdown
+    And I select "Owners" in "teams" mist-dropdown
     And I wait for 2 seconds
     And I save the rule
 

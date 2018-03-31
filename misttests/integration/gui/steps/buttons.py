@@ -150,7 +150,11 @@ def click_button_in_dropdown(context, button_name, name):
 @step(u'I click the button "{button}" in the "{name}" dropdown')
 def click_button_in_dropdown(context, button, name):
     button = button.strip().lower()
-    dropdown = find_dropdown(context, name.lower())
+    try:
+        dropdown = find_dropdown(context, name.lower())
+    except AssertionError:
+        # FIXME: this is needed for mayday test
+        dropdown = context.browser.find_element_by_id(name)
     if button == get_current_value_of_dropdown(dropdown):
         return True
     buttons = dropdown.find_elements_by_tag_name('paper-item')
@@ -160,11 +164,42 @@ def click_button_in_dropdown(context, button, name):
 @step(u'I click the "{button}" button in the dropdown with id "{dropdown_id}"')
 def click_button_in_dropdown_with_id(context, button, dropdown_id):
     button = button.strip().lower()
-    dropdown = context.browser.find_element_by_xpath('//paper-menu[@id="%s"]' % dropdown_id)
+    dropdown = context.browser.find_element_by_id(dropdown_id)
     if button == get_current_value_of_dropdown(dropdown):
         return True
     buttons = dropdown.find_elements_by_tag_name('paper-item')
     click_button_from_collection(context, button.lower(), buttons)
+
+
+@step(u'I open the "{dropdown}" mist-dropdown')
+def open_mist_dropdown(context, dropdown):
+    if dropdown not in ['teams', 'members']:
+        raise Exception('Unknown mist-dropdown')
+    mist_dropdowns = context.browser.find_elements_by_tag_name('mist-dropdown-multi')
+    if dropdown == 'teams':
+        clicketi_click(context, mist_dropdowns[0])
+    else:
+        clicketi_click(context, mist_dropdowns[1])
+
+
+@step(u'I select "{members}" in "{dropdown}" mist-dropdown')
+def select_members_in_mist_dropdown(context, members, dropdown):
+    if dropdown not in ['teams', 'members']:
+        raise Exception('Unknown mist-dropdown')
+    mist_dropdowns = context.browser.find_elements_by_tag_name('mist-dropdown-multi')
+    if dropdown == 'teams':
+        options = mist_dropdowns[0].find_elements_by_class_name('dropdown-content')
+        for option in options:
+            if members in option.text:
+                clicketi_click(context, option)
+                return
+    if dropdown == 'members':
+        options = mist_dropdowns[1].find_elements_by_class_name('dropdown-content')
+        for option in options:
+            if members in option.text:
+                clicketi_click(context, option)
+                return
+    assert False, "Could not find %s option in %s mist-dropdown" % (members, dropdown)
 
 
 @step(u'I click the button "{button}" in the tag menu')
