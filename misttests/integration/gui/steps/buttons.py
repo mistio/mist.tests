@@ -190,17 +190,14 @@ def select_members_in_mist_dropdown(context, members, dropdown):
         raise Exception('Unknown mist-dropdown')
     mist_dropdowns = context.browser.find_elements_by_tag_name('mist-dropdown-multi')
     if dropdown == 'teams':
-        options = mist_dropdowns[0].find_elements_by_tag_name('paper-checkbox')
-        for option in options:
-            if members in option.text:
-                clicketi_click(context, option)
-                return
-    if dropdown == 'members':
-        options = mist_dropdowns[1].find_elements_by_tag_name('paper-checkbox')
-        for option in options:
-            if members in option.text:
-                clicketi_click(context, option)
-                return
+        mist_dropdown = mist_dropdowns[0]
+    else:
+        mist_dropdown = mist_dropdowns[1]
+    options = mist_dropdown.find_elements_by_tag_name('paper-checkbox')
+    for option in options:
+        if members in option.text:
+            clicketi_click(context, option)
+            return
     assert False, "Could not find %s option in %s mist-dropdown" % (members, dropdown)
 
 
