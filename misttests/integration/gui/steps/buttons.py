@@ -196,7 +196,7 @@ def select_members_in_mist_dropdown(context, members, dropdown):
                 clicketi_click(context, option)
                 return
     if dropdown == 'members':
-        options = mist_dropdowns[1].find_elements_by_class_name('dropdown-content')
+        options = mist_dropdowns[1].find_elements_by_tag_name('paper-checkbox')
         for option in options:
             if members in option.text:
                 clicketi_click(context, option)
