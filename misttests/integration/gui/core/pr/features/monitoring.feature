@@ -41,9 +41,9 @@ Feature: Monitoring
     When I scroll down to find add-new-rule button
     And I click the button "add new rule"
     And I wait for 1 seconds
-    And I click the "Load" button in the dropdown with id "target-0"
+    And I click the "CPU" button in the dropdown with id "target-0"
     And I click the "<" button in the dropdown with id "operator-0"
-    And I type "10" in input with id "threshold-0"
+    And I type "100" in input with id "threshold-0"
     And I click the "actionsDropdown" button with id "actionsDropdown"
     And I click the button "alert" in the "actionsDropdown" dropdown
     And I open the "teams" mist-dropdown
@@ -79,7 +79,7 @@ Feature: Monitoring
 #    And I refresh the page
 #    And I wait for 5 seconds
 #    Then I should see the incident "RAM > 0.0%"
-    Then I should receive an email at the address "EMAIL" with subject "[mist.io] *** WARNING *** from monitored-machine-random: Load" within 30 seconds
+    Then I should receive an email at the address "EMAIL" with subject "[mist.io] *** WARNING *** from monitored-machine-random: CPU" within 150 seconds
 
   @disable-monitoring
   Scenario: Disable monitoring
