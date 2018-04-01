@@ -205,11 +205,6 @@ def visit_machines_url(context):
     context.browser.get(machines_url)
 
 
-@step(u'I scroll down to find add-new-rule button')
-def scroll_to_add_new_rule_btn(context):
-    context.browser.execute_script("window.scrollTo(0, 2000)")
-
-
 @step(u'I am logged in to mist.core')
 def given_logged_in(context):
     try:

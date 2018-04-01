@@ -36,6 +36,16 @@ Feature: Monitoring
     And 9 graphs should be visible within max 30 seconds
     And I wait for 10 seconds
 
+#  @alert
+#  Scenario: Insert rule that will be triggered immediately
+#    When I focus on the "add new rule" button
+#    And I click the button "add new rule"
+#    Then I expect for "newrule" to be visible within max 10 seconds
+#    And I click the "metricName" rule
+#    And I click the "RAM" button in the dropdown with id "metricName"
+#    When I fill "0" as metric value
+#    And I wait for 2 seconds
+#    And I save the rule
 
 #  @add-entropy-graph
 #  Scenario: Add custom graph and make sure an extra graph is visible
@@ -58,6 +68,14 @@ Feature: Monitoring
     When I visit the Home page
     And I wait for the links in homepage to appear
     Then I wait for the graphs to appear
+
+#  @incidents
+#  Scenario: Verify that incident gets triggered
+#    When I wait for 25 seconds
+#    And I refresh the page
+#    And I wait for 5 seconds
+#    Then I should see the incident "RAM > 0.0%"
+#    Then I should receive an email at the address "EMAIL" with subject "[mist.io] *** WARNING *** from monitored-machine-random: RAM" within 30 seconds
 
   @disable-monitoring
   Scenario: Disable monitoring
