@@ -36,20 +36,6 @@ Feature: Monitoring
     And 9 graphs should be visible within max 30 seconds
     And I wait for 10 seconds
 
-  @alert
-  Scenario: Insert rule that will be triggered immediately
-    When I scroll down to find add-new-rule button
-    And I click the button "add new rule"
-    And I wait for 1 seconds
-    And I click the "CPU" button in the dropdown with id "target-0"
-    And I click the "<" button in the dropdown with id "operator-0"
-    And I type "100" in input with id "threshold-0"
-    And I click the "actionsDropdown" button with id "actionsDropdown"
-    And I click the button "alert" in the "actionsDropdown" dropdown
-    And I open the "teams" mist-dropdown
-    And I select "Owners" in "teams" mist-dropdown
-    And I wait for 2 seconds
-    And I save the rule
 
 #  @add-entropy-graph
 #  Scenario: Add custom graph and make sure an extra graph is visible
@@ -72,14 +58,6 @@ Feature: Monitoring
     When I visit the Home page
     And I wait for the links in homepage to appear
     Then I wait for the graphs to appear
-
-  @incidents
-  Scenario: Verify that incident gets triggered
-#    When I wait for 25 seconds
-#    And I refresh the page
-#    And I wait for 5 seconds
-#    Then I should see the incident "RAM > 0.0%"
-    Then I should receive an email at the address "EMAIL" with subject "[mist.io] *** WARNING *** from monitored-machine-random: CPU" within 150 seconds
 
   @disable-monitoring
   Scenario: Disable monitoring
