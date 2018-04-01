@@ -101,6 +101,7 @@ Feature: Production
   @confirm_alert_email
   Scenario: Confirm that alert email arrived
     Then I should receive an email within 200 seconds
+    And I wait for 30 seconds
 
   @incidents
   Scenario: Verify that incident gets triggered
