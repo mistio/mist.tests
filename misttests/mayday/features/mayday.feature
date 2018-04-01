@@ -106,7 +106,7 @@ Feature: Production
   Scenario: Verify that incident gets triggered
     Given I am logged in to mist.core
     And I wait for the links in homepage to appear
-    Then I should see the incident "RAM > 0.0%"
+    Then I should see the incident "Load < 10"
 
   @confirm_schedule-triggered
   Scenario: Verify that schedule got triggered
