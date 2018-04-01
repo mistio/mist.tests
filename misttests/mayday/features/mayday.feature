@@ -40,9 +40,9 @@ Feature: Production
     And I focus on the "add new rule" button
     And I click the button "add new rule"
     And I wait for 1 seconds
-    And I click the "RAM" button in the dropdown with id "target-0"
-    And I click the ">" button in the dropdown with id "operator-0"
-    And I type "0" in input with id "threshold-0"
+    And I click the "Load" button in the dropdown with id "target-0"
+    And I click the "<" button in the dropdown with id "operator-0"
+    And I type "10" in input with id "threshold-0"
     And I click the "actionsDropdown" button with id "actionsDropdown"
     And I click the button "alert" in the "actionsDropdown" dropdown
     And I open the "teams" mist-dropdown
