@@ -38,7 +38,6 @@ Feature: Production
     When I delete old mayday emails
     And I wait for 2 seconds
     And I scroll down to find add-new-rule button
-    And I focus on the "add new rule" button
     And I click the button "add new rule"
     And I wait for 1 seconds
     And I click the "Load" button in the dropdown with id "target-0"
