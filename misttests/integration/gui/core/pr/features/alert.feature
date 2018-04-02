@@ -39,7 +39,7 @@ Feature: Alert
 
   @alert-email
   Scenario: Insert rule that will be triggered immediately
-    When I scroll down to find add-new-rule button
+    When I scroll to the bottom of the page
     And I click the button "add new rule"
     And I wait for 1 seconds
     And I click the "CPU" button in the dropdown with id "target-0"
@@ -67,7 +67,7 @@ Feature: Alert
     And I click the "monitored-machine-random" "machine"
     And I expect the "machine" edit form to be visible within max 5 seconds
     Then I wait for the graphs to appear
-    When I scroll down to find add-new-rule button
+    When I scroll to the bottom of the page
     And I remove previous rules
     And I click the button "add new rule"
     And I wait for 1 seconds
@@ -81,4 +81,4 @@ Feature: Alert
     When I visit the Machines page
     And I search for "monitored-machine-random"
     Then "monitored-machine-random" machine state has to be "running" within 30 seconds
-    And "monitored-machine-random" machine should be absent within 90 seconds
+    And "monitored-machine-random" machine should be absent within 120 seconds

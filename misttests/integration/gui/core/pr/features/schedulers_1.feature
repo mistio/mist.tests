@@ -18,10 +18,10 @@ Feature: Schedulers
     And I wait for 1 seconds
     And I click the button "stop" in the "Task" dropdown
     And I wait for 1 seconds
-    And I select "Specific Machines" from "ids_or_tags" radio-group
+    And I select "Specific Machines" from "ids_or_tags" radio-group in "createForm"
     And I wait for 2 seconds
     And I select the "test-machine-random" checkbox
-    And I select "Repeat" from "schedule_type" radio-group
+    And I select "Repeat" from "schedule_type" radio-group in "createForm"
     And I set the value "1" to field "interval" in "schedule" add form
     And I click the button "Add" in "schedule" add form
     Then I wait for 2 seconds
@@ -69,10 +69,10 @@ Feature: Schedulers
     And I wait for 1 seconds
     And I click the button "start" in the "Task" dropdown
     And I wait for 1 seconds
-    And I select "Specific Machines" from "ids_or_tags" radio-group
+    And I select "Specific Machines" from "ids_or_tags" radio-group in "createForm"
     And I wait for 1 seconds
     And I select the "test-machine-random" checkbox
-    And I select "Repeat" from "schedule_type" radio-group
+    And I select "Repeat" from "schedule_type" radio-group in "createForm"
     #When I set the value "2" to field "Maximum Run Count" in "schedule" add form
     And I set the value "1" to field "interval" in "schedule" add form
     And I click the "run_immediately" button with id "app-form-scheduleAddForm-run_immediately"
