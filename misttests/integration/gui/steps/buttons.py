@@ -114,8 +114,6 @@ def click_button(context, text):
     to find a button that contains the text given. If text is a key inside
     mist_config dict then it's value will be used.
     """
-    # FIXME: dirty trick to find 'add new rule' btn // needed for mayday tests
-    context.browser.execute_script("window.scrollTo(0, 2000)")
     if context.mist_config.get(text):
         text = context.mist_config[text]
     if text == '+':
