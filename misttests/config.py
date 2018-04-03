@@ -42,8 +42,6 @@ except Exception as exc:
 # TODO: modify so that it can parse nested objects as well
 def safe_get_var(vault_path, vault_key, test_settings_var = None):
 
-    import ipdb; ipdb.set_trace()
-
     if VAULT_ENABLED:
 
         headers = {"X-Vault-Token": os.environ['VAULT_CLIENT_TOKEN']}
