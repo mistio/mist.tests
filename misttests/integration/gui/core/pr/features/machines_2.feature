@@ -1,5 +1,5 @@
 @machines-2
-Feature: Machines-2
+Feature: Machines
 
   Background:
     Given I am logged in to mist.core
@@ -9,8 +9,8 @@ Feature: Machines-2
     Given cloud "Docker" has been added via API request
     And key "DummyKey" has been added via API request
 
-  @machine-create
-  Scenario: Create a machine in Docker provider
+  @add-schedule-on-machine-create
+  Scenario: Create a machine in Docker provider and schedule a task to stop the machine immediately
     When I visit the Images page
     And I search for "mist/ubuntu-14.04"
     Then "mist/ubuntu-14.04:latest" image should be present within 30 seconds
@@ -28,7 +28,7 @@ Feature: Machines-2
     And I scroll to the bottom of the page
     And I open the "Schedule Task" drop down
     And I wait for 1 seconds
-    And I click the button "Destroy" in the "Schedule Task" dropdown
+    And I click the button "Stop" in the "Schedule Task" dropdown
     And I wait for 1 seconds
     And I select "Repeat" from "schedule_type" radio-group in "createForm"
     And I set the value "1" to field "interval" in "machine" add form
@@ -39,4 +39,15 @@ Feature: Machines-2
     And I visit the Machines page
     And I search for "ui-test-create-machine-random"
     Then "ui-test-create-machine-random" machine state has to be "running" within 60 seconds
-    And "ui-test-create-machine-random" machine should be absent within 120 seconds
+    And "ui-test-create-machine-random" machine state has to be "stopped" within 60 seconds
+
+  @machine-start
+  Scenario: Start the machine created above
+    When I click the "ui-test-create-machine-random" "machine"
+    Then I expect the "machine" edit form to be visible within max 5 seconds
+    When I click the button "Start" from the menu of the "machine" edit form
+    Then I expect the dialog "Start Machine" is open within 4 seconds
+    When I click the "Start" button in the dialog "Start Machine"
+    And I visit the Machines page
+    And I search for "ui-test-create-machine-random"
+    Then "ui-test-create-machine-random" machine state has to be "running" within 60 seconds
