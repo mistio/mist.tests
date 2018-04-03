@@ -42,6 +42,8 @@ except Exception as exc:
 # TODO: modify so that it can parse nested objects as well
 def safe_get_var(vault_path, vault_key, test_settings_var = None):
 
+    import ipdb; ipdb.set_trace()
+
     if VAULT_ENABLED:
 
         headers = {"X-Vault-Token": os.environ['VAULT_CLIENT_TOKEN']}
@@ -224,7 +226,7 @@ DEFAULT_CREDENTIALS = {'AWS': {'api_key': '', 'api_secret': '', 'region': '', 'r
                        'AZURE_ARM': {'client_key': '', 'client_secret': '', 'subscription_id': '', 'tenant_id': ''},
                        'DIGITALOCEAN': {'token': ''},
                        'DOCKER': {'authentication': '', 'ca': """ """, 'cert': """ """, 'host': '', 'key': """""", 'port': ''},
-                       'EC2': {'api_key': '', 'api_secret': '', 'region': ''},
+                       'EC2': {'api_key': '', 'api_secret': '', 'region': '', 'region_id': ''},
                        'LINODE': {'api_key': ''},
                        'NEPHOSCALE': {'password': '', 'username': ''},
                        'GCE': {'project_id': '', 'private_key': {}},
