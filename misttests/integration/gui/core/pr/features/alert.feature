@@ -1,9 +1,8 @@
 @alert
 Feature: Alert
 
-  # below to be replaced with api request
   @enable-monitoring
-  Scenario: Create Machine,deploy monitoring agent and check the graphs
+  Scenario: Create Machine, deploy monitoring agent by clicking 'Enable monitoring' button and check the graphs
     Given I am logged in to mist.core
     And cloud "Docker" has been added via API request
     And key "Key1" has been added via API request
@@ -42,9 +41,9 @@ Feature: Alert
     When I scroll to the bottom of the page
     And I click the button "add new rule"
     And I wait for 1 seconds
-    And I click the "CPU" button in the dropdown with id "target-0"
-    And I click the "<" button in the dropdown with id "operator-0"
-    And I type "100" in input with id "threshold-0"
+    And I click the "RAM" button in the dropdown with id "target-0"
+    And I click the ">" button in the dropdown with id "operator-0"
+    And I type "0" in input with id "threshold-0"
     And I click the "actionsDropdown" button with id "actionsDropdown"
     And I click the button "alert" in the "actionsDropdown" dropdown
     And I open the "teams" mist-dropdown
@@ -58,7 +57,7 @@ Feature: Alert
   #    And I refresh the page
   #    And I wait for 5 seconds
   #    Then I should see the incident "RAM > 0.0%"
-    Then I should receive an email at the address "EMAIL" with subject "[mist.io] *** WARNING *** from monitored-machine-random: CPU" within 150 seconds
+    Then I should receive an email at the address "EMAIL" with subject "[mist.io] *** WARNING *** from monitored-machine-random: RAM" within 150 seconds
 
   @alert-destroy-machine
   Scenario: Insert rule that will kill the container

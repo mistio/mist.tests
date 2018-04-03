@@ -1,4 +1,4 @@
-@machines
+@machines-1
 Feature: Machines
 
   Background:
@@ -104,17 +104,6 @@ Feature: Machines
     And I wait for 2 seconds
     And I search for "ui-test-create-machine-random"
     Then "ui-test-create-machine-random" machine state has to be "stopped" within 60 seconds
-
-  @machine-start
-  Scenario: Start the machine created above
-    When I click the "ui-test-create-machine-random" "machine"
-    Then I expect the "machine" edit form to be visible within max 5 seconds
-    When I click the button "Start" from the menu of the "machine" edit form
-    Then I expect the dialog "Start Machine" is open within 4 seconds
-    When I click the "Start" button in the dialog "Start Machine"
-    And I visit the Machines page
-    And I search for "ui-test-create-machine-random"
-    Then "ui-test-create-machine-random" machine state has to be "running" within 60 seconds
 
   @machine-destroy
   Scenario: Destroy the machine created
