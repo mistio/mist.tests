@@ -217,8 +217,8 @@ IMAP_USE_SSL = get_setting('IMAP_USE_SSL', False, priority='environment')
 
 KEY_ID = get_setting('KEY_ID', '')
 
-DEFAULT_CREDENTIALS = {'AWS': {'api_key': '', 'api_secret': '', 'region': ''},
-                       'AWS_2': {'api_key': '', 'api_secret': '', 'region': ''},
+DEFAULT_CREDENTIALS = {'AWS': {'api_key': '', 'api_secret': '', 'region': '', 'region_id': ''},
+                       'AWS_2': {'api_key': '', 'api_secret': '', 'region': '', 'region_id': ''},
                        'KVM': {'key': """ """, 'hostname': ''},
                        'AZURE': {'certificate': """ """, 'subscription_id': ''},
                        'AZURE_ARM': {'client_key': '', 'client_secret': '', 'subscription_id': '', 'tenant_id': ''},
