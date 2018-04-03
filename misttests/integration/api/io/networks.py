@@ -151,7 +151,7 @@ class TestNetworksFunctionality:
         response = mist_core.add_cloud(title='AWS', provider= 'ec2', api_token=owner_api_token,
                                        api_key=safe_get_var('clouds/aws_2', 'api_key', config.CREDENTIALS['EC2']['api_key']),
                                        api_secret=safe_get_var('clouds/aws_2', 'api_secret', config.CREDENTIALS['EC2']['api_secret']),
-                                       region='ap-northeast-1').post()
+                                       region=safe_get_var('clouds/aws_2', 'region_id', config.CREDENTIALS['EC2']['region_id'])).post()
         assert_response_ok(response)
         cache.set('cloud_ids/ec2', response.json()['id'])
         response = mist_core.create_network(api_token=owner_api_token,
