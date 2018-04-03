@@ -166,10 +166,10 @@ class TestNetworksFunctionality:
         assert_response_ok(response)
         print "Success!!!"
 
-    def test_create_subnet(self, mist_core, cache, owner_api_token, network_valid_cidr):
+    def test_create_subnet(self, mist_core, cache, owner_api_token, network_valid_cidr, availability_zone):
         response = mist_core.create_subnet(api_token=owner_api_token,
                                            subnet_params={'cidr': network_valid_cidr,
-                                                          'availability_zone': 'ap-northeast-1a'},
+                                                          'availability_zone': availability_zone},
                                            network_id=cache.get('network_ids/ec2', ''),
                                            cloud_id=cache.get('cloud_ids/ec2', '')).post()
         assert_response_ok(response)

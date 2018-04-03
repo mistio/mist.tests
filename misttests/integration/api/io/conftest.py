@@ -200,3 +200,7 @@ def member1_api_token(request):
 @pytest.fixture(scope='module')
 def network_valid_cidr(request):
     return '10.1.0.0/16'
+
+@pytest.fixture(scope='module')
+def availability_zone(request):
+    return safe_get_var('clouds/aws_2', 'region_id', config.CREDENTIALS['EC2']['region_id']) + 'a'
