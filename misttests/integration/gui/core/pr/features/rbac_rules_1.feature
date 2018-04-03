@@ -45,9 +45,9 @@ Feature: RBAC-rules-v1
   Scenario: Member1 cannot add cloud
     When I click the "new cloud" button with id "addBtn"
     Then I expect the "Cloud" add form to be visible within max 5 seconds
-    When I select the "Nephoscale" provider
+    When I select the "Packet" provider
     Then I expect the field "Title" in the cloud add form to be visible within max 4 seconds
-    When I use my "Nephoscale" credentials
+    When I use my "Packet" credentials
     And I focus on the button "Add Cloud" in "cloud" add form
     And I click the button "Add Cloud" in "cloud" add form
     And I wait for 1 seconds
@@ -82,24 +82,24 @@ Feature: RBAC-rules-v1
     Given I am logged in to mist.core as rbac_member1
     When I click the "new cloud" button with id "addBtn"
     Then I expect the "Cloud" add form to be visible within max 5 seconds
-    When I select the "Nephoscale" provider
+    When I select the "Packet" provider
     Then I expect the field "Title" in the cloud add form to be visible within max 4 seconds
-    When I use my "Nephoscale" credentials
+    When I use my "Packet" credentials
     And I focus on the button "Add Cloud" in "cloud" add form
     And I click the button "Add Cloud" in "cloud" add form
     And I wait for 2 seconds
     And I visit the Home page
     And I wait for the dashboard to load
-    Then the "Nephoscale" provider should be added within 120 seconds
+    Then the "Packet" provider should be added within 120 seconds
     And I should have 2 clouds added
 
   @member1-delete-cloud-fail
   Scenario: Member 1 should not be able to delete cloud
     When I wait for 1 seconds
-    And I open the cloud menu for "Nephoscale"
+    And I open the cloud menu for "Packet"
     Then I expect the "cloud" edit form to be visible within max 10 seconds
     When I click the button "Delete" in the "cloud" page actions menu
-    Then I expect the dialog "Delete Nephoscale" is open within 4 seconds
+    Then I expect the dialog "Delete Packet" is open within 4 seconds
     And I wait for 2 seconds
     And I focus on the button "Delete" in "cloud" edit form
     And I click the button "Delete" in "cloud" edit form
