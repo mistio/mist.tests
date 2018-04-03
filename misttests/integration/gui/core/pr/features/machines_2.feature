@@ -39,7 +39,7 @@ Feature: Machines
     And I visit the Machines page
     And I search for "ui-test-create-machine-random"
     Then "ui-test-create-machine-random" machine state has to be "running" within 60 seconds
-    And "ui-test-create-machine-random" machine state has to be "stopped" within 60 seconds
+    And "ui-test-create-machine-random" machine state has to be "stopped" within 120 seconds
 
   @machine-start
   Scenario: Start the machine created above
