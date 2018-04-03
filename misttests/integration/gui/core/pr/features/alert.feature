@@ -1,9 +1,8 @@
 @alert
 Feature: Alert
 
-  # below to be replaced with api request
   @enable-monitoring
-  Scenario: Create Machine,deploy monitoring agent and check the graphs
+  Scenario: Create Machine, deploy monitoring agent by clicking 'Enable monitoring' button and check the graphs
     Given I am logged in to mist.core
     And cloud "Docker" has been added via API request
     And key "Key1" has been added via API request

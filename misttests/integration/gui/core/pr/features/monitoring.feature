@@ -2,7 +2,7 @@
 Feature: Monitoring
 
   @enable-monitoring
-  Scenario: Create Machine,deploy monitoring agent and check the graphs
+  Scenario: Enable monitoring when creating machine and check the graphs
     Given I am logged in to mist.core
     And cloud "Docker" has been added via API request
     And key "Key1" has been added via API request
@@ -19,19 +19,20 @@ Feature: Monitoring
     And I click the button "mist/ubuntu-14.04:collectd" in the "Image" dropdown
     When I open the "Key" drop down
     And I click the button "Key1" in the "Key" dropdown
+    And I wait for 1 seconds
+    And I click the "Enable monitoring" button with id "app-form-createForm-monitoring"
+    And I wait for 1 seconds
     Then I expect for the button "Launch" in "machine" add form to be clickable within 10 seconds
     When I focus on the button "Launch" in "machine" add form
     And I wait for 2 seconds
     And I click the "Launch" button with id "appformsubmit"
-    And I wait for 1 seconds
+    And I wait for 10 seconds
     And I visit the Home page
     And I visit the Machines page
     And I search for "monitored-machine-random"
     Then "monitored-machine-random" machine state has to be "running" within 30 seconds
     When I click the "monitored-machine-random" "machine"
-    And I wait for 2 seconds
-    And I click the button "Enable Monitoring"
-    And I wait for 2 seconds
+    And I wait for 15 seconds
     Then I wait for the graphs to appear
     And 9 graphs should be visible within max 30 seconds
     And I wait for 10 seconds
