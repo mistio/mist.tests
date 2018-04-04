@@ -31,7 +31,7 @@ Feature: Alert
     When I click the "monitored-machine-random" "machine"
     And I wait for 2 seconds
     And I click the button "Enable Monitoring"
-    And I wait for 2 seconds
+    And I wait for 5 seconds
     Then I wait for the graphs to appear
     And 9 graphs should be visible within max 30 seconds
     And I wait for 10 seconds
