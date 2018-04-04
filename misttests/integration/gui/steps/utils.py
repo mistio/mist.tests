@@ -45,22 +45,6 @@ def focus_on_element(context, element):
         context.browser.execute_script("window.scrollTo(0, %s)" % position['y'])
 
 
-@step(u'I focus on the "{name}" button')
-def focus_on_add_rule(context, name):
-    if context.mist_config.get(name):
-        name = context.mist_config[name]
-
-    if "add new rule" in name:
-        button = context.browser.find_element_by_tag_name("mist-rules")
-
-    elif "Add Graph" in name:
-        button = context.browser.find_element_by_xpath("//*[contains(text(), 'Add Graph')]")
-
-    context.browser.execute_script("arguments[0].scrollIntoView();", button)
-
-    return
-
-
 @step(u'I wait for {seconds} seconds')
 def wait(context, seconds):
     sleep(int(seconds))
@@ -148,15 +132,6 @@ def check_page_is_visible(context, page_title, seconds):
     msg = "%s page is not visible after %s seconds" % (page, seconds)
     wait_for_element_to_be_visible(context, (By.CSS_SELECTOR, element),
                                    int(seconds), msg)
-
-
-@step(u'my name should be "{my_name}"')
-def check_user_name(context, my_name):
-    user_span = context.browser.find_element_by_class_name('owner')
-    user_span_text = safe_get_element_text(user_span)
-    assert user_span_text.lower() == my_name.lower(), "Name appearing on the" \
-                                                      " screen is not " \
-                                                      "than %s" % my_name
 
 
 @step(u'I should read "{something}" in input with id "{input_id}"')

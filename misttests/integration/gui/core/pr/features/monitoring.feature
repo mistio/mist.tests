@@ -35,24 +35,20 @@ Feature: Monitoring
     And I wait for 15 seconds
     Then I wait for the graphs to appear
     And 9 graphs should be visible within max 30 seconds
-    And I wait for 10 seconds
 
 
-#  @add-entropy-graph
-#  Scenario: Add custom graph and make sure an extra graph is visible
-#    When I refresh the page
-#    And I wait for 10 seconds
-#    And I focus on the "Add Graph" button
-#    And I click the button "Add Graph"
-#    Then I expect for "selectTarget" modal to appear within max 20 seconds
-#    And I expect the metric buttons to appear within 30 seconds
-#    When I click the "entropy" button inside the popup with id "selectTarget"
-#    And I wait for 6 seconds
-#    Then "entropy" graph should appear within 30 seconds
-#    And 10 graphs should be visible within max 20 seconds
-#    When I wait for 3 seconds
-#    And I focus on the "entropy" graph
-#    Then "entropy" graph should have some values
+  @add-entropy-graph
+  Scenario: Add custom graph and make sure an extra graph is visible
+    When I scroll to the bottom of the page
+    And I click the button "Add Graph"
+    Then I expect for "selectTarget" modal to appear within max 20 seconds
+    And I expect the metric buttons to appear within 30 seconds
+    When I click the "kernel" button inside the popup with id "selectTarget"
+    And I click the "kernel.entropy_avail" button inside the popup with id "selectTarget"
+    Then "kernel entropy_avail" graph should appear within 30 seconds
+    And 10 graphs should be visible within max 20 seconds
+    When I focus on the "kernel entropy_avail" graph
+    Then "kernel entropy_avail" graph should have some values
 
   @monitoring-home-page
   Scenario: Visit Home page and verify that polyana-dashboard is there
