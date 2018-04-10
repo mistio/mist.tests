@@ -120,7 +120,7 @@ def graph_some_value(context, graph_title):
         action_chain.click()
         action_chain.perform()
         src = context.browser.page_source
-        if graph_title in 'Load on all monitored machines': # graph in dashboard
+        if graph_title == 'Load on all monitored machines': # graph in dashboard
             machine = context.mist_config['monitored-machine-random']
             text_found = re.search(machine + r" : [0-999]", src)
         else:
