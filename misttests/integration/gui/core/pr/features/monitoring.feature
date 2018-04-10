@@ -1,6 +1,7 @@
 @monitoring
 Feature: Monitoring
 
+  # FIXME: When #1363 is resolved, enable monitoring when creating machine
   @enable-monitoring
   Scenario: Enable monitoring when creating machine and check the graphs
     Given I am logged in to mist.core
@@ -20,45 +21,46 @@ Feature: Monitoring
     When I open the "Key" drop down
     And I click the button "Key1" in the "Key" dropdown
     And I wait for 1 seconds
-    And I click the "Enable monitoring" button with id "app-form-createForm-monitoring"
-    And I wait for 1 seconds
+    #And I click the "Enable monitoring" button with id "app-form-createForm-monitoring"
+    #And I wait for 1 seconds
     Then I expect for the button "Launch" in "machine" add form to be clickable within 10 seconds
     When I focus on the button "Launch" in "machine" add form
     And I wait for 2 seconds
     And I click the "Launch" button with id "appformsubmit"
-    And I wait for 10 seconds
+    #And I wait for 10 seconds
+    And I wait for 2 seconds
     And I visit the Home page
     And I visit the Machines page
     And I search for "monitored-machine-random"
     Then "monitored-machine-random" machine state has to be "running" within 30 seconds
     When I click the "monitored-machine-random" "machine"
-    And I wait for 15 seconds
+    #And I wait for 15 seconds
+    #Then I wait for the graphs to appear
+    #And 9 graphs should be visible within max 30 seconds
+    And I wait for 2 seconds
+    And I click the button "Enable Monitoring"
+    And I wait for 5 seconds
     Then I wait for the graphs to appear
     And 9 graphs should be visible within max 30 seconds
-    And I wait for 10 seconds
+    #And I wait for 10 seconds
 
-
-#  @add-entropy-graph
-#  Scenario: Add custom graph and make sure an extra graph is visible
-#    When I refresh the page
-#    And I wait for 10 seconds
-#    And I focus on the "Add Graph" button
-#    And I click the button "Add Graph"
-#    Then I expect for "selectTarget" modal to appear within max 20 seconds
-#    And I expect the metric buttons to appear within 30 seconds
-#    When I click the "entropy" button inside the popup with id "selectTarget"
-#    And I wait for 6 seconds
-#    Then "entropy" graph should appear within 30 seconds
-#    And 10 graphs should be visible within max 20 seconds
-#    When I wait for 3 seconds
-#    And I focus on the "entropy" graph
-#    Then "entropy" graph should have some values
+  @add-entropy-graph
+  Scenario: Add custom graph and make sure an extra graph is visible
+    When I scroll to the bottom of the page
+    And I click the button "Add Graph"
+    Then I expect for "selectTarget" modal to appear within max 20 seconds
+    And I expect the metric buttons to appear within 30 seconds
+    When I click the "kernel" button inside the popup with id "selectTarget"
+    And I click the "kernel.entropy_avail" button inside the popup with id "selectTarget"
+    Then "kernel entropy_avail" graph should appear within 30 seconds
+    And 10 graphs should be visible within max 20 seconds
 
   @monitoring-home-page
   Scenario: Visit Home page and verify that polyana-dashboard is there
     When I visit the Home page
     And I wait for the links in homepage to appear
     Then I wait for the graphs to appear
+    And "Load on all monitored machines" graph should have some values
 
   @disable-monitoring
   Scenario: Disable monitoring
