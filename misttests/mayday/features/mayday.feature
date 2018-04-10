@@ -19,12 +19,11 @@ Feature: Production
     And I click the button "Add Graph"
     Then I expect for "selectTarget" modal to appear within max 20 seconds
     And I expect the metric buttons to appear within 30 seconds
-    When I click the "kernel" button inside the popup with id "selectTarget"
-    And I click the "kernel.entropy_avail" button inside the popup with id "selectTarget"
-    Then "kernel entropy_avail" graph should appear within 30 seconds
-    When I focus on the "kernel entropy_avail" graph
-    Then "kernel entropy_avail" graph should have some values
-    And I delete the "kernel entropy_avail" graph
+    When I click the "entropy" button inside the popup with id "selectTarget"
+    Then "entropy" graph should appear within 30 seconds
+    When I focus on the "entropy" graph
+    Then "entropy" graph should have some values
+    And I delete the "entropy" graph
 
   @alert
   Scenario: Production rule and alert testing
