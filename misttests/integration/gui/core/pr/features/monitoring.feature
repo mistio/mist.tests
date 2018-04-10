@@ -60,6 +60,7 @@ Feature: Monitoring
     When I visit the Home page
     And I wait for the links in homepage to appear
     Then I wait for the graphs to appear
+    And "Load on all monitored machines" graph should have some values
 
   @disable-monitoring
   Scenario: Disable monitoring

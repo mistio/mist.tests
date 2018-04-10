@@ -105,7 +105,6 @@ def wait_for_graph_to_appear(context, graph_title, seconds):
 
 @step(u'"{graph_title}" graph should have some values')
 def graph_some_value(context, graph_title):
-
     #find the right graph
     graph_label = context.browser.find_element_by_xpath('//h3[contains(text(), "%s")]' % graph_title)
     graph_panel = graph_label.find_element_by_xpath('./../..')
@@ -121,7 +120,11 @@ def graph_some_value(context, graph_title):
         action_chain.click()
         action_chain.perform()
         src = context.browser.page_source
-        text_found = re.search(graph_title.capitalize() + r" : [0-999]", src)
+        if graph_title in 'Load on all monitored machines': # graph in dashboard
+            machine = context.mist_config['monitored-machine-random']
+            text_found = re.search(machine + r" : [0-999]", src)
+        else:
+            text_found = re.search(graph_title.capitalize() + r" : [0-999]", src)
 
         if text_found:
             return
@@ -148,7 +151,6 @@ def delete_a_graph(context, graph_title):
         delete_button = graph.find_element_by_tag_name("paper-icon-button")
     except NoSuchElementException:
         assert False, "Could not find X button in the graph with title %s" % graph_title
-
     delete_button.click()
 
     timeout = time() + 20
