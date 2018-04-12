@@ -285,7 +285,7 @@ def after_feature(context, feature):
         )
     if feature.name == 'RBAC-rules-v2':
         kill_docker_machine(context, context.mist_config.get('docker-ui-test-machine-random'))
-    if feature.name == 'Monitoring':
+    if feature.name in ['Monitoring', 'Alert']:
         kill_docker_machine(context, context.mist_config.get('monitored-machine-random'))
     #if feature.name == 'Production':
     #    mayday_cleanup(context)
