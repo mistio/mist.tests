@@ -21,7 +21,6 @@ Feature: Production
     And I expect the metric buttons to appear within 30 seconds
     When I click the "entropy" button inside the popup with id "selectTarget"
     Then "entropy" graph should appear within 30 seconds
-    When I focus on the "entropy" graph
     Then "entropy" graph should have some values
     And I delete the "entropy" graph
 
