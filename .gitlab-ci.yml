@@ -37,9 +37,9 @@ flake8:
     - flake8 misttests/integration/api/mistrequests.py
     - flake8 misttests/integration/api/utils.py
     - flake8 misttests/integration/api/core/api_token.py
-    - flake8 misttests/gui/steps/browser.py
-    - flake8 misttests/gui/steps/org_context.py
-    - flake8 misttests/gui/steps/search.py
-    - flake8 misttests/gui/steps/setup.py
-    - flake8 misttests/gui/steps/team.py
-    - flake8 misttests/gui/steps/insights.py
+    - flake8 misttests/integration/gui/steps/browser.py
+    - flake8 misttests/integration/gui/steps/org_context.py
+    - flake8 misttests/integration/gui/steps/search.py
+    - flake8 misttests/integration/gui/steps/setup.py
+    - flake8 misttests/integration/gui/steps/team.py
+    - flake8 misttests/integration/gui/steps/insights.py
