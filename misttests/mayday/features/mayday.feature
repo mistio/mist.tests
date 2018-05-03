@@ -15,14 +15,14 @@ Feature: Production
     And I expect the "machine" edit form to be visible within max 5 seconds
     Then I wait for the graphs to appear
     And "Load" graph should have some values
-    When I scroll to the bottom of the page
-    And I click the button "Add Graph"
-    Then I expect for "selectTarget" modal to appear within max 20 seconds
-    And I expect the metric buttons to appear within 30 seconds
-    When I click the "entropy" button inside the popup with id "selectTarget"
-    Then "entropy" graph should appear within 30 seconds
-    Then "entropy" graph should have some values
-    And I delete the "entropy" graph
+#    When I scroll to the bottom of the page
+#    And I click the button "Add Graph"
+#    Then I expect for "selectTarget" modal to appear within max 20 seconds
+#    And I expect the metric buttons to appear within 30 seconds
+#    When I click the "entropy" button inside the popup with id "selectTarget"
+#    Then "entropy" graph should appear within 30 seconds
+#    Then "entropy" graph should have some values
+#    And I delete the "entropy" graph
 
   @alert
   Scenario: Production rule and alert testing
