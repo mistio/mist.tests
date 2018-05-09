@@ -32,18 +32,18 @@ class TestLibcloudFunctionality:
         assert len(response.json()) >= 0, "List Packet machines did not return a proper result"
         print "Success!!!"
 
-    def test_list_machines_openstack(self, pretty_print, mist_core, cache, owner_api_token):
-        response = mist_core.add_cloud(title='Openstack', provider= 'openstack', api_token=owner_api_token,
-                                       username=safe_get_var('clouds/openstack_newton', 'username', config.CREDENTIALS['OPENSTACK']['username']),
-                                       auth_url=safe_get_var('clouds/openstack_newton', 'auth_url', config.CREDENTIALS['OPENSTACK']['auth_url']),
-                                       tenant=safe_get_var('clouds/openstack_newton', 'tenant', config.CREDENTIALS['OPENSTACK']['tenant']),
-                                       password=safe_get_var('clouds/openstack_newton', 'password', config.CREDENTIALS['OPENSTACK']['password'])).post()
-        assert_response_ok(response)
-        cache.set('openstack_cloud_id', response.json()['id'])
-        response = mist_core.list_machines(cloud_id=cache.get('openstack_cloud_id', ''), api_token=owner_api_token).get()
-        assert_response_ok(response)
-        assert len(response.json()) >= 0, "List Openstack machines did not return a proper result"
-        print "Success!!!"
+#    def test_list_machines_openstack(self, pretty_print, mist_core, cache, owner_api_token):
+#        response = mist_core.add_cloud(title='Openstack', provider= 'openstack', api_token=owner_api_token,
+#                                       username=safe_get_var('clouds/openstack_newton', 'username', config.CREDENTIALS['OPENSTACK']['username']),
+#                                       auth_url=safe_get_var('clouds/openstack_newton', 'auth_url', config.CREDENTIALS['OPENSTACK']['auth_url']),
+#                                       tenant=safe_get_var('clouds/openstack_newton', 'tenant', config.CREDENTIALS['OPENSTACK']['tenant']),
+#                                       password=safe_get_var('clouds/openstack_newton', 'password', config.CREDENTIALS['OPENSTACK']['password'])).post()
+#        assert_response_ok(response)
+#        cache.set('openstack_cloud_id', response.json()['id'])
+#        response = mist_core.list_machines(cloud_id=cache.get('openstack_cloud_id', ''), api_token=owner_api_token).get()
+#        assert_response_ok(response)
+#        assert len(response.json()) >= 0, "List Openstack machines did not return a proper result"
+#        print "Success!!!"
 
 
     def test_list_machines_nephoscale(self, pretty_print, mist_core, cache, owner_api_token):
@@ -98,11 +98,11 @@ class TestLibcloudFunctionality:
         assert len(response.json()) > 0, "List Packet sizes did not return any sizes"
         print "Success!!!"
 
-    def test_list_sizes_openstack(self, pretty_print, mist_core, cache, owner_api_token):
-        response = mist_core.list_sizes(cloud_id=cache.get('openstack_cloud_id', ''), api_token=owner_api_token).get()
-        assert_response_ok(response)
-        assert len(response.json()) > 0, "List Openstack sizes did not return any sizes"
-        print "Success!!!"
+#    def test_list_sizes_openstack(self, pretty_print, mist_core, cache, owner_api_token):
+#        response = mist_core.list_sizes(cloud_id=cache.get('openstack_cloud_id', ''), api_token=owner_api_token).get()
+#        assert_response_ok(response)
+#        assert len(response.json()) > 0, "List Openstack sizes did not return any sizes"
+#        print "Success!!!"
 
     def test_list_sizes_nephoscale(self, pretty_print, mist_core, cache, owner_api_token):
         response = mist_core.list_sizes(cloud_id=cache.get('nephoscale_cloud_id', ''), api_token=owner_api_token).get()
@@ -134,11 +134,11 @@ class TestLibcloudFunctionality:
         assert len(response.json()) > 0, "List Packet locations did not return any locations"
         print "Success!!!"
 
-    def test_list_locations_openstack(self, pretty_print, mist_core, cache, owner_api_token):
-        response = mist_core.list_locations(cloud_id=cache.get('openstack_cloud_id', ''), api_token=owner_api_token).get()
-        assert_response_ok(response)
-        assert len(response.json()) > 0, "List Openstack locations did not return any locations"
-        print "Success!!!"
+#    def test_list_locations_openstack(self, pretty_print, mist_core, cache, owner_api_token):
+#        response = mist_core.list_locations(cloud_id=cache.get('openstack_cloud_id', ''), api_token=owner_api_token).get()
+#        assert_response_ok(response)
+#        assert len(response.json()) > 0, "List Openstack locations did not return any locations"
+#        print "Success!!!"
 
     def test_list_locations_nephoscale(self, pretty_print, mist_core, cache, owner_api_token):
         response = mist_core.list_sizes(cloud_id=cache.get('nephoscale_cloud_id', ''), api_token=owner_api_token).get()
@@ -170,11 +170,11 @@ class TestLibcloudFunctionality:
         assert len(response.json()) > 0, "List Packet images did not return any images"
         print "Success!!!"
 
-    def test_list_images_openstack(self, pretty_print, mist_core, cache, owner_api_token):
-        response = mist_core.list_images(cloud_id=cache.get('openstack_cloud_id', ''), api_token=owner_api_token).get()
-        assert_response_ok(response)
-        assert len(response.json()) > 0, "List Openstack images did not return any images"
-        print "Success!!!"
+#    def test_list_images_openstack(self, pretty_print, mist_core, cache, owner_api_token):
+#        response = mist_core.list_images(cloud_id=cache.get('openstack_cloud_id', ''), api_token=owner_api_token).get()
+#        assert_response_ok(response)
+#        assert len(response.json()) > 0, "List Openstack images did not return any images"
+#        print "Success!!!"
 
     def test_list_images_nephoscale(self, pretty_print, mist_core, cache, owner_api_token):
         response = mist_core.list_images(cloud_id=cache.get('nephoscale_cloud_id', ''), api_token=owner_api_token).get()
