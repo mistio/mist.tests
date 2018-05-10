@@ -242,7 +242,7 @@ def click_item(context, text, type_of_item):
     for item in items:
         if type_of_item in ['machine', 'image', 'team', 'key', 'script', 'network', 'template', 'stack', 'schedule', 'zone']:
             name = safe_get_element_text(item.find_element_by_css_selector('strong.name')).strip().lower()
-            if text in name:
+            if text == name:
                 clicketi_click(context,item)
                 return True
         else:
