@@ -81,9 +81,8 @@ Feature: Images and Networks
     Then I expect for the button "Add" in "network" add form to be clickable within 3 seconds
     When I focus on the button "Add" in "network" add form
     And I click the button "Add" in "network" add form
-    Then I expect the "network" edit form to be visible within max 15 seconds
-    When I visit the Networks page
-    Then "network_random" network should be present within 20 seconds
+    Then I expect for "Networks" page to appear within max 10 seconds
+    And "network_random" network should be present within 20 seconds
 
   @network-delete
   Scenario: Delete Network
