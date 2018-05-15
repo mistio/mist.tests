@@ -8,7 +8,7 @@ Feature: Images and Networks
   Scenario: Search image
     When I expect for "addBtn" to be clickable within max 20 seconds
     Given "Digital Ocean" cloud has been added
-    Given "EC2" cloud has been added
+    Given "AWS" cloud has been added
     When I visit the Images page
     And I search for "CentOS 6.7"
     Then "CentOS 6.7 x32" image should be present within 10 seconds
@@ -73,7 +73,7 @@ Feature: Images and Networks
     Then I expect the "network" add form to be visible within max 10 seconds
     When I open the "Choose Cloud" drop down
     And I wait for 1 seconds
-    And I click the button "EC2" in the "Choose Cloud" dropdown
+    And I click the button "AWS" in the "Choose Cloud" dropdown
     And I wait for 1 seconds
     And I set the value "network_random" to field "Name" in "network" add form
     And I wait for 1 seconds
