@@ -67,7 +67,7 @@ Feature: Images and Networks
 #    And I ensure that the "image" has the tags "second:tag"
 
   @network-add
-  Scenario: Add Network
+  Scenario: Add Network without specifying subnets
     When I visit the Networks page
     And I click the button "+"
     Then I expect the "network" add form to be visible within max 10 seconds
@@ -83,6 +83,7 @@ Feature: Images and Networks
     And I click the button "Add" in "network" add form
     Then I expect for "Networks" page to appear within max 10 seconds
     And "network_random" network should be present within 20 seconds
+    # TODO: verify that single network page has no cidrs
 
   @network-delete
   Scenario: Delete Network
@@ -96,3 +97,29 @@ Feature: Images and Networks
     When I visit the Home page
     And I visit the Networks page
     Then "network_random" network should be absent within 20 seconds
+
+  @network-add-with-subnets
+  Scenario: Add Network and  specify subnets
+    When I click the button "+"
+    Then I expect the "network" add form to be visible within max 10 seconds
+    When I open the "Choose Cloud" drop down
+    And I wait for 1 seconds
+    And I click the button "AWS" in the "Choose Cloud" dropdown
+    And I wait for 1 seconds
+    And I set the value "network_random" to field "Name" in "network" add form
+    And I wait for 1 seconds
+    And I set the value "10.146.0.0/20" to field "Network CIDR" in "network" add form
+    And I click the "Create subnet" button with id "toggleButton"
+    Then I expect the field "Subnet CIDR" in the network add form to be visible within max 4 seconds
+    When I set the value "10.146.0.0/20" to field "Subnet CIDR" in "network" add form
+    And I open the "Availability Zone" drop down
+    And I wait for 1 seconds
+    And I click the button "ap-northeast-1a" in the "Availability Zone" dropdown
+    And I focus on the button "Add" in "network" add form
+    And I click the button "Add" in "network" add form
+    Then I expect for "Networks" page to appear within max 10 seconds
+    And "network_random" network should be present within 20 seconds
+    # TODO: verify that single network page has cidr given upon provisioning
+
+
+# TODO: delete 2nd network from networks page
