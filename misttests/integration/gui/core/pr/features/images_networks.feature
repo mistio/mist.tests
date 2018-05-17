@@ -4,6 +4,46 @@ Feature: Images and Networks
   Background:
     Given I am logged in to mist.core
 
+  @image-search
+  Scenario: Search image
+    When I expect for "addBtn" to be clickable within max 20 seconds
+    Given "Digital Ocean" cloud has been added
+    Given "AWS" cloud has been added
+    When I visit the Images page
+    And I search for "CentOS 6.7"
+    Then "CentOS 6.7 x32" image should be present within 10 seconds
+    And "CentOS 6.7 x64" image should be present within 10 seconds
+    And "Fedora 26 x64" image should be absent within 3 seconds
+    When I clear the search bar
+    Then "Fedora 26 x64" image should be present within 5 seconds
+
+  @image-unstar
+  Scenario: Unstar image
+    When I search for "CentOS 6.7 x32"
+    And I click the "CentOS 6.7 x32" "image"
+    Then I expect the "image" edit form to be visible within max 5 seconds
+    When I click the button "Unstar" in "image" edit form
+    And  I visit the Home page
+    And I wait for 2 seconds
+    And I visit the Images page
+    And I wait for 2 seconds
+    And I search for "CentOS 6.7 x32"
+    Then the "CentOS 6.7 x32" image should be "unstarred" within 20 seconds
+
+  @image-star
+  Scenario: Star image
+    When I click the "CentOS 6.7 x32" "image"
+    Then I expect the "image" edit form to be visible within max 5 seconds
+    When I wait for 1 seconds
+    And I click the button "Star" in "image" edit form
+    And  I visit the Home page
+    And I refresh the page
+    Then I wait for the links in homepage to appear
+    When I visit the Images page
+    And I wait for 2 seconds
+    And I search for "CentOS 6.7 x32"
+    Then the "CentOS 6.7 x32" image should be "starred" within 20 seconds
+
 #  @image-tags
 #  Scenario: Add tags to image
 #    When I click the ""CoreOS-Beta" "image"
@@ -79,12 +119,11 @@ Feature: Images and Networks
     And I click the button "Add" in "network" add form
     Then I expect for "Networks" page to appear within max 10 seconds
     And "network_random" network should be present within 20 seconds
-    And "network_random" network should be present within 20 seconds
     When I click the "network_random" "network"
     And I expect the "network" edit form to be visible within max 5 seconds
     And I wait for 2 seconds
     Then there should be 1 subnets visible in single network page
-    # check cidr
+    And the cidr of the subnet created should be "10.146.0.0/20"
 
   @network-delete
   Scenario: Delete Network from networks page
@@ -96,5 +135,4 @@ Feature: Images and Networks
     And I wait for 2 seconds
     And I click the "Delete" button in the dialog "Delete Network"
     And I expect the dialog "Delete Network" is closed within 4 seconds
-    Then "network_random" network should be absent within 5 seconds
-    And I wait for 2 seconds
+    Then "network_random" network should be absent within 20 seconds
