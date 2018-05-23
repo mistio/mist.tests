@@ -1,3 +1,5 @@
+import os
+
 from misttests.integration.gui.steps.email import *
 from misttests.integration.gui.steps.sso import *
 from misttests.integration.gui.steps.navigation import *
@@ -32,10 +34,24 @@ def search_for_mayday_machine(context):
     sleep(2)
 
 
+def _get_imap_box():
+    host, port = os.getenv('GMAIL_SOCKS_HOST'), os.getenv('GMAIL_SOCKS_PORT')
+    try:
+        port = int(port)
+    except (ValueError, TypeError):
+        port = None
+    if host and port:
+        return imaplib.IMAP4(host, port)
+    elif host:
+        return imaplib.IMAP4(host)
+    else:
+        return imaplib.IMAP4_SSL("imap.gmail.com")
+
+
 @step(u'I delete old mayday emails')
 def delete_old_mayday_emails(context):
 
-    box = imaplib.IMAP4_SSL("imap.gmail.com")
+    box = _get_imap_box()
     box.login(context.mist_config['GOOGLE_TEST_EMAIL'],
                       context.mist_config['GOOGLE_TEST_PASSWORD'])
     box.select("INBOX")
@@ -57,7 +73,7 @@ def receive_mail(context, seconds):
     while time() < end_time:
         log.info("Looking if email has arrived\n\n")
         try:
-            box = imaplib.IMAP4_SSL("imap.gmail.com")
+            box = _get_imap_box()
             box.login(context.mist_config['GOOGLE_TEST_EMAIL'],
                               context.mist_config['GOOGLE_TEST_PASSWORD'])
             if not box:
