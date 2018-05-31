@@ -71,7 +71,7 @@ Feature: Images and Networks
     When I visit the Networks page
     And I click the button "+"
     Then I expect the "network" add form to be visible within max 10 seconds
-    When I open the "Choose Cloud" drop down
+    When I open the "Select Cloud" drop down
     And I wait for 1 seconds
     And I click the button "AWS" in the "Choose Cloud" dropdown
     And I wait for 1 seconds
