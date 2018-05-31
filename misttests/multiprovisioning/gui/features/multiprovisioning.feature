@@ -9,9 +9,9 @@ Feature: Multiprovisioning
     When I visit the Machines page
     And I click the button "+"
     Then I expect the "Machine" add form to be visible within max 10 seconds
-    When I open the "Choose Cloud" drop down
+    When I open the "Select Cloud" drop down
     And I wait for 1 seconds
-    And I click the button "<provider>" in the "Choose Cloud" dropdown
+    And I click the button "<provider>" in the "Select Cloud" dropdown
     Then I expect the field "Machine name" in the machine add form to be visible within max 4 seconds
     Then I set the value "mp-test-machine-random" to field "Machine Name" in "machine" add form
     When I open the "Image" drop down

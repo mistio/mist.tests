@@ -73,7 +73,7 @@ Feature: Images and Networks
     Then I expect the "network" add form to be visible within max 10 seconds
     When I open the "Select Cloud" drop down
     And I wait for 1 seconds
-    And I click the button "AWS" in the "Choose Cloud" dropdown
+    And I click the button "AWS" in the "Select Cloud" dropdown
     And I wait for 1 seconds
     And I set the value "network_random" to field "Name" in "network" add form
     And I wait for 1 seconds
@@ -102,9 +102,9 @@ Feature: Images and Networks
   Scenario: Add Network and  specify subnets
     When I click the button "+"
     Then I expect the "network" add form to be visible within max 10 seconds
-    When I open the "Choose Cloud" drop down
+    When I open the "Select Cloud" drop down
     And I wait for 1 seconds
-    And I click the button "AWS" in the "Choose Cloud" dropdown
+    And I click the button "AWS" in the "Select Cloud" dropdown
     And I wait for 1 seconds
     And I set the value "network_random" to field "Name" in "network" add form
     And I wait for 1 seconds
