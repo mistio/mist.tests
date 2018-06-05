@@ -76,7 +76,7 @@ Feature: Cloud actions for polymer
     And I click the button "Delete" in "cloud" edit form
     Then I expect the dialog "Delete Renamed" is closed within 4 seconds
     And I wait for 2 seconds
-    When I visit the Machines page after the counter has loaded
+    When I visit the Machines page
     And I wait for 1 seconds
     And I search for the machine "mistcore_debugger_1"
     And I wait for 1 seconds
