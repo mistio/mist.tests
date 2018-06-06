@@ -208,8 +208,11 @@ def check_machine_last_seen(context, machine_id, seconds):
     for machine in response.json():
         if machine.get('id') == mayday_machine_id:
             machine_last_seen = datetime.strptime(machine.get('last_seen'), '%Y-%m-%d %H:%M:%S.%f')
+            log.info('Machine last seen: ' + str(machine_last_seen))
             now = datetime.now()
+            log.info('Now: ' + str(now))
             time_delta = (now - machine_last_seen).total_seconds()
+            log.info('Timedelta: ' + str(time_delta))
             assert time_delta < celery_limit, "Machine has not been seen " \
                                               "the last %d seconds" % celery_limit
             return
