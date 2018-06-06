@@ -5,10 +5,6 @@ Feature: Production
   Scenario: Add schedule to be triggered after 5mins
     Given I add the MaydaySchedule via api
 
-  @celery
-  Scenario: Production machine has been seen within the last minute
-    Given I verify that machine with id "MAYDAY_MACHINE_ID" has been seen the last 60 seconds
-
   @graph
   Scenario: Production monitor and graph testing
     Given I am logged in to mist.core
@@ -118,3 +114,7 @@ Feature: Production
     When I visit the Machines page after the counter has loaded
     And I search for "mayday-test"
     Then "mayday-test" machine state has to be "stopped" within 300 seconds
+
+  @celery
+  Scenario: Production machine has been seen within the last minute
+    Given I verify that machine with id "MAYDAY_MACHINE_ID" has been seen the last 60 seconds
