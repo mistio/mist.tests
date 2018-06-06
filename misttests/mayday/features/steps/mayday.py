@@ -1,5 +1,7 @@
 import os
 
+from datetime import datetime
+
 from misttests.integration.gui.steps.email import *
 from misttests.integration.gui.steps.sso import *
 from misttests.integration.gui.steps.navigation import *
@@ -191,3 +193,24 @@ def add_mayday_schedule(context):
     uri = context.mist_config['MIST_URL'] + '/api/v1/schedules'
     response = requests.post(uri, data=json.dumps(payload), headers=headers)
     assert response.status_code == 200, "Could not add MaydayScheduler schedule!"
+
+
+@step(u'I verify that machine with id "{machine_id}" has been seen the last {seconds} seconds')
+def check_machine_last_seen(context, machine_id, seconds):
+    celery_limit = int(seconds)
+    mayday_machine_id = context.mist_config['MAYDAY_MACHINE_ID']
+
+    headers = {'Authorization': context.mist_config['MAYDAY_TOKEN']}
+    uri = context.mist_config['MIST_URL'] + '/api/v1/machines'
+    response = requests.get(uri, headers=headers)
+
+    for machine in response.json():
+        if machine.get('id') == mayday_machine_id:
+            machine_last_seen = datetime.strptime(machine.get('last_seen'), '%Y-%m-%d %H:%M:%S.%f')
+            now = datetime.now()
+            time_delta = (now - machine_last_seen).total_seconds()
+            assert time_delta < celery_limit, "Machine has not been seen " \
+                                              "the last %d seconds" % celery_limit
+            return
+
+    assert False, "Mayday machine with id %s was not found!" % mayday_machine_id
