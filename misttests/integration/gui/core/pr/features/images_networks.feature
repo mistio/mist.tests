@@ -13,9 +13,9 @@ Feature: Images and Networks
     And I search for "CentOS 6.7"
     Then "CentOS 6.7 x32" image should be present within 10 seconds
     And "CentOS 6.7 x64" image should be present within 10 seconds
-    And "Fedora 26 x64" image should be absent within 3 seconds
+    And "Debian 7.10 x32" image should be absent within 3 seconds
     When I clear the search bar
-    Then "Fedora 26 x64" image should be present within 5 seconds
+    Then "Debian 7.10 x32" image should be present within 5 seconds
 
   @image-unstar
   Scenario: Unstar image
@@ -71,9 +71,9 @@ Feature: Images and Networks
     When I visit the Networks page
     And I click the button "+"
     Then I expect the "network" add form to be visible within max 10 seconds
-    When I open the "Choose Cloud" drop down
+    When I open the "Select Cloud" drop down
     And I wait for 1 seconds
-    And I click the button "AWS" in the "Choose Cloud" dropdown
+    And I click the button "AWS" in the "Select Cloud" dropdown
     And I wait for 1 seconds
     And I set the value "network_random" to field "Name" in "network" add form
     And I wait for 1 seconds
@@ -102,9 +102,9 @@ Feature: Images and Networks
   Scenario: Add Network and  specify subnets
     When I click the button "+"
     Then I expect the "network" add form to be visible within max 10 seconds
-    When I open the "Choose Cloud" drop down
+    When I open the "Select Cloud" drop down
     And I wait for 1 seconds
-    And I click the button "AWS" in the "Choose Cloud" dropdown
+    And I click the button "AWS" in the "Select Cloud" dropdown
     And I wait for 1 seconds
     And I set the value "network_random" to field "Name" in "network" add form
     And I wait for 1 seconds

@@ -10,9 +10,9 @@ Feature: Zones
     When I visit the Zones page
     And I click the button "+"
     Then I expect the "Zone" add form to be visible within max 10 seconds
-    When I open the "Choose Cloud" drop down
+    When I open the "Select Cloud" drop down
     And I wait for 1 seconds
-    And I click the button "GCE" in the "Choose Cloud" dropdown
+    And I click the button "GCE" in the "Select Cloud" dropdown
     And I set the value "test-zone-random.com." to field "Domain" in "Zone" add form
     Then I expect for the button "Add" in "Zone" add form to be clickable within 5 seconds
     When I focus on the button "Add" in "Zone" add form

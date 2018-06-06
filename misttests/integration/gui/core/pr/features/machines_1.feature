@@ -28,9 +28,9 @@ Feature: Machines
     When I visit the Machines page
     And I click the button "+"
     Then I expect the "Machine" add form to be visible within max 10 seconds
-    When I open the "Choose Cloud" drop down
+    When I open the "Select Cloud" drop down
     And I wait for 1 seconds
-    And I click the button "Docker" in the "Choose Cloud" dropdown
+    And I click the button "Docker" in the "Select Cloud" dropdown
     Then I expect the field "Machine name" in the machine add form to be visible within max 4 seconds
     When I select the proper values for "Docker" to create the "ui-test-create-machine-random" machine
     And I wait for 3 seconds
@@ -53,7 +53,7 @@ Feature: Machines
     And I click the button "DummyKey2" in the "Select key" dropdown
     And I click the "Associate" button in the dialog "Associate a key"
     And I wait for 5 seconds
-    Then there should be 2 keys associated with the machine within 15 seconds
+    Then there should be 2 keys associated with the machine within 25 seconds
     Then "DummyKey2" key should be associated with the machine "ui-test-create-machine-random"
 
   @key-disassociate
@@ -62,7 +62,7 @@ Feature: Machines
     Then I expect the dialog "Disassociate Key" is open within 4 seconds
     When I click the "Disassociate" button in the dialog "Disassociate Key"
     And I wait for 10 seconds
-    Then there should be 1 keys associated with the machine within 15 seconds
+    Then there should be 1 keys associated with the machine within 25 seconds
 
    @machine-run-script
    Scenario: Run script to machine created above
