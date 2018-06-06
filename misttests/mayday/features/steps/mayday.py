@@ -198,7 +198,8 @@ def add_mayday_schedule(context):
 @step(u'I verify that machine with id "{machine_id}" has been seen the last {seconds} seconds')
 def check_machine_last_seen(context, machine_id, seconds):
     celery_limit = int(seconds)
-    mayday_machine_id = context.mist_config['MAYDAY_MACHINE_ID']
+    if context.mist_config.get(machine_id):
+        mayday_machine_id = context.mist_config[machine_id]
 
     headers = {'Authorization': context.mist_config['MAYDAY_TOKEN']}
     uri = context.mist_config['MIST_URL'] + '/api/v1/machines'
