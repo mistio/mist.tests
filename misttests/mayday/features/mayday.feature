@@ -116,5 +116,5 @@ Feature: Production
     Then "mayday-test" machine state has to be "stopped" within 300 seconds
 
   @celery
-  Scenario: Production machine has been seen within the last minute
-    Given I verify that machine with id "MAYDAY_MACHINE_ID" has been seen the last 60 seconds
+  Scenario: Verify that list_machines has run within the last 90 seconds
+    Given I verify that machine with id "MAYDAY_MACHINE_ID" has been seen the last 90 seconds
