@@ -45,6 +45,7 @@ def before_all(context):
     context.mist_config['CHANGED_PASSWORD'] = config.CHANGED_PASSWORD
     context.mist_config['SETUP_ENVIRONMENT'] = config.SETUP_ENVIRONMENT
     context.mist_config['MAYDAY_MACHINE'] = config.MAYDAY_MACHINE
+    context.mist_config['MAYDAY_MACHINE_ID'] = config.MAYDAY_MACHINE_ID
     context.mist_config['OWNER_EMAIL'] = config.OWNER_EMAIL
     context.mist_config['OWNER_PASSWORD'] = config.OWNER_PASSWORD
     context.mist_config['MEMBER1_EMAIL'] = config.MEMBER1_EMAIL

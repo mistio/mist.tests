@@ -114,3 +114,7 @@ Feature: Production
     When I visit the Machines page after the counter has loaded
     And I search for "mayday-test"
     Then "mayday-test" machine state has to be "stopped" within 300 seconds
+
+  @celery
+  Scenario: Verify that list_machines has run within the last 90 seconds
+    Given I verify that machine with id "MAYDAY_MACHINE_ID" has been seen the last 90 seconds
