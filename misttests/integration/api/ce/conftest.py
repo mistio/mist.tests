@@ -6,7 +6,7 @@ from misttests.integration.api.helpers import *
 from misttests.helpers.setup import setup_user_if_not_exists
 
 from io import MistIoApi
-from misttests.integration.api.core.core import MistCoreApi
+from misttests.integration.api.ee-hs.core import MistCoreApi
 
 
 @pytest.fixture
