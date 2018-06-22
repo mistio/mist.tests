@@ -1,4 +1,4 @@
-from misttests.integration.api.ce.conftest import *
+from misttests.integration.api.main.conftest import *
 from misttests import config
 
 
