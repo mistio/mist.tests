@@ -96,7 +96,7 @@ Feature: Images and Networks
     Then I expect the dialog "Delete Network" is closed within 4 seconds
     When I visit the Home page
     And I visit the Networks page
-    Then "network_random" network should be absent within 20 seconds
+    Then "network_random" network should be absent within 60 seconds
 
   @network-add-with-subnets
   Scenario: Add Network and  specify subnets
@@ -135,4 +135,4 @@ Feature: Images and Networks
     And I wait for 2 seconds
     And I click the "Delete" button in the dialog "Delete Network"
     And I expect the dialog "Delete Network" is closed within 4 seconds
-    Then "network_random" network should be absent within 20 seconds
+    Then "network_random" network should be absent within 60 seconds
