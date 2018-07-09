@@ -8,6 +8,7 @@ from time import sleep
 
 from selenium.common.exceptions import NoSuchElementException
 from selenium.common.exceptions import StaleElementReferenceException
+from selenium.common.exceptions import ElementNotVisibleException
 
 from .utils import safe_get_element_text
 
@@ -310,7 +311,7 @@ def select_provider_in_cloud_add_form(context, provider):
                 clicketi_click(context, button)
                 sleep(5)
 
-    except NoSuchElementException:
+    except NoSuchElementException,ElementNotVisibleException:
         pass
 
     provider_title = provider.lower()
