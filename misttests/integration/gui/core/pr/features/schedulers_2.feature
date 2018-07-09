@@ -7,6 +7,7 @@ Feature: Schedulers-b
     And Docker machine "test-ui-machine-random" has been added via API request
     And Docker machine "test-ui-machine-2-random" has been added via API request
     Given I am logged in to mist.core
+    And I have given card details if needed
     When I visit the Machines page
     And I wait for 3 seconds
     And I search for "test-ui-machine-random"
