@@ -80,6 +80,11 @@ def before_all(context):
     context.mist_config['IMAP_USE_SSL'] = config.IMAP_USE_SSL
     context.mist_config['IMAP_HOST'] = config.IMAP_HOST
     context.mist_config['IMAP_PORT'] = config.IMAP_PORT
+    context.mist_config['CC_CVC'] = config.CC_CVC
+    context.mist_config['CC_CC'] = config.CC_CC
+    context.mist_config['CC_EXPIRE_MONTH'] = config.CC_EXPIRE_MONTH
+    context.mist_config['CC_EXPIRE_YEAR'] = config.CC_EXPIRE_YEAR
+    context.mist_config['CC_ZIP_CODE'] = config.CC_ZIP_CODE
     context.link_inside_email = ''
     context.mist_config['ORG_ID'] = ''
 

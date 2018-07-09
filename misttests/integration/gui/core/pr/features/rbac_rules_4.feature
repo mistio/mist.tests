@@ -11,7 +11,8 @@ Feature: RBAC-rules-v4
 
   @add-member1
     Scenario: Add DENY-READ-ALL and ALLOW-ALL-ALL rules.
-      When I visit the Teams page
+      When I have given card details if needed
+      And I visit the Teams page
       And I click the "Test team" "team"
       Then I expect the "team" edit form to be visible within max 5 seconds
       When I focus on the button "Add a new rule" in "policy" edit form

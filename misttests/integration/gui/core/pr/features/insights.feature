@@ -5,6 +5,7 @@ Feature: Actions for Insights
   Scenario: Make sure that insights elements are visible
     Given cloud "Docker" has been added via API request
     And I am logged in to mist.core
+    And I have given card details if needed
     When I visit the Insights page
     And I wait for 2 seconds
     Then the "filtering" section should be visible within 2 seconds

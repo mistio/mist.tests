@@ -7,10 +7,13 @@ from .buttons import clicketi_click
 from .buttons import click_the_gravatar
 from .buttons import click_button_from_collection
 
+from .forms import clear_input_and_send_keys
+
 from .utils import safe_get_element_text
 
 from selenium.common.exceptions import TimeoutException
 from selenium.common.exceptions import NoSuchElementException
+from selenium.common.exceptions import ElementNotVisibleException
 
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
@@ -65,20 +68,6 @@ def visit(context):
                 pass
         sleep(1)
     assert False, "Do not know if I am at the landing page or the home page"
-
-
-@step(u'I am in the new UI')
-def am_in_new_UI(context):
-    assert found_one(context), "I have no idea where I am"
-    try:
-        context.browser.find_element_by_tag_name("mist-app")
-        return
-    except:
-        context.execute_steps(u'''
-            Then I wait for the mist.io splash page to load
-            When I click the gravatar
-            When I click the button "BETA UI"
-        ''')
 
 
 @step(u'I make sure the menu is open')
@@ -226,6 +215,30 @@ def given_logged_in(context):
         And I click the sign in button in the landing page popup
         Then I wait for the links in homepage to appear
     """)
+
+
+@step(u'I have given card details if needed')
+def give_cc_details_if_necessary(context):
+    try:
+        cc_required_dialog = context.browser.find_element_by_id('mistAppCcRequired')
+        form = cc_required_dialog.find_element_by_id('inPlanPurchase')
+        cc = form.find_element_by_id('cc')
+        cc.send_keys(context.mist_config['CC_CC'])
+        clear_input_and_send_keys(form.find_element_by_id('cvc'), 
+                                  context.mist_config['CC_CVC'])
+        clear_input_and_send_keys(form.find_element_by_id('expirationMonth'),
+                                  context.mist_config['CC_EXPIRE_MONTH'])
+        clear_input_and_send_keys(form.find_element_by_id('expirationYear'),
+                                  context.mist_config['CC_EXPIRE_YEAR'])
+        clear_input_and_send_keys(form.find_element_by_id('zipCode'),
+                                  context.mist_config['CC_ZIP_CODE'])
+        for button in cc_required_dialog.find_elements_by_tag_name('paper-button'):
+            if button.text.lower() == 'enable':
+                clicketi_click(context, button)
+                sleep(5)
+
+    except ElementNotVisibleException:
+        pass
 
 
 def found_one(context):

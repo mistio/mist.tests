@@ -5,6 +5,7 @@ Feature: Orchestration
   Scenario: Add a template
     Given I am logged in to mist.core
     And cloud "Docker" has been added via API request
+    And I have given card details if needed
     When I visit the Templates page
     And I click the button "+"
     Then I expect the "Template" add form to be visible within max 10 seconds

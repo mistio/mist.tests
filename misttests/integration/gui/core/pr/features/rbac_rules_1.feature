@@ -11,6 +11,7 @@ Feature: RBAC-rules-v1
 
   @allow-read-cloud
    Scenario: Allow reading a cloud
+    When I have given card details if needed
     When I visit the Teams page
     And I click the "Test team" "team"
     Then I expect the "team" edit form to be visible within max 5 seconds
