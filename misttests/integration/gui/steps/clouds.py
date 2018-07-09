@@ -8,6 +8,7 @@ from time import sleep
 
 from selenium.common.exceptions import NoSuchElementException
 from selenium.common.exceptions import StaleElementReferenceException
+from selenium.common.exceptions import ElementNotVisibleException
 
 from .utils import safe_get_element_text
 
@@ -389,7 +390,7 @@ def given_cloud(context, cloud):
             if button.text.lower() == 'enable':
                 clicketi_click(context, button)
 
-    except NoSuchElementException:
+    except ElementNotVisibleException:
         pass
 
     context.execute_steps(u'''
