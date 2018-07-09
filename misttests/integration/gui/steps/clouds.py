@@ -372,6 +372,23 @@ def given_cloud(context, cloud):
 
     context.execute_steps(u'''
         When I click the "new cloud" button with id "addBtn"
+    ''')
+
+    # check whether user has provided hs with billing card
+    try:
+        cc_required_dialog = context.browser.find_element_by_id('ccRequired')
+        form = cc_required_dialog.find_element_by_id('inPlanPurchase')
+        cc = form.find_element_by_id('cc')
+        cc.send_keys('4242424242424242')
+        clear_input_and_send_keys(form.find_element_by_id('cvc'), '123')
+        clear_input_and_send_keys(form.find_element_by_id('expirationMonth'), '12')
+        clear_input_and_send_keys(form.find_element_by_id('expirationYear'), '25')
+        clear_input_and_send_keys(form.find_element_by_id('zipCode'), '17675')
+
+    except NoSuchElementException:
+        pass
+
+    context.execute_steps(u'''
         Then I expect the "Cloud" add form to be visible within max 5 seconds''')
 
     if 'docker_orchestrator' in cloud.lower():
