@@ -393,7 +393,7 @@ def given_cloud(context, cloud):
         pass
 
     context.execute_steps(u'''
-        Then I expect the "Cloud" add form to be visible within max 5 seconds''')
+        Then I expect the "Cloud" add form to be visible within max 20 seconds''')
 
     if 'docker_orchestrator' in cloud.lower():
         cloud_type = 'docker'
