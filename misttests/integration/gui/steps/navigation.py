@@ -223,11 +223,15 @@ def give_cc_details_if_necessary(context):
         cc_required_dialog = context.browser.find_element_by_id('mistAppCcRequired')
         form = cc_required_dialog.find_element_by_id('inPlanPurchase')
         cc = form.find_element_by_id('cc')
-        cc.send_keys('4242424242424242')
-        clear_input_and_send_keys(form.find_element_by_id('cvc'), '123')
-        clear_input_and_send_keys(form.find_element_by_id('expirationMonth'), '12')
-        clear_input_and_send_keys(form.find_element_by_id('expirationYear'), '25')
-        clear_input_and_send_keys(form.find_element_by_id('zipCode'), '17675')
+        cc.send_keys(context.mist_config['CC_CC'])
+        clear_input_and_send_keys(form.find_element_by_id('cvc'), 
+                                  context.mist_config['CC_CVC'])
+        clear_input_and_send_keys(form.find_element_by_id('expirationMonth'),
+                                  context.mist_config['CC_EXPIRE_MONTH'])
+        clear_input_and_send_keys(form.find_element_by_id('expirationYear'),
+                                  context.mist_config['CC_EXPIRE_YEAR'])
+        clear_input_and_send_keys(form.find_element_by_id('zipCode'),
+                                  context.mist_config['CC_ZIP_CODE'])
         for button in cc_required_dialog.find_elements_by_tag_name('paper-button'):
             if button.text.lower() == 'enable':
                 clicketi_click(context, button)
