@@ -291,6 +291,25 @@ cloud_second_creds_dict = {
 
 @step(u'I select the "{provider}" provider')
 def select_provider_in_cloud_add_form(context, provider):
+    # if in mist-hs repo and user has not provided mist
+    # with a billing card, then a cc-required dialog appears
+    try:
+        cc_required_dialog = context.browser.find_element_by_id('ccRequired')
+        form = cc_required_dialog.find_element_by_id('inPlanPurchase')
+        cc = form.find_element_by_id('cc')
+        cc.send_keys('4242424242424242')
+        clear_input_and_send_keys(form.find_element_by_id('cvc'), '123')
+        clear_input_and_send_keys(form.find_element_by_id('expirationMonth'), '12')
+        clear_input_and_send_keys(form.find_element_by_id('expirationYear'), '25')
+        clear_input_and_send_keys(form.find_element_by_id('zipCode'), '17675')
+        for button in cc_required_dialog.find_elements_by_tag_name('paper-button'):
+            if button.text.lower() == 'enable':
+                clicketi_click(context, button)
+                sleep(5)
+
+    except ElementNotVisibleException:
+        pass
+
     provider_title = provider.lower()
     clouds_class = context.browser.find_element_by_class_name('providers')
     clouds = clouds_class.find_elements_by_tag_name('paper-item')
@@ -373,38 +392,15 @@ def given_cloud(context, cloud):
 
     context.execute_steps(u'''
         When I click the "new cloud" button with id "addBtn"
+        Then I expect the "Cloud" add form to be visible within max 5 seconds
     ''')
-
-    # check whether user has provided hs with billing card,
-    # if not, then use stripe test credentials
-    try:
-        cc_required_dialog = context.browser.find_element_by_id('ccRequired')
-        form = cc_required_dialog.find_element_by_id('inPlanPurchase')
-        cc = form.find_element_by_id('cc')
-        cc.send_keys('4242424242424242')
-        clear_input_and_send_keys(form.find_element_by_id('cvc'), '123')
-        clear_input_and_send_keys(form.find_element_by_id('expirationMonth'), '12')
-        clear_input_and_send_keys(form.find_element_by_id('expirationYear'), '25')
-        clear_input_and_send_keys(form.find_element_by_id('zipCode'), '17675')
-        for button in cc_required_dialog.find_elements_by_tag_name('paper-button'):
-            if button.text.lower() == 'enable':
-                clicketi_click(context, button)
-
-    except ElementNotVisibleException:
-        pass
-
-    context.execute_steps(u'''
-        Then I expect the "Cloud" add form to be visible within max 5 seconds''')
 
     if 'docker_orchestrator' in cloud.lower():
         cloud_type = 'docker'
     else:
         cloud_type = cloud
 
-    context.execute_steps(u'''
-        When I wait for 5 seconds
-        And I select the "%s" provider
-    ''' % cloud_type)
+    context.execute_steps(u'''And I select the "%s" provider''' % cloud_type)
 
     context.execute_steps('''
         Then I expect the field "Title" in the cloud add form to be visible within max 4 seconds
