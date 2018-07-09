@@ -400,7 +400,7 @@ def given_cloud(context, cloud):
     else:
         cloud_type = cloud
 
-    context.execute_steps(u'''And I select the "%s" provider''' % cloud_type)
+    context.execute_steps(u'''When I select the "%s" provider''' % cloud_type)
 
     context.execute_steps('''
         Then I expect the field "Title" in the cloud add form to be visible within max 4 seconds
