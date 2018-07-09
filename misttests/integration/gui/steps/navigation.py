@@ -13,7 +13,6 @@ from .utils import safe_get_element_text
 
 from selenium.common.exceptions import TimeoutException
 from selenium.common.exceptions import NoSuchElementException
-from selenium.common.exceptions import ElementNotVisibleException
 
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
@@ -237,7 +236,7 @@ def give_cc_details_if_necessary(context):
                 clicketi_click(context, button)
                 sleep(5)
 
-    except ElementNotVisibleException:
+    except NoSuchElementException:
         pass
 
 
