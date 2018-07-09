@@ -374,7 +374,8 @@ def given_cloud(context, cloud):
         When I click the "new cloud" button with id "addBtn"
     ''')
 
-    # check whether user has provided hs with billing card
+    # check whether user has provided hs with billing card,
+    # if not, then use stripe test credentials
     try:
         cc_required_dialog = context.browser.find_element_by_id('ccRequired')
         form = cc_required_dialog.find_element_by_id('inPlanPurchase')
@@ -384,6 +385,9 @@ def given_cloud(context, cloud):
         clear_input_and_send_keys(form.find_element_by_id('expirationMonth'), '12')
         clear_input_and_send_keys(form.find_element_by_id('expirationYear'), '25')
         clear_input_and_send_keys(form.find_element_by_id('zipCode'), '17675')
+        for button in cc_required_dialog.find_elements_by_tag_name('paper-button'):
+            if button.text.lower() == 'enable':
+                clicketi_click(context, button)
 
     except NoSuchElementException:
         pass
