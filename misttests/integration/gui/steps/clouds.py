@@ -8,6 +8,7 @@ from time import sleep
 
 from selenium.common.exceptions import NoSuchElementException
 from selenium.common.exceptions import StaleElementReferenceException
+from selenium.common.exceptions import ElementNotVisibleException
 
 from .utils import safe_get_element_text
 
@@ -290,6 +291,29 @@ cloud_second_creds_dict = {
 
 @step(u'I select the "{provider}" provider')
 def select_provider_in_cloud_add_form(context, provider):
+    # if in mist-hs repo and user has not provided mist
+    # with a billing card, then a cc-required dialog appears
+    try:
+        cc_required_dialog = context.browser.find_element_by_id('ccRequired')
+        form = cc_required_dialog.find_element_by_id('inPlanPurchase')
+        cc = form.find_element_by_id('cc')
+        cc.send_keys(context.mist_config['CC_CC'])
+        clear_input_and_send_keys(form.find_element_by_id('cvc'),
+                                  context.mist_config['CC_CVC'])
+        clear_input_and_send_keys(form.find_element_by_id('expirationMonth'),
+                                  context.mist_config['CC_EXPIRE_MONTH'])
+        clear_input_and_send_keys(form.find_element_by_id('expirationYear'),
+                                  context.mist_config['CC_EXPIRE_YEAR'])
+        clear_input_and_send_keys(form.find_element_by_id('zipCode'),
+                                  context.mist_config['CC_ZIP_CODE'])
+        for button in cc_required_dialog.find_elements_by_tag_name('paper-button'):
+            if button.text.lower() == 'enable':
+                clicketi_click(context, button)
+                sleep(5)
+
+    except (NoSuchElementException, ElementNotVisibleException) as e:
+        pass
+
     provider_title = provider.lower()
     clouds_class = context.browser.find_element_by_class_name('providers')
     clouds = clouds_class.find_elements_by_tag_name('paper-item')
@@ -372,7 +396,8 @@ def given_cloud(context, cloud):
 
     context.execute_steps(u'''
         When I click the "new cloud" button with id "addBtn"
-        Then I expect the "Cloud" add form to be visible within max 5 seconds''')
+        Then I expect the "Cloud" add form to be visible within max 5 seconds
+    ''')
 
     if 'docker_orchestrator' in cloud.lower():
         cloud_type = 'docker'
