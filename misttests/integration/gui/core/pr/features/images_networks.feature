@@ -10,29 +10,29 @@ Feature: Images and Networks
     Given "AWS" cloud has been added
     Given "Digital Ocean" cloud has been added
     When I visit the Images page
-    And I search for "CentOS 6.7"
-    Then "CentOS 6.7 x32" image should be present within 10 seconds
-    And "CentOS 6.7 x64" image should be present within 10 seconds
-    And "Debian 7.10 x32" image should be absent within 3 seconds
+    And I search for "CentOS 6.9"
+    Then "CentOS 6.9 x32" image should be present within 10 seconds
+    And "CentOS 6.9 x64" image should be present within 10 seconds
+    And "Debian 8.10 x32" image should be absent within 3 seconds
     When I clear the search bar
-    Then "Debian 7.10 x32" image should be present within 5 seconds
+    Then "Debian 8.10 x32" image should be present within 5 seconds
 
   @image-unstar
   Scenario: Unstar image
-    When I search for "CentOS 6.7 x32"
-    And I click the "CentOS 6.7 x32" "image"
+    When I search for "CentOS 6.9 x32"
+    And I click the "CentOS 6.9 x32" "image"
     Then I expect the "image" edit form to be visible within max 5 seconds
     When I click the button "Unstar" in "image" edit form
     And  I visit the Home page
     And I wait for 2 seconds
     And I visit the Images page
     And I wait for 2 seconds
-    And I search for "CentOS 6.7 x32"
-    Then the "CentOS 6.7 x32" image should be "unstarred" within 20 seconds
+    And I search for "CentOS 6.9 x32"
+    Then the "CentOS 6.9 x32" image should be "unstarred" within 20 seconds
 
   @image-star
   Scenario: Star image
-    When I click the "CentOS 6.7 x32" "image"
+    When I click the "CentOS 6.9 x32" "image"
     Then I expect the "image" edit form to be visible within max 5 seconds
     When I wait for 1 seconds
     And I click the button "Star" in "image" edit form
@@ -41,8 +41,8 @@ Feature: Images and Networks
     Then I wait for the links in homepage to appear
     When I visit the Images page
     And I wait for 2 seconds
-    And I search for "CentOS 6.7 x32"
-    Then the "CentOS 6.7 x32" image should be "starred" within 20 seconds
+    And I search for "CentOS 6.9 x32"
+    Then the "CentOS 6.9 x32" image should be "starred" within 20 seconds
 
 #  @image-tags
 #  Scenario: Add tags to image
