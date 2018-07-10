@@ -311,7 +311,7 @@ def select_provider_in_cloud_add_form(context, provider):
                 clicketi_click(context, button)
                 sleep(5)
 
-    except NoSuchElementException,ElementNotVisibleException:
+    except (NoSuchElementException, ElementNotVisibleException) as e:
         pass
 
     provider_title = provider.lower()
