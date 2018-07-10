@@ -147,7 +147,7 @@ def go_to_some_page_without_waiting(context, title):
     title = title.lower()
     if title not in ['machines', 'images', 'keys', 'networks', 'tunnels',
                      'scripts', 'schedules', 'templates', 'stacks', 'teams',
-                     'account', 'insights', 'home', 'zones']:
+                     'account', 'insights', 'home', 'zones', 'signup']:
         raise ValueError('The page given is unknown')
     if title.lower() == 'home':
         context.execute_steps(u'When I click the mist.io button')
@@ -158,6 +158,8 @@ def go_to_some_page_without_waiting(context, title):
                 And I click the "Account" button with id "Account"
                ''')
         return
+    elif title.lower() == 'signup':
+        context.browser.get(context.mist_config['MIST_URL'] + '/sign-up')
     else:
         button = context.browser.find_element_by_id(
             'sidebar').find_element_by_id(title)
@@ -194,15 +196,6 @@ def go_to_some_page_after_counter_loading(context, title, counter_title):
         Then %s counter should be greater than 0 within 80 seconds
         When I visit the %s page
     ''' % (counter_title, title))
-
-
-@step(u'I visit the machines page with a url')
-def visit_machines_url(context):
-    machines_url = context.mist_config['MIST_URL']
-    if not machines_url.endswith('/'):
-        machines_url += '/'
-    machines_url += 'machines'
-    context.browser.get(machines_url)
 
 
 @step(u'I scroll to the bottom of the page')
