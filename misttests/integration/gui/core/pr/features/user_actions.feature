@@ -27,8 +27,8 @@ Feature: Login Scenarios and Api Token
   Scenario: Sign Up success and verify that user can create resources
     When I make sure user with email "EMAIL" is absent
     Given I am not logged in to mist.core
-    When I open the signup popup
-    And I click the "Sign Up" button in the get-started-page
+    When I visit the signup page
+    And I wait for 2 seconds
     And I enter my standard credentials for signup
     And I click the sign up button in the landing page popup
     Then I should receive an email at the address "EMAIL" with subject "Confirm your registration" within 30 seconds
@@ -65,9 +65,8 @@ Feature: Login Scenarios and Api Token
   @signup-conflict
   Scenario: Already registered user gets conflict error when trying to sign up
     Given I am not logged in to mist.core
-    When I open the signup popup
+    When I visit the signup page
     And I wait for 2 seconds
-    And I click the "Sign Up" button in the get-started-page
     And I enter my standard credentials for signup
     And I click the sign up button in the landing page popup
     And I wait for 3 seconds
