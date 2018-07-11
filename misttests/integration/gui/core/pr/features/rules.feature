@@ -46,35 +46,24 @@ Feature: rules
 	    And I click the "<" button in the dropdown with id "operator-0"
 	    And I type "10" in input with id "threshold-0"
     	And I click the "actionsDropdown" button with id "actionsDropdown"
-    	And I click the button "destroy" in the "actionsDropdown" dropdown
+    	And I click the button "alert" in the "actionsDropdown" dropdown
+	    And I open the "teams" mist-dropdown
+	    And I select "Owners" in "teams" mist-dropdown
+	    And I wait for 2 seconds
     	And I save the rule
     	And I visit the Machines page
 	    And I search for "monitored-machine-random"
 	    And I click the "monitored-machine-random" "machine"
 	    And I scroll to the bottom of the page
     	And I wait for 2 seconds
-		Then rule "if load < 10 for any value then destroy" should be present
-		When I visit the machines page
-		And I search for "monitored-machine-random"
-		Then "monitored-machine-random" machine should be absent within 120 seconds
+		Then rule "if load < 10 for any value then alert team Owners" should be present
+		Then I should receive an email at the address "EMAIL" with subject "[mist.io] *** WARNING *** from monitored-machine-random: Load" within 150 seconds
+		#When I visit the machines page
+		#And I search for "monitored-machine-random"
+		#Then "monitored-machine-random" machine should be absent within 120 seconds
 
 	@add-rule-apply-to-tagged-machine
 	 Scenario: Add rule from rules section that applies on tagged machine. Verify it is visible in single machine page and it works
 
 
-# Tag a machine
-
-# Delete a rule from rules page
-
-# add rule that applies on specific tags. 
-
-# Verify that the rule is visible in single machine page
-
-# Verify that it works 
-=========================================================
-
-# destroy machines at the end of the tests
-
-# delete a rule from rules page 
-
-# verify that it is not visible in single machines page
+# T
