@@ -15,7 +15,7 @@ Feature: rules
 	    And I wait for 1 seconds
 	    And I click the button "Docker" in the "Select Cloud" dropdown
 	    Then I expect the field "Machine name" in the machine add form to be visible within max 4 seconds
-	    Then I set the value "monitored-machine-random" to field "Machine Name" in "machine" add form
+	    Then I set the value "rules-test-machine-random" to field "Machine Name" in "machine" add form
 	    When I open the "Image" drop down
 	    And I click the button "mist/ubuntu-14.04:collectd" in the "Image" dropdown
 	    When I open the "Key" drop down
@@ -27,9 +27,9 @@ Feature: rules
 	    And I wait for 1 seconds
 	    And I visit the Home page
 	    And I visit the Machines page
-	    And I search for "monitored-machine-random"
-	    Then "monitored-machine-random" machine state has to be "running" within 30 seconds
-	    When I click the "monitored-machine-random" "machine"
+	    And I search for "rules-test-machine-random"
+	    Then "rules-test-machine-random" machine state has to be "running" within 30 seconds
+	    When I click the "rules-test-machine-random" "machine"
 	    And I wait for 2 seconds
 	    And I click the button "Enable Monitoring"
 	    And I wait for 5 seconds
@@ -52,21 +52,28 @@ Feature: rules
 	    And I wait for 2 seconds
     	And I save the rule
     	And I visit the Machines page
-	    And I search for "monitored-machine-random"
-	    And I click the "monitored-machine-random" "machine"
+	    And I search for "rules-test-machine-random"
+	    And I click the "rules-test-machine-random" "machine"
 	    And I scroll to the bottom of the page
     	And I wait for 2 seconds
 		Then rule "if load < 10 for any value then alert team Owners" should be present
-		#Then I should receive an email at the address "EMAIL" with subject "[mist.io] *** WARNING *** #from monitored-machine-random: Load" within 150 seconds
-		#When I visit the machines page
-		#And I search for "monitored-machine-random"
-		#Then "monitored-machine-random" machine should be absent within 120 seconds
+		Then I should receive an email at the address "EMAIL" with subject "[mist.io] *** WARNING *** from rules-test-machine-random: Load" within 150 seconds
+
+	@delete-rule
+	Scenario: Delete a rule from rules page and verify it is not visible in single machine page
+		When I visit the Rules page
+		And I remove previous rules
+		And I wait for 2 seconds
+		And I visit the Machines page
+	    And I search for "rules-test-machine-random"
+	    And I click the "rules-test-machine-random" "machine"
+	    Then rule "if load < 10 for any value then alert team Owners" should be absent
 
 	@add-rule-apply-to-tagged-machine
 	 Scenario: Add rule from rules section that applies on tagged machine. Verify it is visible in single machine page and it works
 	 	When I visit the Machines page
-	    And I search for "monitored-machine-random"
-	    And I click the "monitored-machine-random" "machine"
+	    And I search for "rules-test-machine-random"
+	    And I click the "rules-test-machine-random" "machine"
 	    Then I expect the "machine" edit form to be visible within max 5 seconds
 	    When I click the button "Tag" in the "machine" page actions menu
 	    And I expect for the tag popup to open within 4 seconds
@@ -75,12 +82,10 @@ Feature: rules
 	    And I click the button "Save" in the tag menu
 	    Then I expect for the tag popup to close within 4 seconds
 	    When I visit the Machines page
-	    And I search for "monitored-machine-random"
-	    And I click the "monitored-machine-random" "machine"
+	    And I search for "rules-test-machine-random"
+	    And I click the "rules-test-machine-random" "machine"
 	    Then I ensure that the "machine" has the tags "test:awesome" within 20 seconds
 
-
-# Delete a rule from rules page
 
 # add rule that applies on specific tags. 
 
@@ -88,11 +93,4 @@ Feature: rules
 
 # Verify that it works 
 
-
-
-
 # destroy machines at the end of the tests
-
-# delete a rule from rules page 
-
-# verify that it is not visible in single machines page
