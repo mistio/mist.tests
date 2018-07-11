@@ -1,14 +1,15 @@
 @rules
 Feature: rules
 
-	@add-rule
+	@add-rule-apply-to-every-machine
 	 Scenario: Add rule from rules section that applies on all machines. Verify it is visible in single machine page and it works
 	    Given I am logged in to mist.core
 	    And cloud "Docker" has been added via API request
+	    And key "Key1" has been added via API request
 	    And I have given card details if needed
-	    When I visit the machines page
+		When I visit the machines page
 		And I wait for 1 seconds
-	    And I click the button "+"
+    	And I click the button "+"
 	    Then I expect the "Machine" add form to be visible within max 5 seconds
 	    When I open the "Select Cloud" drop down
 	    And I wait for 1 seconds
@@ -56,3 +57,24 @@ Feature: rules
 		When I visit the machines page
 		And I search for "monitored-machine-random"
 		Then "monitored-machine-random" machine should be absent within 120 seconds
+
+	@add-rule-apply-to-tagged-machine
+	 Scenario: Add rule from rules section that applies on tagged machine. Verify it is visible in single machine page and it works
+
+
+# Tag a machine
+
+# Delete a rule from rules page
+
+# add rule that applies on specific tags. 
+
+# Verify that the rule is visible in single machine page
+
+# Verify that it works 
+=========================================================
+
+# destroy machines at the end of the tests
+
+# delete a rule from rules page 
+
+# verify that it is not visible in single machines page
