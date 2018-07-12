@@ -21,16 +21,26 @@ def safe_get_element_text(check_element):
         return ""
 
 
-@step(u'I type "{some_text}" in input with id "{element_id}"')
-def give_some_input(context, some_text, element_id):
-    input_element = context.browser.find_element_by_id(element_id)
-    if context.mist_config.get(some_text):
-        some_text = context.mist_config[some_text]
+def give_some_input(context, input_element, text):
+    if context.mist_config.get(text):
+        text = context.mist_config[text]
     actions = ActionChains(context.browser)
     actions.move_to_element(input_element)
     actions.click(input_element)
-    actions.send_keys(some_text)
+    actions.send_keys(text)
     actions.perform()
+
+
+@step(u'I type "{some_text}" in input with id "{element_id}"')
+def give_some_input_by_id(context, some_text, element_id):
+    input_element = context.browser.find_element_by_id(element_id)
+    give_some_input(context, input_element, some_text)
+
+
+@step(u'I type "{some_text}" in input with class name "{element_class}"')
+def give_some_input_by_class(context, some_text, element_class):
+    input_element = context.browser.find_element_by_class_name(element_class)
+    give_some_input(context, input_element, some_text)
 
 
 def focus_on_element(context, element):

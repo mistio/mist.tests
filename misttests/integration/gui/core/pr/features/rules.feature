@@ -71,6 +71,7 @@ Feature: rules
 
 	@add-rule-apply-to-tagged-machine
 	 Scenario: Add rule from rules section that applies on tagged machine. Verify it is visible in single machine page and it works
+		Given I am logged in to mist.core
 	 	When I visit the Machines page
 	    And I search for "rules-test-machine-random"
 	    And I click the "rules-test-machine-random" "machine"
@@ -85,12 +86,33 @@ Feature: rules
 	    And I search for "rules-test-machine-random"
 	    And I click the "rules-test-machine-random" "machine"
 	    Then I ensure that the "machine" has the tags "test:awesome" within 20 seconds
+	    When I visit the Rules page
+	    And I click the button "add new rule"
+	    And I wait for 1 seconds
+	    And I click the "apply on" button with id "apply-on"
+	    And I click the "machines with tag" button in the dropdown with id "apply-on"
+	    And I type "test=awesome" in input with class name "tags"
+	    And I click the "target" button with id "target-0"
+	    And I click the "CPU" button in the dropdown with id "target-0"
+	    And I wait for 1 seconds
+	    And I click the "<" button in the dropdown with id "operator-0"
+	    And I type "20" in input with id "threshold-0"
+		And I click the "actionsDropdown" button with id "actionsDropdown"
+		And I click the button "destroy" in the "actionsDropdown" dropdown
+	    And I wait for 1 seconds
+	    Then I save the rule
+	    When I visit the Machines page
+	    And I search for "rules-test-machine-random"
+	    And I click the "rules-test-machine-random" "machine"
+	    Then rule "if cpu < 20 for any value then destroy" should be present
+	    When I visit the Machines page
+	    And I search for "rules-test-machine-random"
+	    And "rules-test-machine-random" machine should be absent within 120 seconds
 
+# alert-- rules
 
-# add rule that applies on specific tags. 
-
-# Verify that the rule is visible in single machine page
-
-# Verify that it works 
+# duplication in email
 
 # destroy machines at the end of the tests
+
+# change names
