@@ -37,11 +37,12 @@ def check_if_email_arrived(context, email_address, subject):
 def check_if_email_arrived_with_delay(context, email_address, subject, seconds):
     email = context.mist_config[email_address]
 
-    # TODO
-    if 'monitored-machine-random' in subject:
-        subject = subject.replace('monitored-machine-random', context.mist_config['monitored-machine-random'])
-    elif 'rules-test-machine-random' in subject:
-        subject = subject.replace('rules-test-machine-random', context.mist_config['rules-test-machine-random'])
+    if 'random' in subject:
+        for i in subject.split(' '):
+            if 'random' in i:
+                machine = i
+
+        subject = subject.replace(machine, context.mist_config[machine])
 
     timeout = time() + int(seconds)
     while time() < timeout:

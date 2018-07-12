@@ -1,5 +1,5 @@
-@rules
-Feature: rules
+@rules-2
+Feature: Testing rules from rules page
 
 	@add-rule-apply-to-every-machine
 	 Scenario: Add rule from rules section that applies on all machines. Verify it is visible in single machine page and it works
@@ -109,9 +109,6 @@ Feature: rules
 	    And I search for "rules-test-machine-random"
 	    And "rules-test-machine-random" machine should be absent within 120 seconds
 
-# alert-- rules
-
-# duplication in email
 
 # destroy machines at the end of the tests
 

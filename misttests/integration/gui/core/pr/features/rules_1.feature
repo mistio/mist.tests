@@ -1,5 +1,5 @@
-@alert
-Feature: Alert
+@rules-1
+Feature: Testing rules from single machine page
 
   @enable-monitoring
   Scenario: Create Machine, deploy monitoring agent by clicking 'Enable monitoring' button and check the graphs
@@ -54,10 +54,10 @@ Feature: Alert
 
   @incidents
   Scenario: Verify that incident gets triggered
-  #    When I wait for 25 seconds
-  #    And I refresh the page
-  #    And I wait for 5 seconds
-  #    Then I should see the incident "RAM > 0.0%"
+    When I wait for 25 seconds
+    And I refresh the page
+    And I wait for 5 seconds
+    Then I should see the incident "RAM > 0.0%"
     Then I should receive an email at the address "EMAIL" with subject "[mist.io] *** WARNING *** from monitored-machine-random: RAM" within 150 seconds
 
   @alert-destroy-machine
