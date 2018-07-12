@@ -54,11 +54,11 @@ Feature: Testing rules from single machine page
 
   @incidents
   Scenario: Verify that incident gets triggered
-	When I wait for 55 seconds
-	And I visit the home page
-	And I refresh the page
-	And I wait for 5 seconds
-	Then I should see the incident "RAM > 0.0%"
+	#When I wait for 55 seconds
+	#And I visit the home page
+	#And I refresh the page
+	#And I wait for 5 seconds
+	#Then I should see the incident "RAM > 0.0%"
 	Then I should receive an email at the address "EMAIL" with subject "[mist.io] *** WARNING *** from rules-test-machine-random: RAM" within 150 seconds
 
   @alert-destroy-machine
