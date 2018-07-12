@@ -40,7 +40,7 @@ def check_if_email_arrived_with_delay(context, email_address, subject, seconds):
     if 'random' in subject:
         for i in subject.split(' '):
             if 'random' in i:
-                machine = i
+                machine = i.replace(':', '')
 
         subject = subject.replace(machine, context.mist_config[machine])
 
