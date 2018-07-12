@@ -111,5 +111,3 @@ Feature: Testing rules from rules page
 
 
 # destroy machines at the end of the tests
-
-# change names
