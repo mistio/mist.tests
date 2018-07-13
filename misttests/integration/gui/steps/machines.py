@@ -303,6 +303,24 @@ def remove_previous_rules(context):
         rule_length = len(previous_rules)
 
 
+@step(u'rule "{rule}" should be {state}')
+def verify_rule_is_present(context, rule, state):
+    found = False
+    state = state.lower()
+    if state not in ['present', 'absent']:
+        raise Exception('Unknown state %s' % state)
+    rules = context.browser.find_elements_by_tag_name('rule-item')
+    rule = rule.replace(" ", "").lower()
+    for existing_rule in rules:
+        if rule in existing_rule.text.replace(" ", ""):
+            found = True
+    if state == 'present' and found:
+        return True
+    if state == 'absent' and not found:
+        return True
+    assert False, "Rule %s was not %s in existing rules for the monitored machine" % (rule, state)
+
+
 @step(u'I wait for max {seconds} seconds for "{name}" machine from "{provider}"'
       u' to disappear')
 def check_machine_deletion(context, name, provider, seconds):

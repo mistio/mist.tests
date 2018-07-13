@@ -4,6 +4,7 @@ Feature: Schedulers
   @scheduler-add-interval
   Scenario: Add schedule
     Given cloud "Docker" has been added via API request
+    And key "Key1" has been added via API request
     And Docker machine "test-machine-random" has been added via API request
     Given I am logged in to mist.core
     And I have given card details if needed

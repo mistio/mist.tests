@@ -108,7 +108,6 @@ def before_all(context):
             "%s/api/v1/dev/register" % context.mist_config['MIST_URL'],
             data=json.dumps(payload)
         )
-
         context.mist_config['ORG_ID'] = response.json().get('org_id')
         context.mist_config['ORG_NAME'] = response.json().get('org_name')
 
@@ -290,10 +289,12 @@ def after_feature(context, feature):
             context.mist_config.get('ui-test-create-machine-random')
         )
     if feature.name == 'RBAC-rules-v2':
-        kill_docker_machine(context, context.mist_config.get('docker-ui-test-machine-random'))
-    if feature.name in ['Monitoring', 'Alert']:
+        kill_docker_machine(context, context.mist_config.get('rbac-test-machine-random'))
+    if feature.name in ['Monitoring']:
         kill_docker_machine(context, context.mist_config.get('monitored-machine-random'))
+    if feature.name in ['rules-1', 'rules-2']:
+        kill_docker_machine(context, context.mist_config.get('rules-test-machine-random'))
     #if feature.name == 'Production':
     #    mayday_cleanup(context)
-    if feature.name == 'Multiprovisioning':
-        mp_cleanup(context)
+    #if feature.name == 'Multiprovisioning':
+    #    mp_cleanup(context)
