@@ -5,15 +5,16 @@ from .utils import safe_get_element_text
 from .buttons import clicketi_click
 
 
-@step(u'I revoke all api tokens')
-def revoke_all_api_tokens(context):
+@step(u'I revoke token "{token}"')
+def revoke_all_api_tokens(context, token):
     tokens_list = context.browser.find_element_by_id('tokens-list')
     token_items = tokens_list.find_elements_by_tag_name('token-item')
-
     for token_item in token_items:
-        revoke_btn = token_item.find_element_by_class_name('red')
-        focus_on_element(context, revoke_btn)
-        clicketi_click(context, revoke_btn)
+        if token in token_item.text:
+            revoke_btn = token_item.find_element_by_class_name('red')
+            focus_on_element(context, revoke_btn)
+            clicketi_click(context, revoke_btn)
+            break
 
 
 @step(u'I get the new api token value "{token_name}"')

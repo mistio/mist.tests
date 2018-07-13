@@ -19,7 +19,7 @@ Feature: Login Scenarios and Api Token
     And I wait for 5 seconds
     And I get the new api token value "BLABLA_TOKEN"
     Then I test the api token "BLABLA_TOKEN". It should work.
-    When I revoke all api tokens
+    When I revoke token "Test token"
     And I wait for 1 seconds
     Then I test the api token "BLABLA_TOKEN". It should fail.
 
