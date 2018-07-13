@@ -4,6 +4,7 @@ Feature: Schedulers-b
   @scheduler-requirements
   Scenario: Check state of machines and tag machine that will be used for schedule below
     Given cloud "Docker" has been added via API request
+    And key "Key1" has been added via API request
     And Docker machine "test-ui-machine-random" has been added via API request
     And Docker machine "test-ui-machine-2-random" has been added via API request
     Given I am logged in to mist.core
