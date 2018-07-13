@@ -112,6 +112,20 @@ def before_all(context):
         context.mist_config['ORG_ID'] = response.json().get('org_id')
         context.mist_config['ORG_NAME'] = response.json().get('org_name')
 
+    # check whether hs repo is tested
+    api_token = get_api_token(context)
+    headers = {'Authorization': api_token}
+
+    response = requests.get(
+        "%s/api/v1/billing" % context.mist_config['MIST_URL'],
+        headers=headers
+    )
+
+    if response.status_code == 404:
+        context.mist_config['IS_HS_REPO'] = False
+    else:
+        context.mist_config['IS_HS_REPO'] = True
+
     log.info("Finished with before_all hook. Starting tests")
     log.info("EMAIL: %s" % context.mist_config['EMAIL'])
     log.info("PASSWORD1: %s" % context.mist_config['PASSWORD1'])

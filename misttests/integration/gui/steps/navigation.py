@@ -230,6 +230,10 @@ def give_cc_details_if_necessary(context):
                 clicketi_click(context, button)
                 sleep(5)
 
+        # verify that cc is required only in hs repo
+        assert context.mist_config['IS_HS_REPO'], "Credit card has been asked, although \
+                                                  the product is not hosted service!"
+
     except (NoSuchElementException, ElementNotVisibleException) as e:
         pass
 
