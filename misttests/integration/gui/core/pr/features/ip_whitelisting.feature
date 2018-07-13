@@ -5,6 +5,7 @@ Feature: Ip-whitelisting
   Scenario:  User whitelists his current IP
     Given I am logged in to mist.core
     And cloud "Docker" has been added via API request
+    And I have given card details if needed
     When I visit the Account page
     And I wait for 5 seconds
     And I click the "Whitelisted IPs" button with id "ips"

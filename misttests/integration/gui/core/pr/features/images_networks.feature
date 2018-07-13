@@ -7,8 +7,8 @@ Feature: Images and Networks
   @image-search
   Scenario: Search image
     When I expect for "addBtn" to be clickable within max 20 seconds
-    Given "Digital Ocean" cloud has been added
     Given "AWS" cloud has been added
+    Given "Digital Ocean" cloud has been added
     When I visit the Images page
     And I search for "CentOS 6.9"
     Then "CentOS 6.9 x32" image should be present within 10 seconds

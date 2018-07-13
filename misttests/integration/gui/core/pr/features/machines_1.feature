@@ -9,6 +9,7 @@ Feature: Machines
     Given script "touch_kati" is added via API request
     And cloud "Docker" has been added via API request
     And key "DummyKey" has been added via API request
+    And I have given card details if needed
     When I visit the Keys page
     When I click the button "+"
     Then I expect the "Key" add form to be visible within max 10 seconds

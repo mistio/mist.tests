@@ -6,6 +6,7 @@ Feature: Monitoring
   Scenario: Enable monitoring when creating machine and check the graphs
     Given I am logged in to mist.core
     And cloud "Docker" has been added via API request
+    And I have given card details if needed
     And key "Key1" has been added via API request
     When I visit the Machines page
     And I wait for 1 seconds
