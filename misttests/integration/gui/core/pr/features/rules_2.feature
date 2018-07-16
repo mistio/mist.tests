@@ -1,5 +1,5 @@
 @rules-2
-Feature: Testing rules from rules page
+Feature: Rules
 
   @add-rule-apply-to-every-machine
   Scenario: Add rule from rules section that applies on all machines. Verify it is visible in single machine page and it works
@@ -10,7 +10,7 @@ Feature: Testing rules from rules page
     And I have given card details if needed
     When I visit the Machines page
     And I search for "rules-test-machine-random"
-    Then "rules-test-machine-random" machine state has to be "running" within 30 seconds
+    Then "rules-test-machine-random" machine state has to be "running" within 60 seconds
     When I click the "rules-test-machine-random" "machine"
     And I wait for 2 seconds
     And I click the button "Enable Monitoring"
