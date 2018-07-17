@@ -218,13 +218,30 @@ def kill_docker_machine(context, machine_to_destroy):
             response = requests.get(uri, headers=headers)
             if response.json():
                 for machine in response.json():
-                    if machine_to_destroy in machine['name']:
+                    if machine_to_destroy == machine['name']:
                         log.info('Killing docker machine...')
                         payload = {'action': 'destroy'}
                         uri = context.mist_config['MIST_URL'] + \
                                 '/api/v1/clouds/' + cloud['id'] + \
                                 '/machines/' + machine['machine_id']
                         requests.post(uri, data=json.dumps(payload), headers=headers)
+
+def delete_ec2_network(context, network_to_delete):
+    api_token = get_api_token(context)
+    headers = {'Authorization': api_token}
+    response = requests.get("%s/api/v1/clouds" % context.mist_config['MIST_URL'], headers=headers)
+    for cloud in response.json():
+        if 'ec2' in cloud['provider']:
+            uri = context.mist_config['MIST_URL'] + '/api/v1/clouds/' + cloud['id'] + '/networks'
+            response = requests.get(uri, headers=headers)
+            if response.json()['private']:
+                for network in response.json()['private']:
+                    if network_to_delete == network['name']:
+                        log.info('Deleting ec2 network...')
+                        uri = context.mist_config['MIST_URL'] + \
+                                '/api/v1/clouds/' + cloud['id'] + \
+                                '/networks/' + network['id']
+                        requests.delete(uri, headers=headers)
 
 
 def finish_and_cleanup(context):
@@ -308,6 +325,8 @@ def after_feature(context, feature):
         kill_docker_machine(context, context.mist_config.get('monitored-machine-random'))
     if feature.name in ['Rules']:
         kill_docker_machine(context, context.mist_config.get('rules-test-machine-random'))
+    if feature.name == 'Images-Networks':
+        delete_ec2_network(context, context.mist_config.get('network_random'))
     #if feature.name == 'Production':
     #    mayday_cleanup(context)
     #if feature.name == 'Multiprovisioning':
