@@ -207,4 +207,4 @@ def create_docker_machine(context, machine_name):
     }
 
     re = requests.post(context.mist_config['MIST_URL'] + "/api/v1/clouds/" + cloud_id + "/machines", data=json.dumps(payload), headers=headers)
-    assert re.status_code == 200, "Could not create machine. Response was %s" % response.status_code
+    assert re.status_code == 200, "Could not create machine. Response was %s" % re.status_code
