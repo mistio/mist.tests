@@ -30,7 +30,7 @@ def test_list_volumes_no_api_token(pretty_print, mist_core):
 
 
 def test_create_volume_missing_parameter(pretty_print, mist_core, owner_api_token):
-    response = mist_core.create_volumes(api_token=owner_api_token,
+    response = mist_core.create_volume(api_token=owner_api_token,
                                         cloud_id='dummy').post()
     assert_response_bad_request(response)
     print "Success!!!"
