@@ -63,4 +63,4 @@ Feature: Rules
     When I visit the Machines page
     And I search for "rules-test-machine-random"
     Then "rules-test-machine-random" machine state has to be "running" within 30 seconds
-    And "rules-test-machine-random" machine should be absent within 120 seconds
+    And "rules-test-machine-random" machine should be absent within 180 seconds
