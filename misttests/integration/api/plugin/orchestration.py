@@ -222,7 +222,7 @@ class TestOrchestrationFunctionality:
         cache.set('template_id', response.json()['id'])
         assert_response_ok(response)
         response = mist_core.add_template(api_token=owner_api_token, name='Template2', location_type='github',
-                                          template_github='https://github.com/mistio/simple-python-webserver-blueprint',
+                                          template_github=template_github,
                                           entrypoint="blueprint.yaml").post()
         cache.set('template_to_use_id', response.json()['id'])
         assert_response_ok(response)
