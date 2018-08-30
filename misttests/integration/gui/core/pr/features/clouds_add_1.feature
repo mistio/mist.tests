@@ -53,10 +53,10 @@ Feature: Add second-tier clouds in Polymist
     And I focus on the button "Add Cloud" in "cloud" add form
     Then I click the button "Add Cloud" in "cloud" add form
     # w8 for it because KVM takes some time
-    And I wait for 10 seconds
+    And I wait for 30 seconds
     When I wait for the dashboard to load
     And I scroll the clouds list into view
-    Then the "KVM" provider should be added within 20 seconds
+    Then the "KVM" provider should be added within 30 seconds
 
   @machine-shell
   Scenario: Check shell access in bare metal

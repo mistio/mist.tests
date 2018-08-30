@@ -10,7 +10,7 @@ Feature: Rules
     And I have given card details if needed
     When I visit the Machines page
     And I search for "rules-test-machine-random"
-    Then "rules-test-machine-random" machine state has to be "running" within 60 seconds
+    Then "rules-test-machine-random" machine state has to be "running" within 120 seconds
     When I click the "rules-test-machine-random" "machine"
     And I wait for 2 seconds
     And I click the button "Enable Monitoring"
