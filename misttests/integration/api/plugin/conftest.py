@@ -9,7 +9,7 @@ def org_name():
 
 @pytest.fixture
 def template_github():
-    return 'https://github.com/mistio/simple-resource-provisioning-blueprint/tree/mist-machine-field'
+    return 'https://github.com/mistio/simple-resource-provisioning-blueprint'
 
 
 @pytest.fixture(scope='module')
