@@ -21,7 +21,8 @@ Feature: Add second-tier clouds in Polymist
 
     Examples: Providers
     | provider       |
-    | Azure ARM      |
+    | Nephoscale     |
+#    | Azure ARM      |
 #    | Vultr         |
 #    | AWS            |
 #    | Packet	     |
