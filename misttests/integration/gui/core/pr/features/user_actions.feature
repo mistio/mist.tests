@@ -79,7 +79,7 @@ Feature: Login Scenarios and Api Token
     And I wait for 3 seconds
     And I enter my alt credentials for login
     And I click the sign in button in the landing page popup
-    And I wait for 3 seconds
+    And I wait for 5 seconds
     Then there should be an "Unauthorized" error message inside the "sign in" button
 
   @invalid-email
