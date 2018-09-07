@@ -12,17 +12,6 @@ import logging
 # logging.basicConfig(level=logging.INFO)
 
 
-def find_starred_images(images_list):
-    starred_images = []
-    for image in images_list:
-        try:
-            starred_image = image.find_element_by_class_name('starred')
-            starred_images.append(starred_image)
-        except:
-            pass
-    return starred_images
-
-
 def find_image(image, images_list):
     for check_image in images_list:
         if image in safe_get_element_text(check_image):
@@ -36,16 +25,13 @@ def assert_starred_unstarred_image(context,image,state,seconds):
         raise Exception('Unknown type of state')
     images_list = context.browser.find_elements_by_css_selector('page-images mist-list vaadin-grid-table-body#items > vaadin-grid-table-row')
     end_time = time() + int(seconds)
-    image_to_check_state = find_image(image, images_list)
-    sleep(1)
+    image_to_check_state = None
     while time() < end_time:
-        starred_images = find_starred_images(images_list)
-        if state == 'starred':
-            if image_to_check_state in starred_images:
-                return
-        elif state == 'unstarred':
-            if image_to_check_state not in starred_images:
-                return
+        sleep(1)
+        if not image_to_check_state:
+            image_to_check_state = find_image(image, images_list)
+        if state in image_to_check_state.get_attribute('class').split(' '):
+            return
     assert False, 'Image %s is not %s in the list after %s seconds' \
                   % (image, state, seconds)
 
