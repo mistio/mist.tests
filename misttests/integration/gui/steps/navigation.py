@@ -228,7 +228,7 @@ def give_cc_details_if_necessary(context):
         for button in cc_required_dialog.find_elements_by_tag_name('paper-button'):
             if button.text.lower() == 'enable':
                 clicketi_click(context, button)
-                sleep(5)
+                sleep(8)
 
         # verify that cc is required only in hs repo
         assert context.mist_config['IS_HS_REPO'], "Credit card has been asked, although \
