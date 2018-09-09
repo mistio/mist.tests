@@ -20,6 +20,7 @@
 
 
 import os
+import json
 import ast
 import sys
 import string
@@ -43,6 +44,13 @@ except Exception as exc:
 def safe_get_var(vault_path, vault_key, test_settings_var = None):
 
     if VAULT_ENABLED:
+
+        data = {'password': os.environ['VAULT_PASSWORD']}
+        response = requests.post(VAULT_SERVER + '/v1/auth/userpass/login/%s' % os.environ['VAULT_USERNAME'], data=json.dumps(data))
+
+        assert response.status_code == 200, "Response from vault was not 200 when trying to login, but instead it was %s" % response.status_code
+
+        os.environ['VAULT_CLIENT_TOKEN'] = response.json().get('auth').get('client_token')
 
         headers = {"X-Vault-Token": os.environ['VAULT_CLIENT_TOKEN']}
 
