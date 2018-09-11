@@ -7,11 +7,11 @@ if [ "${test_type}" == "api" ]; then
     suite=`echo $4 | rev |cut -d "/" -f1 | rev | cut -d "." -f1`
 
     if [ "${break_on_failure}" == "1" ]; then
-        ipdb="--ipdb"
+        ipdb="" # "--ipdb"
     else
         ipdb=""
     fi
-    cmd="/usr/local/bin/pytest $ipdb /mist.core/mist.io/tests/$4"
+    cmd="/usr/local/bin/pytest $ipdb /mist.tests/$4"
 else
     suite=$4
     export BEHAVE_DEBUG_ON_ERROR=$3
