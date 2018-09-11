@@ -91,7 +91,7 @@ VAULT_SERVER = get_setting("VAULT_SERVER", "https://vault.ops.mist.io:8200")
 
 RECORD_SELENIUM = get_setting("RECORD_SELENIUM", True)
 
-LOCAL_DOCKER = get_setting("LOCAL_DOCKER","api")
+LOCAL_DOCKER = get_setting("LOCAL_DOCKER","socat")
 
 # Directories and paths used for the tests
 BASE_DIR = get_setting("BASE_DIR", os.getcwd())
@@ -211,12 +211,13 @@ ORG_ID = get_setting('ORG_ID', '')
 SETUP_ENVIRONMENT = get_setting("SETUP_ENVIRONMENT", False)
 
 WEBDRIVER_OPTIONS = get_setting('WEBDRIVER_OPTIONS',
-                                ['headless', 'no-sandbox', 'disable-gpu',
+                                ['no-sandbox', 'disable-gpu',
                                  'window-size=1920x1080'])
-
+if not os.getenv('VNC'):
+    WEBDRIVER_OPTIONS.append('headless')
 REGISTER_USER_BEFORE_FEATURE = get_setting('REGISTER_USER_BEFORE_FEATURE', True, priority='environment')
 
-IMAP_HOST = get_setting('IMAP_HOST', '172.17.0.1', priority='environment')
+IMAP_HOST = get_setting('IMAP_HOST', 'mailmock', priority='environment')
 
 IMAP_PORT = get_setting('IMAP_PORT', '8143', priority='environment')
 
