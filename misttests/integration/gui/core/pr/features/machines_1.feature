@@ -41,7 +41,7 @@ Feature: Machines
     When I visit the Home page
     And I visit the Machines page
     And I search for "ui-test-create-machine-random"
-    Then "ui-test-create-machine-random" machine state has to be "running" within 60 seconds
+    Then "ui-test-create-machine-random" machine state has to be "running" within 100 seconds
 
   @key-associate
   Scenario: Associate key with machine
