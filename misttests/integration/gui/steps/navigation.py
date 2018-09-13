@@ -294,7 +294,6 @@ def given_not_logged_in(context):
         try:
             context.execute_steps(u"""
                   When I visit the Home page
-                  And I am in the new UI
                   When I wait for the dashboard to load
                   And I logout
             """)
