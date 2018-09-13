@@ -1,3 +1,4 @@
+from time import sleep
 from behave import step
 
 from .forms import clear_input_and_send_keys
@@ -10,6 +11,7 @@ def search_for_something(context, search_text):
     if context.mist_config.get(search_text):
         search_text = context.mist_config.get(search_text)
     clear_input_and_send_keys(search_field, search_text)
+    sleep(1)
 
 
 @step(u'I clear the search bar')
