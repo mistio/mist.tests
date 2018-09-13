@@ -16,8 +16,6 @@ RUN set -x && \
         less \
         socat \
         x11vnc \
-        tmux \
-        parallel \
         ffmpeg \
     && \
     rm -rf /var/lib/apt/lists/* /var/cache/apt/*
@@ -28,11 +26,17 @@ RUN wget -q -O - https://dl-ssl.google.com/linux/linux_signing_key.pub | apt-key
     apt-get -y install google-chrome-stable && \
     rm -rf /var/lib/apt/lists/* /var/cache/apt/*
 
-ARG CHROMEDRIVER_VERSION=2.38
+ARG CHROMEDRIVER_VERSION=2.41
 RUN curl -SLO "https://chromedriver.storage.googleapis.com/$CHROMEDRIVER_VERSION/chromedriver_linux64.zip" && \
     unzip chromedriver_linux64.zip && \
     mv chromedriver /usr/local/bin && \
     rm chromedriver_linux64.zip
+
+# Install latest version of GNU parallel
+RUN (wget -O - pi.dk/3 || curl pi.dk/3/ || fetch -o - http://pi.dk/3) | bash
+
+#Install latest tmux
+RUN git clone https://github.com/tmux/tmux.git && cd tmux && sh autogen.sh && ./configure && make && mv tmux /usr/bin/
 
 RUN pip install git+https://github.com/mverteuil/pytest-ipdb.git#egg=pytest-ipdb
 
