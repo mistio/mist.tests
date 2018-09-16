@@ -89,7 +89,7 @@ def make_sure_menu_is_open(context):
 
 @step(u'I wait for the links in homepage to appear')
 def wait_for_buttons_to_appear(context):
-    context.execute_steps(u'Then I make sure the menu is open')
+    #context.execute_steps(u'Then I make sure the menu is open')
     end_time = time() + 10
     while time() < end_time:
         try:
@@ -136,7 +136,7 @@ def go_to_some_page_without_waiting(context, title):
     title = title.lower()
     if title not in ['machines', 'images', 'keys', 'networks', 'tunnels',
                      'scripts', 'schedules', 'templates', 'stacks', 'teams',
-                     'account', 'insights', 'home', 'zones', 'signup']:
+                     'account', 'insights', 'home', 'zones', 'rules', 'signup']:
         raise ValueError('The page given is unknown')
     if title.lower() == 'home':
         context.execute_steps(u'When I click the mist.io button')
@@ -228,7 +228,11 @@ def give_cc_details_if_necessary(context):
         for button in cc_required_dialog.find_elements_by_tag_name('paper-button'):
             if button.text.lower() == 'enable':
                 clicketi_click(context, button)
-                sleep(5)
+                sleep(8)
+
+        # verify that cc is required only in hs repo
+        assert context.mist_config['IS_HS_REPO'], "Credit card has been asked, although \
+                                                  the product is not hosted service!"
 
     except (NoSuchElementException, ElementNotVisibleException) as e:
         pass
@@ -290,7 +294,6 @@ def given_not_logged_in(context):
         try:
             context.execute_steps(u"""
                   When I visit the Home page
-                  And I am in the new UI
                   When I wait for the dashboard to load
                   And I logout
             """)

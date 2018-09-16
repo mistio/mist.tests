@@ -702,6 +702,38 @@ class MistIoApi(object):
         req.put = req.unavailable_api_call
         return req
 
+
+    #################################################
+    #                   VOLUMES                     #
+    #################################################
+
+    def list_volumes(self, cloud_id, api_token):
+        req = MistRequests(uri=self.uri + '/api/v1/clouds/' + cloud_id +
+                           '/volumes', api_token=api_token)
+
+        req.post = req.unavailable_api_call
+        req.put = req.unavailable_api_call
+        req.delete = req.unavailable_api_call
+        return req
+
+    def create_volume(self, cloud_id, api_token):
+        req = MistRequests(uri=self.uri + '/api/v1/clouds/' + cloud_id
+                           + '/volumes', api_token=api_token)
+        req.get = req.unavailable_api_call
+        req.put = req.unavailable_api_call
+        req.delete = req.unavailable_api_call
+        return req
+
+    def delete_volume(self, cloud_id, volume_id, api_token):
+        req = MistRequests(uri=self.uri + '/api/v1/clouds/' + cloud_id
+                           + '/volumes/' + volume_id, api_token=api_token)
+
+        req.get = req.unavailable_api_call
+        req.post = req.unavailable_api_call
+        req.put = req.unavailable_api_call
+        return req
+
+
     #################################################
     #                 USER-ACTIONS                  #
     #################################################

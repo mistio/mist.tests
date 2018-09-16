@@ -69,6 +69,7 @@ Feature: Production
     Then up 0 min should be included in the output
     And I close the terminal
     And I wait for 1 seconds
+    And I logout
 
   @github_sso_signin
   Scenario: Sign in testing with github

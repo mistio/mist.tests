@@ -76,7 +76,7 @@ Feature: RBAC-rules-v2
     And I wait for 1 seconds
     And I click the button "Docker" in the "Select Cloud" dropdown
     Then I expect the field "Machine name" in the machine add form to be visible within max 4 seconds
-    Then I set the value "docker-ui-test-machine-random" to field "Machine Name" in "machine" add form
+    Then I set the value "rbac-test-machine-random" to field "Machine Name" in "machine" add form
     When I open the "Image" drop down
     And I click the button "mist/ubuntu-14.04:latest" in the "Image" dropdown
     And I wait for 3 seconds
@@ -86,8 +86,8 @@ Feature: RBAC-rules-v2
     And I click the "Launch" button with id "appformsubmit"
     When I visit the Home page
     And I visit the Machines page
-    And I search for "docker-ui-test-machine-random"
-    Then "docker-ui-test-machine-random" machine state has to be "running" within 50 seconds
+    And I search for "rbac-test-machine-random"
+    Then "rbac-test-machine-random" machine state has to be "running" within 50 seconds
     And I logout
 
   @owner-deletes-allow-read-machine-rule

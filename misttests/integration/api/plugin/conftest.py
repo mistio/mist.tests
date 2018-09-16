@@ -7,6 +7,11 @@ def org_name():
     return config.ORG_NAME
 
 
+@pytest.fixture
+def template_github():
+    return 'https://github.com/mistio/simple-resource-provisioning-blueprint'
+
+
 @pytest.fixture(scope='module')
 def valid_api_token(request):
     return common_valid_api_token(request, email=email(), password=password1())

@@ -107,7 +107,9 @@ def add_key_api_request(context, key_name):
     }
     headers = {'Authorization': get_owner_api_token(context)}
 
-    requests.put(context.mist_config['MIST_URL'] + "/api/v1/keys" , data=json.dumps(payload), headers=headers)
+    re = requests.put(context.mist_config['MIST_URL'] + "/api/v1/keys" , data=json.dumps(payload), headers=headers)
+    assert re.status_code == 200, "Could not add key. Response was %s" % response.status_code
+    context.mist_config['ASSOCIATED_KEY'] = re.json()['id']
 
 
 @step(u'cloud "{cloud}" has been added via API request')
@@ -200,7 +202,9 @@ def create_docker_machine(context, machine_name):
         'name': machine_name,
         'provider': 'docker',
         'location': '',
-        'size': ''
+        'size': '',
+        'key': context.mist_config['ASSOCIATED_KEY']
     }
 
-    requests.post(context.mist_config['MIST_URL'] + "/api/v1/clouds/" + cloud_id + "/machines", data=json.dumps(payload), headers=headers)
+    re = requests.post(context.mist_config['MIST_URL'] + "/api/v1/clouds/" + cloud_id + "/machines", data=json.dumps(payload), headers=headers)
+    assert re.status_code == 200, "Could not create machine. Response was %s" % re.status_code

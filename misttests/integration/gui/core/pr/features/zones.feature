@@ -33,30 +33,34 @@ Feature: Zones
     When I clear the search bar
     And I wait for 1 seconds
 
-#  @disable-dns-support
-#  Scenario: Disable dns support and verify that zone created above is not visible
-#    When I visit the Home page
-#    And I wait for 1 seconds
-#    And I open the cloud menu for "GCE"
-#    And I wait for 2 seconds
-#    And I click the "Enable DNS" button with id "DNS-enable-disable"
-#    And I wait for 2 seconds
-#    And I visit the Home page
-#    And I wait for 1 seconds
-#    And I visit the Zones page
-#    Then "test-zone-random.com." zone should be absent within 60 seconds
+  @disable-dns-support
+  Scenario: Disable dns support and verify that zone created above is not visible
+    When I visit the Home page
+    And I wait for 1 seconds
+    And I open the cloud menu for "GCE"
+    And I click the button "DNS" in "cloud" edit form
+    And I wait for 1 seconds
+    And I click the "Enable DNS" button with id "DNS-enable-disable"
+    And I wait for 2 seconds
+    And I visit the Home page
+    And I refresh the page
+    And I wait for 3 seconds
+    And I visit the Zones page
+    Then "test-zone-random.com." zone should be absent within 10 seconds
 
   @zone-tags
   Scenario: Reenable dns-support and add tags to a zone
-#    When I visit the Home page
-#    And I wait for 1 seconds
-#    And I open the cloud menu for "GCE"
-#    And I wait for 2 seconds
-#    And I click the "Enable DNS" button with id "DNS-enable-disable"
-#    And I wait for 2 seconds
-#    And I visit the Zones page
+    When I visit the Home page
+    And I wait for 1 seconds
+    And I open the cloud menu for "GCE"
+    And I click the button "DNS" in "cloud" edit form
+    And I wait for 2 seconds
+    And I click the "Enable DNS" button with id "DNS-enable-disable"
+    And I wait for 2 seconds
+    And I visit the Home page
+    And I visit the Zones page
     And I search for "test-zone-random.com."
-    Then "test-zone-random.com." zone should be present within 60 seconds
+    Then "test-zone-random.com." zone should be present within 30 seconds
     When I click the "test-zone-random.com." "zone"
     Then I expect the "zone" edit form to be visible within max 5 seconds
     When I click the button "Tag" in "zone" edit form

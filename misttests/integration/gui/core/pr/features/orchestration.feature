@@ -13,7 +13,7 @@ Feature: Orchestration
     And I wait for 1 seconds
     And I click the button "Kubernetes Blueprint" in the "Catalogue Templates" dropdown
     And I set the value "Simple Python Template" to field "Template Name" in "template" add form
-    And I set the value "https://github.com/mistio/simple-python-webserver-blueprint" to field "Github Repo" in "template" add form
+    And I set the value "https://github.com/mistio/simple-resource-provisioning-blueprint" to field "Git Repo" in "template" add form
     And I set the value "blueprint.yaml" to field "Entry Point" in "template" add form
     Then I expect for the button "Add" in "template" add form to be clickable within 9 seconds
     When I focus on the button "Add" in "template" add form

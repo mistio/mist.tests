@@ -49,7 +49,7 @@ def get_machine(context, name):
 
         for machine in machines:
             machine_text = safe_get_element_text(machine.find_element_by_css_selector('.name')).strip().lower()
-            if name in machine_text:
+            if name == machine_text:
                 return machine
 
         return None

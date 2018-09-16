@@ -108,9 +108,22 @@ def before_all(context):
             "%s/api/v1/dev/register" % context.mist_config['MIST_URL'],
             data=json.dumps(payload)
         )
-
         context.mist_config['ORG_ID'] = response.json().get('org_id')
         context.mist_config['ORG_NAME'] = response.json().get('org_name')
+
+    # check whether hs repo is tested
+    api_token = get_api_token(context)
+    headers = {'Authorization': api_token}
+
+    response = requests.get(
+        "%s/api/v1/billing" % context.mist_config['MIST_URL'],
+        headers=headers
+    )
+
+    if response.status_code == 404:
+        context.mist_config['IS_HS_REPO'] = False
+    else:
+        context.mist_config['IS_HS_REPO'] = True
 
     log.info("Finished with before_all hook. Starting tests")
     log.info("EMAIL: %s" % context.mist_config['EMAIL'])
@@ -205,13 +218,30 @@ def kill_docker_machine(context, machine_to_destroy):
             response = requests.get(uri, headers=headers)
             if response.json():
                 for machine in response.json():
-                    if machine_to_destroy in machine['name']:
+                    if machine_to_destroy == machine['name']:
                         log.info('Killing docker machine...')
                         payload = {'action': 'destroy'}
                         uri = context.mist_config['MIST_URL'] + \
                                 '/api/v1/clouds/' + cloud['id'] + \
                                 '/machines/' + machine['machine_id']
                         requests.post(uri, data=json.dumps(payload), headers=headers)
+
+def delete_ec2_network(context, network_to_delete):
+    api_token = get_api_token(context)
+    headers = {'Authorization': api_token}
+    response = requests.get("%s/api/v1/clouds" % context.mist_config['MIST_URL'], headers=headers)
+    for cloud in response.json():
+        if 'ec2' in cloud['provider']:
+            uri = context.mist_config['MIST_URL'] + '/api/v1/clouds/' + cloud['id'] + '/networks'
+            response = requests.get(uri, headers=headers)
+            if response.json()['private']:
+                for network in response.json()['private']:
+                    if network_to_delete == network['name']:
+                        log.info('Deleting ec2 network...')
+                        uri = context.mist_config['MIST_URL'] + \
+                                '/api/v1/clouds/' + cloud['id'] + \
+                                '/networks/' + network['id']
+                        requests.delete(uri, headers=headers)
 
 
 def finish_and_cleanup(context):
@@ -290,10 +320,14 @@ def after_feature(context, feature):
             context.mist_config.get('ui-test-create-machine-random')
         )
     if feature.name == 'RBAC-rules-v2':
-        kill_docker_machine(context, context.mist_config.get('docker-ui-test-machine-random'))
-    if feature.name in ['Monitoring', 'Alert']:
+        kill_docker_machine(context, context.mist_config.get('rbac-test-machine-random'))
+    if feature.name in ['Monitoring']:
         kill_docker_machine(context, context.mist_config.get('monitored-machine-random'))
+    if feature.name in ['Rules']:
+        kill_docker_machine(context, context.mist_config.get('rules-test-machine-random'))
+    if feature.name == 'Images-Networks':
+        delete_ec2_network(context, context.mist_config.get('network_random'))
     #if feature.name == 'Production':
     #    mayday_cleanup(context)
-    if feature.name == 'Multiprovisioning':
-        mp_cleanup(context)
+    #if feature.name == 'Multiprovisioning':
+    #    mp_cleanup(context)

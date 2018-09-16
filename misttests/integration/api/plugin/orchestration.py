@@ -215,14 +215,14 @@ class TestOrchestrationFunctionality:
         assert_response_bad_request(response)
         print "Success!!!"
 
-    def test_add_template_ok(self, pretty_print, mist_core, owner_api_token, cache):
+    def test_add_template_ok(self, pretty_print, mist_core, owner_api_token, cache, template_github):
         response = mist_core.add_template(api_token=owner_api_token, name='Template1', location_type='github',
-                                          template_github='https://github.com/mistio/kubernetes-blueprint',
+                                          template_github=template_github,
                                           entrypoint="blueprint.yaml").post()
         cache.set('template_id', response.json()['id'])
         assert_response_ok(response)
         response = mist_core.add_template(api_token=owner_api_token, name='Template2', location_type='github',
-                                          template_github='https://github.com/mistio/simple-python-webserver-blueprint',
+                                          template_github=template_github,
                                           entrypoint="blueprint.yaml").post()
         cache.set('template_to_use_id', response.json()['id'])
         assert_response_ok(response)
