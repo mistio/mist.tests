@@ -20,6 +20,7 @@
 
 
 import os
+import json
 import ast
 import sys
 import string
@@ -44,11 +45,20 @@ def safe_get_var(vault_path, vault_key, test_settings_var = None):
 
     if VAULT_ENABLED:
 
+        data = {'password': os.environ['VAULT_PASSWORD']}
+        response = requests.post(VAULT_SERVER + '/v1/auth/userpass/login/%s' % os.environ['VAULT_USERNAME'], data=json.dumps(data))
+
+        assert response.status_code == 200, "Response from vault was not 200 when trying to login, but instead it was %s" % response.status_code
+
+        os.environ['VAULT_CLIENT_TOKEN'] = response.json().get('auth').get('client_token')
+
         headers = {"X-Vault-Token": os.environ['VAULT_CLIENT_TOKEN']}
 
-        re = requests.get(VAULT_SERVER + '/v1/secret/%s' % vault_path, headers=headers)
+        response = requests.get(VAULT_SERVER + '/v1/secret/%s' % vault_path, headers=headers)
 
-        json_data = re.json().get('data')
+        assert response.status_code == 200, "Response from vault was not 200, but instead it was %s" % response.status_code
+
+        json_data = response.json().get('data')
 
         return json_data.get(vault_key)
 
@@ -87,11 +97,9 @@ VAULT_ENABLED = get_setting("VAULT_ENABLED", True, priority='environment')
 
 VAULT_SERVER = get_setting("VAULT_SERVER", "https://vault.ops.mist.io:8200")
 
-DEBUG = get_setting("DEBUG", False)
-
 RECORD_SELENIUM = get_setting("RECORD_SELENIUM", True)
 
-LOCAL_DOCKER = get_setting("LOCAL_DOCKER","api")
+LOCAL_DOCKER = get_setting("LOCAL_DOCKER","socat")
 
 # Directories and paths used for the tests
 BASE_DIR = get_setting("BASE_DIR", os.getcwd())
@@ -141,8 +149,8 @@ NAME = get_setting("NAME", "Atheofovos Gkikas")
 
 # -----------MAYDAY------------------
 MAYDAY_MACHINE = get_setting("MAYDAY_MACHINE", "")
-
 MAYDAY_TOKEN = get_setting("MAYDAY_TOKEN", "")
+MAYDAY_MACHINE_ID = get_setting("MAYDAY_MACHINE_ID", "")
 
 # DEFAULT CREDENTIALS FOR ACCESSING MIST.CORE
 BASE_EMAIL = get_setting("BASE_EMAIL", "thingirl.tester.mist.io")
@@ -165,6 +173,13 @@ MEMBER1_PASSWORD = get_setting("MEMBER1_PASSWORD", PASSWORD1)
 
 MEMBER2_EMAIL = get_setting("MEMBER2_EMAIL", "")
 MEMBER2_PASSWORD = get_setting("MEMBER2_PASSWORD", PASSWORD1)
+
+# CREDIT CARD CREDENTIALS
+CC_CVC = get_setting("CC_CVC", "111")
+CC_CC = get_setting("CC_CC", "4242424242424242")
+CC_EXPIRE_MONTH = get_setting("CC_EXPIRE_MONTH", "12")
+CC_EXPIRE_YEAR = get_setting("CC_EXPIRE_YEAR", "21")
+CC_ZIP_CODE = get_setting("MEMBER1_PASSWORD", "17675")
 
 # CREDENTIALS FOR GOOGLE SSO
 GOOGLE_TEST_EMAIL = get_setting("GOOGLE_TEST_EMAIL", "")
@@ -204,29 +219,28 @@ ORG_ID = get_setting('ORG_ID', '')
 SETUP_ENVIRONMENT = get_setting("SETUP_ENVIRONMENT", False)
 
 WEBDRIVER_OPTIONS = get_setting('WEBDRIVER_OPTIONS',
-                                ['headless', 'no-sandbox', 'disable-gpu',
+                                ['no-sandbox', 'disable-gpu',
                                  'window-size=1920x1080'])
-
+if not os.getenv('VNC'):
+    WEBDRIVER_OPTIONS.append('headless')
 REGISTER_USER_BEFORE_FEATURE = get_setting('REGISTER_USER_BEFORE_FEATURE', True, priority='environment')
 
-IMAP_SERVER = get_setting('IMAP_SERVER', 'imap.gmail.com', priority='environment')
+IMAP_HOST = get_setting('IMAP_HOST', 'mailmock', priority='environment')
 
-IMAP_USE_SSL = get_setting('IMAP_USE_SSL', True, priority='environment')
+IMAP_PORT = get_setting('IMAP_PORT', '8143', priority='environment')
 
-IMAP_USER = get_setting('IMAP_USER', EMAIL)
-
-IMAP_PASSWORD = get_setting('IMAP_PASSWORD', '')
+IMAP_USE_SSL = get_setting('IMAP_USE_SSL', False, priority='environment')
 
 KEY_ID = get_setting('KEY_ID', '')
 
-DEFAULT_CREDENTIALS = {'AWS': {'api_key': '', 'api_secret': '', 'region': ''},
-                       'AWS_2': {'api_key': '', 'api_secret': '', 'region': ''},
+DEFAULT_CREDENTIALS = {'AWS': {'api_key': '', 'api_secret': '', 'region': '', 'region_id': ''},
+                       'AWS_2': {'api_key': '', 'api_secret': '', 'region': '', 'region_id': ''},
                        'KVM': {'key': """ """, 'hostname': ''},
                        'AZURE': {'certificate': """ """, 'subscription_id': ''},
                        'AZURE_ARM': {'client_key': '', 'client_secret': '', 'subscription_id': '', 'tenant_id': ''},
                        'DIGITALOCEAN': {'token': ''},
                        'DOCKER': {'authentication': '', 'ca': """ """, 'cert': """ """, 'host': '', 'key': """""", 'port': ''},
-                       'EC2': {'api_key': '', 'api_secret': '', 'region': ''},
+                       'EC2': {'api_key': '', 'api_secret': '', 'region': '', 'region_id': ''},
                        'LINODE': {'api_key': ''},
                        'NEPHOSCALE': {'password': '', 'username': ''},
                        'GCE': {'project_id': '', 'private_key': {}},

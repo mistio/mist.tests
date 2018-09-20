@@ -3,7 +3,7 @@ stages:
   - test
 
 variables:
-  img: gcr.io/mist-ops/tests_base
+  img: gcr.io/mist-ops/tests
 
 build:
   stage: build
@@ -12,8 +12,11 @@ build:
     - echo "Pushing $img:$CI_COMMIT_SHA"
     - docker push $img:$CI_COMMIT_SHA
     - docker tag $img:$CI_COMMIT_SHA $img:$CI_COMMIT_REF_SLUG
+    - docker tag $img:$CI_COMMIT_SHA mist/tests:$CI_COMMIT_SHA
     - echo "Pushing $img:$CI_COMMIT_REF_SLUG"
     - docker push $img:$CI_COMMIT_REF_SLUG
+    - echo "Pushing mist/tests:$CI_COMMIT_SHA"
+    - docker push mist/tests:$CI_COMMIT_SHA
     - if [ "$CI_COMMIT_REF_SLUG" != master ]; then exit 0; fi
     - docker tag $img:$CI_COMMIT_SHA $img:latest
     - echo "Pushing $img:latest"
@@ -29,11 +32,11 @@ flake8:
   before_script:
     - cd /mist.tests/
   script:
-    - flake8 misttests/api/io/io.py
-    - flake8 misttests/api/core/core.py
-    - flake8 misttests/api/mistrequests.py
-    - flake8 misttests/api/utils.py
-    - flake8 misttests/api/core/api_token.py
+    - flake8 misttests/integration/api/io/io.py
+    - flake8 misttests/integration/api/core/core.py
+    - flake8 misttests/integration/api/mistrequests.py
+    - flake8 misttests/integration/api/utils.py
+    - flake8 misttests/integration/api/core/api_token.py
     - flake8 misttests/gui/steps/browser.py
     - flake8 misttests/gui/steps/org_context.py
     - flake8 misttests/gui/steps/search.py

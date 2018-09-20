@@ -7,16 +7,16 @@ if [ "${test_type}" == "api" ]; then
     suite=`echo $4 | rev |cut -d "/" -f1 | rev | cut -d "." -f1`
 
     if [ "${break_on_failure}" == "1" ]; then
-        ipdb="--ipdb"
+        ipdb="" # "--ipdb"
     else
         ipdb=""
     fi
-    cmd="/usr/local/bin/pytest $ipdb /mist.core/mist.io/tests/$4"
+    cmd="/usr/local/bin/pytest $ipdb /mist.tests/$4"
 else
     suite=$4
     export BEHAVE_DEBUG_ON_ERROR=$3
     export DATADIR=$2
-    cmd="/usr/local/bin/behave -k --no-capture --no-capture-stderr --stop --tags=$4 misttests/gui/core/pr/features/"
+    cmd="/usr/local/bin/behave -k --no-capture --no-capture-stderr --stop --tags=$4 misttests/integration/gui/core/pr/features/"
 fi
 
 logfile=$datadir/${test_type}-${suite}.txt
