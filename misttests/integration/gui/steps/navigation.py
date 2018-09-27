@@ -90,7 +90,7 @@ def make_sure_menu_is_open(context):
 @step(u'I wait for the links in homepage to appear')
 def wait_for_buttons_to_appear(context):
     #context.execute_steps(u'Then I make sure the menu is open')
-    end_time = time() + 15
+    end_time = time() + 20
     while time() < end_time:
         try:
             images_button = context.browser.find_element_by_id('images')
@@ -99,7 +99,7 @@ def wait_for_buttons_to_appear(context):
             break
         except (NoSuchElementException, ValueError, AttributeError):
             assert time() + 1 < end_time, "Links in the home page have not" \
-                                          " appeared after 10 seconds"
+                                          " appeared after 20 seconds"
             sleep(1)
 
 
