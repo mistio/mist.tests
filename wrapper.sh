@@ -7,7 +7,7 @@ if [ "${test_type}" == "api" ]; then
     suite=`echo $4 | rev |cut -d "/" -f1 | rev | cut -d "." -f1`
 
     if [ "${break_on_failure}" == "1" ]; then
-        ipdb="" # "--ipdb"
+        ipdb="--pdb --pdbcls=IPython.terminal.debugger:Pdb"
     else
         ipdb=""
     fi
