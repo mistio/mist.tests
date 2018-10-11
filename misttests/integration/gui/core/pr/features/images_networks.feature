@@ -121,7 +121,7 @@ Feature: Images-Networks
     And "network_random" network should be present within 20 seconds
     When I click the "network_random" "network"
     And I expect the "network" edit form to be visible within max 5 seconds
-    And I wait for 2 seconds
+    And I wait for 10 seconds
     Then there should be 1 subnets visible in single network page
     And the cidr of the subnet created should be "10.146.0.0/20"
 
