@@ -50,8 +50,8 @@ Feature: Rules
     And I click the "rules-test-machine-random" "machine"
     And I expect the "machine" edit form to be visible within max 5 seconds
     Then I wait for the graphs to appear
-    When I scroll to the bottom of the page
-    #And I remove previous rules
+    When I scroll to the element with id "add-new-rule-dialog"
+    And I remove previous rules
     And I click the button "add new rule"
     And I wait for 1 seconds
     And I click the "Load" button in the dropdown with id "target-0" within "add-new-rule-dialog"

@@ -148,7 +148,7 @@ def click_button_in_dropdown(context, button_name, name):
 
 
 @step(u'I click the "{button}" button in the "{name}" dropdown within "{container_id}"')
-def click_button_in_dropdown(context, button, name, container_id=None):
+def click_button_in_dropdown_within_container(context, button, name, container_id=None):
     button = button.strip().lower()
     try:
         dropdown = find_dropdown(context, name.lower(), container_id)
@@ -159,6 +159,11 @@ def click_button_in_dropdown(context, button, name, container_id=None):
         return True
     buttons = dropdown.find_elements_by_tag_name('paper-item')
     click_button_from_collection(context, button.lower(), buttons)
+
+@step(u'I click the "{button}" button in the "{name}" dropdown')
+@step(u'I click the button "{button}" in the "{name}" dropdown')
+def click_button_in_dropdown(context, button, name):
+    click_button_in_dropdown_within_container(context, button, name)
 
 
 #@step(u'I click the "{button}" button in the dropdown with id "{dropdown_id}"')
@@ -172,13 +177,21 @@ def click_button_in_dropdown(context, button, name, container_id=None):
 
 
 @step(u'I click the "{button}" button in the dropdown with id "{dropdown_id}" within "{container_id}"')
-def click_button_in_dropdown_with_id_within_container(context, button, dropdown_id, container_id):
+def click_button_in_dropdown_with_id_within_container(context, button, dropdown_id, container_id=None):
     button = button.strip().lower()
-    dropdown = context.browser.find_element_by_id(container_id).find_element_by_id(dropdown_id)
+    if container_id:
+        container = context.browser.find_element_by_id(container_id)
+    else:
+        container = context.browser
+    dropdown = container.find_element_by_id(dropdown_id)
     if button == get_current_value_of_dropdown(dropdown):
         return True
     buttons = dropdown.find_elements_by_tag_name('paper-item')
     click_button_from_collection(context, button.lower(), buttons)
+
+@step(u'I click the "{button}" button in the dropdown with id "{dropdown_id}"')
+def click_button_in_dropdown_with_id(context, button, dropdown_id):
+    click_button_in_dropdown_with_id_within_container(context, button, dropdown_id)
 
 
 @step(u'I open the "{dropdown}" mist-dropdown within "{container_id}"')
@@ -309,13 +322,18 @@ def click_button_by_class(context,button):
 
 
 @step(u'I click the "{button}" button with id "{button_id}" within "{container_id}"')
-def click_button_by_id(context, button, button_id, container_id=None):
+def click_button_by_id_within_container(context, button, button_id, container_id=None):
     if container_id:
         container = context.browser.find_element_by_id(container_id)
-        button_to_click = container.find_element_by_id(button_id)
     else:
-        button_to_click = context.browser.find_element_by_id(button_id)
+        container = context.browser
+    button_to_click = container.find_element_by_id(button_id)
     clicketi_click(context, button_to_click)
+
+
+@step(u'I click the "{button}" button with id "{button_id}"')
+def click_button_by_id(context, button, button_id):
+    click_button_by_id_within_container(context, button, button_id)
 
 
 @step(u'I click the mist-logo')
