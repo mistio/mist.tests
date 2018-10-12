@@ -269,16 +269,22 @@ def fill_default_script(context):
         textfield.send_keys(letter)
 
 
-@step(u'I click the "{rule_class}" rule')
-def click_rule_dropdown(context, rule_class):
-    rule_element = context.browser.find_element_by_xpath('//paper-dropdown-menu[contains(@class, "%s")]' % rule_class)
+@step(u'I click the "{rule_class}" rule within "{container_id}"')
+def click_rule_dropdown(context, rule_class, container_id=None):
+    if container_id:
+        rule_element = context.browser.find_element_by_id(container_id).find_element_by_xpath('//paper-dropdown-menu[contains(@class, "%s")]' % rule_class)
+    else:
+        rule_element = context.browser.find_element_by_xpath('//paper-dropdown-menu[contains(@class, "%s")]' % rule_class)
     clicketi_click(context, rule_element)
 
 
-@step(u'I save the rule')
-def save_rule(context):
-    container = context.browser.find_element_by_xpath('//div[contains(@class, "rule-actions")]')
-    button = container.find_element_by_xpath('.//paper-button[contains(@class, "blue")]')
+@step(u'I save the rule within "{container_id}"')
+def save_rule(context, container_id=None):
+    if container_id:
+        container = context.browser.find_element_by_id(container_id)
+    else:
+        container = context.browser.find_element_by_xpath('//div[contains(@class, "rule-actions")]')
+    button = container.find_element_by_css_selector('paper-button.blue')
     # double click needed, one after having selected team/members
     # and one to actually save the rule
     clicketi_click(context, button)
@@ -287,20 +293,21 @@ def save_rule(context):
 
 @step(u'I remove previous rules')
 def remove_previous_rules(context):
-    previous_rules = context.browser.find_elements_by_tag_name('rule-item')
+    try:
+        previous_rules = context.browser.find_element_by_id('apply-on-this').find_elements_by_tag_name('rule-item')
+    except:
+        previous_rules = context.browser.find_elements_by_tag_name('rule-item')
     rule_length = len(previous_rules)
     while rule_length > 0:
         rule = previous_rules.pop()
-        delete_rule_button = rule.find_elements_by_tag_name('paper-icon-button')[1]
+        rule_length -= 1
+        try:
+            delete_rule_button = rule.find_element_by_css_selector('paper-icon-button.delete-btn')
+        except:
+            continue
         clicketi_click(context, delete_rule_button)
+        sleep(2)
         previous_rules = context.browser.find_elements_by_tag_name('rule-item')
-        sleeps = 0
-        while len(previous_rules) == rule_length:
-            assert sleeps != 10, "Rule hasn't been deleted after 10 seconds"
-            sleep(1)
-            sleeps += 1
-            previous_rules = context.browser.find_elements_by_tag_name('rule-item')
-        rule_length = len(previous_rules)
 
 
 @step(u'rule "{rule}" should be {state}')

@@ -17,21 +17,22 @@ Feature: Rules
     And I wait for 5 seconds
     Then I wait for the graphs to appear
     And 9 graphs should be visible within max 30 seconds
+    And I wait for 10 seconds
 
   @alert-email
   Scenario: Insert rule that will be triggered immediately
-    When I scroll to the bottom of the page
+    When I scroll to the element with id "add-new-rule-dialog"
     And I click the button "add new rule"
     And I wait for 1 seconds
-    And I click the "RAM" button in the dropdown with id "target-0"
-    And I click the ">" button in the dropdown with id "operator-0"
-    And I type "0" in input with id "threshold-0"
-    And I click the "actionsDropdown" button with id "actionsDropdown"
-    And I click the button "alert" in the "actionsDropdown" dropdown
-    And I open the "teams" mist-dropdown
-    And I select "Owners" in "teams" mist-dropdown
+    And I click the "RAM" button in the dropdown with id "target-0" within "add-new-rule-dialog"
+    And I click the ">" button in the dropdown with id "operator-0" within "add-new-rule-dialog"
+    And I type "0" in input with id "threshold-0" within "add-new-rule-dialog"
+    And I click the "actionsDropdown" button with id "actionsDropdown" within "add-new-rule-dialog"
+    And I click the "alert" button in the dropdown with id "actionsDropdown" within "add-new-rule-dialog"
+    And I open the "teams" mist-dropdown within "add-new-rule-dialog"
+    And I select "Owners" in "teams" mist-dropdown within "add-new-rule-dialog"
     And I wait for 2 seconds
-    And I save the rule
+    And I save the rule within "add-new-rule-dialog"
 
   @incidents
   Scenario: Verify that incident gets triggered
@@ -50,16 +51,16 @@ Feature: Rules
     And I expect the "machine" edit form to be visible within max 5 seconds
     Then I wait for the graphs to appear
     When I scroll to the bottom of the page
-    And I remove previous rules
+    #And I remove previous rules
     And I click the button "add new rule"
     And I wait for 1 seconds
-    And I click the "Load" button in the dropdown with id "target-0"
-    And I click the "<" button in the dropdown with id "operator-0"
-    And I type "10" in input with id "threshold-0"
-    And I click the "actionsDropdown" button with id "actionsDropdown"
-    And I click the button "destroy" in the "actionsDropdown" dropdown
+    And I click the "Load" button in the dropdown with id "target-0" within "add-new-rule-dialog"
+    And I click the "<" button in the dropdown with id "operator-0" within "add-new-rule-dialog"
+    And I type "10" in input with id "threshold-0" within "add-new-rule-dialog"
+    And I click the "actionsDropdown" button with id "actionsDropdown" within "add-new-rule-dialog"
+    And I click the "destroy" button in the dropdown with id "actionsDropdown" within "add-new-rule-dialog"
     And I wait for 2 seconds
-    Then I save the rule
+    Then I save the rule within "add-new-rule-dialog"
     When I visit the Machines page
     And I search for "rules-test-machine-random"
     Then "rules-test-machine-random" machine state has to be "running" within 30 seconds

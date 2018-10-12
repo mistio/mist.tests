@@ -31,15 +31,22 @@ def give_some_input(context, input_element, text):
     actions.perform()
 
 
-@step(u'I type "{some_text}" in input with id "{element_id}"')
-def give_some_input_by_id(context, some_text, element_id):
-    input_element = context.browser.find_element_by_id(element_id)
+@step(u'I type "{some_text}" in input with id "{element_id}" within "{container_id}"')
+def give_some_input_by_id(context, some_text, element_id, container_id=None):
+    if not container_id:
+        input_element = context.browser.find_element_by_id(element_id)
+    else:
+        container = context.browser.find_element_by_id(container_id)
+        input_element = container.find_element_by_id(element_id)
     give_some_input(context, input_element, some_text)
 
 
-@step(u'I type "{some_text}" in input with class name "{element_class}"')
-def give_some_input_by_class(context, some_text, element_class):
-    input_element = context.browser.find_element_by_class_name(element_class)
+@step(u'I type "{some_text}" in input with class name "{element_class}" within "{container_id}"')
+def give_some_input_by_class(context, some_text, element_class, container_id=None):
+    if not container_id:
+        input_element = context.browser.find_element_by_class_name(element_class)
+    else:
+        input_element = context.browser.find_element_by_id(container_id).find_element_by_class_name(element_class)
     give_some_input(context, input_element, some_text)
 
 
