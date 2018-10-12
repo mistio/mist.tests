@@ -210,7 +210,7 @@ class TestNetworksFunctionality:
         assert_response_ok(response)
 
         for network in response.json():
-            if network == cache.get('subnet_ids/ec2', ''):
+            if network.get('id') == cache.get('subnet_ids/ec2', ''):
                 assert False, "Network is still returned in list_networks, although it has been deleted"
 
         print "Success!!!"

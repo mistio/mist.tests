@@ -107,6 +107,7 @@ Feature: Production
   Scenario: Verify that incident gets triggered
     Given I am logged in to mist.core
     And I wait for the links in homepage to appear
+    And I wait for 2 seconds
     Then I should see the incident "Load < 10"
 
   @confirm_schedule-triggered
