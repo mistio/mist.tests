@@ -20,19 +20,19 @@ Feature: Rules
     When I visit the Rules page
     And I click the button "add new rule"
     And I wait for 1 seconds
-    And I click the "apply on" button with id "apply-on" within "add-new-rule-dialog"
-    And I click the "every machine" button in the dropdown with id "apply-on" within "add-new-rule-dialog"
-    And I click the "target" button with id "target-0" within "add-new-rule-dialog"
-    And I click the "Load" button in the dropdown with id "target-0" within "add-new-rule-dialog"
+    And I click the "apply on" button with id "apply-on"
+    And I click the "every machine" button in the dropdown with id "apply-on"
+    And I click the "target" button with id "target-0"
+    And I click the "Load" button in the dropdown with id "target-0"
     And I wait for 1 seconds
-    And I click the "<" button in the dropdown with id "operator-0" within "add-new-rule-dialog"
-    And I type "10" in input with id "threshold-0" within "add-new-rule-dialog"
-    And I click the "actionsDropdown" button with id "actionsDropdown" within "add-new-rule-dialog"
-    And I click the "alert" button in the dropdown with id "actionsDropdown" within "add-new-rule-dialog"
-    And I open the "teams" mist-dropdown within "add-new-rule-dialog"
-    And I select "Owners" in "teams" mist-dropdown within "add-new-rule-dialog"
+    And I click the "<" button in the dropdown with id "operator-0"
+    And I type "10" in input with id "threshold-0"
+    And I click the "actionsDropdown" button with id "actionsDropdown"
+    And I click the button "alert" in the "actionsDropdown" dropdown
+    And I open the "teams" mist-dropdown
+    And I select "Owners" in "teams" mist-dropdown
     And I wait for 2 seconds
-    And I save the rule within "add-new-rule-dialog"
+    And I save the rule
     And I visit the Machines page
     And I search for "rules-test-machine-random"
     And I click the "rules-test-machine-random" "machine"
@@ -71,18 +71,18 @@ Scenario: Delete a rule from rules page and verify it is not visible in single m
     When I visit the Rules page
     And I click the button "add new rule"
     And I wait for 1 seconds
-    And I click the "apply on" button with id "apply-on" within "add-new-rule-dialog"
-    And I click the "machines with tag" button in the dropdown with id "apply-on" within "add-new-rule-dialog"
-    And I type "test=awesome" in input with class name "tags" within "add-new-rule-dialog"
-    And I click the "target" button with id "target-0" within "add-new-rule-dialog"
-    And I click the "CPU" button in the dropdown with id "target-0" within "add-new-rule-dialog"
+    And I click the "apply on" button with id "apply-on"
+    And I click the "machines with tag" button in the dropdown with id "apply-on"
+    And I type "test=awesome" in input with class name "tags"
+    And I click the "target" button with id "target-0"
+    And I click the "CPU" button in the dropdown with id "target-0"
     And I wait for 1 seconds
-    And I click the "<" button in the dropdown with id "operator-0" within "add-new-rule-dialog"
-    And I type "20" in input with id "threshold-0" within "add-new-rule-dialog"
-    And I click the "actionsDropdown" button with id "actionsDropdown" within "add-new-rule-dialog"
-    And I click the "destroy" button in the dropdown with id "actionsDropdown" within "add-new-rule-dialog"
+    And I click the "<" button in the dropdown with id "operator-0"
+    And I type "20" in input with id "threshold-0"
+    And I click the "actionsDropdown" button with id "actionsDropdown"
+    And I click the button "destroy" in the "actionsDropdown" dropdown
     And I wait for 1 seconds
-    Then I save the rule within "add-new-rule-dialog"
+    Then I save the rule
     When I visit the Machines page
     And I search for "rules-test-machine-random"
     And I click the "rules-test-machine-random" "machine"

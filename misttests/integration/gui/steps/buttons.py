@@ -129,7 +129,7 @@ def click_button(context, text):
 
 @step(u'I click the button "{button_name}" in the "{name}" page actions menu')
 def click_button_in_dropdown(context, button_name, name):
-    actions = context.browser.find_element_by_css_selector('mist-actions[type=%s]' % name)
+    actions = context.browser.find_element_by_tag_name('mist-actions')
     buttons = actions.find_elements_by_xpath('paper-button')
     for button in buttons:
         if safe_get_element_text(button).lower() == button_name.lower():
@@ -147,11 +147,11 @@ def click_button_in_dropdown(context, button_name, name):
     click_button_from_collection(context, button_name, more_dropdown_buttons)
 
 
-@step(u'I click the "{button}" button in the "{name}" dropdown within "{container_id}"')
-def click_button_in_dropdown_within_container(context, button, name, container_id=None):
+@step(u'I click the button "{button}" in the "{name}" dropdown')
+def click_button_in_dropdown(context, button, name):
     button = button.strip().lower()
     try:
-        dropdown = find_dropdown(context, name.lower(), container_id)
+        dropdown = find_dropdown(context, name.lower())
     except AssertionError:
         # FIXME: this is needed for mayday test
         dropdown = context.browser.find_element_by_id(name)
@@ -160,62 +160,33 @@ def click_button_in_dropdown_within_container(context, button, name, container_i
     buttons = dropdown.find_elements_by_tag_name('paper-item')
     click_button_from_collection(context, button.lower(), buttons)
 
-@step(u'I click the "{button}" button in the "{name}" dropdown')
-@step(u'I click the button "{button}" in the "{name}" dropdown')
-def click_button_in_dropdown(context, button, name):
-    click_button_in_dropdown_within_container(context, button, name)
 
-
-#@step(u'I click the "{button}" button in the dropdown with id "{dropdown_id}"')
-#def click_button_in_dropdown_with_id(context, button, dropdown_id):
-#    button = button.strip().lower()
-#    dropdown = context.browser.find_element_by_id(dropdown_id)
-#    if button == get_current_value_of_dropdown(dropdown):
-#        return True
-#    buttons = dropdown.find_elements_by_tag_name('paper-item')
-#    click_button_from_collection(context, button.lower(), buttons)
-
-
-@step(u'I click the "{button}" button in the dropdown with id "{dropdown_id}" within "{container_id}"')
-def click_button_in_dropdown_with_id_within_container(context, button, dropdown_id, container_id=None):
+@step(u'I click the "{button}" button in the dropdown with id "{dropdown_id}"')
+def click_button_in_dropdown_with_id(context, button, dropdown_id):
     button = button.strip().lower()
-    if container_id:
-        container = context.browser.find_element_by_id(container_id)
-    else:
-        container = context.browser
-    dropdown = container.find_element_by_id(dropdown_id)
+    dropdown = context.browser.find_element_by_id(dropdown_id)
     if button == get_current_value_of_dropdown(dropdown):
         return True
     buttons = dropdown.find_elements_by_tag_name('paper-item')
     click_button_from_collection(context, button.lower(), buttons)
 
-@step(u'I click the "{button}" button in the dropdown with id "{dropdown_id}"')
-def click_button_in_dropdown_with_id(context, button, dropdown_id):
-    click_button_in_dropdown_with_id_within_container(context, button, dropdown_id)
 
-
-@step(u'I open the "{dropdown}" mist-dropdown within "{container_id}"')
-def open_mist_dropdown(context, dropdown, container_id=None):
+@step(u'I open the "{dropdown}" mist-dropdown')
+def open_mist_dropdown(context, dropdown):
     if dropdown not in ['teams', 'members']:
         raise Exception('Unknown mist-dropdown')
-    if container_id:
-        mist_dropdowns = context.browser.find_element_by_id(container_id).find_elements_by_tag_name('mist-dropdown-multi')
-    else:
-        mist_dropdowns = context.browser.find_elements_by_tag_name('mist-dropdown-multi')
+    mist_dropdowns = context.browser.find_elements_by_tag_name('mist-dropdown-multi')
     if dropdown == 'teams':
         clicketi_click(context, mist_dropdowns[0])
     else:
         clicketi_click(context, mist_dropdowns[1])
 
 
-@step(u'I select "{members}" in "{dropdown}" mist-dropdown within "{container_id}"')
-def select_members_in_mist_dropdown(context, members, dropdown, container_id=None):
+@step(u'I select "{members}" in "{dropdown}" mist-dropdown')
+def select_members_in_mist_dropdown(context, members, dropdown):
     if dropdown not in ['teams', 'members']:
         raise Exception('Unknown mist-dropdown')
-    if container_id:
-        mist_dropdowns = context.browser.find_element_by_id(container_id).find_elements_by_tag_name('mist-dropdown-multi')
-    else:
-        mist_dropdowns = context.browser.find_elements_by_tag_name('mist-dropdown-multi')
+    mist_dropdowns = context.browser.find_elements_by_tag_name('mist-dropdown-multi')
     if dropdown == 'teams':
         mist_dropdown = mist_dropdowns[0]
     else:
@@ -321,19 +292,10 @@ def click_button_by_class(context,button):
         raise Exception('Unknown type of button')
 
 
-@step(u'I click the "{button}" button with id "{button_id}" within "{container_id}"')
-def click_button_by_id_within_container(context, button, button_id, container_id=None):
-    if container_id:
-        container = context.browser.find_element_by_id(container_id)
-    else:
-        container = context.browser
-    button_to_click = container.find_element_by_id(button_id)
-    clicketi_click(context, button_to_click)
-
-
 @step(u'I click the "{button}" button with id "{button_id}"')
 def click_button_by_id(context, button, button_id):
-    click_button_by_id_within_container(context, button, button_id)
+    button_to_click = context.browser.find_element_by_id(button_id)
+    clicketi_click(context, button_to_click)
 
 
 @step(u'I click the mist-logo')

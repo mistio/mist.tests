@@ -228,14 +228,11 @@ def get_current_value_of_dropdown(el):
         return ''
 
 
-def find_dropdown(context, dropdown_text, container_id=None):
+def find_dropdown(context, dropdown_text):
     dropdown_text = dropdown_text.lower()
     if dropdown_text.endswith(' *'):
         dropdown_text = dropdown_text[:-2]
-    if not container_id:
-        all_dropdowns = context.browser.find_elements_by_tag_name('paper-dropdown-menu')
-    else:
-        all_dropdowns = context.browser.find_element_by_id(container_id).find_elements_by_tag_name('paper-dropdown-menu')
+    all_dropdowns = context.browser.find_elements_by_tag_name('paper-dropdown-menu')
     all_dropdowns = filter(lambda t: t[0],
                            map(lambda el: (get_text_of_dropdown(el).strip().lower(), el),
                                all_dropdowns))

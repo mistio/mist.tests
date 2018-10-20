@@ -17,7 +17,9 @@ Feature: Zones
     Then I expect for the button "Add" in "Zone" add form to be clickable within 5 seconds
     When I focus on the button "Add" in "Zone" add form
     And I click the button "Add" in "Zone" add form
-    Then I expect the "Zone" edit form to be visible within max 60 seconds
+    Then I expect the "Zone" edit form to be visible within max 10 seconds
+    When I visit the Home page
+    And I wait for 1 seconds
     And I visit the Zones page
     And I search for "test-zone-random.com."
     Then "test-zone-random.com." zone should be present within 60 seconds
@@ -39,10 +41,10 @@ Feature: Zones
     And I click the button "DNS" in "cloud" edit form
     And I wait for 1 seconds
     And I click the "Enable DNS" button with id "DNS-enable-disable"
-    And I wait for 5 seconds
-    And I click the mist.io button
     And I wait for 2 seconds
     And I visit the Home page
+    And I refresh the page
+    And I wait for 3 seconds
     And I visit the Zones page
     Then "test-zone-random.com." zone should be absent within 10 seconds
 
@@ -54,8 +56,6 @@ Feature: Zones
     And I click the button "DNS" in "cloud" edit form
     And I wait for 2 seconds
     And I click the "Enable DNS" button with id "DNS-enable-disable"
-    And I wait for 5 seconds
-    And I click the mist.io button
     And I wait for 2 seconds
     And I visit the Home page
     And I visit the Zones page
@@ -107,8 +107,7 @@ Feature: Zones
 
   @zone-delete
   Scenario: Delete a zone
-    When I scroll to the element with id "wrapper"
-    And I click the button "Delete" in the "zone" page actions menu
+    When I click the button "Delete" in "zone" edit form
     Then I expect the dialog "Delete Zone" is open within 4 seconds
     And I wait for 1 seconds
     When I click the "Delete" button in the dialog "Delete Zone"
