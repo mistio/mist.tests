@@ -45,10 +45,10 @@ Feature: Production
     And I type "10" in input with id "threshold-0"
     And I click the "actionsDropdown" button with id "actionsDropdown"
     And I click the button "alert" in the "actionsDropdown" dropdown
-    And I open the "teams" mist-dropdown within "newrule"
-    And I select "Owners" in "teams" mist-dropdown within "newrule"
+    And I open the "teams" mist-dropdown
+    And I select "Owners" in "teams" mist-dropdown
     And I wait for 2 seconds
-    And I save the rule within "newrule"
+    And I save the rule
 
   @reboot
   Scenario: Production machine reboot testing
