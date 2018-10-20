@@ -187,6 +187,13 @@ def go_to_some_page_after_counter_loading(context, title, counter_title):
     ''' % (counter_title, title))
 
 
+@step(u'I scroll to the element with id "{element_id}"')
+def scroll_to_element(context, element_id):
+    context.browser.execute_script(
+        "document.querySelector('#" + element_id + "').scrollIntoView({behavior: 'auto', block: 'center', inline: 'center'})"
+    )
+
+
 @step(u'I scroll to the bottom of the page')
 def scroll_to_add_new_rule_btn(context):
     context.browser.execute_script("window.scrollTo(0, 2000)")
@@ -228,7 +235,7 @@ def give_cc_details_if_necessary(context):
         for button in cc_required_dialog.find_elements_by_tag_name('paper-button'):
             if button.text.lower() == 'enable':
                 clicketi_click(context, button)
-                sleep(8)
+                sleep(10)
 
         # verify that cc is required only in hs repo
         assert context.mist_config['IS_HS_REPO'], "Credit card has been asked, although \

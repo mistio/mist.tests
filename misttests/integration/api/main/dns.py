@@ -14,7 +14,8 @@ def test_list_zones(pretty_print, mist_core, cache,  owner_api_token):
                                    project_id=safe_get_var('clouds/gce/mist-dev', 'project_id',
                                                            config.CREDENTIALS['GCE']['project_id']),
                                    private_key = json.dumps(safe_get_var('clouds/gce/mist-dev', 'private_key',
-                                                           config.CREDENTIALS['GCE']['private_key']))).post()
+                                                           config.CREDENTIALS['GCE']['private_key'])),
+                                   dns_enabled = True).post()
     assert_response_ok(response)
     response = mist_core.list_clouds(api_token=owner_api_token).get()
     assert_response_ok(response)
@@ -152,10 +153,10 @@ class TestZonesFunctionality:
                                         cloud_id=cache.get('gce_cloud_id', '')
                                        ).get()
         assert_response_ok(response)
-        assert len(response.json()['zones']) >= 1
+        assert len(response.json()) >= 1
         zone_id = cache.get('zone_id', '')
         zone_found = False
-        for zone in response.json()['zones']:
+        for zone in response.json():
             if zone['id'] == zone_id:
                 zone_found = True
                 break
@@ -299,7 +300,7 @@ class TestZonesFunctionality:
         assert_response_ok(response)
         zone_id = cache.get('zone_id', '')
         zone_not_found = True
-        for zone in response.json()['zones']:
+        for zone in response.json():
             if zone['id'] == zone_id:
                 zone_not_found = False
         assert zone_not_found
