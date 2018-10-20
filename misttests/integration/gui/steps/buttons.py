@@ -129,7 +129,7 @@ def click_button(context, text):
 
 @step(u'I click the button "{button_name}" in the "{name}" page actions menu')
 def click_button_in_dropdown(context, button_name, name):
-    actions = context.browser.find_element_by_tag_name('mist-actions')
+    actions = context.browser.find_element_by_css_selector('mist-actions[type=%s]' % name)
     buttons = actions.find_elements_by_xpath('paper-button')
     for button in buttons:
         if safe_get_element_text(button).lower() == button_name.lower():
