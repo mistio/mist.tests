@@ -33,7 +33,7 @@ Feature: Production
     And I clear the machines search bar
     And I expect the "machine" edit form to be visible within max 5 seconds
     Then I wait for the graphs to appear
-    When I scroll to the element with id "add-new-rule-dialog"
+    When I scroll to the element with id "monitoringRules"
     When I remove previous rules
     When I delete old mayday emails
     And I wait for 2 seconds
