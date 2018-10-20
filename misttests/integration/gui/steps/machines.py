@@ -307,6 +307,11 @@ def remove_previous_rules(context):
             continue
         clicketi_click(context, delete_rule_button)
         sleep(2)
+        try:
+            delete_rule_button.click()
+            sleep(1)
+        except:
+            continue
         previous_rules = context.browser.find_elements_by_tag_name('rule-item')
 
 
