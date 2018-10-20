@@ -71,7 +71,7 @@ Feature: RBAC-rules-v3
   Scenario: Verify that member1 can view cloud and machine
     Given I am logged in to mist.core as rbac_member1
     When I visit the Machines page
-    Then "mistcore_debugger_1" machine should be present within 5 seconds
+    Then "Docker" machine should be present within 5 seconds
     When I visit the Home page
     Then I should have 1 clouds added
     Then I logout
