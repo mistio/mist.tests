@@ -234,8 +234,8 @@ def delete_ec2_network(context, network_to_delete):
         if 'ec2' in cloud['provider']:
             uri = context.mist_config['MIST_URL'] + '/api/v1/clouds/' + cloud['id'] + '/networks'
             response = requests.get(uri, headers=headers)
-            if response.json():
-                for network in response.json():
+            if response.json()['private']:
+                for network in response.json()['private']:
                     if network_to_delete == network['name']:
                         log.info('Deleting ec2 network...')
                         uri = context.mist_config['MIST_URL'] + \
