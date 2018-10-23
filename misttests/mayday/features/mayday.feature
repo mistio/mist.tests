@@ -33,6 +33,7 @@ Feature: Production
     And I clear the machines search bar
     And I expect the "machine" edit form to be visible within max 5 seconds
     Then I wait for the graphs to appear
+    When I scroll to the element with id "monitoringRules"
     When I remove previous rules
     When I delete old mayday emails
     And I wait for 2 seconds
@@ -44,10 +45,10 @@ Feature: Production
     And I type "10" in input with id "threshold-0"
     And I click the "actionsDropdown" button with id "actionsDropdown"
     And I click the button "alert" in the "actionsDropdown" dropdown
-    And I open the "teams" mist-dropdown
-    And I select "Owners" in "teams" mist-dropdown
+    And I open the "teams" mist-dropdown within "add-new-rule-dialog"
+    And I select "Owners" in "teams" mist-dropdown within "add-new-rule-dialog"
     And I wait for 2 seconds
-    And I save the rule
+    And I save the rule within "add-new-rule-dialog"
 
   @reboot
   Scenario: Production machine reboot testing

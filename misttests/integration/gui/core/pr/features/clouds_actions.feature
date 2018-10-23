@@ -14,7 +14,7 @@ Feature: Cloud actions for polymer
     And I wait for the links in homepage to appear
     Then cloud "Docker" should be "disabled"
     When I visit the Machines page
-    Then "mistcore_debugger_1" machine should be absent within 60 seconds
+    Then "Docker" machine should be absent within 60 seconds
     When I visit the Home page
     And I wait for the links in homepage to appear
     And I open the cloud menu for "Docker"
@@ -25,9 +25,9 @@ Feature: Cloud actions for polymer
     Then cloud "Docker" should be "enabled"
     when I visit the Machines page after the counter has loaded
     And I wait for 1 seconds
-    And I search for the machine "mistcore_debugger_1"
+    And I search for the machine "Docker"
     And I wait for 1 seconds
-    Then "mistcore_debugger_1" machine should be present within 60 seconds
+    Then "Docker" machine should be present within 60 seconds
     And I visit the Home page
 
   @cloud-tags
@@ -78,6 +78,6 @@ Feature: Cloud actions for polymer
     And I wait for 2 seconds
     When I visit the Machines page
     And I wait for 1 seconds
-    And I search for the machine "mistcore_debugger_1"
+    And I search for the machine "Docker"
     And I wait for 1 seconds
-    Then "mistcore_debugger_1" machine should be absent within 60 seconds
+    Then "Docker" machine should be absent within 60 seconds
