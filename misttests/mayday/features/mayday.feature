@@ -40,11 +40,11 @@ Feature: Production
     And I scroll to the bottom of the page
     And I click the button "add new rule"
     And I wait for 1 seconds
-    And I click the "Load" button in the dropdown with id "target-0"
-    And I click the "<" button in the dropdown with id "operator-0"
-    And I type "10" in input with id "threshold-0"
-    And I click the "actionsDropdown" button with id "actionsDropdown"
-    And I click the button "alert" in the "actionsDropdown" dropdown
+    And I click the "Load" button in the dropdown with id "target-0" within "add-new-rule-dialog"
+    And I click the "<" button in the dropdown with id "operator-0" within "add-new-rule-dialog"
+    And I type "10" in input with id "threshold-0" within "add-new-rule-dialog"
+    And I click the "actionsDropdown" button with id "actionsDropdown" within "add-new-rule-dialog"
+    And I click the "alert" button in the dropdown with id "actionsDropdown" within "add-new-rule-dialog"
     And I open the "teams" mist-dropdown within "add-new-rule-dialog"
     And I select "Owners" in "teams" mist-dropdown within "add-new-rule-dialog"
     And I wait for 2 seconds
