@@ -270,7 +270,12 @@ def click_item(context, text, type_of_item):
     items = context.browser.find_elements_by_css_selector(item_selector)
     for item in items:
         if type_of_item in ['machine', 'image', 'team', 'key', 'script', 'network', 'template', 'stack', 'schedule', 'zone']:
-            name = safe_get_element_text(item.find_element_by_css_selector('strong.name')).strip().lower()
+            try:
+                name = safe_get_element_text(item.find_element_by_css_selector('strong.name')).strip().lower()
+            except NoSuchElementException:
+                item_html = item.get_attribute('innerHTML')
+                print(item_html)
+                raise Exception(item_html)
             if text == name:
                 clicketi_click(context,item)
                 return True
