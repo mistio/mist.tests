@@ -273,9 +273,13 @@ def click_item(context, text, type_of_item):
             try:
                 name = safe_get_element_text(item.find_element_by_css_selector('strong.name')).strip().lower()
             except NoSuchElementException:
-                item_html = item.get_attribute('innerHTML')
-                print(item_html)
-                raise Exception(item_html)
+                try:
+                    sleep(1)
+                    name = safe_get_element_text(item.find_element_by_css_selector('strong.name')).strip().lower()
+                except NoSuchElementException:
+                    item_html = item.get_attribute('innerHTML')
+                    print(item_html)
+                    raise Exception(item_html)
             if text == name:
                 clicketi_click(context,item)
                 return True
