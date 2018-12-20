@@ -3,40 +3,39 @@ from behave import step
 from time import time
 from time import sleep
 
-from .utils import safe_get_element_text
+from .utils import safe_get_element_text, get_page_element, expand_shadow_root, expand_slot, get_grid_items, get_list_item_from_checkbox
 
 from .buttons import click_button_from_collection
+from .buttons import clicketi_click
 
 from selenium.common.exceptions import NoSuchElementException
 from selenium.common.exceptions import StaleElementReferenceException
 
 
-# TODO: below method doesn't bring all the items, as you scroll more items become visible
-def get_list(context, resource_type):
+def get_list_items(context, resource_type):
     if resource_type in ['machine', 'image', 'team', 'key', 'network', 'script', 'schedule', 'template', 'stack', 'zone']:
-        return context.browser.find_elements_by_css_selector('page-%ss mist-list vaadin-grid-table-body#items > vaadin-grid-table-row:not([hidden])' % resource_type)
+        container = get_page_element(context, resource_type + 's')
+        container_shadow = expand_shadow_root(context, container)
+        mist_list = container_shadow.find_element_by_css_selector('mist-list')
+        list_shadow = expand_shadow_root(context, mist_list)
+        grid = list_shadow.find_element_by_css_selector('vaadin-grid')
+        return get_grid_items(context, grid)
     if resource_type in ['record']:
         return context.browser.find_elements_by_css_selector('zone-page mist-list vaadin-grid-table-body#items > vaadin-grid-table-row:not([hidden])')
-    else:
-        return context.browser.find_elements_by_css_selector('page-%ss iron-list div.row' % resource_type)
 
 
 def get_list_item(context, resource_type, name):
-    resource_type = resource_type.lower()
-    item_name = name.lower()
+    resource_type = resource_type.strip().lower()
+    item_name = name.strip().lower()
     if resource_type not in ['machine', 'image', 'key', 'network',
                              'tunnel', 'script', 'template', 'stack',
                              'team', 'schedule', 'zone', 'record']:
         raise ValueError('The resource type given is unknown')
     try:
-        items = get_list(context, resource_type)
+        items = get_list_items(context, resource_type)
         for item in items:
-            if resource_type in ['machine', 'image', 'team', 'key', 'network', 'script', 'schedule', 'template', 'stack', 'zone', 'record']:
-                name = safe_get_element_text(item.find_element_by_css_selector('strong.name')).strip().lower()
-            else:
-                name = safe_get_element_text(item.find_element_by_css_selector('div.name')).strip().lower()
-            if item_name == name:
-                    return item
+            if item and item['name'].strip().lower() == item_name:
+                return item
     except (NoSuchElementException, StaleElementReferenceException):
         pass
     return None
@@ -86,16 +85,22 @@ def select_item_from_list(context, item_name, resource_type):
         item_name = context.mist_config.get(item_name)
     if resource_type in ['record']:
         item_name = item_name + '.' + context.mist_config.get('test-zone-random.com.')
-    item = get_list_item(context, resource_type, item_name)
-    if item:
-        from .buttons import clicketi_click
-        select_button = item.find_element_by_css_selector('mist-check')
-        clicketi_click(context, select_button)
-        sleep(1)
-        return True
+    container = get_page_element(context, resource_type + 's')
+    container_shadow = expand_shadow_root(context, container)
+    mist_list = container_shadow.find_element_by_css_selector('mist-list')
+    list_shadow = expand_shadow_root(context, mist_list)
+    grid = list_shadow.find_element_by_css_selector('vaadin-grid')
+    checkboxes = grid.find_elements_by_css_selector('mist-check.item-check')
+    for checkbox in checkboxes:
+        item = get_list_item_from_checkbox(context, checkbox)
+        if item and item.get('name') == item_name:
+            clicketi_click(context, checkbox)
+            sleep(.1)
+            return True
     assert False, "Could not select from list item %s" % item_name
 
 
+"""
 @step(u'I click the button "{button_name}" from the menu of the "{item_name}"'
       u' {resource_type}')
 def click_menu_button_of_list_item(context, button_name, item_name,
@@ -112,7 +117,7 @@ def click_menu_button_of_list_item(context, button_name, item_name,
         click_button_from_collection(context, button_name, more_buttons)
         return True
     assert False, "Could not click button %s" % button_name
-
+"""
 
 @step(u'"{name}" {resource_type} should be {state} within {seconds}'
       u' seconds')

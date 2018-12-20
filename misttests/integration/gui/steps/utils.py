@@ -31,6 +31,19 @@ def give_some_input(context, input_element, text):
     actions.perform()
 
 
+def get_page_element(context, page=None, subpage=None):
+    mist_app = context.browser.find_element_by_tag_name('mist-app')
+    if not page:
+        page = mist_app.get_attribute('page')
+    mist_app_shadow = expand_shadow_root(context, mist_app)
+    page_css_selector = 'iron-pages > page-%s' % page
+    page_element = mist_app_shadow.find_element_by_css_selector(page_css_selector)
+    if subpage:
+        page_shadow = expand_shadow_root(context, page_element)
+        return page_element, page_shadow.find_element_by_css_selector(subpage + '-page')
+    return page_element
+
+
 @step(u'I type "{some_text}" in input with id "{element_id}" within "{container_id}"')
 def give_some_input_by_id_within_container(context, some_text, element_id, container_id=None):
     if not container_id:
@@ -135,6 +148,15 @@ def wait_for_element_to_be_visible(context, search_tuple, seconds, error_message
         raise TimeoutException(error_message)
 
 
+def wait_for_element_in_container_to_be_visible(container, search_tuple,
+                                                seconds, error_message):
+    try:
+        WebDriverWait(container, int(seconds)).until(
+            EC.visibility_of_element_located(search_tuple))
+    except TimeoutException:
+        raise TimeoutException(error_message)
+
+
 @step(u'I expect for "{element_id}" to be visible within max {seconds} '
       u'seconds')
 def become_visible_waiting_with_timeout(context, element_id, seconds):
@@ -151,16 +173,26 @@ def check_page_is_visible(context, page_title, seconds):
                     'scripts', 'schedules', 'templates', 'stacks', 'insights', 'teams',
                     'zones', 'rules']:
         raise ValueError('The page given is unknown')
+    mist_app = context.browser.find_element_by_tag_name('mist-app')
+    mist_app_shadow = expand_shadow_root(context, mist_app)
+    page_css_selector = 'iron-pages > page-%s' % page
+    page_element = mist_app_shadow.find_element_by_css_selector(page_css_selector)
     if page in ['machines', 'images', 'teams','keys', 'networks',
                 'scripts', 'schedules', 'templates', 'stacks', 'zones']:
-        element = 'page-%s > mist-list' % page
+        container = expand_shadow_root(context, page_element)
+        # Retry a few times because the shadow root won't always get expanded right away
+        timeout = 5
+        while timeout and not container:
+            sleep(1)
+            timeout -= 1
+            container = expand_shadow_root(context, page_element)
+        selector = (By.CSS_SELECTOR, 'mist-list')
     elif page in ['insights', 'rules']:
-        element = 'page-%s' % page
-    else:
-        element = 'page-%s > page-items > div#content.page-items' % page
+        container = mist_app_shadow
+        selector = (By.CSS_SELECTOR, page_css_selector)
     msg = "%s page is not visible after %s seconds" % (page, seconds)
-    wait_for_element_to_be_visible(context, (By.CSS_SELECTOR, element),
-                                   int(seconds), msg)
+    wait_for_element_in_container_to_be_visible(container, selector,
+        int(seconds), msg)
 
 
 @step(u'I should read "{something}" in input with id "{input_id}"')
@@ -183,3 +215,18 @@ def wait_until_visible(element, seconds):
         sleep(1)
     raise TimeoutException("Element has not become visible after %s seconds"
                            % seconds)
+
+
+def expand_shadow_root(context, element):
+    return context.browser.execute_script('return arguments[0].shadowRoot', element)
+
+
+def expand_slot(context, element):
+    return context.browser.execute_script('return arguments[0].assignedElements()', element)
+
+
+def get_grid_items(context, grid):
+    return context.browser.execute_script('return arguments[0].items', grid)
+
+def get_list_item_from_checkbox(context, checkbox):
+    return context.browser.execute_script('return arguments[0].item', checkbox)

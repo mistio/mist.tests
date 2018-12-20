@@ -7,7 +7,7 @@ Feature: Production
 
   @graph
   Scenario: Production monitor and graph testing
-    Given I am logged in to mist.core
+    Given I am logged in to mist
     When I visit the Machines page after the counter has loaded
     Then I search for the mayday machine
     When I click the "MAYDAY_MACHINE" "machine"
@@ -26,7 +26,7 @@ Feature: Production
 
   @alert
   Scenario: Production rule and alert testing
-    Given I am logged in to mist.core
+    Given I am logged in to mist
     When I visit the Machines page after the counter has loaded
     Then I search for the mayday machine
     When I click the "MAYDAY_MACHINE" "machine"
@@ -52,7 +52,7 @@ Feature: Production
 
   @reboot
   Scenario: Production machine reboot testing
-    Given I am logged in to mist.core
+    Given I am logged in to mist
     When I visit the Machines page after the counter has loaded
     Then I search for the mayday machine
     When I click the "MAYDAY_MACHINE" "machine"
@@ -74,7 +74,7 @@ Feature: Production
 
   @github_sso_signin
   Scenario: Sign in testing with github
-    Given I am not logged in to mist.core
+    Given I am not logged in to mist
     When I open the login popup
     And I wait for 2 seconds
     Then I click the github button in the landing page popup
@@ -87,7 +87,7 @@ Feature: Production
 
   @google_sso_signin
   Scenario: Sign in testing with google oauth2
-    Given I am not logged in to mist.core
+    Given I am not logged in to mist
     When I open the login popup
     And I wait for 2 seconds
     And I click the google button in the landing page popup
@@ -106,14 +106,14 @@ Feature: Production
 
   @incidents
   Scenario: Verify that incident gets triggered
-    Given I am logged in to mist.core
-    And I wait for the links in homepage to appear
+    Given I am logged in to mist
+    And I wait for the navigation menu to appear
     And I wait for 2 seconds
     Then I should see the incident "Load < 10"
 
   @confirm_schedule-triggered
   Scenario: Verify that schedule got triggered
-    Given I am logged in to mist.core
+    Given I am logged in to mist
     When I visit the Machines page after the counter has loaded
     And I search for "mayday-test"
     Then "mayday-test" machine state has to be "stopped" within 300 seconds

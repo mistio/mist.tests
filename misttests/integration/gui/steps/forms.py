@@ -1,7 +1,7 @@
 from behave import step
 
-from .utils import focus_on_element
-from .utils import safe_get_element_text
+from .utils import focus_on_element, get_page_element
+from .utils import safe_get_element_text, expand_shadow_root
 
 from selenium.common.exceptions import NoSuchElementException
 
@@ -35,11 +35,13 @@ def get_add_form(context, title):
                      'script', 'schedule', 'template', 'stack', 'team',
                      'members', 'zone', 'record']:
         raise ValueError('The title given is unknown')
+    page_element = get_page_element(context, title + 's')
+    page_shadow = expand_shadow_root(context, page_element)
     if title in ['stack', 'machine', 'network']:
-        add_form_selector = 'div#content.%s-create' % title
+        add_form_selector = '%s-create' % title
     else:
-        add_form_selector = 'div#content.%s-add' % title
-    return context.browser.find_element_by_css_selector(add_form_selector)
+        add_form_selector = '%s-add' % title
+    return page_shadow.find_element_by_css_selector(add_form_selector)
 
 
 def get_edit_form(context, title):
@@ -49,8 +51,12 @@ def get_edit_form(context, title):
         raise Exception('The title given is unknown')
     try:
         if title == 'policy':
-            return context.browser.find_element_by_tag_name('team-policy')
-        return context.browser.find_element_by_tag_name('%s-page' % title)
+            page_teams_element = get_page_element(context, 'teams')
+            page_teams_shadow = expand_shadow_root(context, page_teams_element)
+            return expand_shadow_root(context, page_teams_shadow.find_element_by_css_selector('team-page')) #.find_element_by_css_selector'team-policy')
+            # return context.browser.find_element_by_tag_name('team-policy')
+        page_shadow = expand_shadow_root(context, get_page_element(context, title + 's'))
+        return page_shadow
     except NoSuchElementException:
         return None
 
@@ -68,6 +74,7 @@ def check_form_is_visible(context, page, form_type, seconds):
         try:
             form = get_add_form(context, page) if form_type == 'add' else \
                 get_edit_form(context, page)
+            form_shadow = expand_shadow_root(context, form)
             if form and form.is_displayed():
                 return True
         except NoSuchElementException:
@@ -76,22 +83,22 @@ def check_form_is_visible(context, page, form_type, seconds):
     assert False, msg
 
 
-def get_input_from_form(form, input_name):
-    input_containers = form.find_elements_by_id('labelAndInputContainer')
+def get_input_element_from_form(context, form, input_name):
+    input_containers = form.find_elements_by_css_selector('paper-input')
     for container in input_containers:
+        container_shadow = expand_shadow_root(context, container)
         text = safe_get_element_text(
-            container.find_element_by_tag_name('label')).lower().strip()
+            container_shadow.find_element_by_css_selector('label')).lower().strip()
         if text.endswith(' *'):
             text = text[:-2]
         if text == input_name:
             try:
-                input = container.find_element_by_tag_name('input')
-                if 'textarea' in input.get_attribute('class'):
-                    input = container.find_element_by_id('textarea')
+                input_element = container_shadow.find_element_by_css_selector('input')
+                if 'textarea' in input_element.get_attribute('class'):
+                    input_element = container_shadow.find_element_by_css_selector('textarea')
             except NoSuchElementException:
-                input = container.find_element_by_id('textarea')
-
-    return input
+                input_element = container_shadow.find_element_by_css_selector('textarea')
+    return input_element
 
 
 @step(u'I click the button "{button_name}" from the menu of the "{title}" '
@@ -135,7 +142,7 @@ def click_menu_button_from_more_menu(context, button_name, title, form_type):
 def get_button_from_form(form, button_name):
     if button_name == 'add a new rule':
         return form.find_element_by_css_selector('div.rules span.team-policy')
-    buttons = form.find_elements_by_tag_name('paper-button')
+    buttons = form.find_elements_by_css_selector('paper-button')
     assert buttons, "Could not find any buttons in the form"
     button = None
     for b in buttons:
@@ -150,14 +157,14 @@ def check_that_field_is_visible(context, field_name, title, form_type, seconds):
     field_name = field_name.lower()
     add_form = get_add_form(context, title) if form_type == 'add' else \
         get_edit_form(context, title)
-    input = None
+    form_input = None
     timeout = time() + int(seconds)
     while time() < timeout:
-        input = get_input_from_form(add_form, field_name)
+        form_input = get_input_element_from_form(context, add_form, field_name)
         if input.is_displayed():
             return True
         sleep(1)
-    assert input, "Could not find field %s after %s seconds" % field_name
+    assert form_input, "Could not find field %s after %s seconds" % field_name
     assert False, "Field %s did not become visible after %s seconds" \
                   % (field_name, seconds)
 
@@ -173,20 +180,22 @@ def set_value_to_field(context, value, name, title, form_type):
         context.mist_config[value_key] = value
     form = get_add_form(context, title) if form_type == 'add' else \
         get_edit_form(context, title)
-    input = get_input_from_form(form, name.lower())
-    assert input, "Could not set value to field %s" % name
-    clear_input_and_send_keys(input, value)
+    form_shadow = expand_shadow_root(context, form)
+    form_input = get_input_element_from_form(context, form_shadow, name.lower())
+    assert form_input, "Could not set value to field %s" % name
+    clear_input_and_send_keys(form_input, value)
 
 
 @step(u'I expect for the button "{button_name}" in "{title}" {form_type} form'
       u' to be clickable within {seconds} seconds')
 def check_button_in_form_is_clickable(context, button_name, title, form_type,
                                       seconds):
-    add_form = get_add_form(context, title) if form_type == 'add' else \
+    form = get_add_form(context, title) if form_type == 'add' else \
         get_edit_form(context, title)
     timeout = time() + int(seconds)
+    form_shadow = expand_shadow_root(context, form)
     while time() < timeout:
-        button = get_button_from_form(add_form, button_name.lower())
+        button = get_button_from_form(form_shadow, button_name.lower())
         if button.is_enabled():
             return True
         sleep(1)
@@ -197,16 +206,18 @@ def check_button_in_form_is_clickable(context, button_name, title, form_type,
 def focus_on_form_button(context, button_name, title, form_type):
     form = get_add_form(context, title) if form_type == 'add' else \
         get_edit_form(context, title)
-    button = get_button_from_form(form, button_name.lower())
+    form_shadow = expand_shadow_root(context, form)
+    button = get_button_from_form(form_shadow, button_name.lower())
     focus_on_element(context, button)
-    sleep(1)
+    sleep(.1)
 
 
 @step(u'I click the button "{button_name}" in "{title}" {form_type} form')
 def click_button_in_form(context, button_name, title, form_type):
     form = get_add_form(context, title) if form_type == 'add' else \
         get_edit_form(context, title)
-    button = get_button_from_form(form, button_name.lower())
+    form_shadow = expand_shadow_root(context, form)
+    button = get_button_from_form(form_shadow, button_name.lower())
     from .buttons import clicketi_click
     clicketi_click(context, button)
 

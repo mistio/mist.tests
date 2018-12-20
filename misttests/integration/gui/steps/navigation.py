@@ -1,4 +1,4 @@
-from behave import step
+from behave import step, then
 
 from time import time
 from time import sleep
@@ -9,7 +9,7 @@ from .buttons import click_button_from_collection
 
 from .forms import clear_input_and_send_keys
 
-from .utils import safe_get_element_text
+from .utils import safe_get_element_text, expand_shadow_root, get_page_element
 
 from selenium.common.exceptions import TimeoutException
 from selenium.common.exceptions import NoSuchElementException
@@ -50,7 +50,7 @@ def wait_for_log_in_page_to_load(context):
                                "%s seconds" % time_left)
 
 
-@step(u'I visit mist.core')
+@step(u'I visit mist')
 def visit(context):
     if not i_am_in_homepage(context):
         context.browser.get(context.mist_config['MIST_URL'])
@@ -87,13 +87,18 @@ def make_sure_menu_is_open(context):
             sleep(1)
 
 
-@step(u'I wait for the links in homepage to appear')
+@step(u'I wait for the navigation menu to appear')
 def wait_for_buttons_to_appear(context):
     #context.execute_steps(u'Then I make sure the menu is open')
     end_time = time() + 20
     while time() < end_time:
         try:
-            images_button = context.browser.find_element_by_id('images')
+            mist_app = context.browser.find_element_by_tag_name('mist-app')
+            mist_app_shadow = expand_shadow_root(context, mist_app)
+            sidebar = mist_app_shadow.find_element_by_css_selector(
+                'mist-sidebar')
+            sidebar_shadow = expand_shadow_root(context, sidebar)
+            images_button = sidebar_shadow.find_element_by_id('images')
             counter_span = images_button.find_element_by_class_name('count')
             int(safe_get_element_text(counter_span))
             break
@@ -110,7 +115,7 @@ def filter_buttons(context, text):
 
 @step(u'I wait for the dashboard to load')
 def wait_for_dashboard(context):
-    context.execute_steps(u'Then I wait for the links in homepage to appear')
+    context.execute_steps(u'Then I wait for the navigation menu to appear')
     timeout = 20
     try:
         WebDriverWait(context.browser, timeout).until(
@@ -139,7 +144,7 @@ def go_to_some_page_without_waiting(context, title):
                      'account', 'insights', 'home', 'zones', 'rules', 'signup']:
         raise ValueError('The page given is unknown')
     if title.lower() == 'home':
-        context.execute_steps(u'When I click the mist.io button')
+        context.execute_steps(u'When I click the mist logo')
     elif title.lower() == 'account':
         context.execute_steps(u'''
                 When I click the gravatar
@@ -150,8 +155,12 @@ def go_to_some_page_without_waiting(context, title):
     elif title.lower() == 'signup':
         context.browser.get(context.mist_config['MIST_URL'] + '/sign-up')
     else:
-        button = context.browser.find_element_by_id(
-            'sidebar').find_element_by_id(title)
+        mist_app = context.browser.find_element_by_tag_name('mist-app')
+        mist_app_shadow = expand_shadow_root(context, mist_app)
+        sidebar = mist_app_shadow.find_element_by_css_selector(
+            'mist-sidebar')
+        sidebar_shadow = expand_shadow_root(context, sidebar)
+        button = sidebar_shadow.find_element_by_id(title)
         clicketi_click(context, button)
         context.execute_steps(u'Then I expect for "%s" page to appear within '
                               u'max 10 seconds' % title)
@@ -181,10 +190,25 @@ def go_to_some_page_after_counter_loading(context, title, counter_title):
                              'teams', 'zones']:
         raise ValueError('The counter given is unknown')
     context.execute_steps(u'''
-        Then I wait for the links in homepage to appear
+        Then I wait for the navigation menu to appear
         Then %s counter should be greater than 0 within 80 seconds
         When I visit the %s page
     ''' % (counter_title, title))
+
+
+@then(u'I expect the "{title}" page to be visible within max {timeout} seconds')
+def expect_page_to_be_visible(context, title, timeout):
+    if title in ['key', 'machine']:
+        container_element = get_page_element(context, title + 's')
+        container_shadow = expand_shadow_root(context, container_element)
+        try:
+            WebDriverWait(container_shadow, int(timeout)).until(
+                EC.visibility_of_element_located((By.CSS_SELECTOR, "%s-page" % title)))
+        except TimeoutException:
+            raise TimeoutException("Page `%s` did not appear within %s "
+                                   "seconds" % (title, timeout))
+    else:
+        raise NotImplementedError(u'STEP: Then I expect the %s page to be visible within max 10 seconds' % title)
 
 
 @step(u'I scroll to the element with id "{element_id}"')
@@ -199,7 +223,7 @@ def scroll_to_add_new_rule_btn(context):
     context.browser.execute_script("window.scrollTo(0, 2000)")
 
 
-@step(u'I am logged in to mist.core')
+@step(u'I am logged in to mist')
 def given_logged_in(context):
     try:
         context.browser.find_element_by_tag_name("mist-app")
@@ -207,13 +231,13 @@ def given_logged_in(context):
     except:
         pass
     if not i_am_in_homepage(context):
-        context.execute_steps(u'When I visit mist.core')
+        context.execute_steps(u'When I visit mist')
 
     context.execute_steps(u"""
         When I open the login popup
         And I enter my standard credentials for login
         And I click the sign in button in the landing page popup
-        Then I wait for the links in homepage to appear
+        Then I wait for the navigation menu to appear
     """)
 
 
@@ -272,28 +296,28 @@ def found_one(context):
     return False
 
 
-@step(u'I am logged in to mist.core as {kind}')
+@step(u'I am logged in to mist as {kind}')
 def given_logged_in(context, kind):
     if kind in ['rbac_owner', 'rbac_member1', 'rbac_member2']:
         context.execute_steps(u"""
             When I open the login popup
             And I enter my %s credentials for login
             And I click the sign in button in the landing page popup
-            And I wait for the links in homepage to appear
+            And I wait for the navigation menu to appear
         """ % kind)
     elif kind == 'reg_member':
         context.execute_steps(u"""
             When I open the login popup
             And I enter my standard credentials for login
             And I click the sign in button in the landing page popup
-            And I wait for the links in homepage to appear
+            And I wait for the navigation menu to appear
         """)
 
 
-@step(u'I am not logged in to mist.core')
+@step(u'I am not logged in to mist')
 def given_not_logged_in(context):
     if not i_am_in_homepage(context):
-        context.execute_steps(u'When I visit mist.core')
+        context.execute_steps(u'When I visit mist')
     try:
         context.browser.find_element_by_tag_name("landing-app")
         return

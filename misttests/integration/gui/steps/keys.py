@@ -5,13 +5,11 @@ from selenium.common.exceptions import NoSuchElementException
 from selenium.common.exceptions import StaleElementReferenceException
 
 
-
 @step(u'key "{key_name}" should be default key')
 def check_if_default_key(context, key_name):
     from .list import get_list_item
     item = get_list_item(context, 'key', key_name)
-    assert safe_get_element_text(item.find_element_by_css_selector('span.default')).strip().lower() == 'default key', \
-        "Key %s is not default key" % key_name
+    assert item.get('isDefault')
 
 
 @step(u'I add new machine key with name "{key_name}" or I select it')
