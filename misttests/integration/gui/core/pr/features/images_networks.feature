@@ -2,7 +2,7 @@
 Feature: Images-Networks
 
   Background:
-    Given I am logged in to mist.core
+    Given I am logged in to mist
 
   @image-search
   Scenario: Search image
@@ -38,7 +38,7 @@ Feature: Images-Networks
     And I click the button "Star" in "image" edit form
     And  I visit the Home page
     And I refresh the page
-    Then I wait for the links in homepage to appear
+    Then I wait for the navigation menu to appear
     When I visit the Images page
     And I wait for 2 seconds
     And I search for "CentOS 6.9 x32"

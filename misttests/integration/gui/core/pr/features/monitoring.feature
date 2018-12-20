@@ -4,7 +4,7 @@ Feature: Monitoring
   # FIXME: When #1363 is resolved, enable monitoring when creating machine
   @enable-monitoring
   Scenario: Enable monitoring when creating machine and check the graphs
-    Given I am logged in to mist.core
+    Given I am logged in to mist
     And cloud "Docker" has been added via API request
     And I have given card details if needed
     And key "Key1" has been added via API request
@@ -59,7 +59,7 @@ Feature: Monitoring
   @monitoring-home-page
   Scenario: Visit Home page and verify that polyana-dashboard is there
     When I visit the Home page
-    And I wait for the links in homepage to appear
+    And I wait for the navigation menu to appear
     Then I wait for the graphs to appear
     And "Load on all monitored machines" graph should have some values
 

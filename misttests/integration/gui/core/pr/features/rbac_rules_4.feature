@@ -4,7 +4,7 @@ Feature: RBAC-rules-v4
   @create-users-org-team
   Scenario: Owner creates a new organization and adds a cloud and a script
     Given rbac members, organization and team are initialized
-    Given I am logged in to mist.core
+    Given I am logged in to mist
     Then I expect for "addBtn" to be clickable within max 20 seconds
     Given cloud "Docker" has been added via API request
     And script "touch_kati" is added via API request
@@ -31,8 +31,8 @@ Feature: RBAC-rules-v4
 
   @view-cloud-and-script-fail
   Scenario: Verify that member1 cannot view the script and the cloud added above, since 'DENY-READ-ALL superseeds 'ALLOW-ALL-ALL rule'
-    Given I am logged in to mist.core as rbac_member1
-    And I wait for the links in homepage to appear
+    Given I am logged in to mist as rbac_member1
+    And I wait for the navigation menu to appear
     And I visit the Teams page
     Then "Test Team" team should be present within 5 seconds
     When I visit the Home page
@@ -43,7 +43,7 @@ Feature: RBAC-rules-v4
 
   @deny-all-script
   Scenario: Delete previous rules and add DENY-ALL-SCRIPT and ALLOW-ALL-ALL.
-    Given I am logged in to mist.core
+    Given I am logged in to mist
     Then I expect for "addBtn" to be clickable within max 20 seconds
     When I visit the Teams page
     And I click the "Test team" "team"
@@ -67,7 +67,7 @@ Feature: RBAC-rules-v4
 
   @view-cloud-success-and-script-fail
   Scenario: Verify that member1 cannot view the script added above, but can see the docker cloud
-    Given I am logged in to mist.core as rbac_member1
+    Given I am logged in to mist as rbac_member1
     Then I should have 1 clouds added
     When I visit the Scripts page
     Then "touch_kati" script should be absent within 5 seconds
@@ -75,7 +75,7 @@ Feature: RBAC-rules-v4
 
   @deny-view-cloud-on-tags
   Scenario: Tag Docker cloud, delete previous rules and add DENY-VIEW-CLOUD and ALLOW-ALL-ALL.
-    Given I am logged in to mist.core
+    Given I am logged in to mist
     When I open the cloud menu for "Docker"
     Then I expect the "cloud" edit form to be visible within max 5 seconds
     When I click the button "Tag" in "cloud" edit form
@@ -106,7 +106,7 @@ Feature: RBAC-rules-v4
 
   @view-cloud-fail
   Scenario: Verify that member1 cannot view the cloud that has been tagged with "rbac-test"
-    Given I am logged in to mist.core as rbac_member1
+    Given I am logged in to mist as rbac_member1
     Then I should have 0 clouds added
     When I visit the Scripts page
     Then "touch_kati" script should be present within 3 seconds
@@ -114,7 +114,7 @@ Feature: RBAC-rules-v4
 
   @delete-rule
   Scenario: Delete rule DENY-VIEW-CLOUD, and add DENY-ALL-ALL where tags="view=denied". Tag the script as "denied"
-    Given I am logged in to mist.core
+    Given I am logged in to mist
     When I visit the Teams page
     And I click the "Test team" "team"
     Then I expect the "team" edit form to be visible within max 5 seconds
@@ -147,7 +147,7 @@ Feature: RBAC-rules-v4
 
   @view-cloud-success
   Scenario: Verify that member1 can now view the cloud but cannot view the script
-    Given I am logged in to mist.core as rbac_member1
+    Given I am logged in to mist as rbac_member1
     Then I should have 1 clouds added
     When I visit the Scripts page
     Then "touch_kati" script should be absent within 5 seconds

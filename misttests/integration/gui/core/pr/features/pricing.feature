@@ -5,7 +5,7 @@ Feature: Pricing
   Scenario: Verify that notification about exceeding plan will be shown once machines are more than 5
     Given cloud "Docker" has been added via API request
     And cloud "GCE" has been added via API request
-    When I am logged in to mist.core
+    When I am logged in to mist
     Then there should be a message with text "Attention: You have exceeded the limits of the Free plan! The Free plan includes unlimited clouds and up to 5 machines with monitoring for 1 of them. To continue using Mist.io upgrade your plan."
 
   @upgrade-plan-test

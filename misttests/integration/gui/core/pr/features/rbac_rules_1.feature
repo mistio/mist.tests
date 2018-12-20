@@ -4,7 +4,7 @@ Feature: RBAC-rules-v1
   @create-users-org-team
   Scenario: Owner creates a new organization,invites member1 and adds a Softlayer cloud
     Given rbac members, organization and team are initialized
-    Given I am logged in to mist.core
+    Given I am logged in to mist
     And I visit the Home page
     Then I expect for "addBtn" to be clickable within max 20 seconds
     Given cloud "Docker" has been added via API request
@@ -35,8 +35,8 @@ Feature: RBAC-rules-v1
 
   @member1-view-cloud-success
   Scenario: Verify that member1 can view a cloud
-    Given I am logged in to mist.core as rbac_member1
-    And I wait for the links in homepage to appear
+    Given I am logged in to mist as rbac_member1
+    And I wait for the navigation menu to appear
     And I visit the Teams page
     Then "Test Team" team should be present within 5 seconds
     When I visit the Home page
@@ -66,7 +66,7 @@ Feature: RBAC-rules-v1
 
   @allow-add-cloud
   Scenario: Allow adding a cloud
-    Given I am logged in to mist.core as rbac_owner
+    Given I am logged in to mist as rbac_owner
     And I visit the Teams page
     When I click the "Test team" "team"
     Then I expect the "team" edit form to be visible within max 5 seconds
@@ -80,7 +80,7 @@ Feature: RBAC-rules-v1
 
   @member1-add-cloud-success
   Scenario: Member 1 should now be able to add cloud
-    Given I am logged in to mist.core as rbac_member1
+    Given I am logged in to mist as rbac_member1
     When I click the "new cloud" button with id "addBtn"
     Then I expect the "Cloud" add form to be visible within max 5 seconds
     When I select the "Packet" provider

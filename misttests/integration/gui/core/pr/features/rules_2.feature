@@ -3,7 +3,7 @@ Feature: Rules
 
   @add-rule-apply-to-every-machine
   Scenario: Add rule from rules section that applies on all machines. Verify it is visible in single machine page and it works
-    Given I am logged in to mist.core
+    Given I am logged in to mist
     And cloud "Docker" has been added via API request
     And key "Key1" has been added via API request
     And Docker machine "rules-test-machine-random" has been added via API request
@@ -53,7 +53,7 @@ Scenario: Delete a rule from rules page and verify it is not visible in single m
 
 @add-rule-apply-to-tagged-machine
  Scenario: Add rule from rules section that applies on tagged machine. Verify it is visible in single machine page and it works
-    Given I am logged in to mist.core
+    Given I am logged in to mist
     When I visit the Machines page
     And I search for "rules-test-machine-random"
     And I click the "rules-test-machine-random" "machine"

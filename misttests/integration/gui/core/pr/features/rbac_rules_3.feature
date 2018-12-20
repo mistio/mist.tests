@@ -4,7 +4,7 @@ Feature: RBAC-rules-v3
   @create-users-org-team
   Scenario: Owner creates a new organization and adds a cloud
     Given rbac members, organization and team are initialized
-    Given I am logged in to mist.core
+    Given I am logged in to mist
     Then I expect for "addBtn" to be clickable within max 20 seconds
     Given cloud "Docker" has been added via API request
     And script "touch_kati" is added via API request
@@ -37,8 +37,8 @@ Feature: RBAC-rules-v3
 
   @view-and-delete-script-success
   Scenario: Verify that member1 cannot view the team created above but can delete script
-    Given I am logged in to mist.core as rbac_member1
-    And I wait for the links in homepage to appear
+    Given I am logged in to mist as rbac_member1
+    And I wait for the navigation menu to appear
     And I visit the Teams page
     Then "Test Team" team should be present within 5 seconds
     And "Non-visible Team" team should be absent within 5 seconds
@@ -55,7 +55,7 @@ Feature: RBAC-rules-v3
 
   @allow-all-read
   Scenario: ALLOW-ALL-READ
-    Given I am logged in to mist.core as rbac_owner
+    Given I am logged in to mist as rbac_owner
     And I visit the Teams page
     When I click the "Test team" "team"
     Then I expect the "team" edit form to be visible within max 5 seconds
@@ -69,7 +69,7 @@ Feature: RBAC-rules-v3
 
   @member1-view-cloud-and-machine-success
   Scenario: Verify that member1 can view cloud and machine
-    Given I am logged in to mist.core as rbac_member1
+    Given I am logged in to mist as rbac_member1
     When I visit the Machines page
     Then "Docker" machine should be present within 5 seconds
     When I visit the Home page
@@ -78,7 +78,7 @@ Feature: RBAC-rules-v3
 
   @deny-read-cloud-by-id
   Scenario: DENY-CLOUD-WHERE-ID-DOCKER
-    Given I am logged in to mist.core as rbac_owner
+    Given I am logged in to mist as rbac_owner
     And I visit the Teams page
     When I click the "Test team" "team"
     Then I expect the "team" edit form to be visible within max 5 seconds
@@ -99,5 +99,5 @@ Feature: RBAC-rules-v3
 
   @member1-view-cloud-and-machine-success
   Scenario: Verify that member1 cannot view docker cloud
-    Given I am logged in to mist.core as rbac_member1
+    Given I am logged in to mist as rbac_member1
     Then I should have 0 clouds added

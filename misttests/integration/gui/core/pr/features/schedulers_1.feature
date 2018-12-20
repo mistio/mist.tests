@@ -6,7 +6,7 @@ Feature: Schedulers
     Given cloud "Docker" has been added via API request
     And key "Key1" has been added via API request
     And Docker machine "test-machine-random" has been added via API request
-    Given I am logged in to mist.core
+    Given I am logged in to mist
     And I have given card details if needed
     When I visit the Machines page
     And I wait for 3 seconds
@@ -83,7 +83,7 @@ Feature: Schedulers
     When I visit the Home page
     And I wait for 1 seconds
     And I refresh the page
-    And I wait for the links in homepage to appear
+    And I wait for the navigation menu to appear
     And I visit the Schedules page
     Then "TestScheduler_2" schedule should be present within 5 seconds
 

@@ -3,7 +3,7 @@ Feature: Orchestration
 
   @template-add
   Scenario: Add a template
-    Given I am logged in to mist.core
+    Given I am logged in to mist
     And cloud "Docker" has been added via API request
     And I have given card details if needed
     When I visit the Templates page
@@ -23,7 +23,7 @@ Feature: Orchestration
     And I visit the Templates page
     Then "Simple Python Template" template should be present within 30 seconds
 #    When I visit the Home page
-#    And I wait for the links in homepage to appear
+#    And I wait for the navigation menu to appear
 #    And I expect for "addBtn" to be clickable within max 20 seconds
 
 #  @stack-add
@@ -40,7 +40,7 @@ Feature: Orchestration
 #    And I click the button "Add" in "key" add form
 #    Then I expect the "key" edit form to be visible within max 15 seconds
 #    And I visit the Home page
-#    And I wait for the links in homepage to appear
+#    And I wait for the navigation menu to appear
 #    When I visit the Keys page
 #    Then "TestKey2" key should be present within 15 seconds
 #    When I visit the Templates page
@@ -63,7 +63,7 @@ Feature: Orchestration
 #    And I click the button "Create Stack" in "stack" add form
 #    Then I expect the "stack" edit form to be visible within max 30 seconds
 #    When I visit the Home page
-#    When I wait for the links in homepage to appear
+#    When I wait for the navigation menu to appear
 #    When I visit the Stacks page
 #    Then "Test Stack" stack should be present within 30 seconds
 

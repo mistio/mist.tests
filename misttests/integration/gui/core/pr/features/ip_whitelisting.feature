@@ -3,7 +3,7 @@ Feature: Ip-whitelisting
 
   @whitelist-current-ip
   Scenario:  User whitelists his current IP
-    Given I am logged in to mist.core
+    Given I am logged in to mist
     And cloud "Docker" has been added via API request
     And I have given card details if needed
     When I visit the Account page
@@ -74,7 +74,7 @@ Feature: Ip-whitelisting
 
   @user-requests-whitelist
   Scenario:  User logs in and requests his ip to be whitelisted. He should receive an email
-    When I visit mist.core
+    When I visit mist
     And I wait for 1 seconds
     And I open the login popup
     And I wait for 1 seconds
@@ -92,7 +92,7 @@ Feature: Ip-whitelisting
     When I enter my standard credentials for login
     And I click the sign in button in the landing page popup
     And I wait for 2 seconds
-    Then I wait for the links in homepage to appear
+    Then I wait for the navigation menu to appear
     When I visit the Keys page
     And I click the button "+"
     Then I expect the "Key" add form to be visible within max 10 seconds

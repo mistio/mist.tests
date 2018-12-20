@@ -3,7 +3,7 @@ Feature: Zones
 
 @zone-add
   Scenario: Add a zone
-    Given I am logged in to mist.core
+    Given I am logged in to mist
     When I visit the Home page
     Then I expect for "addBtn" to be clickable within max 20 seconds
     Given "GCE" cloud has been added
@@ -40,7 +40,7 @@ Feature: Zones
     And I wait for 1 seconds
     And I click the "Enable DNS" button with id "DNS-enable-disable"
     And I wait for 5 seconds
-    And I click the mist.io button
+    And I click the mist logo
     And I wait for 2 seconds
     And I visit the Home page
     And I visit the Zones page
@@ -55,7 +55,7 @@ Feature: Zones
     And I wait for 2 seconds
     And I click the "Enable DNS" button with id "DNS-enable-disable"
     And I wait for 5 seconds
-    And I click the mist.io button
+    And I click the mist logo
     And I wait for 2 seconds
     And I visit the Home page
     And I visit the Zones page

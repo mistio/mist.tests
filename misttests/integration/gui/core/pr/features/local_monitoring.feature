@@ -4,7 +4,7 @@ Feature: Monitoring tested locally
 
   @enable-monitoring
   Scenario: Create Machine,deploy monitoring agent and check the graphs
-    Given I am logged in to mist.core
+    Given I am logged in to mist
     And cloud "Local_Monitoring" has been added via API request
     And I wait for 3 seconds
     When I visit the Machines page
@@ -43,13 +43,13 @@ Feature: Monitoring tested locally
   @monitoring-home-page
   Scenario: Visit Home page and verify that polyana-dashboard is there
     When I visit the Home page
-    And I wait for the links in homepage to appear
+    And I wait for the navigation menu to appear
     Then I wait for the graphs to appear
 
 #  @incidents
 #  Scenario: Refresh Home page and verify that incident has been triggered
 #    When I refresh the page
-#    And I wait for the links in homepage to appear
+#    And I wait for the navigation menu to appear
 #    Then I should see the incident "RAM > 0.0%"
 
   @disable-monitoring

@@ -4,7 +4,7 @@ Feature: RBAC-rules-v2
   @create-users-org-team
   Scenario: Owner creates a new organization and adds a Softlayer cloud
     Given rbac members, organization and team are initialized
-    Given I am logged in to mist.core
+    Given I am logged in to mist
     Then I expect for "addBtn" to be clickable within max 20 seconds
     Given cloud "Docker" has been added via API request
 
@@ -24,8 +24,8 @@ Feature: RBAC-rules-v2
 
   @view-machine-fail
   Scenario: Verify that member1 cannot view the machine created above
-    Given I am logged in to mist.core as rbac_member1
-    And I wait for the links in homepage to appear
+    Given I am logged in to mist as rbac_member1
+    And I wait for the navigation menu to appear
     And I visit the Teams page
     Then "Test Team" team should be present within 5 seconds
     When I visit the Home page
@@ -36,7 +36,7 @@ Feature: RBAC-rules-v2
 
   @allow-read-machine
   Scenario: Allow read machine
-    Given I am logged in to mist.core as rbac_owner
+    Given I am logged in to mist as rbac_owner
     And I visit the Teams page
     When I click the "Test team" "team"
     Then I expect the "team" edit form to be visible within max 5 seconds
@@ -64,7 +64,7 @@ Feature: RBAC-rules-v2
 
   @member1-read-machine-success
   Scenario: Member 1 should now be able to read machine
-    Given I am logged in to mist.core as rbac_member1
+    Given I am logged in to mist as rbac_member1
     When I visit the Machines page
     Then "Docker" machine should be present within 10 seconds
 
@@ -92,7 +92,7 @@ Feature: RBAC-rules-v2
 
   @owner-deletes-allow-read-machine-rule
   Scenario: Owner deletes rule "ALLOW" "read" "machine"
-    Given I am logged in to mist.core as rbac_owner
+    Given I am logged in to mist as rbac_owner
     When I visit the Teams page
     And I click the "Test team" "team"
     Then I expect the "team" edit form to be visible within max 5 seconds
@@ -119,7 +119,7 @@ Feature: RBAC-rules-v2
 
   @member-reads-machine-fail
   Scenario: Member cannot view the machine
-    Given I am logged in to mist.core as rbac_member1
+    Given I am logged in to mist as rbac_member1
     When I visit the Machines page
     Then "Docker" machine should be absent within 5 seconds
 

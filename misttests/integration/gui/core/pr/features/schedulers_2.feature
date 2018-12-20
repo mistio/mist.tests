@@ -7,7 +7,7 @@ Feature: Schedulers-b
     And key "Key1" has been added via API request
     And Docker machine "test-ui-machine-random" has been added via API request
     And Docker machine "test-ui-machine-2-random" has been added via API request
-    Given I am logged in to mist.core
+    Given I am logged in to mist
     And I have given card details if needed
     When I visit the Machines page
     And I wait for 3 seconds

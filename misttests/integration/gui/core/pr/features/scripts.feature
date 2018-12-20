@@ -2,7 +2,7 @@
 Feature: Scripts
 
   Background:
-    Given I am logged in to mist.core
+    Given I am logged in to mist
 
 
   @script-add-ansible
@@ -26,14 +26,14 @@ Feature: Scripts
     And I wait for 3 seconds
     When I visit the Scripts page after the counter has loaded
     Then I visit the Home page
-    And I wait for the links in homepage to appear
+    And I wait for the navigation menu to appear
     When I visit the Scripts page
     Then "TestScript" script should be present within 3 seconds
 
 
   @script-add
   Scenario Outline: Add script
-    And I wait for the links in homepage to appear
+    And I wait for the navigation menu to appear
     And I visit the Scripts page
     And I click the button "+"
     Then I expect the "Script" add form to be visible within max 10 seconds

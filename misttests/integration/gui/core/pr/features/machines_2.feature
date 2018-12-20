@@ -2,7 +2,7 @@
 Feature: Machines
 
   Background:
-    Given I am logged in to mist.core
+    Given I am logged in to mist
 
   @key-add
   Scenario: Add Docker cloud and key that will be used for ssh access
