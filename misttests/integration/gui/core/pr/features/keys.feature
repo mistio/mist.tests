@@ -12,7 +12,7 @@ Feature: Actions for Keys
     When I set the value "TestKey" to field "Name" in the "key" add form
     And I focus on the button "Generate" in the "key" add form
     And I click the button "Generate" in the "key" add form
-    Then I expect for the button "Add" in the "key" add form to be clickable within 12 seconds
+    Then I expect for the button "Add" in the "key" add form to be clickable within 22 seconds
     When I focus on the button "Add" in the "key" add form
     And I click the button "Add" in the "key" add form
     Then I expect the "key" page to be visible within max 10 seconds

@@ -97,4 +97,4 @@ Feature: Scripts
     And I expect the "Delete Script" dialog to be open within 4 seconds
     When I click the "Delete" button in the "Delete Script" dialog
     Then I expect the "Delete Script" dialog to be closed within 4 seconds
-    And "Script1" script should be absent within 5 seconds
+    And "Script1" script should be absent within 10 seconds
