@@ -92,7 +92,7 @@ Feature: Actions for Keys
     And I select list item "TestKey" key
     And I click the action "Delete" from the key list actions
     Then I expect the "Delete Key" dialog to be open within 4 seconds
-    And I wait for 1 seconds
+    And I wait for 2 seconds
     When I click the "Delete" button in the "Delete Key" dialog
     And I expect the "Delete Key" dialog to be closed within 4 seconds
     Then "TestKey" key should be absent within 15 seconds

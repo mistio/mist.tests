@@ -95,6 +95,7 @@ Feature: Scripts
     When I select list item "Script1" script
     And I click the action "Delete" from the script list actions
     And I expect the "Delete Script" dialog to be open within 4 seconds
+    And I wait for 2 seconds
     When I click the "Delete" button in the "Delete Script" dialog
     Then I expect the "Delete Script" dialog to be closed within 4 seconds
     And "Script1" script should be absent within 10 seconds
