@@ -9,12 +9,12 @@ Feature: Actions for Keys
   Scenario: Add Key
     When I click the button "+"
     Then I expect the "Key" add form to be visible within max 10 seconds
-    When I set the value "TestKey" to field "Name" in "key" add form
-    And I focus on the button "Generate" in "key" add form
-    And I click the button "Generate" in "key" add form
-    Then I expect for the button "Add" in "key" add form to be clickable within 12 seconds
-    When I focus on the button "Add" in "key" add form
-    And I click the button "Add" in "key" add form
+    When I set the value "TestKey" to field "Name" in the "key" add form
+    And I focus on the button "Generate" in the "key" add form
+    And I click the button "Generate" in the "key" add form
+    Then I expect for the button "Add" in the "key" add form to be clickable within 12 seconds
+    When I focus on the button "Add" in the "key" add form
+    And I click the button "Add" in the "key" add form
     Then I expect the "key" page to be visible within max 10 seconds
     When I visit the Keys page
     Then "TestKey" key should be present within 15 seconds
@@ -25,11 +25,11 @@ Feature: Actions for Keys
   Scenario: Change Default Key
     When I click the button "+"
     Then I expect the "Key" add form to be visible within max 10 seconds
-    When I set the value "Key2" to field "Name" in "key" add form
-    And I click the button "Generate" in "key" add form
-    Then I expect for the button "Add" in "key" add form to be clickable within 9 seconds
-    When I focus on the button "Add" in "key" add form
-    And I click the button "Add" in "key" add form
+    When I set the value "Key2" to field "Name" in the "key" add form
+    And I click the button "Generate" in the "key" add form
+    Then I expect for the button "Add" in the "key" add form to be clickable within 9 seconds
+    When I focus on the button "Add" in the "key" add form
+    And I click the button "Add" in the "key" add form
     Then I expect the "key" page to be visible within max 5 seconds
     When I visit the Keys page
     Then "Key2" key should be present within 15 seconds
@@ -55,7 +55,7 @@ Feature: Actions for Keys
     Then I expect the "key" page to be visible within max 5 seconds
     When I click the "Rename" action button in the "key" page
     Then I expect the "Rename Key" dialog to be open within 4 seconds
-    When I set the value "Second" to field "Name" in "Rename Key" dialog
+    When I set the value "Second" to field "Name" in the "Rename Key" dialog
     And I click the "Submit" button in the "Rename Key" dialog
     Then I expect the "Rename Key" dialog to be closed within 4 seconds
     When I visit the Keys page

@@ -21,6 +21,7 @@ def get_list_items(context, resource_type):
         grid = list_shadow.find_element_by_css_selector('vaadin-grid')
         return get_grid_items(context, grid)
     if resource_type in ['record']:
+        import ipdb;ipdb.set_trace()
         return context.browser.find_elements_by_css_selector('zone-page mist-list vaadin-grid-table-body#items > vaadin-grid-table-row:not([hidden])')
 
 
@@ -118,6 +119,7 @@ def click_menu_button_of_list_item(context, button_name, item_name,
         return True
     assert False, "Could not click button %s" % button_name
 """
+
 
 @step(u'"{name}" {resource_type} should be {state} within {seconds}'
       u' seconds')

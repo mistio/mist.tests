@@ -121,43 +121,23 @@ def click_button(context, text):
                                  error_message='Could not find button that '
                                                'contains %s' % text)
 
-@step(u'I click the button "{button_name}" in the "{name}" page actions menu')
-def click_button_in_dropdown(context, button_name, name):
-    actions = context.browser.find_element_by_css_selector('mist-actions[type=%s]' % name)
-    buttons = actions.find_elements_by_xpath('paper-button')
-    for button in buttons:
-        if safe_get_element_text(button).lower() == button_name.lower():
-            clicketi_click(context, button)
-            return
-    more_dropdown = actions.find_element_by_id('actionmenu')
-    clicketi_click(context, more_dropdown)
-    sleep(1)
-    try:
-        more_dropdown_buttons = more_dropdown.find_elements_by_tag_name('paper-button')
-    except StaleElementReferenceException:
-        # sometimes actions will expand after clicking on actionmenu
-        more_dropdown_buttons = actions.find_elements_by_xpath('paper-button')
-    assert more_dropdown_buttons, "There are no buttons within the more dropdown"
-    click_button_from_collection(context, button_name, more_dropdown_buttons)
 
-
-@step(u'I click the "{button}" button in the "{name}" dropdown within "{container_id}"')
-def click_button_in_dropdown_within_container(context, button, name, container_id=None):
+@step(u'I click the "{button}" button in the "{name}" dropdown within "{container}"')
+def click_button_in_dropdown_within_container(context, container, button, name):
     button = button.strip().lower()
-    try:
-        dropdown = find_dropdown(context, name.lower(), container_id)
-    except AssertionError:
-        # FIXME: this is needed for mayday test
-        dropdown = context.browser.find_element_by_id(name)
+    dropdown = find_dropdown(context, container, name.lower())
     if button == get_current_value_of_dropdown(dropdown):
         return True
     buttons = dropdown.find_elements_by_tag_name('paper-item')
     click_button_from_collection(context, button.lower(), buttons)
 
-@step(u'I click the "{button}" button in the "{name}" dropdown')
-@step(u'I click the button "{button}" in the "{name}" dropdown')
-def click_button_in_dropdown(context, button, name):
-    click_button_in_dropdown_within_container(context, button, name)
+
+@step(u'I click the "{button}" button in the "{name}" dropdown in the "{resource_type}" add form')
+def click_button_in_dropdown(context, button, name, resource_type):
+    from .forms import get_add_form
+    page = get_add_form(context, resource_type)
+    page_shadow = expand_shadow_root(context, page)
+    click_button_in_dropdown_within_container(context, page_shadow, button, name)
 
 
 #@step(u'I click the "{button}" button in the dropdown with id "{dropdown_id}"')

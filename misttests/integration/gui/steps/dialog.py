@@ -71,7 +71,7 @@ def check_that_field_is_visible(context, field_name, dialog_title, seconds):
                   % (field_name, seconds)
 
 
-@step(u'I set the value "{value}" to field "{name}" in "{title}" app-form dialog')
+@step(u'I set the value "{value}" to field "{name}" in the "{title}" app-form dialog')
 def set_value_to_app_form_dialog(context, value, name, title):
     dialog = get_dialog(context, title)
     inputs = dialog.find_elements_by_class_name('input-content')
@@ -101,7 +101,7 @@ def click_toggle_button_in_dialog(context, btn_id, dialog):
     clicketi_click(context, button_to_click)
 
 
-@step(u'I set the value "{value}" to field "{name}" in "{title}" dialog')
+@step(u'I set the value "{value}" to field "{name}" in the "{title}" dialog')
 def set_value_to_field(context, value, name, title):
     if context.mist_config.get(value):
         value = context.mist_config.get(value)
