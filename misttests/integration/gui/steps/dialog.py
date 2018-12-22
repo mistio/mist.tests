@@ -89,7 +89,7 @@ def click_button_in_dialog(context, button_name, dialog_title):
     dialog = get_dialog(context, dialog_title)
     assert dialog, "Could not find dialog with title %s" % dialog_title
     dialog_shadow = expand_shadow_root(context, dialog)
-    dialog_buttons = dialog_shadow.find_elements_by_css_selector('paper-button')
+    dialog_buttons = dialog_shadow.find_elements_by_css_selector('paper-button:not([hidden])')
     click_button_from_collection(context, button_name, dialog_buttons)
 
 

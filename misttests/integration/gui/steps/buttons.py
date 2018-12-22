@@ -77,17 +77,9 @@ def click_button_from_collection(context, text, button_collection=None,
                       (safe_get_element_text(button), text)
 
 
-def search_for_button(context, text, button_collection=None):
-    if not button_collection:
-        try:
-            context.browser.find_element_by_id('app')
-            button_collection = context.browser.find_elements_by_tag_name('paper-button')
-        except NoSuchElementException:
-            button_collection = context.browser.find_elements_by_class_name('ui-btn')
-
+def search_for_button(context, text, button_collection):
     button = filter(lambda el: safe_get_element_text(el).strip().lower() == text,
                     button_collection)
-
     if button:
         return button[0]
 
