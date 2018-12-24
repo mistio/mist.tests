@@ -11,13 +11,13 @@ Feature: Scripts
     And I click the button "+"
     Then I expect the "Script" add form to be visible within max 10 seconds
     When I set the value "TestScript" to field "Script Name" in "script" add form
-    And I open the "Type" drop down in the "script" add form
+    And I open the "Type" dropdown in the "script" add form
     And I wait for 1 seconds
-    And I click the button "Ansible Playbook" in the "Type" dropdown
+    And I click the button "Ansible Playbook" in the "Type" dropdown in the "script" add form
     And I wait for 1 seconds
-    And I open the "Source" drop down in "script" add form
+    And I open the "Source" dropdown in "script" add form
     And I wait for 1 seconds
-    And I click the button "Github" in the "Source" dropdown
+    And I click the button "Github" in the "Source" dropdown in the "script" add form
     And I set the value "https://github.com/ansible/ansible-examples" to field "Github Repo" the in "script" add form
     And I set the value "blob/master/lamp_simple/site.yml" to field "Entry Point" in the "script" add form
     And I focus on the button "Add" in the "script" add form
@@ -49,7 +49,7 @@ Feature: Scripts
     # And I focus on the button "Add" in the "script" add form
     And I expect for the button "Add" in the "script" add form to be clickable within 3 seconds
     And I click the button "Add" in the "script" add form
-    And I wait for 1 seconds
+    And I wait for 2 seconds
     When I visit the Scripts page
     Then "<name>" script should be present within 3 seconds
     And I visit the Home page

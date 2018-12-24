@@ -76,7 +76,7 @@ Feature: RBAC-rules-v4
   @deny-view-cloud-on-tags
   Scenario: Tag Docker cloud, delete previous rules and add DENY-VIEW-CLOUD and ALLOW-ALL-ALL.
     Given I am logged in to mist
-    When I open the cloud menu for "Docker"
+    When I open the cloud page for "Docker"
     Then I expect the "cloud" edit form to be visible within max 5 seconds
     When I click the button "Tag" in "cloud" edit form
     Then I expect for the tag popup to open within 4 seconds

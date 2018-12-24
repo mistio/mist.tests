@@ -15,14 +15,14 @@ def clear_input_and_send_keys(input_field, text):
     while input_field.get_attribute('value') != '':
         input_field.send_keys(u'\ue003')
     current_expected_value = ''
-    n = 20
+    n = 70
     chunks = [text[i:i+n] for i in xrange(0, len(text), n)]
     for chunk in chunks:
         current_expected_value += chunk
         input_field.send_keys(chunk)
         for _ in range(2):
             if input_field.get_attribute('value') != current_expected_value:
-                sleep(1)
+                sleep(.1)
             else:
                 break
         else:
@@ -90,6 +90,12 @@ def get_input_element_from_form(context, form, input_name):
         app_form = form.find_element_by_css_selector('app-form')
         app_form_shadow = expand_shadow_root(context, app_form)
         input_containers += app_form_shadow.find_elements_by_css_selector('paper-input, paper-textarea')
+        sub_forms = app_form_shadow.find_elements_by_css_selector('sub-form')
+        for sub in sub_forms:
+            sub_shadow = expand_shadow_root(context, sub)
+            sub_app_form = sub_shadow.find_element_by_css_selector('app-form')
+            sub_app_form_shadow = expand_shadow_root(context, sub_app_form)
+            input_containers += sub_app_form_shadow.find_elements_by_css_selector('paper-input, paper-textarea')
     except NoSuchElementException:
         pass
     for container in input_containers:
@@ -177,11 +183,12 @@ def check_that_field_is_visible(context, field_name, title, form_type, seconds):
     field_name = field_name.lower()
     add_form = get_add_form(context, title) if form_type == 'add' else \
         get_edit_form(context, title)
+    add_form_shadow = expand_shadow_root(context, add_form)
     form_input = None
     timeout = time() + int(seconds)
     while time() < timeout:
-        form_input = get_input_element_from_form(context, add_form, field_name)
-        if input.is_displayed():
+        form_input = get_input_element_from_form(context, add_form_shadow, field_name)
+        if form_input.is_displayed():
             return True
         sleep(1)
     assert form_input, "Could not find field %s after %s seconds" % field_name
@@ -232,7 +239,7 @@ def focus_on_form_button(context, button_name, title, form_type):
     sleep(.1)
 
 use_step_matcher("re")
-@step(u'I click the button "(?P<button_name>[A-Za-z]+)" in the "(?P<title>[A-Za-z]+)" add form')
+@step(u'I click the button "(?P<button_name>[A-Za-z ]+)" in the "(?P<title>[A-Za-z]+)" add form')
 def click_button_in_form(context, button_name, title):
     form = get_add_form(context, title)
     form_shadow = expand_shadow_root(context, form)
@@ -260,11 +267,17 @@ def get_current_value_of_dropdown(el):
 
 def find_dropdown(context, container, dropdown_text):
     dropdown_text = dropdown_text.lower().rstrip(' *')
-    all_dropdowns = container.find_elements_by_css_selector('paper-dropdown-menu')
+    all_dropdowns = container.find_elements_by_css_selector('paper-dropdown-menu:not([hidden])')
     try:
         app_form = container.find_element_by_css_selector('app-form')
         app_form_shadow = expand_shadow_root(context, app_form)
-        all_dropdowns += app_form_shadow.find_elements_by_css_selector('paper-dropdown-menu')
+        all_dropdowns += app_form_shadow.find_elements_by_css_selector('paper-dropdown-menu:not([hidden])')
+        sub_forms = app_form_shadow.find_elements_by_css_selector('sub-form')
+        for sub in sub_forms:
+            sub_shadow = expand_shadow_root(context, sub)
+            sub_app_form = sub_shadow.find_element_by_css_selector('app-form')
+            sub_app_form_shadow = expand_shadow_root(context, sub_app_form)
+            all_dropdowns += sub_app_form_shadow.find_elements_by_css_selector('paper-dropdown-menu:not([hidden])')
     except NoSuchElementException:
         pass
     for dropdown in all_dropdowns:

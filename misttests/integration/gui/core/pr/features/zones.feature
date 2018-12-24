@@ -35,7 +35,7 @@ Feature: Zones
   Scenario: Disable dns support and verify that zone created above is not visible
     When I visit the Home page
     And I wait for 1 seconds
-    And I open the cloud menu for "GCE"
+    And I open the cloud page for "GCE"
     And I click the button "DNS" in "cloud" edit form
     And I wait for 1 seconds
     And I click the "Enable DNS" button with id "DNS-enable-disable"
@@ -50,7 +50,7 @@ Feature: Zones
   Scenario: Reenable dns-support and add tags to a zone
     When I visit the Home page
     And I wait for 1 seconds
-    And I open the cloud menu for "GCE"
+    And I open the cloud page for "GCE"
     And I click the button "DNS" in "cloud" edit form
     And I wait for 2 seconds
     And I click the "Enable DNS" button with id "DNS-enable-disable"

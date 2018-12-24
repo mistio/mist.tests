@@ -304,6 +304,14 @@ def click_button_by_id(context, button, button_id):
     click_button_by_id_within_container(context, button, button_id)
 
 
+@step(u'I click the toggle button in the "{page_title}" page')
+def click_toggle_in_page(context, page_title):
+    _, page_element = get_page_element(context, page_title + 's', page_title)
+    page_shadow = expand_shadow_root(context, page_element)
+    toggle_button = page_shadow.find_element_by_css_selector('paper-toggle-button')
+    clicketi_click(context, toggle_button)
+
+
 @step(u'I click the mist-logo')
 def visit_home_url(context):
     save_title_button = context.browser.find_element_by_id('logo-link')
@@ -335,3 +343,11 @@ def click_action_in_resource_page(context, action, resource_type):
         sleep(.5)
         buttons = mist_list_actions_shadow.find_elements_by_css_selector(':host > paper-menu-button paper-button')
         click_button_from_collection(context, action.lower(), buttons)
+
+
+@when(u'I click the fab button in the "{page_title}" page')
+def click_fab_button_in_page(context, page_title):
+    page_element = get_page_element(context, page_title)
+    page_shadow = expand_shadow_root(context, page_element)
+    fab = page_shadow.find_element_by_css_selector('paper-fab')
+    clicketi_click(context, fab)

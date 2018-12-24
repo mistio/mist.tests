@@ -108,29 +108,28 @@ def wait_for_buttons_to_appear(context):
             sleep(1)
 
 
-def filter_buttons(context, text):
+def filter_buttons(container, text):
     return filter(lambda el: safe_get_element_text(el).strip().lower() == text,
-                  context.browser.find_elements_by_tag_name('paper-button'))
+                  container.find_elements_by_css_selector('paper-button'))
 
 
 @step(u'I wait for the dashboard to load')
 def wait_for_dashboard(context):
     context.execute_steps(u'Then I wait for the navigation menu to appear')
+    dashboard_page = get_page_element(context, 'dashboard')
+    dashboard_shadow = expand_shadow_root(context, dashboard_page)
     timeout = 20
     try:
-        WebDriverWait(context.browser, timeout).until(
+        WebDriverWait(dashboard_shadow, timeout).until(
             EC.visibility_of_element_located((By.CSS_SELECTOR,
-                                              "mist-app page-dashboard "
                                               "div#content")))
     except TimeoutException:
         raise TimeoutException("Dashboard did not load after %s seconds"
                                % timeout)
-    context.execute_steps(u'Then I expect for "addBtn" to be clickable within '
-                          u'max 20 seconds')
-    save_org = filter_buttons(context, 'save organisation')
+    save_org = filter_buttons(dashboard_shadow, 'save organisation')
     if save_org:
-        org_form = context.browser.find_element_by_id('orginput')
-        org_input = org_form.find_element_by_id('input')
+        org_input = dashboard_shadow.find_element_by_css_selector('paper-input#orginput')
+        import ipdb;ipdb.set_trace()
         context.organizational_context = org_input.get_attribute('value').strip().lower()
         clicketi_click(context, save_org[0])
         return True
@@ -198,7 +197,7 @@ def go_to_some_page_after_counter_loading(context, title, counter_title):
 
 @then(u'I expect the "{title}" page to be visible within max {timeout} seconds')
 def expect_page_to_be_visible(context, title, timeout):
-    if title in ['key', 'machine', 'script']:
+    if title in ['key', 'machine', 'script', 'cloud']:
         container_element = get_page_element(context, title + 's')
         container_shadow = expand_shadow_root(context, container_element)
         try:

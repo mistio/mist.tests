@@ -109,8 +109,12 @@ def some_counter_loaded(context, counter_title, counter_number, seconds):
                              'teams', 'zones']:
         raise ValueError('The counter given is unknown')
     try:
-        counter = context.browser.find_element_by_css_selector('a#%s.mist-sidebar'
-                                                               % counter_title)
+        mist_app = context.browser.find_element_by_tag_name('mist-app')
+        mist_app_shadow = expand_shadow_root(context, mist_app)
+        sidebar = mist_app_shadow.find_element_by_css_selector(
+            'mist-sidebar')
+        sidebar_shadow = expand_shadow_root(context, sidebar)
+        counter = sidebar_shadow.find_element_by_css_selector('a#%s' % counter_title)
     except NoSuchElementException:
         raise NoSuchElementException("Counter with name %s has not been found"
                                      % counter_title)
@@ -230,3 +234,6 @@ def get_grid_items(context, grid):
 
 def get_list_item_from_checkbox(context, checkbox):
     return context.browser.execute_script('return arguments[0].item', checkbox)
+
+def has_finished_loading(context, section):
+    return context.browser.execute_script('return !document.querySelector("mist-app").model.pending["' + section + '"]')
