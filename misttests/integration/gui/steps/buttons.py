@@ -65,7 +65,7 @@ def clicketi_click_list_row(context, item):
 
 def click_button_from_collection(context, text, button_collection=None,
                                  error_message="Could not find button"):
-    button = search_for_button(context, text.lower(), button_collection)
+    button = search_for_button(context, text, button_collection)
     assert button, error_message
     for i in range(0, 2):
         try:
@@ -78,19 +78,9 @@ def click_button_from_collection(context, text, button_collection=None,
 
 
 def search_for_button(context, text, button_collection):
-    button = filter(lambda el: safe_get_element_text(el).strip().lower() == text,
-                    button_collection)
-    if button:
-        return button[0]
-
-    # if we haven't found the exact text then we search for something that
-    # looks like it
     for button in button_collection:
-        button_text = safe_get_element_text(button).split('\n')
-        if len(filter(lambda b: text in b.lower(), button_text)) > 0:
+        if safe_get_element_text(button).strip().lower() == text.lower():
             return button
-
-    return None
 
 
 @step(u'I click the button "{text}"')
@@ -209,8 +199,8 @@ def click_the_user_menu_button(context, button):
     click_button_from_collection(context, button, buttons)
 
 
-@step(u'I click the action "{button}" from the {resource_type} list actions')
-def click_action_of_list(context,button,resource_type):
+@step(u'I click the action "{button_text}" from the {resource_type} list actions')
+def click_action_of_list(context, button_text, resource_type):
     resource_type = resource_type.lower()
     if resource_type not in ['machine', 'key', 'script', 'network', 'team', 'template', 'stack', 'image', 'schedule', 'record']:
         raise Exception('Unknown resource type')
@@ -220,8 +210,19 @@ def click_action_of_list(context,button,resource_type):
     list_shadow = expand_shadow_root(context, mist_list)
     actions = list_shadow.find_element_by_css_selector('mist-list-actions')
     actions_shadow = expand_shadow_root(context, actions)
-    buttons = actions_shadow.find_elements_by_css_selector('paper-button')
-    click_button_from_collection(context, button.lower(), buttons)
+    buttons = actions_shadow.find_elements_by_css_selector(':host > paper-button:not([hidden])')
+    button = search_for_button(context, button_text, buttons)
+    if not button:
+        try:
+            import ipdb;ipdb.set_trace()
+            more_menu_button = actions_shadow.find_element_by_css_selector(':host > paper-menu-button')
+            clicketi_click(context, more_menu_button)
+            sleep(.2)
+            more_buttons = more_menu_button.find_elements_by_css_selector('.dropdown-content > paper-button')
+            button = search_for_button(context, button_text, more_buttons)
+        except NoSuchElementException:
+            assert False, "Could not find %s action button"
+    clicketi_click(context, button)
 
 
 @step(u'I click the "{text}" "{resource_type}"')
