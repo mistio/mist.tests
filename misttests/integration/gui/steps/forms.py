@@ -46,6 +46,7 @@ def get_add_form(context, title):
 
 def get_edit_form(context, title):
     title = title.lower()
+    import ipdb;ipdb.set_trace()
     if title not in ['machine', 'image', 'key', 'network', 'tunnel', 'script',
                      'template', 'stack', 'team', 'policy', 'cloud', 'schedule', 'zone']:
         raise Exception('The title given is unknown')
@@ -122,6 +123,7 @@ def get_input_element_from_form(context, form, input_name):
                         input_element = expanded_slot_shadow.find_element_by_css_selector(selector)
                     except NoSuchElementException:
                         print(e)
+                        import ipdb;ipdb.set_trace()
     return input_element
 
 
@@ -169,11 +171,11 @@ def get_button_from_form(context, form, button_name):
     form_containers_shadow = [expand_shadow_root(context, f) for f in form_containers]
     form_containers_shadow.append(form)
     for form in form_containers_shadow:
-        all_buttons += form.find_elements_by_css_selector('paper-button')
+        all_buttons += form.find_elements_by_css_selector('paper-button:not([hidden])')
         try:
             app_form = form.find_element_by_css_selector('app-form')
             app_form_shadow = expand_shadow_root(context, app_form)
-            all_buttons += app_form_shadow.find_elements_by_css_selector('paper-button')
+            all_buttons += app_form_shadow.find_elements_by_css_selector('paper-button:not([hidden])')
         except NoSuchElementException:
             pass
     assert all_buttons, "Could not find any buttons in the form"
