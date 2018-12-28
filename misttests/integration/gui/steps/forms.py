@@ -86,18 +86,22 @@ def check_form_is_visible(context, page, form_type, seconds):
 def get_input_element_from_form(context, form, input_name):
     input_element = None
     input_containers = form.find_elements_by_css_selector('paper-input, paper-textarea')
-    try:
-        app_form = form.find_element_by_css_selector('app-form')
-        app_form_shadow = expand_shadow_root(context, app_form)
-        input_containers += app_form_shadow.find_elements_by_css_selector('paper-input, paper-textarea')
-        sub_forms = app_form_shadow.find_elements_by_css_selector('sub-form')
-        for sub in sub_forms:
-            sub_shadow = expand_shadow_root(context, sub)
-            sub_app_form = sub_shadow.find_element_by_css_selector('app-form')
-            sub_app_form_shadow = expand_shadow_root(context, sub_app_form)
-            input_containers += sub_app_form_shadow.find_elements_by_css_selector('paper-input, paper-textarea')
-    except NoSuchElementException:
-        pass
+    form_containers = form.find_elements_by_css_selector('cloud-edit')
+    form_containers_shadow = [expand_shadow_root(context, f) for f in form_containers]
+    form_containers_shadow.append(form)
+    for form in form_containers_shadow:
+        try:
+            app_form = form.find_element_by_css_selector('app-form')
+            app_form_shadow = expand_shadow_root(context, app_form)
+            input_containers += app_form_shadow.find_elements_by_css_selector('paper-input, paper-textarea')
+            sub_forms = app_form_shadow.find_elements_by_css_selector('sub-form')
+            for sub in sub_forms:
+                sub_shadow = expand_shadow_root(context, sub)
+                sub_app_form = sub_shadow.find_element_by_css_selector('app-form')
+                sub_app_form_shadow = expand_shadow_root(context, sub_app_form)
+                input_containers += sub_app_form_shadow.find_elements_by_css_selector('paper-input, paper-textarea')
+        except NoSuchElementException:
+            pass
     for container in input_containers:
         container_shadow = expand_shadow_root(context, container)
         text = safe_get_element_text(
@@ -160,19 +164,22 @@ def click_menu_button_from_more_menu(context, button_name, title, form_type):
 
 
 def get_button_from_form(context, form, button_name):
-    if button_name == 'add a new rule':
-        return form.find_element_by_css_selector('div.rules span.team-policy')
-    buttons = form.find_elements_by_css_selector('paper-button')
-    try:
-        app_form = form.find_element_by_css_selector('app-form')
-        app_form_shadow = expand_shadow_root(context, app_form)
-        buttons += app_form_shadow.find_elements_by_css_selector('paper-button')
-    except NoSuchElementException:
-        pass
-    assert buttons, "Could not find any buttons in the form"
+    all_buttons = []
+    form_containers = form.find_elements_by_css_selector('cloud-edit')
+    form_containers_shadow = [expand_shadow_root(context, f) for f in form_containers]
+    form_containers_shadow.append(form)
+    for form in form_containers_shadow:
+        all_buttons += form.find_elements_by_css_selector('paper-button')
+        try:
+            app_form = form.find_element_by_css_selector('app-form')
+            app_form_shadow = expand_shadow_root(context, app_form)
+            all_buttons += app_form_shadow.find_elements_by_css_selector('paper-button')
+        except NoSuchElementException:
+            pass
+    assert all_buttons, "Could not find any buttons in the form"
     button = None
-    for b in buttons:
-        if safe_get_element_text(b).lower().strip() == button_name:
+    for b in all_buttons:
+        if safe_get_element_text(b).lower().strip() == button_name.lower():
             return b
     assert button, "Could not find button %s" % button_name
 

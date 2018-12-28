@@ -46,12 +46,10 @@ def get_machine(context, name):
     try:
         placeholder = context.browser.find_element_by_tag_name("page-machines")
         machines = placeholder.find_elements_by_tag_name("vaadin-grid-table-row")
-
         for machine in machines:
             machine_text = safe_get_element_text(machine.find_element_by_css_selector('.name')).strip().lower()
             if name == machine_text:
                 return machine
-
         return None
     except NoSuchElementException:
         return None
@@ -84,8 +82,8 @@ def assert_machine_state(context, name, state, seconds):
 def select_item_from_list(context, item_name, resource_type):
     if context.mist_config.get(item_name):
         item_name = context.mist_config.get(item_name)
-    if resource_type in ['record']:
-        item_name = item_name + '.' + context.mist_config.get('test-zone-random.com.')
+    # if resource_type in ['record']:
+    #     item_name = item_name + '.' + context.mist_config.get('test-zone-random.com.')
     container = get_page_element(context, resource_type + 's')
     container_shadow = expand_shadow_root(context, container)
     mist_list = container_shadow.find_element_by_css_selector('mist-list')
@@ -99,6 +97,23 @@ def select_item_from_list(context, item_name, resource_type):
             sleep(.1)
             return True
     assert False, "Could not select from list item %s" % item_name
+
+
+@step(u'I click on list item "{item_name}" {resource_type}')
+def click_list_item(context, item_name, resource_type):
+    if context.mist_config.get(item_name):
+        item_name = context.mist_config.get(item_name)
+    container = get_page_element(context, resource_type + 's')
+    container_shadow = expand_shadow_root(context, container)
+    mist_list = container_shadow.find_element_by_css_selector('mist-list')
+    list_shadow = expand_shadow_root(context, mist_list)
+    grid = list_shadow.find_element_by_css_selector('vaadin-grid')
+    list_item_names = list_shadow.find_elements_by_css_selector('strong.name')
+    for item in list_item_names:
+        if safe_get_element_text(item).strip().lower() == item_name.strip().lower():
+            clicketi_click(context, item)
+            return True
+    assert False, "Could not click item %s" % item_name
 
 
 """

@@ -3,7 +3,6 @@ Feature: Add second-tier clouds
 
   Background:
     Given I am logged in to mist
-#    Then I expect for "addBtn" to be clickable within max 20 seconds
 
   @cloud-add
   Scenario Outline: Add cloud for multiple providers
@@ -28,8 +27,8 @@ Feature: Add second-tier clouds
 #    | Vmware         |
 #    | HostVirtual    |
 
-  @bare-metal-add
-  Scenario: Add bare-metal
+  @other-server-add
+  Scenario: Add other-server
     When I refresh the page
     When I add the key needed for Other Server
     When I click the fab button in the "dashboard" page
@@ -41,7 +40,7 @@ Feature: Add second-tier clouds
     Then I click the button "Add Cloud" in the "cloud" add form
     When I wait for the dashboard to load
     And I scroll the clouds list into view
-    Then the "Bare Metal" provider should be added within 20 seconds
+    Then the "Bare Metal" provider should be added within 30 seconds
 
   @KVM-add
   Scenario: Add KVM
@@ -59,16 +58,16 @@ Feature: Add second-tier clouds
     Then the "KVM" provider should be added within 30 seconds
 
   @machine-shell
-  Scenario: Check shell access in bare metal
+  Scenario: Check shell access in other server
     When I visit the machines page after the counter has loaded
     And I wait for 10 seconds
-    And I click the bare metal machine
+    And I click the other server machine
     And I expect the "machine" page to be visible within max 5 seconds
     And I wait for 2 seconds
-    And I click the action "Shell" from the machine list actions
+    When I click the "Shell" action button in the "machine" page
     Then I expect terminal to open within 3 seconds
     When I wait for 5 seconds
     And I type in the terminal "ls -l"
-    And I wait for 1 seconds
+    And I wait for 2 seconds
     Then total should be included in the output
     And I close the terminal

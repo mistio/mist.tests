@@ -195,7 +195,7 @@ def go_to_some_page_after_counter_loading(context, title, counter_title):
     ''' % (counter_title, title))
 
 
-@then(u'I expect the "{title}" page to be visible within max {timeout} seconds')
+@step(u'I expect the "{title}" page to be visible within max {timeout} seconds')
 def expect_page_to_be_visible(context, title, timeout):
     if title in ['key', 'machine', 'script', 'cloud']:
         container_element = get_page_element(context, title + 's')

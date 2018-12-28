@@ -11,7 +11,7 @@ from .utils import safe_get_element_text, expand_shadow_root
 from .buttons import click_button_from_collection, clicketi_click
 
 from .forms import get_input_element_from_form
-from .forms import clear_input_and_send_keys
+from .forms import clear_input_and_send_keys, get_button_from_form
 
 
 def get_dialog(context, title):
@@ -70,27 +70,13 @@ def check_that_field_is_visible(context, field_name, dialog_title, seconds):
     assert False, "Field %s did not become visible after %s seconds" \
                   % (field_name, seconds)
 
-
-@step(u'I set the value "{value}" to field "{name}" in the "{title}" app-form dialog')
-def set_value_to_app_form_dialog(context, value, name, title):
-    dialog = get_dialog(context, title)
-    inputs = dialog.find_elements_by_class_name('input-content')
-    for element in inputs:
-        if name in element.text:
-            input_element = element.find_element_by_tag_name('input')
-            clear_input_and_send_keys(input_element, value)
-            return
-
-    assert False, "Could not set value to field %s" % name
-
-
 @step(u'I click the "{button_name}" button in the "{dialog_title}" dialog')
 def click_button_in_dialog(context, button_name, dialog_title):
     dialog = get_dialog(context, dialog_title)
     assert dialog, "Could not find dialog with title %s" % dialog_title
     dialog_shadow = expand_shadow_root(context, dialog)
-    dialog_buttons = dialog_shadow.find_elements_by_css_selector('paper-button:not([hidden])')
-    click_button_from_collection(context, button_name, dialog_buttons)
+    button = get_button_from_form(context, dialog_shadow, button_name)
+    clicketi_click(context, button)
 
 
 @step(u'I click the toggle button with id "{btn_id}" in the "{dialog}" dialog')

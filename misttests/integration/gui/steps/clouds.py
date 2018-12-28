@@ -18,7 +18,7 @@ from .forms import clear_input_and_send_keys
 from .buttons import clicketi_click
 from .buttons import click_button_from_collection
 
-from .dialog import set_value_to_app_form_dialog, get_dialog
+from .dialog import get_dialog
 
 
 def set_azure_creds(context):
@@ -254,8 +254,8 @@ def set_second_openstack_creds(context):
 @step(u'I use my second AWS credentials')
 def set_second_aws_creds(context):
     context.execute_steps(u'''
-                Then I set the value "%s" to field "API KEY" in "Edit Credentials" app-form dialog
-                Then I set the value "%s" to field "API SECRET" in "Edit Credentials" app-form dialog
+                Then I set the value "%s" to field "API KEY" in the "Edit Credentials" dialog
+                Then I set the value "%s" to field "API SECRET" in the "Edit Credentials" dialog
             ''' % (safe_get_var('clouds/aws_2', 'api_key', context.mist_config['CREDENTIALS']['AWS_2']['api_key']),
                    safe_get_var('clouds/aws_2', 'api_secret', context.mist_config['CREDENTIALS']['AWS_2']['api_secret']),))
 

@@ -36,11 +36,10 @@ Feature: Add second-tier clouds
     When I open the cloud page for "AWS"
     Then I expect the "cloud" page to be visible within max 10 seconds
     When I click the "Edit Credentials" action button in the "cloud" page
-    Then I expect the dialog "Edit Credentials" to be open within 4 seconds
+    Then I expect the "Edit Credentials" dialog to be open within 4 seconds
     When I use my second AWS credentials
     And I wait for 1 seconds
-    And I focus on the button "Edit Credentials" in the "cloud" page
-    When I click the "Edit Credentials" action button in the "cloud" page
+    When I click the "Edit Credentials" button in the "Edit Credentials" dialog
     And I wait for 3 seconds
     And I visit the Images page
     And I search for "CoreOS"
