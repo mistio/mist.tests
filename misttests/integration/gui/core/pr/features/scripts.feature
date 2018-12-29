@@ -15,7 +15,7 @@ Feature: Scripts
     And I wait for 1 seconds
     And I click the button "Ansible Playbook" in the "Type" dropdown in the "script" add form
     And I wait for 1 seconds
-    And I open the "Source" dropdown in "script" add form
+    And I open the "Source" dropdown in the "script" add form
     And I wait for 1 seconds
     And I click the button "Github" in the "Source" dropdown in the "script" add form
     And I set the value "https://github.com/ansible/ansible-examples" to field "Github Repo" the in "script" add form

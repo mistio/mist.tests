@@ -165,17 +165,17 @@ def click_menu_button_from_more_menu(context, button_name, title, form_type):
     click_button_from_collection(context, button_name, more_dropdown_buttons)
 
 
-def get_button_from_form(context, form, button_name):
+def get_button_from_form(context, form, button_name, tag_name='paper-button'):
     all_buttons = []
-    form_containers = form.find_elements_by_css_selector('cloud-edit')
+    form_containers = form.find_elements_by_css_selector('cloud-edit, network-create')
     form_containers_shadow = [expand_shadow_root(context, f) for f in form_containers]
     form_containers_shadow.append(form)
     for form in form_containers_shadow:
-        all_buttons += form.find_elements_by_css_selector('paper-button:not([hidden])')
+        all_buttons += form.find_elements_by_css_selector('%s:not([hidden])' % tag_name)
         try:
             app_form = form.find_element_by_css_selector('app-form')
             app_form_shadow = expand_shadow_root(context, app_form)
-            all_buttons += app_form_shadow.find_elements_by_css_selector('paper-button:not([hidden])')
+            all_buttons += app_form_shadow.find_elements_by_css_selector('%s:not([hidden])' % tag_name)
         except NoSuchElementException:
             pass
     assert all_buttons, "Could not find any buttons in the form"

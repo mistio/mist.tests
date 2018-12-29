@@ -7,7 +7,7 @@ import logging
 from .utils import safe_get_element_text
 from .utils import focus_on_element, get_page_element, expand_shadow_root
 
-from .forms import find_dropdown
+from .forms import find_dropdown, get_button_from_form
 from .forms import get_current_value_of_dropdown
 
 from selenium.webdriver import ActionChains
@@ -114,12 +114,21 @@ def click_button_in_dropdown_within_container(context, container, button, name):
     click_button_from_collection(context, button.lower(), buttons)
 
 
-@step(u'I click the "{button}" button in the "{name}" dropdown in the "{resource_type}" add form')
-def click_button_in_dropdown(context, button, name, resource_type):
+@step(u'I click the "{button_name}" button in the "{dropdown_name}" dropdown in the "{resource_type}" add form')
+def click_button_in_dropdown(context, button_name, dropdown_name, resource_type):
     from .forms import get_add_form
     page = get_add_form(context, resource_type)
     page_shadow = expand_shadow_root(context, page)
-    click_button_in_dropdown_within_container(context, page_shadow, button, name)
+    click_button_in_dropdown_within_container(context, page_shadow, button_name, dropdown_name)
+
+
+@when(u'I click the "{button_name}" toggle button  in the "{resource_type}" add form')
+def click_toggle_button_in_add_form(context, button_name, resource_type):
+    from .forms import get_add_form
+    form = get_add_form(context, resource_type)
+    form_shadow = expand_shadow_root(context, form)
+    button = get_button_from_form(context, form_shadow, button_name, tag_name='paper-toggle-button')
+    clicketi_click(context, button)
 
 
 #@step(u'I click the "{button}" button in the dropdown with id "{dropdown_id}"')

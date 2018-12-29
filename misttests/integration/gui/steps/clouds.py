@@ -92,13 +92,13 @@ def set_nepho_creds(context):
 
 def set_linode_creds(context):
     api_key = safe_get_var('clouds/linode', 'api_key', context.mist_config['CREDENTIALS']['LINODE']['api_key'])
-    context.execute_steps(u'Then I set the value "%s" to field "API Key" in'
-                          u' "cloud" add form' % api_key)
+    context.execute_steps(u'Then I set the value "%s" to field "API Key" in '
+                          u'the "cloud" add form' % api_key)
 
 
 def set_do_creds(context):
     token = safe_get_var('clouds/digitalocean', 'token', context.mist_config['CREDENTIALS']['DIGITALOCEAN']['token'])
-    context.execute_steps(u'Then I set the value "%s" to field "Token" in '
+    context.execute_steps(u'Then I set the value "%s" to field "Token" in the '
                           u'"cloud" add form' % token)
 
 
