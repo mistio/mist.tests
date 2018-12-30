@@ -10,7 +10,7 @@ from selenium.common.exceptions import NoSuchElementException
 from selenium.common.exceptions import StaleElementReferenceException
 from selenium.common.exceptions import ElementNotVisibleException
 
-from .utils import safe_get_element_text, expand_shadow_root, get_page_element, has_finished_loading
+from .utils import safe_get_element_text, expand_shadow_root, get_page_element, has_finished_loading, add_credit_card_if_needed
 
 from .forms import set_value_to_field, get_add_form
 from .forms import clear_input_and_send_keys
@@ -295,29 +295,7 @@ def select_provider_in_cloud_add_form(context, provider):
     form_shadow = expand_shadow_root(context, form_element)
     # if in mist-hs repo and user has not provided mist
     # with a billing card, then a cc-required dialog appears
-    try:
-        cc_required_dialog = form_shadow.find_element_by_css_selector('#ccRequired')
-        dialog_shadow = expand_shadow_root(context, cc_required_dialog)
-        card_form = dialog_shadow.find_element_by_css_selector('#inPlanPurchase')
-        if card_form.is_displayed():
-            card_form_shadow = expand_shadow_root(context, card_form)
-            cc = card_form_shadow.find_element_by_css_selector('#cc')
-            cc.send_keys(context.mist_config['CC_CC'])
-            clear_input_and_send_keys(card_form_shadow.find_element_by_css_selector('#cvc'),
-                                    context.mist_config['CC_CVC'])
-            clear_input_and_send_keys(card_form_shadow.find_element_by_css_selector('#expirationMonth'),
-                                    context.mist_config['CC_EXPIRE_MONTH'])
-            clear_input_and_send_keys(card_form_shadow.find_element_by_css_selector('#expirationYear'),
-                                    context.mist_config['CC_EXPIRE_YEAR'])
-            clear_input_and_send_keys(card_form_shadow.find_element_by_css_selector('#zipCode'),
-                                    context.mist_config['CC_ZIP_CODE'])
-            for button in dialog_shadow.find_elements_by_css_selector('paper-button:not([hidden])'):
-                if button.text.lower() == 'enable':
-                    clicketi_click(context, button)
-                    sleep(8)
-    except (NoSuchElementException, ElementNotVisibleException) as e:
-        pass
-
+    add_credit_card_if_needed(context, form_shadow)
     provider_title = provider.lower()
     providers_listbox = form_shadow.find_element_by_class_name('providers')
     providers = providers_listbox.find_elements_by_tag_name('paper-item')

@@ -9,7 +9,7 @@ from .buttons import click_button_from_collection
 
 from .forms import clear_input_and_send_keys
 
-from .utils import safe_get_element_text, expand_shadow_root, get_page_element
+from .utils import safe_get_element_text, expand_shadow_root, get_page_element, add_credit_card_if_needed
 
 from selenium.common.exceptions import TimeoutException
 from selenium.common.exceptions import NoSuchElementException
@@ -159,7 +159,7 @@ def go_to_some_page_without_waiting(context, title):
         sidebar = mist_app_shadow.find_element_by_css_selector(
             'mist-sidebar')
         sidebar_shadow = expand_shadow_root(context, sidebar)
-        button = sidebar_shadow.find_element_by_id(title)
+        button = sidebar_shadow.find_element_by_css_selector('#' + title)
         clicketi_click(context, button)
         context.execute_steps(u'Then I expect for "%s" page to appear within '
                               u'max 10 seconds' % title)
@@ -242,30 +242,9 @@ def given_logged_in(context):
 
 @step(u'I have given card details if needed')
 def give_cc_details_if_necessary(context):
-    try:
-        cc_required_dialog = context.browser.find_element_by_id('mistAppCcRequired')
-        form = cc_required_dialog.find_element_by_id('inPlanPurchase')
-        cc = form.find_element_by_id('cc')
-        cc.send_keys(context.mist_config['CC_CC'])
-        clear_input_and_send_keys(form.find_element_by_id('cvc'), 
-                                  context.mist_config['CC_CVC'])
-        clear_input_and_send_keys(form.find_element_by_id('expirationMonth'),
-                                  context.mist_config['CC_EXPIRE_MONTH'])
-        clear_input_and_send_keys(form.find_element_by_id('expirationYear'),
-                                  context.mist_config['CC_EXPIRE_YEAR'])
-        clear_input_and_send_keys(form.find_element_by_id('zipCode'),
-                                  context.mist_config['CC_ZIP_CODE'])
-        for button in cc_required_dialog.find_elements_by_tag_name('paper-button'):
-            if button.text.lower() == 'enable':
-                clicketi_click(context, button)
-                sleep(10)
-
-        # verify that cc is required only in hs repo
-        assert context.mist_config['IS_HS_REPO'], "Credit card has been asked, although \
-                                                  the product is not hosted service!"
-
-    except (NoSuchElementException, ElementNotVisibleException) as e:
-        pass
+    mist_app = context.browser.find_element_by_css_selector('mist-app')
+    mist_app_shadow = expand_shadow_root(context, mist_app)
+    add_credit_card_if_needed(context, mist_app_shadow)
 
 
 def found_one(context):

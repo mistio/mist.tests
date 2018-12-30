@@ -1,6 +1,6 @@
 from behave import step, use_step_matcher
 
-from .utils import focus_on_element, get_page_element
+from .utils import focus_on_element, get_page_element, clear_input_and_send_keys
 from .utils import safe_get_element_text, expand_shadow_root, expand_slot
 
 from selenium.common.exceptions import NoSuchElementException
@@ -9,24 +9,6 @@ from time import time
 from time import sleep
 
 from random import randrange
-
-
-def clear_input_and_send_keys(input_field, text):
-    while input_field.get_attribute('value') != '':
-        input_field.send_keys(u'\ue003')
-    current_expected_value = ''
-    n = 70
-    chunks = [text[i:i+n] for i in xrange(0, len(text), n)]
-    for chunk in chunks:
-        current_expected_value += chunk
-        input_field.send_keys(chunk)
-        for _ in range(2):
-            if input_field.get_attribute('value') != current_expected_value:
-                sleep(.1)
-            else:
-                break
-        else:
-            raise Exception('Sending keys to form unsuccessful')
 
 
 def get_add_form(context, title):

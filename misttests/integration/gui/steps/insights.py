@@ -4,16 +4,26 @@ from time import time
 from selenium.common.exceptions import NoSuchElementException
 from selenium.common.exceptions import StaleElementReferenceException
 
-from .utils import safe_get_element_text
+from .utils import safe_get_element_text, get_page_element, expand_shadow_root
+
+def get_insights_element(context, shadow=False):
+    insights_page = get_page_element(context, 'insights')
+    insights_page_shadow = expand_shadow_root(context, insights_page)
+    insights_element = insights_page_shadow.find_element_by_css_selector('mist-insights')
+    if shadow:
+        return expand_shadow_root(context, insights_element)
+    return insights_element
 
 
 @step(u'the "{section}" section should be visible within {seconds} seconds')
 def check_insights_element_visibility(context, section, seconds):
+    insights_element_shadow = get_insights_element(context, shadow=True)
     end_time = time() + int(seconds)
     while time() < end_time:
         try:
-            context.browser.find_element_by_id(section)
-            return
+            target = insights_element_shadow.find_element_by_css_selector('#' + section )
+            if target.is_displayed():
+                return
         except NoSuchElementException:
             pass
     assert False, "Section %s is not visible after %s seconds" \
@@ -41,14 +51,15 @@ def check_value_in_section(context, element, section, value):
 
 @step(u'I refresh the Insights page until data are available')
 def refresh_until_data_are_available(context):
+    insights_element_shadow = get_insights_element(context, shadow=True)
     end_time = time() + 120
     while time() < end_time:
         try:
-            section_element = context.browser.\
-                find_element_by_id('quick-overview')
+            section_element = insights_element_shadow.\
+                find_element_by_css_selector('#quick-overview')
             data_element = section_element.\
-                find_element_by_id('quick-overview-data')
-            cost = data_element.find_element_by_id('quick-overview-cost')
+                find_element_by_css_selector('#quick-overview-data')
+            cost = data_element.find_element_by_css_selector('#quick-overview-cost')
             if 'COST\nNo data' in safe_get_element_text(cost):
                 context.execute_steps(u'When I wait for 2 seconds')
                 context.execute_steps(u'When I refresh the page')

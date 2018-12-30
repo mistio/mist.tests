@@ -6,6 +6,7 @@ from time import sleep
 from selenium.common.exceptions import TimeoutException
 from selenium.common.exceptions import NoSuchElementException
 from selenium.common.exceptions import StaleElementReferenceException
+from selenium.common.exceptions import ElementNotVisibleException
 
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
@@ -237,3 +238,45 @@ def get_list_item_from_checkbox(context, checkbox):
 
 def has_finished_loading(context, section):
     return context.browser.execute_script('return !document.querySelector("mist-app").model.pending["' + section + '"]')
+
+def add_credit_card_if_needed(context, form_shadow):
+    try:
+        plan_purchase_dialog = form_shadow.find_element_by_css_selector('plan-purchase')
+        dialog_shadow = expand_shadow_root(context, plan_purchase_dialog)
+        card_form = dialog_shadow.find_element_by_css_selector('card-form')
+        if card_form.is_displayed():
+            card_form_shadow = expand_shadow_root(context, card_form)
+            cc = card_form_shadow.find_element_by_css_selector('#cc')
+            cc.send_keys(context.mist_config['CC_CC'])
+            clear_input_and_send_keys(card_form_shadow.find_element_by_css_selector('#cvc'),
+                                    context.mist_config['CC_CVC'])
+            clear_input_and_send_keys(card_form_shadow.find_element_by_css_selector('#expirationMonth'),
+                                    context.mist_config['CC_EXPIRE_MONTH'])
+            clear_input_and_send_keys(card_form_shadow.find_element_by_css_selector('#expirationYear'),
+                                    context.mist_config['CC_EXPIRE_YEAR'])
+            clear_input_and_send_keys(card_form_shadow.find_element_by_css_selector('#zipCode'),
+                                    context.mist_config['CC_ZIP_CODE'])
+            for button in dialog_shadow.find_elements_by_css_selector('paper-button:not([hidden])'):
+                if button.text.lower() == 'enable':
+                    from .buttons import clicketi_click
+                    clicketi_click(context, button)
+                    sleep(8)
+    except (NoSuchElementException, ElementNotVisibleException) as e:
+        pass
+
+def clear_input_and_send_keys(input_field, text):
+    while input_field.get_attribute('value') != '':
+        input_field.send_keys(u'\ue003')
+    current_expected_value = ''
+    n = 70
+    chunks = [text[i:i+n] for i in xrange(0, len(text), n)]
+    for chunk in chunks:
+        current_expected_value += chunk
+        input_field.send_keys(chunk)
+        for _ in range(2):
+            if input_field.get_attribute('value') != current_expected_value:
+                sleep(.1)
+            else:
+                break
+        else:
+            raise Exception('Sending keys to form unsuccessful')
