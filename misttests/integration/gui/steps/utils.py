@@ -260,7 +260,14 @@ def add_credit_card_if_needed(context, form_shadow):
                 if button.text.lower() == 'enable':
                     from .buttons import clicketi_click
                     clicketi_click(context, button)
-                    sleep(8)
+                    i = 0
+                    while i < 20:
+                        if card_form.is_displayed():
+                            sleep(1)
+                            i+=1
+                        else:
+                            sleep(1)
+                            break
     except (NoSuchElementException, ElementNotVisibleException) as e:
         pass
 

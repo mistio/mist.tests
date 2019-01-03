@@ -223,7 +223,6 @@ def click_action_of_list(context, button_text, resource_type):
     button = search_for_button(context, button_text, buttons)
     if not button:
         try:
-            import ipdb;ipdb.set_trace()
             more_menu_button = actions_shadow.find_element_by_css_selector(':host > paper-menu-button')
             clicketi_click(context, more_menu_button)
             sleep(.2)

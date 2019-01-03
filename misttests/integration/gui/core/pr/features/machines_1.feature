@@ -13,14 +13,13 @@ Feature: Machines
     When I visit the Keys page
     When I click the button "+"
     Then I expect the "Key" add form to be visible within max 10 seconds
-    When I set the value "DummyKey2" to field "Name" in "key" add form
-    And I focus on the button "Generate" in "key" add form
-    And I click the button "Generate" in "key" add form
-    And I wait for 8 seconds
-    Then I expect for the button "Add" in "key" add form to be clickable within 12 seconds
-    When I focus on the button "Add" in "key" add form
-    And I click the button "Add" in "key" add form
-    Then I expect the "key" edit form to be visible within max 10 seconds
+    When I set the value "DummyKey2" to field "Name" in the "key" add form
+    And I focus on the button "Generate" in the "key" add form
+    And I click the button "Generate" in the "key" add form
+    Then I expect for the button "Add" in the "key" add form to be clickable within 22 seconds
+    When I focus on the button "Add" in the "key" add form
+    And I click the button "Add" in the "key" add form
+    Then I expect the "key" page to be visible within max 10 seconds
 
   @machine-create
   Scenario: Create a machine in Docker provider
@@ -29,15 +28,15 @@ Feature: Machines
     When I visit the Machines page
     And I click the button "+"
     Then I expect the "Machine" add form to be visible within max 10 seconds
-    When I open the "Select Cloud" drop down
+    When I open the "Select Cloud" dropdown in the "machine" add form
     And I wait for 1 seconds
-    And I click the button "Docker" in the "Select Cloud" dropdown
+    And I click the "Docker" button in the "Select Cloud" dropdown in the "machine" add form
     Then I expect the field "Machine name" in the machine add form to be visible within max 4 seconds
     When I select the proper values for "Docker" to create the "ui-test-create-machine-random" machine
     And I wait for 3 seconds
-    Then I expect for the button "Launch" in "machine" add form to be clickable within 10 seconds
-    When I focus on the button "Launch" in "machine" add form
-    And I click the "Launch" button with id "appformsubmit"
+    Then I expect for the button "Launch" in the "machine" add form to be clickable within 10 seconds
+    When I focus on the button "Launch" in the "machine" add form
+    And I click the button "Launch" in the "machine" add form
     When I visit the Home page
     And I visit the Machines page
     And I search for "ui-test-create-machine-random"
@@ -46,11 +45,11 @@ Feature: Machines
   @key-associate
   Scenario: Associate key with machine
     When I click the "ui-test-create-machine-random" "machine"
-    And I expect the "machine" edit form to be visible within max 5 seconds
+    And I expect the "machine" page to be visible within max 5 seconds
     And I wait for 2 seconds
-    Then I click the button "Associate Key" from the menu of the "machine" edit form
-    Then I expect the dialog "Associate a key" is open within 4 seconds
-    And I open the "Select key" drop down
+    Then I click the "Associate Key" action button in the "machine" page
+    Then I expect the "Associate a key" dialog to be open within 4 seconds
+    And I open the "Select key" drop down in the "machine" add page
     And I click the button "DummyKey2" in the "Select key" dropdown
     And I click the "Associate" button in the dialog "Associate a key"
     And I wait for 5 seconds

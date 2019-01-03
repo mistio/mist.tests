@@ -58,21 +58,21 @@ def click_bare_metal_machine(context):
 
 def set_values_to_create_machine_form(context,provider,machine_name):
     context.execute_steps(u'''
-                Then I set the value "%s" to field "Machine Name" in "machine" add form
-                When I open the "Image" drop down
-                And I click the button "%s" in the "Image" dropdown
-                And I open the "Key" drop down
-                And I click the button "DummyKey" in the "Key" dropdown
+                Then I set the value "%s" to field "Machine Name" in the "machine" add form
+                When I open the "Image" dropdown in the "machine" add form
+                And I click the "%s" button in the "Image" dropdown in the "machine" add form
+                And I open the "Key" dropdown in the "machine" add form
+                And I click the "DummyKey" button in the "Key" dropdown in the "machine" add form
                 And I wait for 1 seconds
             ''' % (machine_name,
                    machine_values_dict.get(provider)[0]))
 
     if 'digital ocean' in provider:
         context.execute_steps(u'''
-                    When I open the "Size" drop down
-                    And I click the button "%s" in the "Size" dropdown
-                    When I open the "Location" drop down
-                    And I click the button "%s" in the "Location" dropdown
+                    When I open the "Size" drop down in the "machine" add form
+                    And I click the "%s" button in the "Size" dropdown in the "machine" add form
+                    When I open the "Location" drop down in the "machine" add form
+                    And I click the "%s" button in the "Location" dropdown in the "machine" add form
                 ''' % ( machine_values_dict.get(provider)[1],
                        machine_values_dict.get(provider)[2]))
 
@@ -82,7 +82,7 @@ def cloud_creds(context, provider, machine_name):
     provider = provider.strip().lower()
     if provider not in machine_values_dict.keys():
         raise Exception("Unknown cloud provider")
-    set_values_to_create_machine_form(context,provider,machine_name)
+    set_values_to_create_machine_form(context, provider, machine_name)
 
 
 @step(u'I expect for "{key}" key to appear within max {seconds} seconds')
