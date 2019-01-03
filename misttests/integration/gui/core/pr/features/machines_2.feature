@@ -18,9 +18,9 @@ Feature: Machines
     When I visit the Machines page
     And I click the button "+"
     Then I expect the "Machine" add form to be visible within max 10 seconds
-    When I open the "Select Cloud" drop down
+    When I open the "Select Cloud" drop down in the "machine" add form
     And I wait for 1 seconds
-    And I click the button "Docker" in the "Select Cloud" dropdown
+    And I click the button "Docker" in the "Select Cloud" dropdown in the "machine" add form
     Then I expect the field "Machine name" in the machine add form to be visible within max 4 seconds
     When I select the proper values for "Docker" to create the "ui-test-create-machine-random" machine
     And I wait for 2 seconds

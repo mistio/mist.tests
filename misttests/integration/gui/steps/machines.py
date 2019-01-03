@@ -48,7 +48,7 @@ machine_values_dict = {
     "nephoscale": ["Ubuntu Server 14.04 LTS 64-bit", "CS05 - Cloud Server 0.5 GB RAM, 1 Core", "SJC-1"],
     "softlayer": ["Ubuntu - Latest (64 bit) ", "1 CPU, 1GB ram, 25GB ", "AMS01 - Amsterdam"],
     "azure": ["Ubuntu Server 14.04 LTS", "ExtraSmall (1 cores, 768 MB) ", "West Europe"],
-    "docker": ["mist/ubuntu-14.04:latest"]
+    "docker": ["Ubuntu 14.04 - mist.io image"] # ["mist/ubuntu-14.04:latest"]
 }
 
 @step(u'I click the other server machine')

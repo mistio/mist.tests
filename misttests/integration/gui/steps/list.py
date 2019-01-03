@@ -42,38 +42,16 @@ def get_list_item(context, resource_type, name):
     return None
 
 
-def get_machine(context, name):
-    try:
-        placeholder = context.browser.find_element_by_tag_name("page-machines")
-        machines = placeholder.find_elements_by_tag_name("vaadin-grid-table-row")
-        for machine in machines:
-            machine_text = safe_get_element_text(machine.find_element_by_css_selector('.name')).strip().lower()
-            if name == machine_text:
-                return machine
-        return None
-    except NoSuchElementException:
-        return None
-    except StaleElementReferenceException:
-        return None
-
-
 @step(u'"{name}" machine state has to be "{state}" within {seconds} seconds')
 def assert_machine_state(context, name, state, seconds):
     if context.mist_config.get(name):
         name = context.mist_config.get(name)
     end_time = time() + int(seconds)
-    if context.mist_config['LOCAL']:
-        end_time = 2 * end_time
     while time() < end_time:
-        machine = get_machine(context, name)
+        machine = get_list_item(context, 'machine', name)
         if machine:
-            try:
-                if state in safe_get_element_text(machine.find_element_by_css_selector('.state span')).strip().lower():
-                    return
-            except NoSuchElementException:
-                pass
-            except StaleElementReferenceException:
-                pass
+            if state in machine.get('state').strip().lower():
+                return
         sleep(2)
     assert False, u'%s state is not "%s"' % (name, state)
 
