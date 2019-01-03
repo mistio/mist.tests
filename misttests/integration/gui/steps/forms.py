@@ -28,6 +28,7 @@ def get_add_form(context, title):
 
 def get_edit_form(context, title):
     title = title.lower()
+    import ipdb;ipdb.set_trace()
     if title not in ['machine', 'image', 'key', 'network', 'tunnel', 'script',
                      'template', 'stack', 'team', 'policy', 'cloud', 'schedule', 'zone']:
         raise Exception('The title given is unknown')
@@ -104,6 +105,7 @@ def get_input_element_from_form(context, form, input_name):
                         input_element = expanded_slot_shadow.find_element_by_css_selector(selector)
                     except NoSuchElementException:
                         print(e)
+                        import ipdb;ipdb.set_trace()
     return input_element
 
 
@@ -186,7 +188,7 @@ def check_that_field_is_visible(context, field_name, title, form_type, seconds):
 
 
 use_step_matcher("re")
-@step(u'I set the value "(?P<value>[A-Za-z0-9 \-\.\+\/]+)" to field "(?P<name>[A-Za-z ]+)" in the "(?P<title>[A-Za-z]+)" (?P<form_type>[A-Za-z]+) form')
+@step(u'I set the value "(?P<value>[A-Za-z0-9 \-.#!>\\\\]+)" to field "(?P<name>[A-Za-z ]+)" in the "(?P<title>[A-Za-z]+)" (?P<form_type>[A-Za-z]+) form')
 def set_value_to_field(context, value, name, title, form_type):
     if context.mist_config.get(value):
         value = context.mist_config.get(value)
