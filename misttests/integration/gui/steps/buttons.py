@@ -335,7 +335,8 @@ def click_the_gravatar(context):
     except NoSuchElementException:
         get_old_gravatar(context)
 
-@when(u'I click the "{action}" action button in the "{resource_type}" page')
+use_step_matcher("re")
+@when(u'I click the "(?P<action>[A-Za-z ]+)" action button in the "(?P<resource_type>[A-Za-z]+)" page')
 def click_action_in_resource_page(context, action, resource_type):
     _, container = get_page_element(context, resource_type + 's', resource_type)
     container_shadow = expand_shadow_root(context, container)
@@ -354,6 +355,7 @@ def click_action_in_resource_page(context, action, resource_type):
         click_button_from_collection(context, action.lower(), buttons)
 
 
+use_step_matcher('parse')
 @when(u'I click the fab button in the "{page_title}" page')
 def click_fab_button_in_page(context, page_title):
     page_element = get_page_element(context, page_title)
