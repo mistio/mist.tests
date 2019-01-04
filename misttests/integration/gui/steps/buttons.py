@@ -1,4 +1,4 @@
-from behave import step, when
+from behave import step, when, use_step_matcher
 
 from time import sleep
 
