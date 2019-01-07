@@ -160,9 +160,16 @@ def go_to_some_page_without_waiting(context, title):
             'mist-sidebar')
         sidebar_shadow = expand_shadow_root(context, sidebar)
         button = sidebar_shadow.find_element_by_css_selector('#' + title)
+        sleep(1)
         clicketi_click(context, button)
-        context.execute_steps(u'Then I expect for "%s" page to appear within '
-                              u'max 10 seconds' % title)
+        try:
+            check_page_is_visible(context, title, 10)
+        except Exception as e:
+            print('Second click required!')
+            sleep(5)
+            button.click() # Sometimes it may need a second click, not sure why
+            context.execute_steps(u'Then I expect for "%s" page to appear within '
+                                  u'max 10 seconds' % title)
 
 
 @step(u'I visit the {title} page after the counter has loaded')

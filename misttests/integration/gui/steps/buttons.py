@@ -250,7 +250,7 @@ def click_item(context, text, resource_type):
         if resource_type in ['machine', 'image', 'team', 'key', 'script', 'network', 'template', 'stack', 'schedule', 'zone']:
             name = safe_get_element_text(item).strip().lower()
             if text == name:
-                clicketi_click(context,item)
+                clicketi_click(context, item)
                 return True
     assert False, "Could not click item %s" % text
 
@@ -336,7 +336,7 @@ def click_the_gravatar(context):
         get_old_gravatar(context)
 
 use_step_matcher("re")
-@when(u'I click the "(?P<action>[A-Za-z ]+)" action button in the "(?P<resource_type>[A-Za-z]+)" page')
+@step(u'I click the "(?P<action>[A-Za-z ]+)" action button in the "(?P<resource_type>[A-Za-z]+)" page')
 def click_action_in_resource_page(context, action, resource_type):
     _, container = get_page_element(context, resource_type + 's', resource_type)
     container_shadow = expand_shadow_root(context, container)

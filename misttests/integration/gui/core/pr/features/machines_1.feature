@@ -49,7 +49,7 @@ Feature: Machines
     And I wait for 2 seconds
     Then I click the "Associate Key" action button in the "machine" page
     Then I expect the "Associate a key" dialog to be open within 4 seconds
-    And I open the "Select key" drop down in the "machine" add page
+    And I open the "Select key" dropdown in the "machine" add page
     And I click the button "DummyKey2" in the "Select key" dropdown
     And I click the "Associate" button in the dialog "Associate a key"
     And I wait for 5 seconds

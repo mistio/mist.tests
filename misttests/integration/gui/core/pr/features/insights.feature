@@ -28,16 +28,18 @@ Feature: Actions for Insights
   Scenario: Add tag for custom pricing and verify that cost will appear
     When I visit the Machines page
     And I wait for 2 seconds
+    And I search for "unknown"
     And I click the "Docker" "machine"
-    Then I expect the "machine" edit form to be visible within max 5 seconds
-    Then I click the button "Tag" in the "machine" page actions menu
-    And I expect for the tag popup to open within 4 seconds
+    Then I expect the "machine" page to be visible within max 5 seconds
+    Then I click the "Tag" action button in the "machine" page
+    Then I expect the "Tags" dialog to be open within 4 seconds
     When I remove all the previous tags
     And I add a tag with key "cost_per_month" and value "100"
-    And I click the button "Save" in the tag menu
-    Then I expect for the tag popup to close within 4 seconds
+    And I click the "Save" button in the "Tags" dialog
+    Then I expect the "Tags" dialog to be closed within 4 seconds
     When I visit the Machines page
     And I wait for 2 seconds
+    And I search for "unknown"
     And I click the "Docker" "machine"
     Then I ensure that the "machine" has the tags "cost_per_month:100" within 20 seconds
     When I visit the Insights page
