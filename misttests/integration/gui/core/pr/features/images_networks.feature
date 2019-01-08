@@ -108,7 +108,7 @@ Feature: Images-Networks
     And I set the value "network_random" to field "Name" in the "network" add form
     And I wait for 1 seconds
     And I set the value "10.146.0.0/20" to field "Network CIDR" in the "network" add form
-    And I click the "Create subnet" toggle button  in the "network" add form
+    And I click the "Create subnet" toggle button in the "network" add form
     Then I expect the field "Subnet CIDR" in the network add form to be visible within max 4 seconds
     When I set the value "10.146.0.0/20" to field "Subnet CIDR" in the "network" add form
     And I open the "Availability Zone" dropdown in the "network" add form

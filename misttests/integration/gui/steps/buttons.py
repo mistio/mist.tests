@@ -26,16 +26,6 @@ log = logging.getLogger(__name__)
 logging.basicConfig(level=logging.INFO)
 
 
-@step(u'I expect for "{element_id}" to be clickable within max {seconds} '
-      u'seconds')
-def become_visible_waiting_with_timeout(context, element_id, seconds):
-    try:
-        WebDriverWait(context.browser, int(seconds)).until(EC.element_to_be_clickable((By.ID, element_id)))
-    except TimeoutException:
-        raise TimeoutException("element with id %s did not become clickable "
-                               "after %s seconds" % (element_id, seconds))
-
-
 def clicketi_click(context, button):
     """
     trying two different ways of clicking a button because sometimes the
@@ -110,7 +100,7 @@ def click_button_in_dropdown_within_container(context, container, button, name):
     dropdown = find_dropdown(context, container, name.lower())
     if button == get_current_value_of_dropdown(dropdown):
         return True
-    buttons = dropdown.find_elements_by_tag_name('paper-item')
+    buttons = dropdown.find_elements_by_css_selector('paper-item')
     click_button_from_collection(context, button.lower(), buttons)
 
 
@@ -122,7 +112,8 @@ def click_button_in_dropdown(context, button_name, dropdown_name, resource_type)
     click_button_in_dropdown_within_container(context, page_shadow, button_name, dropdown_name)
 
 
-@when(u'I click the "{button_name}" toggle button  in the "{resource_type}" add form')
+use_step_matcher("re")
+@step(u'I click the "(?P<button_name>[A-Za-z ]+)" toggle button in the "(?P<resource_type>[A-Za-z]+)" add form')
 def click_toggle_button_in_add_form(context, button_name, resource_type):
     from .forms import get_add_form
     form = get_add_form(context, resource_type)
@@ -130,17 +121,16 @@ def click_toggle_button_in_add_form(context, button_name, resource_type):
     button = get_button_from_form(context, form_shadow, button_name, tag_name='paper-toggle-button')
     clicketi_click(context, button)
 
-
-#@step(u'I click the "{button}" button in the dropdown with id "{dropdown_id}"')
-#def click_button_in_dropdown_with_id(context, button, dropdown_id):
-#    button = button.strip().lower()
-#    dropdown = context.browser.find_element_by_id(dropdown_id)
-#    if button == get_current_value_of_dropdown(dropdown):
-#        return True
-#    buttons = dropdown.find_elements_by_tag_name('paper-item')
-#    click_button_from_collection(context, button.lower(), buttons)
+@step(u'I click the "(?P<button_name>[A-Za-z ]+)" radio button in the "(?P<resource_type>[A-Za-z]+)" add form')
+def click_toggle_button_in_add_form(context, button_name, resource_type):
+    from .forms import get_add_form
+    form = get_add_form(context, resource_type)
+    form_shadow = expand_shadow_root(context, form)
+    button = get_button_from_form(context, form_shadow, button_name, tag_name='paper-radio-button')
+    clicketi_click(context, button)
 
 
+use_step_matcher("parse")
 @step(u'I click the "{button}" button in the dropdown with id "{dropdown_id}" within "{container_id}"')
 def click_button_in_dropdown_with_id_within_container(context, button, dropdown_id, container_id=None):
     button = button.strip().lower()
@@ -153,6 +143,7 @@ def click_button_in_dropdown_with_id_within_container(context, button, dropdown_
         return True
     buttons = dropdown.find_elements_by_tag_name('paper-item')
     click_button_from_collection(context, button.lower(), buttons)
+
 
 @step(u'I click the "{button}" button in the dropdown with id "{dropdown_id}"')
 def click_button_in_dropdown_with_id(context, button, dropdown_id):

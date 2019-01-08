@@ -6,7 +6,7 @@ from time import sleep
 
 from random import randrange
 
-from .utils import safe_get_element_text
+from .utils import safe_get_element_text, get_page_element, expand_shadow_root
 
 from .buttons import clicketi_click
 
@@ -48,7 +48,7 @@ machine_values_dict = {
     "nephoscale": ["Ubuntu Server 14.04 LTS 64-bit", "CS05 - Cloud Server 0.5 GB RAM, 1 Core", "SJC-1"],
     "softlayer": ["Ubuntu - Latest (64 bit) ", "1 CPU, 1GB ram, 25GB ", "AMS01 - Amsterdam"],
     "azure": ["Ubuntu Server 14.04 LTS", "ExtraSmall (1 cores, 768 MB) ", "West Europe"],
-    "docker": ["Ubuntu 14.04 - mist.io image"] # ["mist/ubuntu-14.04:latest"]
+    "docker": ["Ubuntu 14.04 - mist.io image"]
 }
 
 @step(u'I click the other server machine')
@@ -103,18 +103,6 @@ def key_appears(context, key, seconds):
         except:
             sleep(1)
     assert False, "Key %s did not appear after %s seconds" % (key,seconds)
-
-
-@step(u'I clear the machines search bar')
-def clear_machines_search_bar(context):
-    clear_button = context.browser.find_element_by_xpath("//iron-icon[@icon='close']")
-    clicketi_click(context, clear_button)
-
-
-@step(u'I open the actions dialog')
-def open_actions_dialog_from_list(context):
-    button = context.browser.find_element_by_xpath("//iron-icon[@icon='more-vert']")
-    clicketi_click(context, button)
 
 
 @step(u'I choose the "{name}" machine')
@@ -340,19 +328,11 @@ def check_machine_deletion(context, name, provider, seconds):
                 break
 
 
-@step(u'I search for the machine "{name}"')
-def search_for_mayday_machine(context, name):
-    if context.mist_config.get(name):
-        name = context.mist_config.get(name)
-    search_bar = context.browser.find_element_by_css_selector("input.top-search")
-    for letter in name:
-        search_bar.send_keys(letter)
-    sleep(2)
-
-
 @step(u'"{key}" key should be associated with the machine "{machine}"')
 def check_for_associated_key(context, key, machine):
-    machine_keys_class = context.browser.find_elements_by_css_selector('div.machine-key.style-scope.machine-page')
+    _, page = get_page_element(context, "machines", "machine")
+    page_shadow = expand_shadow_root(context, page)
+    machine_keys_class = page_shadow.find_elements_by_css_selector('div.associatedKeys > div.machine-key')
     for element in machine_keys_class:
         if safe_get_element_text(element) == key:
             return
@@ -361,11 +341,12 @@ def check_for_associated_key(context, key, machine):
 
 @step(u'I delete the associated key "{key}"')
 def disassociate_key(context, key):
-    machine_keys_class = context.browser.find_elements_by_css_selector('div.machine-key.style-scope.machine-page')
-
+    _, page = get_page_element(context, "machines", "machine")
+    page_shadow = expand_shadow_root(context, page)
+    machine_keys_class = page_shadow.find_elements_by_css_selector('div.associatedKeys > div.machine-key')
     for element in machine_keys_class:
         if safe_get_element_text(element) == key:
-            delete_btn = element.find_element_by_class_name('delete')
+            delete_btn = element.find_element_by_css_selector('.delete')
             clicketi_click(context, delete_btn)
             return
 
@@ -373,8 +354,10 @@ def disassociate_key(context, key):
 @step(u'there should be {keys} keys associated with the machine within {seconds} seconds')
 def keys_associated_with_machine(context, keys, seconds):
     timeout = time() + int(seconds)
+    _, page = get_page_element(context, "machines", "machine")
+    page_shadow = expand_shadow_root(context, page)
     while time() < timeout:
-        machine_keys_class = context.browser.find_elements_by_css_selector('div.machine-key.style-scope.machine-page')
+        machine_keys_class = page_shadow.find_elements_by_css_selector('div.associatedKeys > div.machine-key')
         associated_keys_with_machine = 0
         for element in machine_keys_class:
             try:
@@ -384,5 +367,4 @@ def keys_associated_with_machine(context, keys, seconds):
                 pass
         if associated_keys_with_machine == int(keys):
             return
-
     assert False, "There are %s keys associated with the machine" % associated_keys_with_machine

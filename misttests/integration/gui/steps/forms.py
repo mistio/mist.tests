@@ -149,15 +149,16 @@ def click_menu_button_from_more_menu(context, button_name, title, form_type):
 
 def get_button_from_form(context, form, button_name, tag_name='paper-button'):
     all_buttons = []
-    form_containers = form.find_elements_by_css_selector('cloud-edit, network-create')
+    form_containers = form.find_elements_by_css_selector('cloud-edit, network-create, mist-monitoring, mist-rules')
     form_containers_shadow = [expand_shadow_root(context, f) for f in form_containers]
     form_containers_shadow.append(form)
     for form in form_containers_shadow:
         all_buttons += form.find_elements_by_css_selector('%s:not([hidden])' % tag_name)
         try:
-            app_form = form.find_element_by_css_selector('app-form')
-            app_form_shadow = expand_shadow_root(context, app_form)
-            all_buttons += app_form_shadow.find_elements_by_css_selector('%s:not([hidden])' % tag_name)
+            sub_forms = form.find_elements_by_css_selector('app-form, add-graph')
+            for sub_form in sub_forms:
+                sub_form_shadow = expand_shadow_root(context, sub_form)
+                all_buttons += sub_form_shadow.find_elements_by_css_selector('%s:not([hidden])' % tag_name)
         except NoSuchElementException:
             pass
     assert all_buttons, "Could not find any buttons in the form"
@@ -230,6 +231,7 @@ def focus_on_form_button(context, button_name, title, form_type):
     focus_on_element(context, button)
     sleep(.1)
 
+
 use_step_matcher("re")
 @step(u'I click the button "(?P<button_name>[A-Za-z ]+)" in the "(?P<title>[A-Za-z]+)" add form')
 def click_button_in_form(context, button_name, title):
@@ -238,6 +240,16 @@ def click_button_in_form(context, button_name, title):
     button = get_button_from_form(context, form_shadow, button_name.lower())
     from .buttons import clicketi_click
     clicketi_click(context, button)
+
+
+@step(u'I click the button "(?P<button_name>[A-Za-z ]+)" in the "(?P<title>[A-Za-z]+)" page')
+def click_button_in_resource_page(context, button_name, title):
+    _, form = get_page_element(context, title + 's', title)
+    form_shadow = expand_shadow_root(context, form)
+    button = get_button_from_form(context, form_shadow, button_name.lower())
+    from .buttons import clicketi_click
+    clicketi_click(context, button)
+
 
 use_step_matcher('parse')
 def get_text_of_dropdown(el):
@@ -279,9 +291,41 @@ def find_dropdown(context, container, dropdown_text):
 
 
 @step(u'I open the "{dropdown_text}" dropdown in the "{resource_type}" add form')
-def open_drop_down(context, dropdown_text, resource_type):
+def open_drop_down_in_add_form(context, dropdown_text, resource_type):
     from .buttons import clicketi_click
     page = get_add_form(context, resource_type)
     page_shadow = expand_shadow_root(context, page)
     dropdown = find_dropdown(context, page_shadow, dropdown_text.lower())
+    clicketi_click(context, dropdown)
+
+
+use_step_matcher("re")
+@step(u'I click the "(?P<button_name>[A-Za-z ]+)" button in the "(?P<dialog_title>[A-Za-z]+)" dialog')
+def click_button_in_dialog(context, button_name, dialog_title):
+    from .buttons import clicketi_click
+    from .dialog import get_dialog
+    dialog = get_dialog(context, dialog_title)
+    dialog_shadow = expand_shadow_root(context, dialog)
+    button = get_button_from_form(context, dialog_shadow, button_name.lower(), tag_name='paper-item')
+    clicketi_click(context, button)
+
+
+@step(u'I click the "(?P<button_name>[A-Za-z0-9_ ]+)" button in the "(?P<dropdown_title>[A-Za-z ]+)" dropdown in the "(?P<dialog_title>[A-Za-z ]+)" dialog')
+def click_button_in_dropdown_in_dialog(context, button_name, dropdown_title, dialog_title):
+    from .buttons import clicketi_click
+    from .dialog import get_dialog
+    dialog = get_dialog(context, dialog_title)
+    dialog_shadow = expand_shadow_root(context, dialog)
+    button = get_button_from_form(context, dialog_shadow, button_name.lower(), tag_name='paper-item')
+    clicketi_click(context, button)
+
+
+use_step_matcher('parse')
+@step(u'I open the "{dropdown_text}" dropdown in the "{dialog_title}" dialog')
+def open_drop_down_in_dialog(context, dropdown_text, dialog_title):
+    from .buttons import clicketi_click
+    from .dialog import get_dialog
+    dialog = get_dialog(context, dialog_title)
+    dialog_shadow = expand_shadow_root(context, dialog)
+    dropdown = find_dropdown(context, dialog_shadow, dropdown_text.lower())
     clicketi_click(context, dropdown)

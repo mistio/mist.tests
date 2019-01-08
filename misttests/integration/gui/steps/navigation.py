@@ -229,6 +229,11 @@ def scroll_to_add_new_rule_btn(context):
     context.browser.execute_script("window.scrollTo(0, 2000)")
 
 
+@step(u'I scroll to the top of the page')
+def scroll_to_add_new_rule_btn(context):
+    context.browser.execute_script("window.scrollTo(0, 0)")
+
+
 @step(u'I am logged in to mist')
 def given_logged_in(context):
     try:

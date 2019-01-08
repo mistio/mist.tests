@@ -12,22 +12,22 @@ Feature: Monitoring
     And I wait for 1 seconds
     And I click the button "+"
     Then I expect the "Machine" add form to be visible within max 5 seconds
-    When I open the "Select Cloud" drop down
+    When I open the "Select Cloud" dropdown in the "machine" add form
     And I wait for 1 seconds
-    And I click the button "Docker" in the "Select Cloud" dropdown
+    And I click the "Docker" button in the "Select Cloud" dropdown in the "machine" add form
     Then I expect the field "Machine name" in the machine add form to be visible within max 4 seconds
-    Then I set the value "monitored-machine-random" to field "Machine Name" in "machine" add form
-    When I open the "Image" drop down
-    And I click the button "mist/ubuntu-14.04:collectd" in the "Image" dropdown
-    When I open the "Key" drop down
-    And I click the button "Key1" in the "Key" dropdown
+    Then I set the value "monitored-machine-random" to field "Machine Name" in the "machine" add form
+    When I open the "Image" dropdown in the "machine" add form
+    And I click the "Ubuntu 14.04 - mist.io image" button in the "Image" dropdown in the "machine" add form
+    When I open the "Key" dropdown in the "machine" add form
+    And I click the "Key1" button in the "Key" dropdown in the "machine" add form
     And I wait for 1 seconds
     #And I click the "Enable monitoring" button with id "app-form-createForm-monitoring"
     #And I wait for 1 seconds
-    Then I expect for the button "Launch" in "machine" add form to be clickable within 10 seconds
-    When I focus on the button "Launch" in "machine" add form
+    Then I expect for the button "Launch" in the "machine" add form to be clickable within 10 seconds
+    When I focus on the button "Launch" in the "machine" add form
     And I wait for 2 seconds
-    And I click the "Launch" button with id "appformsubmit"
+    And I click the button "Launch" in the "machine" add form
     #And I wait for 10 seconds
     And I wait for 2 seconds
     And I visit the Home page
@@ -39,22 +39,22 @@ Feature: Monitoring
     #Then I wait for the graphs to appear
     #And 9 graphs should be visible within max 30 seconds
     And I wait for 2 seconds
-    And I click the button "Enable Monitoring"
+    And I click the button "Enable Monitoring" in the "machine" page
     And I wait for 5 seconds
-    Then I wait for the graphs to appear
-    And 9 graphs should be visible within max 30 seconds
+    Then I wait for the monitoring graphs to appear in the "machine" page
+    And 9 graphs should be visible within max 30 seconds in the "machine" page
     #And I wait for 10 seconds
 
   @add-entropy-graph
   Scenario: Add custom graph and make sure an extra graph is visible
     When I scroll to the bottom of the page
-    And I click the button "Add Graph"
+    And I click the button "Add Graph" in the "machine" page
     Then I expect for "selectTarget" modal to appear within max 20 seconds
     And I expect the metric buttons to appear within 30 seconds
     When I click the "kernel" button inside the popup with id "selectTarget"
     And I click the "kernel.entropy_avail" button inside the popup with id "selectTarget"
     Then "kernel entropy_avail" graph should appear within 30 seconds
-    And 10 graphs should be visible within max 20 seconds
+    And 10 graphs should be visible within max 20 seconds in the "machine" page
 
   @monitoring-home-page
   Scenario: Visit Home page and verify that polyana-dashboard is there
@@ -68,10 +68,8 @@ Feature: Monitoring
     When I visit the Machines page
     And I click the "monitored-machine-random" "machine"
     And I wait for 2 seconds
-    And I click the "Disable Monitoring" button with id "monitoring-menu-wrapper"
-    And I wait for 2 seconds
-    And I click the "Disable Monitoring" button with id "monitoring-menu-wrapper"
+    And I click the button "Disable Monitoring" in the "machine" page
     Then I expect the dialog "Disable Machine Monitoring" is open within 5 seconds
-    When I click the "Disable Monitoring" button in the dialog "Disable Machine Monitoring"
-    Then I expect the dialog "Disable Machine Monitoring" is closed within 5 seconds
+    When I click the "Disable Monitoring" button in the "Disable Machine Monitoring" dialog
+    Then I expect the "Disable Machine Monitoring" dialog to be closed within 5 seconds
     And graphs should disappear within 15 seconds

@@ -5,7 +5,7 @@ from time import sleep
 
 from .machines import comparisons
 
-from .utils import safe_get_element_text
+from .utils import safe_get_element_text, get_page_element, expand_shadow_root
 
 from .buttons import clicketi_click
 
@@ -21,21 +21,27 @@ from selenium.common.exceptions import NoSuchElementException
 import re
 
 
-@step(u'I wait for the graphs to appear')
-def wait_graphs_to_appear(context):
+@step(u'I wait for the monitoring graphs to appear in the "{page}" page')
+def wait_graphs_to_appear(context, page):
+    if page in ['machine']:
+        _, page_element = get_page_element(context, page + 's', page)
+    else:
+        page_element = get_page_element(context, page)
+    page_shadow = expand_shadow_root(context, page_element)
+    mist_monitoring = page_shadow.find_element_by_css_selector('mist-monitoring')
+    mist_monitoring_shadow = expand_shadow_root(context, mist_monitoring)
     timeout = time() + 30
     while time() < timeout:
         try:
-            graph_panel = context.browser.\
-                find_element_by_tag_name("polyana-dashboard")
-            break
+            polyana_dashboard = mist_monitoring_shadow.find_element_by_css_selector('polyana-dashboard')
+            polyana_dashboard_shadow = expand_shadow_root(context, polyana_dashboard)
+            WebDriverWait(polyana_dashboard_shadow, 120).until(
+                EC.presence_of_element_located(
+                    (By.CSS_SELECTOR, "dashboard-row")))
+            return
         except NoSuchElementException:
             sleep(1)
-    try:
-        WebDriverWait(graph_panel, 400).\
-            until(EC.presence_of_element_located((By.TAG_NAME, "dashboard-panel")))
-    except TimeoutException:
-        raise TimeoutException("No graphs have appeared after 200 seconds")
+    assert False, "No graphs have appeared after 150 seconds"
 
 
 @step(u'graphs should disappear within {seconds} seconds')
@@ -71,12 +77,31 @@ def check_if_graph_is_visible(context, graph_id, timeout, seconds):
     assert False, "Graph %s has not appeared after %s seconds" % (graph_id, seconds)
 
 
-@step(u'{graphs} graphs should be visible within max {seconds} seconds')
-def wait_for_all_graphs_to_appear(context,graphs,seconds):
-    timeout = time() + int(seconds)
-    for i in range(0, int(graphs)):
-        graph_id = 'panel-' + str(i)
-        check_if_graph_is_visible(context,graph_id, timeout, seconds)
+@step(u'{graph_count} graphs should be visible within max {timeout} seconds in the "{page}" page')
+def wait_for_all_graphs_to_appear(context, graph_count, timeout, page):
+    if page in ['machine']:
+        _, page_element = get_page_element(context, page + 's', page)
+    else:
+        page_element = get_page_element(context, page)
+    page_shadow = expand_shadow_root(context, page_element)
+    mist_monitoring = page_shadow.find_element_by_css_selector('mist-monitoring')
+    mist_monitoring_shadow = expand_shadow_root(context, mist_monitoring)
+    timeout = time() + 30
+    while time() < timeout:
+        try:
+            dashboard_panels = []
+            polyana_dashboard = mist_monitoring_shadow.find_element_by_css_selector('polyana-dashboard')
+            polyana_dashboard_shadow = expand_shadow_root(context, polyana_dashboard)
+            dashboard_rows = polyana_dashboard_shadow.find_elements_by_css_selector('dashboard-row:not([hidden])')
+            for row in dashboard_rows:
+                row_shadow = expand_shadow_root(context, row)
+                dashboard_panels += row_shadow.find_elements_by_css_selector('dashboard-panel:not([hidden])')
+            if len(dashboard_panels) == int(graph_count):
+                return
+        except NoSuchElementException:
+            sleep(1)
+    assert False, "%d graphs appeared after %s seconds" % (len(dashboard_panels), timeout)
+
 
 
 @step(u'I expect the metric buttons to appear within {seconds} seconds')

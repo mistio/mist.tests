@@ -1,7 +1,7 @@
 from time import time
 from time import sleep
 
-from behave import step
+from behave import step, use_step_matcher
 
 from selenium.common.exceptions import StaleElementReferenceException
 from selenium.common.exceptions import NoSuchElementException
@@ -70,7 +70,10 @@ def check_that_field_is_visible(context, field_name, dialog_title, seconds):
     assert False, "Field %s did not become visible after %s seconds" \
                   % (field_name, seconds)
 
-@step(u'I click the "{button_name}" button in the "{dialog_title}" dialog')
+
+#@step(u'I click the "{button_name}" button in the "{dialog_title}" dialog')
+use_step_matcher("re")
+@step(u'I click the "(?P<button_name>[A-Za-z0-9 ]+)" button in the "(?P<dialog_title>[A-Za-z ]+)" dialog')
 def click_button_in_dialog(context, button_name, dialog_title):
     dialog = get_dialog(context, dialog_title)
     assert dialog, "Could not find dialog with title %s" % dialog_title
@@ -79,6 +82,7 @@ def click_button_in_dialog(context, button_name, dialog_title):
     clicketi_click(context, button)
 
 
+use_step_matcher("parse")
 @step(u'I click the toggle button with id "{btn_id}" in the "{dialog}" dialog')
 def click_toggle_button_in_dialog(context, btn_id, dialog):
     open_dialog = get_dialog(context, dialog)
