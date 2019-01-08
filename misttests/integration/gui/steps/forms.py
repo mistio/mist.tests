@@ -216,7 +216,7 @@ def check_button_in_form_is_clickable(context, button_name, title, form_type,
     form_shadow = expand_shadow_root(context, form)
     while time() < timeout:
         button = get_button_from_form(context, form_shadow, button_name.lower())
-        if button.is_enabled():
+        if button.is_enabled() and button.get_attribute('disabled') == None:
             return True
         sleep(1)
     assert False, "Button %s did not become clickable" % button_name
