@@ -119,7 +119,7 @@ Feature: Images-Networks
     And I click the button "Add" in the "network" add form
     Then I expect for "Networks" page to appear within max 30 seconds
     And "network_random" network should be present within 20 seconds
-    And I wait for 1 second
+    And I wait for 1 seconds
     When I click the "network_random" "network"
     And I expect the "network" page to be visible within max 5 seconds
     And I wait for 10 seconds
