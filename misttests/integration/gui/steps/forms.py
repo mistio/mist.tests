@@ -306,7 +306,7 @@ def click_button_in_dialog(context, button_name, dialog_title):
     from .dialog import get_dialog
     dialog = get_dialog(context, dialog_title)
     dialog_shadow = expand_shadow_root(context, dialog)
-    button = get_button_from_form(context, dialog_shadow, button_name.lower(), tag_name='paper-item')
+    button = get_button_from_form(context, dialog_shadow, button_name.lower(), tag_name='paper-button, paper-item')
     clicketi_click(context, button)
 
 
