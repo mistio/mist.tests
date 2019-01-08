@@ -13,7 +13,7 @@ Feature: Machines
   Scenario: Create a machine in Docker provider and schedule a task to stop the machine immediately
     When I have given card details if needed
     And I visit the Images page
-    And I wait for 2 seconds
+    And I wait for 10 seconds
     And I search for "mist/ubuntu-14.04"
     Then "mist/ubuntu-14.04:latest" image should be present within 30 seconds
     When I visit the Machines page

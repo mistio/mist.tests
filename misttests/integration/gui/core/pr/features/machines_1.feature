@@ -24,7 +24,7 @@ Feature: Machines
   @machine-create
   Scenario: Create a machine in Docker provider
     When I visit the Images page
-    And I wait for 2 seconds
+    And I wait for 10 seconds
     Then "mist/ubuntu-14.04:latest" image should be present within 30 seconds
     When I visit the Machines page
     And I click the button "+"
