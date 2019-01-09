@@ -5,7 +5,6 @@ Feature: RBAC-rules-v3
   Scenario: Owner creates a new organization and adds a cloud
     Given rbac members, organization and team are initialized
     Given I am logged in to mist
-    Then I expect for "addBtn" to be clickable within max 20 seconds
     Given cloud "Docker" has been added via API request
     And script "touch_kati" is added via API request
 
@@ -13,23 +12,23 @@ Feature: RBAC-rules-v3
   Scenario: Add ALLOW-script-ALL
     When I have given card details if needed
     When I visit the Teams page
+    And I wait for 1 seconds
     And I click the "Test team" "team"
-    Then I expect the "team" edit form to be visible within max 5 seconds
-    When I focus on the button "Add a new rule" in "policy" edit form
-    And I click the button "Add a new rule" in "policy" edit form
+    Then I expect the "team" page to be visible within max 5 seconds
+    When I click the button "Add a new rule" in the "team" page
     And I wait for 1 seconds
     Then I add the rule always "ALLOW" "script" "all"
-    And I click the button "Save Policy" in "policy" edit form
+    And I click the button "Save Policy" in the "team" page
     And I wait for 2 seconds
 
   @add-non-visible-team
   Scenario: Owner creates a non-visible team
     When I visit the Teams page
     And I click the button "+"
-    Then I expect the dialog "Add Team" is open within 4 seconds
-    When I set the value "Non-visible Team" to field "Name" in "Add Team" dialog
-    And I click the toggle button with id "visible" in the dialog "Add Team"
-    And I click the "Add" button in the dialog "Add Team"
+    Then I expect the "Add Team" dialog to be open within 4 seconds
+    When I set the value "Non-visible Team" to field "Name" in the "Add Team" dialog
+    And I click the toggle button with id "visible" in the "Add Team" dialog
+    And I click the "Add" button in the "Add Team" dialog
     And I visit the Teams page
     Then "Non-visible Team" team should be present within 5 seconds
     And "Test Team" team should be present within 5 seconds
@@ -57,13 +56,13 @@ Feature: RBAC-rules-v3
   Scenario: ALLOW-ALL-READ
     Given I am logged in to mist as rbac_owner
     And I visit the Teams page
+    And I wait for 1 seconds
     When I click the "Test team" "team"
-    Then I expect the "team" edit form to be visible within max 5 seconds
-    When I focus on the button "Add a new rule" in "policy" edit form
-    And I click the button "Add a new rule" in "policy" edit form
+    Then I expect the "team" page to be visible within max 5 seconds
+    When I click the button "Add a new rule" in the "team" page
     And I wait for 1 seconds
     Then I add the rule always "ALLOW" "all" "read"
-    And I click the button "Save Policy" in "policy" edit form
+    And I click the button "Save Policy" in the "team" page
     And I wait for 2 seconds
     Then I logout
 
@@ -80,20 +79,19 @@ Feature: RBAC-rules-v3
   Scenario: DENY-CLOUD-WHERE-ID-DOCKER
     Given I am logged in to mist as rbac_owner
     And I visit the Teams page
+    And I wait for 1 seconds
     When I click the "Test team" "team"
-    Then I expect the "team" edit form to be visible within max 5 seconds
+    Then I expect the "team" page to be visible within max 5 seconds
     When I remove the rule with index "0"
     And I wait for 1 seconds
     And I remove the rule with index "0"
-    When I focus on the button "Add a new rule" in "policy" edit form
-    And I click the button "Add a new rule" in "policy" edit form
+    When I click the button "Add a new rule" in the "team" page
     And I wait for 1 seconds
     And I add the rule "DENY" "CLOUD" "READ" where id = "Docker"
-    And I focus on the button "Add a new rule" in "policy" edit form
-    And I click the button "Add a new rule" in "policy" edit form
+    And I click the button "Add a new rule" in the "team" page
     And I wait for 1 seconds
     Then I add the rule always "ALLOW" "all" "all"
-    And I click the button "Save Policy" in "policy" edit form
+    And I click the button "Save Policy" in the "team" page
     And I wait for 2 seconds
     Then I logout
 

@@ -12,6 +12,7 @@ Feature: RBAC-rules-v1
    Scenario: Allow reading a cloud
     When I have given card details if needed
     When I visit the Teams page
+    And I wait for 1 seconds
     And I click the "Test team" "team"
     Then I expect the "team" page to be visible within max 5 seconds
     And I click the button "Add a new rule" in the "team" page
@@ -65,9 +66,9 @@ Feature: RBAC-rules-v1
   Scenario: Allow adding a cloud
     Given I am logged in to mist as rbac_owner
     And I visit the Teams page
+    And I wait for 1 seconds
     When I click the "Test team" "team"
     Then I expect the "team" page to be visible within max 5 seconds
-    When I focus on the button "Add a new rule" in the "team" page
     And I click the button "Add a new rule" in the "team" page
     And I wait for 1 seconds
     Then I add the rule always "ALLOW" "cloud" "add"
@@ -94,12 +95,12 @@ Feature: RBAC-rules-v1
   @member1-delete-cloud-fail
   Scenario: Member 1 should not be able to delete cloud
     When I wait for 1 seconds
-    And I open the cloud page for "Packet"
+    And I open the cloud page for "Docker"
     Then I expect the "cloud" page to be visible within max 10 seconds
     When I click the "Delete" action button in the "cloud" page
-    Then I expect the "Delete Packet" dialog to be open within 4 seconds
+    Then I expect the "Delete Docker" dialog to be open within 4 seconds
     And I wait for 2 seconds
-    And I click the "Delete" button in the "Delete Packet" dialog
+    And I click the "Delete" button in the "Delete Docker" dialog
     And I wait for 3 seconds
     And I visit the Home page
     # deletion did not work

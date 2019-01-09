@@ -5,7 +5,6 @@ Feature: RBAC-rules-v4
   Scenario: Owner creates a new organization and adds a cloud and a script
     Given rbac members, organization and team are initialized
     Given I am logged in to mist
-    Then I expect for "addBtn" to be clickable within max 20 seconds
     Given cloud "Docker" has been added via API request
     And script "touch_kati" is added via API request
 
@@ -13,19 +12,18 @@ Feature: RBAC-rules-v4
     Scenario: Add DENY-READ-ALL and ALLOW-ALL-ALL rules.
       When I have given card details if needed
       And I visit the Teams page
+      And I wait for 1 seconds
       And I click the "Test team" "team"
-      Then I expect the "team" edit form to be visible within max 5 seconds
-      When I focus on the button "Add a new rule" in "policy" edit form
-      And I click the button "Add a new rule" in "policy" edit form
+      Then I expect the "team" page to be visible within max 5 seconds
+      When I click the button "Add a new rule" in the "team" page
       And I wait for 1 seconds
       Then I add the rule always "DENY" "all" "READ"
-      And I click the button "Save Policy" in "policy" edit form
+      And I click the button "Save Policy" in the "team" page
       And I wait for 2 seconds
-      When I focus on the button "Add a new rule" in "policy" edit form
-      And I click the button "Add a new rule" in "policy" edit form
+      When I click the button "Add a new rule" in the "team" page
       And I wait for 1 seconds
       Then I add the rule always "ALLOW" "all" "all"
-      And I click the button "Save Policy" in "policy" edit form
+      And I click the button "Save Policy" in the "team" page
       And I wait for 1 seconds
       Then I logout
 
@@ -44,24 +42,22 @@ Feature: RBAC-rules-v4
   @deny-all-script
   Scenario: Delete previous rules and add DENY-ALL-SCRIPT and ALLOW-ALL-ALL.
     Given I am logged in to mist
-    Then I expect for "addBtn" to be clickable within max 20 seconds
     When I visit the Teams page
+    And I wait for 1 seconds
     And I click the "Test team" "team"
-    Then I expect the "team" edit form to be visible within max 5 seconds
+    Then I expect the "team" page to be visible within max 5 seconds
     When I remove the rule with index "0"
     And I wait for 1 seconds
     And I remove the rule with index "0"
-    When I focus on the button "Add a new rule" in "policy" edit form
-    And I click the button "Add a new rule" in "policy" edit form
+    When I click the button "Add a new rule" in the "team" page
     And I wait for 1 seconds
     Then I add the rule always "DENY" "SCRIPT" "ALL"
-    #And I click the button "Save Policy" in "policy" edit form
+    #And I click the button "Save Policy" in the "team" page
     And I wait for 2 seconds
-    When I focus on the button "Add a new rule" in "policy" edit form
-    And I click the button "Add a new rule" in "policy" edit form
+    When I click the button "Add a new rule" in the "team" page
     And I wait for 1 seconds
     Then I add the rule always "ALLOW" "all" "all"
-    And I click the button "Save Policy" in "policy" edit form
+    And I click the button "Save Policy" in the "team" page
     And I wait for 1 seconds
     Then I logout
 
@@ -77,30 +73,28 @@ Feature: RBAC-rules-v4
   Scenario: Tag Docker cloud, delete previous rules and add DENY-VIEW-CLOUD and ALLOW-ALL-ALL.
     Given I am logged in to mist
     When I open the cloud page for "Docker"
-    Then I expect the "cloud" edit form to be visible within max 5 seconds
-    When I click the button "Tag" in "cloud" edit form
-    Then I expect for the tag popup to open within 4 seconds
+    Then I expect the "cloud" page to be visible within max 5 seconds
+    When I click the "Tag" action button in the "cloud" page
+    Then I expect the "Tags" dialog to be open within 4 seconds
     When I add a tag with key "rbac" and value "test"
-    And I click the button "Save" in the tag menu
-    Then I expect for the tag popup to close within 4 seconds
+    And I click the "Save" button in the "Tags" dialog
+    Then I expect the "Tags" dialog to be closed within 4 seconds
     And I ensure that the "cloud" has the tags "rbac:test" within 5 seconds
     When I visit the Teams page
     And I click the "Test team" "team"
-    Then I expect the "team" edit form to be visible within max 5 seconds
+    Then I expect the "team" page to be visible within max 5 seconds
     When I remove the rule with index "0"
     And I wait for 1 seconds
     And I remove the rule with index "0"
     And I wait for 1 seconds
-    And I focus on the button "Add a new rule" in "policy" edit form
-    And I click the button "Add a new rule" in "policy" edit form
+    When I click the button "Add a new rule" in the "team" page
     And I wait for 1 seconds
     And I add the rule "DENY" "CLOUD" "READ" where tags = "rbac=test"
     And I wait for 2 seconds
-    And I focus on the button "Add a new rule" in "policy" edit form
-    And I click the button "Add a new rule" in "policy" edit form
+    And I click the button "Add a new rule" in the "team" page
     And I wait for 1 seconds
     Then I add the rule always "ALLOW" "all" "all"
-    And I click the button "Save Policy" in "policy" edit form
+    And I click the button "Save Policy" in the "team" page
     And I wait for 1 seconds
     Then I logout
 
@@ -116,26 +110,25 @@ Feature: RBAC-rules-v4
   Scenario: Delete rule DENY-VIEW-CLOUD, and add DENY-ALL-ALL where tags="view=denied". Tag the script as "denied"
     Given I am logged in to mist
     When I visit the Teams page
+    And I wait for 1 seconds
     And I click the "Test team" "team"
-    Then I expect the "team" edit form to be visible within max 5 seconds
+    Then I expect the "team" page to be visible within max 5 seconds
     When I remove the rule with index "0"
     And I wait for 1 seconds
     And I remove the rule with index "0"
     And I wait for 1 seconds
-    And I focus on the button "Add a new rule" in "policy" edit form
-    And I click the button "Add a new rule" in "policy" edit form
+    When I click the button "Add a new rule" in the "team" page
     And I wait for 1 seconds
     And I add the rule "DENY" "ALL" "ALL" where tags = "view=denied"
     And I wait for 2 seconds
-    And I focus on the button "Add a new rule" in "policy" edit form
-    And I click the button "Add a new rule" in "policy" edit form
+    And I click the button "Add a new rule" in the "team" page
     And I wait for 1 seconds
     Then I add the rule always "ALLOW" "all" "all"
-    And I click the button "Save Policy" in "policy" edit form
+    And I click the button "Save Policy" in the "team" page
     And I wait for 1 seconds
     When I visit the Scripts page
     And I click the "touch_kati" "script"
-    Then I expect the "script" edit form to be visible within max 5 seconds
+    Then I expect the "script" page to be visible within max 5 seconds
     When I click the button "Tag" in the "script" page actions menu
     Then I expect for the tag popup to open within 4 seconds
     And I wait for 1 seconds

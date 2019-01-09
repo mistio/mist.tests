@@ -147,18 +147,18 @@ def click_menu_button_from_more_menu(context, button_name, title, form_type):
     click_button_from_collection(context, button_name, more_dropdown_buttons)
 
 
-def get_button_from_form(context, form, button_name, tag_name='paper-button'):
+def get_button_from_form(context, form, button_name, tag_name='paper-button:not([hidden])'):
     all_buttons = []
-    form_containers = form.find_elements_by_css_selector('cloud-edit, network-create, mist-monitoring, mist-rules, team-policy')
+    form_containers = form.find_elements_by_css_selector('cloud-edit, network-create, mist-monitoring, mist-rules, team-policy, metric-menu')
     form_containers_shadow = [expand_shadow_root(context, f) for f in form_containers]
     form_containers_shadow.append(form)
     for form in form_containers_shadow:
-        all_buttons += form.find_elements_by_css_selector('%s:not([hidden])' % tag_name)
+        all_buttons += form.find_elements_by_css_selector('%s' % tag_name)
         try:
-            sub_forms = form.find_elements_by_css_selector('app-form, add-graph')
+            sub_forms = form.find_elements_by_css_selector('app-form, add-graph, metric-menu')
             for sub_form in sub_forms:
                 sub_form_shadow = expand_shadow_root(context, sub_form)
-                all_buttons += sub_form_shadow.find_elements_by_css_selector('%s:not([hidden])' % tag_name)
+                all_buttons += sub_form_shadow.find_elements_by_css_selector('%s' % tag_name)
         except NoSuchElementException:
             pass
     assert all_buttons, "Could not find any buttons in the form"

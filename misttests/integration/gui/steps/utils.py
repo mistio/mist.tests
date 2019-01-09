@@ -236,6 +236,9 @@ def get_grid_items(context, grid):
 def get_list_item_from_checkbox(context, checkbox):
     return context.browser.execute_script('return arguments[0].item', checkbox)
 
+def scroll_into_view(context, element):
+    return context.browser.execute_script('return arguments[0].scrollIntoView()', element)
+
 def has_finished_loading(context, section):
     return context.browser.execute_script('return !document.querySelector("mist-app").model.pending["' + section + '"]')
 

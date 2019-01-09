@@ -11,13 +11,13 @@ Feature: RBAC-rules-v2
   Scenario: Allow-read-cloud
     When I have given card details if needed
     When I visit the Teams page
+    And I wait for 1 seconds
     And I click the "Test team" "team"
     Then I expect the "team" page to be visible within max 5 seconds
-    When I focus on the button "Add a new rule" in "policy" edit form
-    And I click the button "Add a new rule" in "policy" edit form
+    And I click the button "Add a new rule" in the "team" page
     And I wait for 1 seconds
     Then I add the rule always "ALLOW" "cloud" "read"
-    And I click the button "Save Policy" in "policy" edit form
+    And I click the button "Save Policy" in the "team" page
     And I wait for 2 seconds
     Then I logout
 
@@ -37,27 +37,25 @@ Feature: RBAC-rules-v2
   Scenario: Allow read machine
     Given I am logged in to mist as rbac_owner
     And I visit the Teams page
+    And I wait for 1 seconds
     When I click the "Test team" "team"
-    Then I expect the "team" edit form to be visible within max 5 seconds
-    When I focus on the button "Add a new rule" in "policy" edit form
-    And I click the button "Add a new rule" in "policy" edit form
+    Then I expect the "team" page to be visible within max 5 seconds
+    When I click the button "Add a new rule" in the "team" page
     And I wait for 1 seconds
     Then I add the rule always "ALLOW" "machine" "read"
-    And I click the button "Save Policy" in "policy" edit form
+    And I click the button "Save Policy" in the "team" page
 
   @allow-create-machine
   Scenario: Verify that member1 cannot view the cloud added above
-    When I focus on the button "Add a new rule" in "policy" edit form
-    And I click the button "Add a new rule" in "policy" edit form
+    When I click the button "Add a new rule" in the "team" page
     And I wait for 1 seconds
     Then I add the rule always "ALLOW" "machine" "create"
-    And I click the button "Save Policy" in "policy" edit form
+    And I click the button "Save Policy" in the "team" page
     And I wait for 2 seconds
-    When I focus on the button "Add a new rule" in "policy" edit form
-    And I click the button "Add a new rule" in "policy" edit form
+    And I click the button "Add a new rule" in the "team" page
     And I wait for 1 seconds
     Then I add the rule always "ALLOW" "cloud" "create resources"
-    And I click the button "Save Policy" in "policy" edit form
+    And I click the button "Save Policy" in the "team" page
     And I wait for 2 seconds
     Then I logout
 
@@ -71,18 +69,18 @@ Feature: RBAC-rules-v2
   Scenario: Member 1 should now be able to create machine
     When I click the button "+"
     Then I expect the "Machine" add form to be visible within max 10 seconds
-    When I open the "Select Cloud" drop down
+    When I open the "Select Cloud" dropdown in the "machine" add form
     And I wait for 1 seconds
-    And I click the button "Docker" in the "Select Cloud" dropdown in the "machine" add form
+    And I click the "Docker" button in the "Select Cloud" dropdown in the "machine" add form
     Then I expect the field "Machine name" in the machine add form to be visible within max 4 seconds
     Then I set the value "rbac-test-machine-random" to field "Machine Name" in the "machine" add form
-    When I open the "Image" drop down
-    And I click the button "mist/ubuntu-14.04:latest" in the "Image" dropdown
+    When I open the "Image" dropdown in the "machine" add form
+    And I click the "mist/ubuntu-14.04:latest" button in the "Image" dropdown in the "machine" add form
     And I wait for 3 seconds
-    Then I expect for the button "Launch" in "machine" add form to be clickable within 10 seconds
-    When I focus on the button "Launch" in "machine" add form
+    Then I expect for the button "Launch" in the "machine" add form to be clickable within 10 seconds
+    When I focus on the button "Launch" in the "machine" add form
     And I wait for 2 seconds
-    And I click the "Launch" button with id "appformsubmit"
+    Then I click the button "Launch" in the "machine" add form
     When I visit the Home page
     And I visit the Machines page
     And I search for "rbac-test-machine-random"
@@ -93,25 +91,24 @@ Feature: RBAC-rules-v2
   Scenario: Owner deletes rule "ALLOW" "read" "machine"
     Given I am logged in to mist as rbac_owner
     When I visit the Teams page
+    And I wait for 1 seconds
     And I click the "Test team" "team"
-    Then I expect the "team" edit form to be visible within max 5 seconds
+    Then I expect the "team" page to be visible within max 5 seconds
     When I remove the rule with index "0"
-    And I click the button "Save Policy" in "policy" edit form
+    And I click the button "Save Policy" in the "team" page
     And I wait for 1 seconds
 
   @owner-allows-edit-script
   Scenario: Owner creates rule "ALLOW" "script" "edit"
-    When I focus on the button "Add a new rule" in "policy" edit form
-    And I click the button "Add a new rule" in "policy" edit form
+    When I click the button "Add a new rule" in the "team" page
     And I wait for 1 seconds
     Then I add the rule always "ALLOW" "script" "edit"
-    And I click the button "Save Policy" in "policy" edit form
+    And I click the button "Save Policy" in the "team" page
     And I wait for 1 seconds
-    When I focus on the button "Add a new rule" in "policy" edit form
-    And I click the button "Add a new rule" in "policy" edit form
+    When I click the button "Add a new rule" in the "team" page
     And I wait for 1 seconds
     Then I add the rule always "ALLOW" "script" "read"
-    And I click the button "Save Policy" in "policy" edit form
+    And I click the button "Save Policy" in the "team" page
     And I wait for 1 seconds
     And script "TestScript" is added via API request
     Then I logout
@@ -125,13 +122,14 @@ Feature: RBAC-rules-v2
   @member-edit-script-success
   Scenario: Member 1 should be able to edit the script
     When I visit the Scripts page
+    And I wait for 1 seconds
     And I click the "TestScript" "script"
-    Then I expect the "script" edit form to be visible within max 5 seconds
-    When I click the button "Edit" in the "script" page actions menu
-    Then I expect the dialog "Edit Script" is open within 4 seconds
-    When I set the value "Second" to field "Name" in "Edit Script" dialog
-    And I click the "Submit" button in the dialog "Edit Script"
-    Then I expect the dialog "Edit Script" is closed within 4 seconds
+    Then I expect the "script" page to be visible within max 5 seconds
+    When I click the "Edit" action button in the "script" page
+    Then I expect the "Edit Script" dialog to be open within 4 seconds
+    When I set the value "Second" to field "Name" in the "Edit Script" dialog
+    And I click the "Submit" button in the "Edit Script" dialog
+    Then I expect the "Edit Script" dialog to be closed within 4 seconds
     When I visit the Home page
     And I wait for 1 seconds
     And I visit the Scripts page

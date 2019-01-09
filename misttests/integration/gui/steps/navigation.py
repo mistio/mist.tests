@@ -323,8 +323,13 @@ def given_not_logged_in(context):
 
 
 def get_user_menu(context):
-    return context.browser.find_element_by_tag_name('app-user-menu'). \
-        find_element_by_tag_name('iron-dropdown')
+    mist_app = context.browser.find_element_by_tag_name('mist-app')
+    mist_app_shadow = expand_shadow_root(context, mist_app)
+    mist_header = mist_app_shadow.find_element_by_css_selector('mist-header')
+    mist_header_shadow = expand_shadow_root(context, mist_header)
+    app_user_menu = mist_header_shadow.find_element_by_css_selector('app-user-menu')
+    app_user_menu_shadow = expand_shadow_root(context, app_user_menu)
+    return app_user_menu_shadow.find_element_by_css_selector('.dropdown-content')
 
 
 def click_and_wait_for_gravatar(context):
@@ -355,7 +360,7 @@ def logout(context):
                             dimensions['height'] == user_menu.size['height']:
                 sleep(1)
                 click_button_from_collection(context, 'Logout',
-                                             user_menu.find_elements_by_tag_name(
+                                             user_menu.find_elements_by_css_selector(
                                                  'paper-item'))
                 # sleep(2)
                 return True

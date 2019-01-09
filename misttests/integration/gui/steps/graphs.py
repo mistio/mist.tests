@@ -106,11 +106,12 @@ def wait_for_all_graphs_to_appear(context, graph_count, timeout, page):
 
 @step(u'I expect the metric buttons to appear within {seconds} seconds')
 def wait_metric_buttons(context, seconds):
-    metrics_popup = context.browser.find_element_by_id('selectTarget')
+    from .dialog import get_dialog
+    dialog = get_dialog(context, "Select target for graph")
     timeout = time() + int(seconds)
     while time() < timeout:
         try:
-            metrics_popup.find_element_by_tag_name('paper-item')
+            dialog.find_element_by_css_selector('metric-menu')
             return
         except NoSuchElementException:
             sleep(1)

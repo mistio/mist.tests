@@ -140,7 +140,7 @@ def set_docker_creds(context):
 
 def set_packet_creds(context):
     api_key = safe_get_var('clouds/packet', 'api_key', context.mist_config['CREDENTIALS']['PACKET']['api_key'])
-    context.execute_steps(u'Then I set the value "%s" to field "API Key" in '
+    context.execute_steps(u'Then I set the value "%s" to field "API Key" in the '
                           u'"cloud" add form' % api_key)
 
 
@@ -323,11 +323,13 @@ def cloud_second_creds(context, provider):
 
 @step(u'I should have {clouds} clouds added')
 def check_error_message(context, clouds):
-    cloud_chips = context.browser.find_elements_by_tag_name('cloud-chip')
+    page_dashboard = get_page_element(context, 'dashboard')
+    page_dashboard_shadow = expand_shadow_root(context, page_dashboard)
+    cloud_chips = page_dashboard_shadow.find_elements_by_css_selector('cloud-chip')
     if len(cloud_chips) == int(clouds):
         return
     else:
-        assert False, "There are %s clouds added, not %s"%(len(cloud_chips),clouds)
+        assert False, "There are %s clouds added, not %s"%(len(cloud_chips), clouds)
 
 
 def find_cloud(context, cloud_title):

@@ -4,7 +4,7 @@ from time import sleep
 
 import logging
 
-from .utils import safe_get_element_text
+from .utils import safe_get_element_text, scroll_into_view
 from .utils import focus_on_element, get_page_element, expand_shadow_root
 
 from .forms import find_dropdown, get_button_from_form
@@ -59,6 +59,7 @@ def click_button_from_collection(context, text, button_collection=None,
     assert button, error_message
     for i in range(0, 2):
         try:
+            scroll_into_view(context, button)
             clicketi_click(context, button)
             return
         except WebDriverException:
@@ -320,11 +321,15 @@ def visit_home_url(context):
 
 @step(u'I click the Gravatar')
 def click_the_gravatar(context):
-    try:
-        gravatar = context.browser.find_element_by_css_selector('paper-icon-button.gravatar')
-        clicketi_click(context, gravatar)
-    except NoSuchElementException:
-        get_old_gravatar(context)
+    mist_app = context.browser.find_element_by_tag_name('mist-app')
+    mist_app_shadow = expand_shadow_root(context, mist_app)
+    mist_header = mist_app_shadow.find_element_by_css_selector('mist-header')
+    mist_header_shadow = expand_shadow_root(context, mist_header)
+    app_user_menu = mist_header_shadow.find_element_by_css_selector('app-user-menu')
+    app_user_menu_shadow = expand_shadow_root(context, app_user_menu)
+    gravatar = app_user_menu_shadow.find_element_by_css_selector('paper-icon-button.gravatar')
+    clicketi_click(context, gravatar)
+
 
 use_step_matcher("re")
 @step(u'I click the "(?P<action>[A-Za-z ]+)" action button in the "(?P<resource_type>[A-Za-z]+)" page')

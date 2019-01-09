@@ -8,13 +8,13 @@ Feature: Rbac
     When I click the Gravatar
     And I wait for 1 seconds
     And I click the button "Add Organization" in the user menu
-    Then I expect the dialog "Add Organization" is open within 4 seconds
+    Then I expect the "Add Organization" dialog to be open within 4 seconds
     And I wait for 1 seconds
-    When I set the value "ORG_NAME" to field "Name" in "Add Organization" dialog
-    And I click the "Add" button in the dialog "Add Organization"
+    When I set the value "ORG_NAME" to field "Name" in the "Add Organization" dialog
+    And I click the "Add" button in the "Add Organization" dialog
     And I wait for 2 seconds
-    And I click the "Switch" button in the dialog "Add Organization"
-    Then I expect the dialog "Add Organization" is closed within 4 seconds
+    And I click the "Switch" button in the "Add Organization" dialog
+    Then I expect the "Add Organization" dialog to be closed within 4 seconds
     And I wait for 1 seconds
 
   @create-dup-org
@@ -22,13 +22,13 @@ Feature: Rbac
     When I click the Gravatar
     And I wait for 1 seconds
     And I click the button "Add Organization" in the user menu
-    Then I expect the dialog "Add Organization" is open within 4 seconds
+    Then I expect the "Add Organization" dialog to be open within 4 seconds
     And I wait for 1 seconds
-    When I set the value "ORG_NAME" to field "Name" in "Add Organization" dialog
-    And I click the "Add" button in the dialog "Add Organization"
+    When I set the value "ORG_NAME" to field "Name" in the "Add Organization" dialog
+    And I click the "Add" button in the "Add Organization" dialog
     And I wait for 2 seconds
     Then there should be a "409" error message in "Add Organization" dialog
-    And I click the "Cancel" button in the dialog "Add Organization"
+    And I click the "Cancel" button in the "Add Organization" dialog
     And I wait for 1 seconds
 
   @add-team
