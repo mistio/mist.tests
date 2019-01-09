@@ -9,7 +9,7 @@ from .buttons import click_button_from_collection
 
 from .forms import clear_input_and_send_keys
 
-from .utils import safe_get_element_text, expand_shadow_root, get_page_element, add_credit_card_if_needed
+from .utils import safe_get_element_text, expand_shadow_root, get_page_element, add_credit_card_if_needed, check_page_is_visible
 
 from selenium.common.exceptions import TimeoutException
 from selenium.common.exceptions import NoSuchElementException
@@ -161,13 +161,13 @@ def go_to_some_page_without_waiting(context, title):
         sidebar_shadow = expand_shadow_root(context, sidebar)
         button = sidebar_shadow.find_element_by_css_selector('#' + title)
         sleep(1)
-        clicketi_click(context, button)
+        button.click()
         try:
             check_page_is_visible(context, title, 10)
-        except Exception as e:
+        except TimeoutException:
             print('Second click required!')
             sleep(5)
-            button.click() # Sometimes it may need a second click, not sure why
+            clicketi_click(context, button) # Sometimes it may need a second click, not sure why
             context.execute_steps(u'Then I expect for "%s" page to appear within '
                                   u'max 10 seconds' % title)
 
@@ -204,7 +204,7 @@ def go_to_some_page_after_counter_loading(context, title, counter_title):
 
 @step(u'I expect the "{title}" page to be visible within max {timeout} seconds')
 def expect_page_to_be_visible(context, title, timeout):
-    if title in ['key', 'machine', 'script', 'cloud', 'image', 'network']:
+    if title in ['key', 'machine', 'script', 'cloud', 'image', 'network', 'template', 'stack', 'zone', 'volume', 'team']:
         container_element = get_page_element(context, title + 's')
         container_shadow = expand_shadow_root(context, container_element)
         try:

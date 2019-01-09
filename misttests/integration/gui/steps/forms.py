@@ -149,7 +149,7 @@ def click_menu_button_from_more_menu(context, button_name, title, form_type):
 
 def get_button_from_form(context, form, button_name, tag_name='paper-button'):
     all_buttons = []
-    form_containers = form.find_elements_by_css_selector('cloud-edit, network-create, mist-monitoring, mist-rules')
+    form_containers = form.find_elements_by_css_selector('cloud-edit, network-create, mist-monitoring, mist-rules, team-policy')
     form_containers_shadow = [expand_shadow_root(context, f) for f in form_containers]
     form_containers_shadow.append(form)
     for form in form_containers_shadow:

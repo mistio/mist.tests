@@ -5,7 +5,6 @@ Feature: RBAC-rules-v2
   Scenario: Owner creates a new organization and adds a Softlayer cloud
     Given rbac members, organization and team are initialized
     Given I am logged in to mist
-    Then I expect for "addBtn" to be clickable within max 20 seconds
     Given cloud "Docker" has been added via API request
 
   @add-member1
@@ -13,7 +12,7 @@ Feature: RBAC-rules-v2
     When I have given card details if needed
     When I visit the Teams page
     And I click the "Test team" "team"
-    Then I expect the "team" edit form to be visible within max 5 seconds
+    Then I expect the "team" page to be visible within max 5 seconds
     When I focus on the button "Add a new rule" in "policy" edit form
     And I click the button "Add a new rule" in "policy" edit form
     And I wait for 1 seconds
@@ -74,9 +73,9 @@ Feature: RBAC-rules-v2
     Then I expect the "Machine" add form to be visible within max 10 seconds
     When I open the "Select Cloud" drop down
     And I wait for 1 seconds
-    And I click the button "Docker" in the "Select Cloud" dropdown
+    And I click the button "Docker" in the "Select Cloud" dropdown in the "machine" add form
     Then I expect the field "Machine name" in the machine add form to be visible within max 4 seconds
-    Then I set the value "rbac-test-machine-random" to field "Machine Name" in "machine" add form
+    Then I set the value "rbac-test-machine-random" to field "Machine Name" in the "machine" add form
     When I open the "Image" drop down
     And I click the button "mist/ubuntu-14.04:latest" in the "Image" dropdown
     And I wait for 3 seconds
