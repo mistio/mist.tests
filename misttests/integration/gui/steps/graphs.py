@@ -56,17 +56,6 @@ def wait_for_graphs_to_disappear(context, seconds):
     assert False, "Graphs have not disappeared after %s seconds" % seconds
 
 
-@step(u'I focus on the "{graph_title}" graph')
-def focus_on_a_graph(context, graph_title):
-    try:
-        monitoring_area = context.browser.find_element_by_tag_name('polyana-dashboard')
-        graph = monitoring_area.find_element_by_xpath("//dashboard-panel[contains(., '%s')]" % graph_title)
-        position = graph.location['y']
-        context.browser.execute_script("window.scrollTo(0, %s)" % position)
-    except NoSuchElementException:
-            assert False, "Could not find graph with title %s" % graph_title
-
-
 def check_if_graph_is_visible(context, graph_id, timeout, seconds):
     while time() < timeout:
         try:
@@ -111,7 +100,7 @@ def wait_metric_buttons(context, seconds):
     timeout = time() + int(seconds)
     while time() < timeout:
         try:
-            dialog.find_element_by_css_selector('metric-menu')
+            expand_shadow_root(context, dialog).find_element_by_css_selector('metric-menu')
             return
         except NoSuchElementException:
             sleep(1)
@@ -119,70 +108,77 @@ def wait_metric_buttons(context, seconds):
                   "seconds" % seconds
 
 
-@step(u'"{graph_title}" graph should appear within {seconds} seconds')
-def wait_for_graph_to_appear(context, graph_title, seconds):
+@step(u'"{graph_title}" graph should appear in the "{page}" page within {timeout} seconds')
+def wait_for_graph_to_appear(context, graph_title, page, timeout):
+    return get_graph_panel(context, graph_title, page, timeout)
+
+def get_graph_panel(context, graph_title, page, timeout):
     graph_title = graph_title.lower()
-    monitoring_area = context.browser.find_element_by_tag_name('polyana-dashboard')
-    try:
-        WebDriverWait(monitoring_area, int(seconds)).until(EC.presence_of_element_located((By.XPATH, "//dashboard-panel[contains(., '%s')]" % graph_title)))
-    except TimeoutException:
-        raise TimeoutException("%s graph has not appeared after %s seconds" % (graph_title, seconds))
-
-
-@step(u'"{graph_title}" graph should have some values')
-def graph_some_value(context, graph_title):
-    #find the right graph
-    graph_label = context.browser.find_element_by_xpath('//h3[contains(text(), "%s")]' % graph_title)
-    graph_panel = graph_label.find_element_by_xpath('./../..')
-    graph_container = graph_panel.find_element_by_id('container')
-
-    #search the page source for the value
-    timeout = time() + int(120)
+    if page == 'dashboard':
+        page_element = get_page_element(context, 'dashboard')
+    else:
+        _, page_element = get_page_element(context, page + 's', page)
+    page_shadow = expand_shadow_root(context, page_element)
+    mist_monitoring = page_shadow.find_element_by_css_selector('mist-monitoring')
+    mist_monitoring_shadow = expand_shadow_root(context, mist_monitoring)
+    polyana_dashboard = mist_monitoring_shadow.find_element_by_css_selector('polyana-dashboard')
+    polyana_dashboard_shadow = expand_shadow_root(context, polyana_dashboard)
+    timeout = time() + int(timeout)
     while time() < timeout:
-        #click on the canvas to show the value
-        from selenium.webdriver.common import action_chains, keys
-        action_chain = ActionChains(context.browser)
-        action_chain.move_to_element_with_offset(graph_panel, 600, 150)
-        action_chain.click()
-        action_chain.perform()
-        src = context.browser.page_source
-        if graph_title == 'Load on all monitored machines': # graph in dashboard
-            machine = context.mist_config['monitored-machine-random']
-            text_found = re.search(machine + r" : [0-999]", src)
-        else:
-            text_found = re.search(graph_title.capitalize() + r" : [0-999]", src)
+        dashboard_rows = polyana_dashboard_shadow.find_elements_by_css_selector('dashboard-row:not([hidden])')
+        dashboard_panels = []
+        for row in dashboard_rows:
+            row_shadow = expand_shadow_root(context, row)
+            dashboard_panels += row_shadow.find_elements_by_css_selector('dashboard-panel:not([hidden])')
+        for panel in dashboard_panels:
+            panel_shadow = expand_shadow_root(context, panel)
+            panel_title = panel_shadow.find_element_by_css_selector('h3').text
+            if graph_title in panel_title.lower():
+                return panel
+        sleep(2)
+    assert False, 'Could not find "%s" graph in %s page within %s seconds' % (graph_title, page, timeout)
 
-        if text_found:
-            return
-        else:
+
+@step(u'"{graph_title}" graph in the "{page}" page should have some values')
+def graph_some_value(context, graph_title, page):
+    graph_panel = get_graph_panel(context, graph_title, page, 5)
+    timeout = time() + int(120)
+    non_null = []
+    while time() < timeout:
+        try:
+            # Try to get the datapoints for the first available series
+            datapoints = graph_panel.get_property('chartData')['series'][0]['data']
+            non_null = [v[1] for v in datapoints if v[1]]
+        except IndexError, KeyError:
             sleep(2)
-
-    assert False, 'Graph does not have any values'
+    assert non_null, 'Graph does not have any values'
 
 
 @step(u'I give a "{name}" name for my custom metric')
-def fill_metric_mame(context,name):
-    textfield = context.browser.find_element_by_id("custom-plugin-name")
+def fill_metric_mame(context, name):
+    from .dialog import get_dialog
+    dialog = get_dialog(context, "Custom graph")
+    dialog_shadow = expand_shadow_root(context, dialog)
+    textfield = dialog_shadow.find_element_by_css_selector("paper-input#name")
     my_metric_name = name
     for letter in my_metric_name:
         textfield.send_keys(letter)
 
 
-@step(u'I delete the "{graph_title}" graph')
-def delete_a_graph(context, graph_title):
+@step(u'I delete the "{graph_title}" graph in the "{page}" page')
+def delete_a_graph(context, graph_title, page):
     graph_title = graph_title.lower()
-    graph = context.browser.find_element_by_xpath("//dashboard-panel[contains(., '%s')]" % graph_title)
-
+    graph_panel = get_graph_panel(context, graph_title, page, 5)
+    graph_shadow = expand_shadow_root(context, graph_panel)
     try:
-        delete_button = graph.find_element_by_tag_name("paper-icon-button")
+        delete_button = graph_shadow.find_element_by_css_selector("paper-icon-button")
     except NoSuchElementException:
         assert False, "Could not find X button in the graph with title %s" % graph_title
     delete_button.click()
-
     timeout = time() + 20
     while time() < timeout:
         try:
-            graph.is_displayed()
+            graph_panel.is_displayed()
         except Exception:
             return
     assert False, "Graph %s has not disappeared after 20 seconds" % graph_title

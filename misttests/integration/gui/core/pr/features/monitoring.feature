@@ -51,17 +51,17 @@ Feature: Monitoring
     And I click the button "Add Graph" in the "machine" page
     Then I expect the "Select target for graph" dialog to be open within 10 seconds
     And I expect the metric buttons to appear within 30 seconds
-    And I click the "kernel" button inside the "Select target for graph" dialog
-    And I click the "kernel.entropy_avail" button inside the "Select target for graph" dialog
-    Then "kernel entropy_avail" graph should appear within 30 seconds
+    And I click the "kernel" button in the "Select target for graph" dialog
+    And I click the "kernel.entropy_avail" button in the "Select target for graph" dialog
+    Then "kernel entropy_avail" graph should appear in the "machine" page within 30 seconds
     And 10 graphs should be visible within max 20 seconds in the "machine" page
 
   @monitoring-home-page
   Scenario: Visit Home page and verify that polyana-dashboard is there
     When I visit the Home page
     And I wait for the navigation menu to appear
-    Then I wait for the graphs to appear
-    And "Load on all monitored machines" graph should have some values
+    Then I wait for the monitoring graphs to appear in the "dashboard" page
+    And "Load on all monitored machines" graph in the "dashboard" page should have some values
 
   @disable-monitoring
   Scenario: Disable monitoring

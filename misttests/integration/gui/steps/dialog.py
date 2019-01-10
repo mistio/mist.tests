@@ -23,8 +23,8 @@ def get_dialog(context, title):
         dialog_shadow = expand_shadow_root(context, dialog)
         if dialog.is_displayed():
             try:
-                dialog = dialog_shadow.find_element_by_css_selector('team-add-element')
-                dialog_shadow = expand_shadow_root(context, dialog_content)
+                dialog = dialog_shadow.find_element_by_css_selector('team-add-element, custom-graph')
+                dialog_shadow = expand_shadow_root(context, dialog)
             except NoSuchElementException:
                 pass
             try:
@@ -78,7 +78,7 @@ def check_that_field_is_visible(context, field_name, dialog_title, seconds):
 
 #@step(u'I click the "{button_name}" button in the "{dialog_title}" dialog')
 use_step_matcher("re")
-@step(u'I click the "(?P<button_name>[A-Za-z0-9 ]+)" button in the "(?P<dialog_title>[A-Za-z ]+)" dialog')
+@step(u'I click the "(?P<button_name>[A-Za-z0-9_\. ]+)" button in the "(?P<dialog_title>[A-Za-z ]+)" dialog')
 def click_button_in_dialog(context, button_name, dialog_title):
     dialog = get_dialog(context, dialog_title)
     assert dialog, "Could not find dialog with title %s" % dialog_title
