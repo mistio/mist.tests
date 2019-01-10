@@ -16,7 +16,7 @@ from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver import ActionChains
 
 from selenium.common.exceptions import TimeoutException
-from selenium.common.exceptions import NoSuchElementException
+from selenium.common.exceptions import NoSuchElementException, StaleElementReferenceException
 
 import re
 
@@ -103,7 +103,7 @@ def wait_metric_buttons(context, seconds):
         try:
             expand_shadow_root(context, dialog).find_element_by_css_selector('metric-menu')
             return
-        except NoSuchElementException:
+        except NoSuchElementException, StaleElementReferenceException:
             sleep(1)
     assert False, "Metric buttons inside popup did not appear after %s " \
                   "seconds" % seconds
@@ -112,6 +112,7 @@ def wait_metric_buttons(context, seconds):
 @step(u'"{graph_title}" graph should appear in the "{page}" page within {timeout} seconds')
 def wait_for_graph_to_appear(context, graph_title, page, timeout):
     return get_graph_panel(context, graph_title, page, timeout)
+
 
 def get_graph_panel(context, graph_title, page, timeout):
     graph_title = graph_title.lower()
@@ -126,16 +127,19 @@ def get_graph_panel(context, graph_title, page, timeout):
     polyana_dashboard_shadow = expand_shadow_root(context, polyana_dashboard)
     timeout = time() + int(timeout)
     while time() < timeout:
-        dashboard_rows = polyana_dashboard_shadow.find_elements_by_css_selector('dashboard-row:not([hidden])')
-        dashboard_panels = []
-        for row in dashboard_rows:
-            row_shadow = expand_shadow_root(context, row)
-            dashboard_panels += row_shadow.find_elements_by_css_selector('dashboard-panel:not([hidden])')
-        for panel in dashboard_panels:
-            panel_shadow = expand_shadow_root(context, panel)
-            panel_title = panel_shadow.find_element_by_css_selector('h3').text
-            if graph_title in panel_title.lower():
-                return panel
+        try:
+            dashboard_rows = polyana_dashboard_shadow.find_elements_by_css_selector('dashboard-row:not([hidden])')
+            dashboard_panels = []
+            for row in dashboard_rows:
+                row_shadow = expand_shadow_root(context, row)
+                dashboard_panels += row_shadow.find_elements_by_css_selector('dashboard-panel:not([hidden])')
+            for panel in dashboard_panels:
+                panel_shadow = expand_shadow_root(context, panel)
+                panel_title = panel_shadow.find_element_by_css_selector('h3').text
+                if graph_title in panel_title.lower():
+                    return panel
+        except NoSuchElementException, StaleElementReferenceException:
+            pass
         sleep(2)
     assert False, 'Could not find "%s" graph in %s page within %s seconds' % (graph_title, page, timeout)
 
@@ -150,6 +154,8 @@ def graph_some_value(context, graph_title, page):
             # Try to get the datapoints for the first available series
             datapoints = graph_panel.get_property('chartData')['series'][0]['data']
             non_null = [v[1] for v in datapoints if v[1]]
+            if non_null:
+                break
         except IndexError, KeyError:
             sleep(2)
     assert non_null, 'Graph does not have any values'
@@ -193,3 +199,14 @@ def select_metric_from_dialog(context,metric,dialog):
         assert False, "Unknown dialog given"
     option_to_click = dialog_element.find_element_by_id(metric)
     clicketi_click(context,option_to_click)
+
+@step(u'I click the disable monitoring button for the "{resource_type}"')
+def disable_resource_monitoring(context, resource_type):
+    _, page = get_page_element(context, resource_type + 's', resource_type)
+    page_shadow = expand_shadow_root(context, page)
+    mist_monitoring = page_shadow.find_element_by_css_selector('mist-monitoring')
+    mist_monitoring_shadow = expand_shadow_root(context, mist_monitoring)
+    menu_button = mist_monitoring_shadow.find_element_by_css_selector('paper-menu-button')
+    menu_button.click()
+    sleep(1)
+    menu_button.find_element_by_css_selector('paper-button').click()

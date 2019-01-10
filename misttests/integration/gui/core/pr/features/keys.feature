@@ -35,7 +35,7 @@ Feature: Actions for Keys
     Then "Key2" key should be present within 15 seconds
     When I select list item "Key2" key
     And I click the action "Make Default" from the key list actions
-    And I wait for 1 seconds
+    And I wait for 2 seconds
     Then key "Key2" should be default key
     And I visit the Home page
     And I wait for the navigation menu to appear

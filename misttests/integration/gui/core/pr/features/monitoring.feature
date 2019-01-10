@@ -66,9 +66,11 @@ Feature: Monitoring
   @disable-monitoring
   Scenario: Disable monitoring
     When I visit the Machines page
-    And I click the "monitored-machine-random" "machine"
+    And I search for "monitored-machine-random"
     And I wait for 2 seconds
-    And I click the button "Disable Monitoring" in the "machine" page
+    And I click the "monitored-machine-random" "machine"
+    #And I click the button "Disable Monitoring" in the "machine" page
+    And I click the disable monitoring button for the "machine"
     Then I expect the "Disable Machine Monitoring" dialog to be open within 5 seconds
     When I click the "Disable Monitoring" button in the "Disable Machine Monitoring" dialog
     Then I expect the "Disable Machine Monitoring" dialog to be closed within 5 seconds
