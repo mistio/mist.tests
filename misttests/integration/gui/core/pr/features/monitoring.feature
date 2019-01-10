@@ -69,7 +69,7 @@ Feature: Monitoring
     And I click the "monitored-machine-random" "machine"
     And I wait for 2 seconds
     And I click the button "Disable Monitoring" in the "machine" page
-    Then I expect the dialog "Disable Machine Monitoring" is open within 5 seconds
+    Then I expect the "Disable Machine Monitoring" dialog to be open within 5 seconds
     When I click the "Disable Monitoring" button in the "Disable Machine Monitoring" dialog
     Then I expect the "Disable Machine Monitoring" dialog to be closed within 5 seconds
     And graphs should disappear within 15 seconds

@@ -5,7 +5,7 @@ from time import sleep
 
 from .machines import comparisons
 
-from .utils import safe_get_element_text, get_page_element, expand_shadow_root
+from .utils import safe_get_element_text, get_page_element, expand_shadow_root, scroll_into_view
 
 from .buttons import clicketi_click
 
@@ -83,11 +83,12 @@ def wait_for_all_graphs_to_appear(context, graph_count, timeout, page):
             polyana_dashboard_shadow = expand_shadow_root(context, polyana_dashboard)
             dashboard_rows = polyana_dashboard_shadow.find_elements_by_css_selector('dashboard-row:not([hidden])')
             for row in dashboard_rows:
+                scroll_into_view(context, row)
                 row_shadow = expand_shadow_root(context, row)
                 dashboard_panels += row_shadow.find_elements_by_css_selector('dashboard-panel:not([hidden])')
             if len(dashboard_panels) == int(graph_count):
                 return
-        except NoSuchElementException:
+        except NoSuchElementException, StaleElementReferenceException:
             sleep(1)
     assert False, "%d graphs appeared after %s seconds" % (len(dashboard_panels), timeout)
 
