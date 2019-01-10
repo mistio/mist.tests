@@ -81,6 +81,7 @@ Feature: RBAC-rules-v4
     Then I expect the "Tags" dialog to be closed within 4 seconds
     And I ensure that the "cloud" has the tags "rbac:test" within 5 seconds
     When I visit the Teams page
+    And I wait for 1 seconds
     And I click the "Test team" "team"
     Then I expect the "team" page to be visible within max 5 seconds
     When I remove the rule with index "0"
@@ -127,14 +128,15 @@ Feature: RBAC-rules-v4
     And I click the button "Save Policy" in the "team" page
     And I wait for 1 seconds
     When I visit the Scripts page
+    And I wait for 1 seconds
     And I click the "touch_kati" "script"
     Then I expect the "script" page to be visible within max 5 seconds
-    When I click the button "Tag" in the "script" page actions menu
-    Then I expect for the tag popup to open within 4 seconds
+    When I click the "Tag" action button in the "script" page
+    Then I expect the "Tags" dialog to be open within 4 seconds
     And I wait for 1 seconds
     And I add a tag with key "view" and value "denied"
-    And I click the button "Save" in the tag menu
-    Then I expect for the tag popup to close within 4 seconds
+    And I click the "Save" button in the "Tags" dialog
+    Then I expect the "Tags" dialog to be closed within 4 seconds
     Then I ensure that the "script" has the tags "view:denied" within 5 seconds
     And I logout
 

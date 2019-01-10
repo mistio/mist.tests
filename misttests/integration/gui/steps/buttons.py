@@ -59,6 +59,9 @@ def click_button_from_collection(context, text, button_collection=None,
     assert button, error_message
     for i in range(0, 2):
         try:
+            button.click()
+            return
+        except WebDriverException:
             scroll_into_view(context, button)
             clicketi_click(context, button)
             return

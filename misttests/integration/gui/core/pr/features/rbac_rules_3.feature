@@ -45,10 +45,10 @@ Feature: RBAC-rules-v3
     Then "touch_kati" script should be present within 5 seconds
     When I select list item "touch_kati" script
     And I click the action "Delete" from the script list actions
-    And I expect the dialog "Delete Script" is open within 4 seconds
+    And I expect the "Delete Script" dialog to be open within 4 seconds
     And I wait for 2 seconds
-    And I click the "Delete" button in the dialog "Delete Script"
-    And I expect the dialog "Delete Script" is closed within 4 seconds
+    And I click the "Delete" button in the "Delete Script" dialog
+    And I expect the "Delete Script" dialog to be closed within 4 seconds
     Then "touch_kati" script should be absent within 5 seconds
     And I logout
 

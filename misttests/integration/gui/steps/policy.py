@@ -78,10 +78,10 @@ def add_new_rule(context, operator, rtype='all', raction='all', rid='',
         edit_icon = rule_identifier_shadow. \
             find_element_by_css_selector('.edit')
         clicketi_click(context, edit_icon)
-        paper_input = new_rule_shadow.find_element_by_css_selector('paper-input#inputField')
+        clicketi_click(context, edit_icon)
+        paper_input = rule_identifier_shadow.find_element_by_css_selector('paper-input#inputField')
         paper_input_shadow = expand_shadow_root(context, paper_input)
         input_element = paper_input_shadow.find_element_by_css_selector('input')
-        clicketi_click(context, input_element)
         input_element.send_keys(rtags)
 
 

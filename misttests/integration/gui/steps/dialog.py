@@ -23,6 +23,11 @@ def get_dialog(context, title):
         dialog_shadow = expand_shadow_root(context, dialog)
         if dialog.is_displayed():
             try:
+                dialog = dialog_shadow.find_element_by_css_selector('team-add-element')
+                dialog_shadow = expand_shadow_root(context, dialog_content)
+            except NoSuchElementException:
+                pass
+            try:
                 t = safe_get_element_text(dialog_shadow.find_element_by_css_selector(
                     'h2')).strip().lower()
             except NoSuchElementException:
@@ -87,7 +92,8 @@ use_step_matcher("parse")
 def click_toggle_button_in_dialog(context, btn_id, dialog):
     open_dialog = get_dialog(context, dialog)
     assert open_dialog, "Could not find dialog with title %s" % dialog
-    button_to_click = open_dialog.find_element_by_id(btn_id)
+    dialog_shadow = expand_shadow_root(context, open_dialog)
+    button_to_click = dialog_shadow.find_element_by_css_selector('#%s' % btn_id)
     clicketi_click(context, button_to_click)
 
 
