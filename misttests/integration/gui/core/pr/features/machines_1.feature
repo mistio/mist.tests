@@ -25,7 +25,7 @@ Feature: Machines
   @machine-create
   Scenario: Create a machine in Docker provider
     When I visit the Images page
-    Then "mist/ubuntu-14.04:latest" image should be present within 30 seconds
+    Then "Ubuntu 14.04 - mist.io image" image should be present within 30 seconds
     When I visit the Machines page
     And I click the button "+"
     Then I expect the "Machine" add form to be visible within max 10 seconds

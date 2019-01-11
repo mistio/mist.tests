@@ -97,10 +97,10 @@ Feature: RBAC-rules-v1
   @member1-delete-cloud-fail
   Scenario: Member 1 should not be able to delete cloud
     When I wait for 1 seconds
-    And I open the cloud menu for "Packet"
+    And I open the cloud menu for "Docker"
     Then I expect the "cloud" edit form to be visible within max 10 seconds
     When I click the button "Delete" in the "cloud" page actions menu
-    Then I expect the dialog "Delete Packet" is open within 4 seconds
+    Then I expect the dialog "Delete Docker" is open within 4 seconds
     And I wait for 2 seconds
     And I focus on the button "Delete" in "cloud" edit form
     And I click the button "Delete" in "cloud" edit form
