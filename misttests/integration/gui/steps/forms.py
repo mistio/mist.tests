@@ -17,7 +17,10 @@ def get_add_form(context, title):
                      'script', 'schedule', 'template', 'stack', 'team',
                      'members', 'zone', 'record']:
         raise ValueError('The title given is unknown')
-    page_element = get_page_element(context, title + 's')
+    if title == 'members':
+        page_element = get_page_element(context, 'teams')
+    else:
+        page_element = get_page_element(context, title + 's')
     page_shadow = expand_shadow_root(context, page_element)
     if title in ['stack', 'machine', 'network']:
         add_form_selector = '%s-create' % title

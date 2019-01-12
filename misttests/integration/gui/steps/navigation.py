@@ -4,7 +4,7 @@ from time import time
 from time import sleep
 
 from .buttons import clicketi_click
-from .buttons import click_the_gravatar
+from .buttons import click_the_user_icon
 from .buttons import click_button_from_collection
 
 from .forms import clear_input_and_send_keys
@@ -146,7 +146,7 @@ def go_to_some_page_without_waiting(context, title):
         context.execute_steps(u'When I click the mist logo')
     elif title.lower() == 'account':
         context.execute_steps(u'''
-                When I click the gravatar
+                When I click the user icon
                 And I wait for 2 seconds
                 And I click the "Account" button with id "Account"
                ''')
@@ -230,7 +230,7 @@ def scroll_to_add_new_rule_btn(context):
 
 
 @step(u'I scroll to the top of the page')
-def scroll_to_add_new_rule_btn(context):
+def scroll_to_top(context):
     context.browser.execute_script("window.scrollTo(0, 0)")
 
 
@@ -332,10 +332,11 @@ def get_user_menu(context):
     return app_user_menu_shadow.find_element_by_css_selector('.dropdown-content')
 
 
-def click_and_wait_for_gravatar(context):
-    """press the gravatar and wait until the user menu starts opening"""
+@step(u'I open the user menu')
+def click_user_icon_and_wait_for_menu(context):
+    """click the avatar icon and wait until the user menu starts opening"""
     for _ in range(2):
-        click_the_gravatar(context)
+        click_the_user_icon(context)
         user_menu = get_user_menu(context)
         timeout = time() + 2
         while time() < timeout:
@@ -348,31 +349,8 @@ def click_and_wait_for_gravatar(context):
 
 @step(u'I logout')
 def logout(context):
-    click_and_wait_for_gravatar(context)
-    user_menu = get_user_menu(context)
-    timeout = time() + 5
-    dimensions = None
-    while time() < timeout:
-        try:
-            if dimensions is None:
-                dimensions = user_menu.size
-            elif dimensions['width'] == user_menu.size['width'] and \
-                            dimensions['height'] == user_menu.size['height']:
-                sleep(1)
-                click_button_from_collection(context, 'Logout',
-                                             user_menu.find_elements_by_css_selector(
-                                                 'paper-item'))
-                # sleep(2)
-                return True
-            else:
-                dimensions = user_menu.size
-        except NoSuchElementException:
-            pass
-        sleep(1)
-
-    assert False, "User menu has not appeared yet"
+    from .buttons import click_the_user_menu_button
+    click_the_user_menu_button(context, 'logout')
 
 
-def get_gravatar(context):
-    return context.browser.find_element_by_css_selector(
-        'paper-icon-button.gravatar')
+

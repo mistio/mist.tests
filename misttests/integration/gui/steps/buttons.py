@@ -1,6 +1,6 @@
 from behave import step, when, use_step_matcher
 
-from time import sleep
+from time import sleep, time
 
 import logging
 
@@ -198,9 +198,28 @@ def click_button_in_tag_dialog(context, button):
 
 @step(u'I click the button "{button}" in the user menu')
 def click_the_user_menu_button(context, button):
-    dropdown = context.browser.find_element_by_css_selector('app-user-menu #dropdown')
-    buttons = dropdown.find_elements_by_tag_name('paper-item')
-    click_button_from_collection(context, button, buttons)
+    from .navigation import click_user_icon_and_wait_for_menu, get_user_menu
+    click_user_icon_and_wait_for_menu(context)
+    user_menu = get_user_menu(context)
+    timeout = time() + 5
+    dimensions = None
+    while time() < timeout:
+        try:
+            if dimensions is None:
+                dimensions = user_menu.size
+            elif dimensions['width'] == user_menu.size['width'] and \
+                            dimensions['height'] == user_menu.size['height']:
+                sleep(1)
+                click_button_from_collection(context, button,
+                                             user_menu.find_elements_by_css_selector(
+                                                 'paper-item'))
+                return True
+            else:
+                dimensions = user_menu.size
+        except NoSuchElementException:
+            pass
+        sleep(1)
+    assert False, "User menu has not appeared yet"
 
 
 @step(u'I click the action "{button_text}" from the {resource_type} list actions')
@@ -322,8 +341,8 @@ def visit_home_url(context):
     clicketi_click(context, save_title_button)
 
 
-@step(u'I click the Gravatar')
-def click_the_gravatar(context):
+@step(u'I click the user icon')
+def click_the_user_icon(context):
     mist_app = context.browser.find_element_by_tag_name('mist-app')
     mist_app_shadow = expand_shadow_root(context, mist_app)
     mist_header = mist_app_shadow.find_element_by_css_selector('mist-header')

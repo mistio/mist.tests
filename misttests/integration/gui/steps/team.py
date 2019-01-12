@@ -2,28 +2,13 @@ from behave import step
 
 from .buttons import clicketi_click
 
-from .utils import safe_get_element_text
-
-
-def get_team_lists(context):
-    return context.browser.find_elements_by_css_selector(
-        'div#content div.team-page paper-material.team-page')
+from .utils import safe_get_element_text, get_page_element, expand_shadow_root
 
 
 def get_member_list(context):
-    team_lists = get_team_lists(context)
-    widget_title = team_lists[0].find_element_by_tag_name('h3')
-    if 'members in' in safe_get_element_text(widget_title).strip().lower():
-        return team_lists[0]
-    return team_lists[1]
-
-
-def get_policy_list(context):
-    team_lists = get_team_lists(context)
-    widget_title = team_lists[0].find_element_by_tag_name('h3')
-    if 'team policy' in safe_get_element_text(widget_title).strip().lower():
-        return team_lists[0]
-    return team_lists[1]
+    _, team_page = get_page_element(context, 'teams', 'team')
+    team_shadow = expand_shadow_root(context, team_page)
+    return team_shadow.find_element_by_css_selector('paper-material.members')
 
 
 @step(u'user with email "{email}" should be {user_state}')
@@ -33,12 +18,10 @@ def check_user_state(context, email, user_state):
         email = context.mist_config[email]
     email = email.strip().lower()
     member_list = get_member_list(context)
-    members = member_list.find_elements_by_tag_name('paper-item')
+    members = member_list.find_elements_by_css_selector('paper-item')
     for member in members:
-        spans = map(lambda el: safe_get_element_text(el),
-                    member.find_elements_by_tag_name('span'))
-        if spans[-1] == email:
-            resend_btn = member.find_element_by_id('resend')
+        if email in member.text:
+            resend_btn = member.find_element_by_css_selector('#resend')
             if user_state == 'pending' and resend_btn.is_displayed():
                 return True
             elif user_state == 'confirmed' and not resend_btn.is_displayed():
