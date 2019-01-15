@@ -146,9 +146,7 @@ def go_to_some_page_without_waiting(context, title):
         context.execute_steps(u'When I click the mist logo')
     elif title.lower() == 'account':
         context.execute_steps(u'''
-                When I click the user icon
-                And I wait for 2 seconds
-                And I click the "Account" button with id "Account"
+                When I click the button "Account" in the user menu
                ''')
         return
     elif title.lower() == 'signup':

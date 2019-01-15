@@ -39,9 +39,7 @@ def delete_member_from_team(context, email):
         email = context.mist_config[email]
     email = email.strip().lower()
     for member in members:
-        spans = map(lambda el: safe_get_element_text(el),
-                    member.find_elements_by_tag_name('span'))
-        if spans[-1] == email:
+        if email in member.text:
             button = member.find_element_by_class_name('delete-member')
             clicketi_click(context, button)
             return True

@@ -6,8 +6,8 @@ Feature: Login Scenarios and Api Token
     Given I am logged in to mist
     When I visit the Account page
     And I wait for 3 seconds
-    And I click the "API Tokens" button with id "tokens"
-    Then I click the "Create API Token" button with id "Create API Token"
+    And I click the "API Tokens" tab in the Account page
+    Then I click the "Create API Token" button in the Account page
     And I wait for 2 seconds
     And I type "Test token" in input with id "tokenName"
     And I wait for 1 seconds

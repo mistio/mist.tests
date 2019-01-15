@@ -294,7 +294,7 @@ def get_color_from_state(state):
 
 
 @step(u'I click the mist logo')
-def click_mist_io(context):
+def click_mist_logo(context):
     mist_app = context.browser.find_element_by_tag_name('mist-app')
     mist_app_shadow = expand_shadow_root(context, mist_app)
     mist_header = mist_app_shadow.find_element_by_css_selector('mist-header')
@@ -374,9 +374,32 @@ def click_action_in_resource_page(context, action, resource_type):
 
 
 use_step_matcher('parse')
-@when(u'I click the fab button in the "{page_title}" page')
+@step(u'I click the fab button in the "{page_title}" page')
 def click_fab_button_in_page(context, page_title):
     page_element = get_page_element(context, page_title)
     page_shadow = expand_shadow_root(context, page_element)
     fab = page_shadow.find_element_by_css_selector('paper-fab')
     clicketi_click(context, fab)
+
+
+@step(u'I click the "{target}" tab in the account page')
+def click_tab_in_page(context, target):
+    page_element = get_page_element(context, 'my-account')
+    page_shadow = expand_shadow_root(context, page_element)
+    for tab in page_shadow.find_elements_by_css_selector('paper-tab:not([hidden])'):
+        if target.lower() in tab.text.lower():
+            clicketi_click(context, tab)
+            return
+    assert False, 'Cannot find tab "%s"' % target
+
+@step(u'I click the "{target}" button in the account page')
+def click_button_in_account_page(context, target):
+    page_element = get_page_element(context, 'my-account')
+    page_shadow = expand_shadow_root(context, page_element)
+    active_section = page_shadow.find_element_by_css_selector('iron-pages > .iron-selected')
+    section_shadow = expand_shadow_root(context, active_section)
+    for button in section_shadow.find_elements_by_css_selector('paper-button:not([hidden])'):
+        if target.lower() in button.text.lower():
+            button.click()
+            return
+    assert False, 'Cannot find button "%s" in account page' % target
