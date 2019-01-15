@@ -1,24 +1,27 @@
 @rules-2
 Feature: Rules
 
-  @add-rule-apply-to-every-machine
-  Scenario: Add rule from rules section that applies on all machines. Verify it is visible in single machine page and it works
+  @enable-monitoring
+  Scenario: Create Machine, deploy monitoring agent by clicking 'Enable monitoring' button and check the graphs
     Given I am logged in to mist
     And cloud "Docker" has been added via API request
+    And I have given card details if needed
     And key "Key1" has been added via API request
     And Docker machine "rules-test-machine-random" has been added via API request
-    And I have given card details if needed
     When I visit the Machines page
     And I search for "rules-test-machine-random"
     Then "rules-test-machine-random" machine state has to be "running" within 120 seconds
     When I click the "rules-test-machine-random" "machine"
     And I wait for 2 seconds
-    And I click the button "Enable Monitoring"
+    And I click the button "Enable Monitoring" in the "machine" page
     And I wait for 5 seconds
-    Then I wait for the graphs to appear
-    And 9 graphs should be visible within max 30 seconds
+    Then I wait for the monitoring graphs to appear in the "machine" page
+    And 9 graphs should be visible within max 30 seconds in the "machine" page
+
+  @add-rule-apply-to-every-machine
+  Scenario: Add rule from rules section that applies on all machines. Verify it is visible in single machine page and it works
     When I visit the Rules page
-    And I click the button "add new rule"
+    And I click the button "add new rule" in the "rules" page
     And I wait for 1 seconds
     And I click the "apply on" button with id "apply-on" within "add-new-rule-dialog"
     And I click the "every machine" button in the dropdown with id "apply-on" within "add-new-rule-dialog"

@@ -13,10 +13,10 @@ pytest_paths["dns"]='misttests/integration/api/main/dns.py'
 pytest_paths["scripts"]='misttests/integration/api/main/scripts.py'
 pytest_paths["api_token"]='misttests/integration/api/main/api_token.py'
 pytest_paths["schedules"]='misttests/integration/api/main/schedules.py'
+pytest_paths["teams"]='misttests/integration/api/main/teams.py'
+#pytest_paths["ip-whitelisting"]='misttests/integration/api/main/ip_whitelisting.py'
 pytest_paths["tunnels"]='misttests/integration/api/plugin/tunnels.py'
 pytest_paths["orchestration"]='misttests/integration/api/plugin/orchestration.py'
-pytest_paths["rbac"]='misttests/integration/api/main/rbac.py'
-#pytest_paths["ip-whitelisting"]='misttests/integration/api/main/ip_whitelisting.py'
 
 declare -A behave_tags
 
@@ -31,17 +31,17 @@ behave_tags["machines-2"]='machines-2'
 behave_tags["rules-1"]='rules-1'
 behave_tags["rules-2"]='rules-2'
 behave_tags["users"]='user-actions'
-behave_tags["rbac"]='rbac-teams'
+behave_tags["teams"]='teams'
 behave_tags["schedules-1"]='schedulers-1'
 behave_tags["schedules-2"]='schedulers-2'
 #behave_tags["ip-whitelisting"]='ip-whitelisting'
 
 behave_tags["monitoring"]='monitoring'
 behave_tags["orchestration"]='orchestration'
-behave_tags["rbac-rules-1"]='rbac-rules-1'
-behave_tags["rbac-rules-2"]='rbac-rules-2'
-behave_tags["rbac-rules-3"]='rbac-rules-3'
-behave_tags["rbac-rules-4"]='rbac-rules-4'
+behave_tags["rbac-1"]='rbac-1'
+behave_tags["rbac-2"]='rbac-2'
+behave_tags["rbac-3"]='rbac-3'
+behave_tags["rbac-4"]='rbac-4'
 behave_tags["zones"]='zones'
 behave_tags["insights"]='insights'
 behave_tags["pricing"]='pricing'
@@ -62,11 +62,11 @@ help_message() {
     echo
     echo "Argument for API tests can be one of the following:"
     echo
-    echo "clouds, machines, tunnels, keys, dns, scripts, api_token, tunnels, schedules, orchestration, libcloud1, libcloud2, networks, rbac, ip-whitelisting"
+    echo "clouds, machines, tunnels, keys, dns, scripts, api_token, tunnels, schedules, orchestration, libcloud1, libcloud2, networks, teams, ip-whitelisting"
     echo
     echo "Argument for UI tests can be one of the following:"
     echo
-    echo "clouds, clouds-actions, machines, images, keys, scripts, users, rbac, schedules, orchestration, monitoring, rbac-rules-1, rbac-rules-2, rbac-rules-3, rbac-rules-4, insights, zones"
+    echo "clouds, clouds-actions, machines, images, keys, scripts, users, teams, schedules, orchestration, monitoring, rbac-1, rbac-2, rbac-3, rbac-4, insights, zones"
     echo
 }
 

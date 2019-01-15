@@ -1,4 +1,4 @@
-@rbac-teams
+@teams
 Feature: Rbac
 
   @create-org
@@ -139,7 +139,7 @@ Feature: Rbac
     And I expect the "team" page to be visible within max 5 seconds
     Then I click the "Delete" action button in the "team" page
     And I expect the "Delete Team" dialog to be open within 4 seconds
-    And I click the "Delete" button in the dialog "Delete Team"
+    And I click the "Delete" button in the "Delete Team" dialog
     Then I expect the dialog "Delete Team" is closed within 4 seconds
     Then I visit the Home page
     And I wait for 2 seconds

@@ -183,7 +183,7 @@ def test_show_pending_invitations_wrong_api_token(pretty_print, mist_core, owner
 ############################################################################
 
 @pytest.mark.incremental
-class TestRbacFunctionality:
+class TestTeamsFunctionality:
 
     def test_initialize_members(pretty_print, initialize_members):
         print "Success!!!"

@@ -5,24 +5,22 @@ Feature: Rules
   Scenario: Create Machine, deploy monitoring agent by clicking 'Enable monitoring' button and check the graphs
     Given I am logged in to mist
     And cloud "Docker" has been added via API request
+    And I have given card details if needed
     And key "Key1" has been added via API request
     And Docker machine "rules-test-machine-random" has been added via API request
-    And I have given card details if needed
     When I visit the Machines page
     And I search for "rules-test-machine-random"
     Then "rules-test-machine-random" machine state has to be "running" within 120 seconds
     When I click the "rules-test-machine-random" "machine"
     And I wait for 2 seconds
-    And I click the button "Enable Monitoring"
+    And I click the button "Enable Monitoring" in the "machine" page
     And I wait for 5 seconds
-    Then I wait for the graphs to appear
-    And 9 graphs should be visible within max 30 seconds
-    And I wait for 10 seconds
+    Then I wait for the monitoring graphs to appear in the "machine" page
+    And 9 graphs should be visible within max 30 seconds in the "machine" page
 
   @alert-email
   Scenario: Insert rule that will be triggered immediately
-    When I scroll to the element with id "add-new-rule-dialog"
-    And I click the button "add new rule"
+    When I click the button "add new rule" in the "machine" page
     And I wait for 1 seconds
     And I click the "RAM" button in the dropdown with id "target-0" within "add-new-rule-dialog"
     And I click the ">" button in the dropdown with id "operator-0" within "add-new-rule-dialog"

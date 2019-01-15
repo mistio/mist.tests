@@ -1,4 +1,4 @@
-@rbac-rules-2
+@rbac-2
 Feature: RBAC-rules-v2
 
   @create-users-org-team
