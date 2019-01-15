@@ -87,6 +87,7 @@ def before_all(context):
     context.mist_config['CC_ZIP_CODE'] = config.CC_ZIP_CODE
     context.link_inside_email = ''
     context.mist_config['ORG_ID'] = ''
+    context.mist_config['PRODUCE_VIDEO_SCREENCAST_ON_ERROR'] = config.PRODUCE_VIDEO_SCREENCAST_ON_ERROR
 
     if config.LOCAL:
         log.info("Initializing behaving mail for path: %s" % config.MAIL_PATH)

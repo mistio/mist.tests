@@ -259,3 +259,5 @@ DEFAULT_CREDENTIALS = {'AWS': {'api_key': '', 'api_secret': '', 'region': '', 'r
                        }
 
 CREDENTIALS = get_setting("CREDENTIALS", DEFAULT_CREDENTIALS)
+
+PRODUCE_VIDEO_SCREENCAST_ON_ERROR = get_setting("PRODUCE_VIDEO_SCREENCAST_ON_ERROR", True)
