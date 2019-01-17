@@ -108,7 +108,7 @@ Feature: Zones
     When I click the "Delete" action button in the "zone" page
     Then I expect the "Delete Zone" dialog to be open within 4 seconds
     And I wait for 1 seconds
-    When I click the "Delete" button in the dialog "Delete Zone"
+    When I click the "Delete" button in the "Delete Zone" dialog
     Then I expect the "Delete Zone" dialog to be closed within 4 seconds
     When I visit the Zones page
     And I wait for 2 seconds
