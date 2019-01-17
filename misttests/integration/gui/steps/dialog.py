@@ -64,10 +64,11 @@ def wait_for_dialog(context, dialog_title, state, seconds):
 def check_that_field_is_visible(context, field_name, dialog_title, seconds):
     field_name = field_name.lower()
     dialog = get_dialog(context, dialog_title)
+    dialog_shadow = expand_shadow_root(context, dialog)
     input_element = None
     timeout = time() + int(seconds)
     while time() < timeout:
-        input_element = get_input_element_from_form(context, dialog, field_name)
+        input_element = get_input_element_from_form(context, dialog_shadow, field_name)
         if input_element.is_displayed():
             return True
         sleep(1)

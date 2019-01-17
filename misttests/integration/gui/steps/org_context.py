@@ -1,6 +1,6 @@
 from behave import step
 
-from .utils import safe_get_element_text
+from .utils import safe_get_element_text, get_page_element, expand_shadow_root
 from .buttons import click_button_from_collection
 
 
@@ -33,5 +33,7 @@ def ensure_organizational_context(context, organization):
 
 @step(u'I should see the form to set name for new organization')
 def ensure_onboarding_form_is_visible(context):
-    context.browser.find_element_by_css_selector(
-        'div.onboarding-form-inputs').is_displayed()
+    dashboard = get_page_element(context, 'dashboard')
+    dashboard_shadow = expand_shadow_root(context, dashboard)
+    onb_element = dashboard_shadow.find_element_by_css_selector('onb-element')
+    assert onb_element.is_displayed(), "Form to set name for new org is not displayed"

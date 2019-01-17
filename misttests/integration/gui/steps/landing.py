@@ -114,6 +114,8 @@ def get_mist_config_email(context,kind):
         return 'tester'
     elif kind == 'rbac_member1':
         return context.mist_config['MEMBER1_EMAIL']
+    elif kind == 'rbac_member2':
+        return context.mist_config['MEMBER2_EMAIL']
     else:
         return context.mist_config['EMAIL']
 

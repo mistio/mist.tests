@@ -115,9 +115,9 @@ Feature: Rbac
     Then I click the "Edit" action button in the "team" page
     And I expect the "Edit Team" dialog to be open within 4 seconds
     Then I expect the field "Name" in the dialog with title "Edit Team" to be visible within max 2 seconds
-    When I set the value "Rbac Team" to field "Name" in "Edit Team" dialog
+    When I set the value "Rbac Team" to field "Name" in the "Edit Team" dialog
     And I wait for 1 seconds
-    And I click the "Submit" button in the dialog "Edit Team"
+    And I click the "Submit" button in the "Edit Team" dialog
     And I expect the "Edit Team" dialog to be closed within 4 seconds
     Then I visit the Home page
     Then I visit the Teams page
@@ -135,12 +135,13 @@ Feature: Rbac
   Scenario: Owner deletes a team
     Given I am logged in to mist as rbac_owner
     When I visit the Teams page
+    And I wait for 1 seconds
     When I click the "Rbac Team" "team"
     And I expect the "team" page to be visible within max 5 seconds
     Then I click the "Delete" action button in the "team" page
     And I expect the "Delete Team" dialog to be open within 4 seconds
     And I click the "Delete" button in the "Delete Team" dialog
-    Then I expect the dialog "Delete Team" is closed within 4 seconds
+    Then I expect the "Delete Team" dialog to be closed within 4 seconds
     Then I visit the Home page
     And I wait for 2 seconds
     And I visit the Teams page
