@@ -35,11 +35,15 @@ def clicketi_click(context, button):
     try:
         button.click()
     except WebDriverException:
-        from selenium.webdriver.common import action_chains, keys
-        action_chain = ActionChains(context.browser)
-        action_chain.move_to_element(button)
-        action_chain.click()
-        action_chain.perform()
+        try:
+            scroll_into_view(context, button)
+            button.click()
+        except WebDriverException:
+            from selenium.webdriver.common import action_chains, keys
+            action_chain = ActionChains(context.browser)
+            action_chain.move_to_element(button)
+            action_chain.click()
+            action_chain.perform()
 
 
 def clicketi_click_list_row(context, item):

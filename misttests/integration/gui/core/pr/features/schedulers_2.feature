@@ -16,13 +16,13 @@ Feature: Schedulers-b
     When I search for "test-ui-machine-2-random"
     Then "test-ui-machine-2-random" machine state has to be "running" within 10 seconds
     When I click the "test-ui-machine-2-random" "machine"
-    Then I expect the "machine" edit form to be visible within max 5 seconds
-    Then I click the button "Tag" from the menu of the "machine" edit form
-    And I expect for the tag popup to open within 4 seconds
+    Then I expect the "machine" page to be visible within max 5 seconds
+    Then I click the "Tag" action button in the "machine" page
+    Then I expect the "Tags" dialog to be open within 4 seconds
     When I remove all the previous tags
     And I add a tag with key "test" and value "awesome"
-    And I click the button "Save" in the tag menu
-    Then I expect for the tag popup to close within 4 seconds
+    And I click the "Save" button in the "Tags" dialog
+    Then I expect the "Tags" dialog to be closed within 4 seconds
     When I visit the Machines page after the counter has loaded
     And I wait for 2 seconds
     And I search for "test-ui-machine-2-random"
@@ -34,18 +34,18 @@ Feature: Schedulers-b
     When I visit the Schedules page
     And I click the button "+"
     Then I expect the "schedule" add form to be visible within max 10 seconds
-    When I set the value "TestScheduler" to field "Name" in "schedule" add form
-    And I open the "Task" drop down
+    When I set the value "TestScheduler" to field "Name" in the "schedule" add form
+    And I open the "Task" dropdown in the "schedule" add form
     And I wait for 1 seconds
-    And I click the button "stop" in the "Task" dropdown
+    And I click the "stop" button in the "Task" dropdown in the "schedule" add form
     And I wait for 1 seconds
-    And I select "Specific Machines" from "ids_or_tags" radio-group in "scheduleAddForm"
+    And I select the "Specific Machines" radio button in the "schedule" add form
     And I wait for 2 seconds
-    And I select the "test-ui-machine-random" checkbox
-    And I select "Crontab" from "schedule_type" radio-group in "scheduleAddForm"
+    And I select the "test-ui-machine-random" checkbox in the "schedule" add form
+    And I select the "Crontab" radio button in the "schedule" add form
     #When I set the value "2" to field "Maximum Run Count" in "schedule" add form
-    And I set the value "* * * * *" to field "Crontab" in "schedule" add form
-    And I click the button "Add" in "schedule" add form
+    And I set the value "* * * * *" to field "Crontab" in the "schedule" add form
+    And I click the button "Add" in the "schedule" add form
     And I wait for 2 seconds
     When I visit the Schedules page
     Then "TestScheduler" schedule should be present within 5 seconds
@@ -54,17 +54,17 @@ Feature: Schedulers-b
   Scenario: Run schedule to the machine tagged above
     When I click the button "+"
     Then I expect the "schedule" add form to be visible within max 10 seconds
-    When I set the value "TestScheduler_tagged_machine" to field "Name" in "schedule" add form
-    And I open the "Task" drop down
+    When I set the value "TestScheduler_tagged_machine" to field "Name" in the "schedule" add form
+    And I open the "Task" dropdown in the "schedule" add form
     And I wait for 1 seconds
-    And I click the button "stop" in the "Task" dropdown
+    And I click the "stop" button in the "Task" dropdown in the "schedule" add form
     And I wait for 1 seconds
-    And I select "Machines with tags" from "ids_or_tags" radio-group in "scheduleAddForm"
+    And I select the "Machines with tags" radio button in the "schedule" add form
     And I wait for 1 seconds
-    When I set the value "test=awesome" to field "Machines with tags" in "schedule" add form
-    And I select "Crontab" from "schedule_type" radio-group in "scheduleAddForm"
-    And I set the value "* * * * *" to field "Crontab" in "schedule" add form
-    And I click the button "Add" in "schedule" add form
+    When I set the value "test=awesome" to field "Machines with tags" in the "schedule" add form
+    And I select the "Crontab" radio button in the "schedule" add form
+    And I set the value "* * * * *" to field "Crontab" in the "schedule" add form
+    And I click the button "Add" in the "schedule" add form
     And I wait for 1 seconds
     And I visit the Schedules page
     Then "TestScheduler_tagged_machine" schedule should be present within 5 seconds
@@ -102,5 +102,7 @@ Feature: Schedulers-b
     When I visit the Machines page
     And I search for "test-ui-machine-random"
     Then "test-ui-machine-random" machine state has to be "stopped" within 120 seconds
+    And I wait for 20 seconds
     When I search for "test-ui-machine-2-random"
     Then "test-ui-machine-2-random" machine state has to be "stopped" within 120 seconds
+    And I wait for 60 seconds
