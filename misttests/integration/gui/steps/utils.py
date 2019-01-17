@@ -284,7 +284,8 @@ def clear_input_and_send_keys(input_field, text):
         current_expected_value += chunk
         input_field.send_keys(chunk)
         for _ in range(2):
-            if input_field.get_attribute('value') != current_expected_value:
+            input_field.send_keys('\n')
+            if current_expected_value not in input_field.get_attribute('value'):
                 sleep(.1)
             else:
                 break

@@ -19,7 +19,7 @@ def get_empty_tag(context, tags_dialog):
     tags_dialog_shadow = expand_shadow_root(context, tags_dialog)
     tags = get_tags_list(tags_dialog_shadow)
     for tag in tags:
-        inputs = expand_shadow_root(context, tag).find_elements_by_css_selector('paper-input')
+        inputs = expand_shadow_root(context, tag).find_elements_by_css_selector('vaadin-combo-box')
         if not inputs[0].get_attribute('value').strip():
             return tag
     return None
@@ -30,14 +30,14 @@ def get_tag_with_key(context, tags_dialog, key):
     tags_dialog_shadow = expand_shadow_root(context, tags_dialog)
     tags = get_tags_list(tags_dialog_shadow)
     for tag in tags:
-        inputs = expand_shadow_root(context, tag).find_elements_by_css_selector('paper-input')
+        inputs = expand_shadow_root(context, tag).find_elements_by_css_selector('vaadin-combo-box.key')
         if inputs[0].get_attribute('value').strip().lower() == key:
             return tag
     return None
 
 
 def set_key_and_value(context, tag, key, value):
-    inputs = expand_shadow_root(context, tag).find_elements_by_css_selector('paper-input')
+    inputs = expand_shadow_root(context, tag).find_elements_by_css_selector('vaadin-combo-box')
     clear_input_and_send_keys(inputs[0], key)
     clear_input_and_send_keys(inputs[1], value)
 
