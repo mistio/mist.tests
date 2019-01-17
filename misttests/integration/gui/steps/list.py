@@ -15,14 +15,13 @@ from selenium.common.exceptions import StaleElementReferenceException
 def get_list_items(context, resource_type):
     if resource_type in ['machine', 'image', 'team', 'key', 'network', 'script', 'schedule', 'template', 'stack', 'zone']:
         container = get_page_element(context, resource_type + 's')
-        container_shadow = expand_shadow_root(context, container)
-        mist_list = container_shadow.find_element_by_css_selector('mist-list')
-        list_shadow = expand_shadow_root(context, mist_list)
-        grid = list_shadow.find_element_by_css_selector('vaadin-grid')
-        return get_grid_items(context, grid)
-    if resource_type in ['record']:
-        import ipdb;ipdb.set_trace()
-        return context.browser.find_elements_by_css_selector('zone-page mist-list vaadin-grid-table-body#items > vaadin-grid-table-row:not([hidden])')
+    elif resource_type in ['record']:
+        _, container = get_page_element(context, 'zones', 'zone')
+    container_shadow = expand_shadow_root(context, container)
+    mist_list = container_shadow.find_element_by_css_selector('mist-list')
+    list_shadow = expand_shadow_root(context, mist_list)
+    grid = list_shadow.find_element_by_css_selector('vaadin-grid')
+    return get_grid_items(context, grid)
 
 
 def get_list_item(context, resource_type, name):
@@ -32,10 +31,14 @@ def get_list_item(context, resource_type, name):
                              'tunnel', 'script', 'template', 'stack',
                              'team', 'schedule', 'zone', 'record']:
         raise ValueError('The resource type given is unknown')
+    if resource_type == 'zone':
+        primary_field = 'domain'
+    else:
+        primary_field = 'name'
     try:
         items = get_list_items(context, resource_type)
         for item in items:
-            if item and item['name'].strip().lower() == item_name:
+            if item and item[primary_field].strip().lower() == item_name:
                 return item
     except (NoSuchElementException, StaleElementReferenceException):
         pass
@@ -60,9 +63,11 @@ def assert_machine_state(context, name, state, seconds):
 def select_item_from_list(context, item_name, resource_type):
     if context.mist_config.get(item_name):
         item_name = context.mist_config.get(item_name)
-    # if resource_type in ['record']:
-    #     item_name = item_name + '.' + context.mist_config.get('test-zone-random.com.')
-    container = get_page_element(context, resource_type + 's')
+    if resource_type in ['record']:
+        container = get_page_element(context, 'zones', 'zone')
+        item_name = item_name + '.' + context.mist_config.get('test-zone-random.com.')
+    else:
+        container = get_page_element(context, resource_type + 's')
     container_shadow = expand_shadow_root(context, container)
     mist_list = container_shadow.find_element_by_css_selector('mist-list')
     list_shadow = expand_shadow_root(context, mist_list)
@@ -81,7 +86,11 @@ def select_item_from_list(context, item_name, resource_type):
 def click_list_item(context, item_name, resource_type):
     if context.mist_config.get(item_name):
         item_name = context.mist_config.get(item_name)
-    container = get_page_element(context, resource_type + 's')
+    if resource_type in ['record']:
+        container = get_page_element(context, 'zones', 'zone')
+        item_name = item_name + '.' + context.mist_config.get('test-zone-random.com.')
+    else:
+        container = get_page_element(context, resource_type + 's')
     container_shadow = expand_shadow_root(context, container)
     mist_list = container_shadow.find_element_by_css_selector('mist-list')
     list_shadow = expand_shadow_root(context, mist_list)
@@ -92,26 +101,6 @@ def click_list_item(context, item_name, resource_type):
             clicketi_click(context, item)
             return True
     assert False, "Could not click item %s" % item_name
-
-
-"""
-@step(u'I click the button "{button_name}" from the menu of the "{item_name}"'
-      u' {resource_type}')
-def click_menu_button_of_list_item(context, button_name, item_name,
-                                   resource_type):
-
-    item = get_list_item(context, resource_type, item_name)
-    if item:
-        more_dialog = context.browser.find_element_by_css_selector('page-%ss item-list paper-dialog#select-action' % resource_type)
-        more_button = item.find_element_by_css_selector('paper-button.more')
-        from .buttons import clicketi_click
-        clicketi_click(context, more_button)
-        sleep(1)
-        more_buttons = more_dialog.find_elements_by_tag_name('paper-button')
-        click_button_from_collection(context, button_name, more_buttons)
-        return True
-    assert False, "Could not click button %s" % button_name
-"""
 
 
 @step(u'"{name}" {resource_type} should be {state} within {seconds}'

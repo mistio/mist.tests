@@ -102,7 +102,5 @@ Feature: Schedulers-b
     When I visit the Machines page
     And I search for "test-ui-machine-random"
     Then "test-ui-machine-random" machine state has to be "stopped" within 120 seconds
-    And I wait for 20 seconds
     When I search for "test-ui-machine-2-random"
     Then "test-ui-machine-2-random" machine state has to be "stopped" within 120 seconds
-    And I wait for 60 seconds

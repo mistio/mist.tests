@@ -129,6 +129,16 @@ def click_toggle_button_in_add_form(context, button_name, resource_type):
     button = get_button_from_form(context, form_shadow, button_name, tag_name='paper-toggle-button')
     clicketi_click(context, button)
 
+
+@step(u'I click the "(?P<button_name>[A-Za-z ]+)" toggle button in the "(?P<dialog_name>[A-Za-z ]+)" dialog')
+def click_toggle_button_in_dialog(context, button_name, dialog_name):
+    from .dialog import get_dialog
+    dialog = get_dialog(context, dialog_name)
+    dialog_shadow = expand_shadow_root(context, dialog)
+    button = get_button_from_form(context, dialog_shadow, button_name, tag_name='paper-toggle-button')
+    clicketi_click(context, button)
+
+
 @step(u'I click the "(?P<button_name>[A-Za-z ]+)" radio button in the "(?P<resource_type>[A-Za-z]+)" add form')
 def click_toggle_button_in_add_form(context, button_name, resource_type):
     from .forms import get_add_form
@@ -190,14 +200,6 @@ def select_members_in_mist_dropdown(context, members, dropdown, container_id=Non
             clicketi_click(context, option)
             return
     assert False, "Could not find %s option in %s mist-dropdown" % (members, dropdown)
-
-
-@step(u'I click the button "{button}" in the tag dialog')
-def click_button_in_tag_dialog(context, button):
-    from .dialog import get_dialog
-    buttons = get_dialog(context, "Tags").\
-        find_elements_by_tag_name('paper-button')
-    click_button_from_collection(context, button, buttons)
 
 
 @step(u'I click the button "{button}" in the user menu')
@@ -380,7 +382,10 @@ def click_action_in_resource_page(context, action, resource_type):
 use_step_matcher('parse')
 @step(u'I click the fab button in the "{page_title}" page')
 def click_fab_button_in_page(context, page_title):
-    page_element = get_page_element(context, page_title)
+    if page_title.endswith('s') or page_title in ['dashboard']:
+        page_element = get_page_element(context, page_title)
+    else:
+        _, page_element = get_page_element(context, page_title + 's', page_title)
     page_shadow = expand_shadow_root(context, page_element)
     fab = page_shadow.find_element_by_css_selector('paper-fab')
     clicketi_click(context, fab)

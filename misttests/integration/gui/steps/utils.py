@@ -279,14 +279,18 @@ def clear_input_and_send_keys(input_field, text):
         input_field.send_keys(u'\ue003')
     current_expected_value = ''
     n = 70
+    text.replace('\"', '"')
     chunks = [text[i:i+n] for i in xrange(0, len(text), n)]
     for chunk in chunks:
         current_expected_value += chunk
         input_field.send_keys(chunk)
         for _ in range(2):
-            input_field.send_keys('\n')
             if current_expected_value not in input_field.get_attribute('value'):
                 sleep(.1)
+                if current_expected_value not in input_field.get_attribute('value'):
+                    input_field.send_keys('\n')
+                    if '\n' in input_field.get_attribute('value'):
+                        input_field.send_keys('\b')
             else:
                 break
         else:

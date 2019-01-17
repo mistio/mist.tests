@@ -19,10 +19,12 @@ def get_add_form(context, title):
         raise ValueError('The title given is unknown')
     if title == 'members':
         page_element = get_page_element(context, 'teams')
+    elif title == 'record':
+        _, page_element = get_page_element(context, 'zones', 'zone')
     else:
         page_element = get_page_element(context, title + 's')
     page_shadow = expand_shadow_root(context, page_element)
-    if title in ['stack', 'machine', 'network']:
+    if title in ['stack', 'machine', 'network', 'record']:
         add_form_selector = '%s-create' % title
     else:
         add_form_selector = '%s-add' % title
@@ -72,7 +74,7 @@ def check_form_is_visible(context, page, form_type, seconds):
 def get_input_element_from_form(context, form, input_name):
     input_element = None
     input_containers = form.find_elements_by_css_selector('paper-input, paper-textarea')
-    form_containers = form.find_elements_by_css_selector('cloud-edit')
+    form_containers = form.find_elements_by_css_selector('cloud-edit, cloud-dns')
     form_containers_shadow = [expand_shadow_root(context, f) for f in form_containers]
     form_containers_shadow.append(form)
     for form in form_containers_shadow:
@@ -152,7 +154,7 @@ def click_menu_button_from_more_menu(context, button_name, title, form_type):
 
 def get_button_from_form(context, form, button_name, tag_name='paper-button:not([hidden])'):
     all_buttons = []
-    form_containers = form.find_elements_by_css_selector('cloud-edit, network-create, mist-monitoring, mist-rules, team-policy, metric-menu')
+    form_containers = form.find_elements_by_css_selector('cloud-edit, cloud-dns, network-create, mist-monitoring, mist-rules, team-policy, metric-menu')
     form_containers_shadow = [expand_shadow_root(context, f) for f in form_containers]
     form_containers_shadow.append(form)
     for form in form_containers_shadow:
@@ -192,7 +194,7 @@ def check_that_field_is_visible(context, field_name, title, form_type, seconds):
 
 
 use_step_matcher("re")
-@step(u'I set the value "(?P<value>[A-Za-z0-9 \-/._#!>+:=\*\n~\\\\]+)" to field "(?P<name>[A-Za-z ]+)" in the "(?P<title>[A-Za-z]+)" (?P<form_type>[A-Za-z]+) form')
+@step(u'I set the value "(?P<value>[A-Za-z0-9 \-/,._#!<>+:=\{\}@%\*\"\n~\\\\]+)" to field "(?P<name>[A-Za-z ]+)" in the "(?P<title>[A-Za-z]+)" (?P<form_type>[A-Za-z]+) form')
 def set_value_to_field(context, value, name, title, form_type):
     if context.mist_config.get(value):
         value = context.mist_config.get(value)
@@ -303,7 +305,7 @@ def open_drop_down_in_add_form(context, dropdown_text, resource_type):
 
 
 use_step_matcher("re")
-@step(u'I click the "(?P<button_name>[A-Za-z ]+)" button in the "(?P<dialog_title>[A-Za-z]+)" dialog')
+@step(u'I click the "(?P<button_name>[A-Za-z ]+)" button in the "(?P<dialog_title>[A-Za-z? ]+)" dialog')
 def click_button_in_dialog(context, button_name, dialog_title):
     from .buttons import clicketi_click
     from .dialog import get_dialog
