@@ -64,7 +64,7 @@ def select_item_from_list(context, item_name, resource_type):
     if context.mist_config.get(item_name):
         item_name = context.mist_config.get(item_name)
     if resource_type in ['record']:
-        container = get_page_element(context, 'zones', 'zone')
+        _, container = get_page_element(context, 'zones', 'zone')
         item_name = item_name + '.' + context.mist_config.get('test-zone-random.com.')
     else:
         container = get_page_element(context, resource_type + 's')
@@ -87,7 +87,7 @@ def click_list_item(context, item_name, resource_type):
     if context.mist_config.get(item_name):
         item_name = context.mist_config.get(item_name)
     if resource_type in ['record']:
-        container = get_page_element(context, 'zones', 'zone')
+        _, container = get_page_element(context, 'zones', 'zone')
         item_name = item_name + '.' + context.mist_config.get('test-zone-random.com.')
     else:
         container = get_page_element(context, resource_type + 's')

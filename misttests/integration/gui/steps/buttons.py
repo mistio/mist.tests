@@ -233,7 +233,10 @@ def click_action_of_list(context, button_text, resource_type):
     resource_type = resource_type.lower()
     if resource_type not in ['machine', 'key', 'script', 'network', 'team', 'template', 'stack', 'image', 'schedule', 'record']:
         raise Exception('Unknown resource type')
-    container = get_page_element(context, resource_type + 's')
+    if resource_type == 'record':
+        _, container = get_page_element(context, 'zones', 'zone')
+    else:
+        container = get_page_element(context, resource_type + 's')
     container_shadow = expand_shadow_root(context, container)
     mist_list = container_shadow.find_element_by_css_selector('mist-list')
     list_shadow = expand_shadow_root(context, mist_list)
