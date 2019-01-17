@@ -404,6 +404,7 @@ def click_tab_in_page(context, target):
             return
     assert False, 'Cannot find tab "%s"' % target
 
+
 @step(u'I click the "{target}" button in the account page')
 def click_button_in_account_page(context, target):
     page_element = get_page_element(context, 'my-account')

@@ -5,18 +5,19 @@ Feature: Login Scenarios and Api Token
   Scenario: Create api token and test it with API call. When it is revoked, API call should fail
     Given I am logged in to mist
     When I visit the Account page
-    And I wait for 3 seconds
-    And I click the "API Tokens" tab in the Account page
-    Then I click the "Create API Token" button in the Account page
     And I wait for 2 seconds
-    And I type "Test token" in input with id "tokenName"
+    And I click the "API Tokens" tab in the Account page
+    And I click the "Create API Token" button in the Account page
+    Then I expect the "Create API Token" dialog to be open within 4 seconds
+    And I set the value "Test token" to field "Token Name" in the "Create API Token" dialog
     And I wait for 1 seconds
-    And I click the button "Never" from the ttl dropdown
+    And I open the "Expires After" dropdown in the "Create API Token" dialog
+    And I click the "Never" button in the "Expires After" dropdown in the "Create API Token" dialog
     And I wait for 1 seconds
-    And I type "PASSWORD1" in input with id "pass"
+    And I set the value "PASSWORD1" to field "Password" in the "Create API Token" dialog
     And I wait for 1 seconds
-    And I click the "Create" button with id "Create"
-    And I wait for 5 seconds
+    And I click the "Create" button in the "Create API Token" dialog
+    And I wait for 3 seconds
     And I get the new api token value "BLABLA_TOKEN"
     Then I test the api token "BLABLA_TOKEN". It should work.
     When I revoke token "Test token"
@@ -38,7 +39,6 @@ Feature: Login Scenarios and Api Token
     And I enter my standard credentials for signup_password_set
     And I click the go button in the landing page popup
     Then I wait for the navigation menu to appear
-    Then I expect for "addBtn" to be clickable within max 20 seconds
     Given "Linode" cloud has been added
 
   @change-password
