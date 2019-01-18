@@ -55,8 +55,8 @@ Feature: Schedulers
     When I visit the Schedules page
     And I click the "RenamedSchedule" "schedule"
     And I click the "Delete" action button in the "schedule" page
-    And I expect the dialog "Delete Schedule" is open within 4 seconds
-    And I click the "Delete" button in the dialog "Delete Schedule"
+    And I expect the "Delete Schedule" dialog to be open within 4 seconds
+    And I click the "Delete" button in the "Delete Schedule" dialog
     Then I expect the "Delete Schedule" dialog to be closed within 4 seconds
     And I wait for 2 seconds
     When I visit the Schedules page
@@ -69,7 +69,7 @@ Feature: Schedulers
     When I set the value "TestScheduler_2" to field "Name" in the "schedule" add form
     And I open the "Task" dropdown in the "schedule" add form
     And I wait for 1 seconds
-    And I click the button "start" in the "Task" dropdown in the "schedule" add form
+    And I click the "start" button in the "Task" dropdown in the "schedule" add form
     And I wait for 1 seconds
     And I select the "Specific Machines" radio button in the "schedule" add form
     And I wait for 1 seconds
@@ -77,7 +77,7 @@ Feature: Schedulers
     And I select the "Repeat" radio button in the "schedule" add form
     #When I set the value "2" to field "Maximum Run Count" in "schedule" add form
     And I set the value "1" to field "interval" in the "schedule" add form
-    And I click the "run_immediately" button in the "schedule" add form
+    And I click the "Run once immediately" toggle button in the "schedule" add form
     And I click the button "Add" in the "schedule" add form
     And I wait for 1 seconds
     When I visit the Home page

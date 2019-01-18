@@ -238,7 +238,7 @@ def focus_on_form_button(context, button_name, title, form_type):
 
 
 use_step_matcher("re")
-@step(u'I click the button "(?P<button_name>[A-Za-z ]+)" in the "(?P<title>[A-Za-z]+)" add form')
+@step(u'I click the button "(?P<button_name>[A-Za-z _]+)" in the "(?P<title>[A-Za-z]+)" add form')
 def click_button_in_form(context, button_name, title):
     form = get_add_form(context, title)
     form_shadow = expand_shadow_root(context, form)
