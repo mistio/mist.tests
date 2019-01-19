@@ -82,4 +82,4 @@ Scenario: Delete a rule from rules page and verify it is not visible in single m
     Then rule "if cpu < 20 for any value then destroy" should be present in the "machine" page
     When I visit the Machines page
     And I search for "rules-test-machine-random"
-    And "rules-test-machine-random" machine should be absent within 180 seconds
+    And "rules-test-machine-random" machine should be absent within 210 seconds
