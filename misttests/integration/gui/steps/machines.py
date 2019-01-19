@@ -6,7 +6,7 @@ from time import sleep
 
 from random import randrange
 
-from .utils import safe_get_element_text, get_page_element, expand_shadow_root
+from .utils import safe_get_element_text, get_page_element, expand_shadow_root, get_page
 
 from .buttons import clicketi_click
 
@@ -249,63 +249,18 @@ def fill_default_script(context):
         textfield.send_keys(letter)
 
 
-@step(u'I click the "{rule_class}" rule within "{container_id}"')
-def click_rule_dropdown(context, rule_class, container_id=None):
-    if container_id:
-        rule_element = context.browser.find_element_by_id(container_id).find_element_by_xpath('//paper-dropdown-menu[contains(@class, "%s")]' % rule_class)
-    else:
-        rule_element = context.browser.find_element_by_xpath('//paper-dropdown-menu[contains(@class, "%s")]' % rule_class)
-    clicketi_click(context, rule_element)
-
-
-@step(u'I save the rule within "{container_id}"')
-def save_rule(context, container_id=None):
-    if container_id:
-        container = context.browser.find_element_by_id(container_id)
-    else:
-        container = context.browser.find_element_by_xpath('//div[contains(@class, "rule-actions")]')
-    button = container.find_element_by_css_selector('paper-button.blue')
-    # double click needed, one after having selected team/members
-    # and one to actually save the rule
-    clicketi_click(context, button)
-    clicketi_click(context, button)
-
-
-@step(u'I remove previous rules')
-def remove_previous_rules(context):
-    try:
-        previous_rules = context.browser.find_element_by_id('apply-on-this').find_elements_by_tag_name('rule-item')
-    except:
-        previous_rules = context.browser.find_elements_by_tag_name('rule-item')
-    rule_length = len(previous_rules)
-    while rule_length > 0:
-        rule = previous_rules.pop()
-        rule_length -= 1
-        try:
-            delete_rule_button = rule.find_element_by_css_selector('paper-icon-button.delete-btn')
-        except:
-            continue
-        clicketi_click(context, delete_rule_button)
-        sleep(2)
-        try:
-            delete_rule_button.click()
-            sleep(1)
-        except:
-            continue
-        previous_rules = context.browser.find_elements_by_tag_name('rule-item')
-
-
-@step(u'rule "{rule}" should be {state}')
-def verify_rule_is_present(context, rule, state):
+@step(u'rule "{rule}" should be {state} in the "{page}" page')
+def verify_rule_is_present(context, rule, state, page):
     found = False
     state = state.lower()
     if state not in ['present', 'absent']:
         raise Exception('Unknown state %s' % state)
-    rules = context.browser.find_elements_by_tag_name('rule-item')
+    page_element = get_page(context, page)
+    page_shadow = expand_shadow_root(context, page_element)
+    rules = page_shadow.find_element_by_css_selector('mist-rules').text.replace('\n','').replace(' ','').lower()
     rule = rule.replace(" ", "").lower()
-    for existing_rule in rules:
-        if rule in existing_rule.text.replace(" ", ""):
-            found = True
+    if rule in rules:
+        found = True
     if state == 'present' and found:
         return True
     if state == 'absent' and not found:
@@ -313,24 +268,9 @@ def verify_rule_is_present(context, rule, state):
     assert False, "Rule %s was not %s in existing rules for the monitored machine" % (rule, state)
 
 
-@step(u'I wait for max {seconds} seconds for "{name}" machine from "{provider}"'
-      u' to disappear')
-def check_machine_deletion(context, name, provider, seconds):
-    if provider == "EC2":
-        context.execute_steps(u'Then %s machine state should be "terminated"'
-                              u' within %s seconds' % (name, seconds))
-    else:
-        machines_elements = context.browser.find_elements_by_css_selector('#machine-list-container li .machine-name')
-        machines_names_list = [safe_get_element_text(machine_element) for machine_element in machines_elements]
-        end_time = time() + int(seconds)
-        while time() < end_time:
-            if name not in machines_names_list:
-                break
-
-
 @step(u'"{key}" key should be associated with the machine "{machine}"')
 def check_for_associated_key(context, key, machine):
-    _, page = get_page_element(context, "machines", "machine")
+    page = get_page(context, "machine")
     page_shadow = expand_shadow_root(context, page)
     machine_keys_class = page_shadow.find_elements_by_css_selector('div.associatedKeys > div.machine-key')
     for element in machine_keys_class:

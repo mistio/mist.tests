@@ -1,6 +1,6 @@
 from behave import step, use_step_matcher
 
-from .utils import focus_on_element, get_page_element, clear_input_and_send_keys
+from .utils import focus_on_element, get_page_element, clear_input_and_send_keys, get_page
 from .utils import safe_get_element_text, expand_shadow_root, expand_slot
 
 from selenium.common.exceptions import NoSuchElementException
@@ -249,7 +249,7 @@ def click_button_in_form(context, button_name, title):
 
 @step(u'I click the button "(?P<button_name>[A-Za-z ]+)" in the "(?P<title>[A-Za-z]+)" page')
 def click_button_in_resource_page(context, button_name, title):
-    _, form = get_page_element(context, title + 's', title)
+    form = get_page(context, title)
     form_shadow = expand_shadow_root(context, form)
     button = get_button_from_form(context, form_shadow, button_name.lower())
     from .buttons import clicketi_click

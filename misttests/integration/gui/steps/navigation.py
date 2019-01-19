@@ -14,6 +14,7 @@ from .utils import safe_get_element_text, expand_shadow_root, get_page_element, 
 from selenium.common.exceptions import TimeoutException
 from selenium.common.exceptions import NoSuchElementException
 from selenium.common.exceptions import ElementNotVisibleException
+from selenium.common.exceptions import WebDriverException
 
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
@@ -159,10 +160,10 @@ def go_to_some_page_without_waiting(context, title):
         sidebar_shadow = expand_shadow_root(context, sidebar)
         button = sidebar_shadow.find_element_by_css_selector('#' + title)
         sleep(1)
-        button.click()
         try:
+            button.click()
             check_page_is_visible(context, title, 10)
-        except TimeoutException:
+        except TimeoutException, WebDriverException:
             print('Second click required!')
             sleep(5)
             clicketi_click(context, button) # Sometimes it may need a second click, not sure why

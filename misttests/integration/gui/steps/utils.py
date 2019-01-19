@@ -32,6 +32,19 @@ def give_some_input(context, input_element, text):
     actions.perform()
 
 
+def get_page(context, page):
+    mist_app = context.browser.find_element_by_tag_name('mist-app')
+    mist_app_shadow = expand_shadow_root(context, mist_app)
+    if page in ['machine', 'cloud', 'stack', 'volume', 'zone', 'key', 'image', 'script', 'template', 'tunnel', 'schedule', 'team']:
+        page_css_selector = 'iron-pages > page-%ss' % page
+        container = mist_app_shadow.find_element_by_css_selector(page_css_selector)
+        container_shadow = expand_shadow_root(context, container)
+        return container_shadow.find_element_by_css_selector(page + '-page')
+    elif page in ['machines', 'clouds', 'stacks', 'volumes', 'zones', 'keys', 'images', 'scripts', 'templates', 'tunnels', 'schedules', 'teams', 'dashboard', 'rules', 'insights']:
+        page_css_selector = 'iron-pages > page-%s' % page
+        return mist_app_shadow.find_element_by_css_selector(page_css_selector)
+
+
 def get_page_element(context, page=None, subpage=None):
     mist_app = context.browser.find_element_by_tag_name('mist-app')
     if not page:
@@ -192,9 +205,12 @@ def check_page_is_visible(context, page_title, seconds):
             timeout -= 1
             container = expand_shadow_root(context, page_element)
         selector = (By.CSS_SELECTOR, 'mist-list')
-    elif page in ['insights', 'rules']:
+    elif page in ['insights']:
         container = mist_app_shadow
         selector = (By.CSS_SELECTOR, page_css_selector)
+    elif page in ['rules']:
+        container = expand_shadow_root(context, page_element)
+        selector = (By.CSS_SELECTOR, 'mist-rules')
     msg = "%s page is not visible after %s seconds" % (page, seconds)
     wait_for_element_in_container_to_be_visible(container, selector,
         int(seconds), msg)

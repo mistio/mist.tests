@@ -5,9 +5,10 @@ from time import sleep
 
 from .machines import comparisons
 
-from .utils import safe_get_element_text, get_page_element, expand_shadow_root, scroll_into_view
+from .utils import safe_get_element_text, get_page_element, expand_shadow_root, scroll_into_view, get_page
 
 from .buttons import clicketi_click
+from .forms import get_button_from_form
 
 from selenium.webdriver.common.by import By
 
@@ -23,10 +24,7 @@ import re
 
 @step(u'I wait for the monitoring graphs to appear in the "{page}" page')
 def wait_graphs_to_appear(context, page):
-    if page in ['machine']:
-        _, page_element = get_page_element(context, page + 's', page)
-    else:
-        page_element = get_page_element(context, page)
+    page_element = get_page(context, page)
     page_shadow = expand_shadow_root(context, page_element)
     mist_monitoring = page_shadow.find_element_by_css_selector('mist-monitoring')
     mist_monitoring_shadow = expand_shadow_root(context, mist_monitoring)
@@ -68,10 +66,7 @@ def check_if_graph_is_visible(context, graph_id, timeout, seconds):
 
 @step(u'{graph_count} graphs should be visible within max {timeout} seconds in the "{page}" page')
 def wait_for_all_graphs_to_appear(context, graph_count, timeout, page):
-    if page in ['machine']:
-        _, page_element = get_page_element(context, page + 's', page)
-    else:
-        page_element = get_page_element(context, page)
+    page_element = get_page(context, page)
     page_shadow = expand_shadow_root(context, page_element)
     mist_monitoring = page_shadow.find_element_by_css_selector('mist-monitoring')
     mist_monitoring_shadow = expand_shadow_root(context, mist_monitoring)
@@ -91,7 +86,6 @@ def wait_for_all_graphs_to_appear(context, graph_count, timeout, page):
         except NoSuchElementException, StaleElementReferenceException:
             sleep(1)
     assert False, "%d graphs appeared after %s seconds" % (len(dashboard_panels), timeout)
-
 
 
 @step(u'I expect the metric buttons to appear within {seconds} seconds')
@@ -116,10 +110,7 @@ def wait_for_graph_to_appear(context, graph_title, page, timeout):
 
 def get_graph_panel(context, graph_title, page, timeout):
     graph_title = graph_title.lower()
-    if page == 'dashboard':
-        page_element = get_page_element(context, 'dashboard')
-    else:
-        _, page_element = get_page_element(context, page + 's', page)
+    page_element = get_page(context, page)
     page_shadow = expand_shadow_root(context, page_element)
     mist_monitoring = page_shadow.find_element_by_css_selector('mist-monitoring')
     mist_monitoring_shadow = expand_shadow_root(context, mist_monitoring)
@@ -200,13 +191,92 @@ def select_metric_from_dialog(context,metric,dialog):
     option_to_click = dialog_element.find_element_by_id(metric)
     clicketi_click(context,option_to_click)
 
+
 @step(u'I click the disable monitoring button for the "{resource_type}"')
 def disable_resource_monitoring(context, resource_type):
-    _, page = get_page_element(context, resource_type + 's', resource_type)
-    page_shadow = expand_shadow_root(context, page)
+    page_element = get_page(context, resource_type)
+    page_shadow = expand_shadow_root(context, page_element)
     mist_monitoring = page_shadow.find_element_by_css_selector('mist-monitoring')
     mist_monitoring_shadow = expand_shadow_root(context, mist_monitoring)
     menu_button = mist_monitoring_shadow.find_element_by_css_selector('paper-menu-button')
     menu_button.click()
     sleep(1)
     menu_button.find_element_by_css_selector('paper-button').click()
+
+
+@step(u'I select the "{option}" {dropdown} when adding new rule in the "{resource_type}" page')
+def select_option_when_adding_rule(context, option, dropdown, resource_type):
+    page_element = get_page(context, resource_type)
+    page_shadow = expand_shadow_root(context, page_element)
+    mist_rules = page_shadow.find_element_by_css_selector('mist-rules')
+    mist_rules_shadow = expand_shadow_root(context, mist_rules)
+    new_rule = mist_rules_shadow.find_element_by_css_selector('paper-material#add-new-rule-dialog > rule-edit')
+    new_rule_shadow = expand_shadow_root(context, new_rule)
+    if dropdown in ['team']:
+        menu = new_rule_shadow.find_element_by_css_selector('mist-dropdown-multi#teams')
+        menu_shadow = expand_shadow_root(context, menu)
+        menu = menu_shadow.find_element_by_css_selector('paper-dropdown-menu')
+        selector = 'paper-checkbox:not([hidden])'
+    elif dropdown in ['user']:
+        menu = new_rule_shadow.find_element_by_css_selector('mist-dropdown-multi#members')
+        menu_shadow = expand_shadow_root(context, menu)
+        menu = menu_shadow.find_element_by_css_selector('paper-dropdown-menu')
+        selector = 'paper-checkbox:not([hidden])'
+    else:
+        menu = new_rule_shadow.find_element_by_css_selector('paper-dropdown-menu.%s' % dropdown)
+        selector = 'paper-item:not([hidden])'
+    if menu.find_element_by_css_selector('.dropdown-content').get_attribute('aria-expanded') != 'true':
+        clicketi_click(context, menu)
+        sleep(.5)
+    item = get_button_from_form(context, menu, option, selector)
+    clicketi_click(context, item)
+    sleep(.5)
+    if menu.find_element_by_css_selector('.dropdown-content').get_attribute('aria-expanded') == 'true':
+        # If the menu is still open, close it without losing the selected value.
+        if 'checkbox' in selector:
+            clicketi_click(context, menu)
+        else:
+            clicketi_click(context, item)
+        sleep(.5)
+
+
+@step(u'I type "{value}" in the {input_class} when adding new rule in the "{page}" page')
+def set_new_rule_threshold(context, value, page, input_class):
+    page_element = get_page(context, page)
+    page_shadow = expand_shadow_root(context, page_element)
+    mist_rules = page_shadow.find_element_by_css_selector('mist-rules')
+    mist_rules_shadow = expand_shadow_root(context, mist_rules)
+    new_rule = mist_rules_shadow.find_element_by_css_selector('paper-material#add-new-rule-dialog > rule-edit')
+    new_rule_shadow = expand_shadow_root(context, new_rule)
+    new_rule_shadow.find_element_by_css_selector('paper-input.%s' % input_class).send_keys(value)
+
+
+@step(u'I save the new rule in the "{page}" page')
+def save_new_rule(context, page):
+    page_element = get_page(context, page)
+    page_shadow = expand_shadow_root(context, page_element)
+    mist_rules = page_shadow.find_element_by_css_selector('mist-rules')
+    mist_rules_shadow = expand_shadow_root(context, mist_rules)
+    new_rule = mist_rules_shadow.find_element_by_css_selector('paper-material#add-new-rule-dialog > rule-edit')
+    new_rule_shadow = expand_shadow_root(context, new_rule)
+    get_button_from_form(context, new_rule_shadow, 'save rule').click()
+
+
+@step(u'I remove previous rules in the "{page}" page')
+def remove_previous_rules(context, page):
+    page_element = get_page(context, page)
+    page_shadow = expand_shadow_root(context, page_element)
+    mist_rules = page_shadow.find_element_by_css_selector('mist-rules')
+    mist_rules_shadow = expand_shadow_root(context, mist_rules)
+    items = mist_rules_shadow.find_elements_by_css_selector('rule-item')
+    while items:
+        item = items.pop()
+        item_shadow = expand_shadow_root(context, item)
+        try:
+            delete_button = item_shadow.find_element_by_css_selector('paper-icon-button.delete-btn:not([hidden]):not([disabled])')
+            clicketi_click(context, delete_button)
+            sleep(1)
+            items = mist_rules_shadow.find_elements_by_css_selector('rule-item')
+        except:
+            continue
+

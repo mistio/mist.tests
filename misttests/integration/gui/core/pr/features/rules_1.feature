@@ -22,15 +22,13 @@ Feature: Rules
   Scenario: Insert rule that will be triggered immediately
     When I click the button "add new rule" in the "machine" page
     And I wait for 1 seconds
-    And I click the "RAM" button in the dropdown with id "target-0" within "add-new-rule-dialog"
-    And I click the ">" button in the dropdown with id "operator-0" within "add-new-rule-dialog"
-    And I type "0" in input with id "threshold-0" within "add-new-rule-dialog"
-    And I click the "actionsDropdown" button with id "actionsDropdown" within "add-new-rule-dialog"
-    And I click the "alert" button in the dropdown with id "actionsDropdown" within "add-new-rule-dialog"
-    And I open the "teams" mist-dropdown within "add-new-rule-dialog"
-    And I select "Owners" in "teams" mist-dropdown within "add-new-rule-dialog"
+    And I select the "RAM" target when adding new rule in the "machine" page
+    And I select the ">" operator when adding new rule in the "machine" page
+    And I type "0" in the threshold when adding new rule in the "machine" page
+    And I select the "alert" action when adding new rule in the "machine" page
+    And I select the "Owners" team when adding new rule in the "machine" page
     And I wait for 2 seconds
-    And I save the rule within "add-new-rule-dialog"
+    And I save the new rule in the "machine" page
 
   @incidents
   Scenario: Verify that incident gets triggered
@@ -46,19 +44,17 @@ Feature: Rules
     When I visit the Machines page
     And I search for "rules-test-machine-random"
     And I click the "rules-test-machine-random" "machine"
-    And I expect the "machine" edit form to be visible within max 5 seconds
-    Then I wait for the graphs to appear
-    When I scroll to the element with id "add-new-rule-dialog"
-    And I remove previous rules
-    And I click the button "add new rule"
+    And I expect the "machine" page to be visible within max 5 seconds
+    Then I wait for the monitoring graphs to appear in the "machine" page
+    When I remove previous rules in the "machine" page
+    And I click the button "add new rule" in the "machine" page
     And I wait for 1 seconds
-    And I click the "Load" button in the dropdown with id "target-0" within "add-new-rule-dialog"
-    And I click the "<" button in the dropdown with id "operator-0" within "add-new-rule-dialog"
-    And I type "10" in input with id "threshold-0" within "add-new-rule-dialog"
-    And I click the "actionsDropdown" button with id "actionsDropdown" within "add-new-rule-dialog"
-    And I click the "destroy" button in the dropdown with id "actionsDropdown" within "add-new-rule-dialog"
+    And I select the "Load" target when adding new rule in the "machine" page
+    And I select the "<" operator when adding new rule in the "machine" page
+    And I type "10" in the threshold when adding new rule in the "machine" page
+    And I select the "destroy" action when adding new rule in the "machine" page
     And I wait for 2 seconds
-    Then I save the rule within "add-new-rule-dialog"
+    And I save the new rule in the "machine" page
     When I visit the Machines page
     And I search for "rules-test-machine-random"
     Then "rules-test-machine-random" machine state has to be "running" within 30 seconds
