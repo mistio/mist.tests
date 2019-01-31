@@ -17,9 +17,10 @@ def search_for_something(context, search_text):
     mist_filter = top_search_shadow.find_element_by_css_selector('mist-filter')
     mist_filter_shadow = expand_shadow_root(context, mist_filter)
     search_field = mist_filter_shadow.find_element_by_css_selector('paper-input#searchInput')
-    mist_filter_shadow.find_element_by_css_selector('iron-icon').click()
     if context.mist_config.get(search_text):
         search_text = context.mist_config.get(search_text)
+    mist_filter_shadow.find_element_by_css_selector('iron-icon').click()
+    sleep(.5)
     clear_input_and_send_keys(search_field, search_text)
     sleep(1)
 
