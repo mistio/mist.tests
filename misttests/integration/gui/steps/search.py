@@ -36,7 +36,7 @@ def clear_search(context):
     mist_filter_shadow = expand_shadow_root(context, mist_filter)
     mist_filter_shadow.find_element_by_css_selector('iron-icon').click()
     clear_icons = mist_filter_shadow.find_elements_by_css_selector(
-        'iron-icon[paper-icon-button="close"]')
+        'paper-icon-button[icon="close"]')
     clear_icons = filter(lambda el: el.is_displayed(), clear_icons)
     assert len(clear_icons) > 0, "No clear icon found"
     clicketi_click(context, clear_icons[0])
