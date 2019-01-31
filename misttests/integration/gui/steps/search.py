@@ -21,8 +21,8 @@ def search_for_something(context, search_text):
         search_text = context.mist_config.get(search_text)
     mist_filter_shadow.find_element_by_css_selector('iron-icon').click()
     sleep(.5)
-    clear_input_and_send_keys(search_field, search_text)
-    sleep(1)
+    search_field.send_keys(search_text)
+    sleep(.5)
 
 
 @step(u'I clear the search bar')
