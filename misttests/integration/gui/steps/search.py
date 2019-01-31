@@ -19,7 +19,7 @@ def search_for_something(context, search_text):
     search_field = mist_filter_shadow.find_element_by_css_selector('paper-input#searchInput')
     if context.mist_config.get(search_text):
         search_text = context.mist_config.get(search_text)
-    mist_filter_shadow.find_element_by_css_selector('iron-icon').click()
+    mist_filter_shadow.find_element_by_css_selector('iron-icon[icon="search"]').click()
     sleep(.5)
     search_field.send_keys(search_text)
     sleep(.5)
