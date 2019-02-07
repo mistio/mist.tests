@@ -20,15 +20,12 @@ def search_for_something(context, search_text):
     search_field = mist_filter_shadow.find_element_by_css_selector('paper-input#searchInput')
     if context.mist_config.get(search_text):
         search_text = context.mist_config.get(search_text)
-    mist_filter_shadow.find_element_by_css_selector('iron-icon[icon="search"]').click()
-    sleep(.5)
+    top_search.click()
     search_field.send_keys(search_text)
-    sleep(.5)
 
 
 @step(u'I clear the search bar')
 def clear_search(context):
-    sleep(.5)
     mist_app = context.browser.find_element_by_tag_name('mist-app')
     mist_app_shadow = expand_shadow_root(context, mist_app)
     mist_header = mist_app_shadow.find_element_by_css_selector('mist-header')
@@ -37,8 +34,7 @@ def clear_search(context):
     top_search_shadow = expand_shadow_root(context, top_search)
     mist_filter = top_search_shadow.find_element_by_css_selector('mist-filter')
     mist_filter_shadow = expand_shadow_root(context, mist_filter)
-    mist_filter_shadow.find_element_by_css_selector('iron-icon').click()
-    sleep(.5)
+    top_search.click()
     clear_icons = mist_filter_shadow.find_elements_by_css_selector(
         'paper-icon-button[icon="close"]')
     clear_icons = filter(lambda el: el.is_displayed(), clear_icons)
