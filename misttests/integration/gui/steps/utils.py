@@ -266,15 +266,17 @@ def add_credit_card_if_needed(context, form_shadow):
         if card_form.is_displayed():
             card_form_shadow = expand_shadow_root(context, card_form)
             cc = card_form_shadow.find_element_by_css_selector('#cc')
-            cc.send_keys(context.mist_config['CC_CC'])
-            clear_input_and_send_keys(card_form_shadow.find_element_by_css_selector('#cvc'),
-                                    context.mist_config['CC_CVC'])
-            clear_input_and_send_keys(card_form_shadow.find_element_by_css_selector('#expirationMonth'),
-                                    context.mist_config['CC_EXPIRE_MONTH'])
-            clear_input_and_send_keys(card_form_shadow.find_element_by_css_selector('#expirationYear'),
-                                    context.mist_config['CC_EXPIRE_YEAR'])
-            clear_input_and_send_keys(card_form_shadow.find_element_by_css_selector('#zipCode'),
-                                    context.mist_config['CC_ZIP_CODE'])
+            cc_shadow = expand_shadow_root(context, cc)
+            cc_shadow.find_element_by_css_selector('input').send_keys(context.mist_config['CC_CC'])
+
+            cvc = expand_shadow_root(context, card_form_shadow.find_element_by_css_selector('#cvc')).find_element_by_css_selector('input')
+            clear_input_and_send_keys(cvc, context.mist_config['CC_CVC'])
+            exp_month = expand_shadow_root(context, card_form_shadow.find_element_by_css_selector('#expirationMonth')).find_element_by_css_selector('input')
+            clear_input_and_send_keys(exp_month, context.mist_config['CC_EXPIRE_MONTH'])
+            exp_year = expand_shadow_root(context, card_form_shadow.find_element_by_css_selector('#expirationYear')).find_element_by_css_selector('input')
+            clear_input_and_send_keys(exp_year, context.mist_config['CC_EXPIRE_YEAR'])
+            zip_code = expand_shadow_root(context, card_form_shadow.find_element_by_css_selector('#zipCode')).find_element_by_css_selector('input')
+            clear_input_and_send_keys(zip_code, context.mist_config['CC_ZIP_CODE'])
             for button in dialog_shadow.find_elements_by_css_selector('paper-button:not([hidden])'):
                 if button.text.lower() == 'enable':
                     from .buttons import clicketi_click
