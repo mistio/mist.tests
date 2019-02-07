@@ -35,7 +35,7 @@ def wait_graphs_to_appear(context, page):
             polyana_dashboard_shadow = expand_shadow_root(context, polyana_dashboard)
             WebDriverWait(polyana_dashboard_shadow, 120).until(
                 EC.presence_of_element_located(
-                    (By.CSS_SELECTOR, "dashboard-row")))
+                    (By.CSS_SELECTOR, "dashboard-panel")))
             return
         except NoSuchElementException:
             sleep(1)
@@ -73,14 +73,9 @@ def wait_for_all_graphs_to_appear(context, graph_count, timeout, page):
     timeout = time() + 30
     while time() < timeout:
         try:
-            dashboard_panels = []
             polyana_dashboard = mist_monitoring_shadow.find_element_by_css_selector('polyana-dashboard')
             polyana_dashboard_shadow = expand_shadow_root(context, polyana_dashboard)
-            dashboard_rows = polyana_dashboard_shadow.find_elements_by_css_selector('dashboard-row:not([hidden])')
-            for row in dashboard_rows:
-                scroll_into_view(context, row)
-                row_shadow = expand_shadow_root(context, row)
-                dashboard_panels += row_shadow.find_elements_by_css_selector('dashboard-panel:not([hidden])')
+            dashboard_panels = polyana_dashboard_shadow.find_elements_by_css_selector('dashboard-panel:not([hidden])')
             if len(dashboard_panels) == int(graph_count):
                 return
         except NoSuchElementException, StaleElementReferenceException:
@@ -119,14 +114,10 @@ def get_graph_panel(context, graph_title, page, timeout):
     timeout = time() + int(timeout)
     while time() < timeout:
         try:
-            dashboard_rows = polyana_dashboard_shadow.find_elements_by_css_selector('dashboard-row:not([hidden])')
-            dashboard_panels = []
-            for row in dashboard_rows:
-                row_shadow = expand_shadow_root(context, row)
-                dashboard_panels += row_shadow.find_elements_by_css_selector('dashboard-panel:not([hidden])')
+            dashboard_panels = polyana_dashboard_shadow.find_elements_by_css_selector('dashboard-panel:not([hidden])')
             for panel in dashboard_panels:
                 panel_shadow = expand_shadow_root(context, panel)
-                panel_title = panel_shadow.find_element_by_css_selector('h3').text
+                panel_title = panel_shadow.find_element_by_css_selector('div.title').text
                 if graph_title in panel_title.lower():
                     return panel
         except NoSuchElementException, StaleElementReferenceException:

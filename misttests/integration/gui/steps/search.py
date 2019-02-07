@@ -20,8 +20,13 @@ def search_for_something(context, search_text):
     search_field = mist_filter_shadow.find_element_by_css_selector('paper-input#searchInput')
     if context.mist_config.get(search_text):
         search_text = context.mist_config.get(search_text)
-    top_search.click()
+    clicketi_click(context, top_search)
+    if not context.browser.execute_script('return arguments[0].focused', search_field):
+        top_search.click()
     search_field.send_keys(search_text)
+    if search_text not in search_field.get_attribute('value'):
+        top_search.click()
+        search_field.send_keys(search_text)
 
 
 @step(u'I clear the search bar')
@@ -34,7 +39,7 @@ def clear_search(context):
     top_search_shadow = expand_shadow_root(context, top_search)
     mist_filter = top_search_shadow.find_element_by_css_selector('mist-filter')
     mist_filter_shadow = expand_shadow_root(context, mist_filter)
-    top_search.click()
+    clicketi_click(context, top_search)
     clear_icons = mist_filter_shadow.find_elements_by_css_selector(
         'paper-icon-button[icon="close"]')
     clear_icons = filter(lambda el: el.is_displayed(), clear_icons)
