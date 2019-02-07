@@ -21,9 +21,12 @@ def search_for_something(context, search_text):
     if context.mist_config.get(search_text):
         search_text = context.mist_config.get(search_text)
     clicketi_click(context, top_search)
+    sleep(.5)
     if not context.browser.execute_script('return arguments[0].focused', search_field):
         top_search.click()
+        sleep(.5)
     search_field.send_keys(search_text)
+    sleep(.5)
     if search_text not in search_field.get_attribute('value'):
         top_search.click()
         search_field.send_keys(search_text)

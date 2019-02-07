@@ -192,7 +192,7 @@ def disable_resource_monitoring(context, resource_type):
     menu_button = mist_monitoring_shadow.find_element_by_css_selector('paper-menu-button')
     menu_button.click()
     sleep(1)
-    menu_button.find_element_by_css_selector('paper-button').click()
+    menu_button.find_element_by_css_selector('paper-button#disable').click()
 
 
 @step(u'I select the "{option}" {dropdown} when adding new rule in the "{resource_type}" page')

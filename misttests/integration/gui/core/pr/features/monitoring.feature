@@ -66,6 +66,7 @@ Feature: Monitoring
   @disable-monitoring
   Scenario: Disable monitoring
     When I visit the Machines page
+    And I clear the search bar
     And I search for "monitored-machine-random"
     And I wait for 2 seconds
     And I click the "monitored-machine-random" "machine"
