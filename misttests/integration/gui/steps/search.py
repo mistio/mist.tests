@@ -25,11 +25,13 @@ def search_for_something(context, search_text):
     if not context.browser.execute_script('return arguments[0].focused', search_field):
         top_search.click()
         sleep(.5)
+    assert context.browser.execute_script('return arguments[0].focused', search_field), "Search field not focused after 2 clicks"
     search_field.send_keys(search_text)
     sleep(.5)
     if search_text not in search_field.get_attribute('value'):
         top_search.click()
-        search_field.send_keys(search_text)
+        expand_shadow_root(context, search_field).find_element_by_css_selector('input').send_keys(search_text)
+    assert search_text in search_field.get_attribute('value'), "Cannot set search term"
 
 
 @step(u'I clear the search bar')
