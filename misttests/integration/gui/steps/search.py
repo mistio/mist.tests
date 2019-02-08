@@ -1,9 +1,13 @@
+import logging
+
 from time import sleep
 from behave import step
 
 from .forms import clear_input_and_send_keys
 from .buttons import clicketi_click
 from .utils import expand_shadow_root
+
+log = logging.getLogger(__name__)
 
 
 @step(u'I search for "{search_text}"')
@@ -20,17 +24,27 @@ def search_for_something(context, search_text):
     search_field = mist_filter_shadow.find_element_by_css_selector('paper-input#searchInput')
     if context.mist_config.get(search_text):
         search_text = context.mist_config.get(search_text)
+    focused = context.browser.execute_script('return arguments[0].focused', search_field)
+    logging.info('Search field focused before: ', focused)
     clicketi_click(context, top_search)
     sleep(.5)
-    if not context.browser.execute_script('return arguments[0].focused', search_field):
+    if not focused:
         top_search.click()
         sleep(.5)
+        focused = context.browser.execute_script('return arguments[0].focused', search_field)
+        logging.info('Search field focused after: ', focused)
     assert context.browser.execute_script('return arguments[0].focused', search_field), "Search field not focused after 2 clicks"
+    search_value = search_field.get_attribute('value')
+    logging.info('Search field value before: ', search_value)
     search_field.send_keys(search_text)
     sleep(.5)
-    if search_text not in search_field.get_attribute('value'):
-        top_search.click()
+    search_value = search_field.get_attribute('value')
+    logging.info('Search field value after: ', search_value)
+    if search_text not in search_value:
         expand_shadow_root(context, search_field).find_element_by_css_selector('input').send_keys(search_text)
+        sleep(.5)
+        search_value = expand_shadow_root(context, search_field).find_element_by_css_selector('input')
+        logging.info('Search field value after2: ', search_value, search_field.get_attribute('value'))
     assert search_text in search_field.get_attribute('value'), "Cannot set search term"
 
 
