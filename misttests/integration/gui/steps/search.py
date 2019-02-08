@@ -25,26 +25,26 @@ def search_for_something(context, search_text):
     if context.mist_config.get(search_text):
         search_text = context.mist_config.get(search_text)
     focused = context.browser.execute_script('return arguments[0].focused', search_field)
-    logging.info('Search field focused before: ', focused)
+    log.info('Search field focused before: ', focused)
     clicketi_click(context, top_search)
     sleep(.5)
     if not focused:
         top_search.click()
         sleep(.5)
         focused = context.browser.execute_script('return arguments[0].focused', search_field)
-        logging.info('Search field focused after: ', focused)
+        log.info('Search field focused after: ', focused)
     assert context.browser.execute_script('return arguments[0].focused', search_field), "Search field not focused after 2 clicks"
     search_value = search_field.get_attribute('value')
-    logging.info('Search field value before: ', search_value)
+    log.info('Search field value before: ', search_value)
     search_field.send_keys(search_text)
     sleep(.5)
     search_value = search_field.get_attribute('value')
-    logging.info('Search field value after: ', search_value)
+    log.info('Search field value after: ', search_value)
     if search_text not in search_value:
         expand_shadow_root(context, search_field).find_element_by_css_selector('input').send_keys(search_text)
         sleep(.5)
         search_value = expand_shadow_root(context, search_field).find_element_by_css_selector('input')
-        logging.info('Search field value after2: ', search_value, search_field.get_attribute('value'))
+        log.info('Search field value after2: ', search_value, search_field.get_attribute('value'))
     assert search_text in search_field.get_attribute('value'), "Cannot set search term"
 
 
