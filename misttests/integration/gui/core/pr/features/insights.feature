@@ -39,6 +39,7 @@ Feature: Actions for Insights
     And I click the "Save" button in the "Tags" dialog
     Then I expect the "Tags" dialog to be closed within 4 seconds
     When I visit the Machines page
+    And I clear the search bar
     And I wait for 2 seconds
     And I search for "unknown"
     And I click the "Docker" "machine"

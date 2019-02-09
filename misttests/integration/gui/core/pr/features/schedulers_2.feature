@@ -14,6 +14,7 @@ Feature: Schedulers-b
     And I search for "test-ui-machine-random"
     Then "test-ui-machine-random" machine state has to be "running" within 60 seconds
     When I clear the search bar
+    And I wait for 2 seconds
     And I search for "test-ui-machine-2-random"
     Then "test-ui-machine-2-random" machine state has to be "running" within 10 seconds
     When I click the "test-ui-machine-2-random" "machine"

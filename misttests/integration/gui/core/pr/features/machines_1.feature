@@ -105,6 +105,7 @@ Feature: Machines
     Then I expect the "Stop Machine" dialog to be open within 4 seconds
     When I click the "Stop" button in the "Stop Machine" dialog
     And I visit the Machines page
+    And I clear the search bar
     And I wait for 2 seconds
     And I search for "ui-test-create-machine-random"
     Then "ui-test-create-machine-random" machine state has to be "stopped" within 60 seconds
@@ -114,12 +115,15 @@ Feature: Machines
     When I visit the Home page
     And I wait for the navigation menu to appear
     And I visit the Machines page after the counter has loaded
+    And I clear the search bar
+    And I wait for 1 seconds
     Then I search for "ui-test-create-machine-random"
     And I wait for 1 seconds
     When I click the "ui-test-create-machine-random" "machine"
     And I clear the search bar
+    And I wait for 1 seconds
     And I expect the "machine" page to be visible within max 5 seconds
-    And I wait for 2 seconds
+    And I wait for 1 seconds
     Then I click the "Destroy" action button in the "machine" page
     And I expect the "Destroy Machine" dialog to be open within 4 seconds
     And I click the "Destroy" button in the "Destroy Machine" dialog
