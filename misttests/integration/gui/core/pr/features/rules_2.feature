@@ -32,6 +32,8 @@ Feature: Rules
     And I wait for 1 seconds
     And I save the new rule in the "rules" page
     And I visit the Machines page
+    And I clear the search bar
+    And I wait for 1 seconds
     And I search for "rules-test-machine-random"
     And I click the "rules-test-machine-random" "machine"
     And I scroll to the bottom of the page
@@ -45,6 +47,8 @@ Scenario: Delete a rule from rules page and verify it is not visible in single m
     When I remove previous rules in the "rules" page
     And I wait for 2 seconds
     And I visit the Machines page
+    And I clear the search bar
+    And I wait for 1 seconds
     And I search for "rules-test-machine-random"
     And I click the "rules-test-machine-random" "machine"
     Then rule "if load < 10 for any value then alert team Owners" should be absent in the "machine" page
@@ -53,6 +57,8 @@ Scenario: Delete a rule from rules page and verify it is not visible in single m
  Scenario: Add rule from rules section that applies on tagged machine. Verify it is visible in single machine page and it works
     Given I am logged in to mist
     When I visit the Machines page
+    And I clear the search bar
+    And I wait for 1 seconds
     And I search for "rules-test-machine-random"
     And I click the "rules-test-machine-random" "machine"
     Then I expect the "machine" page to be visible within max 5 seconds
@@ -63,6 +69,8 @@ Scenario: Delete a rule from rules page and verify it is not visible in single m
     And I click the "Save" button in the "Tags" dialog
     Then I expect the "Tags" dialog to be closed within 4 seconds
     When I visit the Machines page
+    And I clear the search bar
+    And I wait for 1 seconds
     And I search for "rules-test-machine-random"
     And I click the "rules-test-machine-random" "machine"
     Then I ensure that the "machine" has the tags "test:awesome" within 20 seconds
@@ -78,8 +86,12 @@ Scenario: Delete a rule from rules page and verify it is not visible in single m
     And I save the new rule in the "rules" page
     When I visit the Machines page
     And I search for "rules-test-machine-random"
+    And I clear the search bar
+    And I wait for 1 seconds
     And I click the "rules-test-machine-random" "machine"
     Then rule "if cpu < 20 for any value then destroy" should be present in the "machine" page
     When I visit the Machines page
     And I search for "rules-test-machine-random"
+    And I clear the search bar
+    And I wait for 1 seconds
     And "rules-test-machine-random" machine should be absent within 210 seconds

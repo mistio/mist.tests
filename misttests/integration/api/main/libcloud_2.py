@@ -104,11 +104,11 @@ class TestLibcloudFunctionality:
 #        assert len(response.json()) > 0, "List Openstack sizes did not return any sizes"
 #        print "Success!!!"
 
-    def test_list_sizes_nephoscale(self, pretty_print, mist_core, cache, owner_api_token):
-        response = mist_core.list_sizes(cloud_id=cache.get('nephoscale_cloud_id', ''), api_token=owner_api_token).get()
-        assert_response_ok(response)
-        assert len(response.json()) > 0, "List Nephoscale sizes did not return any sizes"
-        print "Success!!!"
+#     def test_list_sizes_nephoscale(self, pretty_print, mist_core, cache, owner_api_token):
+#         response = mist_core.list_sizes(cloud_id=cache.get('nephoscale_cloud_id', ''), api_token=owner_api_token).get()
+#         assert_response_ok(response)
+#         assert len(response.json()) > 0, "List Nephoscale sizes did not return any sizes"
+#         print "Success!!!"
 
 #    def test_list_sizes_vultr(self, pretty_print, mist_core, cache, owner_api_token):
 #        response = mist_core.list_sizes(cloud_id=cache.get('vultr_cloud_id', ''), api_token=owner_api_token).get()
@@ -140,11 +140,11 @@ class TestLibcloudFunctionality:
 #        assert len(response.json()) > 0, "List Openstack locations did not return any locations"
 #        print "Success!!!"
 
-    def test_list_locations_nephoscale(self, pretty_print, mist_core, cache, owner_api_token):
-        response = mist_core.list_sizes(cloud_id=cache.get('nephoscale_cloud_id', ''), api_token=owner_api_token).get()
-        assert_response_ok(response)
-        assert len(response.json()) > 0, "List Nephoscale locations did not return any locations"
-        print "Success!!!"
+#     def test_list_locations_nephoscale(self, pretty_print, mist_core, cache, owner_api_token):
+#         response = mist_core.list_sizes(cloud_id=cache.get('nephoscale_cloud_id', ''), api_token=owner_api_token).get()
+#         assert_response_ok(response)
+#         assert len(response.json()) > 0, "List Nephoscale locations did not return any locations"
+#         print "Success!!!"
 
 #    def test_list_locations_vultr(self, pretty_print, mist_core, cache, owner_api_token):
 #        response = mist_core.list_locations(cloud_id=cache.get('vultr_cloud_id', ''), api_token=owner_api_token).get()
@@ -176,11 +176,11 @@ class TestLibcloudFunctionality:
 #        assert len(response.json()) > 0, "List Openstack images did not return any images"
 #        print "Success!!!"
 
-    def test_list_images_nephoscale(self, pretty_print, mist_core, cache, owner_api_token):
-        response = mist_core.list_images(cloud_id=cache.get('nephoscale_cloud_id', ''), api_token=owner_api_token).get()
-        assert_response_ok(response)
-        assert len(response.json()) > 0, "List Nephoscale images did not return any images"
-        print "Success!!!"
+#     def test_list_images_nephoscale(self, pretty_print, mist_core, cache, owner_api_token):
+#         response = mist_core.list_images(cloud_id=cache.get('nephoscale_cloud_id', ''), api_token=owner_api_token).get()
+#         assert_response_ok(response)
+#         assert len(response.json()) > 0, "List Nephoscale images did not return any images"
+#         print "Success!!!"
 
 #    def test_list_images_vultr(self, pretty_print, mist_core, cache, owner_api_token):
 #        response = mist_core.list_images(cloud_id=cache.get('vultr_cloud_id', ''), api_token=owner_api_token).get()

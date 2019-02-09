@@ -42,6 +42,8 @@ Feature: Rules
   @alert-destroy-machine
   Scenario: Insert rule that will kill the container
     When I visit the Machines page
+    And I clear the search bar
+    And I wait for 1 seconds
     And I search for "rules-test-machine-random"
     And I click the "rules-test-machine-random" "machine"
     And I expect the "machine" page to be visible within max 5 seconds
@@ -56,6 +58,8 @@ Feature: Rules
     And I wait for 2 seconds
     And I save the new rule in the "machine" page
     When I visit the Machines page
+    And I clear the search bar
+    And I wait for 1 seconds
     And I search for "rules-test-machine-random"
     Then "rules-test-machine-random" machine state has to be "running" within 30 seconds
     And "rules-test-machine-random" machine should be absent within 180 seconds
