@@ -16,7 +16,7 @@ Feature: Rules
     And I click the button "Enable Monitoring" in the "machine" page
     And I wait for 5 seconds
     Then I wait for the monitoring graphs to appear in the "machine" page
-    And 9 graphs should be visible within max 30 seconds in the "machine" page
+    And 5 graphs should be visible within max 30 seconds in the "machine" page
 
   @alert-email
   Scenario: Insert rule that will be triggered immediately

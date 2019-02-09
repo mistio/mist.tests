@@ -28,12 +28,12 @@ def wait_graphs_to_appear(context, page):
     page_shadow = expand_shadow_root(context, page_element)
     mist_monitoring = page_shadow.find_element_by_css_selector('mist-monitoring')
     mist_monitoring_shadow = expand_shadow_root(context, mist_monitoring)
-    timeout = time() + 30
+    timeout = time() + 60
     while time() < timeout:
         try:
             polyana_dashboard = mist_monitoring_shadow.find_element_by_css_selector('polyana-dashboard')
             polyana_dashboard_shadow = expand_shadow_root(context, polyana_dashboard)
-            WebDriverWait(polyana_dashboard_shadow, 120).until(
+            WebDriverWait(polyana_dashboard_shadow, 90).until(
                 EC.presence_of_element_located(
                     (By.CSS_SELECTOR, "dashboard-panel")))
             return
@@ -117,7 +117,7 @@ def get_graph_panel(context, graph_title, page, timeout):
             dashboard_panels = polyana_dashboard_shadow.find_elements_by_css_selector('dashboard-panel:not([hidden])')
             for panel in dashboard_panels:
                 panel_shadow = expand_shadow_root(context, panel)
-                panel_title = panel_shadow.find_element_by_css_selector('div.title').text
+                panel_title = safe_get_element_text(panel_shadow.find_element_by_css_selector('div.title'))
                 if graph_title in panel_title.lower():
                     return panel
         except NoSuchElementException, StaleElementReferenceException:

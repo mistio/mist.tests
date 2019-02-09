@@ -16,7 +16,7 @@ Feature: Rules
     And I click the button "Enable Monitoring" in the "machine" page
     And I wait for 5 seconds
     Then I wait for the monitoring graphs to appear in the "machine" page
-    And 9 graphs should be visible within max 30 seconds in the "machine" page
+    And 5 graphs should be visible within max 30 seconds in the "machine" page
 
   @add-rule-apply-to-every-machine
   Scenario: Add rule from rules section that applies on all machines. Verify it is visible in single machine page and it works
