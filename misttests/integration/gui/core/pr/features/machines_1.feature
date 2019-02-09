@@ -68,6 +68,7 @@ Feature: Machines
    @machine-run-script
    Scenario: Run script to machine created above
     When I visit the machines page
+    And I clear the search bar
     And I wait for 2 seconds
     And I search for "ui-test-create-machine-random"
     When I click the "ui-test-create-machine-random" "machine"
