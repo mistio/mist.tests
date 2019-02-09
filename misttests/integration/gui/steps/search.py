@@ -63,9 +63,12 @@ def clear_search(context):
     top_search_shadow = expand_shadow_root(context, top_search)
     mist_filter = top_search_shadow.find_element_by_css_selector('mist-filter')
     mist_filter_shadow = expand_shadow_root(context, mist_filter)
+    search_field = mist_filter_shadow.find_element_by_css_selector('paper-input#searchInput')
     clicketi_click(context, top_search)
     clear_icons = mist_filter_shadow.find_elements_by_css_selector(
         'paper-icon-button[icon="close"]')
     clear_icons = filter(lambda el: el.is_displayed(), clear_icons)
-    assert len(clear_icons) > 0, "No clear icon found"
-    clicketi_click(context, clear_icons[0])
+    if clear_icons:
+        clicketi_click(context, clear_icons[0])
+    search_value = search_field.get_attribute('value')
+    assert not search_value, "Cannot clear search: %s" % search_value
