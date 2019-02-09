@@ -24,27 +24,31 @@ def search_for_something(context, search_text):
     search_field = mist_filter_shadow.find_element_by_css_selector('paper-input#searchInput')
     if context.mist_config.get(search_text):
         search_text = context.mist_config.get(search_text)
-    focused = context.browser.execute_script('return arguments[0].focused', search_field)
-    log.info('Search field focused before: ', focused)
+    # focused = context.browser.execute_script('return arguments[0].focused', search_field)
+    # log.info('Search field focused before: %s' % focused)
     clicketi_click(context, top_search)
     sleep(.5)
+    focused = context.browser.execute_script('return arguments[0].focused', search_field)
+    # log.info('Search field focused after: %s' % focused)
     if not focused:
         top_search.click()
         sleep(.5)
         focused = context.browser.execute_script('return arguments[0].focused', search_field)
-        log.info('Search field focused after: ', focused)
+        log.info('Search field focused after2: %s' % focused)
     assert context.browser.execute_script('return arguments[0].focused', search_field), "Search field not focused after 2 clicks"
     search_value = search_field.get_attribute('value')
-    log.info('Search field value before: ', search_value)
+    log.info('Search field value before: %s ' % search_value)
     search_field.send_keys(search_text)
     sleep(.5)
     search_value = search_field.get_attribute('value')
-    log.info('Search field value after: ', search_value)
-    if search_text not in search_value:
-        expand_shadow_root(context, search_field).find_element_by_css_selector('input').send_keys(search_text)
+    log.info('Search field value after: %s' % search_value)
+    if search_text not in search_value:  # This shouldn't happen but sometimes it does
+        top_search.click()  # Refocus
+        # If search_field.send_keys() does not update the filter, try doing it with JS code instead
+        context.browser.execute_script('arguments[0].set("value", "%s")' % search_text, search_field)
         sleep(.5)
-        search_value = expand_shadow_root(context, search_field).find_element_by_css_selector('input')
-        log.info('Search field value after2: ', search_value, search_field.get_attribute('value'))
+        search_value = search_field.get_attribute('value')
+        log.info('Search field value after2: %s /  %s' % (search_value, search_field.get_attribute('value')))
     assert search_text in search_field.get_attribute('value'), "Cannot set search term"
 
 
