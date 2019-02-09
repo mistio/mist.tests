@@ -211,6 +211,7 @@ def check_page_is_visible(context, page_title, seconds):
     elif page in ['rules']:
         container = expand_shadow_root(context, page_element)
         selector = (By.CSS_SELECTOR, 'mist-rules')
+        sleep(1)
     msg = "%s page is not visible after %s seconds" % (page, seconds)
     wait_for_element_in_container_to_be_visible(container, selector,
         int(seconds), msg)

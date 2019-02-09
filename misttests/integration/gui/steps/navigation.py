@@ -130,7 +130,6 @@ def wait_for_dashboard(context):
     save_org = filter_buttons(dashboard_shadow, 'save organisation')
     if save_org:
         org_input = dashboard_shadow.find_element_by_css_selector('paper-input#orginput')
-        import ipdb;ipdb.set_trace()
         context.organizational_context = org_input.get_attribute('value').strip().lower()
         clicketi_click(context, save_org[0])
         return True

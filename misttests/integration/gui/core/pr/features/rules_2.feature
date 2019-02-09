@@ -85,8 +85,9 @@ Scenario: Delete a rule from rules page and verify it is not visible in single m
     And I select the "destroy" action when adding new rule in the "rules" page
     And I save the new rule in the "rules" page
     When I visit the Machines page
-    And I search for "rules-test-machine-random"
     And I clear the search bar
+    And I wait for 1 seconds
+    And I search for "rules-test-machine-random"
     And I wait for 1 seconds
     And I click the "rules-test-machine-random" "machine"
     Then rule "if cpu < 20 for any value then destroy" should be present in the "machine" page
