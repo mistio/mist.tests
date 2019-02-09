@@ -42,7 +42,7 @@ Feature: Monitoring
     And I click the button "Enable Monitoring" in the "machine" page
     And I wait for 5 seconds
     Then I wait for the monitoring graphs to appear in the "machine" page
-    And 9 graphs should be visible within max 30 seconds in the "machine" page
+    And 5 graphs should be visible within max 30 seconds in the "machine" page
     #And I wait for 10 seconds
 
   @add-entropy-graph
@@ -54,7 +54,7 @@ Feature: Monitoring
     And I click the "kernel" button in the "Select target for graph" dialog
     And I click the "kernel.entropy_avail" button in the "Select target for graph" dialog
     Then "kernel entropy_avail" graph should appear in the "machine" page within 30 seconds
-    And 10 graphs should be visible within max 20 seconds in the "machine" page
+    And 6 graphs should be visible within max 20 seconds in the "machine" page
 
   @monitoring-home-page
   Scenario: Visit Home page and verify that polyana-dashboard is there

@@ -76,7 +76,7 @@ def wait_for_all_graphs_to_appear(context, graph_count, timeout, page):
             polyana_dashboard = mist_monitoring_shadow.find_element_by_css_selector('polyana-dashboard')
             polyana_dashboard_shadow = expand_shadow_root(context, polyana_dashboard)
             dashboard_panels = polyana_dashboard_shadow.find_elements_by_css_selector('dashboard-panel:not([hidden])')
-            if len(dashboard_panels) == int(graph_count):
+            if len(dashboard_panels) >= int(graph_count):
                 return
         except NoSuchElementException, StaleElementReferenceException:
             sleep(1)
