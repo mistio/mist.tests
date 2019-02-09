@@ -83,6 +83,7 @@ Feature: Machines
   @machine-shell
   Scenario: Check shell access and verify that script run
     When I visit the Machines page
+    And I clear the search bar
     And I wait for 2 seconds
     And I search for "ui-test-create-machine-random"
     When I click the "ui-test-create-machine-random" "machine"

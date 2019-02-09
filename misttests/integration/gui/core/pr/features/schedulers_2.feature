@@ -13,7 +13,8 @@ Feature: Schedulers-b
     And I wait for 3 seconds
     And I search for "test-ui-machine-random"
     Then "test-ui-machine-random" machine state has to be "running" within 60 seconds
-    When I search for "test-ui-machine-2-random"
+    When I clear the search bar
+    And I search for "test-ui-machine-2-random"
     Then "test-ui-machine-2-random" machine state has to be "running" within 10 seconds
     When I click the "test-ui-machine-2-random" "machine"
     Then I expect the "machine" page to be visible within max 5 seconds
@@ -24,10 +25,12 @@ Feature: Schedulers-b
     And I click the "Save" button in the "Tags" dialog
     Then I expect the "Tags" dialog to be closed within 4 seconds
     When I visit the Machines page after the counter has loaded
+    And I clear the search bar
     And I wait for 2 seconds
     And I search for "test-ui-machine-2-random"
     And I click the "test-ui-machine-2-random" "machine"
     Then I ensure that the "machine" has the tags "test:awesome" within 20 seconds
+    And I clear the search bar
 
    @scheduler-add-crontab
    Scenario: Add crontab schedule
@@ -102,5 +105,6 @@ Feature: Schedulers-b
     When I visit the Machines page
     And I search for "test-ui-machine-random"
     Then "test-ui-machine-random" machine state has to be "stopped" within 120 seconds
-    When I search for "test-ui-machine-2-random"
+    When I clear the search bar
+    And I search for "test-ui-machine-2-random"
     Then "test-ui-machine-2-random" machine state has to be "stopped" within 120 seconds

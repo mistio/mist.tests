@@ -52,5 +52,6 @@ Feature: Machines
     Then I expect the "Start Machine" dialog to be open within 4 seconds
     When I click the "Start" button in the "Start Machine" dialog
     And I visit the Machines page
+    And I clear the search bar
     And I search for "ui-test-create-machine-random"
     Then "ui-test-create-machine-random" machine state has to be "running" within 60 seconds

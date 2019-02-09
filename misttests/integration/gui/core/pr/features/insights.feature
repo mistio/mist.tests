@@ -27,6 +27,7 @@ Feature: Actions for Insights
   @custom-pricing
   Scenario: Add tag for custom pricing and verify that cost will appear
     When I visit the Machines page
+    And I clear the search bar
     And I wait for 2 seconds
     And I search for "unknown"
     And I click the "Docker" "machine"
