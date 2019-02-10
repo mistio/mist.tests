@@ -225,7 +225,7 @@ def scroll_to_element(context, element_id):
 
 @step(u'I scroll to the bottom of the page')
 def scroll_to_add_new_rule_btn(context):
-    context.browser.execute_script("window.scrollTo(0, 2000)")
+    context.browser.execute_script("window.scrollTo(0, 1600)")
 
 
 @step(u'I scroll to the top of the page')
