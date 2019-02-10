@@ -2,11 +2,11 @@ behave==1.2.6
 behaving==1.5.6
 pycrypto
 pymongo
-pytest
+pytest==3.10.1
 python-jose
 PyYAML
 requests
-selenium==3.14.0
+selenium==3.141.0
 flake8
 ipdb
 vault

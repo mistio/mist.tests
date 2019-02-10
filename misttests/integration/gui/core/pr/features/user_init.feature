@@ -4,7 +4,7 @@ Feature: Login Scenarios
   @signup
   Scenario: Sign Up success
     When I make sure user with email "EMAIL" is absent
-    Given I am not logged in to mist.core
+    Given I am not logged in to mist
     When I open the signup popup
     And I enter my standard credentials for signup
     And I click the sign up button in the landing page popup
@@ -15,7 +15,7 @@ Feature: Login Scenarios
     And I click the go button in the landing page popup
     Then I wait for the dashboard to load
     And I logout
-    Given I am not logged in to mist.core
+    Given I am not logged in to mist
     When I open the signup popup
     And I enter my standard credentials for signup
     And I click the sign up button in the landing page popup
@@ -24,7 +24,7 @@ Feature: Login Scenarios
 
   @forgot-password
   Scenario: Forgot password
-    When I visit mist.core
+    When I visit mist
     And I open the login popup
     And I click the forgot password button in the landing page popup
     And I wait for 1 seconds

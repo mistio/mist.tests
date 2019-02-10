@@ -2,7 +2,7 @@
 Feature: Machines
 
   Background:
-    Given I am logged in to mist.core
+    Given I am logged in to mist
 
   @machine-requirements
   Scenario: Add script, Docker cloud and key that will be used for ssh access
@@ -85,7 +85,7 @@ Feature: Machines
   @machine-destroy
   Scenario: Destroy the machine created
     When I visit the Home page
-    And I wait for the links in homepage to appear
+    And I wait for the navigation menu to appear
     And I visit the Machines page after the counter has loaded
     Then I search for the machine "ui-test-create-machine-random"
     When I click the "ui-test-create-machine-random" "machine"

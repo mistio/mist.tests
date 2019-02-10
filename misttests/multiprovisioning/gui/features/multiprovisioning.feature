@@ -2,7 +2,7 @@
 Feature: Multiprovisioning
 
   Background:
-    Given I am logged in to mist.core
+    Given I am logged in to mist
 
   @mp-test
   Scenario Outline: Create a machine, enable monitoring and then destroy it.

@@ -3,27 +3,27 @@ Feature: Orchestration
 
   @template-add
   Scenario: Add a template
-    Given I am logged in to mist.core
+    Given I am logged in to mist
     And cloud "Docker" has been added via API request
     And I have given card details if needed
     When I visit the Templates page
     And I click the button "+"
     Then I expect the "Template" add form to be visible within max 10 seconds
-    When I open the "Catalogue Templates" drop down
+    When I open the "Catalogue Templates" dropdown in the "template" add form
     And I wait for 1 seconds
-    And I click the button "Kubernetes Blueprint" in the "Catalogue Templates" dropdown
-    And I set the value "Simple Python Template" to field "Template Name" in "template" add form
-    And I set the value "https://github.com/mistio/simple-resource-provisioning-blueprint" to field "Git Repo" in "template" add form
-    And I set the value "blueprint.yaml" to field "Entry Point" in "template" add form
-    Then I expect for the button "Add" in "template" add form to be clickable within 9 seconds
-    When I focus on the button "Add" in "template" add form
-    And I click the button "Add" in "template" add form
-    Then I expect the "template" edit form to be visible within max 20 seconds
+    And I click the "Kubernetes Blueprint" button in the "Catalogue Templates" dropdown in the "template" add form
+    And I set the value "Simple Python Template" to field "Template Name" in the "template" add form
+    And I set the value "https://github.com/mistio/simple-resource-provisioning-blueprint" to field "Git Repo" in the "template" add form
+    And I set the value "blueprint.yaml" to field "Entry Point" in the "template" add form
+    Then I expect for the button "Add" in the "template" add form to be clickable within 9 seconds
+    When I focus on the button "Add" in the "template" add form
+    And I click the button "Add" in the "template" add form
+    Then I expect the "template" page to be visible within max 20 seconds
     When I visit the Home page
     And I visit the Templates page
     Then "Simple Python Template" template should be present within 30 seconds
 #    When I visit the Home page
-#    And I wait for the links in homepage to appear
+#    And I wait for the navigation menu to appear
 #    And I expect for "addBtn" to be clickable within max 20 seconds
 
 #  @stack-add
@@ -40,7 +40,7 @@ Feature: Orchestration
 #    And I click the button "Add" in "key" add form
 #    Then I expect the "key" edit form to be visible within max 15 seconds
 #    And I visit the Home page
-#    And I wait for the links in homepage to appear
+#    And I wait for the navigation menu to appear
 #    When I visit the Keys page
 #    Then "TestKey2" key should be present within 15 seconds
 #    When I visit the Templates page
@@ -63,7 +63,7 @@ Feature: Orchestration
 #    And I click the button "Create Stack" in "stack" add form
 #    Then I expect the "stack" edit form to be visible within max 30 seconds
 #    When I visit the Home page
-#    When I wait for the links in homepage to appear
+#    When I wait for the navigation menu to appear
 #    When I visit the Stacks page
 #    Then "Test Stack" stack should be present within 30 seconds
 
@@ -83,22 +83,22 @@ Feature: Orchestration
     When I visit the Templates page
     And I wait for 2 seconds
     When I click the "Simple Python Template" "template"
-    And I expect the "template" edit form to be visible within max 5 seconds
-    Then I click the button "Tag" in "template" edit form
-    And I expect for the tag popup to open within 4 seconds
+    And I expect the "template" page to be visible within max 5 seconds
+    Then I click the "Tag" action button in the "template" page
+    Then I expect the "Tags" dialog to be open within 4 seconds
     When I remove all the previous tags
     Then I add a tag with key "first" and value "tag"
     Then I add a tag with key "second" and value "tag"
-    And I click the button "Save" in the tag menu
-    Then I expect for the tag popup to close within 4 seconds
+    And I click the "Save" button in the "Tags" dialog
+    Then I expect the "Tags" dialog to be closed within 4 seconds
     Then I ensure that the "template" has the tags "first:tag,second:tag" within 5 seconds
-    Then I click the button "Tag" in "template" edit form
-    And I expect for the tag popup to open within 4 seconds
+    Then I click the "Tag" action button in the "template" page
+    Then I expect the "Tags" dialog to be open within 4 seconds
     And I wait for 1 seconds
     When I remove the tag with key "first"
     And I wait for 1 seconds
-    And I click the button "Save" in the tag menu
-    Then I expect for the tag popup to close within 4 seconds
+    And I click the "Save" button in the "Tags" dialog
+    Then I expect the "Tags" dialog to be closed within 4 seconds
     And I ensure that the "template" has the tags "second:tag" within 5 seconds
 
 #  @stack-search
@@ -141,12 +141,12 @@ Feature: Orchestration
     When I visit the Templates page
     And I wait for 2 seconds
     When I click the "Simple Python Template" "template"
-    And I expect the "template" edit form to be visible within max 5 seconds
-    Then I click the button "Edit" in "template" edit form
-    And I expect the dialog "Edit Template" is open within 4 seconds
-    When I set the value "Renamed Template" to field "Name" in "Edit Template" dialog
-    And I click the "Submit" button in the dialog "Edit Template"
-    And I expect the dialog "Edit Template" is closed within 4 seconds
+    And I expect the "template" page to be visible within max 5 seconds
+    Then I click the "Edit" action button in the "template" page
+    And I expect the "Edit Template" dialog to be open within 4 seconds
+    When I set the value "Renamed Template" to field "Name" in the "Edit Template" dialog
+    And I click the "Submit" button in the "Edit Template" dialog
+    And I expect the "Edit Template" dialog to be closed within 4 seconds
     When I visit the Home page
     And I visit the templates page
     Then "Simple Python Template" template should be absent within 5 seconds
@@ -161,12 +161,14 @@ Feature: Orchestration
   @template-delete
   Scenario: Delete a template
     When I visit the Templates page
+    And I refresh the page
+    And I wait for 2 seconds
     When I click the "Renamed Template" "template"
-    And I expect the "template" edit form to be visible within max 5 seconds
-    Then I click the button "Delete" in the "template" page actions menu
-    And I expect the dialog "Delete Template" is open within 4 seconds
-    And I click the "Delete" button in the dialog "Delete Template"
-    And I expect the dialog "Delete Template" is closed within 4 seconds
+    And I expect the "template" page to be visible within max 5 seconds
+    Then I click the "Delete" action button in the "template" page
+    And I expect the "Delete Template" dialog to be open within 4 seconds
+    And I click the "Delete" button in the "Delete Template" dialog
+    And I expect the "Delete Template" dialog to be closed within 4 seconds
     When I visit the Home page
     And I visit the templates page
     Then "Renamed Template" template should be absent within 15 seconds

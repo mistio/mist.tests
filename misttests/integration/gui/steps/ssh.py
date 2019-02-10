@@ -7,7 +7,7 @@ from time import sleep
 
 from .buttons import clicketi_click
 
-from .utils import safe_get_element_text
+from .utils import safe_get_element_text, expand_shadow_root
 
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
@@ -77,11 +77,13 @@ def check_ls_output(lines, filename=None):
 
 @step(u'I expect terminal to open within {seconds} seconds')
 def terminal_is_open(context, seconds):
+    mist_app = context.browser.find_element_by_css_selector('mist-app')
+    mist_app_shadow = expand_shadow_root(context, mist_app)
     end_time = time() + int(seconds)
     terminal = None
     while time() < end_time:
         try:
-            terminal = context.browser.find_element_by_class_name('terminal')
+            terminal = mist_app_shadow.find_element_by_css_selector('xterm-dialog')
             break
         except NoSuchElementException:
             sleep(1)
@@ -94,7 +96,10 @@ def check_shell_input_state(context, state, seconds):
     if state not in ['available', 'unavailable']:
         raise ValueError('Unknown type of state')
     lines = []
-    terminal = context.browser.find_element_by_class_name('terminal')
+    mist_app = context.browser.find_element_by_css_selector('mist-app')
+    mist_app_shadow = expand_shadow_root(context, mist_app)
+    xterm_dialog = mist_app_shadow.find_element_by_css_selector('xterm-dialog')
+    terminal = expand_shadow_root(context, xterm_dialog).find_element_by_css_selector('.terminal')
     max_time = time() + int(seconds)
     while time() < max_time:
         if update_lines(terminal, lines):
@@ -111,15 +116,21 @@ def check_shell_input_state(context, state, seconds):
 
 @step('I type in the terminal "{command}"')
 def type_in_terminal(context, command):
-    terminal = context.browser.find_element_by_class_name('terminal')
-    terminal.send_keys(command + '\n')
+    mist_app = context.browser.find_element_by_css_selector('mist-app')
+    mist_app_shadow = expand_shadow_root(context, mist_app)
+    xterm_dialog = mist_app_shadow.find_element_by_css_selector('xterm-dialog')
+    terminal = expand_shadow_root(context, xterm_dialog).find_element_by_css_selector('.terminal')
+    terminal.send_keys(' ' + command + '\n')
 
 
 @step('{filename} should be included in the output')
 def check_output(context, filename):
-    terminal = context.browser.find_element_by_class_name('terminal')
-    rows_class = terminal.find_element_by_class_name('xterm-rows')
-    rows = rows_class.find_elements_by_tag_name('div')
+    mist_app = context.browser.find_element_by_css_selector('mist-app')
+    mist_app_shadow = expand_shadow_root(context, mist_app)
+    xterm_dialog = mist_app_shadow.find_element_by_css_selector('xterm-dialog')
+    terminal = expand_shadow_root(context, xterm_dialog).find_element_by_css_selector('.terminal')
+    rows_class = terminal.find_element_by_css_selector('.xterm-rows')
+    rows = rows_class.find_elements_by_css_selector('div')
     for row in rows:
         if filename in safe_get_element_text(row):
             return
@@ -128,8 +139,12 @@ def check_output(context, filename):
 
 @step('I close the terminal')
 def close_terminal(context):
-    clicketi_click(context, context.browser.find_element_by_xpath("//iron-icon[@icon='icons:close']"))
-    WebDriverWait(context.browser, 4).until(EC.invisibility_of_element_located((By.CLASS_NAME, 'terminal')))
+    mist_app = context.browser.find_element_by_css_selector('mist-app')
+    mist_app_shadow = expand_shadow_root(context, mist_app)
+    xterm_dialog = mist_app_shadow.find_element_by_css_selector('xterm-dialog')
+    close_button = expand_shadow_root(context, xterm_dialog).find_element_by_css_selector('paper-button')
+    clicketi_click(context, close_button)
+    WebDriverWait(mist_app_shadow, 4).until(EC.invisibility_of_element_located((By.CSS_SELECTOR, 'xterm-dialog')))
 
 
 def check_ssh_connection_with_timeout(context,

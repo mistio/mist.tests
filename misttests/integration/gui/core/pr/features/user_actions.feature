@@ -3,20 +3,21 @@ Feature: Login Scenarios and Api Token
 
   @api-token-test
   Scenario: Create api token and test it with API call. When it is revoked, API call should fail
-    Given I am logged in to mist.core
+    Given I am logged in to mist
     When I visit the Account page
-    And I wait for 3 seconds
-    And I click the "API Tokens" button with id "tokens"
-    Then I click the "Create API Token" button with id "Create API Token"
     And I wait for 2 seconds
-    And I type "Test token" in input with id "tokenName"
+    And I click the "API Tokens" tab in the Account page
+    And I click the "Create API Token" button in the Account page
+    Then I expect the "Create API Token" dialog to be open within 4 seconds
+    And I set the value "Test token" to field "Token Name" in the "Create API Token" dialog
     And I wait for 1 seconds
-    And I click the button "Never" from the ttl dropdown
+    And I open the "Expires After" dropdown in the "Create API Token" dialog
+    And I click the "Never" button in the "Expires After" dropdown in the "Create API Token" dialog
     And I wait for 1 seconds
-    And I type "PASSWORD1" in input with id "pass"
+    And I set the value "PASSWORD1" to field "Password" in the "Create API Token" dialog
     And I wait for 1 seconds
-    And I click the "Create" button with id "Create"
-    And I wait for 5 seconds
+    And I click the "Create" button in the "Create API Token" dialog
+    And I wait for 3 seconds
     And I get the new api token value "BLABLA_TOKEN"
     Then I test the api token "BLABLA_TOKEN". It should work.
     When I revoke token "Test token"
@@ -26,7 +27,7 @@ Feature: Login Scenarios and Api Token
   @signup
   Scenario: Sign Up success and verify that user can create resources
     When I make sure user with email "EMAIL" is absent
-    Given I am not logged in to mist.core
+    Given I am not logged in to mist
     When I visit the signup page
     And I wait for 2 seconds
     And I enter my standard credentials for signup
@@ -37,8 +38,7 @@ Feature: Login Scenarios and Api Token
     And I wait for 2 seconds
     And I enter my standard credentials for signup_password_set
     And I click the go button in the landing page popup
-    Then I wait for the links in homepage to appear
-    Then I expect for "addBtn" to be clickable within max 20 seconds
+    Then I wait for the navigation menu to appear
     Given "Linode" cloud has been added
 
   @change-password
@@ -53,18 +53,18 @@ Feature: Login Scenarios and Api Token
 #    And I click the button "Change Password"
 #    And I wait for 2 seconds
 #    And I logout
-#    When I visit mist.core
+#    When I visit mist
 #    And I open the login popup
 #    And I wait for 3 seconds
 #    And I enter my changed credentials for login
 #    And I click the sign in button in the landing page popup
 #    And I wait for 3 seconds
-#    Then I wait for the links in homepage to appear
+#    Then I wait for the navigation menu to appear
     And I logout
 
   @signup-conflict
   Scenario: Already registered user gets conflict error when trying to sign up
-    Given I am not logged in to mist.core
+    Given I am not logged in to mist
     When I visit the signup page
     And I wait for 2 seconds
     And I enter my standard credentials for signup
@@ -74,7 +74,7 @@ Feature: Login Scenarios and Api Token
 
   @invalid-credentials
   Scenario: 'Unauthorized' message should appear
-    When I visit mist.core
+    When I visit mist
     And I open the login popup
     And I wait for 3 seconds
     And I enter my alt credentials for login
@@ -90,7 +90,7 @@ Feature: Login Scenarios and Api Token
 
   @forgot-password
   Scenario: Forgot password
-    When I visit mist.core
+    When I visit mist
     And I open the login popup
     And I wait for 3 seconds
     And I click the forgot password button in the landing page popup
@@ -102,9 +102,9 @@ Feature: Login Scenarios and Api Token
     And I wait for 2 seconds
     And I enter my new_creds credentials for password_reset
     And I click the reset_pass_submit button in the landing page popup
-    And I wait for the links in homepage to appear
+    And I wait for the navigation menu to appear
     And I logout
     And I open the login popup
     And I enter my new_creds credentials for login
     And I click the sign in button in the landing page popup
-    Then I wait for the links in homepage to appear
+    Then I wait for the navigation menu to appear

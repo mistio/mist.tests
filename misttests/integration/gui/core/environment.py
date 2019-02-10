@@ -87,6 +87,7 @@ def before_all(context):
     context.mist_config['CC_ZIP_CODE'] = config.CC_ZIP_CODE
     context.link_inside_email = ''
     context.mist_config['ORG_ID'] = ''
+    context.mist_config['PRODUCE_VIDEO_SCREENCAST_ON_ERROR'] = config.PRODUCE_VIDEO_SCREENCAST_ON_ERROR
 
     if config.LOCAL:
         log.info("Initializing behaving mail for path: %s" % config.MAIL_PATH)
@@ -140,7 +141,8 @@ def after_step(context, step):
         except Exception as e:
             log.error("Could not get screen shot: %s" % repr(e))
 
-        produce_video_artifact(context, step)
+        if config.PRODUCE_VIDEO_SCREENCAST_ON_ERROR:
+            produce_video_artifact(context, step)
 
         # break into post mortem
         if BEHAVE_DEBUG_ON_ERROR:

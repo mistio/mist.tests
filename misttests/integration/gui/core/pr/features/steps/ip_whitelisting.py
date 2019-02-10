@@ -2,8 +2,7 @@ from behave import step
 
 from misttests.integration.gui.steps.buttons import clicketi_click
 from misttests.integration.gui.steps.forms import clear_input_and_send_keys
-from misttests.integration.gui.steps.landing import get_shadow_root
-from misttests.integration.gui.steps.utils import safe_get_element_text
+from misttests.integration.gui.steps.utils import safe_get_element_text, expand_shadow_root
 
 @step(u'I remove all whitelisted ips')
 def remove_whitelisted_ips(context):
@@ -22,10 +21,10 @@ def add_whitelisted_ip(context,ip):
 
 def get_forbidden_error_element(context):
     landing_app = context.browser.find_element_by_tag_name("landing-app")
-    shadow_root = get_shadow_root(context, landing_app)
+    shadow_root = expand_shadow_root(context, landing_app)
     landing_pages = shadow_root.find_element_by_css_selector("landing-pages")
     page = landing_pages.find_element_by_tag_name('landing-sign-in')
-    shadow_root = get_shadow_root(context, page)
+    shadow_root = expand_shadow_root(context, page)
     sign_in_form = shadow_root.find_element_by_id('signInForm')
     form = sign_in_form.find_element_by_tag_name('form')
     return form.find_element_by_class_name('forbidden-error')

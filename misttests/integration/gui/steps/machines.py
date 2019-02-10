@@ -6,7 +6,7 @@ from time import sleep
 
 from random import randrange
 
-from .utils import safe_get_element_text
+from .utils import safe_get_element_text, get_page_element, expand_shadow_root, get_page
 
 from .buttons import clicketi_click
 
@@ -48,39 +48,31 @@ machine_values_dict = {
     "nephoscale": ["Ubuntu Server 14.04 LTS 64-bit", "CS05 - Cloud Server 0.5 GB RAM, 1 Core", "SJC-1"],
     "softlayer": ["Ubuntu - Latest (64 bit) ", "1 CPU, 1GB ram, 25GB ", "AMS01 - Amsterdam"],
     "azure": ["Ubuntu Server 14.04 LTS", "ExtraSmall (1 cores, 768 MB) ", "West Europe"],
-    "docker": ["mist/ubuntu-14.04:latest"]
+    "docker": ["Ubuntu 14.04 - mist.io image"]
 }
 
-@step(u'I click the bare metal machine')
+@step(u'I click the other server machine')
 def click_bare_metal_machine(context):
-    text = context.mist_config['bare_metal_host']
-    item_selector = 'page-machines mist-list vaadin-grid-table-body#items > vaadin-grid-table-row'
-    items = context.browser.find_elements_by_css_selector(item_selector)
-    for item in items:
-        name = safe_get_element_text(item.find_element_by_css_selector('strong.name')).strip().lower()
-        if text in name:
-            clicketi_click(context,item)
-            return True
-    assert False, "Could not click item %s" % text
+    context.execute_steps(u'Then I click on list item "%s" machine' % context.mist_config['bare_metal_host'])
 
 
 def set_values_to_create_machine_form(context,provider,machine_name):
     context.execute_steps(u'''
-                Then I set the value "%s" to field "Machine Name" in "machine" add form
-                When I open the "Image" drop down
-                And I click the button "%s" in the "Image" dropdown
-                And I open the "Key" drop down
-                And I click the button "DummyKey" in the "Key" dropdown
+                Then I set the value "%s" to field "Machine Name" in the "machine" add form
+                When I open the "Image" dropdown in the "machine" add form
+                And I click the "%s" button in the "Image" dropdown in the "machine" add form
+                And I open the "Key" dropdown in the "machine" add form
+                And I click the "DummyKey" button in the "Key" dropdown in the "machine" add form
                 And I wait for 1 seconds
             ''' % (machine_name,
                    machine_values_dict.get(provider)[0]))
 
     if 'digital ocean' in provider:
         context.execute_steps(u'''
-                    When I open the "Size" drop down
-                    And I click the button "%s" in the "Size" dropdown
-                    When I open the "Location" drop down
-                    And I click the button "%s" in the "Location" dropdown
+                    When I open the "Size" drop down in the "machine" add form
+                    And I click the "%s" button in the "Size" dropdown in the "machine" add form
+                    When I open the "Location" drop down in the "machine" add form
+                    And I click the "%s" button in the "Location" dropdown in the "machine" add form
                 ''' % ( machine_values_dict.get(provider)[1],
                        machine_values_dict.get(provider)[2]))
 
@@ -90,7 +82,7 @@ def cloud_creds(context, provider, machine_name):
     provider = provider.strip().lower()
     if provider not in machine_values_dict.keys():
         raise Exception("Unknown cloud provider")
-    set_values_to_create_machine_form(context,provider,machine_name)
+    set_values_to_create_machine_form(context, provider, machine_name)
 
 
 @step(u'I expect for "{key}" key to appear within max {seconds} seconds')
@@ -111,18 +103,6 @@ def key_appears(context, key, seconds):
         except:
             sleep(1)
     assert False, "Key %s did not appear after %s seconds" % (key,seconds)
-
-
-@step(u'I clear the machines search bar')
-def clear_machines_search_bar(context):
-    clear_button = context.browser.find_element_by_xpath("//iron-icon[@icon='close']")
-    clicketi_click(context, clear_button)
-
-
-@step(u'I open the actions dialog')
-def open_actions_dialog_from_list(context):
-    button = context.browser.find_element_by_xpath("//iron-icon[@icon='more-vert']")
-    clicketi_click(context, button)
 
 
 @step(u'I choose the "{name}" machine')
@@ -269,63 +249,18 @@ def fill_default_script(context):
         textfield.send_keys(letter)
 
 
-@step(u'I click the "{rule_class}" rule within "{container_id}"')
-def click_rule_dropdown(context, rule_class, container_id=None):
-    if container_id:
-        rule_element = context.browser.find_element_by_id(container_id).find_element_by_xpath('//paper-dropdown-menu[contains(@class, "%s")]' % rule_class)
-    else:
-        rule_element = context.browser.find_element_by_xpath('//paper-dropdown-menu[contains(@class, "%s")]' % rule_class)
-    clicketi_click(context, rule_element)
-
-
-@step(u'I save the rule within "{container_id}"')
-def save_rule(context, container_id=None):
-    if container_id:
-        container = context.browser.find_element_by_id(container_id)
-    else:
-        container = context.browser.find_element_by_xpath('//div[contains(@class, "rule-actions")]')
-    button = container.find_element_by_css_selector('paper-button.blue')
-    # double click needed, one after having selected team/members
-    # and one to actually save the rule
-    clicketi_click(context, button)
-    clicketi_click(context, button)
-
-
-@step(u'I remove previous rules')
-def remove_previous_rules(context):
-    try:
-        previous_rules = context.browser.find_element_by_id('apply-on-this').find_elements_by_tag_name('rule-item')
-    except:
-        previous_rules = context.browser.find_elements_by_tag_name('rule-item')
-    rule_length = len(previous_rules)
-    while rule_length > 0:
-        rule = previous_rules.pop()
-        rule_length -= 1
-        try:
-            delete_rule_button = rule.find_element_by_css_selector('paper-icon-button.delete-btn')
-        except:
-            continue
-        clicketi_click(context, delete_rule_button)
-        sleep(2)
-        try:
-            delete_rule_button.click()
-            sleep(1)
-        except:
-            continue
-        previous_rules = context.browser.find_elements_by_tag_name('rule-item')
-
-
-@step(u'rule "{rule}" should be {state}')
-def verify_rule_is_present(context, rule, state):
+@step(u'rule "{rule}" should be {state} in the "{page}" page')
+def verify_rule_is_present(context, rule, state, page):
     found = False
     state = state.lower()
     if state not in ['present', 'absent']:
         raise Exception('Unknown state %s' % state)
-    rules = context.browser.find_elements_by_tag_name('rule-item')
+    page_element = get_page(context, page)
+    page_shadow = expand_shadow_root(context, page_element)
+    rules = page_shadow.find_element_by_css_selector('mist-rules').text.replace('\n','').replace(' ','').lower()
     rule = rule.replace(" ", "").lower()
-    for existing_rule in rules:
-        if rule in existing_rule.text.replace(" ", ""):
-            found = True
+    if rule in rules:
+        found = True
     if state == 'present' and found:
         return True
     if state == 'absent' and not found:
@@ -333,34 +268,11 @@ def verify_rule_is_present(context, rule, state):
     assert False, "Rule %s was not %s in existing rules for the monitored machine" % (rule, state)
 
 
-@step(u'I wait for max {seconds} seconds for "{name}" machine from "{provider}"'
-      u' to disappear')
-def check_machine_deletion(context, name, provider, seconds):
-    if provider == "EC2":
-        context.execute_steps(u'Then %s machine state should be "terminated"'
-                              u' within %s seconds' % (name, seconds))
-    else:
-        machines_elements = context.browser.find_elements_by_css_selector('#machine-list-container li .machine-name')
-        machines_names_list = [safe_get_element_text(machine_element) for machine_element in machines_elements]
-        end_time = time() + int(seconds)
-        while time() < end_time:
-            if name not in machines_names_list:
-                break
-
-
-@step(u'I search for the machine "{name}"')
-def search_for_mayday_machine(context, name):
-    if context.mist_config.get(name):
-        name = context.mist_config.get(name)
-    search_bar = context.browser.find_element_by_css_selector("input.top-search")
-    for letter in name:
-        search_bar.send_keys(letter)
-    sleep(2)
-
-
 @step(u'"{key}" key should be associated with the machine "{machine}"')
 def check_for_associated_key(context, key, machine):
-    machine_keys_class = context.browser.find_elements_by_css_selector('div.machine-key.style-scope.machine-page')
+    page = get_page(context, "machine")
+    page_shadow = expand_shadow_root(context, page)
+    machine_keys_class = page_shadow.find_elements_by_css_selector('div.associatedKeys > div.machine-key')
     for element in machine_keys_class:
         if safe_get_element_text(element) == key:
             return
@@ -369,11 +281,12 @@ def check_for_associated_key(context, key, machine):
 
 @step(u'I delete the associated key "{key}"')
 def disassociate_key(context, key):
-    machine_keys_class = context.browser.find_elements_by_css_selector('div.machine-key.style-scope.machine-page')
-
+    _, page = get_page_element(context, "machines", "machine")
+    page_shadow = expand_shadow_root(context, page)
+    machine_keys_class = page_shadow.find_elements_by_css_selector('div.associatedKeys > div.machine-key')
     for element in machine_keys_class:
         if safe_get_element_text(element) == key:
-            delete_btn = element.find_element_by_class_name('delete')
+            delete_btn = element.find_element_by_css_selector('.delete')
             clicketi_click(context, delete_btn)
             return
 
@@ -381,8 +294,10 @@ def disassociate_key(context, key):
 @step(u'there should be {keys} keys associated with the machine within {seconds} seconds')
 def keys_associated_with_machine(context, keys, seconds):
     timeout = time() + int(seconds)
+    _, page = get_page_element(context, "machines", "machine")
+    page_shadow = expand_shadow_root(context, page)
     while time() < timeout:
-        machine_keys_class = context.browser.find_elements_by_css_selector('div.machine-key.style-scope.machine-page')
+        machine_keys_class = page_shadow.find_elements_by_css_selector('div.associatedKeys > div.machine-key')
         associated_keys_with_machine = 0
         for element in machine_keys_class:
             try:
@@ -392,5 +307,4 @@ def keys_associated_with_machine(context, keys, seconds):
                 pass
         if associated_keys_with_machine == int(keys):
             return
-
     assert False, "There are %s keys associated with the machine" % associated_keys_with_machine

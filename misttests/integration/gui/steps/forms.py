@@ -1,7 +1,7 @@
-from behave import step
+from behave import step, use_step_matcher
 
-from .utils import focus_on_element
-from .utils import safe_get_element_text
+from .utils import focus_on_element, get_page_element, clear_input_and_send_keys, get_page
+from .utils import safe_get_element_text, expand_shadow_root, expand_slot
 
 from selenium.common.exceptions import NoSuchElementException
 
@@ -11,46 +11,40 @@ from time import sleep
 from random import randrange
 
 
-def clear_input_and_send_keys(input_field, text):
-    while input_field.get_attribute('value') != '':
-        input_field.send_keys(u'\ue003')
-    current_expected_value = ''
-    n = 20
-    chunks = [text[i:i+n] for i in xrange(0, len(text), n)]
-    for chunk in chunks:
-        current_expected_value += chunk
-        input_field.send_keys(chunk)
-        for _ in range(2):
-            if input_field.get_attribute('value') != current_expected_value:
-                sleep(1)
-            else:
-                break
-        else:
-            raise Exception('Sending keys to form unsuccessful')
-
-
 def get_add_form(context, title):
     title = title.lower()
     if title not in ['cloud', 'machine', 'image', 'key', 'network', 'tunnel',
                      'script', 'schedule', 'template', 'stack', 'team',
                      'members', 'zone', 'record']:
         raise ValueError('The title given is unknown')
-    if title in ['stack', 'machine', 'network']:
-        add_form_selector = 'div#content.%s-create' % title
+    if title == 'members':
+        page_element = get_page_element(context, 'teams')
+    elif title == 'record':
+        _, page_element = get_page_element(context, 'zones', 'zone')
     else:
-        add_form_selector = 'div#content.%s-add' % title
-    return context.browser.find_element_by_css_selector(add_form_selector)
+        page_element = get_page_element(context, title + 's')
+    page_shadow = expand_shadow_root(context, page_element)
+    if title in ['stack', 'machine', 'network', 'record']:
+        add_form_selector = '%s-create' % title
+    else:
+        add_form_selector = '%s-add' % title
+    return page_shadow.find_element_by_css_selector(add_form_selector)
 
 
 def get_edit_form(context, title):
     title = title.lower()
+    import ipdb;ipdb.set_trace()
     if title not in ['machine', 'image', 'key', 'network', 'tunnel', 'script',
                      'template', 'stack', 'team', 'policy', 'cloud', 'schedule', 'zone']:
         raise Exception('The title given is unknown')
     try:
         if title == 'policy':
-            return context.browser.find_element_by_tag_name('team-policy')
-        return context.browser.find_element_by_tag_name('%s-page' % title)
+            page_teams_element = get_page_element(context, 'teams')
+            page_teams_shadow = expand_shadow_root(context, page_teams_element)
+            return expand_shadow_root(context, page_teams_shadow.find_element_by_css_selector('team-page')) #.find_element_by_css_selector'team-policy')
+            # return context.browser.find_element_by_tag_name('team-policy')
+        page_shadow = expand_shadow_root(context, get_page_element(context, title + 's'))
+        return page_shadow
     except NoSuchElementException:
         return None
 
@@ -68,6 +62,7 @@ def check_form_is_visible(context, page, form_type, seconds):
         try:
             form = get_add_form(context, page) if form_type == 'add' else \
                 get_edit_form(context, page)
+            form_shadow = expand_shadow_root(context, form)
             if form and form.is_displayed():
                 return True
         except NoSuchElementException:
@@ -76,22 +71,47 @@ def check_form_is_visible(context, page, form_type, seconds):
     assert False, msg
 
 
-def get_input_from_form(form, input_name):
-    input_containers = form.find_elements_by_id('labelAndInputContainer')
+def get_input_element_from_form(context, form, input_name):
+    input_element = None
+    input_containers = form.find_elements_by_css_selector('paper-input, paper-textarea')
+    form_containers = form.find_elements_by_css_selector('cloud-edit, cloud-dns')
+    form_containers_shadow = [expand_shadow_root(context, f) for f in form_containers]
+    form_containers_shadow.append(form)
+    for form in form_containers_shadow:
+        try:
+            app_form = form.find_element_by_css_selector('app-form')
+            app_form_shadow = expand_shadow_root(context, app_form)
+            input_containers += app_form_shadow.find_elements_by_css_selector('paper-input, paper-textarea')
+            sub_forms = app_form_shadow.find_elements_by_css_selector('sub-form')
+            for sub in sub_forms:
+                sub_shadow = expand_shadow_root(context, sub)
+                sub_app_form = sub_shadow.find_element_by_css_selector('app-form')
+                sub_app_form_shadow = expand_shadow_root(context, sub_app_form)
+                input_containers += sub_app_form_shadow.find_elements_by_css_selector('paper-input, paper-textarea')
+        except NoSuchElementException:
+            pass
     for container in input_containers:
+        container_shadow = expand_shadow_root(context, container)
         text = safe_get_element_text(
-            container.find_element_by_tag_name('label')).lower().strip()
-        if text.endswith(' *'):
-            text = text[:-2]
+            container_shadow.find_element_by_css_selector('label')).lower().strip().rstrip(' *')
         if text == input_name:
+            if 'textarea' in container.tag_name:
+                selector = 'textarea'
+            else:
+                selector = 'input'
             try:
-                input = container.find_element_by_tag_name('input')
-                if 'textarea' in input.get_attribute('class'):
-                    input = container.find_element_by_id('textarea')
+                input_element = container_shadow.find_element_by_css_selector(selector)
             except NoSuchElementException:
-                input = container.find_element_by_id('textarea')
-
-    return input
+                input_container_shadow = expand_shadow_root(context, container_shadow.find_element_by_css_selector('paper-input-container'))
+                input_slot = input_container_shadow.find_element_by_css_selector('slot[name="input"]')
+                for expanded_slot in expand_slot(context, input_slot):
+                    expanded_slot_shadow = expand_shadow_root(context,  expanded_slot)
+                    try:
+                        input_element = expanded_slot_shadow.find_element_by_css_selector(selector)
+                    except NoSuchElementException:
+                        print(e)
+                        import ipdb;ipdb.set_trace()
+    return input_element
 
 
 @step(u'I click the button "{button_name}" from the menu of the "{title}" '
@@ -132,14 +152,24 @@ def click_menu_button_from_more_menu(context, button_name, title, form_type):
     click_button_from_collection(context, button_name, more_dropdown_buttons)
 
 
-def get_button_from_form(form, button_name):
-    if button_name == 'add a new rule':
-        return form.find_element_by_css_selector('div.rules span.team-policy')
-    buttons = form.find_elements_by_tag_name('paper-button')
-    assert buttons, "Could not find any buttons in the form"
+def get_button_from_form(context, form, button_name, tag_name='paper-button:not([hidden])'):
+    all_buttons = []
+    form_containers = form.find_elements_by_css_selector('cloud-edit, cloud-dns, network-create, mist-monitoring, mist-rules, team-policy, metric-menu')
+    form_containers_shadow = [expand_shadow_root(context, f) for f in form_containers]
+    form_containers_shadow.append(form)
+    for form in form_containers_shadow:
+        all_buttons += form.find_elements_by_css_selector('%s' % tag_name)
+        try:
+            sub_forms = form.find_elements_by_css_selector('app-form, add-graph, metric-menu')
+            for sub_form in sub_forms:
+                sub_form_shadow = expand_shadow_root(context, sub_form)
+                all_buttons += sub_form_shadow.find_elements_by_css_selector('%s' % tag_name)
+        except NoSuchElementException:
+            pass
+    assert all_buttons, "Could not find any buttons in the form"
     button = None
-    for b in buttons:
-        if safe_get_element_text(b).lower().strip() == button_name:
+    for b in all_buttons:
+        if safe_get_element_text(b).lower().strip() == button_name.lower():
             return b
     assert button, "Could not find button %s" % button_name
 
@@ -150,20 +180,21 @@ def check_that_field_is_visible(context, field_name, title, form_type, seconds):
     field_name = field_name.lower()
     add_form = get_add_form(context, title) if form_type == 'add' else \
         get_edit_form(context, title)
-    input = None
+    add_form_shadow = expand_shadow_root(context, add_form)
+    form_input = None
     timeout = time() + int(seconds)
     while time() < timeout:
-        input = get_input_from_form(add_form, field_name)
-        if input.is_displayed():
+        form_input = get_input_element_from_form(context, add_form_shadow, field_name)
+        if form_input.is_displayed():
             return True
         sleep(1)
-    assert input, "Could not find field %s after %s seconds" % field_name
+    assert form_input, "Could not find field %s after %s seconds" % field_name
     assert False, "Field %s did not become visible after %s seconds" \
                   % (field_name, seconds)
 
 
-@step(u'I set the value "{value}" to field "{name}" in "{title}" {form_type}'
-      u' form')
+use_step_matcher("re")
+@step(u'I set the value "(?P<value>[A-Za-z0-9 \-/,._#!<>+:=\{\}@%\*\"\n~\\\\]+)" to field "(?P<name>[A-Za-z ]+)" in the "(?P<title>[A-Za-z]+)" (?P<form_type>[A-Za-z]+) form')
 def set_value_to_field(context, value, name, title, form_type):
     if context.mist_config.get(value):
         value = context.mist_config.get(value)
@@ -173,48 +204,63 @@ def set_value_to_field(context, value, name, title, form_type):
         context.mist_config[value_key] = value
     form = get_add_form(context, title) if form_type == 'add' else \
         get_edit_form(context, title)
-    input = get_input_from_form(form, name.lower())
-    assert input, "Could not set value to field %s" % name
-    clear_input_and_send_keys(input, value)
+    form_shadow = expand_shadow_root(context, form)
+    form_input = get_input_element_from_form(context, form_shadow, name.lower())
+    assert form_input, "Could not set value to field %s" % name
+    clear_input_and_send_keys(form_input, value)
 
 
-@step(u'I expect for the button "{button_name}" in "{title}" {form_type} form'
+use_step_matcher('parse')
+@step(u'I expect for the button "{button_name}" in the "{title}" {form_type} form'
       u' to be clickable within {seconds} seconds')
 def check_button_in_form_is_clickable(context, button_name, title, form_type,
                                       seconds):
-    add_form = get_add_form(context, title) if form_type == 'add' else \
+    form = get_add_form(context, title) if form_type == 'add' else \
         get_edit_form(context, title)
     timeout = time() + int(seconds)
+    form_shadow = expand_shadow_root(context, form)
     while time() < timeout:
-        button = get_button_from_form(add_form, button_name.lower())
-        if button.is_enabled():
+        button = get_button_from_form(context, form_shadow, button_name.lower())
+        if button.is_enabled() and button.get_attribute('disabled') == None:
             return True
         sleep(1)
     assert False, "Button %s did not become clickable" % button_name
 
 
-@step(u'I focus on the button "{button_name}" in "{title}" {form_type} form')
+@step(u'I focus on the button "{button_name}" in the "{title}" {form_type} form')
 def focus_on_form_button(context, button_name, title, form_type):
     form = get_add_form(context, title) if form_type == 'add' else \
         get_edit_form(context, title)
-    button = get_button_from_form(form, button_name.lower())
+    form_shadow = expand_shadow_root(context, form)
+    button = get_button_from_form(context, form_shadow, button_name.lower())
     focus_on_element(context, button)
-    sleep(1)
+    sleep(.1)
 
 
-@step(u'I click the button "{button_name}" in "{title}" {form_type} form')
-def click_button_in_form(context, button_name, title, form_type):
-    form = get_add_form(context, title) if form_type == 'add' else \
-        get_edit_form(context, title)
-    button = get_button_from_form(form, button_name.lower())
+use_step_matcher("re")
+@step(u'I click the button "(?P<button_name>[A-Za-z _]+)" in the "(?P<title>[A-Za-z]+)" add form')
+def click_button_in_form(context, button_name, title):
+    form = get_add_form(context, title)
+    form_shadow = expand_shadow_root(context, form)
+    button = get_button_from_form(context, form_shadow, button_name.lower())
     from .buttons import clicketi_click
     clicketi_click(context, button)
 
 
+@step(u'I click the button "(?P<button_name>[A-Za-z ]+)" in the "(?P<title>[A-Za-z]+)" page')
+def click_button_in_resource_page(context, button_name, title):
+    form = get_page(context, title)
+    form_shadow = expand_shadow_root(context, form)
+    button = get_button_from_form(context, form_shadow, button_name.lower())
+    from .buttons import clicketi_click
+    clicketi_click(context, button)
+
+
+use_step_matcher('parse')
 def get_text_of_dropdown(el):
     try:
         return safe_get_element_text(
-            el.find_element_by_class_name('paper-input')).strip().lower()
+            el.find_element_by_css_selector('paper-input')).strip().lower()
     except NoSuchElementException:
         return ''
 
@@ -228,25 +274,63 @@ def get_current_value_of_dropdown(el):
         return ''
 
 
-def find_dropdown(context, dropdown_text, container_id=None):
-    dropdown_text = dropdown_text.lower()
-    if dropdown_text.endswith(' *'):
-        dropdown_text = dropdown_text[:-2]
-    if not container_id:
-        all_dropdowns = context.browser.find_elements_by_tag_name('paper-dropdown-menu')
-    else:
-        all_dropdowns = context.browser.find_element_by_id(container_id).find_elements_by_tag_name('paper-dropdown-menu')
-    all_dropdowns = filter(lambda t: t[0],
-                           map(lambda el: (get_text_of_dropdown(el).strip().lower(), el),
-                               all_dropdowns))
-    dropdown = filter(lambda t: t[0] == dropdown_text or t[0][:-2] == dropdown_text,
-                      all_dropdowns)
-    assert dropdown, 'There is no dropdown with text %s' % dropdown_text
-    return dropdown.pop()[1]
+def find_dropdown(context, container, dropdown_text):
+    dropdown_text = dropdown_text.lower().rstrip(' *')
+    all_dropdowns = container.find_elements_by_css_selector('paper-dropdown-menu:not([hidden])')
+    try:
+        app_form = container.find_element_by_css_selector('app-form')
+        app_form_shadow = expand_shadow_root(context, app_form)
+        all_dropdowns += app_form_shadow.find_elements_by_css_selector('paper-dropdown-menu:not([hidden])')
+        sub_forms = app_form_shadow.find_elements_by_css_selector('sub-form')
+        for sub in sub_forms:
+            sub_shadow = expand_shadow_root(context, sub)
+            sub_app_form = sub_shadow.find_element_by_css_selector('app-form')
+            sub_app_form_shadow = expand_shadow_root(context, sub_app_form)
+            all_dropdowns += sub_app_form_shadow.find_elements_by_css_selector('paper-dropdown-menu:not([hidden])')
+    except NoSuchElementException:
+        pass
+    for dropdown in all_dropdowns:
+        if dropdown.get_attribute('label').lower().rstrip(' *') == dropdown_text:
+            return dropdown
+    assert False, 'There is no dropdown with text %s' % dropdown_text
 
 
-@step(u'I open the "{dropdown_text}" drop down')
-def open_drop_down(context, dropdown_text):
+@step(u'I open the "{dropdown_text}" dropdown in the "{resource_type}" add form')
+def open_drop_down_in_add_form(context, dropdown_text, resource_type):
     from .buttons import clicketi_click
-    dropdown = find_dropdown(context, dropdown_text.lower())
+    page = get_add_form(context, resource_type)
+    page_shadow = expand_shadow_root(context, page)
+    dropdown = find_dropdown(context, page_shadow, dropdown_text.lower())
+    clicketi_click(context, dropdown)
+
+
+use_step_matcher("re")
+@step(u'I click the "(?P<button_name>[A-Za-z ]+)" button in the "(?P<dialog_title>[A-Za-z? ]+)" dialog')
+def click_button_in_dialog(context, button_name, dialog_title):
+    from .buttons import clicketi_click
+    from .dialog import get_dialog
+    dialog = get_dialog(context, dialog_title)
+    dialog_shadow = expand_shadow_root(context, dialog)
+    button = get_button_from_form(context, dialog_shadow, button_name.lower(), tag_name='paper-button:not([hidden]), paper-item:not([hidden])')
+    clicketi_click(context, button)
+
+
+@step(u'I click the "(?P<button_name>[A-Za-z0-9_ ]+)" button in the "(?P<dropdown_title>[A-Za-z ]+)" dropdown in the "(?P<dialog_title>[A-Za-z ]+)" dialog')
+def click_button_in_dropdown_in_dialog(context, button_name, dropdown_title, dialog_title):
+    from .buttons import clicketi_click
+    from .dialog import get_dialog
+    dialog = get_dialog(context, dialog_title)
+    dialog_shadow = expand_shadow_root(context, dialog)
+    button = get_button_from_form(context, dialog_shadow, button_name.lower(), tag_name='paper-item')
+    clicketi_click(context, button)
+
+
+use_step_matcher('parse')
+@step(u'I open the "{dropdown_text}" dropdown in the "{dialog_title}" dialog')
+def open_drop_down_in_dialog(context, dropdown_text, dialog_title):
+    from .buttons import clicketi_click
+    from .dialog import get_dialog
+    dialog = get_dialog(context, dialog_title)
+    dialog_shadow = expand_shadow_root(context, dialog)
+    dropdown = find_dropdown(context, dialog_shadow, dropdown_text.lower())
     clicketi_click(context, dropdown)

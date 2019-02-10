@@ -2,6 +2,7 @@
 *.pyc
 passwordless
 test_settings.py
+.pytest_cache/
 
 ### artifacts
 artifacts/

@@ -1,13 +1,13 @@
-from behave import step
+from behave import step, when, use_step_matcher
 
-from time import sleep
+from time import sleep, time
 
 import logging
 
-from .utils import safe_get_element_text
-from .utils import focus_on_element
+from .utils import safe_get_element_text, scroll_into_view
+from .utils import focus_on_element, get_page_element, expand_shadow_root
 
-from .forms import find_dropdown
+from .forms import find_dropdown, get_button_from_form
 from .forms import get_current_value_of_dropdown
 
 from selenium.webdriver import ActionChains
@@ -26,16 +26,6 @@ log = logging.getLogger(__name__)
 logging.basicConfig(level=logging.INFO)
 
 
-@step(u'I expect for "{element_id}" to be clickable within max {seconds} '
-      u'seconds')
-def become_visible_waiting_with_timeout(context, element_id, seconds):
-    try:
-        WebDriverWait(context.browser, int(seconds)).until(EC.element_to_be_clickable((By.ID, element_id)))
-    except TimeoutException:
-        raise TimeoutException("element with id %s did not become clickable "
-                               "after %s seconds" % (element_id, seconds))
-
-
 def clicketi_click(context, button):
     """
     trying two different ways of clicking a button because sometimes the
@@ -45,11 +35,15 @@ def clicketi_click(context, button):
     try:
         button.click()
     except WebDriverException:
-        from selenium.webdriver.common import action_chains, keys
-        action_chain = ActionChains(context.browser)
-        action_chain.move_to_element(button)
-        action_chain.click()
-        action_chain.perform()
+        try:
+            scroll_into_view(context, button)
+            button.click()
+        except WebDriverException:
+            from selenium.webdriver.common import action_chains, keys
+            action_chain = ActionChains(context.browser)
+            action_chain.move_to_element(button)
+            action_chain.click()
+            action_chain.perform()
 
 
 def clicketi_click_list_row(context, item):
@@ -65,15 +59,14 @@ def clicketi_click_list_row(context, item):
 
 def click_button_from_collection(context, text, button_collection=None,
                                  error_message="Could not find button"):
-    if not button_collection:
-        try:
-            button_collection = context.browser.find_elements_by_tag_name('paper-button')
-        except NoSuchElementException:
-            button_collection = context.browser.find_elements_by_class_name('ui-btn')
-    button = search_for_button(context, text.lower(), button_collection)
+    button = search_for_button(context, text, button_collection)
     assert button, error_message
     for i in range(0, 2):
         try:
+            button.click()
+            return
+        except WebDriverException:
+            scroll_into_view(context, button)
             clicketi_click(context, button)
             return
         except WebDriverException:
@@ -82,28 +75,10 @@ def click_button_from_collection(context, text, button_collection=None,
                       (safe_get_element_text(button), text)
 
 
-def search_for_button(context, text, button_collection=None):
-    if not button_collection:
-        try:
-            context.browser.find_element_by_id('app')
-            button_collection = context.browser.find_elements_by_tag_name('paper-button')
-        except NoSuchElementException:
-            button_collection = context.browser.find_elements_by_class_name('ui-btn')
-
-    button = filter(lambda el: safe_get_element_text(el).strip().lower() == text,
-                    button_collection)
-
-    if button:
-        return button[0]
-
-    # if we haven't found the exact text then we search for something that
-    # looks like it
+def search_for_button(context, text, button_collection):
     for button in button_collection:
-        button_text = safe_get_element_text(button).split('\n')
-        if len(filter(lambda b: text in b.lower(), button_text)) > 0:
+        if safe_get_element_text(button).strip().lower() == text.lower():
             return button
-
-    return None
 
 
 @step(u'I click the button "{text}"')
@@ -117,65 +92,63 @@ def click_button(context, text):
     if context.mist_config.get(text):
         text = context.mist_config[text]
     if text == '+':
-        plus_button = filter(
-            lambda el: el.is_displayed() and el.get_attribute('icon') == 'add',
-            context.browser.find_elements_by_tag_name('paper-fab'))
-        assert plus_button, 'Could not find + button'
-        clicketi_click(context, plus_button[0])
+        page_shadow = expand_shadow_root(context, get_page_element(context))
+        fabs = page_shadow.find_elements_by_css_selector('paper-fab')
+        assert fabs, 'Could not find + button'
+        clicketi_click(context, fabs[0])
         return True
     click_button_from_collection(context, text.lower(),
                                  error_message='Could not find button that '
                                                'contains %s' % text)
 
-@step(u'I click the button "{button_name}" in the "{name}" page actions menu')
-def click_button_in_dropdown(context, button_name, name):
-    actions = context.browser.find_element_by_css_selector('mist-actions[type=%s]' % name)
-    buttons = actions.find_elements_by_xpath('paper-button')
-    for button in buttons:
-        if safe_get_element_text(button).lower() == button_name.lower():
-            clicketi_click(context, button)
-            return
-    more_dropdown = actions.find_element_by_id('actionmenu')
-    clicketi_click(context, more_dropdown)
-    sleep(1)
-    try:
-        more_dropdown_buttons = more_dropdown.find_elements_by_tag_name('paper-button')
-    except StaleElementReferenceException:
-        # sometimes actions will expand after clicking on actionmenu
-        more_dropdown_buttons = actions.find_elements_by_xpath('paper-button')
-    assert more_dropdown_buttons, "There are no buttons within the more dropdown"
-    click_button_from_collection(context, button_name, more_dropdown_buttons)
 
-
-@step(u'I click the "{button}" button in the "{name}" dropdown within "{container_id}"')
-def click_button_in_dropdown_within_container(context, button, name, container_id=None):
+@step(u'I click the "{button}" button in the "{name}" dropdown within "{container}"')
+def click_button_in_dropdown_within_container(context, container, button, name):
     button = button.strip().lower()
-    try:
-        dropdown = find_dropdown(context, name.lower(), container_id)
-    except AssertionError:
-        # FIXME: this is needed for mayday test
-        dropdown = context.browser.find_element_by_id(name)
+    dropdown = find_dropdown(context, container, name.lower())
     if button == get_current_value_of_dropdown(dropdown):
         return True
-    buttons = dropdown.find_elements_by_tag_name('paper-item')
+    buttons = dropdown.find_elements_by_css_selector('paper-item')
     click_button_from_collection(context, button.lower(), buttons)
 
-@step(u'I click the "{button}" button in the "{name}" dropdown')
-@step(u'I click the button "{button}" in the "{name}" dropdown')
-def click_button_in_dropdown(context, button, name):
-    click_button_in_dropdown_within_container(context, button, name)
+
+@step(u'I click the "{button_name}" button in the "{dropdown_name}" dropdown in the "{resource_type}" add form')
+def click_button_in_dropdown(context, button_name, dropdown_name, resource_type):
+    from .forms import get_add_form
+    page = get_add_form(context, resource_type)
+    page_shadow = expand_shadow_root(context, page)
+    click_button_in_dropdown_within_container(context, page_shadow, button_name, dropdown_name)
 
 
-#@step(u'I click the "{button}" button in the dropdown with id "{dropdown_id}"')
-#def click_button_in_dropdown_with_id(context, button, dropdown_id):
-#    button = button.strip().lower()
-#    dropdown = context.browser.find_element_by_id(dropdown_id)
-#    if button == get_current_value_of_dropdown(dropdown):
-#        return True
-#    buttons = dropdown.find_elements_by_tag_name('paper-item')
-#    click_button_from_collection(context, button.lower(), buttons)
+use_step_matcher("re")
+@step(u'I click the "(?P<button_name>[A-Za-z ]+)" toggle button in the "(?P<resource_type>[A-Za-z]+)" add form')
+def click_toggle_button_in_add_form(context, button_name, resource_type):
+    from .forms import get_add_form
+    form = get_add_form(context, resource_type)
+    form_shadow = expand_shadow_root(context, form)
+    button = get_button_from_form(context, form_shadow, button_name, tag_name='paper-toggle-button')
+    clicketi_click(context, button)
 
 
+@step(u'I click the "(?P<button_name>[A-Za-z ]+)" toggle button in the "(?P<dialog_name>[A-Za-z ]+)" dialog')
+def click_toggle_button_in_dialog(context, button_name, dialog_name):
+    from .dialog import get_dialog
+    dialog = get_dialog(context, dialog_name)
+    dialog_shadow = expand_shadow_root(context, dialog)
+    button = get_button_from_form(context, dialog_shadow, button_name, tag_name='paper-toggle-button')
+    clicketi_click(context, button)
+
+
+@step(u'I click the "(?P<button_name>[A-Za-z ]+)" radio button in the "(?P<resource_type>[A-Za-z]+)" add form')
+def click_toggle_button_in_add_form(context, button_name, resource_type):
+    from .forms import get_add_form
+    form = get_add_form(context, resource_type)
+    form_shadow = expand_shadow_root(context, form)
+    button = get_button_from_form(context, form_shadow, button_name, tag_name='paper-radio-button')
+    clicketi_click(context, button)
+
+
+use_step_matcher("parse")
 @step(u'I click the "{button}" button in the dropdown with id "{dropdown_id}" within "{container_id}"')
 def click_button_in_dropdown_with_id_within_container(context, button, dropdown_id, container_id=None):
     button = button.strip().lower()
@@ -188,6 +161,7 @@ def click_button_in_dropdown_with_id_within_container(context, button, dropdown_
         return True
     buttons = dropdown.find_elements_by_tag_name('paper-item')
     click_button_from_collection(context, button.lower(), buttons)
+
 
 @step(u'I click the "{button}" button in the dropdown with id "{dropdown_id}"')
 def click_button_in_dropdown_with_id(context, button, dropdown_id):
@@ -228,65 +202,78 @@ def select_members_in_mist_dropdown(context, members, dropdown, container_id=Non
     assert False, "Could not find %s option in %s mist-dropdown" % (members, dropdown)
 
 
-@step(u'I click the button "{button}" in the tag menu')
-def click_button_in_tag_model(context, button):
-    from .tags import get_open_tag_modal
-    buttons = get_open_tag_modal(context, False).\
-        find_elements_by_tag_name('paper-button')
-    click_button_from_collection(context, button, buttons)
-
-
 @step(u'I click the button "{button}" in the user menu')
 def click_the_user_menu_button(context, button):
-    dropdown = context.browser.find_element_by_css_selector('app-user-menu #dropdown')
-    buttons = dropdown.find_elements_by_tag_name('paper-item')
-    click_button_from_collection(context, button, buttons)
+    from .navigation import click_user_icon_and_wait_for_menu, get_user_menu
+    click_user_icon_and_wait_for_menu(context)
+    user_menu = get_user_menu(context)
+    timeout = time() + 5
+    dimensions = None
+    while time() < timeout:
+        try:
+            if dimensions is None:
+                dimensions = user_menu.size
+            elif dimensions['width'] == user_menu.size['width'] and \
+                            dimensions['height'] == user_menu.size['height']:
+                sleep(1)
+                click_button_from_collection(context, button,
+                                             user_menu.find_elements_by_css_selector(
+                                                 'paper-item'))
+                return True
+            else:
+                dimensions = user_menu.size
+        except NoSuchElementException:
+            pass
+        sleep(1)
+    assert False, "User menu has not appeared yet"
 
 
-@step(u'I click the action "{button}" from the {resource_type} list actions')
-def click_action_of_list(context,button,resource_type):
+@step(u'I click the action "{button_text}" from the {resource_type} list actions')
+def click_action_of_list(context, button_text, resource_type):
     resource_type = resource_type.lower()
     if resource_type not in ['machine', 'key', 'script', 'network', 'team', 'template', 'stack', 'image', 'schedule', 'record']:
         raise Exception('Unknown resource type')
     if resource_type == 'record':
-        buttons = context.browser.find_elements_by_css_selector('zone-page mist-list mist-actions > paper-button')
+        _, container = get_page_element(context, 'zones', 'zone')
     else:
-        buttons = context.browser.find_elements_by_css_selector('page-%ss mist-list mist-actions > paper-button' % resource_type)
-    click_button_from_collection(context, button.lower(), buttons)
+        container = get_page_element(context, resource_type + 's')
+    container_shadow = expand_shadow_root(context, container)
+    mist_list = container_shadow.find_element_by_css_selector('mist-list')
+    list_shadow = expand_shadow_root(context, mist_list)
+    actions = list_shadow.find_element_by_css_selector('mist-list-actions')
+    actions_shadow = expand_shadow_root(context, actions)
+    buttons = actions_shadow.find_elements_by_css_selector(':host > paper-button:not([hidden])')
+    button = search_for_button(context, button_text, buttons)
+    if not button:
+        try:
+            more_menu_button = actions_shadow.find_element_by_css_selector(':host > paper-menu-button')
+            clicketi_click(context, more_menu_button)
+            sleep(.2)
+            more_buttons = more_menu_button.find_elements_by_css_selector('.dropdown-content > paper-button')
+            button = search_for_button(context, button_text, more_buttons)
+        except NoSuchElementException:
+            assert False, "Could not find %s action button"
+    clicketi_click(context, button)
 
 
-@step(u'I click the "{text}" "{type_of_item}"')
-def click_item(context, text, type_of_item):
-    type_of_item = type_of_item.lower()
-    if type_of_item not in ['machine', 'key', 'script', 'network', 'team', 'template', 'stack', 'image', 'schedule', 'zone']:
+@step(u'I click the "{text}" "{resource_type}"')
+def click_item(context, text, resource_type):
+    resource_type = resource_type.lower()
+    if resource_type not in ['machine', 'key', 'script', 'network', 'team', 'template', 'stack', 'image', 'schedule', 'zone']:
         raise Exception('Unknown type of button')
     if context.mist_config.get(text):
         text = context.mist_config[text]
     text = text.lower()
-    if type_of_item in ['machine', 'image', 'team', 'key', 'script', 'network', 'template', 'stack', 'schedule', 'zone']:
-        item_selector = 'page-%ss mist-list vaadin-grid-table-body#items > vaadin-grid-table-row' % type_of_item
-    else:
-        item_selector = 'page-%ss iron-list div.row' % type_of_item
-    items = context.browser.find_elements_by_css_selector(item_selector)
+    container = get_page_element(context, resource_type + 's')
+    container_shadow = expand_shadow_root(context, container)
+    mist_list = container_shadow.find_element_by_css_selector('mist-list')
+    list_shadow = expand_shadow_root(context, mist_list)
+    items = list_shadow.find_elements_by_css_selector('strong.name')
     for item in items:
-        if type_of_item in ['machine', 'image', 'team', 'key', 'script', 'network', 'template', 'stack', 'schedule', 'zone']:
-            try:
-                name = safe_get_element_text(item.find_element_by_css_selector('strong.name')).strip().lower()
-            except NoSuchElementException:
-                try:
-                    sleep(1)
-                    name = safe_get_element_text(item.find_element_by_css_selector('strong.name')).strip().lower()
-                except NoSuchElementException:
-                    item_html = item.get_attribute('innerHTML')
-                    print(item_html)
-                    raise Exception(item_html)
+        if resource_type in ['machine', 'image', 'team', 'key', 'script', 'network', 'template', 'stack', 'schedule', 'zone']:
+            name = safe_get_element_text(item).strip().lower()
             if text == name:
-                clicketi_click(context,item)
-                return True
-        else:
-            name = safe_get_element_text(item.find_element_by_css_selector('div.name')).strip().lower()
-            if text == name:
-                clicketi_click_list_row(context, item)
+                clicketi_click(context, item)
                 return True
     assert False, "Could not click item %s" % text
 
@@ -315,9 +302,13 @@ def get_color_from_state(state):
     return None
 
 
-@step(u'I click the mist.io button')
-def click_mist_io(context):
-    clicketi_click(context, context.browser.find_element_by_id('logo-link'))
+@step(u'I click the mist logo')
+def click_mist_logo(context):
+    mist_app = context.browser.find_element_by_tag_name('mist-app')
+    mist_app_shadow = expand_shadow_root(context, mist_app)
+    mist_header = mist_app_shadow.find_element_by_css_selector('mist-header')
+    mist_header_shadow = expand_shadow_root(context, mist_header)
+    clicketi_click(context, mist_header_shadow.find_element_by_css_selector('a#logo-link'))
 
 
 @step(u'I click the "{button}" button')
@@ -345,16 +336,88 @@ def click_button_by_id(context, button, button_id):
     click_button_by_id_within_container(context, button, button_id)
 
 
+@step(u'I click the toggle button in the "{page_title}" page')
+def click_toggle_in_page(context, page_title):
+    _, page_element = get_page_element(context, page_title + 's', page_title)
+    page_shadow = expand_shadow_root(context, page_element)
+    toggle_button = page_shadow.find_element_by_css_selector('paper-toggle-button')
+    clicketi_click(context, toggle_button)
+
+
 @step(u'I click the mist-logo')
 def visit_home_url(context):
     save_title_button = context.browser.find_element_by_id('logo-link')
     clicketi_click(context, save_title_button)
 
 
-@step(u'I click the Gravatar')
-def click_the_gravatar(context):
-    try:
-        gravatar = context.browser.find_element_by_css_selector('paper-icon-button.gravatar')
-        clicketi_click(context, gravatar)
-    except NoSuchElementException:
-        get_old_gravatar(context)
+@step(u'I click the user icon')
+def click_the_user_icon(context):
+    mist_app = context.browser.find_element_by_tag_name('mist-app')
+    mist_app_shadow = expand_shadow_root(context, mist_app)
+    mist_header = mist_app_shadow.find_element_by_css_selector('mist-header')
+    mist_header_shadow = expand_shadow_root(context, mist_header)
+    app_user_menu = mist_header_shadow.find_element_by_css_selector('app-user-menu')
+    app_user_menu_shadow = expand_shadow_root(context, app_user_menu)
+    gravatar = app_user_menu_shadow.find_element_by_css_selector('paper-icon-button.gravatar')
+    clicketi_click(context, gravatar)
+
+
+use_step_matcher("re")
+@step(u'I click the "(?P<action>[A-Za-z ]+)" action button in the "(?P<resource_type>[A-Za-z]+)" page')
+def click_action_in_resource_page(context, action, resource_type):
+    _, container = get_page_element(context, resource_type + 's', resource_type)
+    container_shadow = expand_shadow_root(context, container)
+    resource_actions = container_shadow.find_element_by_css_selector('%s-actions' % resource_type)
+    resource_actions_shadow = expand_shadow_root(context, resource_actions)
+    mist_list_actions = resource_actions_shadow.find_element_by_css_selector('mist-list-actions')
+    mist_list_actions_shadow = expand_shadow_root(context, mist_list_actions)
+    buttons = mist_list_actions_shadow.find_elements_by_css_selector(':host > paper-button')
+    if search_for_button(context, action.lower(), buttons):
+        click_button_from_collection(context, action.lower(), buttons)
+    else:
+        more_button = mist_list_actions_shadow.find_element_by_css_selector(':host > paper-menu-button')
+        clicketi_click(context, more_button)
+        sleep(.5)
+        buttons = mist_list_actions_shadow.find_elements_by_css_selector(':host > paper-menu-button paper-button')
+        click_button_from_collection(context, action.lower(), buttons)
+
+
+use_step_matcher('parse')
+@step(u'I click the fab button in the "{page_title}" page')
+def click_fab_button_in_page(context, page_title):
+    if page_title.endswith('s') or page_title in ['dashboard']:
+        page_element = get_page_element(context, page_title)
+    else:
+        _, page_element = get_page_element(context, page_title + 's', page_title)
+    page_shadow = expand_shadow_root(context, page_element)
+    fab = page_shadow.find_element_by_css_selector('paper-fab')
+    clicketi_click(context, fab)
+
+
+@step(u'I click the "{target}" tab in the account page')
+def click_tab_in_page(context, target):
+    page_element = get_page_element(context, 'my-account')
+    page_shadow = expand_shadow_root(context, page_element)
+    for tab in page_shadow.find_elements_by_css_selector('paper-tab:not([hidden])'):
+        if target.lower() in tab.text.lower():
+            clicketi_click(context, tab)
+            return
+    assert False, 'Cannot find tab "%s"' % target
+
+
+@step(u'I click the "{target}" button in the account page')
+def click_button_in_account_page(context, target):
+    page_element = get_page_element(context, 'my-account')
+    page_shadow = expand_shadow_root(context, page_element)
+    active_section = page_shadow.find_element_by_css_selector('iron-pages > .iron-selected')
+    section_shadow = expand_shadow_root(context, active_section)
+    buttons = section_shadow.find_elements_by_css_selector('paper-button:not([hidden])')
+    multi_inputs = section_shadow.find_elements_by_css_selector('multi-inputs:not([hidden])')
+    for multi_input in multi_inputs:
+        multi_input_shadow = expand_shadow_root(context, multi_input)
+        buttons += multi_input_shadow.find_elements_by_css_selector('paper-button:not([hidden])')
+    for button in buttons:
+        if target.lower() in button.text.lower():
+            button.click()
+            return
+    assert False, 'Cannot find button "%s" in account page' % target

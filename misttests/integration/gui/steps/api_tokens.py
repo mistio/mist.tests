@@ -1,17 +1,21 @@
 from behave import step
 
-from .utils import focus_on_element
-from .utils import safe_get_element_text
+from .utils import focus_on_element, expand_shadow_root
+from .utils import safe_get_element_text, get_page_element
 from .buttons import clicketi_click
 
 
 @step(u'I revoke token "{token}"')
-def revoke_all_api_tokens(context, token):
-    tokens_list = context.browser.find_element_by_id('tokens-list')
-    token_items = tokens_list.find_elements_by_tag_name('token-item')
+def revoke_api_token(context, token):
+    page_element = get_page_element(context, 'my-account')
+    page_shadow = expand_shadow_root(context, page_element)
+    active_section = page_shadow.find_element_by_css_selector('iron-pages > .iron-selected')
+    section_shadow = expand_shadow_root(context, active_section)
+    token_items = section_shadow.find_elements_by_css_selector('token-item')
     for token_item in token_items:
         if token in token_item.text:
-            revoke_btn = token_item.find_element_by_class_name('red')
+            token_item_shadow = expand_shadow_root(context, token_item)
+            revoke_btn = token_item_shadow.find_element_by_css_selector('.red')
             focus_on_element(context, revoke_btn)
             clicketi_click(context, revoke_btn)
             break
@@ -19,10 +23,12 @@ def revoke_all_api_tokens(context, token):
 
 @step(u'I get the new api token value "{token_name}"')
 def get_new_token_value(context, token_name):
-    token_text_area = context.browser.find_element_by_id('tokenValue')
+    from .dialog import get_dialog
+    dialog = get_dialog(context, 'Copy your Token')
+    dialog_shadow = expand_shadow_root(context, dialog)
+    token_text_area = dialog_shadow.find_element_by_css_selector('paper-textarea#tokenValue')
     context.mist_config[token_name] = token_text_area.get_attribute('value')
-    copy_token_dialog = context.browser.find_element_by_id('copyToken')
-    ok_btn = copy_token_dialog.find_element_by_tag_name('paper-button')
+    ok_btn = dialog_shadow.find_element_by_css_selector('paper-button')
     ok_btn.click()
 
 
@@ -41,12 +47,3 @@ def test_api_token(context, token_value, work_or_fail):
                                             % (context.mist_config[token_value],
                                                response.status_code)
 
-
-@step(u'I click the button "Never" from the ttl dropdown')
-def click_inside_the_ttl_dropdown(context):
-    dropbox = context.browser.find_element_by_id('tokenExpires')
-    dropbox.click()
-    options = dropbox.find_elements_by_tag_name('paper-item')
-    for option in options:
-        if option.get_attribute("value")=='0':
-            option.click()
