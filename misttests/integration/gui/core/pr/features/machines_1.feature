@@ -10,6 +10,7 @@ Feature: Machines
     And cloud "Docker" has been added via API request
     And key "DummyKey" has been added via API request
     And I have given card details if needed
+    And I refresh the page
     When I visit the Keys page
     When I click the button "+"
     Then I expect the "Key" add form to be visible within max 10 seconds
