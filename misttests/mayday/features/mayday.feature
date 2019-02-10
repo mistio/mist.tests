@@ -9,12 +9,13 @@ Feature: Production
   Scenario: Production monitor and graph testing
     Given I am logged in to mist
     When I visit the Machines page after the counter has loaded
-    Then I search for the mayday machine
+    Then I search for "MAYDAY_MACHINE"
+    And I wait for 1 seconds
     When I click the "MAYDAY_MACHINE" "machine"
-    And I clear the machines search bar
-    And I expect the "machine" edit form to be visible within max 5 seconds
-    Then I wait for the graphs to appear
-    And "Load" graph should have some values
+    And I clear the search bar
+    And I expect the "machine" page to be visible within max 5 seconds
+    Then I wait for the monitoring graphs to appear in the "machine" page
+#    And "Load" graph should have some values
 #    When I scroll to the bottom of the page
 #    And I click the button "Add Graph"
 #    Then I expect for "selectTarget" modal to appear within max 20 seconds
@@ -28,41 +29,42 @@ Feature: Production
   Scenario: Production rule and alert testing
     Given I am logged in to mist
     When I visit the Machines page after the counter has loaded
-    Then I search for the mayday machine
+    Then I search for "MAYDAY_MACHINE"
+    And I wait for 1 seconds
     When I click the "MAYDAY_MACHINE" "machine"
-    And I clear the machines search bar
-    And I expect the "machine" edit form to be visible within max 5 seconds
-    Then I wait for the graphs to appear
-    When I scroll to the element with id "monitoringRules"
-    When I remove previous rules
+    And I clear the search bar
+    And I expect the "machine" page to be visible within max 5 seconds
+    Then I wait for the monitoring graphs to appear in the "machine" page
+    When I scroll to the bottom of the page
+    When I remove previous rules in the "machine" page
     When I delete old mayday emails
     And I wait for 2 seconds
     And I scroll to the bottom of the page
-    And I click the button "add new rule"
+    And I click the button "add new rule" in the "machine" page
     And I wait for 1 seconds
-    And I click the "Load" button in the dropdown with id "target-0" within "add-new-rule-dialog"
-    And I click the "<" button in the dropdown with id "operator-0" within "add-new-rule-dialog"
-    And I type "10" in input with id "threshold-0" within "add-new-rule-dialog"
-    And I click the "actionsDropdown" button with id "actionsDropdown" within "add-new-rule-dialog"
-    And I click the "alert" button in the dropdown with id "actionsDropdown" within "add-new-rule-dialog"
-    And I open the "teams" mist-dropdown within "add-new-rule-dialog"
-    And I select "Owners" in "teams" mist-dropdown within "add-new-rule-dialog"
+    And I select the "Load" target when adding new rule in the "machine" page
+    And I select the "<" operator when adding new rule in the "machine" page
+    And I type "10" in the threshold when adding new rule in the "machine" page
+    And I select the "alert" action when adding new rule in the "machine" page
+    And I select the "Owners" team when adding new rule in the "machine" page
     And I wait for 2 seconds
-    And I save the rule within "add-new-rule-dialog"
+    And I save the new rule in the "machine" page
 
   @reboot
   Scenario: Production machine reboot testing
     Given I am logged in to mist
     When I visit the Machines page after the counter has loaded
-    Then I search for the mayday machine
+    And I clear the search bar
+    And I wait for 1 seconds
+    Then I search for "MAYDAY_MACHINE"
     When I click the "MAYDAY_MACHINE" "machine"
-    And I expect the "machine" edit form to be visible within max 5 seconds
+    And I expect the "machine" page to be visible within max 5 seconds
     And I wait for 2 seconds
-    Then I click the button "Reboot" from the menu of the "machine" edit form
-    Then I expect the dialog "Reboot Machine" is open within 4 seconds
-    And I click the "Reboot" button in the dialog "Reboot Machine"
+    Then I click the "Reboot" action button in the "machine" page
+    Then I expect the "Reboot Machine" dialog to be open within 4 seconds
+    When I click the "Reboot" button in the "Reboot Machine" dialog
     And I wait for 40 seconds
-    Then I click the button "Shell" from the menu of the "machine" edit form
+    Then I click the "Shell" action button in the "machine" page
     And I expect terminal to open within 3 seconds
     And I wait for 5 seconds
     And I type in the terminal "uptime"
