@@ -35,11 +35,11 @@ Feature: Production
     And I clear the search bar
     And I expect the "machine" page to be visible within max 5 seconds
     Then I wait for the monitoring graphs to appear in the "machine" page
-    When I scroll to the bottom of the page
+    When I scroll to the rules section in the "machine" page
     When I remove previous rules in the "machine" page
     When I delete old mayday emails
     And I wait for 2 seconds
-    And I scroll to the bottom of the page
+    And I I scroll to the rules section in the "machine" page
     And I click the button "add new rule" in the "machine" page
     And I wait for 1 seconds
     And I select the "Load" target when adding new rule in the "machine" page
