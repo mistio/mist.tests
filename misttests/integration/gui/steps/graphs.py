@@ -111,8 +111,8 @@ def get_graph_panel(context, graph_title, page, timeout):
     mist_monitoring_shadow = expand_shadow_root(context, mist_monitoring)
     polyana_dashboard = mist_monitoring_shadow.find_element_by_css_selector('polyana-dashboard')
     polyana_dashboard_shadow = expand_shadow_root(context, polyana_dashboard)
-    timeout = time() + int(timeout)
-    while time() < timeout:
+    end = time() + int(timeout)
+    while time() < end:
         try:
             dashboard_panels = polyana_dashboard_shadow.find_elements_by_css_selector('dashboard-panel:not([hidden])')
             for panel in dashboard_panels:

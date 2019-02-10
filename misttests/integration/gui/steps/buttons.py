@@ -411,7 +411,12 @@ def click_button_in_account_page(context, target):
     page_shadow = expand_shadow_root(context, page_element)
     active_section = page_shadow.find_element_by_css_selector('iron-pages > .iron-selected')
     section_shadow = expand_shadow_root(context, active_section)
-    for button in section_shadow.find_elements_by_css_selector('paper-button:not([hidden])'):
+    buttons = section_shadow.find_elements_by_css_selector('paper-button:not([hidden])')
+    multi_inputs = section_shadow.find_elements_by_css_selector('multi-inputs:not([hidden])')
+    for multi_input in multi_inputs:
+        multi_input_shadow = expand_shadow_root(context, multi_input)
+        buttons += multi_input_shadow.find_elements_by_css_selector('paper-button:not([hidden])')
+    for button in buttons:
         if target.lower() in button.text.lower():
             button.click()
             return
