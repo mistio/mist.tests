@@ -16,7 +16,7 @@ from misttests.integration.gui.steps.ssh import *
 from misttests.integration.gui.steps.browser import *
 from misttests.integration.gui.steps.dialog import *
 from misttests.integration.gui.steps.list import *
-from misttests.integration.gui.steps.utils import safe_get_element_text
+from misttests.integration.gui.steps.utils import safe_get_element_text, expand_shadow_root, get_page_element
 
 from selenium.webdriver import ActionChains
 from selenium.webdriver.common.keys import Keys
@@ -163,8 +163,11 @@ def rule_value(context, value):
 
 @step(u'I should see the incident "{incident}"')
 def check_for_incident(context, incident):
-    incidents_list = context.browser.find_elements_by_css_selector('span.rule-condition.app-incidents')
-
+    dashboard_page = get_page_element(context, 'dashboard')
+    dashboard_shadow = expand_shadow_root(context, dashboard_page)
+    app_incidents = dashboard_shadow.find_element_by_css_selector('app-incidents')
+    app_incidents_shadow = expand_shadow_root(context, app_incidents)
+    incidents_list = app_incidents_shadow.find_elements_by_css_selector('span.rule-condition')
     for item in incidents_list:
         if incident in safe_get_element_text(item):
             return
