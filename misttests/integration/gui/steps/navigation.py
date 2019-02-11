@@ -228,9 +228,9 @@ def scroll_to_add_new_rule_btn(context):
     context.browser.execute_script("window.scrollTo(0, 2000)")
 
 
-@step(u'I scroll to the rules section in the "{page}" page')
-def scroll_to_rules_section(context, page):
-    page_element = get_page_element(context, page)
+@step(u'I scroll to the rules section in the "machine" page')
+def scroll_to_rules_section(context):
+    _, page_element = get_page_element(context, "machines", "machine")
     page_shadow = expand_shadow_root(context, page_element)
     mist_rules = page_shadow.find_element_by_css_selector('mist-rules')
     context.browser.execute_script("arguments[0].scrollIntoView({behavior: 'auto', block: 'center', inline: 'center'})", mist_rules)
