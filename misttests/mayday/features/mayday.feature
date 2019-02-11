@@ -39,7 +39,7 @@ Feature: Production
     When I remove previous rules in the "machine" page
     When I delete old mayday emails
     And I wait for 2 seconds
-    And I I scroll to the rules section in the "machine" page
+    And I scroll to the rules section in the "machine" page
     And I click the button "add new rule" in the "machine" page
     And I wait for 1 seconds
     And I select the "Load" target when adding new rule in the "machine" page
