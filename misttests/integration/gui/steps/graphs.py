@@ -225,7 +225,7 @@ def select_option_when_adding_rule(context, option, dropdown, resource_type):
     if menu.find_element_by_css_selector('.dropdown-content').get_attribute('aria-expanded') == 'true':
         # If the menu is still open, close it without losing the selected value.
         if 'checkbox' in selector:
-            clicketi_click(context, menu)
+            clicketi_click(context, mist_rules_shadow.find_element_by_css_selector('paper-material'))
         else:
             clicketi_click(context, item)
         sleep(.5)
@@ -251,7 +251,8 @@ def save_new_rule(context, page):
     mist_rules_shadow = expand_shadow_root(context, mist_rules)
     new_rule = mist_rules_shadow.find_element_by_css_selector('paper-material#add-new-rule-dialog > rule-edit')
     new_rule_shadow = expand_shadow_root(context, new_rule)
-    get_button_from_form(context, new_rule_shadow, 'save rule').click()
+    save_button = get_button_from_form(context, new_rule_shadow, 'save rule')
+    clicketi_click(context, save_button)
 
 
 @step(u'I remove previous rules in the "{page}" page')
