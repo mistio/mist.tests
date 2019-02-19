@@ -30,9 +30,8 @@ Feature: Production
     Given I am logged in to mist
     When I visit the Machines page after the counter has loaded
     Then I search for "MAYDAY_MACHINE"
-    And I wait for 1 seconds
+    And I wait for 3 seconds
     When I click the "MAYDAY_MACHINE" "machine"
-    And I clear the search bar
     And I expect the "machine" page to be visible within max 5 seconds
     Then I wait for the monitoring graphs to appear in the "machine" page
     When I scroll to the rules section in the "machine" page
@@ -49,6 +48,7 @@ Feature: Production
     And I select the "Owners" team when adding new rule in the "machine" page
     And I wait for 2 seconds
     And I save the new rule in the "machine" page
+    And I wait for 10 seconds
 
   @reboot
   Scenario: Production machine reboot testing
@@ -110,7 +110,7 @@ Feature: Production
   Scenario: Verify that incident gets triggered
     Given I am logged in to mist
     And I wait for the navigation menu to appear
-    And I wait for 2 seconds
+    And I wait for 3 seconds
     Then I should see the incident "Load < 10"
 
   @confirm_schedule-triggered

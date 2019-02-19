@@ -79,10 +79,10 @@ def get_input_element_from_form(context, form, input_name):
     form_containers_shadow.append(form)
     for form in form_containers_shadow:
         try:
-            app_form = form.find_element_by_css_selector('app-form')
+            app_form = form.find_element_by_css_selector('app-form, multi-inputs')
             app_form_shadow = expand_shadow_root(context, app_form)
             input_containers += app_form_shadow.find_elements_by_css_selector('paper-input, paper-textarea')
-            sub_forms = app_form_shadow.find_elements_by_css_selector('sub-form')
+            sub_forms = app_form_shadow.find_elements_by_css_selector('sub-form, multi-inputs')
             for sub in sub_forms:
                 sub_shadow = expand_shadow_root(context, sub)
                 sub_app_form = sub_shadow.find_element_by_css_selector('app-form')
@@ -206,6 +206,23 @@ def set_value_to_field(context, value, name, title, form_type):
         get_edit_form(context, title)
     form_shadow = expand_shadow_root(context, form)
     form_input = get_input_element_from_form(context, form_shadow, name.lower())
+    assert form_input, "Could not set value to field %s" % name
+    clear_input_and_send_keys(form_input, value)
+
+
+@step(u'I set the value "(?P<value>[A-Za-z0-9 \-/,._#!<>+:=\{\}@%\*\"\n~\\\\]+)" to field "(?P<name>[A-Za-z ]+)" in the Account page')
+def set_value_to_field_in_account_page(context, value, name):
+    if context.mist_config.get(value):
+        value = context.mist_config.get(value)
+    elif "random" in value:
+        value_key = value
+        value = value.replace("random", str(randrange(1000)))
+        context.mist_config[value_key] = value
+    page_element = get_page_element(context, 'my-account')
+    page_shadow = expand_shadow_root(context, page_element)
+    active_section = page_shadow.find_element_by_css_selector('iron-pages > .iron-selected')
+    section_shadow = expand_shadow_root(context, active_section)
+    form_input = get_input_element_from_form(context, section_shadow, name.lower())
     assert form_input, "Could not set value to field %s" % name
     clear_input_and_send_keys(form_input, value)
 

@@ -18,56 +18,57 @@ Feature: Ip-whitelisting
     When I visit the Keys page
     And I click the button "+"
     Then I expect the "Key" add form to be visible within max 10 seconds
-    When I set the value "TestKey" to field "Name" in "key" add form
-    And I focus on the button "Generate" in "key" add form
-    And I click the button "Generate" in "key" add form
+    When I set the value "TestKey" to field "Name" in the "key" add form
+    And I focus on the button "Generate" in the "key" add form
+    And I click the button "Generate" in the "key" add form
     And I wait for 5 seconds
-    Then I expect for the button "Add" in "key" add form to be clickable within 10 seconds
-    When I focus on the button "Add" in "key" add form
-    And I click the button "Add" in "key" add form
-    Then I expect the "key" edit form to be visible within max 10 seconds
+    Then I expect for the button "Add" in the "key" add form to be clickable within 10 seconds
+    When I focus on the button "Add" in the "key" add form
+    And I click the button "Add" in the "key" add form
+    Then I expect the "key" page to be visible within max 10 seconds
     When I visit the Keys page
     Then "TestKey" key should be present within 10 seconds
 
   @set-whitelisted-ips-to-empty
   Scenario:  User sets whitelisted IPs as empty
-    When I visit the Account page
-    And I wait for 5 seconds
-    And I click the "Whitelisted IPs" button with id "ips"
-    And I wait for 1 seconds
-    And I remove all whitelisted ips
-    And I click the "Save IPs" button with id "save_ips"
-    And I wait for 5 seconds
+    When I refresh the page
+    And I wait for 3 seconds
+    And I visit the Account page
+    And I wait for 3 seconds
+    And I click the "Whitelisted IPs" tab in the Account page
+    And I click the "Remove" button in the Account page
+    And I click the "Save IPs" button in the Account page
+    And I wait for 2 seconds
 
   @user-can-still-create-resources
   Scenario: Verify that user can still create resources after removing all whitelisted IPs
     When I visit the Keys page
     And I click the button "+"
     Then I expect the "Key" add form to be visible within max 10 seconds
-    When I set the value "TestKey2" to field "Name" in "key" add form
-    And I focus on the button "Generate" in "key" add form
-    And I click the button "Generate" in "key" add form
+    When I set the value "TestKey2" to field "Name" in the "key" add form
+    And I click the button "Generate" in the "key" add form
     And I wait for 5 seconds
-    Then I expect for the button "Add" in "key" add form to be clickable within 10 seconds
-    When I focus on the button "Add" in "key" add form
-    And I click the button "Add" in "key" add form
-    Then I expect the "key" edit form to be visible within max 10 seconds
+    Then I expect for the button "Add" in the "key" add form to be clickable within 10 seconds
+    When I focus on the button "Add" in the "key" add form
+    And I click the button "Add" in the "key" add form
+    Then I expect the "key" page to be visible within max 10 seconds
     When I visit the Keys page
     Then "TestKey2" key should be present within 10 seconds
 
   @save-only-dummy-ip-as-whitelisted
   Scenario:  User sets only a dummy ip as whitelisted. He should be locked out
-    When I visit the Account page
+    When I refresh the page
+    And I wait for 3 seconds
+    And I visit the Account page
     And I wait for 5 seconds
-    And I click the "Whitelisted IPs" button with id "ips"
+    And I click the "Whitelisted IPs" tab in the Account page
     And I wait for 1 seconds
-    And I remove all whitelisted ips
-    And I click the button "Add Cidr"
-    And I add the IP "1.2.3.4" as whitelisted
-    And I click the "Save IPs" button with id "save_ips"
-    Then I expect the dialog "Save IPs" is open within 4 seconds
-    When I click the "Save Anyway" button in the dialog "Save IPs"
-    Then I expect the dialog "Save IPs" is closed within 4 seconds
+    And I click the "Add Cidr" button in the Account page
+    And I set the value "1.2.3.4" to field "cidr" in the Account page
+    And I click the "Save IPs" button in the Account page
+    Then I expect the "Save IPs" dialog to be open within 4 seconds
+    When I click the "Save Anyway" button in the "Save IPs" dialog
+    Then I expect the "Save IPs" dialog to be closed within 4 seconds
     And I should see the landing page within 10 seconds
 
   @user-requests-whitelist
@@ -94,14 +95,13 @@ Feature: Ip-whitelisting
     When I visit the Keys page
     And I click the button "+"
     Then I expect the "Key" add form to be visible within max 10 seconds
-    When I set the value "TestKey3" to field "Name" in "key" add form
-    And I focus on the button "Generate" in "key" add form
-    And I click the button "Generate" in "key" add form
+    When I set the value "TestKey3" to field "Name" in the "key" add form
+    And I focus on the button "Generate" in the "key" add form
+    And I click the button "Generate" in the "key" add form
     And I wait for 5 seconds
-    Then I expect for the button "Add" in "key" add form to be clickable within 10 seconds
-    When I focus on the button "Add" in "key" add form
-    And I click the button "Add" in "key" add form
-    Then I expect the "key" edit form to be visible within max 10 seconds
+    Then I expect for the button "Add" in the "key" add form to be clickable within 10 seconds
+    When I click the button "Add" in the "key" add form
+    Then I expect the "key" page to be visible within max 10 seconds
     When I visit the Keys page
     Then "TestKey3" key should be present within 10 seconds
     And "TestKey2" key should be present within 10 seconds
