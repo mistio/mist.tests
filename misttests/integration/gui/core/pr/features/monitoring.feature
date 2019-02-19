@@ -40,7 +40,7 @@ Feature: Monitoring
 
   @add-entropy-graph
   Scenario: Add custom graph and make sure an extra graph is visible
-    When I scroll to the bottom of the page
+    When I scroll to the rules section in the "machine" page
     And I click the button "Add Graph" in the "machine" page
     Then I expect the "Select target for graph" dialog to be open within 10 seconds
     And I expect the metric buttons to appear within 30 seconds
