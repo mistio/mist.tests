@@ -27,6 +27,8 @@ Feature: Images-Networks
     And I wait for 2 seconds
     And I visit the Images page
     And I wait for 2 seconds
+    And I clear the search bar
+    And I wait for 2 seconds
     And I search for "CentOS 6.9 x32"
     Then the "CentOS 6.9 x32" image should be "unstarred" within 20 seconds
 
@@ -40,6 +42,8 @@ Feature: Images-Networks
     And I refresh the page
     Then I wait for the navigation menu to appear
     When I visit the Images page
+    And I wait for 2 seconds
+    And I clear the search bar
     And I wait for 2 seconds
     And I search for "CentOS 6.9 x32"
     Then the "CentOS 6.9 x32" image should be "starred" within 20 seconds

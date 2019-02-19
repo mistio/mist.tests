@@ -42,5 +42,8 @@ Feature: Add second-tier clouds
     When I click the "Edit Credentials" button in the "Edit Credentials" dialog
     And I wait for 3 seconds
     And I visit the Images page
+    And I wait for 2 seconds
+    And I clear the search bar
+    And I wait for 2 seconds
     And I search for "CoreOS"
     Then "CoreOS stable 1068.8.0 (PV)" image should be present within 20 seconds
