@@ -25,6 +25,7 @@ def register_member_1(context):
 
     return
 
+
 def get_owner_api_token(context):
     payload = {
         'email': context.mist_config['EMAIL'],
@@ -190,7 +191,7 @@ def create_docker_machine(context, machine_name):
     for image in re.json():
         if 'Ubuntu 14.04' in image['name']:
             image_id = image['id']
-            break;
+            break
 
     if 'random' in machine_name:
         value_key = machine_name
