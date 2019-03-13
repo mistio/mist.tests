@@ -138,7 +138,7 @@ class MistIoApi(object):
                        size, script="", disk=None, image_extra=None,
                        cookie=None, csrf_token=None, api_token=None,
                        cron_enable=False, cron_type=None, cron_entry=None,
-                       cron_script=None, cron_name=None, async=False,
+                       cron_script=None, cron_name=None, run_async=True,
                        monitoring=False, cloud_init="", location_name='',
                        job_id=None):
         # ! disk and image_extra are required only for Linode
@@ -161,7 +161,7 @@ class MistIoApi(object):
             'cronjob_entry': cron_entry,
             'cronjob_script_id': cron_script,
             'cronjob_name': cron_name,
-            'async': async,
+            'async': run_async,
             'monitoring': monitoring,
             'cloud_init': cloud_init,
             'job_id': job_id,

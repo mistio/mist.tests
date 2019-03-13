@@ -203,7 +203,8 @@ def create_docker_machine(context, machine_name):
         'provider': 'docker',
         'location': '',
         'size': '',
-        'key': context.mist_config['ASSOCIATED_KEY']
+        'key': context.mist_config['ASSOCIATED_KEY'],
+        'async': 1
     }
 
     re = requests.post(context.mist_config['MIST_URL'] + "/api/v1/clouds/" + cloud_id + "/machines", data=json.dumps(payload), headers=headers)
