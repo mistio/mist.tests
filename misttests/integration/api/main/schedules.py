@@ -149,6 +149,7 @@ class TestSchedulesFunctionality:
                                                 image=cache.get('image_id', ''), size='').post()
             assert_response_ok(response)
 
+        sleep(10)
         response = mist_core.list_machines(cloud_id=cache.get('docker_id', ''), api_token=owner_api_token).get()
 
         for machine in response.json():
@@ -176,7 +177,6 @@ class TestSchedulesFunctionality:
         machines_uuids = []
         machines_uuids.append(cache.get('machine_1_id', ''))
         conditions = [{"type": "machines", "ids": machines_uuids}]
-
         response = mist_core.add_schedule(api_token=owner_api_token,
                                           name='TestSchedule1',
                                           action='stop',
