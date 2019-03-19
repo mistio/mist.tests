@@ -365,7 +365,7 @@ class TestSchedulesFunctionality:
 
     def test_check_schedules(self, pretty_print, mist_core, owner_api_token, cache, schedules_cleanup):
         print "Sleeping to check state of machines..."
-        sleep(90)
+        sleep(120)
         response = mist_core.list_machines(cloud_id=cache.get('docker_id', ''), api_token=owner_api_token).get()
         for machine in response.json():
             if cache.get('machine_1_name', '') in machine['name']:
