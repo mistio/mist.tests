@@ -31,7 +31,7 @@ def test_list_machines_wrong_cloud_id(pretty_print, mist_core, owner_api_token):
 def test_create_machine_wrong_api_token(pretty_print, mist_core):
     response = mist_core.create_machine(cloud_id='dummy', api_token='dummy',
                                         key_id='', name='', provider='', location='',
-                                        image='dummy', size='',).post()
+                                        image='dummy', size='').post()
     assert_response_unauthorized(response)
     print "Success!!!"
 
@@ -168,7 +168,7 @@ class TestMachinesFunctionality:
         cache.set('machine_name', name)
         response = mist_core.create_machine(cloud_id=cache.get('cloud_id', ''), api_token=owner_api_token,
                                             key_id='', name=name, provider='', location='',
-                                            image=cache.get('image_id', ''), size='').post()
+                                            image=cache.get('image_id', ''), size='', run_async=False).post()
         assert_response_ok(response)
         cache.set('machine_id', response.json()['id'])
         response = mist_core.list_machines(cloud_id=cache.get('cloud_id', ''), api_token=owner_api_token).get()
