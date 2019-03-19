@@ -33,6 +33,7 @@ Feature: Monitoring
     Then "monitored-machine-random" machine state has to be "running" within 100 seconds
     When I click the "monitored-machine-random" "machine"
     And I wait for 2 seconds
+    Then "Key1" key should be associated with the machine "monitored-machine-random" within 120 seconds
     And I click the button "Enable Monitoring" in the "machine" page
     And I wait for 5 seconds
     Then I wait for the monitoring graphs to appear in the "machine" page
