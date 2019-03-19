@@ -185,6 +185,8 @@ def create_docker_machine(context, machine_name):
         if 'docker' in cloud['provider']:
             cloud_id = cloud['id']
             break
+    else:
+        raise Exception('No docker cloud added %s' % re.json())
 
     re = requests.get(context.mist_config['MIST_URL'] + "/api/v1/clouds/" + cloud_id + "/images", headers=headers)
 

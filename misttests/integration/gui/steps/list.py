@@ -104,7 +104,7 @@ def click_list_item(context, item_name, resource_type):
 
 
 use_step_matcher("re")
-@step(u'"(?P<name>[A-Za-z0-9. \-]+)" (?P<resource_type>[A-Za-z]+) should be (?P<state>[A-Za-z]+) within (?P<seconds>[0-9]+)'
+@step(u'"(?P<name>[A-Za-z0-9()-_. ]+)" (?P<resource_type>[A-Za-z]+) should be (?P<state>[A-Za-z]+) within (?P<seconds>[0-9]+)'
       u' seconds')
 def wait_for_item_show(context, name, resource_type, state, seconds):
     if context.mist_config.get(name):
@@ -126,3 +126,5 @@ def wait_for_item_show(context, name, resource_type, state, seconds):
         sleep(1)
     assert False, 'Item %s is not %s in the list after %s seconds' \
                   % (name, state, seconds)
+
+use_step_matcher("parse")
