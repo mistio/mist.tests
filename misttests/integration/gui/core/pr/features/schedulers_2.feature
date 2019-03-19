@@ -25,11 +25,6 @@ Feature: Schedulers-b
     And I add a tag with key "test" and value "awesome"
     And I click the "Save" button in the "Tags" dialog
     Then I expect the "Tags" dialog to be closed within 4 seconds
-    When I visit the Machines page after the counter has loaded
-    And I clear the search bar
-    And I wait for 2 seconds
-    And I search for "test-ui-machine-2-random"
-    And I click the "test-ui-machine-2-random" "machine"
     Then I ensure that the "machine" has the tags "test:awesome" within 20 seconds
     And I clear the search bar
 
