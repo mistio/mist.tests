@@ -47,14 +47,13 @@ Feature: Machines
   Scenario: Associate key with machine
     When I click the "ui-test-create-machine-random" "machine"
     And I expect the "machine" page to be visible within max 5 seconds
-    And I wait for 2 seconds
+    Then "DummyKey" key should be associated with the machine "ui-test-create-machine-random" within 120 seconds
     Then I click the "Associate Key" action button in the "machine" page
     Then I expect the "Associate a key" dialog to be open within 4 seconds
     And I open the "Select key" dropdown in the "Associate a key" dialog
     And I click the "DummyKey2" button in the "Select key" dropdown in the "Associate a key" dialog
     And I click the "Associate" button in the "Associate a key" dialog
-    And I wait for 5 seconds
-    Then "DummyKey2" key should be associated with the machine "ui-test-create-machine-random"
+    Then "DummyKey2" key should be associated with the machine "ui-test-create-machine-random" within 30 seconds
 
   @key-disassociate
   Scenario: Disassociate key

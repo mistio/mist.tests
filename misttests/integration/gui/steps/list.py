@@ -1,4 +1,4 @@
-from behave import step
+from behave import step, use_step_matcher
 
 from time import time
 from time import sleep
@@ -103,7 +103,8 @@ def click_list_item(context, item_name, resource_type):
     assert False, "Could not click item %s" % item_name
 
 
-@step(u'"{name}" {resource_type} should be {state} within {seconds}'
+use_step_matcher("re")
+@step(u'"(?P<name>[A-Za-z0-9. \-]+)" (?P<resource_type>[A-Za-z]+) should be (?P<state>[A-Za-z]+) within (?P<seconds>[0-9]+)'
       u' seconds')
 def wait_for_item_show(context, name, resource_type, state, seconds):
     if context.mist_config.get(name):

@@ -1,4 +1,4 @@
-from behave import step
+from behave import step, use_step_matcher
 from behave import given
 
 from time import time
@@ -279,6 +279,22 @@ def check_for_associated_key(context, key, machine):
     assert False, "The key has not been associated with the machine!"
 
 
+use_step_matcher("re")
+@step(u'"(?P<key>[A-Za-z0-9]+)" key should be associated with the machine "(?P<machine>[A-Za-z0-9 \-]+)" within (?P<seconds>[0-9]+) seconds')
+def check_for_associated_key_within(context, key, machine, seconds):
+    timeout = time() + int(seconds)
+    page = get_page(context, "machine")
+    page_shadow = expand_shadow_root(context, page)
+    while time() < timeout:
+        machine_keys_class = page_shadow.find_elements_by_css_selector('div.associatedKeys > div.machine-key')
+        for element in machine_keys_class:
+            if safe_get_element_text(element) == key:
+                return
+        sleep(1)
+    assert False, "The key has not been associated with the machine!"
+
+
+use_step_matcher("parse")
 @step(u'I delete the associated key "{key}"')
 def disassociate_key(context, key):
     _, page = get_page_element(context, "machines", "machine")
@@ -307,4 +323,5 @@ def keys_associated_with_machine(context, keys, seconds):
                 pass
         if associated_keys_with_machine == int(keys):
             return
+        sleep(1)
     assert False, "There are %s keys associated with the machine" % associated_keys_with_machine
