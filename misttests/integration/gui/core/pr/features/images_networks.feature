@@ -8,7 +8,8 @@ Feature: Images-Networks
   Scenario: Search image
     Given "AWS" cloud has been added
     Given "Digital Ocean" cloud has been added
-    When I visit the Images page
+    When I wait for 2 seconds
+    And I visit the Images page
     And I wait for 2 seconds
     And I search for "CentOS 6.9"
     Then "CentOS 6.9 x32" image should be present within 10 seconds
