@@ -4,8 +4,8 @@ Feature: Monitoring
   # FIXME: When #1363 is resolved, enable monitoring when creating machine
   @enable-monitoring
   Scenario: Enable monitoring when creating machine and check the graphs
-    Given I am logged in to mist
-    And cloud "Docker" has been added via API request
+    Given cloud "Docker" has been added via API request
+    And I am logged in to mist
     And I have given card details if needed
     And key "Key1" has been added via API request
     When I visit the Machines page
