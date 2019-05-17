@@ -71,7 +71,7 @@ Feature: Cloud actions for polymer
     When I click the "Delete" action button in the "cloud" page
     Then I expect the "Delete cloud" dialog to be open within 4 seconds
     And I wait for 1 seconds
-    And I click the "Delete" button in the "Delete Renamed" dialog
+    And I click the "Delete" button in the "Delete cloud" dialog
     Then I expect the "Delete cloud" dialog to be closed within 4 seconds
     And I wait for 2 seconds
     When I visit the Machines page
