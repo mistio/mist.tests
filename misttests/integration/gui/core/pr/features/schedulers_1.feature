@@ -25,6 +25,7 @@ Feature: Schedulers
     And I select the "test-machine-random" checkbox in the "schedule" add form
     And I select the "Repeat" radio button in the "schedule" add form
     And I set the value "1" to field "interval" in the "schedule" add form
+    And I set the value "2" to field "Maximum Run Count" in the "schedule" add form
     And I click the button "Add" in the "schedule" add form
     Then I wait for 2 seconds
     When I visit the Schedules page
