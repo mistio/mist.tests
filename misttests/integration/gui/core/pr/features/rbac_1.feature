@@ -98,9 +98,9 @@ Feature: RBAC-rules-v1
     And I open the cloud page for "Docker"
     Then I expect the "cloud" page to be visible within max 10 seconds
     When I click the "Delete" action button in the "cloud" page
-    Then I expect the "Delete Docker" dialog to be open within 4 seconds
+    Then I expect the "Delete cloud" dialog to be open within 4 seconds
     And I wait for 2 seconds
-    And I click the "Delete" button in the "Delete Docker" dialog
+    And I click the "Delete" button in the "Delete cloud" dialog
     And I wait for 3 seconds
     And I visit the Home page
     # deletion did not work
