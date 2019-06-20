@@ -5,7 +5,7 @@ RUN set -x && \
     apt-get update -yq && \
     apt-get -yq --no-install-recommends install \
         ca-certificates \
-        yacc \
+        bison \
         curl \
         wget \
         xvfb \
