@@ -6,6 +6,7 @@ RUN set -x && \
     apt-get -yq --no-install-recommends install \
         ca-certificates \
         bison \
+        yacc \
         curl \
         wget \
         xvfb \
