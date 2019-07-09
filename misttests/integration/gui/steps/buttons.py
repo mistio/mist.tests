@@ -20,6 +20,7 @@ from selenium.common.exceptions import WebDriverException
 from selenium.common.exceptions import TimeoutException
 from selenium.common.exceptions import NoSuchElementException
 from selenium.common.exceptions import StaleElementReferenceException
+from selenium.common.exceptions import ElementClickInterceptedException
 
 log = logging.getLogger(__name__)
 
@@ -65,7 +66,14 @@ def click_button_from_collection(context, text, button_collection=None,
         try:
             button.click()
             return
-        except WebDriverException:
+        except ElementClickInterceptedException:
+            parent = context.browser.execute_script('return arguments[0].parentElement', button)
+            if parent.tag_name == 'a':
+                parent.click()
+            else:
+                clicketi_click(context, button)
+            return
+        except WebDriverException as e:
             scroll_into_view(context, button)
             clicketi_click(context, button)
             return
@@ -208,22 +216,17 @@ def click_the_user_menu_button(context, button):
     click_user_icon_and_wait_for_menu(context)
     user_menu = get_user_menu(context)
     timeout = time() + 5
-    dimensions = None
+    dimensions = user_menu.size
     while time() < timeout:
-        try:
-            if dimensions is None:
-                dimensions = user_menu.size
-            elif dimensions['width'] == user_menu.size['width'] and \
-                            dimensions['height'] == user_menu.size['height']:
-                sleep(1)
-                click_button_from_collection(context, button,
-                                             user_menu.find_elements_by_css_selector(
-                                                 'paper-item'))
-                return True
-            else:
-                dimensions = user_menu.size
-        except NoSuchElementException:
-            pass
+        if dimensions['width'] == user_menu.size['width'] and \
+                        dimensions['height'] == user_menu.size['height']:
+            sleep(1)
+            click_button_from_collection(context, button,
+                                            user_menu.find_elements_by_css_selector(
+                                                'paper-item'))
+            return True
+        else:
+            dimensions = user_menu.size
         sleep(1)
     assert False, "User menu has not appeared yet"
 
