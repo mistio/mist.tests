@@ -172,13 +172,14 @@ def get_api_token(context):
         'org_id': context.mist_config['ORG_ID']
     }
     re = requests.post("%s/api/v1/tokens" % context.mist_config['MIST_URL'], data=json.dumps(payload))
+    context.mist_config['token-mist-id'] = re.json()['id']
     return re.json()['token']
 
 
 def delete_api_token(context):
     log.info("Deleting api token...")
     payload = {
-        'id': context.mist_config['api-token'],
+        'id': context.mist_config['token-mist-id'],
     }
     headers = {'Authorization': context.mist_config['api-token']}
     response = requests.delete(
