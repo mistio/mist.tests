@@ -176,7 +176,7 @@ def get_api_token(context):
 
 
 def delete_api_token(context):
-    log.info('Deleting token...')
+    log.info("Deleting api token...")
     payload = {
         'id': context.mist_config['api-token'],
     }
