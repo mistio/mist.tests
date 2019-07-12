@@ -186,7 +186,7 @@ def delete_api_token(context):
         headers=headers, data=json.dumps(payload)
     )
 
-    assert response.status == 200, "wtf"
+    assert response.status_code == 200, "Response was %s" % response.status_code
 
 
 def kill_yolomachine(context, machines, headers, cloud_id):
