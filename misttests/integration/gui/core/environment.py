@@ -183,7 +183,7 @@ def delete_api_token(context):
     headers = {'Authorization': context.mist_config['api-token']}
     response = requests.delete(
         "%s/api/v1/tokens" % context.mist_config['MIST_URL'],
-        headers=headers, payload = payload
+        headers=headers, data=json.dumps(payload))
     )
 
     assert response.status == 200, "wtf"
