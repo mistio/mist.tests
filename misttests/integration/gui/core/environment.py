@@ -115,7 +115,7 @@ def before_all(context):
     # check whether hs repo is tested
     api_token = get_api_token(context)
     headers = {'Authorization': api_token}
-    context.mist_config['api-token'] = api_token
+
     response = requests.get(
         "%s/api/v1/billing" % context.mist_config['MIST_URL'],
         headers=headers
@@ -160,8 +160,6 @@ def after_all(context):
     log.info("MEMBER2_PASSWORD: %s" % context.mist_config['MEMBER2_PASSWORD'])
     log.info("MIST_URL: %s" % context.mist_config['MIST_URL'])
 
-    delete_api_token(context)
-
     finish_and_cleanup(context)
 
 
@@ -172,22 +170,7 @@ def get_api_token(context):
         'org_id': context.mist_config['ORG_ID']
     }
     re = requests.post("%s/api/v1/tokens" % context.mist_config['MIST_URL'], data=json.dumps(payload))
-    context.mist_config['token-mist-id'] = re.json()['id']
     return re.json()['token']
-
-
-def delete_api_token(context):
-    log.info("Deleting api token...")
-    payload = {
-        'id': context.mist_config['token-mist-id'],
-    }
-    headers = {'Authorization': context.mist_config['api-token']}
-    response = requests.delete(
-        "%s/api/v1/tokens" % context.mist_config['MIST_URL'],
-        headers=headers, data=json.dumps(payload)
-    )
-
-    assert response.status_code == 200, "Could not delete token. Response was %s" % response.status_code
 
 
 def kill_yolomachine(context, machines, headers, cloud_id):
