@@ -16,6 +16,7 @@ from misttests.integration.gui.steps.ssh import *
 from misttests.integration.gui.steps.browser import *
 from misttests.integration.gui.steps.dialog import *
 from misttests.integration.gui.steps.list import *
+from misttests.integration.gui.steps.logs import *
 from misttests.integration.gui.steps.utils import safe_get_element_text, expand_shadow_root, get_page_element
 
 from selenium.webdriver import ActionChains

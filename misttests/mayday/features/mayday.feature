@@ -5,6 +5,11 @@ Feature: Production
   Scenario: Add schedule to be triggered after 5mins
     Given I add the MaydaySchedule via api
 
+  @log-entry
+  Scenario: Verify that a log entry has beed added after logging in
+    Given I am logged in to mist
+    Then the log entry in position 1 should have been added "a few seconds ago"
+
   @graph
   Scenario: Production monitor and graph testing
     Given I am logged in to mist
