@@ -39,11 +39,9 @@ def search_for_something(context, search_text):
         if not focused:
             expand_shadow_root(context, search_field).find_element_by_css_selector('input').send_keys('')
     search_value = search_field.get_attribute('value')
-    log.info('Search field value before: %s ' % search_value)
     search_field.send_keys(search_text)
     sleep(.5)
     search_value = search_field.get_attribute('value')
-    log.info('Search field value after: %s' % search_value)
     if search_text not in search_value:  # This shouldn't happen but sometimes it does
         top_search.click()  # Refocus
         # If search_field.send_keys() does not update the filter, try doing it with JS code instead

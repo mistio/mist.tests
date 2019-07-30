@@ -5,6 +5,7 @@ Feature: Production
   Scenario: Add schedule to be triggered after 5mins
     Given I add the MaydaySchedule via api
 
+
   @graph
   Scenario: Production monitor and graph testing
     Given I am logged in to mist
@@ -106,11 +107,17 @@ Feature: Production
     Then I should receive an email within 200 seconds
     And I wait for 30 seconds
 
+  @logs
+  Scenario: Verify that when user logs in, a new log entry is visible in the dashboard
+    Given I am logged in to mist
+    And I wait for the navigation menu to appear
+    And I wait for 4 seconds
+    Then the log entry in position 1 should have been added "a few seconds ago"
+
   @incidents
   Scenario: Verify that incident gets triggered
     Given I am logged in to mist
     And I wait for the navigation menu to appear
-    And I wait for 3 seconds
     Then I should see the incident "Load < 10"
 
   @confirm_schedule-triggered
