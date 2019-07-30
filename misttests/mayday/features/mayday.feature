@@ -107,8 +107,8 @@ Feature: Production
     Then I should receive an email within 200 seconds
     And I wait for 30 seconds
 
-  @incidents
-  Scenario: Verify that incident gets triggered
+  @log-incidents
+  Scenario: Verify that incident gets triggered and there is a new log entry in the dashboard
     Given I am logged in to mist
     And I wait for the navigation menu to appear
     And I wait for 3 seconds

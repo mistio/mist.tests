@@ -70,7 +70,6 @@ def receive_mail(context, seconds):
     error = ""
 
     while time() < end_time:
-        log.info("Looking if email has arrived\n\n")
         try:
             box = _get_imap_box()
             box.login(context.mist_config['GOOGLE_TEST_EMAIL'],
