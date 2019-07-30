@@ -17,5 +17,6 @@ def check_log_main_page(context, position, time_entry):
     table = grid_shadow.find_element_by_id('table')
     items = table.find_element_by_id('items')
     log_elements = items.find_elements_by_tag_name('tr')
-    msg = "Log entry is position %s is %s" % (position, time_entry)
-    assert time_entry in log_elements[int(position)-1].text, msg
+    log_el_text = log_elements[int(position)-1].text
+    msg = "Log entry is position %s is %s" % (position, log_el_text)
+    assert time_entry in log_el_text, msg
