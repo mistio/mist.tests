@@ -6,3 +6,4 @@ from misttests.integration.gui.steps.popups import *
 from misttests.integration.gui.steps.ssh import *
 from misttests.integration.gui.steps.list import *
 from misttests.integration.gui.steps.api_requests import *
+from misttests.integration.gui.steps.logs import *
