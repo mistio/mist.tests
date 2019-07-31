@@ -51,25 +51,25 @@ Feature: Production
     And I save the new rule in the "machine" page
     And I wait for 10 seconds
 
-  @reboot
-  Scenario: Production machine reboot testing
+  @reboot-shell
+  Scenario: Production machine reboot and shell testing
     Given I am logged in to mist
     When I visit the Machines page after the counter has loaded
     And I clear the search bar
     And I wait for 1 seconds
-    Then I search for "MAYDAY_MACHINE"
-    When I click the "MAYDAY_MACHINE" "machine"
-    And I expect the "machine" page to be visible within max 5 seconds
-    And I wait for 2 seconds
-    Then I click the "Reboot" action button in the "machine" page
+    And I search for "MAYDAY_MACHINE"
+    And I click the "MAYDAY_MACHINE" "machine"
+    Then I expect the "machine" page to be visible within max 5 seconds
+    When I wait for 2 seconds
+    And I click the "Reboot" action button in the "machine" page
     Then I expect the "Reboot Machine" dialog to be open within 4 seconds
     When I click the "Reboot" button in the "Reboot Machine" dialog
     And I wait for 40 seconds
-    Then I click the "Shell" action button in the "machine" page
-    And I expect terminal to open within 3 seconds
-    And I wait for 5 seconds
-    And I type in the terminal "uptime"
-    And I wait for 5 seconds
+    And I click the "Shell" action button in the "machine" page
+    Then I expect terminal to open within 3 seconds
+    And shell input should be available after 30 seconds
+    When I type in the terminal "uptime"
+    And I wait for 2 seconds
     Then up 0 min should be included in the output
     And I close the terminal
     And I wait for 1 seconds
