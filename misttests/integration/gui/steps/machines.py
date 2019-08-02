@@ -325,3 +325,20 @@ def keys_associated_with_machine(context, keys, seconds):
             return
         sleep(1)
     assert False, "There are %s keys associated with the machine" % associated_keys_with_machine
+    
+@step(u'I expect the field "{field}" in the machine details page to be "{value}"')
+def assert_field_in_machine_details_page(context, field, value):
+
+    context.browser.get_screenshot_as_file('error-sample.png')
+    page = get_page(context, "machine")
+    page_shadow = expand_shadow_root(context, page)
+    table = page_shadow.find_element_by_class_name('table')
+    rows = table.find_elements_by_class_name('row')
+
+    for row in rows:
+        if field in row.text and value in row.text:
+            return
+    assert False, "There is no field with this value in the machine details."
+
+
+    

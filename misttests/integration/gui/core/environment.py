@@ -90,6 +90,7 @@ def before_all(context):
     context.mist_config['PRODUCE_VIDEO_SCREENCAST_ON_ERROR'] = config.PRODUCE_VIDEO_SCREENCAST_ON_ERROR
 
     if config.LOCAL:
+
         log.info("Initializing behaving mail for path: %s" % config.MAIL_PATH)
         from behaving.mail import environment as behaving_mail
         # with this behaving will get the path to save and retrieve mails
