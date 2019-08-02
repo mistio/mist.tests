@@ -16,12 +16,13 @@ def select_option_from_radiogroup(context, option_to_select, resource_type):
     assert False, 'Could not find "%s" radio button in "%s" add form' % (option_to_select, resource_type)
 
 
-@step(u'I select the "{option_to_select}" checkbox in the "{resource_type}" add form')
+@step(u'I select the "{option_to_select}" checkbox in the "{resource_type}" add form') 
 def select_checkbox(context, option_to_select, resource_type):
     if context.mist_config.get(option_to_select):
         option_to_select = context.mist_config.get(option_to_select)
     form = get_add_form(context, 'schedule')
     form_shadow = expand_shadow_root(context, form)
+    context.browser.get_screenshot_as_file('/mist.tests/error.png')
     button = get_button_from_form(context, form_shadow, option_to_select, tag_name='paper-checkbox')
     if button:
         clicketi_click(context, button)
