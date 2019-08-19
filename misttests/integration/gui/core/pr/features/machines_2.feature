@@ -60,12 +60,12 @@ Feature: Machines
   Scenario: Verify the machine details are properly shown on machine details page
     When I visit the Home page
     And I visit the Machines page
-    And I search for "mist-ce_debugger_1"
-    And "mist-ce_debugger_1" machine state has to be "running" within 60 seconds
-    And I click the "mist-ce_debugger_1" "machine"
+    And I search for "ui-test-create-machine-random""
+    And "ui-test-create-machine-random" machine state has to be "running" within 60 seconds
+    And I click the "ui-test-create-machine-random" "machine"
     And I expect the "machine" page to be visible within max 5 seconds
     And I expect the field "LOCATION" in the machine details page to be "default"
     And I expect the field "CLOUD" in the machine details page to be "Docker"
-    Then I expect the field "IMAGE" in the machine details page to be "mist/debugger"
+    Then I expect the field "IMAGE" in the machine details page to be "Ubuntu 14.04 - mist.io image"
 
 

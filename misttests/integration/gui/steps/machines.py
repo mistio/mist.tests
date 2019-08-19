@@ -328,7 +328,6 @@ def keys_associated_with_machine(context, keys, seconds):
     
 @step(u'I expect the field "{field}" in the machine details page to be "{value}"')
 def assert_field_in_machine_details_page(context, field, value):
-    context.browser.get_screenshot_as_file('error-sample.png')
     page = get_page(context, "machine")
     page_shadow = expand_shadow_root(context, page)
     table = page_shadow.find_element_by_class_name('table')
