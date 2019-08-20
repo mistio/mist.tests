@@ -61,7 +61,6 @@ Feature: Machines
     When I visit the Home page
     And I visit the Machines page
     And I search for "ui-test-create-machine-random""
-    And "ui-test-create-machine-random" machine state has to be "running" within 60 seconds
     And I click the "ui-test-create-machine-random" "machine"
     And I expect the "machine" page to be visible within max 5 seconds
     And I expect the field "LOCATION" in the machine details page to be "default"
