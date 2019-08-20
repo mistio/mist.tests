@@ -60,7 +60,7 @@ Feature: Machines
   Scenario: Verify the machine details are properly shown on machine details page
     When I visit the Home page
     And I visit the Machines page
-    And I search for "ui-test-create-machine-random""
+    And I search for "ui-test-create-machine-random"
     And I click the "ui-test-create-machine-random" "machine"
     And I expect the "machine" page to be visible within max 5 seconds
     And I expect the field "LOCATION" in the machine details page to be "default"
