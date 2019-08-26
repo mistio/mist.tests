@@ -338,5 +338,3 @@ def assert_field_in_machine_details_page(context, field, value):
             return
     assert False, "There is no field with this value in the machine details."
 
-
-    

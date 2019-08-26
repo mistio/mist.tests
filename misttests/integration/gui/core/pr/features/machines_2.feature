@@ -9,6 +9,8 @@ Feature: Machines
     Given cloud "Docker" has been added via API request
     And key "DummyKey" has been added via API request
 
+
+
   @add-schedule-on-machine-create
   Scenario: Create a machine in Docker provider and schedule a task to stop the machine immediately
     When I have given card details if needed
@@ -68,6 +70,6 @@ Feature: Machines
     And I expect the "machine" page to be visible within max 5 seconds
     And I expect the field "LOCATION" in the machine details page to be "default"
     And I expect the field "CLOUD" in the machine details page to be "Docker"
-    Then I expect the field "IMAGE" in the machine details page to be "mist/ubuntu-14.04
+    Then I expect the field "IMAGE" in the machine details page to be "mist/ubuntu-14.04"
 
 
