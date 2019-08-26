@@ -68,6 +68,6 @@ Feature: Machines
     And I expect the "machine" page to be visible within max 5 seconds
     And I expect the field "LOCATION" in the machine details page to be "default"
     And I expect the field "CLOUD" in the machine details page to be "Docker"
-    Then I expect the field "IMAGE" in the machine details page to be "Ubuntu 14.04 - mist.io image"
+    Then I expect the field "IMAGE" in the machine details page to be "mist/ubuntu-14.04
 
 
