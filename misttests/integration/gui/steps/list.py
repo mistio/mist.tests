@@ -57,6 +57,26 @@ def assert_machine_state(context, name, state, seconds):
                 return
         sleep(2)
     assert False, u'%s state is not "%s"' % (name, state)
+    
+@step(u'"{name}" machine "{field}" has to be "{value}" within {seconds} seconds')
+def assert_machine_info(context, name, field, value, seconds):
+    if context.mist_config.get(name):
+        name = context.mist_config.get(name)
+    end_time = time() + int(seconds)
+    while time() < end_time:
+        machine = get_list_item(context, 'machine', name)
+        if machine:
+            if field == 'image':
+                if value in machine.get('image').strip().lower():
+                    return 
+            elif field == 'cloud':
+                if value in machine.get('cloud').strip().lower():
+                    return 
+            elif field == 'location':
+                if value in machine.get('location').strip().lower():
+                    return 
+        sleep(2)
+    assert False, u'%s Field is not "%s"' % (field, value)
 
 
 @step(u'I select list item "{item_name}" {resource_type}')

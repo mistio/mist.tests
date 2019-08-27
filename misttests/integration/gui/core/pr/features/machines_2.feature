@@ -57,6 +57,17 @@ Feature: Machines
     And I search for "ui-test-create-machine-random"
     Then "ui-test-create-machine-random" machine state has to be "running" within 60 seconds
 
+  @machine-info
+  Scenario: Verify that machine info (image, location etc) gets properly displayed in machines page
+    When I visit the Home page
+    And I visit the Machines page
+    And I clear the search bar
+    And I wait for 1 seconds
+    Then I search for "ui-test-create-machine-random"
+    And I wait for 1 seconds
+    Then "ui-test-create-machine-random" machine "image" has to be "mist/ubuntu-14.04" within 5 seconds
+    And  "ui-test-create-machine-random" machine "cloud" has to be "Docker" within 5 seconds
+    And  "ui-test-create-machine-random" machine "location" has to be "default" within 5 seconds
 
   @machine-details
   Scenario: Verify the machine details are properly shown on machine details page
@@ -71,5 +82,3 @@ Feature: Machines
     And I expect the field "LOCATION" in the machine details page to be "default"
     And I expect the field "CLOUD" in the machine details page to be "Docker"
     Then I expect the field "IMAGE" in the machine details page to be "mist/ubuntu-14.04"
-
-
