@@ -13,7 +13,7 @@ from selenium.common.exceptions import StaleElementReferenceException
 
 
 def get_list_items(context, resource_type):
-    if resource_type in ['machine', 'image', 'team', 'key', 'network', 'script', 'schedule', 'template', 'stack', 'zone']:
+    if resource_type in ['machine', 'image', 'team', 'key', 'network', 'script', 'schedule', 'template', 'stack', 'zone', 'location', 'cloud']:
         container = get_page_element(context, resource_type + 's')
     elif resource_type in ['record']:
         _, container = get_page_element(context, 'zones', 'zone')
@@ -29,7 +29,7 @@ def get_list_item(context, resource_type, name):
     item_name = name.strip().lower()
     if resource_type not in ['machine', 'image', 'key', 'network',
                              'tunnel', 'script', 'template', 'stack',
-                             'team', 'schedule', 'zone', 'record']:
+                             'team', 'schedule', 'zone', 'record', 'location', 'cloud']:
         raise ValueError('The resource type given is unknown')
     if resource_type == 'zone':
         primary_field = 'domain'
