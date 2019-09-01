@@ -29,7 +29,7 @@ Feature: Add second-tier clouds
   @cloud-edit-creds
   Scenario: AWS cloud added in the beginning, does not have access to list images (DenyDescribeImages policy in aws), whereas the seconds one has (EC2FullAccess)
     When I visit the Images page
-    And I search for "Ubuntu Server 16.04 LTS (HVM), SSD Volume Type"
+    And I search for "Ubuntu Server 16.04"
     Then "Ubuntu Server 16.04 LTS (HVM), SSD Volume Type" image should be absent within 10 seconds
     Then I visit the Home page
     And I wait for the dashboard to load
@@ -45,5 +45,5 @@ Feature: Add second-tier clouds
     And I wait for 2 seconds
     And I clear the search bar
     And I wait for 2 seconds
-    And I search for "Ubuntu Server 16.04 LTS (HVM), SSD Volume Type"
+    And I search for "Ubuntu Server 16.04"
     Then "Ubuntu Server 16.04 LTS (HVM), SSD Volume Type" image should be present within 20 seconds
