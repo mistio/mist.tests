@@ -256,6 +256,9 @@ def get_list_item_from_checkbox(context, checkbox):
 def scroll_into_view(context, element):
     return context.browser.execute_script('return arguments[0].scrollIntoView()', element)
 
+def get_location_name(context, cloud_id, location_id):
+    return context.browser.execute_script('return document.querySelector("mist-app").model.clouds["%s"].locations["%s"].name' % (cloud_id, location_id))
+
 def has_finished_loading(context, section):
     return context.browser.execute_script('return !document.querySelector("mist-app").model.pending["' + section + '"]')
 

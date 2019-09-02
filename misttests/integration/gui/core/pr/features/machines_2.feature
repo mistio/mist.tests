@@ -65,9 +65,9 @@ Feature: Machines
     And I wait for 1 seconds
     Then I search for "ui-test-create-machine-random"
     And I wait for 1 seconds
-    Then "ui-test-create-machine-random" machine "image" has to be "mist/ubuntu-14.04" within 5 seconds
-    And  "ui-test-create-machine-random" machine "cloud" has to be "Docker" within 5 seconds
-    And  "ui-test-create-machine-random" machine "location" has to be "default" within 5 seconds
+    Then "ui-test-create-machine-random" machine "image" has to be "mist/ubuntu-14.04" within 60 seconds
+    And  "ui-test-create-machine-random" machine "cloud" has to be "docker" within 60 seconds
+    And  "ui-test-create-machine-random" machine "location" has to be "default" within 60 seconds
 
   @machine-details
   Scenario: Verify the machine details are properly shown on machine details page

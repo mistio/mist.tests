@@ -3,17 +3,18 @@ from behave import step, use_step_matcher
 from time import time
 from time import sleep
 
-from .utils import safe_get_element_text, get_page_element, expand_shadow_root, expand_slot, get_grid_items, get_list_item_from_checkbox
+from .utils import safe_get_element_text, get_page_element, expand_shadow_root, expand_slot, get_grid_items, get_list_item_from_checkbox, get_location_name
 
 from .buttons import click_button_from_collection
 from .buttons import clicketi_click
 
 from selenium.common.exceptions import NoSuchElementException
 from selenium.common.exceptions import StaleElementReferenceException
+import ipdb
 
 
 def get_list_items(context, resource_type):
-    if resource_type in ['machine', 'image', 'team', 'key', 'network', 'script', 'schedule', 'template', 'stack', 'zone', 'location', 'cloud']:
+    if resource_type in ['machine', 'image', 'team', 'key', 'network', 'script', 'schedule', 'template', 'stack', 'zone']:
         container = get_page_element(context, resource_type + 's')
     elif resource_type in ['record']:
         _, container = get_page_element(context, 'zones', 'zone')
@@ -29,7 +30,7 @@ def get_list_item(context, resource_type, name):
     item_name = name.strip().lower()
     if resource_type not in ['machine', 'image', 'key', 'network',
                              'tunnel', 'script', 'template', 'stack',
-                             'team', 'schedule', 'zone', 'record', 'location', 'cloud']:
+                             'team', 'schedule', 'zone', 'record']:
         raise ValueError('The resource type given is unknown')
     if resource_type == 'zone':
         primary_field = 'domain'
@@ -60,21 +61,19 @@ def assert_machine_state(context, name, state, seconds):
     
 @step(u'"{name}" machine "{field}" has to be "{value}" within {seconds} seconds')
 def assert_machine_info(context, name, field, value, seconds):
+    # ipdb.set_trace()
     if context.mist_config.get(name):
         name = context.mist_config.get(name)
     end_time = time() + int(seconds)
     while time() < end_time:
         machine = get_list_item(context, 'machine', name)
         if machine:
-            if field == 'image':
-                if value in machine.get('image').strip().lower():
-                    return 
-            elif field == 'cloud':
-                if value in machine.get('cloud').strip().lower():
-                    return 
-            elif field == 'location':
-                if value in machine.get('location').strip().lower():
-                    return 
+            if field == 'image' and value in machine.get('image_id').strip().lower():
+                return 
+            elif field == 'cloud' and value in machine.get('cloud_title').strip().lower():
+                return 
+            elif field == 'location' and value in get_location_name(context, machine.get('cloud'), machine.get('location')):
+                return
         sleep(2)
     assert False, u'%s Field is not "%s"' % (field, value)
 
