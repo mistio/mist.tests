@@ -6,7 +6,7 @@ from behave import step, use_step_matcher
 from selenium.common.exceptions import StaleElementReferenceException
 from selenium.common.exceptions import NoSuchElementException
 
-from .utils import safe_get_element_text, expand_shadow_root
+from .utils import safe_get_element_text, expand_shadow_root, get_page
 
 from .buttons import click_button_from_collection, clicketi_click
 
@@ -15,12 +15,14 @@ from .forms import clear_input_and_send_keys, get_button_from_form
 
 
 def get_dialog(context, title):
+    import ipdb; ipdb.set_trace()
     title = title.lower()
     try:
         overlay = context.browser.find_element_by_tag_name('vaadin-dialog-overlay')
         overlay_shadow = expand_shadow_root(context, overlay)
         dialog = overlay_shadow.find_element_by_css_selector('div#content')
         dialog_shadow = expand_shadow_root(context, dialog)
+
         if dialog.is_displayed():
             try:
                 dialog = dialog_shadow.find_element_by_css_selector('team-add-element, custom-graph')
@@ -118,3 +120,53 @@ def check_errormsg_in_dialog(context, error_msg, dialog_title):
     if error_msg in safe_get_element_text(error_element):
         return
     assert False, "%s is not part of the error message" % error_msg
+    
+    
+"""Extra Steps and Methods for resolving test cases 
+   in the machine UI integration tests.
+"""
+@step(u'I expect the "{dialog_title}" machine dialog to be {state} within {seconds}'
+      u' seconds')
+def wait_for_machine_dialog(context, dialog_title, state, seconds):
+    state = state.lower()
+    if state not in ['open', 'closed']:
+        raise Exception('Unknown state %s' % state)
+    timeout = time() + int(seconds)
+    while time() < timeout:
+        dialog = get_machine_actions_dialog(context, dialog_title)
+        if state == 'open' and dialog:
+            return True
+        if state == 'closed' and not dialog:
+            return True
+        sleep(1)
+    assert False, "Dialog with title %s has not %s after %s seconds" \
+                  % (dialog_title, state, seconds)
+              
+def get_machine_actions_dialog(context, title):
+    title = title.lower()
+    try:
+        page = get_page(context, "machine")
+        page_shadow = expand_shadow_root(context, page)
+        content = page_shadow.find_element_by_css_selector('div#content')
+        paper_material = content.find_element_by_tag_name('paper-material')
+        
+        machine_actions = paper_material.find_element_by_tag_name('machine-actions')
+        machine_actions_shadow = expand_shadow_root(context, machine_actions)
+        machine_edit = machine_actions_shadow.find_element_by_tag_name('machine-edit')
+        machine_edit_shadow = expand_shadow_root(context, machine_edit)
+        paper_dialog = machine_edit_shadow.find_element_by_tag_name('paper-dialog')
+        
+        if paper_dialog.is_displayed():
+            try:
+                t = safe_get_element_text(paper_dialog.find_element_by_css_selector(
+                    'h2')).strip().lower()
+            except NoSuchElementException:
+                pass
+            if title in t:
+                return paper_dialog
+        return         
+    except NoSuchElementException:
+        pass
+    return None
+
+                                                          

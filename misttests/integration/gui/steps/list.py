@@ -10,7 +10,6 @@ from .buttons import clicketi_click
 
 from selenium.common.exceptions import NoSuchElementException
 from selenium.common.exceptions import StaleElementReferenceException
-import ipdb
 
 
 def get_list_items(context, resource_type):
@@ -61,7 +60,6 @@ def assert_machine_state(context, name, state, seconds):
     
 @step(u'"{name}" machine "{field}" has to be "{value}" within {seconds} seconds')
 def assert_machine_info(context, name, field, value, seconds):
-    # ipdb.set_trace()
     if context.mist_config.get(name):
         name = context.mist_config.get(name)
     end_time = time() + int(seconds)

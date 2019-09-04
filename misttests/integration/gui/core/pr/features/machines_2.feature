@@ -58,7 +58,7 @@ Feature: Machines
     Then "ui-test-create-machine-random" machine state has to be "running" within 60 seconds
 
   @machine-info
-  Scenario: Verify that machine info (image, location etc) gets properly displayed in machines page
+  Scenario: Verify that machine info(image, location etc) gets properly displayed in machines page
     When I visit the Home page
     And I visit the Machines page
     And I clear the search bar
@@ -82,3 +82,16 @@ Feature: Machines
     And I expect the field "LOCATION" in the machine details page to be "default"
     And I expect the field "CLOUD" in the machine details page to be "Docker"
     Then I expect the field "IMAGE" in the machine details page to be "mist/ubuntu-14.04"
+
+  @machine-rename
+  Scenario: Verify that the machine can be renamed.
+    When I visit the Home page
+    And I visit the Machines page
+    And I clear the search bar
+    And I wait for 1 seconds
+    Then I search for "mist-ce_debugger_1"
+    And I wait for 1 seconds
+    Then I click the "mist-ce_debugger_1" "machine"
+    And I expect the "machine" page to be visible within max 5 seconds
+    Then I click the "Rename" action button in the "machine" page
+    And I expect the "Rename Machine" machine dialog to be open within 4 seconds
