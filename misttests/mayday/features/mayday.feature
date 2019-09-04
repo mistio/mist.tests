@@ -112,7 +112,7 @@ Feature: Production
     Given I am logged in to mist
     And I wait for the navigation menu to appear
     And I wait for 4 seconds
-    Then the log entry in position 1 should have been added "a few seconds ago"
+    Then the log entry in position 1 should have been added "a few seconds ago" with log action "connect"
 
   @incidents
   Scenario: Verify that incident gets triggered

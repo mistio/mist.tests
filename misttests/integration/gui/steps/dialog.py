@@ -15,7 +15,6 @@ from .forms import clear_input_and_send_keys, get_button_from_form
 
 
 def get_dialog(context, title):
-    import ipdb; ipdb.set_trace()
     title = title.lower()
     try:
         overlay = context.browser.find_element_by_tag_name('vaadin-dialog-overlay')

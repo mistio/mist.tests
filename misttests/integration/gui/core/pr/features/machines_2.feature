@@ -56,9 +56,13 @@ Feature: Machines
     And I clear the search bar
     And I search for "ui-test-create-machine-random"
     Then "ui-test-create-machine-random" machine state has to be "running" within 60 seconds
+    And I wait for 1 seconds
+    And I visit the Home page
+    Then the log entry in position 1 should have been added "a few seconds ago" with log action "start_machine"
+
 
   @machine-info
-  Scenario: Verify that machine info(image, location etc) gets properly displayed in machines page
+  Scenario: Verify that machine info (image, location etc) gets properly displayed in machines page
     When I visit the Home page
     And I visit the Machines page
     And I clear the search bar
@@ -89,9 +93,10 @@ Feature: Machines
     And I visit the Machines page
     And I clear the search bar
     And I wait for 1 seconds
-    Then I search for "mist-ce_debugger_1"
+    Then I search for "ui-test-create-machine-random"
     And I wait for 1 seconds
-    Then I click the "mist-ce_debugger_1" "machine"
+    Then I click the "ui-test-create-machine-random" "machine"
     And I expect the "machine" page to be visible within max 5 seconds
     Then I click the "Rename" action button in the "machine" page
     And I expect the "Rename Machine" machine dialog to be open within 4 seconds
+    # And I set the value "debugger_2" to field "mist-ce_debugger_1" in the "Rename Machine" machine dialog

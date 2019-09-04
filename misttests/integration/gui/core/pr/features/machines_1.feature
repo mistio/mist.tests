@@ -102,12 +102,15 @@ Feature: Machines
     When I scroll to the top of the page
     And I click the "Stop" action button in the "machine" page
     Then I expect the "Stop Machine" dialog to be open within 4 seconds
-    When I click the "Stop" button in the "Stop Machine" dialog
+    And I click the "Stop" button in the "Stop Machine" dialog
     And I visit the Machines page
     And I clear the search bar
     And I wait for 2 seconds
-    And I search for "ui-test-create-machine-random"
-    Then "ui-test-create-machine-random" machine state has to be "stopped" within 60 seconds
+    And I search for "mist-ce_debugger_1"
+    Then "mist-ce_debugger_1" machine state has to be "stopped" within 60 seconds
+    And I wait for 1 seconds
+    And I visit the Home page
+    Then the log entry in position 1 should have been added "a few seconds ago" with log action "stop_machine"
 
   @machine-destroy
   Scenario: Destroy the machine created
