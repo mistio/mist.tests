@@ -9,7 +9,7 @@ Feature: Machines
     Given script "touch_kati" is added via API request
     And cloud "Docker" has been added via API request
     And key "DummyKey" has been added via API request
-    Then the log entry in position 1 should have been added "a few seconds ago"
+    Then the log entry in position 1 should have been added "a few seconds ago" with log action "add_key"
     And I have given card details if needed
     And I refresh the page
     When I visit the Keys page

@@ -22,7 +22,6 @@ def check_log_main_page(context, position, time_entry, action):
     log_elements = items.find_elements_by_tag_name('tr')
     log_el_text = log_elements[int(position)-1].text
     
-    import ipdb; ipdb.set_trace()
     timeout = time() + 5
     while time() < timeout and log_el_text == '':   # log not visible yet
         sleep(1)
