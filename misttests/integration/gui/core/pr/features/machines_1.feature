@@ -106,8 +106,8 @@ Feature: Machines
     And I visit the Machines page
     And I clear the search bar
     And I wait for 2 seconds
-    And I search for "mist-ce_debugger_1"
-    Then "mist-ce_debugger_1" machine state has to be "stopped" within 60 seconds
+    And I search for "ui-test-create-machine-random"
+    Then "ui-test-create-machine-random" machine state has to be "stopped" within 60 seconds
     And I wait for 1 seconds
     And I visit the Home page
     Then the log entry in position 1 should have been added "a few seconds ago" with log action "stop_machine"
