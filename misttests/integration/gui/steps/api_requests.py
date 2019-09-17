@@ -142,25 +142,6 @@ def add_cloud_api_request(context, cloud):
                 'show_all': True
             }
 
-    elif cloud == 'Local_Monitoring':
-
-        payload = {
-            'name': 'Key1',
-            'priv': safe_get_var('keys/mistio_fullstack_key', 'priv_key',
-                                        context.mist_config['CREDENTIALS']['DOCKER_MONITORING']['port'])
-        }
-
-        re = requests.put(context.mist_config['MIST_URL'] + "/api/v1/keys", data=json.dumps(payload), headers=headers)
-        key_id = re.json()['id']
-
-        payload = {
-            'title': "Local_Monitoring",
-            'provider': "bare_metal",
-            'monitoring': 'true',
-            'machine_key': key_id,
-            'machine_ip': 'mist_debugger'
-        }
-
     elif cloud == 'GCE':
         payload = {
             'title': 'GCE',
