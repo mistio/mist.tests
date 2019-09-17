@@ -47,12 +47,6 @@ providers = {
         "disk":12576,
         "image": "146"
     },
-    "Nephoscale": {
-        "size": "5",
-        "location": "76383",
-        "disk": 50,
-        "image": "40d5543a-38c0-46fb-a7ce-e8e379f364f5"
-    },
     "SoftLayer": {
         "size": "0",
         "location": "ams01",
@@ -195,12 +189,6 @@ def add_cloud(provider):
                                            api_key=safe_get_var('clouds/packet', 'api_key',
                                                                 config.CREDENTIALS['PACKET']['api_key'])).post()
 
-        elif provider == "Nephoscale":
-            response = mist_core.add_cloud(title='Nephoscale', provider= 'nephoscale', api_token=config.MIST_API_TOKEN,
-                                           username=safe_get_var('clouds/nephoscale', 'username',
-                                                                 config.CREDENTIALS['NEPHOSCALE']['username']),
-                                           password = safe_get_var('clouds/nephoscale', 'password', config.CREDENTIALS['NEPHOSCALE']['password'])).post()
-
         elif provider == "Vultr":
             response = mist_core.add_cloud(title='Vultr', provider= 'vultr', api_token=config.MIST_API_TOKEN,
                                        api_key=safe_get_var('clouds/vultr', 'apikey',
@@ -297,7 +285,7 @@ def create_machine(cloud_id, provider):
 
 def main():
     for provider in providers:
-        if provider in ['AWS', 'Digital Ocean', 'Linode', 'Azure', 'SoftLayer', 'GCE', 'Rackspace', 'Packet', 'Nephoscale', 'Vultr', 'Azure_ARM']:
+        if provider in ['AWS', 'Digital Ocean', 'Linode', 'Azure', 'SoftLayer', 'GCE', 'Rackspace', 'Packet', 'Vultr', 'Azure_ARM']:
             #add the provider if not there
             cloud_id = add_cloud(provider)
 

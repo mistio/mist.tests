@@ -81,15 +81,6 @@ def set_aws_creds(context):
     ''' % (region, api_key, api_secret))
 
 
-def set_nepho_creds(context):
-    username = safe_get_var('clouds/nephoscale', 'username', context.mist_config['CREDENTIALS']['NEPHOSCALE']['username'])
-    password = safe_get_var('clouds/nephoscale', 'password', context.mist_config['CREDENTIALS']['NEPHOSCALE']['password'])
-    context.execute_steps(u'''
-            Then I set the value "%s" to field "Username" in the "cloud" add form
-            Then I set the value "%s" to field "Password" in the "cloud" add form
-        ''' % (username, password))
-
-
 def set_linode_creds(context):
     api_key = safe_get_var('clouds/linode', 'api_key', context.mist_config['CREDENTIALS']['LINODE']['api_key'])
     context.execute_steps(u'Then I set the value "%s" to field "API Key" in '
@@ -266,7 +257,6 @@ cloud_creds_dict = {
     "rackspace": set_rackspace_creds,
     "softlayer": set_softlayer_creds,
     "aws": set_aws_creds,
-    "nephoscale": set_nepho_creds,
     "linode": set_linode_creds,
     "digital ocean": set_do_creds,
     "docker": set_docker_creds,
