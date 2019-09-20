@@ -18,14 +18,14 @@ Feature: Zones
     Then I expect the "Zone" page to be visible within max 90 seconds
     And I visit the Zones page
     And I search for "test-zone-random.com"
-    Then "test-zone-random.com" zone should be present within 60 seconds
+    Then "test-zone-random.com." zone should be present within 60 seconds
 
   @zone-search
   Scenario: Filter a zone
     When I clear the search bar
-    Then "test-zone-random.com" zone should be present within 10 seconds
+    Then "test-zone-random.com." zone should be present within 10 seconds
     When I search for "Non-existing zone"
-    Then "test-zone-random.com" zone should be absent within 10 seconds
+    Then "test-zone-random.com." zone should be absent within 10 seconds
     When I clear the search bar
     And I wait for 1 seconds
 
@@ -43,7 +43,7 @@ Feature: Zones
     And I wait for 2 seconds
     And I visit the Home page
     And I visit the Zones page
-    Then "test-zone-random.com" zone should be absent within 10 seconds
+    Then "test-zone-random.com." zone should be absent within 10 seconds
 
   @zone-tags
   Scenario: Reenable dns-support and add tags to a zone
@@ -59,8 +59,8 @@ Feature: Zones
     And I visit the Home page
     And I visit the Zones page
     And I search for "test-zone-random.com"
-    Then "test-zone-random.com" zone should be present within 30 seconds
-    When I click the "test-zone-random.com" "zone"
+    Then "test-zone-random.com." zone should be present within 30 seconds
+    When I click the "test-zone-random.com." "zone"
     Then I expect the "zone" page to be visible within max 5 seconds
     When I click the "Tag" action button in the "zone" page
     Then I expect the "Tags" dialog to be open within 4 seconds
@@ -113,4 +113,4 @@ Feature: Zones
     Then I expect the "Delete Zone" dialog to be closed within 4 seconds
     When I visit the Zones page
     And I wait for 2 seconds
-    And "test-zone-random.com" zone should be absent within 90 seconds
+    And "test-zone-random.com." zone should be absent within 90 seconds
