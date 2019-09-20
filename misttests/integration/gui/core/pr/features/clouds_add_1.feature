@@ -21,7 +21,7 @@ Feature: Add second-tier clouds
     Examples: Providers
     | provider       |
     | Azure ARM      |
-    | Vultr         |
+#    | Vultr         |
 #    | AWS            |
 #    | Packet	     |
 #    | Vmware         |
