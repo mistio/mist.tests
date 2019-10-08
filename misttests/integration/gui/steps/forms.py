@@ -185,7 +185,7 @@ def check_that_field_is_visible(context, field_name, title, form_type, seconds):
     timeout = time() + int(seconds)
     while time() < timeout:
         form_input = get_input_element_from_form(context, add_form_shadow, field_name)
-        if form_input.is_displayed():
+        if form_input and form_input.is_displayed():
             return True
         sleep(1)
     assert form_input, "Could not find field %s after %s seconds" % field_name
