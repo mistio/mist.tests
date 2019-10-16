@@ -116,6 +116,41 @@ Feature: Multiprovisioning
     And I search for "packet-mp-test0-random"
     Then "packet-mp-test0-random" machine state has to be "running" within 60 seconds
 
+  @ec2-cloud-init
+  Scenario: Create a machine, enable monitoring and then destroy it. (way too long...)
+    Given "EC2" cloud has been added
+    When I visit the Machines page
+    And I click the button "+"
+    Then I expect the "Machine" add form to be visible within max 10 seconds
+    When I open the "Select Cloud" dropdown in the "machine" add form
+    And I wait for 1 seconds
+    And I click the "EC2" button in the "Select Cloud" dropdown in the "machine" add form
+    Then I expect the field "Machine name" in the machine add form to be visible within max 4 seconds
+    Then I set the value "ec2-mp-test2-random" to field "Machine Name" in the "machine" add form
+    When I open the "Image" dropdown in the "machine" add form
+    And I wait for 1 seconds
+    And I click the "Ubuntu Server 16.04 LTS (HVM), SSD Volume Type" button in the "Image" dropdown in the "machine" add form
+    When I open the "Size" dropdown in the "machine" add form
+    And I wait for 1 seconds
+    And I click the " t2.nano - t2.nano" button in the "Size" dropdown in the "machine" add form
+    And I open the "Key" dropdown in the "machine" add form
+    And I wait for 1 seconds
+    And I click the "Key7" button in the "Key" dropdown in the "machine" add form
+    When I open the "Location" dropdown in the "machine" add form
+    And I wait for 1 seconds
+    And I click the "us-west-2b" button in the "Location" dropdown in the "machine" add form
+    And I wait for 1 seconds
+    Then I set the value "#!/bin/bash\nsudo touch ~/new_file" to field "Cloud Init" in the "machine" add form
+    Then I expect for the button "Launch" in the "machine" add form to be clickable within 10 seconds
+    When I focus on the button "Launch" in the "machine" add form
+    And I click the button "Launch" in the "machine" add form
+    When I visit the Home page
+    And I visit the Machines page
+    And I wait for 1 seconds
+    And I clear the search bar
+    And I search for "ec2-mp-test2-random"
+    Then "ec2-mp-test2-random" machine state has to be "running" within 120 seconds
+
   @azure-arm
   Scenario: Create a machine, enable monitoring and then destroy it. (way too long...)
     Given "Azure ARM" cloud has been added
@@ -152,3 +187,15 @@ Feature: Multiprovisioning
     And I clear the search bar
     And I search for "arm-mp-test-random"
     Then "arm-mp-test-random" machine state has to be "running" within 120 seconds
+     # TODO: separate step
+    When I click the "ec2-mp-test2-random" "machine"
+    And I expect the "machine" page to be visible within max 5 seconds
+    And I wait for 2 seconds
+    Then I click the "Shell" action button in the "machine" page
+    And I expect terminal to open within 3 seconds
+    And shell input should be available after 30 seconds
+    And I type in the terminal "sudo su"
+    And I wait for 1 seconds
+    And I type in the terminal "ls -la ~"
+    And I wait for 1 seconds
+    Then new_file should be included in the output
