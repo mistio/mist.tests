@@ -188,7 +188,10 @@ Feature: Multiprovisioning
     And I search for "arm-mp-test-random"
     Then "arm-mp-test-random" machine state has to be "running" within 120 seconds
      # TODO: separate step
-    When I click the "ec2-mp-test2-random" "machine"
+    When I clear the search bar
+    And I search for "arm-mp-test-random"
+    And I wait for 1 seconds
+    And I click the "ec2-mp-test2-random" "machine"
     And I expect the "machine" page to be visible within max 5 seconds
     And I wait for 2 seconds
     Then I click the "Shell" action button in the "machine" page
