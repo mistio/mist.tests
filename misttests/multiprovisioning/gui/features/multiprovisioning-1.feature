@@ -1,4 +1,4 @@
-@multi
+@multiprovisioning
 Feature: Multiprovisioning
 
   Background:
@@ -9,6 +9,7 @@ Feature: Multiprovisioning
   @packet
   Scenario: Create a machine, enable monitoring and then destroy it.
     Given "Packet" cloud has been added
+    And I wait for 50 seconds
     When I visit the Machines page
     And I click the button "+"
     Then I expect the "Machine" add form to be visible within max 10 seconds
@@ -40,6 +41,7 @@ Feature: Multiprovisioning
   @mp-test
   Scenario Outline: Create a machine, enable monitoring and then destroy it.
     Given "<provider>" cloud has been added
+    And I wait for 50 seconds
     When I visit the Machines page
     And I click the button "+"
     Then I expect the "Machine" add form to be visible within max 10 seconds
@@ -82,6 +84,7 @@ Feature: Multiprovisioning
   @rackspace
   Scenario: Create a machine, enable monitoring and then destroy it. (way too long...)
     Given "Rackspace" cloud has been added
+    And I wait for 50 seconds
     When I visit the Machines page
     And I click the button "+"
     Then I expect the "Machine" add form to be visible within max 10 seconds
@@ -116,6 +119,7 @@ Feature: Multiprovisioning
   @ec2-cloud-init
   Scenario: Create a machine, enable monitoring and then destroy it. (way too long...)
     Given "EC2" cloud has been added
+    And I wait for 50 seconds
     When I visit the Machines page
     And I click the button "+"
     Then I expect the "Machine" add form to be visible within max 10 seconds
@@ -151,6 +155,7 @@ Feature: Multiprovisioning
   @azure-arm
   Scenario: Create a machine, enable monitoring and then destroy it. (way too long...)
     Given "Azure ARM" cloud has been added
+    And I wait for 50 seconds
     When I visit the Machines page
     And I click the button "+"
     Then I expect the "Machine" add form to be visible within max 10 seconds
