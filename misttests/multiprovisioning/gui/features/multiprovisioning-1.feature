@@ -48,6 +48,9 @@ Feature: Multiprovisioning
     And I click the "<provider>" button in the "Select Cloud" dropdown in the "machine" add form
     Then I expect the field "Machine name" in the machine add form to be visible within max 4 seconds
     Then I set the value "<machine-name>" to field "Machine Name" in the "machine" add form
+    When I open the "Location" dropdown in the "machine" add form
+    And I wait for 1 seconds
+    And I click the "<location>" button in the "Location" dropdown in the "machine" add form
     When I open the "Image" dropdown in the "machine" add form
     And I wait for 1 seconds
     And I click the "<image>" button in the "Image" dropdown in the "machine" add form
@@ -57,9 +60,6 @@ Feature: Multiprovisioning
     And I open the "Key" dropdown in the "machine" add form
     And I wait for 1 seconds
     And I click the "Key7" button in the "Key" dropdown in the "machine" add form
-    When I open the "Location" dropdown in the "machine" add form
-    And I wait for 1 seconds
-    And I click the "<location>" button in the "Location" dropdown in the "machine" add form
     Then I expect for the button "Launch" in the "machine" add form to be clickable within 10 seconds
     When I focus on the button "Launch" in the "machine" add form
     And I click the button "Launch" in the "machine" add form
@@ -72,9 +72,9 @@ Feature: Multiprovisioning
 
     Examples: Providers to be tested
     | provider      | size    | location      | image                       | machine-name |
-    | Alibaba Cloud  | ecs.n1.tiny (1 cpus/ 1.0Gb RAM )| us-west-1a| ubuntu_18_04_64_20G_alibase_20190624.vhd| aliyun-mp-test-random|
+    | Alibaba Cloud | ecs.xn4.small (1 cpus/ 1.0Gb RAM )| us-west-1a| ubuntu_18_04_64_20G_alibase_20190624.vhd| aliyun-mp-test-random|
     | EC2           | t2.nano - t2.nano | us-west-2a | Ubuntu Server 16.04 LTS (HVM), SSD Volume Type | ec2-mp-test-random |
-    | Digital Ocean | 512mb   | Amsterdam 3   | Debian 10 x64          |    do-mp-test-random |
+    | Digital Ocean | 512mb   | Amsterdam 3   | Ubuntu 16.04.6 (LTS) x64          |    do-mp-test-random |
     | Linode  | Nanode 1GB  | Frankfurt, DE | Ubuntu 19.04    | linode-mp-test-random |
     #| Packet | t1.small.x86 - 8GB RAM | Amsterdam, NL | Ubuntu 19.04 | packet-mp-test1-random | # way too long to see the machine running...
     | GCE    | f1-micro (1 vCPU (shared physical core) and 0.6 GB RAM) | europe-west1-c | ubuntu-1804-bionic-v20191008 | gce-mp-test-random |
@@ -99,9 +99,6 @@ Feature: Multiprovisioning
     And I open the "Key" dropdown in the "machine" add form
     And I wait for 1 seconds
     And I click the "Key7" button in the "Key" dropdown in the "machine" add form
-    When I open the "Location" dropdown in the "machine" add form
-    And I wait for 1 seconds
-    And I click the "<location>" button in the "Location" dropdown in the "machine" add form
     Then I expect for the button "Launch" in the "machine" add form to be clickable within 10 seconds
     When I focus on the button "Launch" in the "machine" add form
     And I click the button "Launch" in the "machine" add form
