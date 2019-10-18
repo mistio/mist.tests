@@ -3,13 +3,31 @@ Feature: Multiprovisioning
 
   Background:
     Given I am logged in to mist
+    When I visit the Home page
+    And I wait for the navigation menu to appear
 
-  # TODO: 'GIVEN KEY HAS BEEN ADDED'
-  # TODO: Rename scenario names
-  @packet
+
+  # ola cloud init
+  # add Key
+  # cleanup etc
+
+  @packet-set-private-ipv4
   Scenario: Create a machine, enable monitoring and then destroy it.
+    When I visit the Keys page
+    When I click the button "+"
+    Then I expect the "Key" add form to be visible within max 10 seconds
+    When I set the value "Key7" to field "Name" in the "key" add form
+    And I focus on the button "Generate" in the "key" add form
+    And I click the button "Generate" in the "key" add form
+    Then I expect for the button "Add" in the "key" add form to be clickable within 22 seconds
+    When I focus on the button "Add" in the "key" add form
+    And I click the button "Add" in the "key" add form
+    Then I expect the "key" page to be visible within max 10 seconds
+    When I visit the Keys page
+    Then "Key7" key should be present within 15 seconds
+    When I visit the Home page
     Given "Packet" cloud has been added
-    And I wait for 50 seconds
+    And I wait for 30 seconds
     When I visit the Machines page
     And I click the button "+"
     Then I expect the "Machine" add form to be visible within max 10 seconds
@@ -36,12 +54,18 @@ Feature: Multiprovisioning
     Then I expect for the button "Launch" in the "machine" add form to be clickable within 10 seconds
     When I focus on the button "Launch" in the "machine" add form
     And I click the button "Launch" in the "machine" add form
+    When I visit the Home page
+    And I visit the Machines page
+    And I wait for 1 seconds
+    And I clear the search bar
+    And I search for "packet-mp-test0-random"
+    Then "packet-mp-test0-random" machine should be present within 30 seconds
 
 
   @mp-test
   Scenario Outline: Create a machine, enable monitoring and then destroy it.
     Given "<provider>" cloud has been added
-    And I wait for 50 seconds
+    And I wait for 30 seconds
     When I visit the Machines page
     And I click the button "+"
     Then I expect the "Machine" add form to be visible within max 10 seconds
@@ -70,21 +94,21 @@ Feature: Multiprovisioning
     And I wait for 1 seconds
     And I clear the search bar
     And I search for "<machine-name>"
-    Then "<machine-name>" machine state has to be "running" within 90 seconds
+    Then "<machine-name>" machine should be present within 30 seconds
 
     Examples: Providers to be tested
     | provider      | size    | location      | image                       | machine-name |
     | Alibaba Cloud | ecs.xn4.small (1 cpus/ 1.0Gb RAM )| us-west-1a| ubuntu_18_04_64_20G_alibase_20190624.vhd| aliyun-mp-test-random|
     | EC2           | t2.nano - t2.nano | us-west-2a | Ubuntu Server 16.04 LTS (HVM), SSD Volume Type | ec2-mp-test-random |
     | Digital Ocean | 512mb   | Amsterdam 3   | Ubuntu 16.04.6 (LTS) x64          |    do-mp-test-random |
-    | Linode  | Nanode 1GB  | Frankfurt, DE | Ubuntu 19.04    | linode-mp-test-random |
-    #| Packet | t1.small.x86 - 8GB RAM | Amsterdam, NL | Ubuntu 19.04 | packet-mp-test1-random | # way too long to see the machine running...
+    #| Linode  | Nanode 1GB  | Frankfurt, DE | Ubuntu 19.04    | linode-mp-test-random |
+    | Packet | t1.small.x86 - 8GB RAM | Amsterdam, NL | Ubuntu 19.04 | packet-mp-test1-random | # way too long to see the machine running...
     | GCE    | f1-micro (1 vCPU (shared physical core) and 0.6 GB RAM) | europe-west1-c | ubuntu-1804-bionic-v20191008 | gce-mp-test-random |
 
   @rackspace
   Scenario: Create a machine, enable monitoring and then destroy it. (way too long...)
     Given "Rackspace" cloud has been added
-    And I wait for 50 seconds
+    And I wait for 30 seconds
     When I visit the Machines page
     And I click the button "+"
     Then I expect the "Machine" add form to be visible within max 10 seconds
@@ -110,16 +134,13 @@ Feature: Multiprovisioning
     And I wait for 1 seconds
     And I clear the search bar
     And I search for "rackspace-mp-test-random"
-    Then "rackspace-mp-test-random" machine state has to be "running" within 180 seconds
-    # TODO: separate step
-    And I clear the search bar
-    And I search for "packet-mp-test0-random"
-    Then "packet-mp-test0-random" machine state has to be "running" within 60 seconds
+    Then "rackspace-mp-test-random" machine should be present within 30 seconds
+
 
   @ec2-cloud-init
   Scenario: Create a machine, enable monitoring and then destroy it. (way too long...)
     Given "EC2" cloud has been added
-    And I wait for 50 seconds
+    And I wait for 30 seconds
     When I visit the Machines page
     And I click the button "+"
     Then I expect the "Machine" add form to be visible within max 10 seconds
@@ -150,12 +171,13 @@ Feature: Multiprovisioning
     And I wait for 1 seconds
     And I clear the search bar
     And I search for "ec2-mp-test2-random"
-    Then "ec2-mp-test2-random" machine state has to be "running" within 120 seconds
+    Then "ec2-mp-test2-random" machine should be present within 30 seconds
+
 
   @azure-arm
   Scenario: Create a machine, enable monitoring and then destroy it. (way too long...)
     Given "Azure ARM" cloud has been added
-    And I wait for 50 seconds
+    And I wait for 30 seconds
     When I visit the Machines page
     And I click the button "+"
     Then I expect the "Machine" add form to be visible within max 10 seconds
@@ -191,7 +213,7 @@ Feature: Multiprovisioning
     Then "arm-mp-test-random" machine state has to be "running" within 120 seconds
      # TODO: separate step
     When I clear the search bar
-    And I search for "arm-mp-test-random"
+    And I search for "ec2-mp-test2-random"
     And I wait for 1 seconds
     And I click the "ec2-mp-test2-random" "machine"
     And I expect the "machine" page to be visible within max 5 seconds
