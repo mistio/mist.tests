@@ -1,71 +1,19 @@
-@multiprovisioning
+@multiprovisioning-1
 Feature: Multiprovisioning
+
+
+# TODO: Remove hardcoded waits when sizes, images and locations
+# are returned immediately after adding cloud
 
   Background:
     Given I am logged in to mist
     When I visit the Home page
     And I wait for the navigation menu to appear
 
-
-  # ola cloud init
-  # add Key
-  # cleanup etc
-
-  @packet-set-private-ipv4
-  Scenario: Create a machine, enable monitoring and then destroy it.
-    When I visit the Keys page
-    When I click the button "+"
-    Then I expect the "Key" add form to be visible within max 10 seconds
-    When I set the value "Key7" to field "Name" in the "key" add form
-    And I focus on the button "Generate" in the "key" add form
-    And I click the button "Generate" in the "key" add form
-    Then I expect for the button "Add" in the "key" add form to be clickable within 22 seconds
-    When I focus on the button "Add" in the "key" add form
-    And I click the button "Add" in the "key" add form
-    Then I expect the "key" page to be visible within max 10 seconds
-    When I visit the Keys page
-    Then "Key7" key should be present within 15 seconds
-    When I visit the Home page
-    Given "Packet" cloud has been added
-    And I wait for 30 seconds
-    When I visit the Machines page
-    And I click the button "+"
-    Then I expect the "Machine" add form to be visible within max 10 seconds
-    When I open the "Select Cloud" dropdown in the "machine" add form
-    And I wait for 1 seconds
-    And I click the "Packet" button in the "Select Cloud" dropdown in the "machine" add form
-    Then I expect the field "Machine name" in the machine add form to be visible within max 4 seconds
-    Then I set the value "packet-mp-test0-random" to field "Machine Name" in the "machine" add form
-    When I open the "Image" dropdown in the "machine" add form
-    And I wait for 1 seconds
-    And I click the "Ubuntu 19.04" button in the "Image" dropdown in the "machine" add form
-    When I open the "Size" dropdown in the "machine" add form
-    And I wait for 1 seconds
-    And I click the "t1.small.x86 - 8GB RAM" button in the "Size" dropdown in the "machine" add form
-    And I open the "Key" dropdown in the "machine" add form
-    And I wait for 1 seconds
-    And I click the "Key7" button in the "Key" dropdown in the "machine" add form
-    And I open the "Private IPv4 Subnet Size" dropdown in the "machine" add form
-    And I wait for 1 seconds
-    And I click the "/30" button in the "Private IPv4 Subnet Size" dropdown in the "machine" add form
-    When I open the "Location" dropdown in the "machine" add form
-    And I wait for 1 seconds
-    And I click the "Amsterdam, NL" button in the "Location" dropdown in the "machine" add form
-    Then I expect for the button "Launch" in the "machine" add form to be clickable within 10 seconds
-    When I focus on the button "Launch" in the "machine" add form
-    And I click the button "Launch" in the "machine" add form
-    When I visit the Home page
-    And I visit the Machines page
-    And I wait for 1 seconds
-    And I clear the search bar
-    And I search for "packet-mp-test0-random"
-    Then "packet-mp-test0-random" machine should be present within 30 seconds
-
-
-  @mp-test
-  Scenario Outline: Create a machine, enable monitoring and then destroy it.
+  @mp-test-with-cloud-init
+  Scenario Outline: Create a machine in various providers, creating a file using cloud init
     Given "<provider>" cloud has been added
-    And I wait for 30 seconds
+    And I wait for 40 seconds
     When I visit the Machines page
     And I click the button "+"
     Then I expect the "Machine" add form to be visible within max 10 seconds
@@ -86,81 +34,6 @@ Feature: Multiprovisioning
     And I open the "Key" dropdown in the "machine" add form
     And I wait for 1 seconds
     And I click the "Key7" button in the "Key" dropdown in the "machine" add form
-    Then I expect for the button "Launch" in the "machine" add form to be clickable within 10 seconds
-    When I focus on the button "Launch" in the "machine" add form
-    And I click the button "Launch" in the "machine" add form
-    When I visit the Home page
-    And I visit the Machines page
-    And I wait for 1 seconds
-    And I clear the search bar
-    And I search for "<machine-name>"
-    Then "<machine-name>" machine should be present within 30 seconds
-
-    Examples: Providers to be tested
-    | provider      | size    | location      | image                       | machine-name |
-    | Alibaba Cloud | ecs.xn4.small (1 cpus/ 1.0Gb RAM )| us-west-1a| ubuntu_18_04_64_20G_alibase_20190624.vhd| aliyun-mp-test-random|
-    | EC2           | t2.nano - t2.nano | us-west-2a | Ubuntu Server 16.04 LTS (HVM), SSD Volume Type | ec2-mp-test-random |
-    | Digital Ocean | 512mb   | Amsterdam 3   | Ubuntu 16.04.6 (LTS) x64          |    do-mp-test-random |
-    #| Linode  | Nanode 1GB  | Frankfurt, DE | Ubuntu 19.04    | linode-mp-test-random |
-    | Packet | t1.small.x86 - 8GB RAM | Amsterdam, NL | Ubuntu 19.04 | packet-mp-test1-random | # way too long to see the machine running...
-    | GCE    | f1-micro (1 vCPU (shared physical core) and 0.6 GB RAM) | europe-west1-c | ubuntu-1804-bionic-v20191008 | gce-mp-test-random |
-
-  @rackspace
-  Scenario: Create a machine, enable monitoring and then destroy it. (way too long...)
-    Given "Rackspace" cloud has been added
-    And I wait for 30 seconds
-    When I visit the Machines page
-    And I click the button "+"
-    Then I expect the "Machine" add form to be visible within max 10 seconds
-    When I open the "Select Cloud" dropdown in the "machine" add form
-    And I wait for 1 seconds
-    And I click the "Rackspace" button in the "Select Cloud" dropdown in the "machine" add form
-    Then I expect the field "Machine name" in the machine add form to be visible within max 4 seconds
-    Then I set the value "rackspace-mp-test-random" to field "Machine Name" in the "machine" add form
-    When I open the "Image" dropdown in the "machine" add form
-    And I wait for 1 seconds
-    And I click the "Ubuntu 18.04 LTS (Bionic Beaver) (PVHVM)" button in the "Image" dropdown in the "machine" add form
-    When I open the "Size" dropdown in the "machine" add form
-    And I wait for 1 seconds
-    And I click the "512MB Standard Instance" button in the "Size" dropdown in the "machine" add form
-    And I open the "Key" dropdown in the "machine" add form
-    And I wait for 1 seconds
-    And I click the "Key7" button in the "Key" dropdown in the "machine" add form
-    Then I expect for the button "Launch" in the "machine" add form to be clickable within 10 seconds
-    When I focus on the button "Launch" in the "machine" add form
-    And I click the button "Launch" in the "machine" add form
-    When I visit the Home page
-    And I visit the Machines page
-    And I wait for 1 seconds
-    And I clear the search bar
-    And I search for "rackspace-mp-test-random"
-    Then "rackspace-mp-test-random" machine should be present within 30 seconds
-
-
-  @ec2-cloud-init
-  Scenario: Create a machine, enable monitoring and then destroy it. (way too long...)
-    Given "EC2" cloud has been added
-    And I wait for 30 seconds
-    When I visit the Machines page
-    And I click the button "+"
-    Then I expect the "Machine" add form to be visible within max 10 seconds
-    When I open the "Select Cloud" dropdown in the "machine" add form
-    And I wait for 1 seconds
-    And I click the "EC2" button in the "Select Cloud" dropdown in the "machine" add form
-    Then I expect the field "Machine name" in the machine add form to be visible within max 4 seconds
-    Then I set the value "ec2-mp-test2-random" to field "Machine Name" in the "machine" add form
-    When I open the "Image" dropdown in the "machine" add form
-    And I wait for 1 seconds
-    And I click the "Ubuntu Server 16.04 LTS (HVM), SSD Volume Type" button in the "Image" dropdown in the "machine" add form
-    When I open the "Size" dropdown in the "machine" add form
-    And I wait for 1 seconds
-    And I click the " t2.nano - t2.nano" button in the "Size" dropdown in the "machine" add form
-    And I open the "Key" dropdown in the "machine" add form
-    And I wait for 1 seconds
-    And I click the "Key7" button in the "Key" dropdown in the "machine" add form
-    When I open the "Location" dropdown in the "machine" add form
-    And I wait for 1 seconds
-    And I click the "us-west-2b" button in the "Location" dropdown in the "machine" add form
     And I wait for 1 seconds
     Then I set the value "#!/bin/bash\nsudo touch ~/new_file" to field "Cloud Init" in the "machine" add form
     Then I expect for the button "Launch" in the "machine" add form to be clickable within 10 seconds
@@ -170,14 +43,20 @@ Feature: Multiprovisioning
     And I visit the Machines page
     And I wait for 1 seconds
     And I clear the search bar
-    And I search for "ec2-mp-test2-random"
-    Then "ec2-mp-test2-random" machine should be present within 30 seconds
+    And I search for "<machine-name>"
+    Then "<machine-name>" machine should be present within 60 seconds
 
+    Examples: Providers to be tested
+    | provider      | size                                                    | location       | image                                          | machine-name           |
+    | Packet        | t1.small.x86 - 8GB RAM                                  | Amsterdam, NL  | Ubuntu 19.04                                   | packet-mp-test-random  |
+    | EC2           | t2.nano - t2.nano                                       | us-west-2a     | Ubuntu Server 16.04 LTS (HVM), SSD Volume Type | ec2-mp-test-random     |
+    | Digital Ocean | 512mb                                                   | Amsterdam 3    | Ubuntu 16.04.6 (LTS) x64                       | do-mp-test-random      |
+    | GCE           | f1-micro (1 vCPU (shared physical core) and 0.6 GB RAM) | europe-west1-c | ubuntu-1804-bionic-v20191008                   | gce-mp-test-random     |
 
   @azure-arm
-  Scenario: Create a machine, enable monitoring and then destroy it. (way too long...)
+  Scenario: Create a machine in Azure arm provider with new resource group, storage account and network
     Given "Azure ARM" cloud has been added
-    And I wait for 30 seconds
+    And I wait for 40 seconds
     When I visit the Machines page
     And I click the button "+"
     Then I expect the "Machine" add form to be visible within max 10 seconds
@@ -210,12 +89,16 @@ Feature: Multiprovisioning
     And I wait for 1 seconds
     And I clear the search bar
     And I search for "arm-mp-test-random"
-    Then "arm-mp-test-random" machine state has to be "running" within 120 seconds
-     # TODO: separate step
-    When I clear the search bar
-    And I search for "ec2-mp-test2-random"
+    Then "arm-mp-test-random" machine should be present within 60 seconds
+
+  @verify-cloud-init
+  Scenario Outline: Verify that file created with cloud-init exists
+    When I visit the Machines page
     And I wait for 1 seconds
-    And I click the "ec2-mp-test2-random" "machine"
+    And I clear the search bar
+    And I search for "<machine>"
+    Then "<machine>" machine state has to be "running" within 900 seconds
+    And I click the "<machine>" "machine"
     And I expect the "machine" page to be visible within max 5 seconds
     And I wait for 2 seconds
     Then I click the "Shell" action button in the "machine" page
@@ -226,3 +109,11 @@ Feature: Multiprovisioning
     And I type in the terminal "ls -la ~"
     And I wait for 1 seconds
     Then new_file should be included in the output
+    And I close the terminal
+
+    Examples: Providers to be tested
+    | machine                |
+    | ec2-mp-test-random     |
+    | do-mp-test-random      |
+    | gce-mp-test-random     |
+    | packet-mp-test-random |
