@@ -13,6 +13,7 @@ Feature: Multiprovisioning
   @mp-test-with-cloud-init
   Scenario Outline: Create a machine in various providers, creating a file using cloud init
     Given "<provider>" cloud has been added
+    And key "Key7" has been added via API request
     And I wait for 40 seconds
     When I visit the Machines page
     And I click the button "+"
@@ -49,7 +50,7 @@ Feature: Multiprovisioning
     Examples: Providers to be tested
     | provider      | size                                                    | location       | image                                          | machine-name           |
     | Packet        | t1.small.x86 - 8GB RAM                                  | Amsterdam, NL  | Ubuntu 19.04                                   | packet-mp-test-random  |
-    | EC2           | t2.nano - t2.nano                                       | us-west-2a     | Ubuntu Server 16.04 LTS (HVM), SSD Volume Type | ec2-mp-test-random     |
+    | AWS           | t2.nano - t2.nano                                       | us-west-2a     | Ubuntu Server 16.04 LTS (HVM), SSD Volume Type | ec2-mp-test-random     |
     | Digital Ocean | 512mb                                                   | Amsterdam 3    | Ubuntu 16.04.6 (LTS) x64                       | do-mp-test-random      |
     | GCE           | f1-micro (1 vCPU (shared physical core) and 0.6 GB RAM) | europe-west1-c | ubuntu-1804-bionic-v20191008                   | gce-mp-test-random     |
 

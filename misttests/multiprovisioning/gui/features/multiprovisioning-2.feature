@@ -8,19 +8,8 @@ Feature: Multiprovisioning
 
   @packet-set-private-ipv4
   Scenario: Create a machine in Packet provider setting private ipv4
-    When I visit the Keys page
-    When I click the button "+"
-    Then I expect the "Key" add form to be visible within max 10 seconds
-    When I set the value "Key7" to field "Name" in the "key" add form
-    And I focus on the button "Generate" in the "key" add form
-    And I click the button "Generate" in the "key" add form
-    Then I expect for the button "Add" in the "key" add form to be clickable within 22 seconds
-    When I focus on the button "Add" in the "key" add form
-    And I click the button "Add" in the "key" add form
-    When I visit the Keys page
-    Then "Key7" key should be present within 15 seconds
-    When I visit the Home page
     Given "Packet" cloud has been added
+    And key "Key7" has been added via API request
     And I wait for 40 seconds
     When I visit the Machines page
     And I click the button "+"
