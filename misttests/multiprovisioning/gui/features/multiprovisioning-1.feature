@@ -10,10 +10,13 @@ Feature: Multiprovisioning
     When I visit the Home page
     And I wait for the navigation menu to appear
 
+  @add-Key
+  Scenario: Add key needed for tests
+    Given key "Key-random" has been added via API request
+
   @mp-test-with-cloud-init
   Scenario Outline: Create a machine in various providers, creating a file using cloud init
     Given "<provider>" cloud has been added
-    And key "Key-random" has been added via API request
     And I wait for 40 seconds
     When I visit the Machines page
     And I click the button "+"
