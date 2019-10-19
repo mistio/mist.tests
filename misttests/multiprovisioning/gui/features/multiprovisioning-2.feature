@@ -9,7 +9,7 @@ Feature: Multiprovisioning
   @packet-set-private-ipv4
   Scenario: Create a machine in Packet provider setting private ipv4
     Given "Packet" cloud has been added
-    And key "Key7" has been added via API request
+    And key "Key-random" has been added via API request
     And I wait for 40 seconds
     When I visit the Machines page
     And I click the button "+"
@@ -27,7 +27,7 @@ Feature: Multiprovisioning
     And I click the "t1.small.x86 - 8GB RAM" button in the "Size" dropdown in the "machine" add form
     And I open the "Key" dropdown in the "machine" add form
     And I wait for 1 seconds
-    And I click the "Key7" button in the "Key" dropdown in the "machine" add form
+    And I click the "Key-random" button in the "Key" dropdown in the "machine" add form
     And I open the "Private IPv4 Subnet Size" dropdown in the "machine" add form
     And I wait for 1 seconds
     And I click the "/30" button in the "Private IPv4 Subnet Size" dropdown in the "machine" add form
@@ -44,7 +44,7 @@ Feature: Multiprovisioning
     And I search for "packet-mp-test0-random"
     Then "packet-mp-test0-random" machine should be present within 60 seconds
 
-# TODO: when cloud_init in Aliyun/Packet is fixed, move to mp-test-with-cloud-init
+# TODO: when cloud_init in Aliyun/Linode is fixed, move to mp-test-with-cloud-init
   @mp-test-without-cloud-init
   Scenario Outline: Create a machine in various providers, without cloud init
     Given "<provider>" cloud has been added
@@ -68,7 +68,7 @@ Feature: Multiprovisioning
     And I click the "<size>" button in the "Size" dropdown in the "machine" add form
     And I open the "Key" dropdown in the "machine" add form
     And I wait for 1 seconds
-    And I click the "Key7" button in the "Key" dropdown in the "machine" add form
+    And I click the "Key-random" button in the "Key" dropdown in the "machine" add form
     Then I expect for the button "Launch" in the "machine" add form to be clickable within 10 seconds
     When I focus on the button "Launch" in the "machine" add form
     And I click the button "Launch" in the "machine" add form
@@ -104,7 +104,7 @@ Feature: Multiprovisioning
     And I click the "512MB Standard Instance" button in the "Size" dropdown in the "machine" add form
     And I open the "Key" dropdown in the "machine" add form
     And I wait for 1 seconds
-    And I click the "Key7" button in the "Key" dropdown in the "machine" add form
+    And I click the "Key-random" button in the "Key" dropdown in the "machine" add form
     Then I expect for the button "Launch" in the "machine" add form to be clickable within 10 seconds
     When I focus on the button "Launch" in the "machine" add form
     And I click the button "Launch" in the "machine" add form

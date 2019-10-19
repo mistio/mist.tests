@@ -13,7 +13,7 @@ Feature: Multiprovisioning
   @mp-test-with-cloud-init
   Scenario Outline: Create a machine in various providers, creating a file using cloud init
     Given "<provider>" cloud has been added
-    And key "Key7" has been added via API request
+    And key "Key-random" has been added via API request
     And I wait for 40 seconds
     When I visit the Machines page
     And I click the button "+"
@@ -34,7 +34,7 @@ Feature: Multiprovisioning
     And I click the "<size>" button in the "Size" dropdown in the "machine" add form
     And I open the "Key" dropdown in the "machine" add form
     And I wait for 1 seconds
-    And I click the "Key7" button in the "Key" dropdown in the "machine" add form
+    And I click the "Key-random" button in the "Key" dropdown in the "machine" add form
     And I wait for 1 seconds
     Then I set the value "#!/bin/bash\nsudo touch ~/new_file" to field "Cloud Init" in the "machine" add form
     Then I expect for the button "Launch" in the "machine" add form to be clickable within 10 seconds
@@ -74,7 +74,7 @@ Feature: Multiprovisioning
     And I click the "Basic_A0 1 cpus/0.75G RAM/ 20.0GB SSD" button in the "Size" dropdown in the "machine" add form
     And I open the "Key" dropdown in the "machine" add form
     And I wait for 1 seconds
-    And I click the "Key7" button in the "Key" dropdown in the "machine" add form
+    And I click the "Key-random" button in the "Key" dropdown in the "machine" add form
     When I open the "Location" dropdown in the "machine" add form
     And I wait for 1 seconds
     And I click the "East Asia" button in the "Location" dropdown in the "machine" add form
