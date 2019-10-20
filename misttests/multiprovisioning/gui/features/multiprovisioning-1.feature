@@ -57,7 +57,7 @@ Feature: Multiprovisioning
     | GCE           | f1-micro (1 vCPU (shared physical core) and 0.6 GB RAM) | europe-west1-c | ubuntu-1804-bionic-v20191008                   | gce-mp-test-random     |
 
   @azure-arm
-  Scenario: Create a machine in Azure arm provider with new resource group, storage account and network
+  Scenario: Create a machine in Azure arm provider with new resource group, storage account, network and cloud init
     Given "Azure ARM" cloud has been added
     And I wait for 40 seconds
     When I visit the Machines page
@@ -84,6 +84,7 @@ Feature: Multiprovisioning
     Then I set the value "armmptestrandom" to field "Storage Account name" in the "machine" add form
     Then I set the value "armmptestrandom" to field "Network name" in the "machine" add form
     Then I set the value "armmptestrandom" to field "Machine Username" in the "machine" add form
+    Then I set the value "#!/bin/bash\nsudo touch ~/new_file" to field "Cloud Init" in the "machine" add form
     Then I expect for the button "Launch" in the "machine" add form to be clickable within 10 seconds
     When I focus on the button "Launch" in the "machine" add form
     And I click the button "Launch" in the "machine" add form
@@ -119,4 +120,5 @@ Feature: Multiprovisioning
     | ec2-mp-test-random     |
     | do-mp-test-random      |
     | gce-mp-test-random     |
-    | packet-mp-test-random |
+    | arm-mp-test-random     |
+    | packet-mp-test-random  |
