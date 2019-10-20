@@ -97,7 +97,6 @@ def before_all(context):
         # calling behaving to setup it's context variables.
         behaving_mail.before_all(context)
 
-
     if config.REGISTER_USER_BEFORE_FEATURE:
         payload = {
             'email': context.mist_config['EMAIL'],
@@ -287,23 +286,18 @@ def mayday_cleanup(context):
 
 
 def mp_cleanup(context):
-    # TODO: change token below!
-    headers = {'Authorization': context.mist_config['MAYDAY_TOKEN']}
+    headers = {'Authorization': get_api_token(context)}
+    response = requests.get(context.mist_config['MIST_URL'] + '/api/v1/machines',headers=headers)
 
-    response = requests.get("%s/api/v1/clouds" % context.mist_config['MIST_URL'], headers=headers)
-    for cloud in response.json():
-        response = requests.get(context.mist_config['MIST_URL'] + '/api/v1/clouds/' + cloud['id'] + '/machines',
-                                headers=headers)
-        for machine in response.json():
-            if 'mp-test-machine' in machine['name']:
-                payload = {'action': 'destroy'}
-                uri = context.mist_config['MIST_URL'] + \
-                        '/api/v1/clouds/' + cloud['id'] + \
-                        '/machines/' + machine['machine_id']
-                log.info('Killing multiprovisioning machine')
-                response = requests.post(uri, data=json.dumps(payload), headers=headers)
-                assert response.status_code == 200, "Could not destroy multiprovisioning machine"
-                break
+    for machine in response.json():
+        if 'mp-test' in machine['name'] and machine['state'] in ['running', 'stopped']:
+            payload = {'action': 'destroy'}
+            uri = context.mist_config['MIST_URL'] + \
+                    '/api/v1/clouds/' + machine['cloud'] + \
+                    '/machines/' + machine['machine_id']
+            log.info('Killing multiprovisioning machine %s' % str(machine['name']))
+            response = requests.post(uri, data=json.dumps(payload), headers=headers)
+            assert response.status_code == 200, "Could not destroy multiprovisioning machine %s"  % str(machine['name'])
 
 
 def after_feature(context, feature):
@@ -331,5 +325,5 @@ def after_feature(context, feature):
         delete_ec2_network(context, context.mist_config.get('network_random'))
     #if feature.name == 'Production':
     #    mayday_cleanup(context)
-    #if feature.name == 'Multiprovisioning':
-    #    mp_cleanup(context)
+    if feature.name == 'Multiprovisioning':
+        mp_cleanup(context)

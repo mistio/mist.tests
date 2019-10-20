@@ -160,6 +160,18 @@ def set_vultr_creds(context):
                           u'"cloud" add form' % api_key)
 
 
+def set_aliyun_creds(context):
+    context.execute_steps(u'''
+                        Then I open the "Region" dropdown in the "cloud" add form
+                        Then I wait for 2 seconds
+                        Then I click the "US West 1 (Silicon Valley)" button in the "Region" dropdown in the "cloud" add form
+                        Then I wait for 1 seconds
+                        Then I set the value "Alibaba Cloud" to field "Title" in the "cloud" add form
+                        Then I set the value "%s" to field "API Key" in the "cloud" add form
+                        Then I set the value "%s" to field "API Secret" in the "cloud" add form
+                    ''' % (safe_get_var('clouds/aliyun', 'api_key', context.mist_config['CREDENTIALS']['ALIYUN']['api_key']),
+                           safe_get_var('clouds/aliyun', 'api_secret', context.mist_config['CREDENTIALS']['ALIYUN']['api_secret'])))
+
 def set_azure_arm_creds(context):
     context.execute_steps(u'''
                     Then I set the value "Azure ARM" to field "Title" in the "cloud" add form
@@ -269,7 +281,8 @@ cloud_creds_dict = {
     "other server": set_other_server_creds,
     "vmware": set_vmware_creds,
     "docker_orchestrator": set_docker_orchestrator_creds,
-    "onapp": set_onapp_creds
+    "onapp": set_onapp_creds,
+    "alibaba cloud": set_aliyun_creds,
 }
 
 

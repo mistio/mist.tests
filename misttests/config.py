@@ -254,6 +254,7 @@ DEFAULT_CREDENTIALS = {'AWS': {'api_key': '', 'api_secret': '', 'region': '', 'r
                        'RACKSPACE': {'api_key': '', 'region': '', 'username': ''},
                        'SOFTLAYER': {'api_key': '', 'username': ''},
                        'VULTR': {'apikey': ''},
+                       'ALIYUN': {'api_key': '', 'api_secret': ''},
                        'DOCKER_MONITORING':{'host': '', 'port': ''},
                        'ONAPP':{'username':'', 'password':'', 'host':'', 'verify_ssl': False}
                        }

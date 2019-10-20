@@ -102,6 +102,10 @@ def create_script_api_request(context, script_name):
 
 @step(u'key "{key_name}" has been added via API request')
 def add_key_api_request(context, key_name):
+    if "random" in key_name:
+        value_key = key_name
+        value = key_name.replace("random", str(randrange(1000)))
+        context.mist_config[value_key] = value
     payload = {
         'name': key_name,
         'priv': safe_get_var('keys/api_testing_machine_private_key', 'priv_key', context.mist_config['TESTING_PRIVATE_KEY'])
@@ -109,7 +113,7 @@ def add_key_api_request(context, key_name):
     headers = {'Authorization': get_owner_api_token(context)}
 
     re = requests.put(context.mist_config['MIST_URL'] + "/api/v1/keys" , data=json.dumps(payload), headers=headers)
-    assert re.status_code == 200, "Could not add key. Response was %s" % response.status_code
+    assert re.status_code == 200, "Could not add key. Response was %s" % re.status_code
     context.mist_config['ASSOCIATED_KEY'] = re.json()['id']
 
 

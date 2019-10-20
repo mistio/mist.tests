@@ -20,6 +20,7 @@ Feature: Add second-tier clouds
 
     Examples: Providers
     | provider       |
+    | Alibaba Cloud  |
     | Azure ARM      |
 #    | Vultr         |
 #    | AWS            |

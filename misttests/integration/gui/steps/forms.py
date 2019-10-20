@@ -298,6 +298,13 @@ def find_dropdown(context, container, dropdown_text):
         app_form = container.find_element_by_css_selector('app-form')
         app_form_shadow = expand_shadow_root(context, app_form)
         all_dropdowns += app_form_shadow.find_elements_by_css_selector('paper-dropdown-menu:not([hidden])')
+        try:
+            size = app_form_shadow.find_element_by_id('app-form-createForm-size')
+            shadow = expand_shadow_root(context, size)
+            size_dropdown = shadow.find_element_by_css_selector('paper-dropdown-menu:not([hidden])')
+            all_dropdowns.append(size_dropdown)
+        except NoSuchElementException:
+            pass
         sub_forms = app_form_shadow.find_elements_by_css_selector('sub-form')
         for sub in sub_forms:
             sub_shadow = expand_shadow_root(context, sub)
@@ -336,6 +343,8 @@ def click_button_in_dialog(context, button_name, dialog_title):
 def click_button_in_dropdown_in_dialog(context, button_name, dropdown_title, dialog_title):
     from .buttons import clicketi_click
     from .dialog import get_dialog
+    if context.mist_config.get(button_name):
+        button_name = context.mist_config.get(button_name)
     dialog = get_dialog(context, dialog_title)
     dialog_shadow = expand_shadow_root(context, dialog)
     button = get_button_from_form(context, dialog_shadow, button_name.lower(), tag_name='paper-item')
