@@ -33,7 +33,6 @@ def get_add_form(context, title):
 
 def get_edit_form(context, title):
     title = title.lower()
-    import ipdb;ipdb.set_trace()
     if title not in ['machine', 'image', 'key', 'network', 'tunnel', 'script',
                      'template', 'stack', 'team', 'policy', 'cloud', 'schedule', 'zone']:
         raise Exception('The title given is unknown')
@@ -110,7 +109,6 @@ def get_input_element_from_form(context, form, input_name):
                         input_element = expanded_slot_shadow.find_element_by_css_selector(selector)
                     except NoSuchElementException:
                         print(e)
-                        import ipdb;ipdb.set_trace()
     return input_element
 
 
