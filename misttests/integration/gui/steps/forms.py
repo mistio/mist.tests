@@ -206,8 +206,15 @@ def set_value_to_field(context, value, name, title, form_type):
         get_edit_form(context, title)
     form_shadow = expand_shadow_root(context, form)
     form_input = get_input_element_from_form(context, form_shadow, name.lower())
-    assert form_input, "Could not set value to field %s" % name
-    clear_input_and_send_keys(form_input, value)
+    if not form_input:
+        app_form = form_shadow.find_element_by_css_selector('app-form, multi-inputs')
+        app_form_shadow = expand_shadow_root(context, app_form)
+        form_checkboxes = app_form_shadow.find_elements_by_css_selector('paper-checkbox[name="%s"]' % name.lower())
+        assert len(form_checkboxes), "Could not set value to field %s" % name
+        from .buttons import click_button_from_collection
+        click_button_from_collection(context, value, form_checkboxes)
+    else:
+        clear_input_and_send_keys(form_input, value)
 
 
 @step(u'I set the value "(?P<value>[A-Za-z0-9 \-/,._#!<>+:=\{\}@%\*\"\n~\\\\]+)" to field "(?P<name>[A-Za-z ]+)" in the Account page')

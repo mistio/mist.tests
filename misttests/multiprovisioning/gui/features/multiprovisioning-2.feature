@@ -6,6 +6,10 @@ Feature: Multiprovisioning
     When I visit the Home page
     And I wait for the navigation menu to appear
 
+  @add-Key
+  Scenario: Add key needed for tests
+    Given key "Key-random" has been added via API request
+
 # TODO: when cloud_init in Aliyun/Linode is fixed, move to mp-test-with-cloud-init
   @mp-test-without-cloud-init
   Scenario Outline: Create a machine in various providers, without cloud init

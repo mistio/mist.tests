@@ -89,7 +89,7 @@ Feature: Multiprovisioning
     Examples: Providers to be tested
     | provider      | size                                                    | location       | image                                          | machine-name           |
     | Packet        | t1.small.x86 - 8GB RAM                                  | Amsterdam, NL  | Ubuntu 19.04                                   | packet-mp-test-random  |
-    | AWS           | t2.nano - t2.nano                                       | us-west-2a     | Ubuntu Server 16.04 LTS (HVM), SSD Volume Type | ec2-mp-test-random     |
+    | AWS           | t2.nano - t2.nano                                       | ap-northeast-1a| Ubuntu Server 16.04 LTS (HVM), SSD Volume Type | ec2-mp-test-random     |
     | Digital Ocean | 512mb                                                   | Amsterdam 3    | Ubuntu 16.04.6 (LTS) x64                       | do-mp-test-random      |
     | GCE           | f1-micro (1 vCPU (shared physical core) and 0.6 GB RAM) | europe-west1-c | ubuntu-1804-bionic-v20191008                   | gce-mp-test-random     |
 
