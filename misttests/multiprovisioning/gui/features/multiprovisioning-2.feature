@@ -9,44 +9,10 @@ Feature: Multiprovisioning
   @add-Key
   Scenario: Add key needed for tests
     Given key "Key-random" has been added via API request
-
-  @mp-test-without-cloud-init
-  Scenario Outline: Create a machine in various providers, without cloud init
-    Given "<provider>" cloud has been added
-    And I wait for 40 seconds
-    When I visit the Machines page
-    And I click the button "+"
-    Then I expect the "Machine" add form to be visible within max 10 seconds
-    When I open the "Select Cloud" dropdown in the "machine" add form
-    And I wait for 1 seconds
-    And I click the "<provider>" button in the "Select Cloud" dropdown in the "machine" add form
-    Then I expect the field "Machine name" in the machine add form to be visible within max 4 seconds
-    Then I set the value "<machine-name>" to field "Machine Name" in the "machine" add form
-    When I open the "Location" dropdown in the "machine" add form
-    And I wait for 1 seconds
-    And I click the "<location>" button in the "Location" dropdown in the "machine" add form
-    When I open the "Image" dropdown in the "machine" add form
-    And I wait for 1 seconds
-    And I click the "<image>" button in the "Image" dropdown in the "machine" add form
-    When I open the "Size" dropdown in the "machine" add form
-    And I wait for 1 seconds
-    And I click the "<size>" button in the "Size" dropdown in the "machine" add form
-    And I open the "Key" dropdown in the "machine" add form
-    And I wait for 1 seconds
-    And I click the "Key-random" button in the "Key" dropdown in the "machine" add form
-    Then I expect for the button "Launch" in the "machine" add form to be clickable within 10 seconds
-    When I focus on the button "Launch" in the "machine" add form
-    And I click the button "Launch" in the "machine" add form
-    When I visit the Home page
-    And I visit the Machines page
-    And I wait for 1 seconds
-    And I clear the search bar
-    And I search for "<machine-name>"
-    Then "<machine-name>" machine should be present within 60 seconds
-
-    Examples: Providers to be tested
-    | provider      | size                              | location       | image                                    | machine-name          |
-    | Linode        | Nanode 1GB                        | Frankfurt, DE  | Ubuntu 19.04                             | linode-mp-test-random |
+    # TODO: Add openstack cloud here to make sure that networks are 
+    # visible in create machine form. Change this when
+    # https://gitlab.ops.mist.io/mistio/mist.api/issues/39 is resolved
+    Given "Openstack" cloud has been added
 
   @azure-arm-cloud-init
   Scenario: Create a machine in Azure arm provider with new resource group, storage account, network and cloud init
@@ -87,6 +53,44 @@ Feature: Multiprovisioning
     And I search for "arm-mp-test-random"
     Then "arm-mp-test-random" machine should be present within 60 seconds
 
+  @mp-test-without-cloud-init
+  Scenario Outline: Create a machine in various providers, without cloud init
+    Given "<provider>" cloud has been added
+    And I wait for 40 seconds
+    When I visit the Machines page
+    And I click the button "+"
+    Then I expect the "Machine" add form to be visible within max 10 seconds
+    When I open the "Select Cloud" dropdown in the "machine" add form
+    And I wait for 1 seconds
+    And I click the "<provider>" button in the "Select Cloud" dropdown in the "machine" add form
+    Then I expect the field "Machine name" in the machine add form to be visible within max 4 seconds
+    Then I set the value "<machine-name>" to field "Machine Name" in the "machine" add form
+    When I open the "Location" dropdown in the "machine" add form
+    And I wait for 1 seconds
+    And I click the "<location>" button in the "Location" dropdown in the "machine" add form
+    When I open the "Image" dropdown in the "machine" add form
+    And I wait for 1 seconds
+    And I click the "<image>" button in the "Image" dropdown in the "machine" add form
+    When I open the "Size" dropdown in the "machine" add form
+    And I wait for 1 seconds
+    And I click the "<size>" button in the "Size" dropdown in the "machine" add form
+    And I open the "Key" dropdown in the "machine" add form
+    And I wait for 1 seconds
+    And I click the "Key-random" button in the "Key" dropdown in the "machine" add form
+    Then I expect for the button "Launch" in the "machine" add form to be clickable within 10 seconds
+    When I focus on the button "Launch" in the "machine" add form
+    And I click the button "Launch" in the "machine" add form
+    When I visit the Home page
+    And I visit the Machines page
+    And I wait for 1 seconds
+    And I clear the search bar
+    And I search for "<machine-name>"
+    Then "<machine-name>" machine should be present within 60 seconds
+
+    Examples: Providers to be tested
+    | provider      | size                              | location       | image                                    | machine-name          |
+    | Linode        | Nanode 1GB                        | Frankfurt, DE  | Ubuntu 19.04                             | linode-mp-test-random |
+
   @rackspace
   Scenario: Create a machine in Rackspace provider
     Given "Rackspace" cloud has been added
@@ -120,8 +124,6 @@ Feature: Multiprovisioning
 
   @openstack
   Scenario: Create a machine in Openstack provider, with floating ip
-    Given "Openstack" cloud has been added
-    And I wait for 40 seconds
     When I visit the Machines page
     And I click the button "+"
     Then I expect the "Machine" add form to be visible within max 10 seconds
@@ -154,7 +156,7 @@ Feature: Multiprovisioning
     And I wait for 1 seconds
     And I clear the search bar
     And I search for "<machine>"
-    Then "<machine>" machine state has to be "running" within 900 seconds
+    Then "<machine>" machine state has to be "running" within 120 seconds
     And I click the "<machine>" "machine"
     And I expect the "machine" page to be visible within max 5 seconds
     And I wait for 2 seconds
