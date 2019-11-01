@@ -90,7 +90,7 @@ def set_aws_adv_creds(context):
         And I wait for 1 seconds
         When I click the "%s" button in the "Region" dropdown in the "cloud" add form
         And I wait for 1 seconds
-        Then I set the value "AWS" to field "Title" in the "cloud" add form
+        Then I set the value "AWS Advantis" to field "Title" in the "cloud" add form
         And I set the value "%s" to field "API Key" in the "cloud" add form
         And I set the value "%s" to field "API Secret" in the "cloud" add form
     ''' % (region, api_key, api_secret))

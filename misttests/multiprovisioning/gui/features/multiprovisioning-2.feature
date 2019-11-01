@@ -175,6 +175,4 @@ Feature: Multiprovisioning
     | arm-mp-test-random     |
 
 
-# add AWS Advantis cloud
-
 # add GCE cloud

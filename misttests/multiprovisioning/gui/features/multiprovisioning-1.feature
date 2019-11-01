@@ -87,12 +87,12 @@ Feature: Multiprovisioning
     Then "<machine-name>" machine should be present within 60 seconds
 
     Examples: Providers to be tested
-    | cloud         | provider      |size                                                    | location         | image                                          | machine-name           |
-    | AWS Advantis  | AWS           |t2.nano - t2.nano                                       | ap-northeast-1a  | Ubuntu Server 16.04 LTS (HVM), SSD Volume Type | ec2-mp-test-random     |
-    | Packet        | Packet        |x1.small.x86 - 32GB RAM                                 | Marseille, France| Ubuntu 19.04                                   | packet-mp-test-random  |
-    | Digital Ocean | Digital Ocean |512mb                                                   | Amsterdam 3      | Ubuntu 16.04.6 (LTS) x64                       | do-mp-test-random      |
-    | GCE           | GCE           |f1-micro (1 vCPU (shared physical core) and 0.6 GB RAM) | europe-west1-c   | ubuntu-1804-bionic-v20191008                   | gce-mp-test-random     |
-    | Alibaba Cloud | Alibaba Cloud |ecs.xn4.small (1 cpus/ 1.0Gb RAM )                      | us-west-1a       | ubuntu_18_04_64_20G_alibase_20190624.vhd       | aliyun-mp-test-random  |
+    | cloud         | size                                                    | location         | image                                          | machine-name           |
+    | AWS Advantis  | t2.nano - t2.nano                                       | ap-northeast-1a  | Ubuntu Server 16.04 LTS (HVM), SSD Volume Type | ec2-mp-test-random     |
+    | Packet        | x1.small.x86 - 32GB RAM                                 | Marseille, France| Ubuntu 19.04                                   | packet-mp-test-random  |
+    | Digital Ocean | 512mb                                                   | Amsterdam 3      | Ubuntu 16.04.6 (LTS) x64                       | do-mp-test-random      |
+    | GCE           | f1-micro (1 vCPU (shared physical core) and 0.6 GB RAM) | europe-west1-c   | ubuntu-1804-bionic-v20191008                   | gce-mp-test-random     |
+    | Alibaba Cloud | ecs.xn4.small (1 cpus/ 1.0Gb RAM )                      | us-west-1a       | ubuntu_18_04_64_20G_alibase_20190624.vhd       | aliyun-mp-test-random  |
 
   @verify-cloud-init
   Scenario Outline: Verify that file created with cloud-init exists
