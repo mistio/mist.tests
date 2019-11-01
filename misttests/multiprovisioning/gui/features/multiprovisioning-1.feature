@@ -52,7 +52,7 @@ Feature: Multiprovisioning
 
   @mp-test-with-cloud-init
   Scenario Outline: Create a machine in various providers, creating a file using cloud init
-    Given "<provider>" cloud has been added
+    Given "<cloud>" cloud has been added
     And I wait for 40 seconds
     When I visit the Machines page
     And I click the button "+"
@@ -87,12 +87,12 @@ Feature: Multiprovisioning
     Then "<machine-name>" machine should be present within 60 seconds
 
     Examples: Providers to be tested
-    | provider      | size                                                    | location       | image                                          | machine-name           |
-    | AWS           | t2.nano - t2.nano                                       | ap-northeast-1a| Ubuntu Server 16.04 LTS (HVM), SSD Volume Type | ec2-mp-test-random     |
-    | Packet        | t1.small.x86 - 8GB RAM                                  | Los Angeles, CA| Ubuntu 19.04                                   | packet-mp-test-random  |
-    | Digital Ocean | 512mb                                                   | Amsterdam 3    | Ubuntu 16.04.6 (LTS) x64                       | do-mp-test-random      |
-    | GCE           | f1-micro (1 vCPU (shared physical core) and 0.6 GB RAM) | europe-west1-c | ubuntu-1804-bionic-v20191008                   | gce-mp-test-random     |
-    | Alibaba Cloud | ecs.xn4.small (1 cpus/ 1.0Gb RAM )                      | us-west-1a     | ubuntu_18_04_64_20G_alibase_20190624.vhd       | aliyun-mp-test-random  |
+    | cloud         | provider      |size                                                    | location       | image                                          | machine-name           |
+    | AWS Advantis  | AWS           |t2.nano - t2.nano                                       | ap-northeast-1a| Ubuntu Server 16.04 LTS (HVM), SSD Volume Type | ec2-mp-test-random     |
+    | Packet        | Packet        |t1.small.x86 - 8GB RAM                                  | Los Angeles, CA| Ubuntu 19.04                                   | packet-mp-test-random  |
+    | Digital Ocean | Digital Ocean |512mb                                                   | Amsterdam 3    | Ubuntu 16.04.6 (LTS) x64                       | do-mp-test-random      |
+    | GCE           | GCE           |f1-micro (1 vCPU (shared physical core) and 0.6 GB RAM) | europe-west1-c | ubuntu-1804-bionic-v20191008                   | gce-mp-test-random     |
+    | Alibaba Cloud | Alibaba Cloud |ecs.xn4.small (1 cpus/ 1.0Gb RAM )                      | us-west-1a     | ubuntu_18_04_64_20G_alibase_20190624.vhd       | aliyun-mp-test-random  |
 
   @verify-cloud-init
   Scenario Outline: Verify that file created with cloud-init exists
