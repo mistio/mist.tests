@@ -156,7 +156,7 @@ Feature: Multiprovisioning
     And I wait for 1 seconds
     And I clear the search bar
     And I search for "<machine>"
-    Then "<machine>" machine state has to be "running" within 120 seconds
+    Then "<machine>" machine state has to be "running" within 240 seconds
     And I click the "<machine>" "machine"
     And I expect the "machine" page to be visible within max 5 seconds
     And I wait for 2 seconds
@@ -173,3 +173,8 @@ Feature: Multiprovisioning
   Examples: Providers to be tested
     | machine                |
     | arm-mp-test-random     |
+
+
+# add AWS Advantis cloud
+
+# add GCE cloud
