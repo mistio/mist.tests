@@ -59,7 +59,7 @@ Feature: Multiprovisioning
     Then I expect the "Machine" add form to be visible within max 10 seconds
     When I open the "Select Cloud" dropdown in the "machine" add form
     And I wait for 1 seconds
-    And I click the "<provider>" button in the "Select Cloud" dropdown in the "machine" add form
+    And I click the "<cloud>" button in the "Select Cloud" dropdown in the "machine" add form
     Then I expect the field "Machine name" in the machine add form to be visible within max 4 seconds
     Then I set the value "<machine-name>" to field "Machine Name" in the "machine" add form
     When I open the "Location" dropdown in the "machine" add form
