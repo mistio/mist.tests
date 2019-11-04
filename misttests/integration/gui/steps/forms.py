@@ -194,6 +194,26 @@ def check_that_field_is_visible(context, field_name, title, form_type, seconds):
 
 
 use_step_matcher("re")
+@step(u'I set the cloud init script "(?P<script>[A-Za-z0-9 \-/,._#!<>+:=\{\}@%\*\"\n~\\\\\[\]]+)"')
+def set_value_to_field(context, script):
+    form = get_add_form(context, 'machine')
+    form_shadow = expand_shadow_root(context, form)
+    form_input = get_input_element_from_form(context, form_shadow, 'cloud init')
+    n = 70
+    script.replace('\"', '"')
+    chunks = [script[i:i+n] for i in xrange(0, len(script), n)]
+    for chunk in chunks:
+        if '\\n' in chunk:
+            _chunks = chunk.split('\\n')
+            for _chunk in _chunks:
+                form_input.send_keys(_chunk)
+                from selenium.webdriver.common.keys import Keys
+                if _chunk not in _chunks[-1]:
+                    form_input.send_keys(Keys.RETURN)
+        else:
+            form_input.send_keys(chunk)
+
+use_step_matcher("re")
 @step(u'I set the value "(?P<value>[A-Za-z0-9 \-/,._#!<>+:=\{\}@%\*\"\n~\\\\\[\]]+)" to field "(?P<name>[A-Za-z ]+)" in the "(?P<title>[A-Za-z]+)" (?P<form_type>[A-Za-z]+) form')
 def set_value_to_field(context, value, name, title, form_type):
     if context.mist_config.get(value):
@@ -215,6 +235,8 @@ def set_value_to_field(context, value, name, title, form_type):
         click_button_from_collection(context, value, form_checkboxes)
     else:
         clear_input_and_send_keys(form_input, value)
+
+
 
 
 @step(u'I set the value "(?P<value>[A-Za-z0-9 \-/,._#!<>+:=\{\}@%\*\"\n~\\\\]+)" to field "(?P<name>[A-Za-z ]+)" in the Account page')
