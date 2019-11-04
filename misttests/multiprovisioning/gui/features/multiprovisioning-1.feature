@@ -11,7 +11,7 @@ Feature: Multiprovisioning
 
   @add-key
   Scenario: Add key needed for tests
-    Given key "Key-random" has been added via API request
+    Given key "Keyrandom" has been added via API request
 
   @packet-set-private-ipv4
   Scenario: Create a machine in Packet provider setting private ipv4
@@ -33,7 +33,7 @@ Feature: Multiprovisioning
     And I click the "t1.small.x86 - 8GB RAM" button in the "Size" dropdown in the "machine" add form
     And I open the "Key" dropdown in the "machine" add form
     And I wait for 1 seconds
-    And I click the "Key-random" button in the "Key" dropdown in the "machine" add form
+    And I click the "Keyrandom" button in the "Key" dropdown in the "machine" add form
     And I open the "Private IPv4 Subnet Size" dropdown in the "machine" add form
     And I wait for 1 seconds
     And I click the "/30" button in the "Private IPv4 Subnet Size" dropdown in the "machine" add form
@@ -73,7 +73,7 @@ Feature: Multiprovisioning
     And I click the "<size>" button in the "Size" dropdown in the "machine" add form
     And I open the "Key" dropdown in the "machine" add form
     And I wait for 1 seconds
-    And I click the "Key-random" button in the "Key" dropdown in the "machine" add form
+    And I click the "Keyrandom" button in the "Key" dropdown in the "machine" add form
     And I wait for 1 seconds
     Then I set the cloud init script "#!/bin/bash\ntouch ~/new_file"
     Then I expect for the button "Launch" in the "machine" add form to be clickable within 10 seconds
@@ -99,7 +99,7 @@ Feature: Multiprovisioning
     And I wait for 1 seconds
     And I clear the search bar
     And I search for "<machine>"
-    Then "<machine>" machine state has to be "running" within 240 seconds
+    Then "<machine>" machine state has to be "running" within 300 seconds
     And I click the "<machine>" "machine"
     And I expect the "machine" page to be visible within max 5 seconds
     And I wait for 2 seconds

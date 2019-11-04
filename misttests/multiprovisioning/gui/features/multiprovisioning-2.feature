@@ -8,7 +8,7 @@ Feature: Multiprovisioning
 
   @add-Key
   Scenario: Add key needed for tests
-    Given key "Key-random" has been added via API request
+    Given key "Keyrandom" has been added via API request
     # TODO: Add openstack cloud here to make sure that networks are 
     # visible in create machine form. Change this when
     # https://gitlab.ops.mist.io/mistio/mist.api/issues/39 is resolved
@@ -34,7 +34,7 @@ Feature: Multiprovisioning
     And I click the "Basic_A0 1 cpus/0.75G RAM/ 20.0GB SSD" button in the "Size" dropdown in the "machine" add form
     And I open the "Key" dropdown in the "machine" add form
     And I wait for 1 seconds
-    And I click the "Key-random" button in the "Key" dropdown in the "machine" add form
+    And I click the "Keyrandom" button in the "Key" dropdown in the "machine" add form
     When I open the "Location" dropdown in the "machine" add form
     And I wait for 1 seconds
     And I click the "East Asia" button in the "Location" dropdown in the "machine" add form
@@ -54,7 +54,7 @@ Feature: Multiprovisioning
     Then "arm-mp-test-random" machine should be present within 60 seconds
 
   @aliyun-cloud-init
-  Scenario Outline: Create a machine in various providers, creating a file using cloud init
+  Scenario Outline: Create a machine in aliyun provider, creating a file using cloud init
     Given "Alibaba Cloud" cloud has been added
     And I wait for 40 seconds
     When I visit the Machines page
@@ -76,7 +76,7 @@ Feature: Multiprovisioning
     And I click the "ecs.xn4.small (1 cpus/ 1.0Gb RAM )" button in the "Size" dropdown in the "machine" add form
     And I open the "Key" dropdown in the "machine" add form
     And I wait for 1 seconds
-    And I click the "Key-random" button in the "Key" dropdown in the "machine" add form
+    And I click the "Keyrandom" button in the "Key" dropdown in the "machine" add form
     And I wait for 1 seconds
     Then I set the cloud init script "#!/bin/bash\ntouch ~/new_file"
     Then I expect for the button "Launch" in the "machine" add form to be clickable within 10 seconds
@@ -112,7 +112,7 @@ Feature: Multiprovisioning
     And I click the "<size>" button in the "Size" dropdown in the "machine" add form
     And I open the "Key" dropdown in the "machine" add form
     And I wait for 1 seconds
-    And I click the "Key-random" button in the "Key" dropdown in the "machine" add form
+    And I click the "Keyrandom" button in the "Key" dropdown in the "machine" add form
     Then I expect for the button "Launch" in the "machine" add form to be clickable within 10 seconds
     When I focus on the button "Launch" in the "machine" add form
     And I click the button "Launch" in the "machine" add form
@@ -147,7 +147,7 @@ Feature: Multiprovisioning
     And I click the "512MB Standard Instance" button in the "Size" dropdown in the "machine" add form
     And I open the "Key" dropdown in the "machine" add form
     And I wait for 1 seconds
-    And I click the "Key-random" button in the "Key" dropdown in the "machine" add form
+    And I click the "Keyrandom" button in the "Key" dropdown in the "machine" add form
     Then I expect for the button "Launch" in the "machine" add form to be clickable within 10 seconds
     When I focus on the button "Launch" in the "machine" add form
     And I click the button "Launch" in the "machine" add form
@@ -175,7 +175,7 @@ Feature: Multiprovisioning
     Then I set the value "private" to field "Networks" in the "machine" add form
     And I open the "Key" dropdown in the "machine" add form
     And I wait for 1 seconds
-    And I click the "Key-random" button in the "Key" dropdown in the "machine" add form
+    And I click the "Keyrandom" button in the "Key" dropdown in the "machine" add form
     Then I expect for the button "Launch" in the "machine" add form to be clickable within 10 seconds
     When I focus on the button "Launch" in the "machine" add form
     And I click the button "Launch" in the "machine" add form
@@ -208,5 +208,5 @@ Feature: Multiprovisioning
 
   Examples: Providers to be tested
     | machine                |
-    | arm-mp-test-random     |
     | aliyun-mp-test-random  |
+    | arm-mp-test-random     |
