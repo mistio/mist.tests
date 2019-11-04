@@ -104,10 +104,10 @@ def create_script_api_request(context, script_name):
 def add_key_api_request(context, key_name):
     if "random" in key_name:
         value_key = key_name
-        value = key_name.replace("random", str(randrange(1000)))
+        key_name = key_name.replace("random", str(randrange(1000)))
         context.mist_config[value_key] = value
     payload = {
-        'name': value,
+        'name': key_name,
         'priv': safe_get_var('keys/api_testing_machine_private_key', 'priv_key', context.mist_config['TESTING_PRIVATE_KEY'])
     }
     headers = {'Authorization': get_owner_api_token(context)}
