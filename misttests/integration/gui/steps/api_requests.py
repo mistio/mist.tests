@@ -105,7 +105,7 @@ def add_key_api_request(context, key_name):
     if "random" in key_name:
         value_key = key_name
         key_name = key_name.replace("random", str(randrange(1000)))
-        context.mist_config[value_key] = value
+        context.mist_config[value_key] = key_name
     payload = {
         'name': key_name,
         'priv': safe_get_var('keys/api_testing_machine_private_key', 'priv_key', context.mist_config['TESTING_PRIVATE_KEY'])
