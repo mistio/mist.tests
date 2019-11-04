@@ -42,7 +42,7 @@ Feature: Multiprovisioning
     Then I set the value "armmptestrandom" to field "Storage Account name" in the "machine" add form
     Then I set the value "armmptestrandom" to field "Network name" in the "machine" add form
     Then I set the value "armmptestrandom" to field "Machine Username" in the "machine" add form
-    Then I set the value "#!/bin/bash\nsudo touch ~/new_file" to field "Cloud Init" in the "machine" add form
+    Then I set the cloud init script "#!/bin/bash\ntouch ~/new_file"
     Then I expect for the button "Launch" in the "machine" add form to be clickable within 10 seconds
     When I focus on the button "Launch" in the "machine" add form
     And I click the button "Launch" in the "machine" add form
@@ -173,6 +173,3 @@ Feature: Multiprovisioning
   Examples: Providers to be tested
     | machine                |
     | arm-mp-test-random     |
-
-
-# add GCE cloud

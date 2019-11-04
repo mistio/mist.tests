@@ -75,7 +75,7 @@ Feature: Multiprovisioning
     And I wait for 1 seconds
     And I click the "Key-random" button in the "Key" dropdown in the "machine" add form
     And I wait for 1 seconds
-    Then I set the value "#!/bin/bash\ntouch ~/new_file" to field "Cloud Init" in the "machine" add form
+    Then I set the cloud init script "#!/bin/bash\ntouch ~/new_file"
     Then I expect for the button "Launch" in the "machine" add form to be clickable within 10 seconds
     When I focus on the button "Launch" in the "machine" add form
     And I click the button "Launch" in the "machine" add form
@@ -88,10 +88,10 @@ Feature: Multiprovisioning
 
     Examples: Providers to be tested
     | cloud         | size                                                    | location         | image                                          | machine-name           |
-    | AWS Advantis  | t2.nano - t2.nano                                       | ap-northeast-1a  | Ubuntu Server 16.04 LTS (HVM), SSD Volume Type | ec2-mp-test-random     |
+    | AWS Advantis  | t2.nano - t2.nano                                       | us-west-2a       | Ubuntu Server 16.04 LTS (HVM), SSD Volume Type | ec2-mp-test-random     |
     | Packet        | x1.small.x86 - 32GB RAM                                 | Marseille, France| Ubuntu 19.04                                   | packet-mp-test-random  |
     | Digital Ocean | 512mb                                                   | Amsterdam 3      | Ubuntu 16.04.6 (LTS) x64                       | do-mp-test-random      |
-    | GCE           | f1-micro (1 vCPU (shared physical core) and 0.6 GB RAM) | europe-west1-c   | ubuntu-1804-bionic-v20191008                   | gce-mp-test-random     |
+    | GCE           | f1-micro (1 vCPU (shared physical core) and 0.6 GB RAM) | europe-west1-c   | ubuntu-1804-bionic-v20191021                   | gce-mp-test-random     |
     | Alibaba Cloud | ecs.xn4.small (1 cpus/ 1.0Gb RAM )                      | us-west-1a       | ubuntu_18_04_64_20G_alibase_20190624.vhd       | aliyun-mp-test-random  |
 
   @verify-cloud-init
@@ -119,5 +119,5 @@ Feature: Multiprovisioning
     | ec2-mp-test-random     |
     | do-mp-test-random      |
     | gce-mp-test-random     |
-    | packet-mp-test-random  |
     | aliyun-mp-test-random  |
+    | packet-mp-test-random  |
