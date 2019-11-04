@@ -92,7 +92,6 @@ Feature: Multiprovisioning
     | Packet        | x1.small.x86 - 32GB RAM                                 | Marseille, France| Ubuntu 19.04                                   | packet-mp-test-random  |
     | Digital Ocean | 512mb                                                   | Amsterdam 3      | Ubuntu 16.04.6 (LTS) x64                       | do-mp-test-random      |
     | GCE           | f1-micro (1 vCPU (shared physical core) and 0.6 GB RAM) | europe-west1-c   | ubuntu-1804-bionic-v20191021                   | gce-mp-test-random     |
-    | Alibaba Cloud | ecs.xn4.small (1 cpus/ 1.0Gb RAM )                      | us-west-1a       | ubuntu_18_04_64_20G_alibase_20190624.vhd       | aliyun-mp-test-random  |
 
   @verify-cloud-init
   Scenario Outline: Verify that file created with cloud-init exists
@@ -119,5 +118,4 @@ Feature: Multiprovisioning
     | ec2-mp-test-random     |
     | do-mp-test-random      |
     | gce-mp-test-random     |
-    | aliyun-mp-test-random  |
     | packet-mp-test-random  |
