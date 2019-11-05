@@ -120,7 +120,7 @@ Feature: Multiprovisioning
     | gce-mp-test-random     |
 
   @packet-verify-cloud-init
-  Scenario Outline: Verify that file created with cloud-init exists
+  Scenario: Verify that file created with cloud-init exists
     When I visit the Machines page
     And I wait for 1 seconds
     And I clear the search bar
