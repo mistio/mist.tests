@@ -122,6 +122,8 @@ def click_button_in_dropdown_within_container(context, container, button, name):
 
 @step(u'I click the "{button_name}" button in the "{dropdown_name}" dropdown in the "{resource_type}" add form')
 def click_button_in_dropdown(context, button_name, dropdown_name, resource_type):
+    if context.mist_config.get(button_name):
+        button_name = context.mist_config.get(button_name)
     from .forms import get_add_form
     page = get_add_form(context, resource_type)
     page_shadow = expand_shadow_root(context, page)
