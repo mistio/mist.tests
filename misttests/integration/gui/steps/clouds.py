@@ -81,6 +81,21 @@ def set_aws_creds(context):
     ''' % (region, api_key, api_secret))
 
 
+def set_aws_adv_creds(context):
+    api_key = safe_get_var('clouds/aws_advantis', 'api_key', context.mist_config['CREDENTIALS']['EC2']['api_key'])
+    api_secret = safe_get_var('clouds/aws_advantis', 'api_secret', context.mist_config['CREDENTIALS']['EC2']['api_secret'])
+    region = safe_get_var('clouds/aws_advantis', 'region', context.mist_config['CREDENTIALS']['EC2']['region'])
+    context.execute_steps(u'''
+        Then I open the "Region" dropdown in the "cloud" add form
+        And I wait for 1 seconds
+        When I click the "%s" button in the "Region" dropdown in the "cloud" add form
+        And I wait for 1 seconds
+        Then I set the value "AWS Advantis" to field "Title" in the "cloud" add form
+        And I set the value "%s" to field "API Key" in the "cloud" add form
+        And I set the value "%s" to field "API Secret" in the "cloud" add form
+    ''' % (region, api_key, api_secret))
+
+
 def set_linode_creds(context):
     api_key = safe_get_var('clouds/linode', 'api_key', context.mist_config['CREDENTIALS']['LINODE']['api_key'])
     context.execute_steps(u'Then I set the value "%s" to field "API Key" in '
@@ -159,6 +174,18 @@ def set_vultr_creds(context):
     context.execute_steps(u'Then I set the value "%s" to field "API Key" in '
                           u'"cloud" add form' % api_key)
 
+
+def set_aliyun_creds(context):
+    context.execute_steps(u'''
+                        Then I open the "Region" dropdown in the "cloud" add form
+                        Then I wait for 2 seconds
+                        Then I click the "US West 1 (Silicon Valley)" button in the "Region" dropdown in the "cloud" add form
+                        Then I wait for 1 seconds
+                        Then I set the value "Alibaba Cloud" to field "Title" in the "cloud" add form
+                        Then I set the value "%s" to field "API Key" in the "cloud" add form
+                        Then I set the value "%s" to field "API Secret" in the "cloud" add form
+                    ''' % (safe_get_var('clouds/aliyun', 'api_key', context.mist_config['CREDENTIALS']['ALIYUN']['api_key']),
+                           safe_get_var('clouds/aliyun', 'api_secret', context.mist_config['CREDENTIALS']['ALIYUN']['api_secret'])))
 
 def set_azure_arm_creds(context):
     context.execute_steps(u'''
@@ -269,7 +296,9 @@ cloud_creds_dict = {
     "other server": set_other_server_creds,
     "vmware": set_vmware_creds,
     "docker_orchestrator": set_docker_orchestrator_creds,
-    "onapp": set_onapp_creds
+    "onapp": set_onapp_creds,
+    "alibaba cloud": set_aliyun_creds,
+    "aws advantis": set_aws_adv_creds,
 }
 
 
@@ -371,6 +400,8 @@ def given_cloud(context, cloud):
 
     if 'docker_orchestrator' in cloud.lower():
         cloud_type = 'docker'
+    elif 'aws advantis' in cloud.lower():
+        cloud_type = 'aws'
     else:
         cloud_type = cloud
 

@@ -192,6 +192,26 @@ def check_that_field_is_visible(context, field_name, title, form_type, seconds):
 
 
 use_step_matcher("re")
+@step(u'I set the cloud init script "(?P<script>[A-Za-z0-9 \-/,._#!<>+:=\{\}@%\*\"\n~\\\\\[\]]+)"')
+def set_value_to_field(context, script):
+    form = get_add_form(context, 'machine')
+    form_shadow = expand_shadow_root(context, form)
+    form_input = get_input_element_from_form(context, form_shadow, 'cloud init')
+    n = 70
+    script.replace('\"', '"')
+    chunks = [script[i:i+n] for i in xrange(0, len(script), n)]
+    for chunk in chunks:
+        if '\\n' in chunk:
+            _chunks = chunk.split('\\n')
+            for _chunk in _chunks:
+                form_input.send_keys(_chunk)
+                from selenium.webdriver.common.keys import Keys
+                if _chunk not in _chunks[-1]:
+                    form_input.send_keys(Keys.RETURN)
+        else:
+            form_input.send_keys(chunk)
+
+use_step_matcher("re")
 @step(u'I set the value "(?P<value>[A-Za-z0-9 \-/,._#!<>+:=\{\}@%\*\"\n~\\\\\[\]]+)" to field "(?P<name>[A-Za-z ]+)" in the "(?P<title>[A-Za-z]+)" (?P<form_type>[A-Za-z]+) form')
 def set_value_to_field(context, value, name, title, form_type):
     if context.mist_config.get(value):
@@ -204,8 +224,17 @@ def set_value_to_field(context, value, name, title, form_type):
         get_edit_form(context, title)
     form_shadow = expand_shadow_root(context, form)
     form_input = get_input_element_from_form(context, form_shadow, name.lower())
-    assert form_input, "Could not set value to field %s" % name
-    clear_input_and_send_keys(form_input, value)
+    if not form_input:
+        app_form = form_shadow.find_element_by_css_selector('app-form, multi-inputs')
+        app_form_shadow = expand_shadow_root(context, app_form)
+        form_checkboxes = app_form_shadow.find_elements_by_css_selector('paper-checkbox[name="%s"]' % name.lower())
+        assert len(form_checkboxes), "Could not set value to field %s" % name
+        from .buttons import click_button_from_collection
+        click_button_from_collection(context, value, form_checkboxes)
+    else:
+        clear_input_and_send_keys(form_input, value)
+
+
 
 
 @step(u'I set the value "(?P<value>[A-Za-z0-9 \-/,._#!<>+:=\{\}@%\*\"\n~\\\\]+)" to field "(?P<name>[A-Za-z ]+)" in the Account page')
@@ -296,6 +325,13 @@ def find_dropdown(context, container, dropdown_text):
         app_form = container.find_element_by_css_selector('app-form')
         app_form_shadow = expand_shadow_root(context, app_form)
         all_dropdowns += app_form_shadow.find_elements_by_css_selector('paper-dropdown-menu:not([hidden])')
+        try:
+            size = app_form_shadow.find_element_by_id('app-form-createForm-size')
+            shadow = expand_shadow_root(context, size)
+            size_dropdown = shadow.find_element_by_css_selector('paper-dropdown-menu:not([hidden])')
+            all_dropdowns.append(size_dropdown)
+        except NoSuchElementException:
+            pass
         sub_forms = app_form_shadow.find_elements_by_css_selector('sub-form')
         for sub in sub_forms:
             sub_shadow = expand_shadow_root(context, sub)
@@ -334,6 +370,8 @@ def click_button_in_dialog(context, button_name, dialog_title):
 def click_button_in_dropdown_in_dialog(context, button_name, dropdown_title, dialog_title):
     from .buttons import clicketi_click
     from .dialog import get_dialog
+    if context.mist_config.get(button_name):
+        button_name = context.mist_config.get(button_name)
     dialog = get_dialog(context, dialog_title)
     dialog_shadow = expand_shadow_root(context, dialog)
     button = get_button_from_form(context, dialog_shadow, button_name.lower(), tag_name='paper-item')
