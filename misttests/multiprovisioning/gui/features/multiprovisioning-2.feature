@@ -8,7 +8,7 @@ Feature: Multiprovisioning
 
   @add-Key
   Scenario: Add key needed for tests
-    Given key "Keyrandom" has been added via API request
+    Given key "Keyrandom" has been generated and added via API request
     # TODO: Add openstack cloud here to make sure that networks are 
     # visible in create machine form. Change this when
     # https://gitlab.ops.mist.io/mistio/mist.api/issues/39 is resolved
@@ -54,7 +54,7 @@ Feature: Multiprovisioning
     Then "arm-mp-test-random" machine should be present within 60 seconds
 
   @aliyun-cloud-init
-  Scenario Outline: Create a machine in aliyun provider, creating a file using cloud init
+  Scenario: Create a machine in aliyun provider, creating a file using cloud init
     Given "Alibaba Cloud" cloud has been added
     And I wait for 40 seconds
     When I visit the Machines page

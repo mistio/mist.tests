@@ -11,7 +11,7 @@ Feature: Multiprovisioning
 
   @add-key
   Scenario: Add key needed for tests
-    Given key "Keyrandom" has been added via API request
+    Given key "Keyrandom" has been generated and added via API request
 
   @packet-set-private-ipv4
   Scenario: Create a machine in Packet provider setting private ipv4
@@ -88,8 +88,8 @@ Feature: Multiprovisioning
 
     Examples: Providers to be tested
     | cloud         | size                                                    | location         | image                                          | machine-name           |
-    | AWS Advantis  | t2.nano - t2.nano                                       | us-west-2a       | Ubuntu Server 16.04 LTS (HVM), SSD Volume Type | ec2-mp-test-random     |
     | Packet        | x1.small.x86 - 32GB RAM                                 | Marseille, France| Ubuntu 19.04                                   | packet-mp-test-random  |
+    | AWS Advantis  | t2.nano - t2.nano                                       | us-west-2a       | Ubuntu Server 16.04 LTS (HVM), SSD Volume Type | ec2-mp-test-random     |
     | Digital Ocean | 512mb                                                   | Amsterdam 3      | Ubuntu 16.04.6 (LTS) x64                       | do-mp-test-random      |
     | GCE           | f1-micro (1 vCPU (shared physical core) and 0.6 GB RAM) | europe-west1-c   | ubuntu-1804-bionic-v20191021                   | gce-mp-test-random     |
 
@@ -99,7 +99,7 @@ Feature: Multiprovisioning
     And I wait for 1 seconds
     And I clear the search bar
     And I search for "<machine>"
-    Then "<machine>" machine state has to be "running" within 300 seconds
+    Then "<machine>" machine state has to be "running" within 60 seconds
     And I click the "<machine>" "machine"
     And I expect the "machine" page to be visible within max 5 seconds
     And I wait for 2 seconds
@@ -118,4 +118,25 @@ Feature: Multiprovisioning
     | ec2-mp-test-random     |
     | do-mp-test-random      |
     | gce-mp-test-random     |
-    | packet-mp-test-random  |
+
+  @packet-verify-cloud-init
+  Scenario Outline: Verify that file created with cloud-init exists
+    When I visit the Machines page
+    And I wait for 1 seconds
+    And I clear the search bar
+    And I search for "packet-mp-test-random"
+    Then "packet-mp-test-random" machine state has to be "running" within 900 seconds
+    # wait for probe
+    And I wait for 90 seconds
+    And I click the "packet-mp-test-random" "machine"
+    And I expect the "machine" page to be visible within max 5 seconds
+    And I wait for 2 seconds
+    Then I click the "Shell" action button in the "machine" page
+    And I expect terminal to open within 3 seconds
+    And shell input should be available after 30 seconds
+    And I type in the terminal "sudo su"
+    And I wait for 1 seconds
+    And I type in the terminal "ls -la ~"
+    And I wait for 1 seconds
+    Then new_file should be included in the output
+    And I close the terminal

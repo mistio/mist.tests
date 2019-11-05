@@ -117,6 +117,24 @@ def add_key_api_request(context, key_name):
     context.mist_config['ASSOCIATED_KEY'] = re.json()['id']
 
 
+@step(u'key "{key_name}" has been generated and added via API request')
+def generate_add_key_api_request(context, key_name):
+    if "random" in key_name:
+        value_key = key_name
+        key_name = key_name.replace("random", str(randrange(1000)))
+        context.mist_config[value_key] = key_name
+    headers = {'Authorization': get_owner_api_token(context)}
+
+    re = requests.post(context.mist_config['MIST_URL'] + "/api/v1/keys" , headers=headers)
+    payload = {
+        'name': key_name,
+        'priv': re.json().get('priv')
+    }
+
+    re = requests.put(context.mist_config['MIST_URL'] + "/api/v1/keys" , data=json.dumps(payload), headers=headers)
+    assert re.status_code == 200, "Could not add key. Response was %s" % re.status_code
+
+
 @step(u'cloud "{cloud}" has been added via API request')
 def add_cloud_api_request(context, cloud):
     headers = {'Authorization': get_owner_api_token(context)}
