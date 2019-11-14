@@ -162,6 +162,10 @@ def get_button_from_form(context, form, button_name, tag_name='paper-button:not(
             for sub_form in sub_forms:
                 sub_form_shadow = expand_shadow_root(context, sub_form)
                 all_buttons += sub_form_shadow.find_elements_by_css_selector('%s' % tag_name)
+                sub_fieldgroups = sub_form_shadow.find_elements_by_css_selector('sub-fieldgroup')
+                for sub_fieldgroup in sub_fieldgroups:
+                    sub_field_shadow = expand_shadow_root(context, sub_fieldgroup)
+                    all_buttons += sub_field_shadow.find_elements_by_css_selector('%s' % tag_name)
         except NoSuchElementException:
             pass
     assert all_buttons, "Could not find any buttons in the form"

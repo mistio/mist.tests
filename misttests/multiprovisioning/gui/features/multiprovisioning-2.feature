@@ -144,6 +144,11 @@ Feature: Multiprovisioning
     When I open the "Size" dropdown in the "machine" add form
     And I wait for 1 seconds
     And I click the "512MB Standard Instance" button in the "Size" dropdown in the "machine" add form
+    And I wait for 1 seconds
+    And I click the "Set Expiration" toggle button in the "machine" add form
+    And I wait for 1 seconds
+    And I set an expiration in "12" "minutes" with a notify of "1" "minutes" before
+    And I wait for 1 seconds
     And I open the "Key" dropdown in the "machine" add form
     And I wait for 1 seconds
     And I click the "Keyrandom" button in the "Key" dropdown in the "machine" add form
