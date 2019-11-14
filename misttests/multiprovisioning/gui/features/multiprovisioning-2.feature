@@ -109,7 +109,7 @@ Feature: Multiprovisioning
     And I click the "ubuntu_18_04_64_20G_alibase_20190624.vhd" button in the "Image" dropdown in the "machine" add form
     When I open the "Size" dropdown in the "machine" add form
     And I wait for 1 seconds
-    And I click the "ecs.xn4.small (1 cpus/ 1.0Gb RAM )" button in the "Size" dropdown in the "machine" add form
+    And I click the "ecs.n1.tiny (1 cpus/ 1.0Gb RAM )" button in the "Size" dropdown in the "machine" add form
     And I open the "Key" dropdown in the "machine" add form
     And I wait for 1 seconds
     And I click the "Keyrandom" button in the "Key" dropdown in the "machine" add form
