@@ -12,7 +12,7 @@ Feature: Multiprovisioning
     # TODO: Add openstack cloud here to make sure that networks are 
     # visible in create machine form. Change this when
     # https://gitlab.ops.mist.io/mistio/mist.api/issues/39 is resolved
-    Given "Openstack" cloud has been added
+    #Given "Openstack" cloud has been added
 
   @rackspace-set-expiration-date
   Scenario: Create a machine in Rackspace provider, setting expiration date
@@ -78,7 +78,7 @@ Feature: Multiprovisioning
     Then I set the value "armmptestrandom" to field "Storage Account name" in the "machine" add form
     Then I set the value "armmptestrandom" to field "Network name" in the "machine" add form
     Then I set the value "armmptestrandom" to field "Machine Username" in the "machine" add form
-    Then I set the cloud init script "#!/bin/bash\ntouch ~/new_file"
+    Then I set the "cloud init" script "#!/bin/bash\ntouch ~/new_file"
     Then I expect for the button "Launch" in the "machine" add form to be clickable within 10 seconds
     When I focus on the button "Launch" in the "machine" add form
     And I click the button "Launch" in the "machine" add form
@@ -114,7 +114,7 @@ Feature: Multiprovisioning
     And I wait for 1 seconds
     And I click the "Keyrandom" button in the "Key" dropdown in the "machine" add form
     And I wait for 1 seconds
-    Then I set the cloud init script "#!/bin/bash\ntouch ~/new_file"
+    Then I set the "cloud init" script "#!/bin/bash\ntouch ~/new_file"
     Then I expect for the button "Launch" in the "machine" add form to be clickable within 10 seconds
     When I focus on the button "Launch" in the "machine" add form
     And I click the button "Launch" in the "machine" add form
@@ -162,33 +162,33 @@ Feature: Multiprovisioning
     And I search for "linode-mp-test-random"
     Then "linode-mp-test-random" machine should be present within 60 seconds
 
-  @openstack
-  Scenario: Create a machine in Openstack provider, with floating ip
-    When I visit the Machines page
-    And I click the button "+"
-    Then I expect the "Machine" add form to be visible within max 10 seconds
-    When I open the "Select Cloud" dropdown in the "machine" add form
-    And I wait for 1 seconds
-    And I click the "Openstack" button in the "Select Cloud" dropdown in the "machine" add form
-    Then I expect the field "Machine name" in the machine add form to be visible within max 4 seconds
-    Then I set the value "openstack-mp-test-random" to field "Machine Name" in the "machine" add form
-    When I open the "Size" dropdown in the "machine" add form
-    And I wait for 1 seconds
-    And I click the "m1.tiny" button in the "Size" dropdown in the "machine" add form
-    And I wait for 1 seconds
-    Then I set the value "private" to field "Networks" in the "machine" add form
-    And I open the "Key" dropdown in the "machine" add form
-    And I wait for 1 seconds
-    And I click the "Keyrandom" button in the "Key" dropdown in the "machine" add form
-    Then I expect for the button "Launch" in the "machine" add form to be clickable within 10 seconds
-    When I focus on the button "Launch" in the "machine" add form
-    And I click the button "Launch" in the "machine" add form
-    When I visit the Home page
-    And I visit the Machines page
-    And I wait for 1 seconds
-    And I clear the search bar
-    And I search for "openstack-mp-test-random"
-    Then "openstack-mp-test-random" machine should be present within 60 seconds
+  # @openstack
+  # Scenario: Create a machine in Openstack provider, with floating ip
+  #   When I visit the Machines page
+  #   And I click the button "+"
+  #   Then I expect the "Machine" add form to be visible within max 10 seconds
+  #   When I open the "Select Cloud" dropdown in the "machine" add form
+  #   And I wait for 1 seconds
+  #   And I click the "Openstack" button in the "Select Cloud" dropdown in the "machine" add form
+  #   Then I expect the field "Machine name" in the machine add form to be visible within max 4 seconds
+  #   Then I set the value "openstack-mp-test-random" to field "Machine Name" in the "machine" add form
+  #   When I open the "Size" dropdown in the "machine" add form
+  #   And I wait for 1 seconds
+  #   And I click the "m1.tiny" button in the "Size" dropdown in the "machine" add form
+  #   And I wait for 1 seconds
+  #   Then I set the value "private" to field "Networks" in the "machine" add form
+  #   And I open the "Key" dropdown in the "machine" add form
+  #   And I wait for 1 seconds
+  #   And I click the "Keyrandom" button in the "Key" dropdown in the "machine" add form
+  #   Then I expect for the button "Launch" in the "machine" add form to be clickable within 10 seconds
+  #   When I focus on the button "Launch" in the "machine" add form
+  #   And I click the button "Launch" in the "machine" add form
+  #   When I visit the Home page
+  #   And I visit the Machines page
+  #   And I wait for 1 seconds
+  #   And I clear the search bar
+  #   And I search for "openstack-mp-test-random"
+  #   Then "openstack-mp-test-random" machine should be present within 60 seconds
 
   @verify-scripts
   Scenario Outline: Verify that file created with cloud-init/post-deploy exists
