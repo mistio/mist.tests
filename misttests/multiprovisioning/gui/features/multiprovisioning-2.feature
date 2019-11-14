@@ -89,41 +89,41 @@ Feature: Multiprovisioning
     And I search for "arm-mp-test-random"
     Then "arm-mp-test-random" machine should be present within 60 seconds
 
-  @aliyun-cloud-init
-  Scenario: Create a machine in aliyun provider, creating a file using cloud init
-    Given "Alibaba Cloud" cloud has been added
-    And I wait for 40 seconds
-    When I visit the Machines page
-    And I click the button "+"
-    Then I expect the "Machine" add form to be visible within max 10 seconds
-    When I open the "Select Cloud" dropdown in the "machine" add form
-    And I wait for 1 seconds
-    And I click the "Alibaba Cloud" button in the "Select Cloud" dropdown in the "machine" add form
-    Then I expect the field "Machine name" in the machine add form to be visible within max 4 seconds
-    Then I set the value "aliyun-mp-test-random" to field "Machine Name" in the "machine" add form
-    When I open the "Location" dropdown in the "machine" add form
-    And I wait for 1 seconds
-    And I click the "us-west-1a" button in the "Location" dropdown in the "machine" add form
-    When I open the "Image" dropdown in the "machine" add form
-    And I wait for 1 seconds
-    And I click the "ubuntu_18_04_64_20G_alibase_20190624.vhd" button in the "Image" dropdown in the "machine" add form
-    When I open the "Size" dropdown in the "machine" add form
-    And I wait for 1 seconds
-    And I click the "ecs.n1.tiny (1 cpus/ 1.0Gb RAM )" button in the "Size" dropdown in the "machine" add form
-    And I open the "Key" dropdown in the "machine" add form
-    And I wait for 1 seconds
-    And I click the "Keyrandom" button in the "Key" dropdown in the "machine" add form
-    And I wait for 1 seconds
-    Then I set the "cloud init" script "#!/bin/bash\ntouch ~/new_file"
-    Then I expect for the button "Launch" in the "machine" add form to be clickable within 10 seconds
-    When I focus on the button "Launch" in the "machine" add form
-    And I click the button "Launch" in the "machine" add form
-    When I visit the Home page
-    And I visit the Machines page
-    And I wait for 1 seconds
-    And I clear the search bar
-    And I search for "aliyun-mp-test-random"
-    Then "aliyun-mp-test-random" machine should be present within 60 seconds
+  # @aliyun-cloud-init
+  # Scenario: Create a machine in aliyun provider, creating a file using cloud init
+  #   Given "Alibaba Cloud" cloud has been added
+  #   And I wait for 40 seconds
+  #   When I visit the Machines page
+  #   And I click the button "+"
+  #   Then I expect the "Machine" add form to be visible within max 10 seconds
+  #   When I open the "Select Cloud" dropdown in the "machine" add form
+  #   And I wait for 1 seconds
+  #   And I click the "Alibaba Cloud" button in the "Select Cloud" dropdown in the "machine" add form
+  #   Then I expect the field "Machine name" in the machine add form to be visible within max 4 seconds
+  #   Then I set the value "aliyun-mp-test-random" to field "Machine Name" in the "machine" add form
+  #   When I open the "Location" dropdown in the "machine" add form
+  #   And I wait for 1 seconds
+  #   And I click the "us-west-1a" button in the "Location" dropdown in the "machine" add form
+  #   When I open the "Image" dropdown in the "machine" add form
+  #   And I wait for 1 seconds
+  #   And I click the "ubuntu_18_04_64_20G_alibase_20190624.vhd" button in the "Image" dropdown in the "machine" add form
+  #   When I open the "Size" dropdown in the "machine" add form
+  #   And I wait for 1 seconds
+  #   And I click the "ecs.n1.tiny (1 cpus/ 1.0Gb RAM )" button in the "Size" dropdown in the "machine" add form
+  #   And I open the "Key" dropdown in the "machine" add form
+  #   And I wait for 1 seconds
+  #   And I click the "Keyrandom" button in the "Key" dropdown in the "machine" add form
+  #   And I wait for 1 seconds
+  #   Then I set the "cloud init" script "#!/bin/bash\ntouch ~/new_file"
+  #   Then I expect for the button "Launch" in the "machine" add form to be clickable within 10 seconds
+  #   When I focus on the button "Launch" in the "machine" add form
+  #   And I click the button "Launch" in the "machine" add form
+  #   When I visit the Home page
+  #   And I visit the Machines page
+  #   And I wait for 1 seconds
+  #   And I clear the search bar
+  #   And I search for "aliyun-mp-test-random"
+  #   Then "aliyun-mp-test-random" machine should be present within 60 seconds
 
   @linode-post-deploy-script
   Scenario: Create a machine in linode, setting post-deploy script
@@ -212,6 +212,18 @@ Feature: Multiprovisioning
 
   Examples: Providers to be tested
     | machine                |
-    | aliyun-mp-test-random  |
+   # | aliyun-mp-test-random  |
     | arm-mp-test-random     |
     | linode-mp-test-random  |
+
+
+  @verify-expiration
+  Scenario: Verify that a reminder email will be received and machine will be stopped
+    Then I should receive an email at the address "EMAIL" with subject "[mist.io] Machine is about to expire" within 660 seconds
+    When I visit the Machines page
+    And I wait for 1 seconds
+    And I clear the search bar
+    And I search for "rackspace-mp-test-random"
+    Then "rackspace-mp-test-random" machine state has to be "stopped" within 240 seconds
+
+# TODO: 300
