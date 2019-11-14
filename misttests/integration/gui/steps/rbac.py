@@ -22,30 +22,6 @@ from selenium.common.exceptions import StaleElementReferenceException
 from selenium.webdriver import ActionChains
 
 
-@step(u'I give a random team name for {action} team')
-def give_random_team_name(context, action):
-    random_team_name = ''.join([random.choice(string.ascii_letters +
-                                                string.digits) for _ in
-                                  range(6)])
-    if action == 'new':
-        team_input = context.browser.find_element_by_id("team-name")
-    elif action == 'edit':
-        team_input = context.browser.find_element_by_id("team-edit-new-name")
-    else:
-        raise ValueError("Action can be either new or edit.")
-    context.mist_config['random_team_name'] = random_team_name
-    clear_input_and_send_keys(team_input, random_team_name)
-
-
-@step(u'I search for the random team name i gave before')
-def search_team(context):
-    if context.mist_config.get('random_team_name'):
-        text = context.mist_config.get('random_team_name')
-    input_field = context.browser.find_element_by_class_name('team-search')
-    while input_field.get_attribute('value') != '':
-        input_field.send_keys(u'\ue003')
-    search_for_something(context, text, 'team')
-
 
 @step(u'I should see the team added within {seconds}' u'seconds')
 def team_added(context, seconds):
@@ -242,13 +218,6 @@ def switch_personal(context):
     personal = search_for_button(context, 'personal',
                                  user_menu.find_elements_by_class_name('ui-btn'))
     ActionChains(context.browser).move_to_element(personal).click().perform()
-
-
-@step(u'I give the organization name')
-def give_org_name(context):
-    org_name = context.mist_config.get('ORG_NAME')
-    org_field = context.browser.find_element_by_id("organization-name")
-    clear_input_and_send_keys(org_field, org_name)
 
 
 @step(u'I should get an Organization Name Exists error')
