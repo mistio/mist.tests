@@ -290,16 +290,17 @@ def set_expiration(context, exp_num, exp_unit, notify_num, notify_unit):
     form_shadow = expand_shadow_root(context, form)
     sub_form = form_shadow.find_element_by_css_selector('app-form')
     sub_form_shadow = expand_shadow_root(context, sub_form)
-    # TODO: cleanup
-    sub_fieldgroup = sub_form_shadow.find_element_by_css_selector('sub-fieldgroup')
-    # find proper one...
-    assert sub_fieldgroup.text.startswith('Set expiration'), False
+    sub_fieldgroups = sub_form_shadow.find_elements_by_css_selector('sub-fieldgroup')
+    for sub_fg in sub_fieldgroups:
+        if sub_fg.text.startswith('Set expiration'):
+            sub_fieldgroup = sub_fg
+            break
     sub_field_shadow = expand_shadow_root(context, sub_fieldgroup)
     nested_app_form=sub_field_shadow.find_element_by_tag_name('app-form')
     nested_app_form_shadow = expand_shadow_root(context, nested_app_form)
     dur_fields=nested_app_form_shadow.find_elements_by_tag_name('duration-field')
+    # set expiration params
     expiration=dur_fields[0]
-    notify=dur_fields[1]
     expiration_shadow_root=expand_shadow_root(context, expiration)
     exp_input=expiration_shadow_root.find_element_by_tag_name('paper-input')
     clear_input_and_send_keys(exp_input, exp_num)
@@ -308,7 +309,8 @@ def set_expiration(context, exp_num, exp_unit, notify_num, notify_unit):
     sleep(0.5)
     buttons = exp_dropdown.find_elements_by_css_selector('paper-item')
     click_button_from_collection(context, exp_unit, buttons)
-
+    # set notify params
+    notify=dur_fields[1]
     notify_shadow_root=expand_shadow_root(context, notify)
     notify_input=notify_shadow_root.find_element_by_tag_name('paper-input')
     clear_input_and_send_keys(notify_input, notify_num)

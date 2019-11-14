@@ -226,4 +226,4 @@ Feature: Multiprovisioning
     And I search for "rackspace-mp-test-random"
     Then "rackspace-mp-test-random" machine state has to be "stopped" within 240 seconds
 
-# TODO: 300
+# TODO: set email w8 period to 300
