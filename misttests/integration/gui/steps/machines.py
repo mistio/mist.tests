@@ -6,9 +6,10 @@ from time import sleep
 
 from random import randrange
 
-from .utils import safe_get_element_text, get_page_element, expand_shadow_root, get_page
+from .utils import safe_get_element_text, get_page_element, expand_shadow_root
+from .utils import get_page, clear_input_and_send_keys
 
-from .buttons import clicketi_click
+from .buttons import clicketi_click, click_button_from_collection
 
 from selenium.webdriver.common.keys import Keys
 
@@ -151,32 +152,6 @@ def get_machine(context, name):
     except StaleElementReferenceException:
         return None
 
-
-@step(u'I upload the ssh key with name "{new_key_name}"')
-def upload_my_key(context, new_key_name):
-    end_time = time() + 15
-    while time() < end_time:
-        try:
-            key_add_popup = context.browser.find_element_by_id('key-add-popup')
-            display = key_add_popup.value_of_css_property("display")
-            width = key_add_popup.value_of_css_property("width")
-            if 'block' in display:
-                if width != '1px':
-                    break
-            raise NoSuchElementException
-        except NoSuchElementException:
-            assert time() + 1 < end_time, 'Key add popup has not appeared ' \
-                                          'after 5 seconds'
-            sleep(1)
-    key_name = context.browser.find_element_by_id("key-add-id")
-    key_name.send_keys(
-        context.mist_config['CREDENTIALS'][new_key_name]['key_name'])
-    upload = context.browser.find_element_by_id("key-add-upload")
-    upload.send_keys(
-        context.mist_config['CREDENTIALS'][new_key_name]['key_path'])
-    context.execute_steps(u'When I click the button "Add"')
-
-
 @step(u'I wait for probing to finish for {seconds} seconds max')
 def wait_for_loader_to_finish(context, seconds):
     rows = context.browser.find_elements_by_tag_name('tr')
@@ -209,24 +184,6 @@ def check_probing(context):
                                           "(message is: %s)" % cells_one_text
             return
     assert False, "Could not find any line about probing"
-
-
-@step(u'I fill "{value}" as rule value')
-def rule_value(context, value):
-    value_input = context.browser.find_element_by_class_name("rule-value")
-    value_input.send_keys(u'\ue003')
-    value_input.send_keys(value)
-
-
-@step(u"I enable monitoring if it's not enabled")
-def enable_monitoring(context):
-    button = context.browser.find_element_by_id("enable-monitoring-btn")
-    clicketi_click(context, button)
-    context.execute_steps("""
-        Then I expect for "dialog-popup" modal to appear within max 4 seconds
-        And I click the "Yes" button inside the "ENABLE MONITORING" modal
-        And I expect for "dialog-popup" modal to disappear within max 4 seconds
-    """)
 
 
 @step(u'I give a default script for python script')
@@ -324,3 +281,41 @@ def keys_associated_with_machine(context, keys, seconds):
             return
         sleep(1)
     assert False, "There are %s keys associated with the machine" % associated_keys_with_machine
+
+
+@step(u'I set an expiration in "{exp_num}" "{exp_unit}" with a notify of "{notify_num}" "{notify_unit}" before')
+def set_expiration(context, exp_num, exp_unit, notify_num, notify_unit):
+    from .forms import get_add_form
+    form = get_add_form(context, 'machine')
+    form_shadow = expand_shadow_root(context, form)
+    sub_form = form_shadow.find_element_by_css_selector('app-form')
+    sub_form_shadow = expand_shadow_root(context, sub_form)
+    sub_fieldgroups = sub_form_shadow.find_elements_by_css_selector('sub-fieldgroup')
+    for sub_fg in sub_fieldgroups:
+        if sub_fg.text.startswith('Set expiration'):
+            sub_fieldgroup = sub_fg
+            break
+    sub_field_shadow = expand_shadow_root(context, sub_fieldgroup)
+    nested_app_form=sub_field_shadow.find_element_by_tag_name('app-form')
+    nested_app_form_shadow = expand_shadow_root(context, nested_app_form)
+    dur_fields=nested_app_form_shadow.find_elements_by_tag_name('duration-field')
+    # set expiration params
+    expiration=dur_fields[0]
+    expiration_shadow_root=expand_shadow_root(context, expiration)
+    exp_input=expiration_shadow_root.find_element_by_tag_name('paper-input')
+    clear_input_and_send_keys(exp_input, exp_num)
+    exp_dropdown=expiration_shadow_root.find_element_by_tag_name('paper-dropdown-menu')
+    exp_dropdown.click()
+    sleep(0.5)
+    buttons = exp_dropdown.find_elements_by_css_selector('paper-item')
+    click_button_from_collection(context, exp_unit, buttons)
+    # set notify params
+    notify=dur_fields[1]
+    notify_shadow_root=expand_shadow_root(context, notify)
+    notify_input=notify_shadow_root.find_element_by_tag_name('paper-input')
+    clear_input_and_send_keys(notify_input, notify_num)
+    notify_dropdown=notify_shadow_root.find_element_by_tag_name('paper-dropdown-menu')
+    notify_dropdown.click()
+    sleep(0.5)
+    buttons = notify_dropdown.find_elements_by_css_selector('paper-item')
+    click_button_from_collection(context, notify_unit, buttons)

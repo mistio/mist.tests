@@ -75,7 +75,7 @@ Feature: Multiprovisioning
     And I wait for 1 seconds
     And I click the "Keyrandom" button in the "Key" dropdown in the "machine" add form
     And I wait for 1 seconds
-    Then I set the cloud init script "#!/bin/bash\ntouch ~/new_file"
+    Then I set the "cloud init" script "#!/bin/bash\ntouch ~/new_file"
     Then I expect for the button "Launch" in the "machine" add form to be clickable within 10 seconds
     When I focus on the button "Launch" in the "machine" add form
     And I click the button "Launch" in the "machine" add form
@@ -91,7 +91,7 @@ Feature: Multiprovisioning
     | Packet        | x1.small.x86 - 32GB RAM                                 | Marseille, France| Ubuntu 19.04                                   | packet-mp-test-random  |
     | AWS Advantis  | t2.nano - t2.nano                                       | us-west-2a       | Ubuntu Server 16.04 LTS (HVM), SSD Volume Type | ec2-mp-test-random     |
     | Digital Ocean | 512mb                                                   | Amsterdam 3      | Ubuntu 16.04.6 (LTS) x64                       | do-mp-test-random      |
-    | GCE           | f1-micro (1 vCPU (shared physical core) and 0.6 GB RAM) | europe-west1-c   | ubuntu-1804-bionic-v20191021                   | gce-mp-test-random     |
+    | GCE           | f1-micro (1 vCPU (shared physical core) and 0.6 GB RAM) | europe-west1-c   | ubuntu-1804-bionic-v20191113                   | gce-mp-test-random     |
 
   @verify-cloud-init
   Scenario Outline: Verify that file created with cloud-init exists
@@ -140,3 +140,6 @@ Feature: Multiprovisioning
     And I wait for 1 seconds
     Then new_file should be included in the output
     And I close the terminal
+
+# verify that email arrived and expiration was triggered
+# cleanup machines.py
