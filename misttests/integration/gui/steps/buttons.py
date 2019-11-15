@@ -131,7 +131,7 @@ def click_button_in_dropdown(context, button_name, dropdown_name, resource_type)
 
 
 use_step_matcher("re")
-@step(u'I click the "(?P<button_name>[A-Za-z ]+)" toggle button in the "(?P<resource_type>[A-Za-z]+)" add form')
+@step(u'I click the "(?P<button_name>[A-Za-z \-/]+)" toggle button in the "(?P<resource_type>[A-Za-z]+)" add form')
 def click_toggle_button_in_add_form(context, button_name, resource_type):
     from .forms import get_add_form
     form = get_add_form(context, resource_type)
