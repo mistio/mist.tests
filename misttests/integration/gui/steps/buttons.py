@@ -89,6 +89,15 @@ def search_for_button(context, text, button_collection):
             return button
 
 
+def get_fab_button(context, page_title):
+    if page_title.endswith('s') or page_title in ['dashboard']:
+        page_element = get_page_element(context, page_title)
+    else:
+        _, page_element = get_page_element(context, page_title + 's', page_title)
+    page_shadow = expand_shadow_root(context, page_element)
+    return page_shadow.find_element_by_css_selector('paper-fab')
+
+
 @step(u'I click the button "{text}"')
 def click_button(context, text):
     """
@@ -390,13 +399,14 @@ def click_action_in_resource_page(context, action, resource_type):
 use_step_matcher('parse')
 @step(u'I click the fab button in the "{page_title}" page')
 def click_fab_button_in_page(context, page_title):
-    if page_title.endswith('s') or page_title in ['dashboard']:
-        page_element = get_page_element(context, page_title)
-    else:
-        _, page_element = get_page_element(context, page_title + 's', page_title)
-    page_shadow = expand_shadow_root(context, page_element)
-    fab = page_shadow.find_element_by_css_selector('paper-fab')
+    fab = get_fab_button(context, page_title)
     clicketi_click(context, fab)
+
+
+@step(u'the fab button in the "{page_title}" page should be hidden')
+def click_fab_button_in_page(context, page_title):
+    fab = get_fab_button(context, page_title)
+    assert not fab.is_displayed(), "Fab button is still visible."
 
 
 @step(u'I click the "{target}" tab in the account page')
