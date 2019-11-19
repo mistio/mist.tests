@@ -42,17 +42,7 @@ Feature: RBAC-rules-v1
 
   @member1-add-cloud-fail
   Scenario: Member1 cannot add cloud
-    When I click the fab button in the "dashboard" page
-    Then I expect the "Cloud" add form to be visible within max 5 seconds
-    When I select the "Packet" provider
-    Then I expect the field "Title" in the cloud add form to be visible within max 4 seconds
-    When I use my "Packet" credentials
-    And I focus on the button "Add Cloud" in the "cloud" add form
-    And I click the button "Add Cloud" in the "cloud" add form
-    And I wait for 1 seconds
-    And I visit the Home page
-    And I wait for the dashboard to load
-    Then I should have 1 clouds added
+    And the fab button in the "dashboard" page should be hidden
 
   @member1-view-script-success
   Scenario: Member 1 should be able to view the script
