@@ -34,10 +34,11 @@ Feature: Zones
     When I visit the Home page
     And I wait for 1 seconds
     And I open the cloud page for "GCE"
+    And I wait for 1 seconds
     And I click the "DNS enabled" toggle button in the "cloud" page
-    And I wait for 3 seconds
+    And I wait for 1 seconds
     And I click the mist logo
-    And I wait for 2 seconds
+    And I wait for 1 seconds
     And I visit the Home page
     And I visit the Zones page
     Then "test-zone-random.com." zone should be absent within 10 seconds
@@ -47,10 +48,11 @@ Feature: Zones
     When I visit the Home page
     And I wait for 1 seconds
     And I open the cloud page for "GCE"
+    And I wait for 1 seconds
     And I click the "DNS enabled" toggle button in the "cloud" page
-    And I wait for 3 seconds
+    And I wait for 1 seconds
     And I click the mist logo
-    And I wait for 2 seconds
+    And I wait for 1 seconds
     And I visit the Home page
     And I visit the Zones page
     And I search for "test-zone-random.com."
