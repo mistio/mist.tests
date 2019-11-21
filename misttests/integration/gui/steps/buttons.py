@@ -149,15 +149,6 @@ def click_toggle_button_in_add_form(context, button_name, resource_type):
     clicketi_click(context, button)
 
 
-@step(u'I click the "(?P<button_name>[A-Za-z ]+)" toggle button in the "(?P<dialog_name>[A-Za-z ]+)" dialog')
-def click_toggle_button_in_dialog(context, button_name, dialog_name):
-    from .dialog import get_dialog
-    dialog = get_dialog(context, dialog_name)
-    dialog_shadow = expand_shadow_root(context, dialog)
-    button = get_button_from_form(context, dialog_shadow, button_name, tag_name='paper-toggle-button')
-    clicketi_click(context, button)
-
-
 @step(u'I click the "(?P<button_name>[A-Za-z ]+)" radio button in the "(?P<resource_type>[A-Za-z]+)" add form')
 def click_toggle_button_in_add_form(context, button_name, resource_type):
     from .forms import get_add_form
@@ -394,6 +385,14 @@ def click_action_in_resource_page(context, action, resource_type):
         sleep(.5)
         buttons = mist_list_actions_shadow.find_elements_by_css_selector(':host > paper-menu-button paper-button')
         click_button_from_collection(context, action.lower(), buttons)
+
+
+@step(u'I click the "(?P<toggle>[A-Za-z ]+)" toggle button in the "(?P<resource_type>[A-Za-z]+)" page')
+def click_action_in_resource_page(context, toggle, resource_type):
+    _, container = get_page_element(context, resource_type + 's', resource_type)
+    container_shadow = expand_shadow_root(context, container)
+    toggle_buttons = container_shadow.find_elements_by_tag_name('paper-toggle-button')
+    click_button_from_collection(context, toggle.lower(), toggle_buttons)
 
 
 use_step_matcher('parse')

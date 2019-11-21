@@ -34,11 +34,8 @@ Feature: Zones
     When I visit the Home page
     And I wait for 1 seconds
     And I open the cloud page for "GCE"
-    And I click the "DNS" action button in the "cloud" page
-    And I wait for 1 seconds
-    Then I expect the "DNS option" dialog to be open within 5 seconds
-    And I click the "Enabled" toggle button in the "DNS option" dialog
-    And I wait for 5 seconds
+    And I click the "DNS enabled" toggle button in the "cloud" page
+    And I wait for 3 seconds
     And I click the mist logo
     And I wait for 2 seconds
     And I visit the Home page
@@ -50,10 +47,8 @@ Feature: Zones
     When I visit the Home page
     And I wait for 1 seconds
     And I open the cloud page for "GCE"
-    And I click the "DNS" action button in the "cloud" page
-    And I wait for 2 seconds
-    And I click the "Disabled" toggle button in the "DNS option" dialog
-    And I wait for 5 seconds
+    And I click the "DNS enabled" toggle button in the "cloud" page
+    And I wait for 3 seconds
     And I click the mist logo
     And I wait for 2 seconds
     And I visit the Home page
