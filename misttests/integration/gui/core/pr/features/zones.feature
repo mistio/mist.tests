@@ -49,7 +49,7 @@ Feature: Zones
     And I wait for 1 seconds
     And I open the cloud page for "GCE"
     And I wait for 1 seconds
-    And I click the "DNS enabled" toggle button in the "cloud" page
+    And I click the "DNS disabled" toggle button in the "cloud" page
     And I wait for 1 seconds
     And I click the mist logo
     And I wait for 1 seconds
