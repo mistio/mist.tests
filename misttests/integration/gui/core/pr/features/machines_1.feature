@@ -6,7 +6,7 @@ Feature: Machines
 
   @key-add
   Scenario: Add script, Docker cloud and key that will be used for ssh access
-    Given script "touch_kati" is added via API request
+    Given script "touch_kati" has been added via API request
     And cloud "Docker" has been added via API request
     And key "DummyKey" has been added via API request
     Then the log entry in position 1 should have been added "a few seconds ago"

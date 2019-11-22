@@ -115,7 +115,7 @@ Feature: RBAC-rules-v2
     Then I add the rule always "ALLOW" "script" "read"
     And I click the button "Save Policy" in the "team" page
     And I wait for 1 seconds
-    And script "TestScript" is added via API request
+    And script "TestScript" has been added via API request
     Then I logout
 
   @member-reads-machine-fail
