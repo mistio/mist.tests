@@ -39,11 +39,14 @@ Feature: Machines
     And I click the button "Launch" in the "machine" add form
     When I visit the Home page
     Then I should see a(n) "request" log entry of action "create_machine" added "a few seconds ago" in the dashboard page within 5 seconds
-    Then I should see a(n) "observation" log entry of action "create_machine" added "a few seconds ago" in the dashboard page within 10 seconds
-    And I visit the Machines page
+    When I visit the Machines page
     And I search for "ui-test-create-machine-random"
     Then "ui-test-create-machine-random" machine state has to be "running" within 100 seconds
-    And "ui-test-create-machine-random" machine state has to be "stopped" within 120 seconds
+    When I visit the Home page
+    And I wait for 1 seconds
+    Then I should see a(n) "observation" log entry of action "create_machine" added "a few seconds ago" in the dashboard page within 10 seconds
+    When I visit the Machines page
+    Then "ui-test-create-machine-random" machine state has to be "stopped" within 120 seconds
 
   @machine-start
   Scenario: Start the machine created above
