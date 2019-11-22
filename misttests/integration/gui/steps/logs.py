@@ -56,7 +56,6 @@ def check_log_entry_dashboard_page(context, log_type, action, time_entry, timeou
     assert False, "Not found!"
 
 
-# request and observation log in single machine page
 # request and observation log in single network page
 # request and observation log in single cloud page
 ####################################################
