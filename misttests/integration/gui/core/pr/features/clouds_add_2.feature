@@ -22,7 +22,7 @@ Feature: Add second-tier clouds
 
     Examples: Providers
     | provider       |
-    | SoftLayer      |
+    | IBM Cloud      |
     | AWS            |
 
   @cloud-edit-creds

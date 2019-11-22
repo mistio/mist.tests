@@ -57,7 +57,7 @@ def set_rackspace_creds(context):
     ''' % (region, username, api_key))
 
 
-def set_softlayer_creds(context):
+def set_ibm_clouds_creds(context):
     username = safe_get_var('clouds/softlayer', 'username', context.mist_config['CREDENTIALS']['SOFTLAYER']['username'])
     api_key = safe_get_var('clouds/softlayer', 'api_key', context.mist_config['CREDENTIALS']['SOFTLAYER']['api_key'])
     context.execute_steps(u'''
@@ -282,7 +282,7 @@ cloud_creds_dict = {
     "azure": set_azure_creds,
     "gce": set_gce_creds,
     "rackspace": set_rackspace_creds,
-    "softlayer": set_softlayer_creds,
+    "ibm cloud": set_ibm_clouds_creds,
     "aws": set_aws_creds,
     "linode": set_linode_creds,
     "digital ocean": set_do_creds,
