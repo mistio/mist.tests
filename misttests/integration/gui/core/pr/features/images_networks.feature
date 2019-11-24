@@ -7,7 +7,7 @@ Feature: Images-Networks
   @image-search
   Scenario: Search image
     Given "Digital Ocean" cloud has been added
-    Given "AWS" cloud has been added
+    Given "Amazon Web Services" cloud has been added
     When I wait for 2 seconds
     And I visit the Images page
     And I wait for 2 seconds

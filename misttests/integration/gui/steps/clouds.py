@@ -21,17 +21,6 @@ from .buttons import click_button_from_collection
 from .dialog import get_dialog
 
 
-def set_azure_creds(context):
-    subscription_id = safe_get_var('clouds/azure', 'subscription_id', context.mist_config['CREDENTIALS']['AZURE']['subscription_id'])
-    certificate = safe_get_var('clouds/azure', 'certificate', context.mist_config['CREDENTIALS']['AZURE']['certificate'])
-    context.execute_steps(u'''
-            Then I set the value "Azure" to field "Title" in the "cloud" add form
-            And I set the value "%s" to field "Subscription ID" in the "cloud" add form
-            ''' % subscription_id)
-    set_value_to_field(context, certificate, 'certificate', 'cloud', 'add')
-    sleep(3)
-
-
 def set_gce_creds(context):
     project_id = safe_get_var('clouds/gce/mist-dev', 'project_id', context.mist_config['CREDENTIALS']['GCE']['project_id'])
     private_key = safe_get_var('clouds/gce/mist-dev', 'private_key', context.mist_config['CREDENTIALS']['GCE']['private_key'])
@@ -279,11 +268,10 @@ def set_second_aws_creds(context):
 
 
 cloud_creds_dict = {
-    "azure": set_azure_creds,
-    "gce": set_gce_creds,
+    "google cloud": set_gce_creds,
     "rackspace": set_rackspace_creds,
     "ibm cloud": set_ibm_clouds_creds,
-    "aws": set_aws_creds,
+    "amazon web services": set_aws_creds,
     "linode": set_linode_creds,
     "digital ocean": set_do_creds,
     "docker": set_docker_creds,
@@ -291,7 +279,7 @@ cloud_creds_dict = {
     "openstack": set_openstack_creds,
     "hostvirtual": set_hostvirtual_creds,
     "vultr": set_vultr_creds,
-    "azure arm": set_azure_arm_creds,
+    "microsoft azure": set_azure_arm_creds,
     "kvm (via libvirt)": set_kvm_creds,
     "other server": set_other_server_creds,
     "vmware": set_vmware_creds,

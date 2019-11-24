@@ -5,7 +5,7 @@ Feature: Zones
   Scenario: Add a zone
     Given I am logged in to mist
     When I visit the Home page
-    Given "GCE" cloud has been added
+    Given "Google Cloud" cloud has been added
     When I visit the Zones page
     And I click the button "+"
     Then I expect the "Zone" add form to be visible within max 10 seconds
