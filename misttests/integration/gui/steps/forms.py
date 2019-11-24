@@ -190,9 +190,8 @@ def check_that_field_is_visible(context, field_name, title, form_type, seconds):
         if form_input and form_input.is_displayed():
             return True
         sleep(1)
-    assert form_input, "Could not find field %s after %s seconds" % field_name
-    assert False, "Field %s did not become visible after %s seconds" \
-                  % (field_name, seconds)
+    assert form_input, "Could not find field %s after %s seconds" % (
+        field_name, seconds)
 
 
 use_step_matcher("re")
