@@ -29,7 +29,7 @@ def set_gce_creds(context):
             Then I set the value "%s" to field "Project ID" in the "cloud" add form
             Then I set the value "%s" to field "Private Key" in the "cloud" add form
             And I click the "Enable DNS support" toggle button in the "cloud" add form
-        ''' % ('GCE', project_id, json.dumps(private_key).replace('"', '\"')))
+        ''' % ('Google Cloud', project_id, json.dumps(private_key).replace('"', '\"')))
 
 
 def set_rackspace_creds(context):
@@ -64,7 +64,7 @@ def set_aws_creds(context):
         And I wait for 1 seconds
         When I click the "%s" button in the "Region" dropdown in the "cloud" add form
         And I wait for 1 seconds
-        Then I set the value "AWS" to field "Title" in the "cloud" add form
+        Then I set the value "Amazon Web Services" to field "Title" in the "cloud" add form
         And I set the value "%s" to field "API Key" in the "cloud" add form
         And I set the value "%s" to field "API Secret" in the "cloud" add form
     ''' % (region, api_key, api_secret))
@@ -178,7 +178,7 @@ def set_aliyun_creds(context):
 
 def set_azure_arm_creds(context):
     context.execute_steps(u'''
-                    Then I set the value "Azure ARM" to field "Title" in the "cloud" add form
+                    Then I set the value "Microsoft Azure" to field "Title" in the "cloud" add form
                     Then I set the value "%s" to field "Tenant ID" in the "cloud" add form
                     Then I set the value "%s" to field "Subscription ID" in the "cloud" add form
                     Then I set the value "%s" to field "Client Key" in the "cloud" add form
