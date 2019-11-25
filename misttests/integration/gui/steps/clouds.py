@@ -304,8 +304,11 @@ def select_provider_in_cloud_add_form(context, provider):
     # with a billing card, then a cc-required dialog appears
     add_credit_card_if_needed(context, form_shadow)
     provider_title = provider.lower()
-    providers_listbox = form_shadow.find_element_by_class_name('providers')
-    providers = providers_listbox.find_elements_by_tag_name('paper-item')
+    providers_lists = form_shadow.find_elements_by_tag_name('paper-listbox')
+    providers = []
+    for provider_type in providers_lists:
+        providers += provider_type.find_elements_by_tag_name('paper-item')
+
     for p in providers:
         if safe_get_element_text(p).lower().strip() == provider_title:
             clicketi_click(context, p)
