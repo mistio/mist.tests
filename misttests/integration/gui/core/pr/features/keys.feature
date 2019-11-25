@@ -53,6 +53,7 @@ Feature: Actions for Keys
   Scenario: Rename Key
     When I click the "Key2" "key"
     Then I expect the "key" page to be visible within max 5 seconds
+    And I wait for 2 seconds
     When I click the "Rename" action button in the "key" page
     Then I expect the "Rename Key" dialog to be open within 4 seconds
     When I set the value "Second" to field "Name" in the "Rename Key" dialog
