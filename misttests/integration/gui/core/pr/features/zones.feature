@@ -11,7 +11,7 @@ Feature: Zones
     Then I expect the "Zone" add form to be visible within max 10 seconds
     When I open the "Select Cloud" dropdown in the "zone" add form
     And I wait for 1 seconds
-    And I click the "GCE" button in the "Select Cloud" dropdown in the "zone" add form
+    And I click the "Google Cloud" button in the "Select Cloud" dropdown in the "zone" add form
     And I set the value "test-zone-random.com." to field "Domain" in the "zone" add form
     Then I expect for the button "Add" in the "zone" add form to be clickable within 5 seconds
     And I click the button "Add" in the "Zone" add form
@@ -33,7 +33,7 @@ Feature: Zones
   Scenario: Disable dns support and verify that zone created above is not visible
     When I visit the Home page
     And I wait for 1 seconds
-    And I open the cloud page for "GCE"
+    And I open the cloud page for "Google Cloud"
     And I wait for 1 seconds
     And I click the "DNS enabled" toggle button in the "cloud" page
     And I wait for 1 seconds
@@ -47,7 +47,7 @@ Feature: Zones
   Scenario: Reenable dns-support and add tags to a zone
     When I visit the Home page
     And I wait for 1 seconds
-    And I open the cloud page for "GCE"
+    And I open the cloud page for "Google Cloud"
     And I wait for 1 seconds
     And I click the "DNS disabled" toggle button in the "cloud" page
     And I wait for 1 seconds

@@ -78,7 +78,7 @@ Feature: Images-Networks
     Then I expect the "network" add form to be visible within max 10 seconds
     When I open the "Select Cloud" dropdown in the "network" add form
     And I wait for 1 seconds
-    And I click the "AWS" button in the "Select Cloud" dropdown in the "network" add form
+    And I click the "Amazon Web Services" button in the "Select Cloud" dropdown in the "network" add form
     And I wait for 1 seconds
     And I set the value "network_random" to field "Name" in the "network" add form
     And I wait for 1 seconds
@@ -109,7 +109,7 @@ Feature: Images-Networks
     Then I expect the "network" add form to be visible within max 10 seconds
     When I open the "Select Cloud" dropdown in the "network" add form
     And I wait for 1 seconds
-    And I click the "AWS" button in the "Select Cloud" dropdown in the "network" add form
+    And I click the "Amazon Web Services" button in the "Select Cloud" dropdown in the "network" add form
     And I wait for 1 seconds
     And I set the value "network_random" to field "Name" in the "network" add form
     And I wait for 1 seconds
