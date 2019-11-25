@@ -21,9 +21,9 @@ Feature: Add second-tier clouds
 
 
     Examples: Providers
-    | provider       |
-    | IBM Cloud      |
-    | AWS            |
+    | provider            |
+    | IBM Cloud           |
+    | Amazon Web Services |
 
   @cloud-edit-creds
   Scenario: AWS cloud added in the beginning, does not have access to list images (DenyDescribeImages policy in aws), whereas the seconds one has (EC2FullAccess)
@@ -32,7 +32,7 @@ Feature: Add second-tier clouds
     Then "Ubuntu Server 16.04 LTS (HVM), SSD Volume Type" image should be absent within 10 seconds
     Then I visit the Home page
     And I wait for the dashboard to load
-    When I open the cloud page for "AWS"
+    When I open the cloud page for "Amazon Web Services"
     Then I expect the "cloud" page to be visible within max 10 seconds
     When I click the "Edit Credentials" action button in the "cloud" page
     Then I expect the "Edit Credentials" dialog to be open within 4 seconds
