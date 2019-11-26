@@ -6,7 +6,7 @@ Feature: Machines
 
   @key-add
   Scenario: Add script, Docker cloud and key that will be used for ssh access
-    Given script "touch_kati" is added via API request
+    Given script "touch_kati" has been added via API request
     And cloud "Docker" has been added via API request
     And key "DummyKey" has been added via API request
     Then the log entry in position 1 should have been added "a few seconds ago"
@@ -103,11 +103,17 @@ Feature: Machines
     And I click the "Stop" action button in the "machine" page
     Then I expect the "Stop Machine" dialog to be open within 4 seconds
     When I click the "Stop" button in the "Stop Machine" dialog
-    And I visit the Machines page
+    Then I should see a(n) "request" log entry of action "stop_machine" added "a few seconds ago" in the "machine" page within 10 seconds
+    When I visit the Home page
+    And I wait for 1 seconds
+    Then I should see a(n) "request" log entry of action "stop_machine" added "a few seconds ago" in the "dashboard" page within 10 seconds
+    When I visit the Machines page
     And I clear the search bar
-    And I wait for 2 seconds
     And I search for "ui-test-create-machine-random"
     Then "ui-test-create-machine-random" machine state has to be "stopped" within 60 seconds
+    When I visit the Home page
+    And I wait for 1 seconds
+    Then I should see a(n) "observation" log entry of action "stop_machine" added "a few seconds ago" in the "dashboard" page within 10 seconds
 
   @machine-destroy
   Scenario: Destroy the machine created
@@ -128,10 +134,10 @@ Feature: Machines
     And I click the "Destroy" button in the "Destroy Machine" dialog
     When I visit the Home page
     And I wait for 1 seconds
-    Then I should see a(n) "request" log entry of action "destroy_machine" added "a few seconds ago" in the dashboard page within 10 seconds
+    Then I should see a(n) "request" log entry of action "destroy_machine" added "a few seconds ago" in the "dashboard" page within 10 seconds
     When I visit the Machines page
     And I search for "ui-test-create-machine-random"
     Then "ui-test-create-machine-random" machine should be absent within 60 seconds
     When I visit the Home page
     And I wait for 1 seconds
-    Then I should see a(n) "observation" log entry of action "destroy_machine" added "a few seconds ago" in the dashboard page within 30 seconds
+    Then I should see a(n) "observation" log entry of action "destroy_machine" added "a few seconds ago" in the "dashboard" page within 10 seconds

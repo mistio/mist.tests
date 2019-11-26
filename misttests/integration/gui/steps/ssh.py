@@ -197,25 +197,3 @@ def check_ssh_connection_with_timeout(context,
                         raise e
         sleep(1)
     assert False, "Command output took too long"
-
-
-@step(u'I test the ssh connection')
-def check_ssh_connection(context):
-    """
-    This step will press the shell button and wait for the connection to be
-    established and then will try to execute a command in the server and
-    get some output.
-    """
-    check_ssh_connection_with_timeout(context)
-    clicketi_click(context, context.browser.find_element_by_xpath("//iron-icon[@icon='icons:close']"))
-    WebDriverWait(context.browser, 4).until(EC.invisibility_of_element_located((By.CLASS_NAME, 'terminal')))
-
-
-@step(u'I test the ssh connection for max {seconds} seconds')
-def check_ssh_connection_for_max_seconds(context, seconds):
-    """
-    This step will press the shell button and wait for the connection to be
-    established and then will try to execute a command in the server and
-    get some output.
-    """
-    check_ssh_connection_with_timeout(context, connection_timeout=int(seconds))
