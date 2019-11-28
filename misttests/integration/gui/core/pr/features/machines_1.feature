@@ -9,7 +9,7 @@ Feature: Machines
     Given script "touch_kati" has been added via API request
     And cloud "Docker" has been added via API request
     And key "DummyKey" has been added via API request
-    Then the log entry in position 1 should have been added "a few seconds ago"
+    Then I should see a(n) "session" log entry of action "connect" added "a few seconds ago" in the "dashboard" page within 20 seconds
     And I have given card details if needed
     And I refresh the page
     When I visit the Keys page

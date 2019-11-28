@@ -93,9 +93,6 @@ Feature: Images-Networks
     And I wait for 2 seconds
     Then I should see a(n) "request" log entry of action "create_network" added "a few seconds ago" in the "network" page within 20 seconds
     Then there should be 0 subnets visible in single network page
-    When  I visit the Home page
-    And I wait for 1 seconds
-    And I should see a(n) "observation" log entry of action "create_network" added "a few seconds ago" in the "dashboard" page within 20 seconds
 
   @network-delete
   Scenario: Delete Network
