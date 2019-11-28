@@ -103,7 +103,7 @@ Feature: Machines
     And I click the "Stop" action button in the "machine" page
     Then I expect the "Stop Machine" dialog to be open within 4 seconds
     When I click the "Stop" button in the "Stop Machine" dialog
-    Then I should see a(n) "request" log entry of action "stop_machine" added "a few seconds ago" in the "machine" page within 10 seconds
+    Then I should see a(n) "request" log entry of action "stop_machine" added "a few seconds ago" in the "machine" page within 20 seconds
     When I visit the Home page
     And I wait for 1 seconds
     Then I should see a(n) "request" log entry of action "stop_machine" added "a few seconds ago" in the "dashboard" page within 10 seconds
