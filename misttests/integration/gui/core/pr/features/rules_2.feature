@@ -37,6 +37,7 @@ Feature: Rules
     And I select the "Load" target when adding new rule in the "rules" page
     And I select the "<" operator when adding new rule in the "rules" page
     And I type "10" in the threshold when adding new rule in the "rules" page
+    And I select the "any" aggregation when adding new rule in the "rules" page
     And I select the "alert" action when adding new rule in the "rules" page
     And I select the "Owners" team when adding new rule in the "rules" page
     And I wait for 1 seconds
