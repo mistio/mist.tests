@@ -24,7 +24,14 @@ Feature: Rules
     When I visit the Rules page
     And I click the button "add new rule" in the "rules" page
     And I wait for 1 seconds
-    And I select the "every machine" apply-on when adding new rule in the "rules" page
+    And I select the "machine" apply-on when adding new rule in the "rules" page
+    And I wait for 1 seconds
+    And I select the "select" resource-type when adding new rule in the "rules" page
+    And I wait for 1 seconds
+    And I select the "rules-test-machine-random" resource-id when adding new rule in the "rules" page
+    And I wait for 1 seconds
+    And I select the "metric" type when adding new rule in the "rules" page
+    And I wait for 1 seconds
     And I select the "Load" target when adding new rule in the "rules" page
     And I select the "<" operator when adding new rule in the "rules" page
     And I type "10" in the threshold when adding new rule in the "rules" page
