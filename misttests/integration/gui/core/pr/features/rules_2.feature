@@ -48,7 +48,8 @@ Feature: Rules
     And I click the "rules-test-machine-random" "machine"
     And I scroll to the rules section in the "machine" page
     And I wait for 2 seconds
-    Then rule "if load < 10 for any value then alert team Owners" should be present in the "machine" page
+    # FIX ME: below change needed????
+    Then rule "if load < 10 for count value then alert team Owners" should be present in the "machine" page
     Then I should receive an email at the address "EMAIL" with subject "[Mist.io] *** WARNING *** from rules-test-machine-random: Load" within 150 seconds
 
 @delete-rule
