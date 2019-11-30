@@ -21,6 +21,10 @@ Feature: Rules
 
   @alert-email
   Scenario: Insert rule that will be triggered immediately
+    Given I am logged in to mist
+    When I visit the Machines page
+    And I search for "pipis7"
+    When I click the "pipis7" "machine"
     When I click the button "add new rule" in the "machine" page
     And I wait for 1 seconds
     And I select the "RAM" target when adding new rule in the "machine" page

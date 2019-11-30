@@ -21,13 +21,18 @@ Feature: Rules
 
   @add-rule-apply-to-every-machine
   Scenario: Add rule from rules section that applies on all machines. Verify it is visible in single machine page and it works
+    Given I am logged in to mist
     When I visit the Rules page
     And I click the button "add new rule" in the "rules" page
     And I wait for 1 seconds
-    And I select the "every machine" apply-on when adding new rule in the "rules" page
+    And I select the "machine" apply-on when adding new rule in the "rules" page
+    And I select the "select" resource-type when adding new rule in the "rules" page
+    And I select the "rules-test-machine-random" resource-id when adding new rule in the "rules" page
+    And I select the "metric" type when adding new rule in the "rules" page
     And I select the "Load" target when adding new rule in the "rules" page
     And I select the "<" operator when adding new rule in the "rules" page
-    And I type "10" in the threshold when adding new rule in the "rules" page
+    And I type "1" in the threshold when adding new rule in the "rules" page
+    And I select the "every" aggregation when adding new rule in the "rules" page
     And I select the "alert" action when adding new rule in the "rules" page
     And I select the "Owners" team when adding new rule in the "rules" page
     And I wait for 1 seconds
@@ -39,7 +44,7 @@ Feature: Rules
     And I click the "rules-test-machine-random" "machine"
     And I scroll to the rules section in the "machine" page
     And I wait for 2 seconds
-    Then rule "if load < 10 for any value then alert team Owners" should be present in the "machine" page
+    Then rule "if load < 1 for every value then alert team Owners" should be present in the "machine" page
     Then I should receive an email at the address "EMAIL" with subject "[Mist.io] *** WARNING *** from rules-test-machine-random: Load" within 150 seconds
 
 @delete-rule
@@ -52,7 +57,7 @@ Scenario: Delete a rule from rules page and verify it is not visible in single m
     And I wait for 1 seconds
     And I search for "rules-test-machine-random"
     And I click the "rules-test-machine-random" "machine"
-    Then rule "if load < 10 for any value then alert team Owners" should be absent in the "machine" page
+    Then rule "if load < 1 for every value then alert team Owners" should be absent in the "machine" page
 
 @add-rule-apply-to-tagged-machine
  Scenario: Add rule from rules section that applies on tagged machine. Verify it is visible in single machine page and it works
@@ -78,11 +83,14 @@ Scenario: Delete a rule from rules page and verify it is not visible in single m
     When I visit the Rules page
     And I click the button "add new rule" in the "rules" page
     And I wait for 1 seconds
-    And I select the "machines with tag" apply-on when adding new rule in the "rules" page
+    And I select the "machine" apply-on when adding new rule in the "rules" page
+    And I select the "tagged" resource-type when adding new rule in the "rules" page
     And I type "test=awesome" in the tags when adding new rule in the "rules" page
+    And I select the "metric" type when adding new rule in the "rules" page
     And I select the "CPU" target when adding new rule in the "rules" page
     And I select the "<" operator when adding new rule in the "rules" page
-    And I type "20" in the threshold when adding new rule in the "rules" page
+    And I type "9" in the threshold when adding new rule in the "rules" page
+    And I select the "any" aggregation when adding new rule in the "rules" page
     And I select the "destroy" action when adding new rule in the "rules" page
     And I save the new rule in the "rules" page
     When I visit the Machines page
@@ -91,7 +99,7 @@ Scenario: Delete a rule from rules page and verify it is not visible in single m
     And I search for "rules-test-machine-random"
     And I wait for 1 seconds
     And I click the "rules-test-machine-random" "machine"
-    Then rule "if cpu < 20 for any value then destroy" should be present in the "machine" page
+    Then rule "if cpu < 9 for any value then destroy" should be present in the "machine" page
     When I visit the Machines page
     And I clear the search bar
     And I wait for 1 seconds
