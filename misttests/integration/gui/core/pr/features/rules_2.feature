@@ -44,7 +44,7 @@ Feature: Rules
     And I click the "rules-test-machine-random" "machine"
     And I scroll to the rules section in the "machine" page
     And I wait for 2 seconds
-    Then rule "if load < 1 for every value then alert team Owners" should be present in the "machine" page
+    Then rule "if load < 1 for every value within 1 minutes then alert team Owners" should be present in the "machine" page
     Then I should receive an email at the address "EMAIL" with subject "[Mist.io] *** WARNING *** from rules-test-machine-random: Load" within 150 seconds
 
 @delete-rule
@@ -57,7 +57,7 @@ Scenario: Delete a rule from rules page and verify it is not visible in single m
     And I wait for 1 seconds
     And I search for "rules-test-machine-random"
     And I click the "rules-test-machine-random" "machine"
-    Then rule "if load < 1 for every value then alert team Owners" should be absent in the "machine" page
+    Then rule "if load < 1 for every value within 1 minutes then alert team Owners" should be absent in the "machine" page
 
 @add-rule-apply-to-tagged-machine
  Scenario: Add rule from rules section that applies on tagged machine. Verify it is visible in single machine page and it works
