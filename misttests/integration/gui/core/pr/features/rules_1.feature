@@ -35,14 +35,35 @@ Feature: Rules
     And I wait for 2 seconds
     And I save the new rule in the "machine" page
 
+  @alert-observation-log
+  Scenario: Insert rule that will be triggered immediately
+    Given I am logged in to mist
+    When I visit the Rules page
+    And I click the button "add new rule" in the "rules" page
+    And I wait for 1 seconds
+    And I select the "machine" apply-on when adding new rule in the "rules" page
+    And I select the "all" resource-type when adding new rule in the "rules" page
+    And I select the "log" type when adding new rule in the "rules" page
+    And I type "type:request AND action:create_machine" in the target when adding new rule in the "rules" page
+    And I select the "=" operator when adding new rule in the "rules" page
+    And I type "1" in the threshold when adding new rule in the "machine" page
+    And I select the "destroy" action when adding new rule in the "machine" page
+    And I wait for 1 seconds
+    And I save the new rule in the "rules" page
+
   @incidents
   Scenario: Verify that incident gets triggered
+    Given Docker machine "rules-test-machine-1-random" has been added via API request
+    When I visit the Machines page
+    And I search for "rules-test-machine-1-random"
+    Then "rules-test-machine-1-random" machine should be present within 60 seconds
     #When I wait for 55 seconds
     #And I visit the home page
     #And I refresh the page
     #And I wait for 5 seconds
     #Then I should see the incident "RAM > 0.0%"
     Then I should receive an email at the address "EMAIL" with subject "[Mist.io] *** ('WARNING',) *** from rules-test-machine-random: RAM" within 150 seconds
+    And "rules-test-machine-1-random" machine should be absent within 60 seconds
 
   @alert-destroy-machine
   Scenario: Insert rule that will kill the container
