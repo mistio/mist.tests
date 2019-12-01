@@ -21,15 +21,15 @@ Feature: Rules
 
   @alert-email
   Scenario: Insert rule that will be triggered immediately
-    Given I am logged in to mist
-    When I visit the Machines page
-    And I search for "pipis7"
-    When I click the "pipis7" "machine"
+    When I scroll to the rules section in the "machine" page
+    And I wait for 1 seconds
     When I click the button "add new rule" in the "machine" page
     And I wait for 1 seconds
+    And I select the "metric" type when adding new rule in the "machine" page
     And I select the "RAM" target when adding new rule in the "machine" page
     And I select the ">" operator when adding new rule in the "machine" page
     And I type "0" in the threshold when adding new rule in the "machine" page
+    And I select the "any" aggregation when adding new rule in the "rules" page
     And I select the "alert" action when adding new rule in the "machine" page
     And I select the "Owners" team when adding new rule in the "machine" page
     And I wait for 2 seconds
@@ -42,7 +42,7 @@ Feature: Rules
     #And I refresh the page
     #And I wait for 5 seconds
     #Then I should see the incident "RAM > 0.0%"
-    Then I should receive an email at the address "EMAIL" with subject "[Mist.io] *** WARNING *** from rules-test-machine-random: RAM" within 150 seconds
+    Then I should receive an email at the address "EMAIL" with subject "[Mist.io] *** ('WARNING',) *** from rules-test-machine-random: RAM" within 150 seconds
 
   @alert-destroy-machine
   Scenario: Insert rule that will kill the container
@@ -53,12 +53,15 @@ Feature: Rules
     And I click the "rules-test-machine-random" "machine"
     And I expect the "machine" page to be visible within max 5 seconds
     Then I wait for the monitoring graphs to appear in the "machine" page
+    When I scroll to the rules section in the "machine" page
+    And I wait for 1 seconds
     When I remove previous rules in the "machine" page
     And I click the button "add new rule" in the "machine" page
     And I wait for 1 seconds
     And I select the "Load" target when adding new rule in the "machine" page
     And I select the "<" operator when adding new rule in the "machine" page
     And I type "10" in the threshold when adding new rule in the "machine" page
+    And I select the "any" aggregation when adding new rule in the "rules" page
     And I select the "destroy" action when adding new rule in the "machine" page
     And I wait for 2 seconds
     And I save the new rule in the "machine" page
