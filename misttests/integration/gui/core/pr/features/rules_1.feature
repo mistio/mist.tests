@@ -29,7 +29,7 @@ Feature: Rules
     And I select the "RAM" target when adding new rule in the "machine" page
     And I select the ">" operator when adding new rule in the "machine" page
     And I type "0" in the threshold when adding new rule in the "machine" page
-    And I select the "any" aggregation when adding new rule in the "rules" page
+    And I select the "any" aggregation when adding new rule in the "machine" page
     And I select the "alert" action when adding new rule in the "machine" page
     And I select the "Owners" team when adding new rule in the "machine" page
     And I wait for 2 seconds
@@ -61,7 +61,7 @@ Feature: Rules
     And I select the "Load" target when adding new rule in the "machine" page
     And I select the "<" operator when adding new rule in the "machine" page
     And I type "10" in the threshold when adding new rule in the "machine" page
-    And I select the "any" aggregation when adding new rule in the "rules" page
+    And I select the "any" aggregation when adding new rule in the "machine" page
     And I select the "destroy" action when adding new rule in the "machine" page
     And I wait for 2 seconds
     And I save the new rule in the "machine" page
