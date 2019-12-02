@@ -14,16 +14,16 @@ Feature: Rules
     When I click the "rules-test-machine-random" "machine"
     And I wait for 2 seconds
     Then "Key1" key should be associated with the machine "rules-test-machine-random" within 120 seconds
-    And I click the button "Enable Monitoring" in the "machine" page
+    When I click the button "Enable Monitoring" in the "machine" page
     And I wait for 5 seconds
-    Then I wait for the monitoring graphs to appear in the "machine" page
-    And 5 graphs should be visible within max 30 seconds in the "machine" page
+    And I wait for the monitoring graphs to appear in the "machine" page
+    Then 5 graphs should be visible within max 30 seconds in the "machine" page
 
-  @alert-email
-  Scenario: Insert rule that will be triggered immediately
+  @metric-rule-machine-page-alert
+  Scenario: Insert rule regarding metric from machine page. If triggered, alert
     When I scroll to the rules section in the "machine" page
     And I wait for 1 seconds
-    When I click the button "add new rule" in the "machine" page
+    And I click the button "add new rule" in the "machine" page
     And I wait for 1 seconds
     And I select the "metric" type when adding new rule in the "machine" page
     And I select the "RAM" target when adding new rule in the "machine" page
@@ -35,9 +35,8 @@ Feature: Rules
     And I wait for 2 seconds
     And I save the new rule in the "machine" page
 
-  @alert-observation-log
-  Scenario: Insert rule that will be triggered immediately
-    Given I am logged in to mist
+  @log-rule-rules-page-alert
+  Scenario: Insert rule regarding log from rules page. If triggered, alert
     When I visit the Rules page
     And I click the button "add new rule" in the "rules" page
     And I wait for 1 seconds
@@ -52,20 +51,19 @@ Feature: Rules
     And I wait for 1 seconds
     And I save the new rule in the "rules" page
 
-  @incidents
-  Scenario: Verify that incident gets triggered
+  @incidents-triggered
+  Scenario: Verify that incidents get triggered
     Given Docker machine "rules-test-machine-1-random" has been added via API request
     When I visit the Machines page
     And I clear the search bar
     And I wait for 1 seconds
     And I search for "rules-test-machine-1-random"
     Then "rules-test-machine-1-random" machine should be present within 60 seconds
-    Then I should receive an email at the address "EMAIL" with subject "*** WARNING *** from : count of matching logs" within 120 seconds
-    Then I should receive an email at the address "EMAIL" with subject "[Mist.io] *** ('WARNING',) *** from rules-test-machine-random: RAM" within 120 seconds
-    And "rules-test-machine-1-random" machine should be absent within 60 seconds
+    And I should receive an email at the address "EMAIL" with subject "*** WARNING *** from : count of matching logs" within 120 seconds
+    And I should receive an email at the address "EMAIL" with subject "[Mist.io] *** ('WARNING',) *** from rules-test-machine-random: RAM" within 120 seconds
 
-  @alert-destroy-machine
-  Scenario: Insert rule that will kill the container
+  @metric-rule-machine-page-destroy
+  Scenario: Insert rule regarding metric from machine page. If triggered, destroy the machine
     When I visit the Machines page
     And I clear the search bar
     And I wait for 1 seconds
@@ -75,7 +73,7 @@ Feature: Rules
     Then I wait for the monitoring graphs to appear in the "machine" page
     When I scroll to the rules section in the "machine" page
     And I wait for 1 seconds
-    When I remove previous rules in the "machine" page
+    And I remove previous rules in the "machine" page
     And I click the button "add new rule" in the "machine" page
     And I wait for 1 seconds
     And I select the "metric" type when adding new rule in the "machine" page
@@ -86,7 +84,7 @@ Feature: Rules
     And I select the "destroy" action when adding new rule in the "machine" page
     And I wait for 2 seconds
     And I save the new rule in the "machine" page
-    When I visit the Machines page
+    And I visit the Machines page
     And I clear the search bar
     And I wait for 1 seconds
     And I search for "rules-test-machine-random"

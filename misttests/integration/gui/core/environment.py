@@ -321,6 +321,7 @@ def after_feature(context, feature):
         kill_docker_machine(context, context.mist_config.get('monitored-machine-random'))
     if feature.name in ['Rules']:
         kill_docker_machine(context, context.mist_config.get('rules-test-machine-random'))
+        kill_docker_machine(context, context.mist_config.get('rules-test-machine-1-random'))
     if feature.name == 'Images-Networks':
         delete_ec2_network(context, context.mist_config.get('network_random'))
     #if feature.name == 'Production':
