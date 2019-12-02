@@ -44,8 +44,8 @@ Feature: Rules
     And I select the "all" resource-type when adding new rule in the "rules" page
     And I select the "log" type when adding new rule in the "rules" page
     And I type "type:request AND action:create_machine" in the target when adding new rule in the "rules" page
-    And I select the "=" operator when adding new rule in the "rules" page
-    And I type "1" in the threshold when adding new rule in the "rules" page
+    And I select the ">" operator when adding new rule in the "rules" page
+    And I type "0" in the threshold when adding new rule in the "rules" page
     And I select the "alert" action when adding new rule in the "rules" page
     And I select the "Owners" team when adding new rule in the "rules" page
     And I wait for 1 seconds
