@@ -46,8 +46,8 @@ Feature: Rules
     And I select the "log" type when adding new rule in the "rules" page
     And I type "type:request AND action:create_machine" in the target when adding new rule in the "rules" page
     And I select the "=" operator when adding new rule in the "rules" page
-    And I type "1" in the threshold when adding new rule in the "machine" page
-    And I select the "destroy" action when adding new rule in the "machine" page
+    And I type "1" in the threshold when adding new rule in the "rules" page
+    And I select the "destroy" action when adding new rule in the "rules" page
     And I wait for 1 seconds
     And I save the new rule in the "rules" page
 
