@@ -55,6 +55,8 @@ Feature: Rules
   Scenario: Verify that incident gets triggered
     Given Docker machine "rules-test-machine-1-random" has been added via API request
     When I visit the Machines page
+    And I clear the search bar
+    And I wait for 1 seconds
     And I search for "rules-test-machine-1-random"
     Then "rules-test-machine-1-random" machine should be present within 60 seconds
     #When I wait for 55 seconds
