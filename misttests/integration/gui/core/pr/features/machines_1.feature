@@ -106,14 +106,14 @@ Feature: Machines
     Then I should see a(n) "request" log entry of action "stop_machine" added "a few seconds ago" in the "machine" page within 20 seconds
     When I visit the Home page
     And I wait for 1 seconds
-    Then I should see a(n) "request" log entry of action "stop_machine" added "a few seconds ago" in the "dashboard" page within 10 seconds
+    Then I should see a(n) "request" log entry of action "stop_machine" added "a few seconds ago" in the "dashboard" page within 20 seconds
     When I visit the Machines page
     And I clear the search bar
     And I search for "ui-test-create-machine-random"
     Then "ui-test-create-machine-random" machine state has to be "stopped" within 60 seconds
     When I visit the Home page
     And I wait for 1 seconds
-    Then I should see a(n) "observation" log entry of action "stop_machine" added "a few seconds ago" in the "dashboard" page within 10 seconds
+    Then I should see a(n) "observation" log entry of action "stop_machine" added "a few seconds ago" in the "dashboard" page within 20 seconds
 
   @machine-destroy
   Scenario: Destroy the machine created

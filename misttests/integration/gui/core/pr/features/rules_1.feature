@@ -59,8 +59,8 @@ Feature: Rules
     And I wait for 1 seconds
     And I search for "rules-test-machine-1-random"
     Then "rules-test-machine-1-random" machine should be present within 60 seconds
-    And I should receive an email at the address "EMAIL" with subject "[Mist.io] *** ('WARNING',) *** from rules-test-machine-random: RAM" within 180 seconds
-    And I should receive an email at the address "EMAIL" with subject "*** WARNING *** from : count of matching logs" within 90 seconds
+    And I should receive an email at the address "EMAIL" with subject "*** WARNING *** from : count of matching logs" within 150 seconds
+    And I should receive an email at the address "EMAIL" with subject "[Mist.io] *** ('WARNING',) *** from rules-test-machine-random: RAM" within 120 seconds
 
   @metric-rule-machine-page-destroy
   Scenario: Insert rule regarding metric from machine page. If triggered, destroy the machine
