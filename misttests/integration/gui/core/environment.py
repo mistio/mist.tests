@@ -220,7 +220,7 @@ def kill_docker_machine(context, machine_to_destroy):
             if response.json():
                 for machine in response.json():
                     if machine_to_destroy == machine['name']:
-                        log.info('Killing docker machine...')
+                        log.info('Killing docker machine %s ...' % str(machine['name']))
                         payload = {'action': 'destroy'}
                         uri = context.mist_config['MIST_URL'] + \
                                 '/api/v1/clouds/' + cloud['id'] + \

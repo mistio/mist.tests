@@ -59,23 +59,16 @@ Feature: Rules
     And I wait for 1 seconds
     And I search for "rules-test-machine-1-random"
     Then "rules-test-machine-1-random" machine should be present within 60 seconds
-    And I should receive an email at the address "EMAIL" with subject "*** WARNING *** from : count of matching logs" within 120 seconds
-    And I should receive an email at the address "EMAIL" with subject "[Mist.io] *** ('WARNING',) *** from rules-test-machine-random: RAM" within 120 seconds
+    And I should receive an email at the address "EMAIL" with subject "[Mist.io] *** ('WARNING',) *** from rules-test-machine-random: RAM" within 180 seconds
+    And I should receive an email at the address "EMAIL" with subject "*** WARNING *** from : count of matching logs" within 90 seconds
 
   @metric-rule-machine-page-destroy
   Scenario: Insert rule regarding metric from machine page. If triggered, destroy the machine
-    When I visit the Machines page
-    And I clear the search bar
+    When I visit the Rules page
+    And I click the button "add new rule" in the "rules" page
     And I wait for 1 seconds
-    And I search for "rules-test-machine-random"
-    And I click the "rules-test-machine-random" "machine"
-    And I expect the "machine" page to be visible within max 5 seconds
-    Then I wait for the monitoring graphs to appear in the "machine" page
-    When I scroll to the rules section in the "machine" page
-    And I wait for 1 seconds
-    And I remove previous rules in the "machine" page
-    And I click the button "add new rule" in the "machine" page
-    And I wait for 1 seconds
+    And I select the "machine" apply-on when adding new rule in the "rules" page
+    And I select the "all" resource-type when adding new rule in the "rules" page
     And I select the "metric" type when adding new rule in the "machine" page
     And I select the "Load" target when adding new rule in the "machine" page
     And I select the "<" operator when adding new rule in the "machine" page
