@@ -45,7 +45,7 @@ Feature: Rules
     And I scroll to the rules section in the "machine" page
     And I wait for 2 seconds
     Then rule "if load < 1 for every value within 1 minutes then alert team Owners" should be present in the "machine" page
-    And I should receive an email at the address "EMAIL" with subject "[Mist.io] *** ('WARNING',) *** from rules-test-machine-random: Load" within 150 seconds
+    And I should receive an email at the address "EMAIL" with subject "[Mist.io] *** 'WARNING' *** from rules-test-machine-random: Load" within 150 seconds
 
   @delete-rule
   Scenario: Delete a rule from rules page and verify it is not visible in single machine page
@@ -106,3 +106,7 @@ Feature: Rules
     And I search for "rules-test-machine-random"
     And I wait for 1 seconds
     And "rules-test-machine-random" machine should be absent within 210 seconds
+
+# Add rule on log that applies on cloud(from cloud page), type:observation AND action:_network (=1), alert with custom level and description
+
+# Add rule on log that applies on org, delete_key, trigger webhook
