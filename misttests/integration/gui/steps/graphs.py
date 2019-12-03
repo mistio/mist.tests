@@ -197,6 +197,8 @@ def disable_resource_monitoring(context, resource_type):
 
 @step(u'I select the "{option}" {dropdown} when adding new rule in the "{resource_type}" page')
 def select_option_when_adding_rule(context, option, dropdown, resource_type):
+    if context.mist_config.get(option):
+        option = context.mist_config.get(option)
     page_element = get_page(context, resource_type)
     page_shadow = expand_shadow_root(context, page_element)
     mist_rules = page_shadow.find_element_by_css_selector('mist-rules')
