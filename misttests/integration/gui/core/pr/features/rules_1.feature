@@ -60,7 +60,6 @@ Feature: Rules
     And I open the cloud page for "Docker"
     And I wait for 1 seconds
     Then I should see a(n) "request" log entry of action "create_machine" added "a few seconds ago" in the "cloud" page within 20 seconds
-    And I should see a(n) "observation" log entry of action "create_machine" added "a few seconds ago" in the "cloud" page within 20 seconds
     When I visit the Machines page
     And I clear the search bar
     And I wait for 1 seconds
