@@ -91,6 +91,7 @@ Feature: Images-Networks
     When I click the "network_random" "network"
     And I expect the "network" page to be visible within max 5 seconds
     And I wait for 2 seconds
+    Then I should see a(n) "request" log entry of action "create_network" added "a few seconds ago" in the "network" page within 20 seconds
     Then there should be 0 subnets visible in single network page
 
   @network-delete

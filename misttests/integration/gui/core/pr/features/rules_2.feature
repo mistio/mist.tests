@@ -14,13 +14,13 @@ Feature: Rules
     When I click the "rules-test-machine-random" "machine"
     And I wait for 2 seconds
     Then "Key1" key should be associated with the machine "rules-test-machine-random" within 120 seconds
-    And I click the button "Enable Monitoring" in the "machine" page
+    When I click the button "Enable Monitoring" in the "machine" page
     And I wait for 5 seconds
-    Then I wait for the monitoring graphs to appear in the "machine" page
-    And 5 graphs should be visible within max 30 seconds in the "machine" page
+    And I wait for the monitoring graphs to appear in the "machine" page
+    Then 5 graphs should be visible within max 30 seconds in the "machine" page
 
-  @add-rule-apply-to-every-machine
-  Scenario: Add rule from rules section that applies on all machines. Verify it is visible in single machine page and it works
+  @metric-rule-rules-page-alert
+  Scenario: Insert rule regarding metric from rules page. If triggered, alert
     Given I am logged in to mist
     When I visit the Rules page
     And I click the button "add new rule" in the "rules" page
@@ -28,7 +28,7 @@ Feature: Rules
     And I select the "machine" apply-on when adding new rule in the "rules" page
     And I select the "select" resource-type when adding new rule in the "rules" page
     And I select the "rules-test-machine-random" resource-id when adding new rule in the "rules" page
-    And I select the "metric" type when adding new rule in the "rules" page
+    And I select the "metric" target-type when adding new rule in the "rules" page
     And I select the "Load" target when adding new rule in the "rules" page
     And I select the "<" operator when adding new rule in the "rules" page
     And I type "1" in the threshold when adding new rule in the "rules" page
@@ -45,12 +45,12 @@ Feature: Rules
     And I scroll to the rules section in the "machine" page
     And I wait for 2 seconds
     Then rule "if load < 1 for every value within 1 minutes then alert team Owners" should be present in the "machine" page
-    Then I should receive an email at the address "EMAIL" with subject "[Mist.io] *** WARNING *** from rules-test-machine-random: Load" within 150 seconds
+    And I should receive an email at the address "EMAIL" with subject "[Mist.io] *** WARNING *** from rules-test-machine-random: Load" within 150 seconds
 
-@delete-rule
-Scenario: Delete a rule from rules page and verify it is not visible in single machine page
+  @delete-rule
+  Scenario: Delete a rule from rules page and verify it is not visible in single machine page
     When I visit the Rules page
-    When I remove previous rules in the "rules" page
+    And I remove previous rules in the "rules" page
     And I wait for 2 seconds
     And I visit the Machines page
     And I clear the search bar
@@ -59,8 +59,8 @@ Scenario: Delete a rule from rules page and verify it is not visible in single m
     And I click the "rules-test-machine-random" "machine"
     Then rule "if load < 1 for every value within 1 minutes then alert team Owners" should be absent in the "machine" page
 
-@add-rule-apply-to-tagged-machine
- Scenario: Add rule from rules section that applies on tagged machine. Verify it is visible in single machine page and it works
+  @metric-rule-rules-page-destroy
+  Scenario: Add rule from rules section that applies on tagged machine. Verify it is visible in single machine page and it works
     Given I am logged in to mist
     When I visit the Machines page
     And I clear the search bar
@@ -86,7 +86,7 @@ Scenario: Delete a rule from rules page and verify it is not visible in single m
     And I select the "machine" apply-on when adding new rule in the "rules" page
     And I select the "tagged" resource-type when adding new rule in the "rules" page
     And I type "test=awesome" in the tags when adding new rule in the "rules" page
-    And I select the "metric" type when adding new rule in the "rules" page
+    And I select the "metric" target-type when adding new rule in the "rules" page
     And I select the "CPU" target when adding new rule in the "rules" page
     And I select the "<" operator when adding new rule in the "rules" page
     And I type "9" in the threshold when adding new rule in the "rules" page
@@ -106,3 +106,7 @@ Scenario: Delete a rule from rules page and verify it is not visible in single m
     And I search for "rules-test-machine-random"
     And I wait for 1 seconds
     And "rules-test-machine-random" machine should be absent within 210 seconds
+
+# Add rule on log that applies on cloud(from cloud page), type:observation AND action:_network (=1), alert with custom level and description
+
+# Add rule on log that applies on org, delete_key, trigger webhook

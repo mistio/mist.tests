@@ -220,7 +220,7 @@ def kill_docker_machine(context, machine_to_destroy):
             if response.json():
                 for machine in response.json():
                     if machine_to_destroy == machine['name']:
-                        log.info('Killing docker machine...')
+                        log.info('Killing docker machine %s ...' % str(machine['name']))
                         payload = {'action': 'destroy'}
                         uri = context.mist_config['MIST_URL'] + \
                                 '/api/v1/clouds/' + cloud['id'] + \
@@ -321,6 +321,7 @@ def after_feature(context, feature):
         kill_docker_machine(context, context.mist_config.get('monitored-machine-random'))
     if feature.name in ['Rules']:
         kill_docker_machine(context, context.mist_config.get('rules-test-machine-random'))
+        kill_docker_machine(context, context.mist_config.get('rules-test-machine-1-random'))
     if feature.name == 'Images-Networks':
         delete_ec2_network(context, context.mist_config.get('network_random'))
     #if feature.name == 'Production':

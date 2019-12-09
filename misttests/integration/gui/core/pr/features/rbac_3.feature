@@ -6,7 +6,7 @@ Feature: RBAC-rules-v3
     Given rbac members, organization and team are initialized
     Given I am logged in to mist
     Given cloud "Docker" has been added via API request
-    And script "touch_kati" is added via API request
+    And script "touch_kati" has been added via API request
 
   @add-member1
   Scenario: Add ALLOW-script-ALL
