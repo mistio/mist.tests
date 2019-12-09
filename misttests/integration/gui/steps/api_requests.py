@@ -88,7 +88,7 @@ def initialize_rbac_members(context):
     return
 
 
-@step(u'script "{script_name}" is added via API request')
+@step(u'script "{script_name}" has been added via API request')
 def create_script_api_request(context, script_name):
     script_data = {'location_type':'inline','exec_type':'executable', 'name': script_name}
     bash_script = """#!/bin/bash\ntouch /var/dummy_file
