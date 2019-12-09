@@ -68,21 +68,21 @@ Feature: Rules
     #And I should receive an email at the address "EMAIL" with subject "*** WARNING *** from : count of matching logs" within 150 seconds
     And I should receive an email at the address "EMAIL" with subject "[Mist.io] *** WARNING *** from rules-test-machine-random: RAM" within 180 seconds
 
-  @metric-rule-machine-page-destroy
+  @metric-rule-rules-page-destroy
   Scenario: Insert rule regarding metric from machine page. If triggered, destroy the machine
     When I visit the Rules page
     And I click the button "add new rule" in the "rules" page
     And I wait for 1 seconds
     And I select the "machine" apply-on when adding new rule in the "rules" page
     And I select the "all" resource-type when adding new rule in the "rules" page
-    And I select the "metric" target-type when adding new rule in the "machine" page
-    And I select the "Load" target when adding new rule in the "machine" page
-    And I select the "<" operator when adding new rule in the "machine" page
-    And I type "1" in the threshold when adding new rule in the "machine" page
-    And I select the "any" aggregation when adding new rule in the "machine" page
-    And I select the "destroy" action when adding new rule in the "machine" page
+    And I select the "metric" target-type when adding new rule in the "rules" page
+    And I select the "Load" target when adding new rule in the "rules" page
+    And I select the "<" operator when adding new rule in the "rules" page
+    And I type "1" in the threshold when adding new rule in the "rules" page
+    And I select the "any" aggregation when adding new rule in the "rules" page
+    And I select the "destroy" action when adding new rule in the "rules" page
     And I wait for 2 seconds
-    And I save the new rule in the "machine" page
+    And I save the new rule in the "rules" page
     And I visit the Machines page
     And I clear the search bar
     And I wait for 1 seconds
