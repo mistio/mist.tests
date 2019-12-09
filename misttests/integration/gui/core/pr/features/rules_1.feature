@@ -35,22 +35,22 @@ Feature: Rules
     And I wait for 2 seconds
     And I save the new rule in the "machine" page
 
-  @log-rule-rules-page-alert
-  Scenario: Insert rule regarding log from rules page. If triggered, alert
-    When I visit the Rules page
-    And I click the button "add new rule" in the "rules" page
-    And I wait for 1 seconds
-    And I select the "cloud" apply-on when adding new rule in the "rules" page
-    And I select the "all" resource-type when adding new rule in the "rules" page
-    And I select the "log" target-type when adding new rule in the "rules" page
-    And I type "type:request AND action:create_machine" in the target when adding new rule in the "rules" page
-    And I select the ">" operator when adding new rule in the "rules" page
-    And I type "0" in the threshold when adding new rule in the "rules" page
-    And I select the "alert" action when adding new rule in the "rules" page
-    And I select the "Owners" team when adding new rule in the "rules" page
-    And I wait for 1 seconds
-    And I save the new rule in the "rules" page
-    And I wait for 3 seconds
+  # @log-rule-rules-page-alert
+  # Scenario: Insert rule regarding log from rules page. If triggered, alert
+  #   When I visit the Rules page
+  #   And I click the button "add new rule" in the "rules" page
+  #   And I wait for 1 seconds
+  #   And I select the "cloud" apply-on when adding new rule in the "rules" page
+  #   And I select the "all" resource-type when adding new rule in the "rules" page
+  #   And I select the "log" target-type when adding new rule in the "rules" page
+  #   And I type "type:request AND action:create_machine" in the target when adding new rule in the "rules" page
+  #   And I select the ">" operator when adding new rule in the "rules" page
+  #   And I type "0" in the threshold when adding new rule in the "rules" page
+  #   And I select the "alert" action when adding new rule in the "rules" page
+  #   And I select the "Owners" team when adding new rule in the "rules" page
+  #   And I wait for 1 seconds
+  #   And I save the new rule in the "rules" page
+  #   And I wait for 3 seconds
 
   @incidents-triggered
   Scenario: Verify that incidents get triggered
@@ -65,8 +65,8 @@ Feature: Rules
     And I wait for 1 seconds
     And I search for "rules-test-machine-1-random"
     Then "rules-test-machine-1-random" machine should be present within 60 seconds
-    And I should receive an email at the address "EMAIL" with subject "*** WARNING *** from : count of matching logs" within 150 seconds
-    And I should receive an email at the address "EMAIL" with subject "[Mist.io] *** WARNING *** from rules-test-machine-random: RAM" within 120 seconds
+    #And I should receive an email at the address "EMAIL" with subject "*** WARNING *** from : count of matching logs" within 150 seconds
+    And I should receive an email at the address "EMAIL" with subject "[Mist.io] *** WARNING *** from rules-test-machine-random: RAM" within 180 seconds
 
   @metric-rule-machine-page-destroy
   Scenario: Insert rule regarding metric from machine page. If triggered, destroy the machine
