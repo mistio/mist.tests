@@ -28,7 +28,7 @@ Feature: Rules
     And I select the "machine" apply-on when adding new rule in the "rules" page
     And I select the "select" resource-type when adding new rule in the "rules" page
     And I select the "rules-test-machine-random" resource-id when adding new rule in the "rules" page
-    And I select the "metric" type when adding new rule in the "rules" page
+    And I select the "metric" target-type when adding new rule in the "rules" page
     And I select the "Load" target when adding new rule in the "rules" page
     And I select the "<" operator when adding new rule in the "rules" page
     And I type "1" in the threshold when adding new rule in the "rules" page
@@ -86,7 +86,7 @@ Feature: Rules
     And I select the "machine" apply-on when adding new rule in the "rules" page
     And I select the "tagged" resource-type when adding new rule in the "rules" page
     And I type "test=awesome" in the tags when adding new rule in the "rules" page
-    And I select the "metric" type when adding new rule in the "rules" page
+    And I select the "metric" target-type when adding new rule in the "rules" page
     And I select the "CPU" target when adding new rule in the "rules" page
     And I select the "<" operator when adding new rule in the "rules" page
     And I type "9" in the threshold when adding new rule in the "rules" page
