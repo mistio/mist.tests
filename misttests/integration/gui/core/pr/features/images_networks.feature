@@ -10,7 +10,7 @@ Feature: Images-Networks
     Given "Amazon Web Services" cloud has been added
     When I wait for 2 seconds
     And I visit the Images page
-    And I wait for 2 seconds
+    And I wait for 5 seconds
     And I search for "CentOS 6.9"
     Then "CentOS 6.9 x32" image should be present within 10 seconds
     And "CentOS 6.9 x64" image should be present within 10 seconds
