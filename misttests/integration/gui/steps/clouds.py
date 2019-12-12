@@ -392,7 +392,7 @@ def given_cloud(context, cloud):
     if 'docker_orchestrator' in cloud.lower():
         cloud_type = 'docker'
     elif 'aws advantis' in cloud.lower():
-        cloud_type = 'aws'
+        cloud_type = 'amazon web services'
     else:
         cloud_type = cloud
 

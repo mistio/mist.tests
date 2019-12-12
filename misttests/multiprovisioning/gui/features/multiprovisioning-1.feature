@@ -90,7 +90,7 @@ Feature: Multiprovisioning
     | cloud         | size                                                    | location         | image                                          | machine-name           |
     | Packet        | x1.small.x86 - 32GB RAM                                 | Marseille, France| Ubuntu 19.04                                   | packet-mp-test-random  |
     | AWS Advantis  | t2.nano - t2.nano                                       | us-west-2a       | Ubuntu Server 16.04 LTS (HVM), SSD Volume Type | ec2-mp-test-random     |
-    | GCE           | f1-micro (1 vCPU (shared physical core) and 0.6 GB RAM) | europe-west1-c   | ubuntu-1804-bionic-v20191113                   | gce-mp-test-random     |
+    | Google Cloud  | f1-micro (1 vCPU (shared physical core) and 0.6 GB RAM) | europe-west1-c   | ubuntu-1804-bionic-v20191113                   | gce-mp-test-random     |
 
   @mp-test-enable-monitoring-upon-machine-creation
   Scenario Outline: Create a machine in digital ocean providers, creating a file using cloud init and enabling monitoring
