@@ -94,7 +94,7 @@ Feature: Multiprovisioning
     | cloud         | size                                                    | location         | image                                          | machine-name           |
     | Packet        | t1.small.x86 - 8GB RAM                                  | Amsterdam, NL    | Ubuntu 19.04                                   | packet-mp-test-random  |
     | AWS Advantis  | t2.nano - t2.nano                                       | us-west-2a       | Ubuntu Server 16.04 LTS (HVM), SSD Volume Type | ec2-mp-test-random     |
-    | Google Cloud  | f1-micro (1 vCPU (shared physical core) and 0.6 GB RAM) | europe-west1-c   | ubuntu-1804-bionic-v20191113                   | gce-mp-test-random     |
+    | Google Cloud  | f1-micro (1 vCPU (shared physical core) and 0.6 GB RAM) | europe-west1-c   | ubuntu-1804-bionic-v20191211                   | gce-mp-test-random     |
 
   @mp-test-enable-monitoring-upon-machine-creation
   Scenario Outline: Create a machine in digital ocean providers, creating a file using cloud init and enabling monitoring
@@ -187,7 +187,7 @@ Feature: Multiprovisioning
     And I wait for 1 seconds
     And I clear the search bar
     And I search for "packet-mp-test-random"
-    Then "packet-mp-test-random" machine state has to be "running" within 900 seconds
+    Then "packet-mp-test-random" machine state has to be "running" within 1800 seconds
     # wait for probe
     And I wait for 300 seconds
     And I click the "packet-mp-test-random" "machine"
