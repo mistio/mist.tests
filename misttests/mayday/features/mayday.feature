@@ -42,14 +42,17 @@ Feature: Production
     And I scroll to the rules section in the "machine" page
     And I click the button "add new rule" in the "machine" page
     And I wait for 1 seconds
+    And I select the "metric" target-type when adding new rule in the "machine" page
     And I select the "Load" target when adding new rule in the "machine" page
     And I select the "<" operator when adding new rule in the "machine" page
     And I type "10" in the threshold when adding new rule in the "machine" page
+    And I select the "any" aggregation when adding new rule in the "machine" page
     And I select the "alert" action when adding new rule in the "machine" page
     And I select the "Owners" team when adding new rule in the "machine" page
     And I wait for 2 seconds
     And I save the new rule in the "machine" page
     And I wait for 10 seconds
+
 
   @reboot-shell
   Scenario: Production machine reboot and shell testing
