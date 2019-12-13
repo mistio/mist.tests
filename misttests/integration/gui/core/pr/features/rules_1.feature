@@ -66,7 +66,7 @@ Feature: Rules
     And I search for "rules-test-machine-1-random"
     Then "rules-test-machine-1-random" machine should be present within 60 seconds
     And I should receive an email at the address "EMAIL" with subject "[Mist.io] *** WARNING *** machine `rules-test-machine-random`: RAM" within 180 seconds
-    And I should receive an email at the address "EMAIL" with subject "*** WARNING *** from : count of matching logs" within 150 seconds
+    And I should receive an email at the address "EMAIL" with subject "[Mist.io] *** WARNING *** cloud `Docker`: count of matching logs" within 150 seconds
 
   @metric-rule-rules-page-destroy
   Scenario: Insert rule regarding metric from machine page. If triggered, destroy the machine
