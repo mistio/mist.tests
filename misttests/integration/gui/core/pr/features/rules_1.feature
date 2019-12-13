@@ -50,7 +50,7 @@ Feature: Rules
     And I select the "Owners" team when adding new rule in the "rules" page
     And I wait for 1 seconds
     And I save the new rule in the "rules" page
-    And I wait for 3 seconds
+    And I wait for 10 seconds
 
   @incidents-triggered
   Scenario: Verify that incidents get triggered
