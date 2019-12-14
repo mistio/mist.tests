@@ -47,6 +47,7 @@ Feature: Rules
     And I select the ">" operator when adding new rule in the "rules" page
     And I type "0" in the threshold when adding new rule in the "rules" page
     And I select the "alert" action when adding new rule in the "rules" page
+    And I select the "info" level when adding new rule in the "rules" page
     And I select the "Owners" team when adding new rule in the "rules" page
     And I wait for 1 seconds
     And I save the new rule in the "rules" page
@@ -66,7 +67,7 @@ Feature: Rules
     And I search for "rules-test-machine-1-random"
     Then "rules-test-machine-1-random" machine should be present within 60 seconds
     And I should receive an email at the address "EMAIL" with subject "[Mist.io] *** WARNING *** machine `rules-test-machine-random`: RAM" within 180 seconds
-    And I should receive an email at the address "EMAIL" with subject "[Mist.io] *** WARNING *** cloud `Docker`: count of matching logs" within 150 seconds
+    And I should receive an email at the address "EMAIL" with subject "[Mist.io] *** INFO *** cloud `Docker`: count of matching logs" within 150 seconds
 
   @metric-rule-rules-page-destroy
   Scenario: Insert rule regarding metric from machine page. If triggered, destroy the machine
