@@ -52,14 +52,14 @@ Feature: Multiprovisioning
 
   @azure-arm-cloud-init
   Scenario: Create a machine in Azure arm provider with new resource group, storage account, network and cloud init
-    Given "Azure ARM" cloud has been added
+    Given "Microsoft Azure" cloud has been added
     And I wait for 40 seconds
     When I visit the Machines page
     And I click the button "+"
     Then I expect the "Machine" add form to be visible within max 10 seconds
     When I open the "Select Cloud" dropdown in the "machine" add form
     And I wait for 1 seconds
-    And I click the "Azure ARM" button in the "Select Cloud" dropdown in the "machine" add form
+    And I click the "Microsoft Azure" button in the "Select Cloud" dropdown in the "machine" add form
     Then I expect the field "Machine name" in the machine add form to be visible within max 4 seconds
     Then I set the value "arm-mp-test-random" to field "Machine Name" in the "machine" add form
     When I open the "Image" dropdown in the "machine" add form
