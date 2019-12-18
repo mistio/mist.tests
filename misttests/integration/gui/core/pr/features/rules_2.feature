@@ -107,6 +107,21 @@ Feature: Rules
     And I wait for 1 seconds
     And "rules-test-machine-random" machine should be absent within 210 seconds
 
-# Add rule on log that applies on cloud(from cloud page), type:observation AND action:_network (=1), alert with custom level and description
+  @log-rule-rules-page-webhook
+  Scenario: Add rule from rules section that applies on organization. If triggered, send a webhook to slack
+    When I visit the Rules page
+    And I click the button "add new rule" in the "rules" page
+    And I wait for 1 seconds
+    And I select the "organization" apply-on when adding new rule in the "rules" page
+    And I type "type:request AND action:add_key" in the target when adding new rule in the "rules" page
+    And I select the ">" operator when adding new rule in the "rules" page
+    And I type "0" in the threshold when adding new rule in the "rules" page
+    And I select the "webhook" action when adding new rule in the "rules" page
+    And I type "SLACK_WEBHOOK_URL" in the webhook-url when adding new rule in the "rules" page
+    And I type "{"Content-type" : "application/json"}" in the http-headers when adding new rule in the "rules" page
+    And I type "{"text": "Incident triggered. Someone created a key!"}" in the json-body when adding new rule in the "rules" page
+    And I save the new rule in the "rules" page
+    And I wait for 30 seconds
+    And key "random" has been generated and added via API request'
 
-# Add rule on log that applies on org, delete_key, trigger webhook
+# verify webhook triggered

@@ -235,14 +235,20 @@ def select_option_when_adding_rule(context, option, dropdown, resource_type):
 
 @step(u'I type "{value}" in the {input_class} when adding new rule in the "{page}" page')
 def set_new_rule_threshold(context, value, page, input_class):
+    if context.mist_config.get(value):
+        value = context.mist_config.get(value)
     page_element = get_page(context, page)
     page_shadow = expand_shadow_root(context, page_element)
     mist_rules = page_shadow.find_element_by_css_selector('mist-rules')
     mist_rules_shadow = expand_shadow_root(context, mist_rules)
     new_rule = mist_rules_shadow.find_element_by_css_selector('paper-material#add-new-rule-dialog > rule-edit')
     new_rule_shadow = expand_shadow_root(context, new_rule)
-    paper_input = new_rule_shadow.find_element_by_css_selector('paper-input.%s' % input_class)
-    expand_shadow_root(context, paper_input).find_element_by_css_selector('input').send_keys(value)
+    try:
+        paper_input = new_rule_shadow.find_element_by_css_selector('paper-input.%s' % input_class)
+        expand_shadow_root(context, paper_input).find_element_by_css_selector('input').send_keys(value)
+    except NoSuchElementException:
+        paper_input = new_rule_shadow.find_element_by_css_selector('paper-textarea.%s' % input_class)
+        paper_input.send_keys(value)
 
 
 @step(u'I save the new rule in the "{page}" page')
