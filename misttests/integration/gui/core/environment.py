@@ -86,6 +86,8 @@ def before_all(context):
     context.mist_config['CC_EXPIRE_YEAR'] = config.CC_EXPIRE_YEAR
     context.mist_config['CC_ZIP_CODE'] = config.CC_ZIP_CODE
     context.mist_config['SLACK_WEBHOOK_URL'] = config.SLACK_WEBHOOK_URL
+    context.mist_config['SLACK_WEBHOOK_CHANNEL'] = config.SLACK_WEBHOOK_CHANNEL
+    context.mist_config['SLACK_WEBHOOK_TOKEN'] = config.SLACK_WEBHOOK_TOKEN
     context.link_inside_email = ''
     context.mist_config['ORG_ID'] = ''
     context.mist_config['PRODUCE_VIDEO_SCREENCAST_ON_ERROR'] = config.PRODUCE_VIDEO_SCREENCAST_ON_ERROR

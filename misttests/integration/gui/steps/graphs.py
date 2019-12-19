@@ -1,3 +1,6 @@
+import re
+import requests
+
 from behave import step
 
 from time import time
@@ -18,8 +21,6 @@ from selenium.webdriver import ActionChains
 
 from selenium.common.exceptions import TimeoutException
 from selenium.common.exceptions import NoSuchElementException, StaleElementReferenceException
-
-import re
 
 
 @step(u'I wait for the monitoring graphs to appear in the "{page}" page')
@@ -249,6 +250,31 @@ def set_new_rule_threshold(context, value, page, input_class):
     except NoSuchElementException:
         paper_input = new_rule_shadow.find_element_by_css_selector('paper-textarea.%s' % input_class)
         paper_input.send_keys(value)
+
+
+@step(u'a new webhook alert should have been posted in slack channel "{channel}" within {seconds} seconds')
+def check_slack_webhook(context, channel, seconds):
+    if context.mist_config.get(channel):
+        channel = context.mist_config.get(channel)
+
+    params={"token": context.mist_config.get('SLACK_WEBHOOK_TOKEN'),
+            "channel": channel
+    }
+
+    resp = requests.get('https://slack.com/api/conversations.history', params=params)
+    assert resp.status_code == 200, "Couldn't connect to Slack api. Response" \
+        "status code was %s" % resp.status_code
+
+    current_msg_len = len(resp.json()['messages'])
+
+    timeout = time() + int(seconds)
+    while time() < timeout:
+        resp = requests.get('https://slack.com/api/conversations.history', params=params)
+        if len(resp.json()['messages']) == current_msg_len + 1:
+            return True
+        else:
+            sleep(10)
+    assert False, "Slack webhook alert has not arrived after %s seconds" % seconds
 
 
 @step(u'I save the new rule in the "{page}" page')
