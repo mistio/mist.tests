@@ -106,31 +106,3 @@ Feature: Rules
     And I search for "rules-test-machine-random"
     And I wait for 1 seconds
     And "rules-test-machine-random" machine should be absent within 210 seconds
-
-  @log-rule-on-org-webhook
-  Scenario: Add rule from rules section that applies on organization. If triggered, send a webhook to slack
-    When I visit the Rules page
-    And I click the button "add new rule" in the "rules" page
-    And I wait for 1 seconds
-    And I select the "organization" apply-on when adding new rule in the "rules" page
-    And I type "type:request AND action:add_key" in the target when adding new rule in the "rules" page
-    And I select the ">" operator when adding new rule in the "rules" page
-    And I type "0" in the threshold when adding new rule in the "rules" page
-    And I select the "webhook" action when adding new rule in the "rules" page
-    And I type "SLACK_WEBHOOK_URL" in the webhook-url when adding new rule in the "rules" page
-    And I type "{"Content-type" : "application/json"}" in the http-headers when adding new rule in the "rules" page
-    And I type "{"text": "Incident triggered. Someone created a key!"}" in the json-body when adding new rule in the "rules" page
-    And I save the new rule in the "rules" page
-    When I visit the Keys page
-    When I click the button "+"
-    Then I expect the "Key" add form to be visible within max 10 seconds
-    When I set the value "TestKey" to field "Name" in the "key" add form
-    And I focus on the button "Generate" in the "key" add form
-    And I click the button "Generate" in the "key" add form
-    Then I expect for the button "Add" in the "key" add form to be clickable within 22 seconds
-    When I focus on the button "Add" in the "key" add form
-    And I click the button "Add" in the "key" add form
-    Then I expect the "key" page to be visible within max 10 seconds
-    When I visit the Keys page
-    Then "TestKey" key should be present within 15 seconds
-    And a new webhook alert should have been posted in slack channel "SLACK_WEBHOOK_CHANNEL" within 90 seconds
