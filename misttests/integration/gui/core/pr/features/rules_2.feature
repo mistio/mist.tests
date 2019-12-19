@@ -106,7 +106,3 @@ Feature: Rules
     And I search for "rules-test-machine-random"
     And I wait for 1 seconds
     And "rules-test-machine-random" machine should be absent within 210 seconds
-
-# Add rule on log that applies on cloud(from cloud page), type:observation AND action:_network (=1), alert with custom level and description
-
-# Add rule on log that applies on org, delete_key, trigger webhook
