@@ -6,6 +6,7 @@ Feature: Rules
     Given I am logged in to mist
     And cloud "Docker" has been added via API request
     And I have given card details if needed
+    And key "Key1" has been added via API request
     When I visit the Rules page
     And I click the button "add new rule" in the "rules" page
     And I wait for 1 seconds
