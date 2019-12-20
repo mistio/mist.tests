@@ -75,7 +75,7 @@ Feature: Rules
     And I click the button "add new rule" in the "machine" page
     And I wait for 1 seconds
     And I select the "log" target-type when adding new rule in the "machine" page
-    And I type "action:stop_machine" in the target when adding new rule in the "machine" page
+    And I type "type:request AND action:stop_machine" in the target when adding new rule in the "machine" page
     And I select the "=" operator when adding new rule in the "machine" page
     And I type "1" in the threshold when adding new rule in the "machine" page
     And I select the "alert" action when adding new rule in the "machine" page
