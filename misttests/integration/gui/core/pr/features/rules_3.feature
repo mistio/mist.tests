@@ -1,7 +1,7 @@
 @rules-3
 Feature: Rules
 
-@log-rule-on-org-webhook
+  @log-rule-on-org-webhook
   Scenario: Add rule from rules section that applies on organization. If triggered, send a webhook to slack
     Given I am logged in to mist
     And cloud "Docker" has been added via API request
@@ -33,7 +33,7 @@ Feature: Rules
     Then "TestKey" key should be present within 15 seconds
     And a new webhook alert should have been posted in slack channel "SLACK_WEBHOOK_CHANNEL" within 90 seconds
 
-@log-rule-rules-page-alert
+  @log-rule-rules-page-alert
   Scenario: Insert rule regarding log from rules page. If triggered, alert
     When I visit the Rules page
     And I click the button "add new rule" in the "rules" page
@@ -51,7 +51,7 @@ Feature: Rules
     And I save the new rule in the "rules" page
     And I wait for 30 seconds
 
-@incident-triggered
+  @incident-triggered
   Scenario: Verify that incident gets triggered
     Given Docker machine "rules-test-machine-1-random" has been added via API request
     When I visit the Home page
@@ -65,3 +65,28 @@ Feature: Rules
     And I search for "rules-test-machine-1-random"
     Then "rules-test-machine-1-random" machine should be present within 60 seconds
     And I should receive an email at the address "EMAIL" with subject "[Mist.io] *** INFO *** cloud `Docker`: count of matching logs" within 180 seconds
+
+  @log-rule-machine-page-alert
+  Scenario: Insert rule regarding log from machine page. If triggered, alert
+    When I scroll to the rules section in the "machine" page
+    And I wait for 1 seconds
+    And I click the button "add new rule" in the "machine" page
+    And I wait for 1 seconds
+    And I select the "log" target-type when adding new rule in the "rules" page
+    And I type "action:stop_machine" in the target when adding new rule in the "rules" page
+    And I select the "=" operator when adding new rule in the "rules" page
+    And I type "1" in the threshold when adding new rule in the "rules" page
+    And I select the "alert" action when adding new rule in the "rules" page
+    And I select the "info" alert-level when adding new rule in the "rules" page
+    And I select the "Owners" team when adding new rule in the "rules" page
+    And I wait for 2 seconds
+    And I save the new rule in the "machine" page
+    And I wait for 30 seconds
+
+  @incident-triggered
+  Scenario: Verify that incident gets triggered
+    When I scroll to the top of the page
+    And I click the "Stop" action button in the "machine" page
+    Then I expect the "Stop Machine" dialog to be open within 4 seconds
+    When I click the "Stop" button in the "Stop Machine" dialog
+    Then I should receive an email at the address "EMAIL" with subject "[Mist.io] *** INFO *** machine `rules-test-machine-1-random`: count of matching logs" within 180 seconds
