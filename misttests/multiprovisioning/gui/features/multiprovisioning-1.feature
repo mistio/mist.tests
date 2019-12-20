@@ -187,7 +187,7 @@ Feature: Multiprovisioning
     And I wait for 1 seconds
     And I clear the search bar
     And I search for "packet-mp-test-random"
-    Then "packet-mp-test-random" machine state has to be "running" within 1800 seconds
+    Then "packet-mp-test-random" machine state has to be "running" within 2700 seconds
     # wait for probe
     And I wait for 300 seconds
     And I click the "packet-mp-test-random" "machine"

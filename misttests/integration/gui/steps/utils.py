@@ -188,15 +188,15 @@ def become_visible_waiting_with_timeout(context, element_id, seconds):
 def check_page_is_visible(context, page_title, seconds):
     page = page_title.lower()
     if page not in ['machines', 'images', 'keys', 'networks', 'tunnels',
-                    'scripts', 'schedules', 'templates', 'stacks', 'insights', 'teams',
-                    'zones', 'rules']:
+                    'scripts', 'schedules', 'templates', 'stacks', 'insights',
+                    'teams', 'zones', 'rules', 'volumes']:
         raise ValueError('The page given is unknown')
     mist_app = context.browser.find_element_by_tag_name('mist-app')
     mist_app_shadow = expand_shadow_root(context, mist_app)
     page_css_selector = 'iron-pages > page-%s' % page
     page_element = mist_app_shadow.find_element_by_css_selector(page_css_selector)
     if page in ['machines', 'images', 'teams','keys', 'networks',
-                'scripts', 'schedules', 'templates', 'stacks', 'zones']:
+                'scripts', 'schedules', 'templates', 'stacks', 'zones', 'volumes']:
         container = expand_shadow_root(context, page_element)
         # Retry a few times because the shadow root won't always get expanded right away
         timeout = 5
