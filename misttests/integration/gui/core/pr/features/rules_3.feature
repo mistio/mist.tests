@@ -68,7 +68,9 @@ Feature: Rules
 
   @log-rule-machine-page-alert
   Scenario: Insert rule regarding log from machine page. If triggered, alert
-    When I scroll to the rules section in the "machine" page
+    When I click the "rules-test-machine-1-random" "machine"
+    And I wait for 2 seconds
+    And I scroll to the rules section in the "machine" page
     And I wait for 1 seconds
     And I click the button "add new rule" in the "machine" page
     And I wait for 1 seconds
