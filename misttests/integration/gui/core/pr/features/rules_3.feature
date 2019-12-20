@@ -74,13 +74,13 @@ Feature: Rules
     And I wait for 1 seconds
     And I click the button "add new rule" in the "machine" page
     And I wait for 1 seconds
-    And I select the "log" target-type when adding new rule in the "rules" page
-    And I type "action:stop_machine" in the target when adding new rule in the "rules" page
-    And I select the "=" operator when adding new rule in the "rules" page
-    And I type "1" in the threshold when adding new rule in the "rules" page
-    And I select the "alert" action when adding new rule in the "rules" page
-    And I select the "info" alert-level when adding new rule in the "rules" page
-    And I select the "Owners" team when adding new rule in the "rules" page
+    And I select the "log" target-type when adding new rule in the "machine" page
+    And I type "action:stop_machine" in the target when adding new rule in the "machine" page
+    And I select the "=" operator when adding new rule in the "machine" page
+    And I type "1" in the threshold when adding new rule in the "machine" page
+    And I select the "alert" action when adding new rule in the "machine" page
+    And I select the "info" alert-level when adding new rule in the "machine" page
+    And I select the "Owners" team when adding new rule in the "machine" page
     And I wait for 2 seconds
     And I save the new rule in the "machine" page
     And I wait for 30 seconds
