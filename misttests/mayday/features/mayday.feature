@@ -109,20 +109,20 @@ Feature: Production
   Scenario: Confirm that alert email arrived
     Then I should receive an email within 200 seconds
     And I visit the Home page
-    And I wait for 30 seconds
+    And I wait for 20 seconds
 
   @logs
   Scenario: Verify that when user logs in, a new log entry is visible in the dashboard
     Given I am logged in to mist
     And I wait for the navigation menu to appear
     And I wait for 4 seconds
-    Then I should see a(n) "session" log entry of action "connect" added "a few seconds ago" in the "dashboard" page within 20 seconds
+    Then I should see a(n) "shell" log entry of action "close" added "a few seconds ago" in the "dashboard" page within 20 seconds
 
   @incidents
   Scenario: Verify that incident gets triggered
     Given I am logged in to mist
     And I wait for the navigation menu to appear
-    Then I should see the incident "Load < 10"
+    Then I should see the incident "Load < 1"
 
   @confirm_schedule-triggered
   Scenario: Verify that schedule got triggered
