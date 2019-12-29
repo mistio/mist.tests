@@ -76,7 +76,7 @@ Feature: Production
     Then up 0 min should be included in the output
     And I close the terminal
     And I wait for 1 seconds
-    And I logout
+    #And I logout
 
   @github_sso_signin
   Scenario: Sign in testing with github
@@ -108,6 +108,7 @@ Feature: Production
   @confirm_alert_email
   Scenario: Confirm that alert email arrived
     Then I should receive an email within 200 seconds
+    And I visit the Home page
     And I wait for 30 seconds
 
   @logs
