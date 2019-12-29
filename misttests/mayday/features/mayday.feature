@@ -122,7 +122,7 @@ Feature: Production
   Scenario: Verify that incident gets triggered
     Given I am logged in to mist
     And I wait for the navigation menu to appear
-    Then I should see the incident "Load < 1"
+    Then I should see the incident "Load < 1 for any value"
 
   @confirm_schedule-triggered
   Scenario: Verify that schedule got triggered
