@@ -15,7 +15,7 @@ def get_add_form(context, title):
     title = title.lower()
     if title not in ['cloud', 'machine', 'image', 'key', 'network', 'tunnel',
                      'script', 'schedule', 'template', 'stack', 'team',
-                     'members', 'zone', 'record']:
+                     'members', 'zone', 'record', 'volume']:
         raise ValueError('The title given is unknown')
     if title == 'members':
         page_element = get_page_element(context, 'teams')
@@ -24,7 +24,7 @@ def get_add_form(context, title):
     else:
         page_element = get_page_element(context, title + 's')
     page_shadow = expand_shadow_root(context, page_element)
-    if title in ['stack', 'machine', 'network', 'record']:
+    if title in ['stack', 'machine', 'network', 'record', 'volume']:
         add_form_selector = '%s-create' % title
     else:
         add_form_selector = '%s-add' % title
@@ -40,7 +40,7 @@ def get_edit_form(context, title):
         if title == 'policy':
             page_teams_element = get_page_element(context, 'teams')
             page_teams_shadow = expand_shadow_root(context, page_teams_element)
-            return expand_shadow_root(context, page_teams_shadow.find_element_by_css_selector('team-page')) #.find_element_by_css_selector'team-policy')
+            return expand_shadow_root(context, page_teams_shadow.find_element_by_css_selector('team-page'))
             # return context.browser.find_element_by_tag_name('team-policy')
         page_shadow = expand_shadow_root(context, get_page_element(context, title + 's'))
         return page_shadow
