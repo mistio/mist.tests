@@ -51,7 +51,8 @@ def click_button_within_popup_with_id(context, text, popup_id):
 def click_button_within_popup(context, text, popup):
     popups = context.browser.find_elements_by_class_name("ui-popup-active")
     for pop in popups:
-        title = safe_get_element_text(pop.find_element_by_class_name('ui-title'))
+        title = safe_get_element_text(
+            pop.find_element_by_class_name('ui-title'))
         if popup.lower() in title.lower():
             if text == '_x_':
                 buttons = pop.find_elements_by_class_name("close")

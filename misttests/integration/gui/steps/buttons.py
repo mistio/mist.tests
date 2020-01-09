@@ -264,7 +264,8 @@ def click_action_of_list(context, button_text, resource_type):
 @step(u'I click the "{text}" "{resource_type}"')
 def click_item(context, text, resource_type):
     resource_type = resource_type.lower()
-    if resource_type not in ['machine', 'key', 'script', 'network', 'team', 'template', 'stack', 'image', 'schedule', 'zone']:
+    if resource_type not in ['machine', 'key', 'script', 'network', 'team', 'template',
+                             'stack', 'image', 'schedule', 'zone', 'volume']:
         raise Exception('Unknown type of button')
     if context.mist_config.get(text):
         text = context.mist_config[text]
@@ -275,7 +276,8 @@ def click_item(context, text, resource_type):
     list_shadow = expand_shadow_root(context, mist_list)
     items = list_shadow.find_elements_by_css_selector('strong.name')
     for item in items:
-        if resource_type in ['machine', 'image', 'team', 'key', 'script', 'network', 'template', 'stack', 'schedule', 'zone']:
+        if resource_type in ['machine', 'image', 'team', 'key', 'script', 'volume',
+                             'network', 'template', 'stack', 'schedule', 'zone']:
             name = safe_get_element_text(item).strip().lower()
             if text == name:
                 clicketi_click(context, item)

@@ -140,7 +140,8 @@ def go_to_some_page_without_waiting(context, title):
     title = title.lower()
     if title not in ['machines', 'images', 'keys', 'networks', 'tunnels',
                      'scripts', 'schedules', 'templates', 'stacks', 'teams',
-                     'account', 'insights', 'home', 'zones', 'rules', 'signup']:
+                     'account', 'insights', 'home', 'zones', 'rules', 'volumes',
+                     'signup']:
         raise ValueError('The page given is unknown')
     if title.lower() == 'home':
         context.execute_steps(u'When I click the mist logo')
