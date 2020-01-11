@@ -19,6 +19,7 @@ Feature: Rules
     And I type "{"Content-type" : "application/json"}" in the http-headers when adding new rule in the "rules" page
     And I type "{"text": "Incident triggered. Someone created a key!"}" in the json-body when adding new rule in the "rules" page
     And I save the new rule in the "rules" page
+    And I wait for 10 seconds
     When I visit the Keys page
     When I click the button "+"
     Then I expect the "Key" add form to be visible within max 10 seconds
