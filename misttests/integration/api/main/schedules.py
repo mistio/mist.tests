@@ -134,7 +134,7 @@ class TestSchedulesFunctionality:
         assert_response_ok(response)
         cache.set('docker_id', response.json()['id'])
 
-        response = mist_core.list_images(cloud_id=cache.get('docker_id', ''), api_token=owner_api_token).post()
+        response = mist_core.list_images(cloud_id=cache.get('docker_id', ''), api_token=owner_api_token).get()
         assert_response_ok(response)
         for image in response.json():
             if 'Ubuntu 14.04' in image['name']:
