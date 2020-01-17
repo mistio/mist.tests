@@ -25,6 +25,8 @@ Feature: Images-Networks
     Then I expect the "image" page to be visible within max 5 seconds
     When I click the "Unstar" action button in the "image" page
     And  I visit the Home page
+    And I refresh the page
+    Then I wait for the navigation menu to appear
     And I wait for 2 seconds
     And I visit the Images page
     And I wait for 2 seconds
