@@ -24,7 +24,7 @@ def assert_starred_unstarred_image(context, image, state, seconds):
     grid = list_shadow.find_element_by_css_selector('vaadin-grid')
     end_time = time() + int(seconds)
     while time() < end_time:
-        starred = get_grid_items(context, grid)[0]['star']
+        starred = get_grid_items(context, grid)[0]['starred']
         if state == 'starred':
             assert starred, "Image is not starred"
         else:
