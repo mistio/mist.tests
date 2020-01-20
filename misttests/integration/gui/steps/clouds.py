@@ -246,6 +246,12 @@ def set_second_packet_creds(context):
                           u'"cloud" edit form' % api_key)
 
 
+def set_maxihost_creds(context):
+    api_key = safe_get_var('clouds/maxihost', 'api_token', context.mist_config['CREDENTIALS']['MAXIHOST']['api_token'])
+    context.execute_steps(u'Then I set the value "%s" to field "API Key" in '
+                          u'"cloud" edit form' % api_key)
+
+
 def set_second_openstack_creds(context):
     context.execute_steps(u'''
                 Then I set the value "%s" to field "Username" in the "cloud" edit form
@@ -287,6 +293,7 @@ cloud_creds_dict = {
     "onapp": set_onapp_creds,
     "alibaba cloud": set_aliyun_creds,
     "aws advantis": set_aws_adv_creds,
+    "maxihost": set_maxihost_creds,
 }
 
 
