@@ -234,7 +234,7 @@ def set_onapp_creds(context):
                 Then I set the value "%s" to field "Username" in the "cloud" add form
                 Then I set the value "%s" to field "Password" in the "cloud" add form
                 Then I set the value "%s" to field "Host" in the "cloud" add form
-                And I click the "Verify SSL certificate" button with id "verify"
+                And I click the "Verify SSL certificate" button with id "app-form--verify"
             ''' % (safe_get_var('clouds/onapp', 'username', context.mist_config['CREDENTIALS']['ONAPP']['username']),
                    safe_get_var('clouds/onapp', 'password', context.mist_config['CREDENTIALS']['ONAPP']['password']),
                    safe_get_var('clouds/onapp', 'host', context.mist_config['CREDENTIALS']['ONAPP']['host']),))
