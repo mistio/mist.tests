@@ -23,6 +23,7 @@ Feature: Add second-tier clouds
     Examples: Providers
     | provider            |
     | IBM Cloud           |
+    | Maxihost            |
     | Amazon Web Services |
 
   @cloud-edit-creds
