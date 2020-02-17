@@ -265,12 +265,12 @@ def check_slack_webhook(context, channel, seconds):
     assert resp.status_code == 200, "Couldn't connect to Slack api. Response" \
         "status code was %s" % resp.status_code
 
-    current_msg_len = len(resp.json()['messages'])
+    current_msgs = resp.json()['messages']
 
     timeout = time() + int(seconds)
     while time() < timeout:
         resp = requests.get('https://slack.com/api/conversations.history', params=params)
-        if len(resp.json()['messages']) == current_msg_len + 1:
+        if resp.json()['messages'] == current_msgs:
             return True
         else:
             sleep(10)
