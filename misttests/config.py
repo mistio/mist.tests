@@ -260,7 +260,8 @@ DEFAULT_CREDENTIALS = {'AWS': {'api_key': '', 'api_secret': '', 'region': '', 'r
                        'VULTR': {'apikey': ''},
                        'ALIYUN': {'api_key': '', 'api_secret': ''},
                        'DOCKER_MONITORING':{'host': '', 'port': ''},
-                       'ONAPP':{'username':'', 'password':'', 'host':'', 'verify_ssl': False}
+                       'ONAPP':{'username':'', 'password':'', 'host':'', 'verify_ssl': False},
+                       'MAXIHOST': {'api_token': ''}
                        }
 
 CREDENTIALS = get_setting("CREDENTIALS", DEFAULT_CREDENTIALS)

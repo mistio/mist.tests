@@ -24,6 +24,7 @@ Feature: Add second-tier clouds
     | provider            |
     | IBM Cloud           |
     | OnApp               |
+    | Maxihost            |
     | Amazon Web Services |
 
   @cloud-edit-creds
