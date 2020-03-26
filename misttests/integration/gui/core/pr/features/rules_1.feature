@@ -37,7 +37,7 @@ Feature: Rules
 
   @incidents-triggered
   Scenario: Verify that incidents get triggered
-    Then I should receive an email at the address "EMAIL" with subject "[Mist.io] *** WARNING *** machine `rules-test-machine-random`: RAM" within 180 seconds
+    Then I should receive an email at the address "EMAIL" with subject "[Mist] *** WARNING *** machine `rules-test-machine-random`: RAM" within 180 seconds
 
   @metric-rule-rules-page-destroy
   Scenario: Insert rule regarding metric from machine page. If triggered, destroy the machine
