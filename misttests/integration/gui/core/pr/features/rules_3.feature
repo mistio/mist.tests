@@ -65,7 +65,7 @@ Feature: Rules
     And I wait for 1 seconds
     And I search for "rules-test-machine-1-random"
     Then "rules-test-machine-1-random" machine should be present within 60 seconds
-    And I should receive an email at the address "EMAIL" with subject "[Mist.io] *** INFO *** cloud `Docker`: count of matching logs" within 180 seconds
+    And I should receive an email at the address "EMAIL" with subject "[Mist] *** INFO *** cloud `Docker`: count of matching logs" within 180 seconds
 
   @log-rule-machine-page-alert
   Scenario: Insert rule regarding log from machine page. If triggered, alert
@@ -92,4 +92,4 @@ Feature: Rules
     And I click the "Stop" action button in the "machine" page
     Then I expect the "Stop Machine" dialog to be open within 4 seconds
     When I click the "Stop" button in the "Stop Machine" dialog
-    Then I should receive an email at the address "EMAIL" with subject "[Mist.io] *** INFO *** machine `rules-test-machine-1-random`: count of matching logs" within 180 seconds
+    Then I should receive an email at the address "EMAIL" with subject "[Mist] *** INFO *** machine `rules-test-machine-1-random`: count of matching logs" within 180 seconds

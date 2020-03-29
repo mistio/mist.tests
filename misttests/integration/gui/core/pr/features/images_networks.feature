@@ -14,9 +14,9 @@ Feature: Images-Networks
     And I search for "CentOS 6.9"
     Then "CentOS 6.9 x32" image should be present within 10 seconds
     And "CentOS 6.9 x64" image should be present within 10 seconds
-    And "Debian 9.7 x64" image should be absent within 10 seconds
+    And "Debian 9.12 x64" image should be absent within 10 seconds
     When I clear the search bar
-    Then "Debian 9.7 x64" image should be present within 5 seconds
+    Then "Debian 9.12 x64" image should be present within 5 seconds
 
   @image-unstar
   Scenario: Unstar image

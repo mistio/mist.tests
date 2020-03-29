@@ -41,7 +41,8 @@ def get_list_item(context, resource_type, name):
     try:
         items = get_list_items(context, resource_type)
         for item in items:
-            if item and item[primary_field].strip().lower() == item_name:
+            if item and isinstance(item, dict) and \
+                    item.get(primary_field).strip().lower() == item_name:
                 return item
     except (NoSuchElementException, StaleElementReferenceException):
         pass

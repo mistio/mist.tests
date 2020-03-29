@@ -234,7 +234,7 @@ def set_onapp_creds(context):
                 Then I set the value "%s" to field "Username" in the "cloud" add form
                 Then I set the value "%s" to field "Password" in the "cloud" add form
                 Then I set the value "%s" to field "Host" in the "cloud" add form
-                And I click the "Verify SSL certificate" button with id "verify"
+                And I click the "Verify SSL certificate" toggle button in the "cloud" add form
             ''' % (safe_get_var('clouds/onapp', 'username', context.mist_config['CREDENTIALS']['ONAPP']['username']),
                    safe_get_var('clouds/onapp', 'password', context.mist_config['CREDENTIALS']['ONAPP']['password']),
                    safe_get_var('clouds/onapp', 'host', context.mist_config['CREDENTIALS']['ONAPP']['host']),))
@@ -244,6 +244,13 @@ def set_second_packet_creds(context):
     api_key = safe_get_var('clouds/packet_2', 'api_key', context.mist_config['CREDENTIALS']['PACKET_2']['api_key'])
     context.execute_steps(u'Then I set the value "%s" to field "API Key" in '
                           u'"cloud" edit form' % api_key)
+
+
+def set_maxihost_creds(context):
+    api_key = safe_get_var('clouds/maxihost', 'api_token', context.mist_config['CREDENTIALS']['MAXIHOST']['api_token'])
+    context.execute_steps(u'''
+                Then I set the value "%s" to field "API token" in the "cloud" add form
+            ''' % api_key)
 
 
 def set_second_openstack_creds(context):
@@ -287,6 +294,7 @@ cloud_creds_dict = {
     "onapp": set_onapp_creds,
     "alibaba cloud": set_aliyun_creds,
     "aws advantis": set_aws_adv_creds,
+    "maxihost": set_maxihost_creds,
 }
 
 
