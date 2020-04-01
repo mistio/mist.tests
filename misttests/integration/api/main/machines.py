@@ -158,7 +158,7 @@ class TestMachinesFunctionality:
         print "Success!!!"
 
     def test_create_machine(self, pretty_print, mist_core, cache, owner_api_token):
-        response = mist_core.list_images(cloud_id=cache.get('cloud_id', ''), api_token=owner_api_token).post()
+        response = mist_core.list_images(cloud_id=cache.get('cloud_id', ''), api_token=owner_api_token).get()
         assert_response_ok(response)
         for image in response.json():
             if 'Ubuntu 14.04' in image['name']:
