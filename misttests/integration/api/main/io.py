@@ -458,12 +458,12 @@ class MistIoApi(object):
         return req
 
     def add_schedule(self, api_token, name, schedule_type,
-                     conditions, schedule_entry='',
+                     selectors, schedule_entry='',
                      description='', task_enabled=True, expires='',
                      script_id='', action='',
                      max_run_count='', run_immediately=False):
         data = {
-            'conditions': conditions,
+            'selectors': selectors,
             'name': name,
             'description': description,
             'schedule_type': schedule_type,
