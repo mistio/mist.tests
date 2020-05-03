@@ -192,7 +192,7 @@ def set_azure_arm_creds(context):
 def set_kvm_creds(context):
     context.execute_steps(u'''
                     Then I set the value "KVM" to field "Title" in the "cloud" add form
-                    Then I set the value "%s" to field "KVM hostname" in the "cloud" add form
+                    Then I set the value "%s" to field "KVM hostname or IP" in the "cloud" add form
                     And I wait for 1 seconds
                     And I open the "SSH Key" dropdown in the "cloud" add form
                     And I wait for 2 seconds
