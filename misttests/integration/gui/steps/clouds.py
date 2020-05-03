@@ -287,7 +287,7 @@ cloud_creds_dict = {
     "hostvirtual": set_hostvirtual_creds,
     "vultr": set_vultr_creds,
     "microsoft azure": set_azure_arm_creds,
-    "kvm (via libvirt)": set_kvm_creds,
+    "kvm": set_kvm_creds,
     "other server": set_other_server_creds,
     "vmware": set_vmware_creds,
     "docker_orchestrator": set_docker_orchestrator_creds,
