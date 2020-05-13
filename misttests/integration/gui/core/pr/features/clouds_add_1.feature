@@ -22,7 +22,7 @@ Feature: Add second-tier clouds
     | provider       |
     | Alibaba Cloud  |
     | Microsoft Azure|
-#    | Vultr         |
+    | Vultr         |
 #    | AWS            |
 #    | Packet	     |
 #    | Vmware         |
