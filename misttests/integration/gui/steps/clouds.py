@@ -160,8 +160,7 @@ def set_hostvirtual_creds(context):
 
 def set_vultr_creds(context):
     api_key = safe_get_var('clouds/vultr', 'apikey', context.mist_config['CREDENTIALS']['VULTR']['apikey'])
-    context.execute_steps(u'Then I set the value "%s" to field "API Key" in '
-                          u'"cloud" add form' % api_key)
+    context.execute_steps(u'Then I set the value "%s" to field "API Key" in the "cloud" add form' % api_key)
 
 
 def set_aliyun_creds(context):
