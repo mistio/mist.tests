@@ -261,7 +261,8 @@ DEFAULT_CREDENTIALS = {'AWS': {'api_key': '', 'api_secret': '', 'region': '', 'r
                        'ALIYUN': {'api_key': '', 'api_secret': ''},
                        'DOCKER_MONITORING':{'host': '', 'port': ''},
                        'ONAPP':{'username':'', 'password':'', 'host':'', 'verify_ssl': False},
-                       'MAXIHOST': {'api_token': ''}
+                       'MAXIHOST': {'api_token': ''},
+                       'KUBEVIRT': {'host': '', 'ca': '', 'token': ''}
                        }
 
 CREDENTIALS = get_setting("CREDENTIALS", DEFAULT_CREDENTIALS)
