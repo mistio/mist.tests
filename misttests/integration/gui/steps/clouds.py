@@ -215,17 +215,16 @@ def set_other_server_creds(context):
                 ''' % hostname)
 
 
-def set_vmware_creds(context):
+def set_vsphere_creds(context):
     context.execute_steps(u'''
-                Then I set the value "VmWare" to field "Title" in the "cloud" add form
-                Then I set the value "%s" to field "Username" in the "cloud" add form
-                Then I set the value "%s" to field "Password" in the "cloud" add form
-                Then I set the value "%s" to field "Organization" in the "cloud" add form
+                # Then I set the value "%s" to field "Username" in the "cloud" add form
+                # Then I set the value "%s" to field "Password" in the "cloud" add form
+                Then I set the value "%s" to field "CA Certificate" in the "cloud" add form
                 Then I set the value "%s" to field "Hostname" in the "cloud" add form
-            ''' % (safe_get_var('clouds/vmware', 'username', context.mist_config['CREDENTIALS']['VMWARE']['username']),
-                   safe_get_var('clouds/vmware', 'password', context.mist_config['CREDENTIALS']['VMWARE']['password']),
-                   safe_get_var('clouds/vmware', 'organization', context.mist_config['CREDENTIALS']['VMWARE']['organization']),
-                   safe_get_var('clouds/vmware', 'host', context.mist_config['CREDENTIALS']['VMWARE']['host']),))
+            ''' % (safe_get_var('clouds/VCenter-packet', 'username', context.mist_config['CREDENTIALS']['VSPHERE']['username']),
+                   safe_get_var('clouds/VCenter-packet', 'password', context.mist_config['CREDENTIALS']['VSPHERE']['password']),
+                   safe_get_var('clouds/VCenter-packet', 'ca_cert', context.mist_config['CREDENTIALS']['VSPHERE']['ca']),
+                   safe_get_var('clouds/VCenter-packet', 'host', context.mist_config['CREDENTIALS']['VSPHERE']['host']),))
 
 
 def set_onapp_creds(context):
@@ -288,7 +287,7 @@ cloud_creds_dict = {
     "microsoft azure": set_azure_arm_creds,
     "kvm": set_kvm_creds,
     "other server": set_other_server_creds,
-    "vmware": set_vmware_creds,
+    "vmware vsphere": set_vsphere_creds,
     "docker_orchestrator": set_docker_orchestrator_creds,
     "onapp": set_onapp_creds,
     "alibaba cloud": set_aliyun_creds,

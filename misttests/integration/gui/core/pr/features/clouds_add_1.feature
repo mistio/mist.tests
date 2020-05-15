@@ -20,12 +20,12 @@ Feature: Add second-tier clouds
 
     Examples: Providers
     | provider       |
+    | VMware vSphere |
     | Alibaba Cloud  |
     | Microsoft Azure|
     | Vultr         |
 #    | AWS            |
 #    | Packet	     |
-#    | Vmware         |
 #    | HostVirtual    |
 
   @other-server-add

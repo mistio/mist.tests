@@ -42,7 +42,7 @@ except Exception as exc:
 
 # TODO: modify so that it can parse nested objects as well
 def safe_get_var(vault_path, vault_key, test_settings_var = None):
-
+    import ipdb; ipdb.set_trace()
     if VAULT_ENABLED:
 
         if not os.environ.get('VAULT_CLIENT_TOKEN'):
@@ -254,7 +254,7 @@ DEFAULT_CREDENTIALS = {'AWS': {'api_key': '', 'api_secret': '', 'region': '', 'r
                        'OPENSTACK_2': {'auth_url': '', 'password': '', 'tenant': '', 'username': ''},
                        'PACKET': {'api_key': ''},
                        'PACKET_2': {'api_key': ''},
-                       'VMWARE': {'username': '', 'password': '', 'organization': '', 'host': '' },
+                       'VSPHERE': {'username': '', 'password': '', 'ca': '', 'host': '' },
                        'RACKSPACE': {'api_key': '', 'region': '', 'username': ''},
                        'SOFTLAYER': {'api_key': '', 'username': ''},
                        'VULTR': {'apikey': ''},
