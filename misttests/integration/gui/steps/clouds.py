@@ -259,11 +259,12 @@ def set_kubevirt_creds(context):
                 And I wait for 1 seconds
                 Then I set the value "%s" to field "Hostname or IP" in the "cloud" add form
                 Then I set the value "%s" to field "Bearer Token" in the "cloud" add form
-                Then I set the value "%s" to field "CA Certificate" in the "cloud" add form
-            ''' % (safe_get_var('clouds/test_kubevirt', 'host', context.mist_config['CREDENTIALS']['KUBEVIRT']['host']),
-                   safe_get_var('clouds/test_kubevirt', 'token', context.mist_config['CREDENTIALS']['KUBEVIRT']['token']),
-                   safe_get_var('clouds/test_kubevirt', 'ca', context.mist_config['CREDENTIALS']['KUBEVIRT']['ca']),
-))
+            ''' % (safe_get_var('clouds/kubevirt', 'host', context.mist_config['CREDENTIALS']['KUBEVIRT']['host']),
+                   safe_get_var('clouds/kubevirt', 'token', context.mist_config['CREDENTIALS']['KUBEVIRT']['token']),
+            ))
+
+    ca = safe_get_var('clouds/kubevirt', 'ca', context.mist_config['CREDENTIALS']['KUBEVIRT']['ca'])
+    set_value_to_field(context, ca, 'ca certificate', 'cloud', 'add')
 
 
 def set_second_openstack_creds(context):
