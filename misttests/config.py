@@ -254,14 +254,15 @@ DEFAULT_CREDENTIALS = {'AWS': {'api_key': '', 'api_secret': '', 'region': '', 'r
                        'OPENSTACK_2': {'auth_url': '', 'password': '', 'tenant': '', 'username': ''},
                        'PACKET': {'api_key': ''},
                        'PACKET_2': {'api_key': ''},
-                       'VMWARE': {'username': '', 'password': '', 'organization': '', 'host': '' },
+                       'VSPHERE': {'username': '', 'password': '', 'ca': '', 'host': '' },
                        'RACKSPACE': {'api_key': '', 'region': '', 'username': ''},
                        'SOFTLAYER': {'api_key': '', 'username': ''},
                        'VULTR': {'apikey': ''},
                        'ALIYUN': {'api_key': '', 'api_secret': ''},
                        'DOCKER_MONITORING':{'host': '', 'port': ''},
                        'ONAPP':{'username':'', 'password':'', 'host':'', 'verify_ssl': False},
-                       'MAXIHOST': {'api_token': ''}
+                       'MAXIHOST': {'api_token': ''},
+                       'KUBEVIRT': {'host': '', 'ca': '', 'token': ''}
                        }
 
 CREDENTIALS = get_setting("CREDENTIALS", DEFAULT_CREDENTIALS)
