@@ -255,7 +255,7 @@ def set_kubevirt_creds(context):
     context.execute_steps(u'''
                 Then I open the "Authentication" dropdown in the "cloud" add form
                 And I wait for 1 seconds
-                And I click the "Token Bearer Authentication" button in the "Authentication" dropdown in the "cloud" add form
+                And I click the "Token Bearer" button in the "Authentication" dropdown in the "cloud" add form
                 And I wait for 1 seconds
                 Then I set the value "%s" to field "Hostname or IP" in the "cloud" add form
                 Then I set the value "%s" to field "Bearer Token" in the "cloud" add form
