@@ -177,10 +177,7 @@ Feature: Multiprovisioning
     And I click the "m1.tiny" button in the "Size" dropdown in the "machine" add form
     And I wait for 1 seconds
     Then I set the value "private" to field "Networks" in the "machine" add form
-    And I open the "Key" dropdown in the "machine" add form
-    And I wait for 1 seconds
-    And I click the "Keyrandom" button in the "Key" dropdown in the "machine" add form
-    Then I expect for the button "Launch" in the "machine" add form to be clickable within 10 seconds
+    And I expect for the button "Launch" in the "machine" add form to be clickable within 10 seconds
     When I focus on the button "Launch" in the "machine" add form
     And I click the button "Launch" in the "machine" add form
     When I visit the Home page

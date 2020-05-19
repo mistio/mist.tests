@@ -92,7 +92,7 @@ Feature: Multiprovisioning
 
     Examples: Providers to be tested
     | cloud         | size                                                    | location         | image                                          | machine-name           |
-    | Packet        | t1.small.x86 - 8192 RAM                                 | Amsterdam, NL    | Ubuntu 19.04                                   | packet-mp-test-random  |
+    | Packet        | t1.small.x86 - 8192 RAM                                 | Amsterdam, NL    | Ubuntu 19.10                                   | packet-mp-test-random  |
     | Google Cloud  | f1-micro (1 vCPU (shared physical core) and 0.6 GB RAM) | europe-west1-c   | ubuntu-1804-bionic-v20200317                   | gce-mp-test-random     |
 
   @mp-test-with-cloud-init
