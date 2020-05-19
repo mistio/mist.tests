@@ -67,7 +67,7 @@ Feature: Multiprovisioning
     And I click the "Canonical UbuntuServer 18.04-LTS" button in the "Image" dropdown in the "machine" add form
     When I open the "Size" dropdown in the "machine" add form
     And I wait for 1 seconds
-    And I click the "Basic_A0 1 cpus/0.75G RAM/ 20.0GB SSD" button in the "Size" dropdown in the "machine" add form
+    And I click the "Basic_A0 1 cpus/0.75GB RAM/ 20.0GB SSD" button in the "Size" dropdown in the "machine" add form
     And I open the "Key" dropdown in the "machine" add form
     And I wait for 1 seconds
     And I click the "Keyrandom" button in the "Key" dropdown in the "machine" add form
