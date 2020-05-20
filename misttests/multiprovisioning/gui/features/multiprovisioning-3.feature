@@ -37,7 +37,7 @@ Feature: Multiprovisioning
     And I click the "Delete" button in the "Delete volume" dialog
     When I visit the Home page
     And I wait for 2 seconds
-    Then I should see a(n) "request" log entry of action "delete_volume" added "a few seconds ago" in the "dashboard" page within 10 seconds
+    Then I should see a(n) "request" log entry of action "delete_volume" added "a few seconds ago" in the "dashboard" page within 20 seconds
     When I visit the Volumes page
     And I clear the search bar
     And I search for "<volume-name>"
@@ -75,7 +75,7 @@ Feature: Multiprovisioning
     And I click the "Delete" button in the "Delete volume" dialog
     When I visit the Home page
     And I wait for 2 seconds
-    Then I should see a(n) "request" log entry of action "delete_volume" added "a few seconds ago" in the "dashboard" page within 10 seconds
+    Then I should see a(n) "request" log entry of action "delete_volume" added "a few seconds ago" in the "dashboard" page within 20 seconds
     When I visit the Volumes page
     And I clear the search bar
     And I search for "mp-test-volume-openstack-random"
@@ -111,4 +111,4 @@ Feature: Multiprovisioning
     And I click the "Delete" button in the "Delete volume" dialog
     When I visit the Home page
     And I wait for 2 seconds
-    Then I should see a(n) "request" log entry of action "delete_volume" added "a few seconds ago" in the "dashboard" page within 10 seconds
+    Then I should see a(n) "request" log entry of action "delete_volume" added "a few seconds ago" in the "dashboard" page within 20 seconds
