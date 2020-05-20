@@ -27,6 +27,8 @@ Feature: Multiprovisioning
     And I wait for 5 seconds
     Then "<volume-name>" volume should be present within 30 seconds
     When I wait for 5 seconds
+    And I search for "<volume-name>"
+    And I wait for 2 seconds
     And I click the "<volume-name>" "volume"
     And I expect the "volume" page to be visible within max 5 seconds
     And I wait for 60 seconds
