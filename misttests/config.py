@@ -228,6 +228,7 @@ WEBDRIVER_OPTIONS = get_setting('WEBDRIVER_OPTIONS',
                                  'window-size=1920x1080'])
 if not os.getenv('VNC'):
     WEBDRIVER_OPTIONS.append('headless')
+
 REGISTER_USER_BEFORE_FEATURE = get_setting('REGISTER_USER_BEFORE_FEATURE', True, priority='environment')
 
 IMAP_HOST = get_setting('IMAP_HOST', 'mailmock', priority='environment')
@@ -236,34 +237,34 @@ IMAP_PORT = get_setting('IMAP_PORT', '8143', priority='environment')
 
 IMAP_USE_SSL = get_setting('IMAP_USE_SSL', False, priority='environment')
 
-KEY_ID = get_setting('KEY_ID', '')
-
-DEFAULT_CREDENTIALS = {'AWS': {'api_key': '', 'api_secret': '', 'region': '', 'region_id': ''},
-                       'AWS_2': {'api_key': '', 'api_secret': '', 'region': '', 'region_id': ''},
-                       'KVM': {'key': """ """, 'hostname': ''},
-                       'AZURE': {'certificate': """ """, 'subscription_id': ''},
-                       'AZURE_ARM': {'client_key': '', 'client_secret': '', 'subscription_id': '', 'tenant_id': ''},
-                       'DIGITALOCEAN': {'token': ''},
-                       'DOCKER': {'authentication': '', 'ca': """ """, 'cert': """ """, 'host': '', 'key': """""", 'port': ''},
-                       'EC2': {'api_key': '', 'api_secret': '', 'region': '', 'region_id': ''},
-                       'LINODE': {'api_key': ''},
-                       'NEPHOSCALE': {'password': '', 'username': ''},
-                       'GCE': {'project_id': '', 'private_key': {}},
-                       'OPENSTACK': {'auth_url': '', 'password': '', 'tenant': '', 'username': ''},
-                       'DOCKER_ORCHESTRATOR':{"host": "", "port": ""},
-                       'OPENSTACK_2': {'auth_url': '', 'password': '', 'tenant': '', 'username': ''},
-                       'PACKET': {'api_key': ''},
-                       'PACKET_2': {'api_key': ''},
-                       'VSPHERE': {'username': '', 'password': '', 'ca': '', 'host': '' },
-                       'RACKSPACE': {'api_key': '', 'region': '', 'username': ''},
-                       'SOFTLAYER': {'api_key': '', 'username': ''},
-                       'VULTR': {'apikey': ''},
-                       'ALIYUN': {'api_key': '', 'api_secret': ''},
-                       'DOCKER_MONITORING':{'host': '', 'port': ''},
-                       'ONAPP':{'username':'', 'password':'', 'host':'', 'verify_ssl': False},
-                       'MAXIHOST': {'api_token': ''},
-                       'KUBEVIRT': {'host': '', 'ca': '', 'token': ''}
-                       }
+DEFAULT_CREDENTIALS = {
+    'AWS': {'api_key': '', 'api_secret': '', 'region': '', 'region_id': ''},
+    'AWS_2': {'api_key': '', 'api_secret': '', 'region': '', 'region_id': ''},
+    'KVM': {'key': """ """, 'hostname': ''},
+    'AZURE': {'certificate': """ """, 'subscription_id': ''},
+    'AZURE_ARM': {'client_key': '', 'client_secret': '', 'subscription_id': '', 'tenant_id': ''},
+    'DIGITALOCEAN': {'token': ''},
+    'DOCKER': {'authentication': '', 'ca': """ """, 'cert': """ """, 'host': '', 'key': """""", 'port': ''},
+    'EC2': {'api_key': '', 'api_secret': '', 'region': '', 'region_id': ''},
+    'LINODE': {'api_key': ''},
+    'NEPHOSCALE': {'password': '', 'username': ''},
+    'GCE': {'project_id': '', 'private_key': {}},
+    'OPENSTACK': {'auth_url': '', 'password': '', 'tenant': '', 'username': ''},
+    'DOCKER_ORCHESTRATOR':{"host": "", "port": ""},
+    'OPENSTACK_2': {'auth_url': '', 'password': '', 'tenant': '', 'username': ''},
+    'PACKET': {'api_key': ''},
+    'PACKET_2': {'api_key': ''},
+    'VSPHERE': {'username': '', 'password': '', 'ca': '', 'host': '' },
+    'RACKSPACE': {'api_key': '', 'region': '', 'username': ''},
+    'SOFTLAYER': {'api_key': '', 'username': ''},
+    'VULTR': {'apikey': ''},
+    'ALIYUN': {'api_key': '', 'api_secret': ''},
+    'DOCKER_MONITORING':{'host': '', 'port': ''},
+    'ONAPP':{'username':'', 'password':'', 'host':'', 'verify_ssl': False},
+    'MAXIHOST': {'api_token': ''},
+    'KUBEVIRT': {'host': '', 'ca': '', 'token': ''},
+    'LXD': {'host': '', 'key': '', 'cert': ''}
+}
 
 CREDENTIALS = get_setting("CREDENTIALS", DEFAULT_CREDENTIALS)
 
