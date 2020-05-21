@@ -267,6 +267,17 @@ def set_kubevirt_creds(context):
     set_value_to_field(context, ca, 'ca certificate', 'cloud', 'add')
 
 
+def set_lxd_creds(context):
+    context.execute_steps(u'''
+                Then I set the value "%s" to field "Host" in the "cloud" add form
+            ''' % (safe_get_var('clouds/lxd', 'host', context.mist_config['CREDENTIALS']['LXD']['host']),
+    ))
+    key = safe_get_var('clouds/lxd', 'key', context.mist_config['CREDENTIALS']['LXD']['key'])
+    cert = safe_get_var('clouds/lxd', 'cert', context.mist_config['CREDENTIALS']['LXD']['cert'])
+    set_value_to_field(context, key, 'client private key', 'cloud', 'add')
+    set_value_to_field(context, cert, 'client certificate', 'cloud', 'add')
+
+
 def set_second_openstack_creds(context):
     context.execute_steps(u'''
                 Then I set the value "%s" to field "Username" in the "cloud" edit form
@@ -310,6 +321,7 @@ cloud_creds_dict = {
     "aws advantis": set_aws_adv_creds,
     "maxihost": set_maxihost_creds,
     "kubevirt": set_kubevirt_creds,
+    "lxd": set_lxd_creds,
 }
 
 
