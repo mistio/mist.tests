@@ -26,6 +26,8 @@ Feature: Add second-tier clouds
     | OnApp               |
     | Maxihost            |
     | Amazon Web Services |
+    | LXD            |
+
 
   @cloud-edit-creds
   Scenario: AWS cloud added in the beginning, does not have access to list images (DenyDescribeImages policy in aws), whereas the seconds one has (EC2FullAccess)

@@ -25,7 +25,6 @@ Feature: Add second-tier clouds
     | Alibaba Cloud  |
     | Microsoft Azure|
     | Vultr          |
-    | LXD            |
 #    | AWS            |
 #    | Packet	     |
 
