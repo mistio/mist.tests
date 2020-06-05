@@ -198,6 +198,7 @@ class TestMachinesFunctionality:
         response = mist_core.machine_action(cloud_id=cache.get('cloud_id', ''), api_token=owner_api_token,
                                             machine_id=cache.get('machine_id', ''), action='stop').post()
         assert_response_ok(response)
+        response = mist_core.list_machines(cloud_id=cache.get('cloud_id', ''), api_token=owner_api_token).get()
         for machine in response.json():
             if machine['name'] == cache.get('machine_name', ''):
                 assert machine['state'] == 'stopped', "Machine's state is not stopped!"
