@@ -33,7 +33,6 @@ Feature: Machines
     And I click the "Stop" button in the "Schedule Task" dropdown in the "machine" add form
     And I wait for 1 seconds
     And I click the "Repeat" radio button in the "machine" add form
-    And I set the value "1" to field "every" in the "machine" add form
     Then I expect for the button "Launch" in the "machine" add form to be clickable within 10 seconds
     When I focus on the button "Launch" in the "machine" add form
     And I click the button "Launch" in the "machine" add form
