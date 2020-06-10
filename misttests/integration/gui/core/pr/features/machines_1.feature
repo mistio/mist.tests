@@ -113,7 +113,7 @@ Feature: Machines
     Then "ui-test-create-machine-random" machine state has to be "stopped" within 60 seconds
     When I visit the Home page
     And I wait for 1 seconds
-    Then I should see a(n) "observation" log entry of action "stop_machine" added "a few seconds ago" in the "dashboard" page within 20 seconds
+    Then I should see a(n) "observation" log entry of action "stop_machine" added "a few seconds ago" in the "dashboard" page within 30 seconds
 
   @machine-destroy
   Scenario: Destroy the machine created
@@ -140,4 +140,4 @@ Feature: Machines
     Then "ui-test-create-machine-random" machine should be absent within 60 seconds
     When I visit the Home page
     And I wait for 1 seconds
-    Then I should see a(n) "observation" log entry of action "destroy_machine" added "a few seconds ago" in the "dashboard" page within 30 seconds
+    Then I should see a(n) "observation" log entry of action "destroy_machine" added "a few seconds ago" in the "dashboard" page within 60 seconds
