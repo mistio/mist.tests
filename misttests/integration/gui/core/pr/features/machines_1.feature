@@ -12,6 +12,7 @@ Feature: Machines
     Then I should see a(n) "session" log entry of action "connect" added "a few seconds ago" in the "dashboard" page within 20 seconds
     And I have given card details if needed
     And I refresh the page
+    And I wait for 3 seconds
     When I visit the Keys page
     When I click the button "+"
     Then I expect the "Key" add form to be visible within max 10 seconds
