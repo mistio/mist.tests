@@ -36,10 +36,10 @@ Feature: Multiprovisioning
     Then I set the value "kvm-mp-test-random" to field "Machine Name" in the "machine" add form
     When I open the "Image" dropdown in the "machine" add form
     And I wait for 1 seconds
-    And I click the "debian-10.3.0-amd64-netinst.iso" button in the "Image" dropdown in the "machine" add form
+    And I click the "debian-edu-10.3.0-amd64-BD-1.iso" button in the "Image" dropdown in the "machine" add form
     And I open the "Key" dropdown in the "machine" add form
     And I wait for 1 seconds
-    And I click the "KVMKEY" button in the "Key" dropdown in the "machine" add form
+    And I click the "KVMKey" button in the "Key" dropdown in the "machine" add form
     Then I expect for the button "Launch" in the "machine" add form to be clickable within 10 seconds
     When I focus on the button "Launch" in the "machine" add form
     And I click the button "Launch" in the "machine" add form
