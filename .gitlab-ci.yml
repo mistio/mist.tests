@@ -85,7 +85,6 @@ flake8:
     - flake8 misttests/integration/api/utils.py
     - flake8 misttests/integration/gui/steps/browser.py
     - flake8 misttests/integration/gui/steps/images.py
-    - flake8 misttests/integration/gui/steps/list.py
     - flake8 misttests/integration/gui/steps/networks.py
     - flake8 misttests/integration/gui/steps/org_context.py
     - flake8 misttests/integration/gui/steps/popups.py
