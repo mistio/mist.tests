@@ -27,7 +27,7 @@ Feature: Multiprovisioning
     And I click the "us-west-1a" button in the "Location" dropdown in the "machine" add form
     When I open the "Image" dropdown in the "machine" add form
     And I wait for 1 seconds
-    And I click the "ubuntu_18_04_64_20G_alibase_20190624.vhd" button in the "Image" dropdown in the "machine" add form
+    And I click the "ubuntu_18_04_x64_20G_alibase_20200521.vhd" button in the "Image" dropdown in the "machine" add form
     When I open the "Size" dropdown in the "machine" add form
     And I wait for 1 seconds
     And I click the "ecs.ht6c.small (1 cpus/ 2.0Gb RAM )" button in the "Size" dropdown in the "machine" add form
@@ -45,7 +45,7 @@ Feature: Multiprovisioning
     And I clear the search bar
     And I search for "aliyun-mp-test-random"
     Then "aliyun-mp-test-random" machine should be present within 60 seconds
-    And I "aliyun-mp-test-random" machine state has to be "running" within 60 seconds
+    And "aliyun-mp-test-random" machine state has to be "running" within 120 seconds
     When I click the "aliyun-mp-test-random" "machine"
     Then I expect the "machine" page to be visible within max 5 seconds
     When I wait for 2 seconds

@@ -24,7 +24,7 @@ Feature: Multiprovisioning
     Then I set the value "rackspace-mp-test-random" to field "Machine Name" in the "machine" add form
     When I open the "Image" dropdown in the "machine" add form
     And I wait for 1 seconds
-    And I click the "Ubuntu 18.04 LTS (Bionic Beaver) (PVHVM)" button in the "Image" dropdown in the "machine" add form
+    And I click the "Ubuntu 18.04 LTS (Bionic Beaver) (Cloud)" button in the "Image" dropdown in the "machine" add form
     When I open the "Size" dropdown in the "machine" add form
     And I wait for 1 seconds
     And I click the "512MB Standard Instance" button in the "Size" dropdown in the "machine" add form
