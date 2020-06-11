@@ -1,4 +1,4 @@
-@digital-ocean-provisioning
+@ec2-provisioning
 Feature: Multiprovisioning
 
 # TODO: Remove hardcoded waits when sizes, images and locations
@@ -10,8 +10,8 @@ Feature: Multiprovisioning
     And I wait for the navigation menu to appear
     Given key "Keyrandom" has been generated and added via API request
 
-  @digital-ocean-machine-create-enable-monitoring-cloud-init
-  Scenario Outline: Create a machine in digital ocean provider, creating a file using cloud init and enabling monitoring
+  @ec2-machine-create-cloud-init
+  Scenario Outline: Create a machine in EC2 provider, creating a file using cloud init
     Given "<cloud>" cloud has been added
     And I wait for 40 seconds
     When I visit the Machines page
@@ -31,14 +31,14 @@ Feature: Multiprovisioning
     When I open the "Size" dropdown in the "machine" add form
     And I wait for 1 seconds
     And I click the "<size>" button in the "Size" dropdown in the "machine" add form
+    When I open the "Security group" dropdown in the "machine" add form
+    And I wait for 1 seconds
+    And I click the "mistio" button in the "Security group" dropdown in the "machine" add form
     And I open the "Key" dropdown in the "machine" add form
     And I wait for 1 seconds
     And I click the "Keyrandom" button in the "Key" dropdown in the "machine" add form
     And I wait for 1 seconds
     Then I set the "cloud init" script "#!/bin/bash\ntouch ~/new_file"
-    And I wait for 1 seconds
-    And I click the "Enable monitoring" toggle button in the "machine" add form
-    And I wait for 1 seconds
     Then I expect for the button "Launch" in the "machine" add form to be clickable within 10 seconds
     When I focus on the button "Launch" in the "machine" add form
     And I click the button "Launch" in the "machine" add form
@@ -49,7 +49,7 @@ Feature: Multiprovisioning
     And I search for "<machine-name>"
     Then "<machine-name>" machine should be present within 60 seconds
     And "<machine-name>" machine state has to be "running" within 60 seconds
-    And I click the "<machine-name>" "machine"
+    When I click the "<machine-name>" "machine"
     And I expect the "machine" page to be visible within max 5 seconds
     And I wait for 2 seconds
     Then I click the "Shell" action button in the "machine" page
@@ -60,22 +60,7 @@ Feature: Multiprovisioning
     And I type in the terminal "ls -la ~"
     And I wait for 1 seconds
     Then new_file should be included in the output
-    And I close the terminal
-    When I visit the Machines page
-    And I wait for 1 seconds
-    And I clear the search bar
-    And I search for "<machine-name>"
-    Then "<machine-name>" machine state has to be "running" within 30 seconds
-    And I click the "<machine-name>" "machine"
-    And I expect the "machine" page to be visible within max 5 seconds
-    And I wait for 2 seconds
-    Then I wait for the monitoring graphs to appear in the "machine" page
-    Then 5 graphs should be visible within max 30 seconds in the "machine" page
-    When I visit the Home page
-    And I wait for the navigation menu to appear
-    Then I wait for the monitoring graphs to appear in the "dashboard" page
 
-
-  Examples: Providers to be tested
-    | cloud         | size                                                       | location         | image                                          | machine-name           |
-    | Digital Ocean | 1 CPU/ 0.5 GB/ 20 GB SSD Disk/ 1.0 TB transfer/ 5.0$/month | Amsterdam 3      | Ubuntu 16.04.6 (LTS) x64                       | do-mp-test-random      |
+    Examples: Providers to be tested
+    | cloud         | size                                                    | location         | image                                          | machine-name           |
+    | AWS Advantis  | t2.nano - t2.nano                                       | us-west-2a       | Ubuntu Server 16.04 LTS (HVM), SSD Volume Type | ec2-mp-test-random     |
