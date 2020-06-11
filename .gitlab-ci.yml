@@ -89,7 +89,6 @@ flake8:
     - flake8 misttests/integration/gui/steps/org_context.py
     - flake8 misttests/integration/gui/steps/popups.py
     - flake8 misttests/integration/gui/steps/scroll.py
-    - flake8 misttests/integration/gui/steps/search.py
     - flake8 misttests/integration/gui/steps/setup.py
     - flake8 misttests/integration/gui/steps/team.py
     - flake8 misttests/integration/gui/steps/insights.py
