@@ -1,4 +1,4 @@
-@do-provisioning
+@digital-ocean-provisioning
 Feature: Multiprovisioning
 
 # TODO: Remove hardcoded waits when sizes, images and locations
@@ -8,9 +8,6 @@ Feature: Multiprovisioning
     Given I am logged in to mist
     When I visit the Home page
     And I wait for the navigation menu to appear
-
-  @add-key
-  Scenario: Add key needed for tests
     Given key "Keyrandom" has been generated and added via API request
 
   @mp-test-enable-monitoring-upon-machine-creation
@@ -56,7 +53,7 @@ Feature: Multiprovisioning
     | cloud         | size                                                       | location         | image                                          | machine-name           |
     | Digital Ocean | 1 CPU/ 0.5 GB/ 20 GB SSD Disk/ 1.0 TB transfer/ 5.0$/month | Amsterdam 3      | Ubuntu 16.04.6 (LTS) x64                       | do-mp-test-random      |
 
-  @verify-cloud-init
+  @verify-cloud--init
   Scenario Outline: Verify that file created with cloud-init exists
     When I visit the Machines page
     And I wait for 1 seconds
