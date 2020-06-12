@@ -21,7 +21,7 @@ Feature: Multiprovisioning
     And I focus on the button "Add Cloud" in the "cloud" add form
     Then I click the button "Add Cloud" in the "cloud" add form
     # w8 for it because KVM takes some time
-    And I wait for 60 seconds
+    And I wait for 90 seconds
     When I wait for the dashboard to load
     And I scroll the clouds list into view
     Then the "KVM" provider should be added within 30 seconds
@@ -38,7 +38,7 @@ Feature: Multiprovisioning
     And I wait for 1 seconds
     And I click the "debian-edu-10.3.0-amd64-BD-1.iso" button in the "Image" dropdown in the "machine" add form
     And I open the "Key" dropdown in the "machine" add form
-    And I wait for 1 seconds
+    And I wait for 5 seconds
     And I click the "KVMKey" button in the "Key" dropdown in the "machine" add form
     Then I expect for the button "Launch" in the "machine" add form to be clickable within 10 seconds
     When I focus on the button "Launch" in the "machine" add form
