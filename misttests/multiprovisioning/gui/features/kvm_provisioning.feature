@@ -21,11 +21,11 @@ Feature: Multiprovisioning
     And I focus on the button "Add Cloud" in the "cloud" add form
     Then I click the button "Add Cloud" in the "cloud" add form
     # w8 for it because KVM takes some time
-    And I wait for 30 seconds
+    And I wait for 60 seconds
     When I wait for the dashboard to load
     And I scroll the clouds list into view
     Then the "KVM" provider should be added within 30 seconds
-    And I wait for 10 seconds
+    And I wait for 30 seconds
     When I visit the Machines page
     And I click the button "+"
     Then I expect the "Machine" add form to be visible within max 10 seconds
