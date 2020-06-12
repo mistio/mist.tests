@@ -27,8 +27,6 @@ def ensure_organizational_context(context, organization):
             Then I wait for the dashboard to load
             And I open the user menu
         ''')
-    assert get_current_context(user_menu) == organization, \
-        "Organizational context has not been changed"
 
 
 @step(u'I should see the form to set name for new organization')
@@ -36,4 +34,5 @@ def ensure_onboarding_form_is_visible(context):
     dashboard = get_page_element(context, 'dashboard')
     dashboard_shadow = expand_shadow_root(context, dashboard)
     onb_element = dashboard_shadow.find_element_by_css_selector('onb-element')
-    assert onb_element.is_displayed(), "Form to set name for new org is not displayed"
+    assert onb_element.is_displayed(), "Form to set name for new org \
+        is not displayed"

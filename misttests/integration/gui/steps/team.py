@@ -2,7 +2,7 @@ from behave import step
 
 from .buttons import clicketi_click
 
-from .utils import safe_get_element_text, get_page_element, expand_shadow_root
+from .utils import get_page_element, expand_shadow_root
 
 
 def get_member_list(context):
@@ -26,8 +26,8 @@ def check_user_state(context, email, user_state):
                 return True
             elif user_state == 'confirmed' and not resend_btn.is_displayed():
                 return True
-            assert False, "User's(%s) state is not %s" \
-                          % (spans[-1], user_state)
+            assert False, "User's state is not %s" \
+                          % (user_state)
     assert False, "User is not among the team members"
 
 

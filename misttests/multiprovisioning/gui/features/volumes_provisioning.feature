@@ -1,4 +1,4 @@
-@multiprovisioning-3
+@volumes-provisioning
 Feature: Multiprovisioning
 
   Background:
