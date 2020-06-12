@@ -73,7 +73,7 @@ def test_star_image_wrong_api_token(pretty_print, mist_core, cache, owner_api_to
 def test_star_image_ok(pretty_print, mist_core, cache, owner_api_token):
     response = mist_core.list_images(cloud_id=cache.get('cloud_id',''), api_token=owner_api_token).get()
     assert_response_ok(response)
-    assert response.json()[0]['starred'], "Image is not starred by default"
+    assert not response.json()[0]['starred'], "Image is starred by default, it should be unstarred"
     response = mist_core.star_image(cloud_id=cache.get('cloud_id', ''), image_id=cache.get('image_id', ''),
                                     api_token=owner_api_token).post()
     assert_response_ok(response)
