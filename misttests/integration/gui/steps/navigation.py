@@ -119,7 +119,7 @@ def wait_for_dashboard(context):
     context.execute_steps(u'Then I wait for the navigation menu to appear')
     dashboard_page = get_page_element(context, 'dashboard')
     dashboard_shadow = expand_shadow_root(context, dashboard_page)
-    timeout = 20
+    timeout = 30
     try:
         WebDriverWait(dashboard_shadow, timeout).until(
             EC.visibility_of_element_located((By.CSS_SELECTOR,
