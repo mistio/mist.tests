@@ -90,7 +90,7 @@ Feature: Rules
     And I select the "metric" target-type when adding new rule in the "rules" page
     And I select the "cpu" target when adding new rule in the "rules" page
     And I select the "cpu=cpu-total" target when adding new rule in the "rules" page
-    And I select the "cpu.cpu=cpu-total.usage_system" target when adding new rule in the "rules" page
+    And I select the "cpu.cpu=cpu-total.time_guest" target when adding new rule in the "rules" page
     And I select the "<" operator when adding new rule in the "rules" page
     And I type "9" in the threshold when adding new rule in the "rules" page
     And I select the "any" aggregation when adding new rule in the "rules" page
@@ -102,7 +102,7 @@ Feature: Rules
     And I search for "rules-test-machine-random"
     And I wait for 1 seconds
     And I click the "rules-test-machine-random" "machine"
-    Then rule "if cpu.cpu=cpu-total.usage_system < 9 for any value then destroy" should be present in the "machine" page
+    Then rule "if cpu.cpu=cpu-total.time_guest < 9 for any value then destroy" should be present in the "machine" page
     When I visit the Machines page
     And I clear the search bar
     And I wait for 1 seconds

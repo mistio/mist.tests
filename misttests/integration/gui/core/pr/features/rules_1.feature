@@ -48,7 +48,7 @@ Feature: Rules
     And I select the "machine" apply-on when adding new rule in the "rules" page
     And I select the "all" resource-type when adding new rule in the "rules" page
     And I select the "metric" target-type when adding new rule in the "rules" page
-    And I select the "system" target when adding new rule in the "machine" page
+    And I select the "system" target when adding new rule in the "rules" page
     And I select the "system.load1" target when adding new rule in the "rules" page
     And I select the "<" operator when adding new rule in the "rules" page
     And I type "1" in the threshold when adding new rule in the "rules" page
