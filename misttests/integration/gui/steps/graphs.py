@@ -225,7 +225,7 @@ def select_option_when_adding_rule(context, option, dropdown, resource_type):
     item = get_button_from_form(context, menu, option, selector)
     clicketi_click(context, item)
     sleep(.5)
-    if menu.find_element_by_css_selector('.dropdown-content').get_attribute('aria-expanded') == 'true':
+    if menu.find_element_by_css_selector('.dropdown-content').get_attribute('aria-expanded') == 'true' and dropdown != 'target':
         # If the menu is still open, close it without losing the selected value.
         if 'checkbox' in selector:
             clicketi_click(context, mist_rules_shadow.find_element_by_css_selector('paper-material'))
