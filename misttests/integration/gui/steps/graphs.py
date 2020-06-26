@@ -225,13 +225,13 @@ def select_option_when_adding_rule(context, option, dropdown, resource_type):
     item = get_button_from_form(context, menu, option, selector)
     clicketi_click(context, item)
     sleep(.5)
-    if menu.find_element_by_css_selector('.dropdown-content').get_attribute('aria-expanded') == 'true':
-        # If the menu is still open, close it without losing the selected value.
-        if 'checkbox' in selector:
-            clicketi_click(context, mist_rules_shadow.find_element_by_css_selector('paper-material'))
-        else:
-            clicketi_click(context, item)
-        sleep(.5)
+    # if menu.find_element_by_css_selector('.dropdown-content').get_attribute('aria-expanded') == 'true':
+    #     # If the menu is still open, close it without losing the selected value.
+    #     if 'checkbox' in selector:
+    #         clicketi_click(context, mist_rules_shadow.find_element_by_css_selector('paper-material'))
+    #     else:
+    #         clicketi_click(context, item)
+    #     sleep(.5)
 
 
 @step(u'I type "{value}" in the {input_class} when adding new rule in the "{page}" page')
