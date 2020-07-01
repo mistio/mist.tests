@@ -155,12 +155,12 @@ def add_cloud_api_request(context, cloud):
             payload = {
                 'title': "Docker",
                 'provider': "docker",
-                'docker_host': safe_get_var('dockerhosts/godzilla', 'host', context.mist_config['CREDENTIALS']['DOCKER']['host']),
-                'docker_port': safe_get_var('dockerhosts/godzilla', 'port', context.mist_config['CREDENTIALS']['DOCKER']['port']),
-                'authentication': safe_get_var('dockerhosts/godzilla', 'authentication', context.mist_config['CREDENTIALS']['DOCKER']['authentication']),
-                'ca_cert_file': safe_get_var('dockerhosts/godzilla', 'ca', context.mist_config['CREDENTIALS']['DOCKER']['ca']),
-                'key_file': safe_get_var('dockerhosts/godzilla', 'key', context.mist_config['CREDENTIALS']['DOCKER']['key']),
-                'cert_file': safe_get_var('dockerhosts/godzilla', 'cert', context.mist_config['CREDENTIALS']['DOCKER']['cert']),
+                'docker_host': safe_get_var('clouds/dockerhost', 'host', context.mist_config['CREDENTIALS']['DOCKER']['host']),
+                'docker_port': safe_get_var('clouds/dockerhost', 'port', context.mist_config['CREDENTIALS']['DOCKER']['port']),
+                'authentication': safe_get_var('clouds/dockerhost', 'authentication', context.mist_config['CREDENTIALS']['DOCKER']['authentication']),
+                'ca_cert_file': safe_get_var('clouds/dockerhost', 'ca', context.mist_config['CREDENTIALS']['DOCKER']['ca']),
+                'key_file': safe_get_var('clouds/dockerhost', 'key', context.mist_config['CREDENTIALS']['DOCKER']['key']),
+                'cert_file': safe_get_var('clouds/dockerhost', 'cert', context.mist_config['CREDENTIALS']['DOCKER']['cert']),
                 'show_all': True
             }
 
