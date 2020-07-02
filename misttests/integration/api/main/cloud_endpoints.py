@@ -36,76 +36,76 @@ def test_add_kubevirt_cloud(pretty_print, mist_core, cache, owner_api_token, nam
     print("Succes, Kubevirt added!")
 # Proper
 def test_list_datastores(pretty_print, mist_core, owner_api_token, cache):
-    cloud_id = cache.get('vsphere_cloud_id')
+    cloud_id = cache.get('vsphere_cloud_id', '')
     response = mist_core.list_datastores(cloud_id=cloud_id, api_token=owner_api_token)
     assert_response_ok(response)
     assert_list_not_empty(response.json())
     print("Success, list_datastores functions just fine.")
 
 def test_list_datastores_wrong_token(pretty_print, mist_core, owner_api_token, cache):
-    cloud_id = cache.get('vsphere_cloud_id')
+    cloud_id = cache.get('vsphere_cloud_id', '')
     response = mist_core.list_datastores(cloud_id=cloud_id, api_token="123Boom!")
     assert_response_unauthorized(response)
     print('Success')
 
 def test_list_datastores_wrong_cloud(pretty_print, mist_core, owner_api_token, cache):
-    cloud_id = cache.get('kubevirt_cloud_id')
+    cloud_id = cache.get('kubevirt_cloud_id', '')
     response = mist.core.list_datastores(cloud_id=cloud_id, api_token=owner_api_token)
     assert_response_not_found(response)
     print('Success')
 
-def test_list_datastores_inexistent_cloud(pretty_print, mist_core, ownwer_api_token, cache):
+def test_list_datastores_inexistent_cloud(pretty_print, mist_core, owner_api_token, cache):
     cloud_id = "not_a_cloud"
     response = mist.core.list_datastores(cloud_id=cloud_id, api_token=owner_api_token)
     assert_response_bad_request(response)
     print('Success')
 
 def test_list_folders(pretty_print, mist_core, owner_api_token, cache):
-    cloud_id = cache.get('vsphere_cloud_id')
+    cloud_id = cache.get('vsphere_cloud_id', '')
     response = mist_core.list_folders(cloud_id=cloud_id, api_token=owner_api_token)
     assert_response_ok(response)
     assert_list_not_empty(response.json())
     print("Success, list_folders functions just fine.")
 
 def test_list_folders_wrong_token(pretty_print, mist_core, owner_api_token, cache):
-    cloud_id = cache.get('vsphere_cloud_id')
+    cloud_id = cache.get('vsphere_cloud_id', '')
     response = mist_core.list_folders(cloud_id=cloud_id, api_token="123Boom!")
     assert_response_unauthorized(response)
     print('Success')
 
 def test_list_folders_wrong_cloud(pretty_print, mist_core, owner_api_token, cache):
-    cloud_id = cache.get('kubevirt_cloud_id')
+    cloud_id = cache.get('kubevirt_cloud_id', '')
     response = mist.core.list_folders(cloud_id=cloud_id, api_token=owner_api_token)
     assert_response_not_found(response)
     print('Success')
 
-def test_list_folders_inexistent_cloud(pretty_print, mist_core, ownwer_api_token, cache):
+def test_list_folders_inexistent_cloud(pretty_print, mist_core, owner_api_token, cache):
     cloud_id = "not_a_cloud"
     response = mist.core.list_folders(cloud_id=cloud_id, api_token=owner_api_token)
     assert_response_bad_request(response)
     print('Success')
 
-def test_list_storage_classes(pretty_print, mist_core, ownwer_api_token, cache):
-    cloud_id = cache.get('kubevirt_cloud_id')
-    response = mist.core.list_storage_classes(cloud_id=cloud_id, api_token=ownwer_api_token)
+def test_list_storage_classes(pretty_print, mist_core, owner_api_token, cache):
+    cloud_id = cache.get('kubevirt_cloud_id', '')
+    response = mist.core.list_storage_classes(cloud_id=cloud_id, api_token=owner_api_token)
     assert_response_ok(response)
     assert_is_instance(response, list)
     print('Success, list_storage_classes is working')
 
 def test_list_storage_classes_wrong_token(pretty_print, mist_core,
                                           owner_api_token, cache):
-    cloud_id = cache.get('kubevirt_cloud_id')
+    cloud_id = cache.get('kubevirt_cloud_id', '')
     response = mist_core.list_storage_classes(cloud_id=cloud_id, api_token="123Boom!")
     assert_response_unauthorized(response)
     print('Success')
 
 def test_list_storage_classes_wrong_cloud(pretty_print, mist_core, owner_api_token, cache):
-    cloud_id = cache.get('vsphere_cloud_id')
+    cloud_id = cache.get('vsphere_cloud_id', '')
     response = mist.core.list_storage_classes(cloud_id=cloud_id, api_token=owner_api_token)
     assert_response_not_found(response)
     print('Success')
 
-def test_list_storage_classes_inexistent_cloud(pretty_print, mist_core, ownwer_api_token, cache):
+def test_list_storage_classes_inexistent_cloud(pretty_print, mist_core, owner_api_token, cache):
     cloud_id = "not_a_cloud"
     response = mist.core.list_storage_classes(cloud_id=cloud_id, api_token=owner_api_token)
     assert_response_bad_request(response)
