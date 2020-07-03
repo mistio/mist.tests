@@ -882,7 +882,7 @@ class MistIoApi(object):
     def list_storage_classes(self, cloud_id, cookie=None, csrf_token=None,
                               api_token=None):
         req = MistRequests(uri=self.uri + '/api/v1/cloud/' + cloud_id +
-                           '/storage_classes', cookie=cookie,
+                           '/storage-classes', cookie=cookie,
                            csrf_token=csrf_token, api_token=api_token)
 
         req.post = req.unavailable_api_call

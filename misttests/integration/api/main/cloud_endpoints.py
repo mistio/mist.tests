@@ -44,7 +44,7 @@ def test_add_packet_cloud(pretty_print, mist_core, cache, owner_api_token, name=
     cache.set('packet_cloud_id', response.json()['id'])
     print("Success, Packet added!")
 
-def test_add_kvm_cloud(pretty_print, mist_core, cache, owner_api_token, name="Packet"):
+def test_add_kvm_cloud(pretty_print, mist_core, cache, owner_api_token, name="KVM"):
     response = mist_core.add_cloud(name, provider='libvirt', api_token=owner_api_token,
                                    machine_hostname=safe_get_var('clouds/other_server', 'host'),
                                    machine_user="root",
@@ -110,7 +110,7 @@ def test_list_storage_classes(pretty_print, mist_core, owner_api_token, cache):
     cloud_id = cache.get('kubevirt_cloud_id', '')
     response = mist_core.list_storage_classes(cloud_id=cloud_id, api_token=owner_api_token)
     assert_response_ok(response)
-    assert_is_instance(response, list)
+    assert_is_instance(response.json(), list)
     print('Success, list_storage_classes is working')
 
 def test_list_storage_classes_wrong_token(pretty_print, mist_core,
@@ -135,7 +135,7 @@ def test_list_storage_classes_inexistent_cloud(pretty_print, mist_core, owner_ap
 def test_list_projects(pretty_print, mist_core, owner_api_token, cache):
     cloud_id = cache.get('packet_cloud_id', '')
     response = mist_core.list_projects(cloud_id=cloud_id, api_token=owner_api_token)
-    assert_list_not_empty(response)
+    assert_list_not_empty(response.json())
     print('Success')
 
 def test_list_projects_wrong_token(pretty_print, mist_core, owner_api_token, cache):
@@ -159,5 +159,5 @@ def test_list_projects_inexistent_cloud(pretty_print, mist_core, owner_api_token
 def test_list_vnfs(pretty_print, mist_core, owner_api_token, cache):
     cloud_id = cache.get('kvm_cloud_id', "")
     response = mist_core.list_vnfs(cloud_id=cloud_id, api_token=owner_api_token)
-    assert (type(response.json()) is list), "Response is not a list!"
+    assert_is_instance(response.json(), list)
     print('Success')
