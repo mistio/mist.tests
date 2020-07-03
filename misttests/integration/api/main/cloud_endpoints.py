@@ -16,8 +16,8 @@ import pytest
 
 def test_add_vsphere_cloud(pretty_print, mist_core, cache, owner_api_token, name='VSphere'):
     response = mist_core.add_cloud(name, provider='vsphere', api_token=owner_api_token,
-                                   machine_hostname=safe_get_var('clouds/vsphere-7', 'host'),
-                                   machine_user=safe_get_var('clouds/vsphere-7', 'username'),
+                                   host=safe_get_var('clouds/vsphere-7', 'host'),
+                                   username=safe_get_var('clouds/vsphere-7', 'username'),
                                    password=safe_get_var('clouds/vsphere-7', 'password'),
                                    ca_cert_file=safe_get_var('clouds/vsphere-7', 'ca'),
                                    show_all=True).post()
@@ -43,6 +43,18 @@ def test_add_packet_cloud(pretty_print, mist_core, cache, owner_api_token, name=
     assert_response_ok(response)
     cache.set('packet_cloud_id', response.json()['id'])
     print("Success, Packet added!")
+
+def test_add_kvm_cloud(pretty_print, mist_core, cache, owner_api_token, name="Packet"):
+    response = mist_core.add_cloud(name, provider='libvirt', api_token=owner_api_token,
+                                   machine_hostname=safe_get_var('clouds/other_server', 'host'),
+                                   machine_user="root",
+                                   machine_key=safe_get_var('clouds/other_server', 'key'),
+                                   images_location='/var/lib/libvirt/images',
+                                   ssh_port=22).post()
+    assert_response_ok(response)
+    cache.set('kvm_cloud_id', response.json()['id'])
+    print("Success, KVM added!")
+
 # Proper
 def test_list_datastores(pretty_print, mist_core, owner_api_token, cache):
     cloud_id = cache.get('vsphere_cloud_id', '')
@@ -142,4 +154,10 @@ def test_list_projects_inexistent_cloud(pretty_print, mist_core, owner_api_token
     cloud_id = "not_a_cloud"
     response = mist_core.list_projects(cloud_id=cloud_id, api_token=owner_api_token)
     assert_response_bad_request(response)
+    print('Success')
+
+def test_list_vnfs(pretty_print, mist_core, owner_api_token, cache):
+    cloud_id = cache.get('kvm_cloud_id', "")
+    response = mist_core.list_vnfs(cloud_id=cloud_id, api_token=owner_api_token)
+    assert (type(response.json()) is list), "Response is not a list!"
     print('Success')
