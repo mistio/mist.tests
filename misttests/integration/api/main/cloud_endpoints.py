@@ -19,8 +19,8 @@ def test_add_vsphere_cloud(pretty_print, mist_core, cache, owner_api_token, name
                                    host=safe_get_var('clouds/vsphere-7', 'host'),
                                    username=safe_get_var('clouds/vsphere-7', 'username'),
                                    password=safe_get_var('clouds/vsphere-7', 'password'),
-                                   ca_cert_file=safe_get_var('clouds/vsphere-7', 'ca'),
-                                   show_all=True).post()
+                                   ca_cert_file=safe_get_var('clouds/vsphere-7', 'ca')
+                                   ).post()
     assert_response_ok(response)
     cache.set('vsphere_cloud_id', response.json()['id'])
     print("Success, VSphere cloud added!")

@@ -881,7 +881,7 @@ class MistIoApi(object):
 
     def list_storage_classes(self, cloud_id, cookie=None, csrf_token=None,
                               api_token=None):
-        req = MistRequests(uri=self.uri + '/api/v1/cloud/' + cloud_id +
+        req = MistRequests(uri=self.uri + '/api/v1/clouds/' + cloud_id +
                            '/storage-classes', cookie=cookie,
                            csrf_token=csrf_token, api_token=api_token)
 
@@ -892,7 +892,7 @@ class MistIoApi(object):
 
     def list_projects(self, cloud_id, cookie=None, csrf_token=None,
                       api_token=None):
-        req = MistRequests(uri=self.uri + '/api/v1/cloud/' + cloud_id +
+        req = MistRequests(uri=self.uri + '/api/v1/clouds/' + cloud_id +
                            '/projects', cookie=cookie,
                            csrf_token=csrf_token, api_token=api_token)
         req.post = req.unavailable_api_call
@@ -902,7 +902,7 @@ class MistIoApi(object):
 
     def list_vnfs(self, cloud_id, cookie=None, csrf_token=None,
                   api_token=None):
-        req = MistRequests(uri=self.uri + '/api/v1/cloud/' + cloud_id +
+        req = MistRequests(uri=self.uri + '/api/v1/clouds/' + cloud_id +
                            '/vnfs', cookie=cookie,
                            csrf_token=csrf_token, api_token=api_token)
         req.post = req.unavailable_api_call
