@@ -859,10 +859,11 @@ class MistIoApi(object):
 
     def list_datastores(self, cloud_id, cookie=None, csrf_token=None,
                         api_token=None):
-        req = MistRequests(uri=self.uri + '/api/v1/clouds/' + cloud_id +
-                           '/datastores', cookie=cookie,
+        uri=self.uri + '/api/v1/clouds/' + cloud_id + '/datastores'
+        req = MistRequests(uri=uri, cookie=cookie,
                            csrf_token=csrf_token, api_token=api_token)
-
+        print("DATASTORES URI  ", uri)
+        print("DATASTORE REQUEST", req)
         req.post = req.unavailable_api_call
         req.put = req.unavailable_api_call
         req.delete = req.unavailable_api_call
