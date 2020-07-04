@@ -60,8 +60,8 @@ def test_list_datastores(pretty_print, mist_core, owner_api_token, cache):
     cloud_id = cache.get('vsphere_cloud_id', '')
     print("YOO here!!", cloud_id)
     response = mist_core.list_datastores(cloud_id=cloud_id, api_token=owner_api_token)
-    print(response)
-    assert_response_ok("YOO there!!", response)
+    print("YOO there!!", response)
+    assert_response_ok(response)
     assert_list_not_empty(response.json())
     print("Success, list_datastores functions just fine.")
 
