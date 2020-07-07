@@ -928,3 +928,13 @@ class MistIoApi(object):
         req.put = req.unavailable_api_call
         req.delete = req.unavailable_api_call
         return req
+
+    def list_storage_pools(self, cloud_id, cookie=None, csrf_token=None,
+                              api_token=None):
+        req = MistRequests(uri=self.uri + '/api/v1/clouds/' + cloud_id +
+                           '/storage-pools', cookie=cookie,
+                           csrf_token=csrf_token, api_token=api_token)
+        req.post = req.unavailable_api_call
+        req.put = req.unavailable_api_call
+        req.delete = req.unavailable_api_call
+        return req
