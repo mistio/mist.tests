@@ -62,5 +62,5 @@ Feature: Multiprovisioning
     Then new_file should be included in the output
 
     Examples: Providers to be tested
-    | cloud         | size                                                    | location         | image                                          | machine-name           |
-    | AWS Advantis  | t2.nano - t2.nano                                       | us-west-2a       | Ubuntu Server 16.04 LTS (HVM), SSD Volume Type | ec2-mp-test-random     |
+    | cloud                | size                                                    | location         | image                                          | machine-name           |
+    | Amazon Web Services  | t2.nano - t2.nano                                       | us-west-2a       | Ubuntu Server 16.04 LTS (HVM), SSD Volume Type | ec2-mp-test-random     |
