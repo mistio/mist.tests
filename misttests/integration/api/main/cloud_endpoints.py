@@ -55,8 +55,8 @@ def test_add_kvm_cloud(pretty_print, mist_core, cache, owner_api_token, name="KV
     response = mist_core.add_cloud(name, provider='libvirt', api_token=owner_api_token,
                                    hosts=[{
                                    'machine_name': "KVM_machine",
-                                   'machine_hostname': safe_get_var('clouds/other_server', 'host'),
-                                   'machine_user': 'ubuntu',
+                                   'machine_hostname': safe_get_var('clouds/other_server', 'hostname'),
+                                   'machine_user': 'root',
                                    'machine_key': key_id,
                                    'images_location': '/var/lib/libvirt/images',
                                    'ssh_port': 22}]).post()
