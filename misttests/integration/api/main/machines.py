@@ -138,17 +138,17 @@ class TestMachinesFunctionality:
                                        docker_port='2375').post()
         else:
             response = mist_core.add_cloud(title='Docker', provider='docker', api_token=owner_api_token,
-                                       docker_host=safe_get_var('dockerhosts/godzilla', 'host',
+                                       docker_host=safe_get_var('clouds/dockerhost', 'host',
                                                                 config.CREDENTIALS['DOCKER']['host']),
-                                       docker_port=int(safe_get_var('dockerhosts/godzilla', 'port',
+                                       docker_port=int(safe_get_var('clouds/dockerhost', 'port',
                                                                 config.CREDENTIALS['DOCKER']['port'])),
-                                       authentication=safe_get_var('dockerhosts/godzilla', 'authentication',
+                                       authentication=safe_get_var('clouds/dockerhost', 'authentication',
                                                                    config.CREDENTIALS['DOCKER']['authentication']),
-                                       ca_cert_file=safe_get_var('dockerhosts/godzilla', 'ca',
+                                       ca_cert_file=safe_get_var('clouds/dockerhost', 'ca',
                                                                  config.CREDENTIALS['DOCKER']['ca']),
-                                       key_file=safe_get_var('dockerhosts/godzilla', 'key',
+                                       key_file=safe_get_var('clouds/dockerhost', 'key',
                                                              config.CREDENTIALS['DOCKER']['key']),
-                                       cert_file=safe_get_var('dockerhosts/godzilla', 'cert',
+                                       cert_file=safe_get_var('clouds/dockerhost', 'cert',
                                                               config.CREDENTIALS['DOCKER']['cert']), show_all=True).post()
         assert_response_ok(response)
         cache.set('cloud_id', response.json()['id'])

@@ -97,15 +97,6 @@ def set_do_creds(context):
                           u'"cloud" add form' % token)
 
 
-def set_docker_orchestrator_creds(context):
-    host = safe_get_var('clouds/docker_orchestrator', 'host', context.mist_config['CREDENTIALS']['DOCKER_ORCHESTRATOR']['host'])
-    port = safe_get_var('clouds/docker_orchestrator', 'port', context.mist_config['CREDENTIALS']['DOCKER_ORCHESTRATOR']['port'])
-    context.execute_steps(u'''
-                Then I set the value "Docker_Orchestrator" to field "Title" in the "cloud" add form
-                Then I set the value "%s" to field "Host" in the "cloud" add form
-                Then I set the value "%s" to field "Port" in the "cloud" add form
-            ''' % (host, port))
-
 def set_docker_creds(context):
     if context.mist_config['LOCAL']:
         host = context.mist_config['LOCAL_DOCKER']
@@ -116,17 +107,17 @@ def set_docker_creds(context):
                 Then I set the value "%s" to field "Port" in the "cloud" add form
         ''' % (host, port))
     else:
-        host = safe_get_var('dockerhosts/godzilla', 'host', context.mist_config['CREDENTIALS']['DOCKER']['host'])
-        port = safe_get_var('dockerhosts/godzilla', 'port', context.mist_config['CREDENTIALS']['DOCKER']['port'])
+        host = safe_get_var('clouds/dockerhost', 'host', context.mist_config['CREDENTIALS']['DOCKER']['host'])
+        port = safe_get_var('clouds/dockerhost', 'port', context.mist_config['CREDENTIALS']['DOCKER']['port'])
         context.execute_steps(u'''
                 Then I set the value "Docker" to field "Title" in the "cloud" add form
                 Then I set the value "%s" to field "Host" in the "cloud" add form
                 Then I set the value "%s" to field "Port" in the "cloud" add form
             ''' % (host, port))
 
-        certificate = safe_get_var('dockerhosts/godzilla', 'cert', context.mist_config['CREDENTIALS']['DOCKER']['cert'])
-        key = safe_get_var('dockerhosts/godzilla', 'key', context.mist_config['CREDENTIALS']['DOCKER']['key'])
-        ca = safe_get_var('dockerhosts/godzilla', 'ca', context.mist_config['CREDENTIALS']['DOCKER']['ca'])
+        certificate = safe_get_var('clouds/dockerhost', 'cert', context.mist_config['CREDENTIALS']['DOCKER']['cert'])
+        key = safe_get_var('clouds/dockerhost', 'key', context.mist_config['CREDENTIALS']['DOCKER']['key'])
+        ca = safe_get_var('clouds/dockerhost', 'ca', context.mist_config['CREDENTIALS']['DOCKER']['ca'])
 
         set_value_to_field(context, key, 'key', 'cloud', 'add')
         set_value_to_field(context, certificate, 'certificate', 'cloud', 'add')
@@ -197,7 +188,6 @@ def set_kvm_creds(context):
                     And I wait for 2 seconds
                     And I click the "KVMKEY" button in the "SSH Key" dropdown in the "cloud" add form
                     And I wait for 1 seconds
-                    And I set the value "ubuntu" to field "SSH USER" in the "cloud" add form
                 ''' % (safe_get_var('clouds/other_server', 'hostname', context.mist_config['CREDENTIALS']['KVM']['hostname']),))
 
 
@@ -315,7 +305,6 @@ cloud_creds_dict = {
     "kvm": set_kvm_creds,
     "other server": set_other_server_creds,
     "vmware vsphere": set_vsphere_creds,
-    "docker_orchestrator": set_docker_orchestrator_creds,
     "onapp": set_onapp_creds,
     "alibaba cloud": set_aliyun_creds,
     "aws advantis": set_aws_adv_creds,
@@ -424,9 +413,7 @@ def given_cloud(context, cloud):
         Then I expect the "Cloud" add form to be visible within max 5 seconds
     ''')
 
-    if 'docker_orchestrator' in cloud.lower():
-        cloud_type = 'docker'
-    elif 'aws advantis' in cloud.lower():
+    if 'aws advantis' in cloud.lower():
         cloud_type = 'amazon web services'
     else:
         cloud_type = cloud
