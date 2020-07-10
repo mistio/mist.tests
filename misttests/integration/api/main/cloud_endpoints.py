@@ -49,7 +49,7 @@ def test_add_packet_cloud(pretty_print, mist_core, cache, owner_api_token, name=
 def test_add_kvm_cloud(pretty_print, mist_core, cache, owner_api_token, name="KVM"):
     # first we need the key to exist, maybe change this in the api?
     response = mist_core.add_key('kvm_key', private=safe_get_var('clouds/other_server', 'key'),
-                                 api_token=owner_api_token)
+                                 api_token=owner_api_token).put()
     assert_response_ok(response)
     key_id = response.json()['id']
     response = mist_core.add_cloud(name, provider='libvirt', api_token=owner_api_token,
