@@ -1,3 +1,4 @@
+import time
 from misttests.integration.api.utils import assert_response_ok, assert_list_not_empty
 from misttests.integration.api.utils import assert_response_unauthorized
 from misttests.integration.api.utils import assert_response_not_found
@@ -45,24 +46,6 @@ def test_add_packet_cloud(pretty_print, mist_core, cache, owner_api_token, name=
     assert_response_ok(response)
     cache.set('packet_cloud_id', response.json()['id'])
     print("Success, Packet added!")
-
-def test_add_kvm_cloud(pretty_print, mist_core, cache, owner_api_token, name="KVM"):
-    # first we need the key to exist, maybe change this in the api?
-    response = mist_core.add_key('kvm_key', private=safe_get_var('clouds/other_server', 'key'),
-                                 api_token=owner_api_token).put()
-    assert_response_ok(response)
-    key_id = response.json()['id']
-    response = mist_core.add_cloud(name, provider='libvirt', api_token=owner_api_token,
-                                   hosts=[{
-                                   'machine_name': "KVM_machine",
-                                   'machine_hostname': safe_get_var('clouds/other_server', 'hostname'),
-                                   'machine_user': 'root',
-                                   'machine_key': key_id,
-                                   'images_location': '/var/lib/libvirt/images',
-                                   'ssh_port': 22}]).post()
-    assert_response_ok(response)
-    cache.set('kvm_cloud_id', response.json()['id'])
-    print("Success, KVM added!")
 
 def test_add_azure_arm_cloud(pretty_print, mist_core, cache, owner_api_token, name="Azure"):
     response = mist_core.add_cloud(name, provider='azure_arm', api_token=owner_api_token,
@@ -191,13 +174,6 @@ def test_list_projects_inexistent_cloud(pretty_print, mist_core, owner_api_token
     assert_response_not_found(response)
     print('Success')
 
-  ##### KVM endpoints #####
-def test_list_vnfs(pretty_print, mist_core, owner_api_token, cache):
-    cloud_id = cache.get('kvm_cloud_id', "")
-    response = mist_core.list_vnfs(cloud_id=cloud_id, api_token=owner_api_token).get()
-    assert_is_instance(response.json(), list)
-    print('Success')
-
   ##### Azure ARM endpoints #####
 def test_list_storage_accounts(pretty_print, mist_core, owner_api_token, cache):
     cloud_id = cache.get('azure_cloud_id', "")
@@ -217,3 +193,115 @@ def test_list_storage_pools(pretty_print, mist_core, owner_api_token, cache):
     response = mist_core.list_storage_pools(cloud_id=cloud_id, api_token=owner_api_token).get()
     assert_list_not_empty(response.json())
     print('Success')
+
+############################################################################
+#                         Functional Testing                               #
+############################################################################
+
+class TestKVMfunctionality:
+
+    def test_add_kvm_cloud(pretty_print, mist_core, cache, owner_api_token, name="KVM"):
+    # first we need the key to exist, maybe change this in the api?
+    response = mist_core.add_key('kvm_key', private=safe_get_var('clouds/other_server', 'key'),
+                                 api_token=owner_api_token).put()
+    assert_response_ok(response)
+    key_id = response.json()['id']
+    response = mist_core.add_cloud(name, provider='libvirt', api_token=owner_api_token,
+                                   hosts=[{
+                                   'machine_name': "KVM_machine",
+                                   'machine_hostname': safe_get_var('clouds/other_server', 'hostname'),
+                                   'machine_user': 'root',
+                                   'machine_key': key_id,
+                                   'images_location': '/var/lib/libvirt/images',
+                                   'ssh_port': 22}]).post()
+    assert_response_ok(response)
+    cache.set('kvm_cloud_id', response.json()['id'])
+    print("Success, KVM added!")
+
+    def test_list_vnfs(pretty_print, mist_core, owner_api_token, cache):
+    cloud_id = cache.get('kvm_cloud_id', "")
+    response = mist_core.list_vnfs(cloud_id=cloud_id, api_token=owner_api_token).get()
+    assert_is_instance(response.json(), list)
+    print('Success')
+
+    def test_list_machines(pretty_print, mist_core, owner_api_token, cache):
+        cloud_id = cache.get('kvm_cloud_id', "")
+        response = mist_core.list_machines(cloud_id=cloud_id, api_token=owner_api_token).get()
+        assert_is_instance(response.json(), list)
+        print('Success')
+
+    def test_list_sizes(pretty_print, mist_core, owner_api_token, cache):
+        cloud_id = cache.get('kvm_cloud_id', "")
+        response = mist_core.list_sizes(cloud_id=cloud_id, api_token=owner_api_token).get()
+        assert_is_instance(response.json(), list)
+        print('Success!')
+
+    def test_list_images(pretty_print, mist_core, owner_api_token, cache):
+        cloud_id = cache.get('kvm_cloud_id', "")
+        response = mist_core.list_images(cloud_id=cloud_id, api_token=owner_api_token).get()
+        assert_list_not_empty(response.json(), list)
+        cache.set('kvm_image_id', response.json()[0].id)
+        print('Success!')
+
+    def test_list_locations(pretty_print, mist_core, owner_api_token, cache):
+        cloud_id = cache.get('kvm_cloud_id', "")
+        response = mist_core.list_locations(cloud_id=cloud_id, api_token=owner_api_token).get()
+        assert_list_not_empty(response.json(), list)
+        cache.set("kvm_location_id", response.json()[0].id)
+        print('Success!')
+
+    def test_create_machine(pretty_print, mist_core, owner_api_token, cache):
+        cloud_id = cache.get('kvm_cloud_id', "")
+        response = mist_core.create_machine(cloud_id=cloud_id, key_id="",
+                                            name="api_test_machine",
+                                            provider='libvirt',
+                                            location=cache.get(
+                                                'kvm_location_id', ''),
+                                            image=cache.get(
+                                                'kvm_image_id', ''),
+                                            size={'ram':1024, 'cpu':1},
+                                            disk=4, api_token=owner_api_token
+                                            ).post()
+        assert_response_ok(response)
+        cache.set('kvm_machine_id', response.json().id)
+        print('Success')
+
+    def test_stop_start_machine(pretty_print, mist_core, owner_api_token,
+                                cache):
+        cloud_id = cache.get('kvm_cloud_id', "")
+        stop_response = mist_core.machine_action(cloud_id=cloud_id,
+                                                  machine_id=cache.get(
+                                                      'kvm_machine_id'),
+                                                  api_token=owner_api_token,
+                                                  action='stop')
+        assert_response_ok(stop_response)
+        time.sleep(60)  # Make sure the machine will stop
+        start_response = mist_core.machine_action(cloud_id=cloud_id,
+                                                  machine_id=cache.get(
+                                                      'kvm_machine_id'),
+                                                  api_token=owner_api_token,
+                                                  action='start')
+        assert_response_ok(start_response)
+        time.sleep(60)  # Make sure the machine will start
+        Print('Success!')
+
+    def test_destroy_machine(pretty_print, mist_core, owner_api_token, cache):
+        cloud_id = cache.get('kvm_cloud_id', "")
+        response = mist_core.machine_action(cloud_id=cloud_id,
+                                                  machine_id=cache.get(
+                                                      'kvm_machine_id'),
+                                                  api_token=owner_api_token,
+                                                  action='destroy')
+        assert_response_ok(response)
+        time.sleep(60)  # Make sure the machine will shutdown
+
+    def test_undefine_machine(pretty_print, mist_core,
+                              owner_api_token, cache):
+        cloud_id = cache.get('kvm_cloud_id', "")
+        response = mist_core.machine_action(cloud_id=cloud_id,
+                                                  machine_id=cache.get(
+                                                      'kvm_machine_id'),
+                                                  api_token=owner_api_token,
+                                                  action='undefine')
+        assert_response_ok(response)
+        time.sleep(20)  # Make sure the machine will be deleted
