@@ -175,15 +175,18 @@ def test_list_projects_inexistent_cloud(pretty_print, mist_core, owner_api_token
     print('Success')
 
   ##### Azure ARM endpoints #####
-def test_list_storage_accounts(pretty_print, mist_core, owner_api_token, cache):
-    cloud_id = cache.get('azure_cloud_id', "")
-    response = mist_core.list_storage_accounts(cloud_id=cloud_id, api_token=owner_api_token).get()
-    assert_list_not_empty(response.json())
-    print('Success')
-
 def test_list_resource_groups(pretty_print, mist_core, owner_api_token, cache):
     cloud_id = cache.get('azure_cloud_id', "")
     response = mist_core.list_resource_groups(cloud_id=cloud_id, api_token=owner_api_token).get()
+    assert_list_not_empty(response.json())
+    print('Success')
+
+def test_list_storage_accounts(pretty_print, mist_core, owner_api_token, cache):
+    cloud_id = cache.get('azure_cloud_id', "")
+    locations_response = mist_core.list_locations(cloud_id=cloud_id, api_token=owner_api_token).get()
+    # Need to have locations in the database
+    assert_list_not_empty(locations_response.json())
+    response = mist_core.list_storage_accounts(cloud_id=cloud_id, api_token=owner_api_token).get()
     assert_list_not_empty(response.json())
     print('Success')
 
@@ -240,14 +243,14 @@ class TestKVMfunctionality:
         cloud_id = cache.get('kvm_cloud_id', "")
         response = mist_core.list_images(cloud_id=cloud_id, api_token=owner_api_token).get()
         assert_list_not_empty(response.json(), list)
-        cache.set('kvm_image_id', response.json()[0].id)
+        cache.set('kvm_image_id', response.json()[0].get('id'))
         print('Success!')
 
     def test_list_locations(pretty_print, mist_core, owner_api_token, cache):
         cloud_id = cache.get('kvm_cloud_id', "")
         response = mist_core.list_locations(cloud_id=cloud_id, api_token=owner_api_token).get()
         assert_list_not_empty(response.json(), list)
-        cache.set("kvm_location_id", response.json()[0].id)
+        cache.set("kvm_location_id", response.json()[0].get('id'))
         print('Success!')
 
     def test_create_machine(pretty_print, mist_core, owner_api_token, cache):
