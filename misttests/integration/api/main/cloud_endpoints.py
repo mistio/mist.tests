@@ -201,28 +201,28 @@ def test_list_storage_pools(pretty_print, mist_core, owner_api_token, cache):
 class TestKVMfunctionality:
 
     def test_add_kvm_cloud(pretty_print, mist_core, cache, owner_api_token, name="KVM"):
-    # first we need the key to exist, maybe change this in the api?
-    response = mist_core.add_key('kvm_key', private=safe_get_var('clouds/other_server', 'key'),
-                                 api_token=owner_api_token).put()
-    assert_response_ok(response)
-    key_id = response.json()['id']
-    response = mist_core.add_cloud(name, provider='libvirt', api_token=owner_api_token,
-                                   hosts=[{
-                                   'machine_name': "KVM_machine",
-                                   'machine_hostname': safe_get_var('clouds/other_server', 'hostname'),
-                                   'machine_user': 'root',
-                                   'machine_key': key_id,
-                                   'images_location': '/var/lib/libvirt/images',
-                                   'ssh_port': 22}]).post()
-    assert_response_ok(response)
-    cache.set('kvm_cloud_id', response.json()['id'])
-    print("Success, KVM added!")
+        # first we need the key to exist, maybe change this in the api?
+        response = mist_core.add_key('kvm_key', private=safe_get_var('clouds/other_server', 'key'),
+                                    api_token=owner_api_token).put()
+        assert_response_ok(response)
+        key_id = response.json()['id']
+        response = mist_core.add_cloud(name, provider='libvirt', api_token=owner_api_token,
+                                    hosts=[{
+                                    'machine_name': "KVM_machine",
+                                    'machine_hostname': safe_get_var('clouds/other_server', 'hostname'),
+                                    'machine_user': 'root',
+                                    'machine_key': key_id,
+                                    'images_location': '/var/lib/libvirt/images',
+                                    'ssh_port': 22}]).post()
+        assert_response_ok(response)
+        cache.set('kvm_cloud_id', response.json()['id'])
+        print("Success, KVM added!")
 
     def test_list_vnfs(pretty_print, mist_core, owner_api_token, cache):
-    cloud_id = cache.get('kvm_cloud_id', "")
-    response = mist_core.list_vnfs(cloud_id=cloud_id, api_token=owner_api_token).get()
-    assert_is_instance(response.json(), list)
-    print('Success')
+        cloud_id = cache.get('kvm_cloud_id', "")
+        response = mist_core.list_vnfs(cloud_id=cloud_id, api_token=owner_api_token).get()
+        assert_is_instance(response.json(), list)
+        print('Success')
 
     def test_list_machines(pretty_print, mist_core, owner_api_token, cache):
         cloud_id = cache.get('kvm_cloud_id', "")
