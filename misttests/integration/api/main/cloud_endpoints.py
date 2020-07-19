@@ -266,7 +266,7 @@ class TestKVMfunctionality:
                                             disk=4, api_token=owner_api_token
                                             ).post()
         assert_response_ok(response)
-        cache.set('kvm_machine_id', response.json().id)
+        cache.set('kvm_machine_id', response.json().get('id'))
         print('Success')
 
     def test_stop_start_machine(pretty_print, mist_core, owner_api_token,
@@ -274,14 +274,14 @@ class TestKVMfunctionality:
         cloud_id = cache.get('kvm_cloud_id', "")
         stop_response = mist_core.machine_action(cloud_id=cloud_id,
                                                   machine_id=cache.get(
-                                                      'kvm_machine_id'),
+                                                      'kvm_machine_id', ''),
                                                   api_token=owner_api_token,
                                                   action='stop')
         assert_response_ok(stop_response)
         time.sleep(60)  # Make sure the machine will stop
         start_response = mist_core.machine_action(cloud_id=cloud_id,
                                                   machine_id=cache.get(
-                                                      'kvm_machine_id'),
+                                                      'kvm_machine_id', ''),
                                                   api_token=owner_api_token,
                                                   action='start')
         assert_response_ok(start_response)
@@ -292,7 +292,7 @@ class TestKVMfunctionality:
         cloud_id = cache.get('kvm_cloud_id', "")
         response = mist_core.machine_action(cloud_id=cloud_id,
                                                   machine_id=cache.get(
-                                                      'kvm_machine_id'),
+                                                      'kvm_machine_id', ''),
                                                   api_token=owner_api_token,
                                                   action='destroy')
         assert_response_ok(response)
