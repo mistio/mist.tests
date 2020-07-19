@@ -187,6 +187,19 @@ class MistIoApi(object):
         req.delete = req.unavailable_api_call
         return req
 
+    def undefine_machine(self, cloud_id, machine_id, cookie=None,
+                        csrf_token=None, api_token=None, delete_image=False):
+        uri = self.uri + '/api/v1/clouds/' + cloud_id + '/machines/'\
+              + machine_id
+        req = MistRequests(uri=uri, data={'action': 'undefine',
+                                           'delete_domain_image': delete_image},
+                           cookie=cookie,
+                           csrf_token=csrf_token, api_token=api_token)
+        req.get = req.unavailable_api_call
+        req.put = req.unavailable_api_call
+        req.delete = req.unavailable_api_call
+        return req
+
     def machine_action(self, cloud_id, machine_id, cookie=None,
                        csrf_token=None, api_token=None, action=''):
         data = {}

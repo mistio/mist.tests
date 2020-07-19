@@ -276,14 +276,14 @@ class TestKVMfunctionality:
                                                   machine_id=cache.get(
                                                       'kvm_machine_id', ''),
                                                   api_token=owner_api_token,
-                                                  action='stop')
+                                                  action='stop').post()
         assert_response_ok(stop_response)
         time.sleep(60)  # Make sure the machine will stop
         start_response = mist_core.machine_action(cloud_id=cloud_id,
                                                   machine_id=cache.get(
                                                       'kvm_machine_id', ''),
                                                   api_token=owner_api_token,
-                                                  action='start')
+                                                  action='start').post()
         assert_response_ok(start_response)
         time.sleep(60)  # Make sure the machine will start
         Print('Success!')
@@ -294,17 +294,17 @@ class TestKVMfunctionality:
                                                   machine_id=cache.get(
                                                       'kvm_machine_id', ''),
                                                   api_token=owner_api_token,
-                                                  action='destroy')
+                                                  action='destroy').post()
         assert_response_ok(response)
         time.sleep(60)  # Make sure the machine will shutdown
 
     def test_undefine_machine(pretty_print, mist_core,
                               owner_api_token, cache):
         cloud_id = cache.get('kvm_cloud_id', "")
-        response = mist_core.machine_action(cloud_id=cloud_id,
+        response = mist_core.undefine_machine(cloud_id=cloud_id,
                                                   machine_id=cache.get(
-                                                      'kvm_machine_id'),
+                                                      'kvm_machine_id', ''),
                                                   api_token=owner_api_token,
-                                                  action='undefine')
+                                                  delete_image=True).post()
         assert_response_ok(response)
         time.sleep(20)  # Make sure the machine will be deleted
