@@ -276,8 +276,8 @@ class TestKVMfunctionality:
         machines = response.json()
         assert_list_not_empty(machines)
         for machine in machines:
-            if "api_test_machine" in machine.name:
-                cache.set('kvm_machine_id', machine.id)
+            if "api_test_machine" in machine.get('name'):
+                cache.set('kvm_machine_id', machine.get('id'))
         print('Success!')
 
     def test_stop_start_machine(pretty_print, mist_core, owner_api_token,
