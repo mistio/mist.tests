@@ -267,6 +267,7 @@ class TestKVMfunctionality:
                                             ).post()
         assert_response_ok(response)
         cache.set('kvm_machine_id', response.json().get('id'))
+        print("Response is: ", response.json())
         print('Success')
 
     def test_stop_start_machine(pretty_print, mist_core, owner_api_token,
