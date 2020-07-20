@@ -266,9 +266,19 @@ class TestKVMfunctionality:
                                             disk=4, api_token=owner_api_token
                                             ).post()
         assert_response_ok(response)
-        cache.set('kvm_machine_id', response.json().get('id'))
-        print("Response is: ", response.json())
-        print('Success')
+        time.sleep(30) # Wait for the machine to be created
+        print('Success!')
+
+    def test_list_machines(pretty_print, mist_core, owner_api_token, cache):
+        cloud_id = cache.get('kvm_cloud_id', "")
+        response = mist_core.list_machines(cloud_id=cloud_id, api_token=owner_api_token
+                                            ).get()
+        machines = response.json()
+        assert_list_not_empty(machines)
+        for machine in machines:
+            if "api_test_machine" in machine.name:
+                cache.set('kvm_machine_id', machine.id)
+        print('Success!')
 
     def test_stop_start_machine(pretty_print, mist_core, owner_api_token,
                                 cache):
@@ -279,15 +289,15 @@ class TestKVMfunctionality:
                                                   api_token=owner_api_token,
                                                   action='stop').post()
         assert_response_ok(stop_response)
-        time.sleep(60)  # Make sure the machine will stop
+        time.sleep(30)  # Make sure the machine will stop
         start_response = mist_core.machine_action(cloud_id=cloud_id,
                                                   machine_id=cache.get(
                                                       'kvm_machine_id', ''),
                                                   api_token=owner_api_token,
                                                   action='start').post()
         assert_response_ok(start_response)
-        time.sleep(60)  # Make sure the machine will start
-        Print('Success!')
+        time.sleep(30)  # Make sure the machine will start
+        print("Success!")
 
     def test_destroy_machine(pretty_print, mist_core, owner_api_token, cache):
         cloud_id = cache.get('kvm_cloud_id', "")
@@ -297,7 +307,8 @@ class TestKVMfunctionality:
                                                   api_token=owner_api_token,
                                                   action='destroy').post()
         assert_response_ok(response)
-        time.sleep(60)  # Make sure the machine will shutdown
+        time.sleep(310)  # Make sure the machine will shutdown
+        print("Success!")
 
     def test_undefine_machine(pretty_print, mist_core,
                               owner_api_token, cache):
@@ -309,3 +320,4 @@ class TestKVMfunctionality:
                                                   delete_image=True).post()
         assert_response_ok(response)
         time.sleep(20)  # Make sure the machine will be deleted
+        print("Success!")
