@@ -188,7 +188,7 @@ class MistIoApi(object):
         return req
 
     def undefine_machine(self, cloud_id, machine_id, cookie=None,
-                        csrf_token=None, api_token=None, delete_image=False):
+                        csrf_token=None, api_token=None, delete_image=True):
         uri = self.uri + '/api/v1/clouds/' + cloud_id + '/machines/'\
               + machine_id
         req = MistRequests(uri=uri, data={'action': 'undefine',

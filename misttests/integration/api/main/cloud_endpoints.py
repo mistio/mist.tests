@@ -268,7 +268,7 @@ class TestKVMfunctionality:
                                             disk=4, api_token=owner_api_token
                                             ).post()
         assert_response_ok(response)
-        time.sleep(40) # Wait for the machine to be created
+        time.sleep(250) # Wait for the machine to be created
         print('Success!')
 
     def test_list_machines(pretty_print, mist_core, owner_api_token, cache):
@@ -291,7 +291,7 @@ class TestKVMfunctionality:
                                                   api_token=owner_api_token,
                                                   action='stop').post()
         assert_response_ok(stop_response)
-        time.sleep(60)  # Make sure the machine will stop
+        time.sleep(250)  # Make sure the machine will stop
         #force list machines to update status
         response = mist_core.list_machines(cloud_id=cloud_id, api_token=owner_api_token
                                             ).get()
