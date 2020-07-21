@@ -1,11 +1,13 @@
 import time
-from misttests.integration.api.utils import assert_response_ok, assert_list_not_empty
+from misttests.integration.api.utils import assert_response_ok
+from misttests.integration.api.utils import assert_list_not_empty
 from misttests.integration.api.utils import assert_response_unauthorized
 from misttests.integration.api.utils import assert_response_not_found
 from misttests.integration.api.utils import assert_response_bad_request
 from misttests.integration.api.utils import assert_is_instance
 from misttests.integration.api.utils import assert_list_empty
 from misttests.integration.api.utils import assert_response_not_found
+from misttests.integration.api.utils import assert_equal, assert_not_equal
 from misttests.config import safe_get_var
 from misttests import config
 
@@ -266,7 +268,7 @@ class TestKVMfunctionality:
                                             disk=4, api_token=owner_api_token
                                             ).post()
         assert_response_ok(response)
-        time.sleep(30) # Wait for the machine to be created
+        time.sleep(40) # Wait for the machine to be created
         print('Success!')
 
     def test_list_machines(pretty_print, mist_core, owner_api_token, cache):
@@ -280,44 +282,75 @@ class TestKVMfunctionality:
                 cache.set('kvm_machine_id', machine.get('id'))
         print('Success!')
 
-    def test_stop_start_machine(pretty_print, mist_core, owner_api_token,
+    def test_stop_machine(pretty_print, mist_core, owner_api_token,
                                 cache):
         cloud_id = cache.get('kvm_cloud_id', "")
+        machine_id = cache.get('kvm_machine_id', '')
         stop_response = mist_core.machine_action(cloud_id=cloud_id,
-                                                  machine_id=cache.get(
-                                                      'kvm_machine_id', ''),
+                                                  machine_id=machine_id,
                                                   api_token=owner_api_token,
                                                   action='stop').post()
         assert_response_ok(stop_response)
         time.sleep(30)  # Make sure the machine will stop
+        #force list machines to update status
+        response = mist_core.list_machines(cloud_id=cloud_id, api_token=owner_api_token
+                                            ).get()
+        for machine in response.json():
+            if machine.get('id') == machine_id:
+                assert_equal(machine.get(
+                    'state'), 'stopped', "Machine did not stop!!")
+        print("Success!")
+
+    def test_start_machine(pretty_print, mist_core, owner_api_token,
+                           cache):
+        cloud_id = cache.get('kvm_cloud_id', "")
+        machine_id = cache.get('kvm_machine_id', '')
         start_response = mist_core.machine_action(cloud_id=cloud_id,
-                                                  machine_id=cache.get(
-                                                      'kvm_machine_id', ''),
+                                                  machine_id=machine_id,
                                                   api_token=owner_api_token,
                                                   action='start').post()
         assert_response_ok(start_response)
         time.sleep(30)  # Make sure the machine will start
+        #force list machines to update status
+        response = mist_core.list_machines(cloud_id=cloud_id, api_token=owner_api_token
+                                            ).get()
+        for machine in response.json():
+            if machine.get('id') == machine_id:
+                assert_equal(machine.get(
+                    'state'), 'start', "Machine did not start!!")
         print("Success!")
 
     def test_destroy_machine(pretty_print, mist_core, owner_api_token, cache):
         cloud_id = cache.get('kvm_cloud_id', "")
+        machine_id = cache.get('kvm_machine_id', '')
         response = mist_core.machine_action(cloud_id=cloud_id,
-                                                  machine_id=cache.get(
-                                                      'kvm_machine_id', ''),
+                                                  machine_id=machine_id,
                                                   api_token=owner_api_token,
                                                   action='destroy').post()
         assert_response_ok(response)
-        time.sleep(310)  # Make sure the machine will shutdown
+        time.sleep(30)  # Make sure the machine will shutdown
+        #force list machines to update status
+        response = mist_core.list_machines(cloud_id=cloud_id, api_token=owner_api_token
+                                            ).get()
+        for machine in response.json():
+            if machine.get('id') == machine_id:
+                assert_equal(machine.get(
+                    'state'), 'terminated', "Machine is not terminated!")
         print("Success!")
 
     def test_undefine_machine(pretty_print, mist_core,
                               owner_api_token, cache):
         cloud_id = cache.get('kvm_cloud_id', "")
+        machine_id = cache.get('kvm_machine_id', '')
         response = mist_core.undefine_machine(cloud_id=cloud_id,
-                                                  machine_id=cache.get(
-                                                      'kvm_machine_id', ''),
+                                                  machine_id=machine_id,
                                                   api_token=owner_api_token,
                                                   delete_image=True).post()
         assert_response_ok(response)
-        time.sleep(20)  # Make sure the machine will be deleted
+        time.sleep(30)  # Make sure the machine will be deleted
+        response = mist_core.list_machines(cloud_id=cloud_id, api_token=owner_api_token
+                                            ).get()
+        msg="Machine still found in list!"
+        for machine in response.json():
+            assert_not_equal(machine.get('id'), machine_id, msg=msg)
         print("Success!")
