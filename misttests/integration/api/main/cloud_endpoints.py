@@ -298,7 +298,7 @@ class TestKVMfunctionality:
         for machine in response.json():
             if machine.get('id') == machine_id:
                 assert_equal(machine.get(
-                    'state'), 'stopped', "Machine did not stop!!")
+                    'state'), 'terminated', "Machine did not stop!!")
         print("Success!")
 
     def test_start_machine(pretty_print, mist_core, owner_api_token,
