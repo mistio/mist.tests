@@ -291,7 +291,7 @@ class TestKVMfunctionality:
                                                   api_token=owner_api_token,
                                                   action='stop').post()
         assert_response_ok(stop_response)
-        time.sleep(30)  # Make sure the machine will stop
+        time.sleep(60)  # Make sure the machine will stop
         #force list machines to update status
         response = mist_core.list_machines(cloud_id=cloud_id, api_token=owner_api_token
                                             ).get()
@@ -310,14 +310,14 @@ class TestKVMfunctionality:
                                                   api_token=owner_api_token,
                                                   action='start').post()
         assert_response_ok(start_response)
-        time.sleep(30)  # Make sure the machine will start
+        time.sleep(60)  # Make sure the machine will start
         #force list machines to update status
         response = mist_core.list_machines(cloud_id=cloud_id, api_token=owner_api_token
                                             ).get()
         for machine in response.json():
             if machine.get('id') == machine_id:
                 assert_equal(machine.get(
-                    'state'), 'start', "Machine did not start!!")
+                    'state'), 'running', "Machine did not start!!")
         print("Success!")
 
     def test_destroy_machine(pretty_print, mist_core, owner_api_token, cache):
@@ -328,7 +328,7 @@ class TestKVMfunctionality:
                                                   api_token=owner_api_token,
                                                   action='destroy').post()
         assert_response_ok(response)
-        time.sleep(30)  # Make sure the machine will shutdown
+        time.sleep(60)  # Make sure the machine will shutdown
         #force list machines to update status
         response = mist_core.list_machines(cloud_id=cloud_id, api_token=owner_api_token
                                             ).get()
