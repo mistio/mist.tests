@@ -17,6 +17,7 @@ pytest_paths["teams"]='misttests/integration/api/main/teams.py'
 pytest_paths["ip-whitelisting"]='misttests/integration/api/main/ip_whitelisting.py'
 pytest_paths["tunnels"]='misttests/integration/api/plugin/tunnels.py'
 pytest_paths["orchestration"]='misttests/integration/api/plugin/orchestration.py'
+pytest_paths["endpoints"]='misttests/integration/api/main/cloud_endpoints.py'
 
 declare -A behave_tags
 
@@ -66,7 +67,7 @@ help_message() {
     echo
     echo "Argument for UI tests can be one of the following:"
     echo
-    echo "clouds, clouds-actions, machines, images, keys, scripts, users, teams, schedules, orchestration, monitoring, rbac-1, rbac-2, rbac-3, rbac-4, insights, zones, ip-whitelisting"
+    echo "clouds, clouds-actions, machines, images, keys, scripts, users, teams, schedules, orchestration, monitoring, rbac-1, rbac-2, rbac-3, rbac-4, insights, zones, ip-whitelisting, endpoints"
     echo
 }
 
@@ -80,9 +81,9 @@ vault_login() {
         echo Vault password:
         read -s password
         export PYTHONIOENCODING=utf8
-
+        password_json='{"password":"'"$password"'"}'
         VAULT_CLIENT_TOKEN=$(
-          curl -k $vault_server/v1/auth/userpass/login/$username -d '{ "password": "'${password}'" }' |
+          curl -k "$vault_server"/v1/auth/userpass/login/"$username" -d "$password_json" |
           python -c "
 import sys, json;
 res = json.load(sys.stdin)
