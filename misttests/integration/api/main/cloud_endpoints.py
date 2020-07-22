@@ -280,12 +280,16 @@ class TestKVMfunctionality:
         for machine in machines:
             if "api_test_machine" in machine.get('name'):
                 cache.set('kvm_machine_id', machine.get('id'))
+                cache.set('kvm_machine_provider_id',
+                           machine.get('machine_id'))
+        if not cache.get('kvm_machine_id', ''):
+            raise AssertionError("Machine was not created!!")
         print('Success!')
 
     def test_stop_machine(pretty_print, mist_core, owner_api_token,
                                 cache):
         cloud_id = cache.get('kvm_cloud_id', "")
-        machine_id = cache.get('kvm_machine_id', '')
+        machine_id = cache.get('kvm_machine_provider_id', '')
         stop_response = mist_core.machine_action(cloud_id=cloud_id,
                                                   machine_id=machine_id,
                                                   api_token=owner_api_token,
@@ -296,7 +300,7 @@ class TestKVMfunctionality:
         response = mist_core.list_machines(cloud_id=cloud_id, api_token=owner_api_token
                                             ).get()
         for machine in response.json():
-            if machine.get('id') == machine_id:
+            if machine.get('machine_id') == machine_id:
                 assert_equal(machine.get(
                     'state'), 'terminated', "Machine did not stop!!")
         print("Success!")
@@ -304,7 +308,7 @@ class TestKVMfunctionality:
     def test_start_machine(pretty_print, mist_core, owner_api_token,
                            cache):
         cloud_id = cache.get('kvm_cloud_id', "")
-        machine_id = cache.get('kvm_machine_id', '')
+        machine_id = cache.get('kvm_machine_provider_id', '')
         start_response = mist_core.machine_action(cloud_id=cloud_id,
                                                   machine_id=machine_id,
                                                   api_token=owner_api_token,
@@ -315,14 +319,14 @@ class TestKVMfunctionality:
         response = mist_core.list_machines(cloud_id=cloud_id, api_token=owner_api_token
                                             ).get()
         for machine in response.json():
-            if machine.get('id') == machine_id:
+            if machine.get('machine_id') == machine_id:
                 assert_equal(machine.get(
                     'state'), 'running', "Machine did not start!!")
         print("Success!")
 
     def test_destroy_machine(pretty_print, mist_core, owner_api_token, cache):
         cloud_id = cache.get('kvm_cloud_id', "")
-        machine_id = cache.get('kvm_machine_id', '')
+        machine_id = cache.get('kvm_machine_provider_id', '')
         response = mist_core.machine_action(cloud_id=cloud_id,
                                                   machine_id=machine_id,
                                                   api_token=owner_api_token,
@@ -333,7 +337,7 @@ class TestKVMfunctionality:
         response = mist_core.list_machines(cloud_id=cloud_id, api_token=owner_api_token
                                             ).get()
         for machine in response.json():
-            if machine.get('id') == machine_id:
+            if machine.get('machine_id') == machine_id:
                 assert_equal(machine.get(
                     'state'), 'terminated', "Machine is not terminated!")
         print("Success!")
@@ -341,7 +345,7 @@ class TestKVMfunctionality:
     def test_undefine_machine(pretty_print, mist_core,
                               owner_api_token, cache):
         cloud_id = cache.get('kvm_cloud_id', "")
-        machine_id = cache.get('kvm_machine_id', '')
+        machine_id = cache.get('kvm_machine_provider_id', '')
         response = mist_core.undefine_machine(cloud_id=cloud_id,
                                                   machine_id=machine_id,
                                                   api_token=owner_api_token,
@@ -352,5 +356,5 @@ class TestKVMfunctionality:
                                             ).get()
         msg="Machine still found in list!"
         for machine in response.json():
-            assert_not_equal(machine.get('id'), machine_id, msg=msg)
+            assert_not_equal(machine.get('machine_id'), machine_id, msg=msg)
         print("Success!")
