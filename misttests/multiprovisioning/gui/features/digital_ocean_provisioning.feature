@@ -13,7 +13,7 @@ Feature: Multiprovisioning
   @digital-ocean-machine-create-enable-monitoring-cloud-init
   Scenario Outline: Create a machine in digital ocean provider, creating a file using cloud init and enabling monitoring
     Given "<cloud>" cloud has been added
-    And I wait for 40 seconds
+    And I wait for 120 seconds
     When I visit the Machines page
     And I click the button "+"
     Then I expect the "Machine" add form to be visible within max 10 seconds
@@ -78,4 +78,4 @@ Feature: Multiprovisioning
 
   Examples: Providers to be tested
     | cloud         | size                                                       | location         | image                                          | machine-name           |
-    | Digital Ocean | 1 CPU/ 0.5 GB/ 20 GB SSD Disk/ 1.0 TB transfer/ $5.0/month | Amsterdam 3      | Ubuntu 16.04.6 (LTS) x64                       | do-mp-test-random      |
+    | Digital Ocean | 1 CPU, 0.5 GB, 20 GB SSD Disk, 1.0 TB transfer, $5.0/month | Amsterdam 3      | Ubuntu 16.04.6 (LTS) x64                       | do-mp-test-random      |

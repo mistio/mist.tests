@@ -13,7 +13,7 @@ Feature: Multiprovisioning
   @ec2-machine-create-cloud-init
   Scenario Outline: Create a machine in EC2 provider, creating a file using cloud init
     Given "<cloud>" cloud has been added
-    And I wait for 90 seconds
+    And I wait for 120 seconds
     When I visit the Machines page
     And I click the button "+"
     Then I expect the "Machine" add form to be visible within max 10 seconds
