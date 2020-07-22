@@ -98,5 +98,5 @@ Feature: Multiprovisioning
     Then new_file should be included in the output
 
     Examples: Providers to be tested
-    | cloud         | size                                                    | location         | image                                          | machine-name           |
-    | Packet        | x1.small.x86 - 32768 RAM                                | Dallas, TX       | Ubuntu 18.04 LTS                               | packet-mp-test-random  |
+    | cloud         | size                                                    | location               | image                                          | machine-name           |
+    | Packet        | x1.small.x86 - 32768 RAM                                | Dallas, TX (DFW2)      | Ubuntu 18.04 LTS                               | packet-mp-test-random  |
