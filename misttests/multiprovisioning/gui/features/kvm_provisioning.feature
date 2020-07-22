@@ -36,7 +36,7 @@ Feature: Multiprovisioning
     Then I set the value "kvm-mp-test-random" to field "Machine Name" in the "machine" add form
     When I open the "Image" dropdown in the "machine" add form
     And I wait for 1 seconds
-    And I click the "debian-edu-10.3.0-amd64-BD-1.iso" button in the "Image" dropdown in the "machine" add form
+    And I click the "bionic-server-cloudimg-amd64.img" button in the "Image" dropdown in the "machine" add form
     And I open the "Key" dropdown in the "machine" add form
     And I wait for 5 seconds
     And I click the "KVMKey" button in the "Key" dropdown in the "machine" add form
