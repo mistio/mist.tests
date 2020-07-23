@@ -152,13 +152,13 @@ def click_menu_button_from_more_menu(context, button_name, title, form_type):
 
 def get_button_from_form(context, form, button_name, tag_name='paper-button:not([hidden])'):
     all_buttons = []
-    form_containers = form.find_elements_by_css_selector('cloud-edit, cloud-dns, network-create, mist-monitoring, mist-rules, team-policy, metric-menu')
+    form_containers = form.find_elements_by_css_selector('cloud-edit, cloud-dns, network-create, mist-monitoring, mist-rules, team-policy, metric-menu, rule-metrics')
     form_containers_shadow = [expand_shadow_root(context, f) for f in form_containers]
     form_containers_shadow.append(form)
     for form in form_containers_shadow:
         all_buttons += form.find_elements_by_css_selector('%s' % tag_name)
         try:
-            sub_forms = form.find_elements_by_css_selector('app-form, add-graph, metric-menu')
+            sub_forms = form.find_elements_by_css_selector('app-form, add-graph, metric-menu, rule-metrics')
             for sub_form in sub_forms:
                 sub_form_shadow = expand_shadow_root(context, sub_form)
                 all_buttons += sub_form_shadow.find_elements_by_css_selector('%s' % tag_name)

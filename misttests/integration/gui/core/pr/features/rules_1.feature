@@ -26,7 +26,8 @@ Feature: Rules
     And I click the button "add new rule" in the "machine" page
     And I wait for 1 seconds
     And I select the "metric" target-type when adding new rule in the "machine" page
-    And I select the "RAM" target when adding new rule in the "machine" page
+    And I select the "mem" target when adding new rule in the "machine" page
+    And I select the "mem.used" target when adding new rule in the "machine" page
     And I select the ">" operator when adding new rule in the "machine" page
     And I type "0" in the threshold when adding new rule in the "machine" page
     And I select the "any" aggregation when adding new rule in the "machine" page
@@ -37,7 +38,7 @@ Feature: Rules
 
   @incidents-triggered
   Scenario: Verify that incidents get triggered
-    Then I should receive an email at the address "EMAIL" with subject "[Mist] *** WARNING *** machine `rules-test-machine-random`: RAM" within 180 seconds
+    Then I should receive an email at the address "EMAIL" with subject "[Mist] *** WARNING *** machine `rules-test-machine-random`: MEM used" within 180 seconds
 
   @metric-rule-rules-page-destroy
   Scenario: Insert rule regarding metric from machine page. If triggered, destroy the machine
@@ -47,7 +48,8 @@ Feature: Rules
     And I select the "machine" apply-on when adding new rule in the "rules" page
     And I select the "all" resource-type when adding new rule in the "rules" page
     And I select the "metric" target-type when adding new rule in the "rules" page
-    And I select the "Load" target when adding new rule in the "rules" page
+    And I select the "system" target when adding new rule in the "rules" page
+    And I select the "system.load1" target when adding new rule in the "rules" page
     And I select the "<" operator when adding new rule in the "rules" page
     And I type "1" in the threshold when adding new rule in the "rules" page
     And I select the "any" aggregation when adding new rule in the "rules" page

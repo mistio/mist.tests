@@ -6,6 +6,7 @@ import logging
 import argparse
 
 from misttests import config
+from functools import reduce
 
 log = logging.getLogger(__name__)
 logging.basicConfig(level=logging.INFO)
@@ -25,12 +26,12 @@ def arg_index(arg_list, arg):
 
 def arg_to_snake(s):
     return reduce(lambda y, z: y + '_' + z,
-                  filter(lambda x: x != '', s.split('-')))
+                  [x for x in s.split('-') if x != ''])
 
 
 def snake_to_arg(s):
     return '--' + reduce(lambda y, z: y + '-' + z,
-                         filter(lambda x: x != '', s.lower().split('_')))
+                         [x for x in s.lower().split('_') if x != ''])
 
 
 def strtobool(s):
@@ -52,7 +53,7 @@ def update_test_settings(arguments, cleanup_list):
                 if type(old_value) == bool:
                     new_value = strtobool(new_value)
                 setattr(config, snake_attr_name, new_value)
-                print("%s: %s -> %s" % (snake_attr_name, old_value, new_value))
+                print(("%s: %s -> %s" % (snake_attr_name, old_value, new_value)))
 
 
 def clean_args(arg_list, args_to_be_removed):
@@ -78,7 +79,7 @@ if __name__ == '__main__':
     cleanup_list = []
     for attr in dir(config):
         if not isinstance(attr, types.FunctionType):
-            if isinstance(attr, basestring):
+            if isinstance(attr, str):
                 if attr.startswith('__') or attr.islower():
                     continue
 
