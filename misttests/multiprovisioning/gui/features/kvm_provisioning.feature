@@ -20,8 +20,7 @@ Feature: Multiprovisioning
     When I use my "KVM" credentials
     And I focus on the button "Add Cloud" in the "cloud" add form
     Then I click the button "Add Cloud" in the "cloud" add form
-    # w8 for it because KVM takes some time
-    And I wait for 90 seconds
+    And I wait for 120 seconds
     When I wait for the dashboard to load
     And I scroll the clouds list into view
     Then the "KVM" provider should be added within 30 seconds

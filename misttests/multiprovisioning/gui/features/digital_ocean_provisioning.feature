@@ -51,7 +51,7 @@ Feature: Multiprovisioning
     When I wait for 60 seconds
     And I click the "<machine-name>" "machine"
     And I expect the "machine" page to be visible within max 5 seconds
-    And I wait for 90 seconds
+    And I wait for 120 seconds
     Then I click the "Shell" action button in the "machine" page
     And I expect terminal to open within 3 seconds
     And shell input should be available after 30 seconds
