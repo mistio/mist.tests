@@ -13,7 +13,7 @@ Feature: Multiprovisioning
   @rackspace-machine-create-set-expiration-date
   Scenario: Create a machine in Rackspace provider, setting expiration date
     Given "Rackspace" cloud has been added
-    And I wait for 120 seconds
+    And I wait for 180 seconds
     When I visit the Machines page
     And I click the button "+"
     Then I expect the "Machine" add form to be visible within max 10 seconds

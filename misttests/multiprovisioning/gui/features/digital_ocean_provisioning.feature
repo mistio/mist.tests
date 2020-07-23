@@ -13,7 +13,7 @@ Feature: Multiprovisioning
   @digital-ocean-machine-create-enable-monitoring-cloud-init
   Scenario Outline: Create a machine in digital ocean provider, creating a file using cloud init and enabling monitoring
     Given "<cloud>" cloud has been added
-    And I wait for 120 seconds
+    And I wait for 180 seconds
     When I visit the Machines page
     And I click the button "+"
     Then I expect the "Machine" add form to be visible within max 10 seconds
