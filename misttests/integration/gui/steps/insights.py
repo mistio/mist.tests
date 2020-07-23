@@ -1,5 +1,5 @@
 from behave import step
-from time import time
+from time import time, sleep
 
 from selenium.common.exceptions import NoSuchElementException
 from selenium.common.exceptions import StaleElementReferenceException
@@ -9,6 +9,10 @@ from .utils import safe_get_element_text, get_page_element, expand_shadow_root
 def get_insights_element(context, shadow=False):
     insights_page = get_page_element(context, 'insights')
     insights_page_shadow = expand_shadow_root(context, insights_page)
+    if insights_page_shadow is None:
+        sleep(1)
+        insights_page_shadow = expand_shadow_root(context, insights_page)
+
     insights_element = insights_page_shadow.find_element_by_css_selector('mist-insights')
     if shadow:
         return expand_shadow_root(context, insights_element)

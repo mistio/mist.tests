@@ -13,7 +13,7 @@ Feature: Multiprovisioning
   @azure-machine-create-cloud-init
   Scenario: Create a machine in Azure arm provider with new resource group, storage account, network and cloud init
     Given "Microsoft Azure" cloud has been added
-    And I wait for 40 seconds
+    And I wait for 120 seconds
     When I visit the Machines page
     And I click the button "+"
     Then I expect the "Machine" add form to be visible within max 10 seconds
