@@ -20,12 +20,11 @@ Feature: Multiprovisioning
     When I use my "KVM" credentials
     And I focus on the button "Add Cloud" in the "cloud" add form
     Then I click the button "Add Cloud" in the "cloud" add form
-    # w8 for it because KVM takes some time
-    And I wait for 90 seconds
+    And I wait for 180 seconds
     When I wait for the dashboard to load
     And I scroll the clouds list into view
     Then the "KVM" provider should be added within 30 seconds
-    And I wait for 90 seconds
+    And I wait for 180 seconds
     When I visit the Machines page
     And I click the button "+"
     Then I expect the "Machine" add form to be visible within max 10 seconds
@@ -36,7 +35,7 @@ Feature: Multiprovisioning
     Then I set the value "kvm-mp-test-random" to field "Machine Name" in the "machine" add form
     When I open the "Image" dropdown in the "machine" add form
     And I wait for 1 seconds
-    And I click the "debian-edu-10.3.0-amd64-BD-1.iso" button in the "Image" dropdown in the "machine" add form
+    And I click the "bionic-server-cloudimg-amd64.img" button in the "Image" dropdown in the "machine" add form
     And I open the "Key" dropdown in the "machine" add form
     And I wait for 5 seconds
     And I click the "KVMKey" button in the "Key" dropdown in the "machine" add form

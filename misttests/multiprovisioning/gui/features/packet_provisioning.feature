@@ -50,7 +50,7 @@ Feature: Multiprovisioning
   @mp-test-with-cloud-init
   Scenario Outline: Create a machine in Packet provider, creating a file using cloud init
     Given "<cloud>" cloud has been added
-    And I wait for 40 seconds
+    And I wait for 120 seconds
     When I visit the Machines page
     And I click the button "+"
     Then I expect the "Machine" add form to be visible within max 10 seconds
@@ -98,5 +98,5 @@ Feature: Multiprovisioning
     Then new_file should be included in the output
 
     Examples: Providers to be tested
-    | cloud         | size                                                    | location         | image                                          | machine-name           |
-    | Packet        | x1.small.x86 - 32768 RAM                                | Dallas, TX       | Ubuntu 18.04 LTS                               | packet-mp-test-random  |
+    | cloud         | size                                                    | location               | image                                          | machine-name           |
+    | Packet        | x1.small.x86 - 32768 RAM                                | Dallas, TX (DFW2)      | Ubuntu 18.04 LTS                               | packet-mp-test-random  |

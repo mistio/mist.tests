@@ -13,7 +13,7 @@ Feature: Multiprovisioning
   @gce-machine-create-cloud-init
   Scenario Outline: Create a machine in GCE provider, creating a file using cloud init
     Given "<cloud>" cloud has been added
-    And I wait for 90 seconds
+    And I wait for 180 seconds
     When I visit the Machines page
     And I click the button "+"
     Then I expect the "Machine" add form to be visible within max 10 seconds
@@ -60,4 +60,4 @@ Feature: Multiprovisioning
 
     Examples: Providers to be tested
     | cloud         | size                                                    | location         | image                                          | machine-name           |
-    | Google Cloud  | f1-micro (1 vCPU (shared physical core) and 0.6 GB RAM) | europe-west1-c   | ubuntu-1804-bionic-v20200626                   | gce-mp-test-random     |
+    | Google Cloud  | f1-micro (1 vCPU (shared physical core) and 0.6 GB RAM) | europe-west1-c   | ubuntu-1804-bionic-v20200716                   | gce-mp-test-random     |
