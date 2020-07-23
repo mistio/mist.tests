@@ -40,6 +40,9 @@ def open_login_popup(context, kind):
         raise ValueError('No such popup in the landing page')
     landing_app = context.browser.find_element_by_tag_name("landing-app")
     shadow_root = expand_shadow_root(context, landing_app)
+    if shadow_root is None:
+        sleep(1)
+        shadow_root = expand_shadow_root(context, landing_app)
 
     if kind == 'login':
         app_toolbar = shadow_root.find_element_by_css_selector("app-toolbar")

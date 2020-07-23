@@ -272,6 +272,10 @@ def click_item(context, text, resource_type):
     text = text.lower()
     container = get_page_element(context, resource_type + 's')
     container_shadow = expand_shadow_root(context, container)
+    if container_shadow is None:
+        sleep(1)
+        container_shadow = expand_shadow_root(context, container)
+
     mist_list = container_shadow.find_element_by_css_selector('mist-list')
     list_shadow = expand_shadow_root(context, mist_list)
     items = list_shadow.find_elements_by_css_selector('strong.name')
