@@ -54,6 +54,30 @@ def check_if_email_arrived_with_delay(context, email_address, subject, seconds):
             sleep(1)
     assert False, "Email has not arrived after %s seconds" % seconds
 
+@step(u'I should receive an email at the address "{email_address}" within {seconds} seconds'
+      u' which contains subject terms:')
+def check_if_email_arrived_with_delay(context, email_address, subject_terms, seconds):
+    email = context.mist_config[email_address]
+
+    # get machine's name
+    for i, subject_term in enumerate(subject_terms):
+        if 'random' in subject_term:
+            for word in subject_term.split(' '):
+                if 'random' in word:
+                    machine = word.replace(':', '').replace('`', '')
+
+            subject_terms[i] = subject_term.replace(
+                machine, context.mist_config[machine])
+
+    timeout = time() + int(seconds)
+    while time() < timeout:
+        emails = email_find(context, email, subject_terms)
+        if len(emails) > 0:
+            return True
+        else:
+            sleep(1)
+    assert False, "Email has not arrived after %s seconds" % seconds
+
 
 @step(u'I delete old emails')
 def delete_emails(context):
@@ -69,7 +93,9 @@ def delete_emails(context):
     return True
 
 
-def email_find(context, address, subject):
+def email_find(context, address, subject_terms):
+    if isinstance(subject_terms, str):
+        subject_terms = [subject_terms]
     box = login_email(context)
     box.select("INBOX")
     result, data = box.search(None, '(TO ' + address + ')')
@@ -81,13 +107,18 @@ def email_find(context, address, subject):
             result, msgdata = box.fetch(i, "(RFC822)")
             raw = msgdata[0][1]
             email_message = email.message_from_string(raw)
-            log.info("Checking email with subject: %s " % email_message.get('Subject'))
-            if subject in email_message.get('Subject') and address in email_message.get('To'):
-                fetched_mails.append(raw)
-                # delete the email
-                box.store(i, '+FLAGS', '\\Deleted')
-                box.expunge()
-                break
+            log.info("Checking email with subject: %s " %
+                     email_message.get('Subject'))
+            if address in email_message.get('To'):
+                for subject_term in subject_terms:
+                    if subject_term.lower() not in email_message.get('Subject').lower():
+                        break
+                else:
+                    fetched_mails.append(raw)
+                    # delete the email
+                    box.store(i, '+FLAGS', '\\Deleted')
+                    box.expunge()
+                    break
 
     if not fetched_mails:
         context.link_inside_email = ''
@@ -97,12 +128,15 @@ def email_find(context, address, subject):
     mail = fetched_mails[0]
 
     mist_url = context.mist_config['MIST_URL']
-    link_regex = '(' + mist_url + '+[\w\d:#@%/;$()~_?\+-=\\.&][a-zA-z0-9][^<>#]*)\n\n'
+    link_regex = '(' + mist_url + \
+        '+[\w\d:#@%/;$()~_?\+-=\\.&][a-zA-z0-9][^<>#]*)\n\n'
     urls = re.findall(link_regex, mail)
 
     if not urls:
-        mist_url = context.mist_config['MIST_URL'].replace('http://', 'https://')
-        link_regex = '(' + mist_url + '+[\w\d:#@%/;$()~_?\+-=\\.&][a-zA-z0-9][^<>#]*)\n\n'
+        mist_url = context.mist_config['MIST_URL'].replace(
+            'http://', 'https://')
+        link_regex = '(' + mist_url + \
+            '+[\w\d:#@%/;$()~_?\+-=\\.&][a-zA-z0-9][^<>#]*)\n\n'
         urls = re.findall(link_regex, mail)
 
     link = urls[0].split('\n\n')[0]

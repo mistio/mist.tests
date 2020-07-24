@@ -38,7 +38,11 @@ Feature: Rules
 
   @incidents-triggered
   Scenario: Verify that incidents get triggered
-    Then I should receive an email at the address "EMAIL" with subject "[Mist] *** WARNING *** machine `rules-test-machine-random`: MEM used" within 180 seconds
+    Then I should receive an email at the address "EMAIL" within 180 seconds which contains subject terms:
+      | "[Mist] *** WARNING *** machine `rules-test-machine-random`:" |
+      | "mem" |
+      | "used" |
+
 
   @metric-rule-rules-page-destroy
   Scenario: Insert rule regarding metric from machine page. If triggered, destroy the machine
