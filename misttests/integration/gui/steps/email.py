@@ -54,11 +54,11 @@ def check_if_email_arrived_with_delay(context, email_address, subject, seconds):
             sleep(1)
     assert False, "Email has not arrived after %s seconds" % seconds
 
-@step(u'I should receive an email at the address "{email_address}" within {seconds} seconds'
-      u' which contains subject terms:')
+@step(u'I should receive an email at the address "{email_address}" which contains subject terms: "{subject_terms}"'
+      u' within {seconds} seconds')
 def check_if_email_arrived_with_delay(context, email_address, subject_terms, seconds):
     email = context.mist_config[email_address]
-
+    subject_terms = subject_terms.split(",")
     # get machine's name
     for i, subject_term in enumerate(subject_terms):
         if 'random' in subject_term:
