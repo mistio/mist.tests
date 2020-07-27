@@ -46,6 +46,9 @@ def open_login_popup(context, kind):
 
     if kind == 'login':
         app_toolbar = shadow_root.find_element_by_css_selector("app-toolbar")
+        if app_toolbar is None:
+            sleep(1)
+            app_toolbar = shadow_root.find_element_by_css_selector("app-toolbar")
         sign_in_class = app_toolbar.find_element_by_class_name('signin-btn-container')
         a = sign_in_class.find_element_by_tag_name("a")
         button_to_click = a.find_element_by_tag_name("paper-button")

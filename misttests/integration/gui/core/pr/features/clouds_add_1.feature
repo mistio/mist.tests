@@ -32,6 +32,8 @@ Feature: Add second-tier clouds
   Scenario: Add other-server
     When I refresh the page
     And I wait for 3 seconds
+    And I wait for the navigation menu to appear
+    # TODO: replace below step with api call
     When I add the key needed for Other Server
     When I click the fab button in the "dashboard" page
     Then I expect the "Cloud" add form to be visible within max 5 seconds
