@@ -13,6 +13,7 @@ Feature: Machines
     And I have given card details if needed
     And I refresh the page
     And I wait for 3 seconds
+    And I wait for the navigation menu to appear
     When I visit the Keys page
     When I click the button "+"
     Then I expect the "Key" add form to be visible within max 10 seconds
