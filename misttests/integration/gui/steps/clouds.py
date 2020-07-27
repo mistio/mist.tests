@@ -369,6 +369,9 @@ def check_error_message(context, clouds):
 def find_cloud(context, cloud_title):
     page_dashboard = get_page_element(context, 'dashboard')
     page_dashboard_shadow = expand_shadow_root(context, page_dashboard)
+    if page_dashboard_shadow is None:
+        sleep(1)
+        page_dashboard_shadow = expand_shadow_root(context, page_dashboard)
 
     end_time = time() + 10
     while time() < end_time:

@@ -88,6 +88,7 @@ Feature: Rules
     And I select the "tagged" resource-type when adding new rule in the "rules" page
     And I type "test=awesome" in the tags when adding new rule in the "rules" page
     And I select the "metric" target-type when adding new rule in the "rules" page
+    And I wait for 2 seconds
     And I select the "processes" target when adding new rule in the "rules" page
     And I select the "processes.running" target when adding new rule in the "rules" page
     And I select the ">" operator when adding new rule in the "rules" page
