@@ -131,6 +131,7 @@ def before_all(context):
     log.info("Finished with before_all hook. Starting tests")
     log.info("EMAIL: %s" % context.mist_config['EMAIL'])
     log.info("PASSWORD1: %s" % context.mist_config['PASSWORD1'])
+    log.info("MIST_URL: %s" % context.mist_config['MIST_URL'])
 
 
 def after_step(context, step):
@@ -329,5 +330,5 @@ def after_feature(context, feature):
         delete_ec2_network(context, context.mist_config.get('network_random'))
     #if feature.name == 'Production':
     #    mayday_cleanup(context)
-    if feature.name == 'Multiprovisioning':
-        mp_cleanup(context)
+    # if feature.name == 'Multiprovisioning':
+    #     mp_cleanup(context)
