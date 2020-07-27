@@ -330,5 +330,5 @@ def after_feature(context, feature):
         delete_ec2_network(context, context.mist_config.get('network_random'))
     #if feature.name == 'Production':
     #    mayday_cleanup(context)
-    # if feature.name == 'Multiprovisioning':
-    #     mp_cleanup(context)
+    if feature.name == 'Multiprovisioning':
+        mp_cleanup(context)

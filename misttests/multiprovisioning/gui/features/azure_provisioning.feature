@@ -56,7 +56,7 @@ Feature: Multiprovisioning
     Then I expect terminal to open within 3 seconds
     And shell input should be available after 30 seconds
     When I type in the terminal "sudo su"
-    And I wait for 1 seconds
+    And I wait for 2 seconds
     And I type in the terminal "ls -la ~"
     And I wait for 1 seconds
     Then new_file should be included in the output
