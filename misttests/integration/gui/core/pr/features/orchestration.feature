@@ -162,7 +162,7 @@ Feature: Orchestration
   Scenario: Delete a template
     When I visit the Templates page
     And I refresh the page
-    And I wait for 2 seconds
+    And I wait for 5 seconds
     When I click the "Renamed Template" "template"
     And I expect the "template" page to be visible within max 5 seconds
     Then I click the "Delete" action button in the "template" page
