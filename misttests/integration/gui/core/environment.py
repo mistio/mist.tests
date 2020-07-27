@@ -131,6 +131,7 @@ def before_all(context):
     log.info("Finished with before_all hook. Starting tests")
     log.info("EMAIL: %s" % context.mist_config['EMAIL'])
     log.info("PASSWORD1: %s" % context.mist_config['PASSWORD1'])
+    log.info("MIST_URL: %s" % context.mist_config['MIST_URL'])
 
 
 def after_step(context, step):
