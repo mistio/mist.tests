@@ -99,9 +99,6 @@ def wait_for_buttons_to_appear(context):
             sidebar = mist_app_shadow.find_element_by_css_selector(
                 'mist-sidebar')
             sidebar_shadow = expand_shadow_root(context, sidebar)
-            images_button = sidebar_shadow.find_element_by_id('images')
-            counter_span = images_button.find_element_by_class_name('count')
-            int(safe_get_element_text(counter_span))
             break
         except (NoSuchElementException, ValueError, AttributeError):
             assert time() + 1 < end_time, "Links in the home page have not" \
