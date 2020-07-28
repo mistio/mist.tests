@@ -99,4 +99,4 @@ Feature: Multiprovisioning
 
     Examples: Providers to be tested
     | cloud         | size                                                    | location               | image                                          | machine-name           |
-    | Packet        | x1.small.x86 - 32768 RAM                                | Dallas, TX (DFW2)      | Ubuntu 18.04 LTS                               | packet-mp-test-random  |
+    | Packet        | c3.small.x86 - 32768 RAM                                | Dallas, TX (DFW2)      | Ubuntu 18.04 LTS                               | packet-mp-test-random  |
