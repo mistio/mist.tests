@@ -13,7 +13,7 @@ Feature: Multiprovisioning
   @aliyun-machine-create-cloud-init
   Scenario: Create a machine in aliyun provider, creating a file using cloud init
     Given "Alibaba Cloud" cloud has been added
-    And I wait for 40 seconds
+    And I wait for 120 seconds
     When I visit the Machines page
     And I click the button "+"
     Then I expect the "Machine" add form to be visible within max 10 seconds
@@ -48,12 +48,12 @@ Feature: Multiprovisioning
     And "aliyun-mp-test-random" machine state has to be "running" within 120 seconds
     When I click the "aliyun-mp-test-random" "machine"
     Then I expect the "machine" page to be visible within max 5 seconds
-    When I wait for 2 seconds
+    When I wait for 90 seconds
     And I click the "Shell" action button in the "machine" page
     Then I expect terminal to open within 3 seconds
     And shell input should be available after 30 seconds
     When I type in the terminal "sudo su"
-    And I wait for 1 seconds
+    And I wait for 2 seconds
     And I type in the terminal "ls -la ~"
     And I wait for 1 seconds
     Then new_file should be included in the output
