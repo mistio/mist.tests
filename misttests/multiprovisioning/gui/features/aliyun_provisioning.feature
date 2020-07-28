@@ -27,10 +27,10 @@ Feature: Multiprovisioning
     And I click the "us-west-1a" button in the "Location" dropdown in the "machine" add form
     When I open the "Image" dropdown in the "machine" add form
     And I wait for 1 seconds
-    And I click the "ubuntu_18_04_x64_20G_alibase_20200521.vhd" button in the "Image" dropdown in the "machine" add form
+    And I click the "ubuntu_18_04_x64_20G_alibase_20200618.vhd" button in the "Image" dropdown in the "machine" add form
     When I open the "Size" dropdown in the "machine" add form
     And I wait for 1 seconds
-    And I click the "ecs.ht6c.small (1 cpus/ 2.0Gb RAM )" button in the "Size" dropdown in the "machine" add form
+    And I click the "ecs.e4.small (1 cpus/ 8.0Gb RAM )" button in the "Size" dropdown in the "machine" add form
     And I open the "Key" dropdown in the "machine" add form
     And I wait for 1 seconds
     And I click the "Keyrandom" button in the "Key" dropdown in the "machine" add form
