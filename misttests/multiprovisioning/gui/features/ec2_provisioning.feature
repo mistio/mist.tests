@@ -13,8 +13,26 @@ Feature: Multiprovisioning
   @ec2-machine-create-cloud-init
   Scenario Outline: Create a machine in EC2 provider, creating a file using cloud init
     Given "<cloud>" cloud has been added
-    And I wait for 180 seconds
-    When I visit the Machines page
+    # TODO: add from the beginning cloud with DescribeImages Access
+    When I visit the Home page
+    And I wait for the dashboard to load
+    When I open the cloud page for "Amazon Web Services"
+    Then I expect the "cloud" page to be visible within max 10 seconds
+    When I click the "Edit Credentials" action button in the "cloud" page
+    Then I expect the "Edit Credentials" dialog to be open within 4 seconds
+    When I use my second AWS credentials
+    And I wait for 1 seconds
+    When I click the "Edit Credentials" button in the "Edit Credentials" dialog
+    And I wait for 3 seconds
+    And I visit the Images page
+    And I wait for 5 seconds
+    And I clear the search bar
+    And I wait for 5 seconds
+    And I search for "Ubuntu Server 16.04"
+    Then "Ubuntu Server 16.04 LTS (HVM), SSD Volume Type" image should be present within 30 seconds
+
+    When I wait for 60 seconds
+    And I visit the Machines page
     And I click the button "+"
     Then I expect the "Machine" add form to be visible within max 10 seconds
     When I open the "Select Cloud" dropdown in the "machine" add form
