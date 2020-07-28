@@ -50,7 +50,7 @@ Feature: Multiprovisioning
   @mp-test-with-cloud-init
   Scenario Outline: Create a machine in Packet provider, creating a file using cloud init
     Given "<cloud>" cloud has been added
-    And I wait for 120 seconds
+    And I wait for 180 seconds
     When I visit the Machines page
     And I click the button "+"
     Then I expect the "Machine" add form to be visible within max 10 seconds
@@ -72,6 +72,7 @@ Feature: Multiprovisioning
     And I wait for 1 seconds
     And I click the "Keyrandom" button in the "Key" dropdown in the "machine" add form
     And I wait for 1 seconds
+    And I click the "Public IPv4" toggle button in the "machine" add form
     Then I set the "cloud init" script "#!/bin/bash\ntouch ~/new_file"
     Then I expect for the button "Launch" in the "machine" add form to be clickable within 10 seconds
     When I focus on the button "Launch" in the "machine" add form
@@ -82,11 +83,9 @@ Feature: Multiprovisioning
     And I clear the search bar
     And I search for "<machine-name>"
     Then "<machine-name>" machine should be present within 60 seconds
-    # bare metal could take more...
+    # bare metal could take some minutes...
     And "<machine-name>" machine state has to be "running" within 900 seconds
-    # wait for machine to get public ip...
-    # TODO: replace with step that checks if machine has public ip
-    When I wait for 600 seconds
+    When I wait for 60 seconds
     And I click the "<machine-name>" "machine"
     And I expect the "machine" page to be visible within max 5 seconds
     And I wait for 2 seconds

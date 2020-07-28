@@ -112,44 +112,6 @@ def get_input_element_from_form(context, form, input_name):
     return input_element
 
 
-@step(u'I click the button "{button_name}" from the menu of the "{title}" '
-      u'{form_type} form')
-def click_menu_button_from_more_menu(context, button_name, title, form_type):
-    from .buttons import clicketi_click
-    from .buttons import click_button_from_collection
-    form_type = form_type.lower()
-    form = get_add_form(context, form_type) if form_type == 'add' else \
-        get_edit_form(context, title)
-    if title == 'machine':
-        actions = context.browser.find_element_by_tag_name('mist-actions')
-        buttons = actions.find_elements_by_tag_name('paper-button')
-        for button in buttons:
-            if safe_get_element_text(button).lower() == button_name.lower() and button.is_displayed():
-                clicketi_click(context, button)
-                return
-        more_dropdown = actions.find_element_by_id('actionmenu')
-        more_dropdown_button = actions.find_element_by_class_name('dropdown-trigger')
-    else:
-        more_dropdown = form.find_element_by_tag_name('paper-menu-button')
-        more_dropdown_button = more_dropdown
-    assert more_dropdown, "Could not find more button"
-    clicketi_click(context, more_dropdown_button)
-    more_dropdown_buttons = more_dropdown.find_elements_by_tag_name('paper-button')
-    assert more_dropdown_buttons, "There are no buttons within the more dropdown"
-    timeout = time() + 5
-    while time() < timeout:
-        displayed_buttons = 0
-        for button in more_dropdown_buttons:
-            if button.is_displayed():
-                displayed_buttons += 1
-        if displayed_buttons == len(more_dropdown_buttons):
-            break
-        sleep(1)
-    else:
-        assert False, "More dropdown buttons are not visible after 5 seconds"
-    click_button_from_collection(context, button_name, more_dropdown_buttons)
-
-
 def get_button_from_form(context, form, button_name, tag_name='paper-button:not([hidden])'):
     all_buttons = []
     form_containers = form.find_elements_by_css_selector('cloud-edit, cloud-dns, network-create, mist-monitoring, mist-rules, team-policy, metric-menu, rule-metrics')
