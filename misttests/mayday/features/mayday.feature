@@ -43,7 +43,9 @@ Feature: Production
     And I click the button "add new rule" in the "machine" page
     And I wait for 1 seconds
     And I select the "metric" target-type when adding new rule in the "machine" page
-    And I select the "Load" target when adding new rule in the "machine" page
+    And I wait for 2 seconds
+    And I select the "load" target when adding new rule in the "machine" page
+    And I select the "load.shortterm" target when adding new rule in the "machine" page
     And I select the "<" operator when adding new rule in the "machine" page
     And I type "10" in the threshold when adding new rule in the "machine" page
     And I select the "any" aggregation when adding new rule in the "machine" page
