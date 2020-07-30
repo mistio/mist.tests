@@ -20,7 +20,7 @@ Feature: Add second-tier clouds
 
     Examples: Providers
     | provider       |
-    # | KubeVirt       |
+    | KubeVirt       |
     | VMware vSphere |
     | Alibaba Cloud  |
     | Microsoft Azure|
