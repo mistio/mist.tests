@@ -45,7 +45,7 @@ Feature: Multiprovisioning
     And I wait for 1 seconds
     And I clear the search bar
     And I search for "linode-mp-test-random"
-    Then "linode-mp-test-random" machine should be present within 60 seconds
+    Then "linode-mp-test-random" machine should be present within 120 seconds
     When I wait for 60 seconds
     And I click the "linode-mp-test-random" "machine"
     Then I expect the "machine" page to be visible within max 5 seconds

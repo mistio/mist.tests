@@ -20,11 +20,11 @@ Feature: Multiprovisioning
     When I use my "KVM" credentials
     And I focus on the button "Add Cloud" in the "cloud" add form
     Then I click the button "Add Cloud" in the "cloud" add form
-    And I wait for 180 seconds
+    And I wait for 120 seconds
     When I wait for the dashboard to load
     And I scroll the clouds list into view
     Then the "KVM" provider should be added within 30 seconds
-    And I wait for 180 seconds
+    And I wait for 60 seconds
     When I visit the Machines page
     And I click the button "+"
     Then I expect the "Machine" add form to be visible within max 10 seconds
@@ -47,4 +47,4 @@ Feature: Multiprovisioning
     And I wait for 1 seconds
     And I clear the search bar
     And I search for "kvm-mp-test-random"
-    Then "kvm-mp-test-random" machine should be present within 60 seconds
+    Then "kvm-mp-test-random" machine should be present within 120 seconds

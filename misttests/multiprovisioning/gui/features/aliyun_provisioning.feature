@@ -44,7 +44,7 @@ Feature: Multiprovisioning
     And I wait for 1 seconds
     And I clear the search bar
     And I search for "aliyun-mp-test-random"
-    Then "aliyun-mp-test-random" machine should be present within 60 seconds
+    Then "aliyun-mp-test-random" machine should be present within 120 seconds
     And "aliyun-mp-test-random" machine state has to be "running" within 120 seconds
     When I click the "aliyun-mp-test-random" "machine"
     Then I expect the "machine" page to be visible within max 5 seconds
