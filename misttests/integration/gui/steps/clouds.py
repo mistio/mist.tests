@@ -267,17 +267,14 @@ def set_lxd_creds(context):
     set_value_to_field(context, key, 'client private key', 'cloud', 'add')
     set_value_to_field(context, cert, 'client certificate', 'cloud', 'add')
 
-
-def set_second_openstack_creds(context):
+def set_g8_creds(context):
+    api_key = safe_get_var('clouds/gig_g8', 'api_key', context.mist_config['CREDENTIALS']['GIG_G8']['api_key'])
+    set_value_to_field(context, api_key, 'API key (JWT)', 'cloud', 'add')
     context.execute_steps(u'''
-                Then I set the value "%s" to field "Username" in the "cloud" edit form
-                Then I set the value "%s" to field "Password" in the "cloud" edit form
-                Then I set the value "%s" to field "Auth Url" in the "cloud" edit form
-                Then I set the value "%s" to field "Tenant Name" in the "cloud" edit form
-            ''' % (safe_get_var('clouds/openstack_2', 'username', context.mist_config['CREDENTIALS']['OPENSTACK_2']['username']),
-                   safe_get_var('clouds/openstack', 'password', context.mist_config['CREDENTIALS']['OPENSTACK_2']['password']),
-                   safe_get_var('clouds/openstack', 'auth_url', context.mist_config['CREDENTIALS']['OPENSTACK_2']['auth_url']),
-                   safe_get_var('clouds/openstack_2', 'tenant', context.mist_config['CREDENTIALS']['OPENSTACK_2']['tenant']),))
+                Then I set the value "%s" to field "API url" in the "cloud" add form
+                Then I set the value "%s" to field "User ID" in the "cloud" add form
+            ''' % (safe_get_var('clouds/gig_g8', 'url', context.mist_config['CREDENTIALS']['GIG_G8']['url']),
+                   safe_get_var('clouds/gig_g8', 'user_id', context.mist_config['CREDENTIALS']['GIG_G8']['user_id']),))
 
 
 @step(u'I use my second AWS credentials')
@@ -311,12 +308,12 @@ cloud_creds_dict = {
     "maxihost": set_maxihost_creds,
     "kubevirt": set_kubevirt_creds,
     "lxd": set_lxd_creds,
+    "g8": set_g8_creds,
 }
 
 
 cloud_second_creds_dict = {
-    "aws": set_second_aws_creds,
-    "openstack": set_second_openstack_creds
+    "aws": set_second_aws_creds
 }
 
 
