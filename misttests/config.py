@@ -263,7 +263,8 @@ DEFAULT_CREDENTIALS = {
     'ONAPP':{'username':'', 'password':'', 'host':'', 'verify_ssl': False},
     'MAXIHOST': {'api_token': ''},
     'KUBEVIRT': {'host': '', 'ca': '', 'token': ''},
-    'LXD': {'host': '', 'key': '', 'cert': ''}
+    'LXD': {'host': '', 'key': '', 'cert': ''},
+    'GIG_G8': {'api_key': '', 'url': '', 'user_id': ''}
 }
 
 CREDENTIALS = get_setting("CREDENTIALS", DEFAULT_CREDENTIALS)
