@@ -137,10 +137,10 @@ def set_openstack_creds(context):
             Then I set the value "%s" to field "Password" in the "cloud" add form
             Then I set the value "%s" to field "Auth Url" in the "cloud" add form
             Then I set the value "%s" to field "Tenant Name" in the "cloud" add form
-        ''' % (safe_get_var('clouds/openstack_newton', 'username', context.mist_config['CREDENTIALS']['OPENSTACK']['username']),
-               safe_get_var('clouds/openstack_newton', 'password', context.mist_config['CREDENTIALS']['OPENSTACK']['password']),
-               safe_get_var('clouds/openstack_newton', 'auth_url', context.mist_config['CREDENTIALS']['OPENSTACK']['auth_url']),
-               safe_get_var('clouds/openstack_newton', 'tenant', context.mist_config['CREDENTIALS']['OPENSTACK']['tenant']),))
+        ''' % (safe_get_var('clouds/openstack_train', 'username', context.mist_config['CREDENTIALS']['OPENSTACK']['username']),
+               safe_get_var('clouds/openstack_train', 'password', context.mist_config['CREDENTIALS']['OPENSTACK']['password']),
+               safe_get_var('clouds/openstack_train', 'auth_url', context.mist_config['CREDENTIALS']['OPENSTACK']['auth_url']),
+               safe_get_var('clouds/openstack_train', 'tenant', context.mist_config['CREDENTIALS']['OPENSTACK']['tenant']),))
 
 
 def set_hostvirtual_creds(context):
