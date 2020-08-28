@@ -8,6 +8,7 @@ Feature: Multiprovisioning
     Given I am logged in to mist
     When I visit the Home page
     And I wait for the navigation menu to appear
+    Given key "Keyrandom" has been generated and added via API request
 
   @kubevirt-machine-create
   Scenario: Create a machine in kubevirt
