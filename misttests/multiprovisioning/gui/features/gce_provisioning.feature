@@ -44,8 +44,8 @@ Feature: Multiprovisioning
     And I wait for 1 seconds
     And I clear the search bar
     And I search for "<machine-name>"
-    Then "<machine-name>" machine should be present within 120 seconds
-    And "<machine-name>" machine state has to be "running" within 120 seconds
+    Then "<machine-name>" machine should be present within 180 seconds
+    And "<machine-name>" machine state has to be "running" within 180 seconds
     And I click the "<machine-name>" "machine"
     And I expect the "machine" page to be visible within max 5 seconds
     And I wait for 60 seconds
