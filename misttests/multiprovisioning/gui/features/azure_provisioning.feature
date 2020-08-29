@@ -13,7 +13,7 @@ Feature: Multiprovisioning
   @azure-machine-create-cloud-init
   Scenario: Create a machine in Azure arm provider with new resource group, storage account, network and cloud init
     Given "Microsoft Azure" cloud has been added
-    And I wait for 120 seconds
+    And I wait for 180 seconds
     When I visit the Machines page
     And I click the button "+"
     Then I expect the "Machine" add form to be visible within max 10 seconds
@@ -51,7 +51,7 @@ Feature: Multiprovisioning
     When I wait for 60 seconds
     And I click the "arm-mp-test-random" "machine"
     Then I expect the "machine" page to be visible within max 5 seconds
-    When I wait for 120 seconds
+    When I wait for 180 seconds
     And I click the "Shell" action button in the "machine" page
     Then I expect terminal to open within 3 seconds
     And shell input should be available after 30 seconds
