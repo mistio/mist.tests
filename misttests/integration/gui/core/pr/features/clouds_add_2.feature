@@ -26,7 +26,8 @@ Feature: Add second-tier clouds
     | OnApp               |
     | Maxihost            |
     | Amazon Web Services |
-    | LXD            |
+    | Openstack           |
+    | LXD                 |
 
 
   @cloud-edit-creds
