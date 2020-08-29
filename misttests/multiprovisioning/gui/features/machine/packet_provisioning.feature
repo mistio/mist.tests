@@ -47,7 +47,7 @@ Feature: Multiprovisioning
   #   And I search for "packet-mp-test0-random"
   #   Then "packet-mp-test0-random" machine should be present within 60 seconds
 
-  @mp-test-with-cloud-init
+  @packet-machine-create
   Scenario Outline: Create a machine in Packet provider, creating a file using cloud init
     Given "<cloud>" cloud has been added
     And I wait for 180 seconds

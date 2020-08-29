@@ -10,7 +10,7 @@ Feature: Multiprovisioning
     And I wait for the navigation menu to appear
     Given key "Keyrandom" has been generated and added via API request
 
-  @rackspace-machine-create-set-expiration-date
+  @rackspace-machine-create
   Scenario: Create a machine in Rackspace provider, setting expiration date
     Given "Rackspace" cloud has been added
     And I wait for 180 seconds
