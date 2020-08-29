@@ -44,5 +44,5 @@ Feature: Multiprovisioning
     Then "<volume-name>" volume should be absent within 30 seconds
 
     Examples: Providers to be tested
-    | cloud         | location       | volume-name                  |
-    | AWS Advantis  | us-west-2a     | mp-test-volume-ec2-random    |
+    | cloud                 | location            | volume-name                  |
+    | Amazon Web Services   | ap-northeast-1a     | mp-test-volume-ec2-random    |
