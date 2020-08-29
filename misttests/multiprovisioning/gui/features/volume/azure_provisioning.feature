@@ -6,7 +6,7 @@ Feature: Multiprovisioning
     When I visit the Home page
     And I wait for the navigation menu to appear
 
-  @arm-volume-create
+  @azure-volume-create
   Scenario: Create a volume in Azure ARM provider
     Given "Microsoft Azure" cloud has been added
     And I wait for 180 seconds
