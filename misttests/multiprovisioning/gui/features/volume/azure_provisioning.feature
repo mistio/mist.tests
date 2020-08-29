@@ -9,7 +9,7 @@ Feature: Multiprovisioning
   @arm-volume-create
   Scenario: Create a volume in Azure ARM provider
     Given "Microsoft Azure" cloud has been added
-    #And I wait for 180 seconds
+    And I wait for 180 seconds
     When I visit the Volumes page
     And I clear the search bar
     And I click the button "+"

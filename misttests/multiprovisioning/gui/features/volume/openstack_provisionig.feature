@@ -9,7 +9,7 @@ Feature: Multiprovisioning
   @openstack-volume-create
   Scenario: Create a volume in Openstack provider
     Given "Openstack" cloud has been added
-    And I wait for 5 seconds
+    And I wait for 180 seconds
     When I visit the Volumes page
     And I clear the search bar
     And I click the button "+"

@@ -9,7 +9,7 @@ Feature: Multiprovisioning
   @gce-volume-create
   Scenario Outline: Create a volume in various providers
     Given "<cloud>" cloud has been added
-    And I wait for 40 seconds
+    And I wait for 180 seconds
     When I visit the Volumes page
     And I clear the search bar
     And I click the button "+"
