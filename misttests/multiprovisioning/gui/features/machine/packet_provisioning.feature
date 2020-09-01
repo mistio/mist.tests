@@ -47,7 +47,7 @@ Feature: Multiprovisioning
   #   And I search for "packet-mp-test0-random"
   #   Then "packet-mp-test0-random" machine should be present within 60 seconds
 
-  @mp-test-with-cloud-init
+  @packet-machine-create
   Scenario Outline: Create a machine in Packet provider, creating a file using cloud init
     Given "<cloud>" cloud has been added
     And I wait for 180 seconds
@@ -84,7 +84,11 @@ Feature: Multiprovisioning
     And I search for "<machine-name>"
     Then "<machine-name>" machine should be present within 120 seconds
     # bare metal could take some minutes...
+<<<<<<< HEAD:misttests/multiprovisioning/gui/features/packet_provisioning.feature
     And "<machine-name>" machine state has to be "running" within 900 seconds
+=======
+    And "<machine-name>" machine state has to be "running" within 1800 seconds
+>>>>>>> master:misttests/multiprovisioning/gui/features/machine/packet_provisioning.feature
     When I wait for 180 seconds
     And I click the "<machine-name>" "machine"
     And I expect the "machine" page to be visible within max 5 seconds

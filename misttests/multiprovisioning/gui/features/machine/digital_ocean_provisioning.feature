@@ -10,7 +10,7 @@ Feature: Multiprovisioning
     And I wait for the navigation menu to appear
     Given key "Keyrandom" has been generated and added via API request
 
-  @digital-ocean-machine-create-enable-monitoring-cloud-init
+  @digital-ocean-machine-create
   Scenario Outline: Create a machine in digital ocean provider, creating a file using cloud init and enabling monitoring
     Given "<cloud>" cloud has been added
     And I wait for 180 seconds

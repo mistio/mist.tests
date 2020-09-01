@@ -10,7 +10,7 @@ Feature: Multiprovisioning
     And I wait for the navigation menu to appear
     Given key "Keyrandom" has been generated and added via API request
 
-  @ec2-machine-create-cloud-init
+  @ec2-machine-create
   Scenario Outline: Create a machine in EC2 provider, creating a file using cloud init
     Given "<cloud>" cloud has been added
     # TODO: add from the beginning cloud with DescribeImages Access
