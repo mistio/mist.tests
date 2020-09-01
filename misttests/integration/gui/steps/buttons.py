@@ -59,8 +59,9 @@ def clicketi_click_list_row(context, item):
 
 
 def click_button_from_collection(context, text, button_collection=None,
-                                 error_message="Could not find button"):
-    button = search_for_button(context, text, button_collection)
+                                 error_message="Could not find button",
+                                 partial_match=False):
+    button = search_for_button(context, text, button_collection, partial_match=partial_match)
     assert button, error_message
     for i in range(0, 2):
         try:
@@ -83,10 +84,15 @@ def click_button_from_collection(context, text, button_collection=None,
                       (safe_get_element_text(button), text)
 
 
-def search_for_button(context, text, button_collection):
-    for button in button_collection:
-        if safe_get_element_text(button).strip().lower() == text.lower():
-            return button
+def search_for_button(context, text, button_collection, partial_match=False):
+    if partial_match:
+        for button in button_collection:
+            if text.lower() in safe_get_element_text(button).strip().lower():
+                return button
+    else:
+        for button in button_collection:
+            if safe_get_element_text(button).strip().lower() == text.lower():
+                return button
 
 
 def get_fab_button(context, page_title):
@@ -120,23 +126,28 @@ def click_button(context, text):
 
 
 @step(u'I click the "{button}" button in the "{name}" dropdown within "{container}"')
-def click_button_in_dropdown_within_container(context, container, button, name):
+def click_button_in_dropdown_within_container(context, container, button, name, partial_match=False):
     button = button.strip().lower()
     dropdown = find_dropdown(context, container, name.lower())
     if button == get_current_value_of_dropdown(dropdown):
         return True
     buttons = dropdown.find_elements_by_css_selector('paper-item')
-    click_button_from_collection(context, button.lower(), buttons)
+    click_button_from_collection(context, button.lower(), buttons, partial_match=partial_match)
+
+
+@step(u'I click the button that contains "{button}" in the "{dropdown_name}" dropdown in the "{resource_type}" add form')
+def click_button_in_dropdown_within_container_partial_match(context, button, dropdown_name, resource_type):
+    click_button_in_dropdown(context, button, dropdown_name, resource_type, partial_match=True)
 
 
 @step(u'I click the "{button_name}" button in the "{dropdown_name}" dropdown in the "{resource_type}" add form')
-def click_button_in_dropdown(context, button_name, dropdown_name, resource_type):
+def click_button_in_dropdown(context, button_name, dropdown_name, resource_type, partial_match=False):
     if context.mist_config.get(button_name):
         button_name = context.mist_config.get(button_name)
     from .forms import get_add_form
     page = get_add_form(context, resource_type)
     page_shadow = expand_shadow_root(context, page)
-    click_button_in_dropdown_within_container(context, page_shadow, button_name, dropdown_name)
+    click_button_in_dropdown_within_container(context, page_shadow, button_name, dropdown_name, partial_match)
 
 
 use_step_matcher("re")
