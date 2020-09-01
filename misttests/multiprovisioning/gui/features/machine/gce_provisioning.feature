@@ -27,7 +27,7 @@ Feature: Multiprovisioning
     And I click the "<location>" button in the "Location" dropdown in the "machine" add form
     When I open the "Image" dropdown in the "machine" add form
     And I wait for 1 seconds
-    And I click the "<image>" button in the "Image" dropdown in the "machine" add form
+    And I click the button that contains "<image>" in the "Image" dropdown in the "machine" add form
     When I open the "Size" dropdown in the "machine" add form
     And I wait for 1 seconds
     And I click the "<size>" button in the "Size" dropdown in the "machine" add form
@@ -59,5 +59,5 @@ Feature: Multiprovisioning
     Then new_file should be included in the output
 
     Examples: Providers to be tested
-    | cloud         | size                                                    | location         | image                                          | machine-name           |
-    | Google Cloud  | f1-micro (1 vCPU (shared physical core) and 0.6 GB RAM) | europe-west1-c   | ubuntu-1804-bionic-v20200821a                  | gce-mp-test-random     |
+    | cloud         | size                                                    | location         | image                         | machine-name           |
+    | Google Cloud  | f1-micro (1 vCPU (shared physical core) and 0.6 GB RAM) | europe-west1-c   | ubuntu-1804-bionic            | gce-mp-test-random     |
