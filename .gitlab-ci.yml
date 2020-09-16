@@ -57,7 +57,7 @@ build:
           exit 1
         fi
   script:
-    - docker build --rm -t $img:$CI_COMMIT_SHA .
+    - docker build --no-cache --rm -t $img:$CI_COMMIT_SHA .
     - echo "Pushing $img:$CI_COMMIT_SHA"
     - docker push $img:$CI_COMMIT_SHA
     - docker tag $img:$CI_COMMIT_SHA $img:$CI_COMMIT_REF_SLUG
