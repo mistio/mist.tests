@@ -69,7 +69,7 @@ Feature: Production
     And I click the "Reboot" action button in the "machine" page
     Then I expect the "Reboot Machine" dialog to be open within 4 seconds
     When I click the "Reboot" button in the "Reboot Machine" dialog
-    And I wait for 40 seconds
+    And I wait for 60 seconds
     And I click the "Shell" action button in the "machine" page
     Then I expect terminal to open within 3 seconds
     And shell input should be available after 30 seconds
