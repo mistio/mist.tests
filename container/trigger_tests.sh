@@ -14,9 +14,9 @@ vault_login() {
         echo Vault password:
         read -s password
         export PYTHONIOENCODING=utf8
-
+        url=${vault_server}/v1/auth/userpass/login/${username}
         VAULT_CLIENT_TOKEN=$(
-          curl -sSk $vault_server/v1/auth/userpass/login/$username -d '{ "password": "'${password}'" }' |
+          curl -sSk $url -d "{ \"password\": \"${password}\" }" |
           python -c "
 import sys, json;
 res = json.load(sys.stdin)
