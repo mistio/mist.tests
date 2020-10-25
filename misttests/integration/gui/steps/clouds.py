@@ -124,8 +124,8 @@ def set_docker_creds(context):
         set_value_to_field(context, ca, 'ca certificate', 'cloud', 'add')
 
 
-def set_packet_creds(context):
-    api_key = safe_get_var('clouds/packet', 'api_key', context.mist_config['CREDENTIALS']['PACKET']['api_key'])
+def set_equinix_metal_creds(context):
+    api_key = safe_get_var('clouds/packet', 'api_key', context.mist_config['CREDENTIALS']['Equinix Metal']['api_key'])
     context.execute_steps(u'Then I set the value "%s" to field "API Key" in the '
                           u'"cloud" add form' % api_key)
 
@@ -295,7 +295,7 @@ cloud_creds_dict = {
     "linode": set_linode_creds,
     "digital ocean": set_do_creds,
     "docker": set_docker_creds,
-    "packet": set_packet_creds,
+    "equinixmetal": set_equinix_metal_creds,
     "openstack": set_openstack_creds,
     "hostvirtual": set_hostvirtual_creds,
     "vultr": set_vultr_creds,

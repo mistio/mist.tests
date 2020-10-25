@@ -24,7 +24,7 @@ class TestLibcloudFunctionality:
     def test_list_machines_equinix_metal(self, pretty_print, mist_core, cache, owner_api_token):
         response = mist_core.add_cloud(title='Equinix Metal', provider= 'equinixmetal', api_token=owner_api_token,
                                        api_key=safe_get_var('clouds/packet', 'api_key',
-                                                            config.CREDENTIALS['PACKET']['api_key'])).post()
+                                                            config.CREDENTIALS['EQUINIX METAL']['api_key'])).post()
         assert_response_ok(response)
         cache.set('equinix_metal_cloud_id', response.json()['id'])
         response = mist_core.list_machines(cloud_id=cache.get('equinix_metal_cloud_id', ''), api_token=owner_api_token).get()
@@ -109,7 +109,7 @@ class TestLibcloudFunctionality:
         assert len(response.json()) > 0, "List Linode locations did not return any locations"
         print "Success!!!"
 
-    def test_list_locations_packet(self, pretty_print, mist_core, cache, owner_api_token):
+    def test_list_locations_equinix_metal(self, pretty_print, mist_core, cache, owner_api_token):
         response = mist_core.list_locations(cloud_id=cache.get('equinix_metal_cloud_id', ''), api_token=owner_api_token).get()
         assert_response_ok(response)
         assert len(response.json()) > 0, "List Equinix Metal locations did not return any locations"
@@ -139,7 +139,7 @@ class TestLibcloudFunctionality:
         assert len(response.json()) > 0, "List Linode images did not return any images"
         print "Success!!!"
 
-    def test_list_images_packet(self, pretty_print, mist_core, cache, owner_api_token):
+    def test_list_images_equinix_metal(self, pretty_print, mist_core, cache, owner_api_token):
         response = mist_core.list_images(cloud_id=cache.get('equinix_metal_cloud_id', ''), api_token=owner_api_token).get()
         assert_response_ok(response)
         assert len(response.json()) > 0, "List Equinix Metal images did not return any images"
