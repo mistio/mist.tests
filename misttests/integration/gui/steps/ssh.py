@@ -24,14 +24,22 @@ def is_ssh_connection_up(lines):
     return True
 
 
-def update_lines(terminal, lines):
+def update_lines(context, terminal, lines):
     """
     Scans through the terminal lines to find new ones and update any line that
     has changed(for example when a command is given and enter is pressed).
     """
     starting_lines = len(lines)
     line_has_been_updated = False
-    all_lines = terminal.find_element_by_class_name('xterm-rows').find_elements_by_tag_name('div')
+    context.browser.execute_script("arguments[0].term.selectAll();", terminal)
+    all_lines = context.browser.execute_script("arguments[0].term.getSelection();", terminal).split("\n")
+    context.browser.execute_script("arguments[0].term.clearSelection();", terminal)
+    i = len(all_lines) - 1
+    while i >= 0:
+        if all_lines[i] != "":
+            break
+        i -= 1
+    all_lines = all_lines[:i+1]
     safety_counter = max_safety_count = 5
     for i in range(0, len(all_lines)):
         line = safe_get_element_text(all_lines[i]).rstrip().lstrip()
@@ -99,10 +107,9 @@ def check_shell_input_state(context, state, seconds):
     mist_app = context.browser.find_element_by_css_selector('mist-app')
     mist_app_shadow = expand_shadow_root(context, mist_app)
     xterm_dialog = mist_app_shadow.find_element_by_css_selector('xterm-dialog')
-    terminal = expand_shadow_root(context, xterm_dialog).find_element_by_css_selector('.terminal')
     max_time = time() + int(seconds)
     while time() < max_time:
-        if update_lines(terminal, lines):
+        if update_lines(context, xterm_dialog, lines):
             assert is_ssh_connection_up(lines), "Error while using shell"
             if state == 'available' and re.search(":(.*)(\$|#)\s?$", lines[-1]):
                 break
@@ -128,12 +135,13 @@ def check_output(context, filename):
     mist_app = context.browser.find_element_by_css_selector('mist-app')
     mist_app_shadow = expand_shadow_root(context, mist_app)
     xterm_dialog = mist_app_shadow.find_element_by_css_selector('xterm-dialog')
-    terminal = expand_shadow_root(context, xterm_dialog).find_element_by_css_selector('.terminal')
-    rows_class = terminal.find_element_by_css_selector('.xterm-rows')
-    rows = rows_class.find_elements_by_css_selector('div')
-    for row in rows:
-        if filename in safe_get_element_text(row):
-            return
+    context.browser.execute_script("arguments[0].term.selectAll();", xterm_dialog)
+    shell_text = context.browser.execute_script(
+        "arguments[0].term.getSelection();", xterm_dialog)
+    context.browser.execute_script(
+        "arguments[0].term.clearSelection();", xterm_dialog)
+    if filename in shell_text:
+        return
     assert False, "%s is not included in the shell's output." % filename
 
 
