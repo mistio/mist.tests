@@ -21,15 +21,15 @@ class TestLibcloudFunctionality:
         assert len(response.json()) >= 0, "List Linode machines did not return a proper result"
         print "Success!!!"
 
-    def test_list_machines_packet(self, pretty_print, mist_core, cache, owner_api_token):
-        response = mist_core.add_cloud(title='Packet', provider= 'packet', api_token=owner_api_token,
+    def test_list_machines_equinix_metal(self, pretty_print, mist_core, cache, owner_api_token):
+        response = mist_core.add_cloud(title='Equinix Metal', provider= 'equinixmetal', api_token=owner_api_token,
                                        api_key=safe_get_var('clouds/packet', 'api_key',
                                                             config.CREDENTIALS['PACKET']['api_key'])).post()
         assert_response_ok(response)
-        cache.set('packet_cloud_id', response.json()['id'])
-        response = mist_core.list_machines(cloud_id=cache.get('packet_cloud_id', ''), api_token=owner_api_token).get()
+        cache.set('equinix_metal_cloud_id', response.json()['id'])
+        response = mist_core.list_machines(cloud_id=cache.get('equinix_metal_cloud_id', ''), api_token=owner_api_token).get()
         assert_response_ok(response)
-        assert len(response.json()) >= 0, "List Packet machines did not return a proper result"
+        assert len(response.json()) >= 0, "List Equinix Metal machines did not return a proper result"
         print "Success!!!"
 
 #    def test_list_machines_openstack(self, pretty_print, mist_core, cache, owner_api_token):
@@ -79,10 +79,10 @@ class TestLibcloudFunctionality:
         assert len(response.json()) > 0, "List Linode sizes did not return any sizes"
         print "Success!!!"
 
-    def test_list_sizes_packet(self, pretty_print, mist_core, cache, owner_api_token):
-        response = mist_core.list_sizes(cloud_id=cache.get('packet_cloud_id', ''), api_token=owner_api_token).get()
+    def test_list_sizes_equinix_metal(self, pretty_print, mist_core, cache, owner_api_token):
+        response = mist_core.list_sizes(cloud_id=cache.get('equinix_metal_cloud_id', ''), api_token=owner_api_token).get()
         assert_response_ok(response)
-        assert len(response.json()) > 0, "List Packet sizes did not return any sizes"
+        assert len(response.json()) > 0, "List Equinix Metal sizes did not return any sizes"
         print "Success!!!"
 
 #    def test_list_sizes_openstack(self, pretty_print, mist_core, cache, owner_api_token):
@@ -110,9 +110,9 @@ class TestLibcloudFunctionality:
         print "Success!!!"
 
     def test_list_locations_packet(self, pretty_print, mist_core, cache, owner_api_token):
-        response = mist_core.list_locations(cloud_id=cache.get('packet_cloud_id', ''), api_token=owner_api_token).get()
+        response = mist_core.list_locations(cloud_id=cache.get('equinix_metal_cloud_id', ''), api_token=owner_api_token).get()
         assert_response_ok(response)
-        assert len(response.json()) > 0, "List Packet locations did not return any locations"
+        assert len(response.json()) > 0, "List Equinix Metal locations did not return any locations"
         print "Success!!!"
 
 #    def test_list_locations_openstack(self, pretty_print, mist_core, cache, owner_api_token):
@@ -140,9 +140,9 @@ class TestLibcloudFunctionality:
         print "Success!!!"
 
     def test_list_images_packet(self, pretty_print, mist_core, cache, owner_api_token):
-        response = mist_core.list_images(cloud_id=cache.get('packet_cloud_id', ''), api_token=owner_api_token).get()
+        response = mist_core.list_images(cloud_id=cache.get('equinix_metal_cloud_id', ''), api_token=owner_api_token).get()
         assert_response_ok(response)
-        assert len(response.json()) > 0, "List Packet images did not return any images"
+        assert len(response.json()) > 0, "List Equinix Metal images did not return any images"
         print "Success!!!"
 
 #    def test_list_images_openstack(self, pretty_print, mist_core, cache, owner_api_token):
