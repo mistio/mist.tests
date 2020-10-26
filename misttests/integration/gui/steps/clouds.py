@@ -295,7 +295,7 @@ cloud_creds_dict = {
     "linode": set_linode_creds,
     "digital ocean": set_do_creds,
     "docker": set_docker_creds,
-    "equinixmetal": set_equinix_metal_creds,
+    "equinix metal": set_equinix_metal_creds,
     "openstack": set_openstack_creds,
     "hostvirtual": set_hostvirtual_creds,
     "vultr": set_vultr_creds,
@@ -341,7 +341,7 @@ def select_provider_in_cloud_add_form(context, provider):
 def cloud_creds(context, provider):
     provider = provider.strip().lower()
     if provider not in cloud_creds_dict.keys():
-        raise Exception("Unknown cloud provider")
+        raise Exception("Unknown cloud provider", provider)
     cloud_creds_dict.get(provider)(context)
 
 
