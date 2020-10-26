@@ -125,7 +125,7 @@ def set_docker_creds(context):
 
 
 def set_equinix_metal_creds(context):
-    api_key = safe_get_var('clouds/packet', 'api_key', context.mist_config['CREDENTIALS']['Equinix Metal']['api_key'])
+    api_key = safe_get_var('clouds/packet', 'api_key', context.mist_config['CREDENTIALS']['EQUINIX METAL']['api_key'])
     context.execute_steps(u'Then I set the value "%s" to field "API Key" in the '
                           u'"cloud" add form' % api_key)
 
