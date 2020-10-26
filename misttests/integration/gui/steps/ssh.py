@@ -42,7 +42,7 @@ def update_lines(context, terminal, lines):
     all_lines = all_lines[:i+1]
     safety_counter = max_safety_count = 5
     for i in range(0, len(all_lines)):
-        line = safe_get_element_text(all_lines[i]).rstrip().lstrip()
+        line = all_lines[i].rstrip().lstrip()
         if line:
             if i < starting_lines and lines[i] != line:
                 lines[i] = line
@@ -126,8 +126,8 @@ def type_in_terminal(context, command):
     mist_app = context.browser.find_element_by_css_selector('mist-app')
     mist_app_shadow = expand_shadow_root(context, mist_app)
     xterm_dialog = mist_app_shadow.find_element_by_css_selector('xterm-dialog')
-    terminal = expand_shadow_root(context, xterm_dialog).find_element_by_css_selector('.terminal')
-    terminal.send_keys(' ' + command + '\n')
+    msg = ' ' + command + '\n'
+    context.browser.execute_script("arguments[0].term.paste({});".format(msg), xterm_dialog)
 
 
 @step('{filename} should be included in the output')
@@ -183,8 +183,10 @@ def check_ssh_connection_with_timeout(context,
                                                  " %s seconds. Aborting!"\
                                                  % connection_timeout
         sleep(1)
-
-    terminal.send_keys("ls -l\n")
+    mist_app = context.browser.find_element_by_css_selector('mist-app')
+    mist_app_shadow = expand_shadow_root(context, mist_app)
+    xterm_dialog = mist_app_shadow.find_element_by_css_selector('xterm-dialog')
+    contect.browser.execute_script("arguments[0].term.paste('ls -l\n')", xterm_dialog)
     # remove the last line so that it can be updated since the command has
     # been added
     lines = lines[:-1]
