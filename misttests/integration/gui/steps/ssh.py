@@ -127,7 +127,7 @@ def type_in_terminal(context, command):
     mist_app_shadow = expand_shadow_root(context, mist_app)
     xterm_dialog = mist_app_shadow.find_element_by_css_selector('xterm-dialog')
     msg = ' ' + command + '\n'
-    context.browser.execute_script("arguments[0].term.paste({});".format(msg), xterm_dialog)
+    context.browser.execute_script("arguments[0].term.paste('{}');".format(msg), xterm_dialog)
 
 
 @step('{filename} should be included in the output')
