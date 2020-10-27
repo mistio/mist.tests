@@ -252,7 +252,7 @@ DEFAULT_CREDENTIALS = {
     'OPENSTACK': {'auth_url': '', 'password': '', 'tenant': '', 'username': ''},
     'DOCKER_ORCHESTRATOR':{"host": "", "port": ""},
     'OPENSTACK_2': {'auth_url': '', 'password': '', 'tenant': '', 'username': ''},
-    'PACKET': {'api_key': ''},
+    'EQUINIX METAL': {'api_key': ''},
     'PACKET_2': {'api_key': ''},
     'VSPHERE': {'username': '', 'password': '', 'ca': '', 'host': '' },
     'RACKSPACE': {'api_key': '', 'region': '', 'username': ''},
