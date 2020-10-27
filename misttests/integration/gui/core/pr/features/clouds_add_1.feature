@@ -27,7 +27,7 @@ Feature: Add second-tier clouds
     | Vultr          |
     | G8             |
 #    | AWS            |
-#    | Packet	     |
+#    | Equinix Metal  |
 
   @other-server-add
   Scenario: Add other-server

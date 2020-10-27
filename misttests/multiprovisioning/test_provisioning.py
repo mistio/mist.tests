@@ -80,7 +80,7 @@ providers = {
         "size_disk_swap": "1",
         "image": "d69e1f0e-5205-4698-880e-81f95774a633"
     },
-    "Packet": {
+    "Equinix Metal": {
         "size": "baremetal_0",
         "location": "ams1",
         "image": "debian_8"
@@ -184,8 +184,8 @@ def add_cloud(provider):
                                        api_key = safe_get_var('clouds/rackspace', 'api_key',
                                                            config.CREDENTIALS['RACKSPACE']['api_key'])).post()
 
-        elif provider == "Packet":
-            response = mist_core.add_cloud(title='Packet', provider= 'packet', api_token=config.MIST_API_TOKEN,
+        elif provider == "Equinix Metal":
+            response = mist_core.add_cloud(title='Equinix Metal', provider= 'equinixmetal', api_token=config.MIST_API_TOKEN,
                                            api_key=safe_get_var('clouds/packet', 'api_key',
                                                                 config.CREDENTIALS['PACKET']['api_key'])).post()
 
@@ -285,7 +285,7 @@ def create_machine(cloud_id, provider):
 
 def main():
     for provider in providers:
-        if provider in ['AWS', 'Digital Ocean', 'Linode', 'Azure', 'SoftLayer', 'GCE', 'Rackspace', 'Packet', 'Vultr', 'Azure_ARM']:
+        if provider in ['AWS', 'Digital Ocean', 'Linode', 'Azure', 'SoftLayer', 'GCE', 'Rackspace', 'Equinix Metal', 'Vultr', 'Azure_ARM']:
             #add the provider if not there
             cloud_id = add_cloud(provider)
 
