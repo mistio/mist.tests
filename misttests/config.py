@@ -246,7 +246,7 @@ DEFAULT_CREDENTIALS = {
     'DIGITALOCEAN': {'token': ''},
     'DOCKER': {'authentication': '', 'ca': """ """, 'cert': """ """, 'host': '', 'key': """""", 'port': ''},
     'EC2': {'api_key': '', 'api_secret': '', 'region': '', 'region_id': ''},
-    'LINODE': {'api_key': ''},
+    'LINODE': {'api_key_new': ''},
     'NEPHOSCALE': {'password': '', 'username': ''},
     'GCE': {'project_id': '', 'private_key': {}},
     'OPENSTACK': {'auth_url': '', 'password': '', 'tenant': '', 'username': ''},
