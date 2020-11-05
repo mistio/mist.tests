@@ -109,7 +109,7 @@ Feature: Production
 
   @confirm_alert_email
   Scenario: Confirm that alert email arrived
-    Then I should receive an email within 200 seconds
+    Then I should receive an email within 300 seconds
     And I wait for 30 seconds
 
   @logs
