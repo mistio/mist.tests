@@ -758,8 +758,13 @@ class MistIoApi(object):
         req.delete = req.unavailable_api_call
         return req
 
-    def create_secret(self, api_token):
-        req = MistRequests(uri=self.uri + '/api/v1/secrets', api_token=api_token)
+    def create_secret(self, name, secret, api_token):
+        data = {
+            'name': name,
+            'secret': secret
+        }
+        req = MistRequests(uri=self.uri + '/api/v1/secrets', api_token=api_token,
+                           data=json.dumps(data))
         req.get = req.unavailable_api_call
         req.put = req.unavailable_api_call
         req.delete = req.unavailable_api_call
