@@ -778,8 +778,12 @@ class MistIoApi(object):
         req.put = req.unavailable_api_call
         return req
 
-    def update_secret(self, secret_id, api_token):
-        req = MistRequests(uri=self.uri + '/api/v1/secrets/' + secret_id, api_token=api_token)
+    def update_secret(self, secret_id, secret, api_token):
+        data = {
+            'secret': secret
+        }
+        req = MistRequests(uri=self.uri + '/api/v1/secrets/' + secret_id, api_token=api_token,
+                           data=json.dumps(data))
 
         req.delete = req.unavailable_api_call
         req.post = req.unavailable_api_call
