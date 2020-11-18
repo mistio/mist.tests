@@ -67,7 +67,6 @@ class TestSecretsFunctionality:
         assert_response_bad_request(response)
         response = mist_core.create_secret(
             name='TestKey',
-            # TODO: make it configurable
             secret={'password': 'password'},
             api_token=owner_api_token).post()
         assert_response_ok(response)
@@ -92,8 +91,40 @@ class TestSecretsFunctionality:
                     secret_id=cache.get('secret_id', ''),
                     api_token=owner_api_token).get()
         assert_response_ok(response)
-        # TODO: Make sure that response is a dict: {"password": "password"}
-
-        # TODO: extra get_Secret, with key: password
-        # TODO: extra get_Secret, with key that does not exist
+        assert isinstance(response.json(), dict), "Returned value is not of type `dict`"
+        assert response.json() == {'password': 'password'}, "Wrong value returned!"
+        # TODO: extra get_secret, requesting key (correct and wrong)
         print "Success"
+
+    def test_update_secret(self, pretty_print, cache, mist_core,
+                           owner_api_token):
+        response = mist_core.update_secret(
+                    secret_id=cache.get('secret_id', ''),
+                    secret='String',
+                    api_token=owner_api_token).put()
+        assert_response_bad_request(response)
+        response = mist_core.update_secret(secret_id=cache.get('secret_id', ''),
+                                           secret={"username": "username"},
+                                           api_token=owner_api_token).put()
+        assert_response_ok(response)
+        response = mist_core.get_secret(
+                    secret_id=cache.get('secret_id', ''),
+                    api_token=owner_api_token).get()
+        assert_response_ok(response)
+        expected_dict = {
+            "username": "username",
+            "password": "password"
+        }
+        assert response.json() == expected_dict, "Wrong value returned!"
+        print "Success"
+
+    def test_delete_secret(self, pretty_print, cache, mist_core,
+                           owner_api_token):
+        response = mist_core.delete_secret(
+                    secret_id=cache.get('secret_id', ''),
+                    api_token=owner_api_token).delete()
+        assert_response_ok(response)
+        response = mist_core.list_secrets(api_token=owner_api_token).get()
+        assert_response_ok(response)
+        assert len(response.json()) == 0
+        print "Success!!!"
