@@ -161,11 +161,12 @@ class TestSecretsFunctionality:
     def test_add_cloud_from_secret(self, pretty_print, cache, mist_core,
                                    owner_api_token, private_key):
         # first, add cloud
+        token = safe_get_var('clouds/digitalocean', 'token',
+                             config.CREDENTIALS['DIGITALOCEAN']['token'])
         response = mist_core.add_cloud('Digital Ocean',
                                        provider='digitalocean',
                                        api_token=owner_api_token,
-                                       token=safe_get_var('clouds/digitalocean',
-                                                          'token', config.CREDENTIALS['DIGITALOCEAN']['token'])).post()
+                                       token=token).post()
         assert_response_ok(response)
         response = mist_core.list_clouds(api_token=owner_api_token).get()
         assert_response_ok(response)
@@ -175,7 +176,8 @@ class TestSecretsFunctionality:
         response = mist_core.add_cloud('Digital Ocean New',
                                        provider='digitalocean',
                                        api_token=owner_api_token,
-                                       token='secret(clouds/Digital Ocean.token)').post()
+                                       token='secret(clouds/Digital Ocean.\
+                                           token)').post()
         assert_response_ok(response)
         response = mist_core.list_clouds(api_token=owner_api_token).get()
         assert_response_ok(response)
