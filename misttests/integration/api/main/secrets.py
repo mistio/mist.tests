@@ -158,7 +158,7 @@ class TestSecretsFunctionality:
         assert response.json() == private_key
         print "Success!!!"
 
-    def test_add_cloud_from_secret(self, pretty_print, cache, mist_core,
+    def test_add_cloud_from_secret(self, pretty_print, mist_core, cache,
                                    owner_api_token, private_key):
         # first, add cloud
         token = safe_get_var('clouds/digitalocean', 'token',
@@ -167,19 +167,32 @@ class TestSecretsFunctionality:
                                        provider='digitalocean',
                                        api_token=owner_api_token,
                                        token=token).post()
+        cache.set('cloud_id', response.json()['id'])
         assert_response_ok(response)
         response = mist_core.list_clouds(api_token=owner_api_token).get()
         assert_response_ok(response)
         assert len(response.json()) == 1
-
         # add another cloud, using the same credentials, obtained from secret
+        token = 'secret(clouds/Digital Ocean.token)'
         response = mist_core.add_cloud('Digital Ocean New',
                                        provider='digitalocean',
                                        api_token=owner_api_token,
-                                       token='secret(clouds/Digital Ocean.\
-                                           token)').post()
+                                       token=token).post()
         assert_response_ok(response)
         response = mist_core.list_clouds(api_token=owner_api_token).get()
         assert_response_ok(response)
         assert len(response.json()) == 2
+        print "Success!!!"
+
+    def test_delete_cloud_from_vault(self, pretty_print, mist_core,
+                                     cache, owner_api_token):
+        response = mist_core.list_secrets(api_token=owner_api_token).get()
+        assert_response_ok(response)
+        assert len(response.json()) == 2
+        response = mist_core.delete_cloud(cloud_id=cache.get('cloud_id', ''),
+                                          api_token=owner_api_token,
+                                          delete_from_vault=True).delete()
+        response = mist_core.list_secrets(api_token=owner_api_token).get()
+        assert_response_ok(response)
+        assert len(response.json()) == 1
         print "Success!!!"
