@@ -5,6 +5,9 @@ from misttests.integration.api.helpers import assert_response_bad_request
 from misttests.integration.api.helpers import assert_response_ok
 from misttests.integration.api.helpers import assert_response_not_found
 
+from misttests.config import safe_get_var
+from misttests import config
+
 
 def test_list_secrets(pretty_print, mist_core, owner_api_token):
     response = mist_core.list_secrets(api_token=owner_api_token).get()
@@ -91,8 +94,10 @@ class TestSecretsFunctionality:
                     secret_id=cache.get('secret_id', ''),
                     api_token=owner_api_token).get()
         assert_response_ok(response)
-        assert isinstance(response.json(), dict), "Returned value is not of type `dict`"
-        assert response.json() == {'password': 'password'}, "Wrong value returned!"
+        assert isinstance(response.json(), dict), "Returned value \
+            is not of type `dict`"
+        assert response.json() == {'password': 'password'}, "Wrong \
+            value returned!"
         # TODO: extra get_secret, requesting key (correct and wrong)
         print "Success"
 
@@ -103,7 +108,8 @@ class TestSecretsFunctionality:
                     secret='String',
                     api_token=owner_api_token).put()
         assert_response_bad_request(response)
-        response = mist_core.update_secret(secret_id=cache.get('secret_id', ''),
+        response = mist_core.update_secret(secret_id=cache.get('secret_id',
+                                                               ''),
                                            secret={"username": "username"},
                                            api_token=owner_api_token).put()
         assert_response_ok(response)
@@ -127,4 +133,51 @@ class TestSecretsFunctionality:
         response = mist_core.list_secrets(api_token=owner_api_token).get()
         assert_response_ok(response)
         assert len(response.json()) == 0
+        print "Success!!!"
+
+    def test_add_key_from_secret(self, pretty_print, cache, mist_core,
+                                 owner_api_token, private_key):
+        # first, store key in Vault
+        response = mist_core.create_secret(
+            name='TestKey',
+            secret={'private': private_key},
+            api_token=owner_api_token).post()
+        assert_response_ok(response)
+        cache.set('secret_id', response.json()['id'])
+
+        # add a key, using secret's id
+        response = mist_core.add_key(
+            name='TestKey',
+            private='secret(TestKey.private)',
+            api_token=owner_api_token).put()
+        assert_response_ok(response)
+        cache.set('key_id', response.json()['id'])
+        response = mist_core.get_private_key(key_id=cache.get('key_id', ''),
+                                             api_token=owner_api_token).get()
+        assert_response_ok(response)
+        assert response.json() == private_key
+        print "Success!!!"
+
+    def test_add_cloud_from_secret(self, pretty_print, cache, mist_core,
+                                   owner_api_token, private_key):
+        # first, add cloud
+        response = mist_core.add_cloud('Digital Ocean',
+                                       provider='digitalocean',
+                                       api_token=owner_api_token,
+                                       token=safe_get_var('clouds/digitalocean',
+                                                          'token', config.CREDENTIALS['DIGITALOCEAN']['token'])).post()
+        assert_response_ok(response)
+        response = mist_core.list_clouds(api_token=owner_api_token).get()
+        assert_response_ok(response)
+        assert len(response.json()) == 1
+
+        # add another cloud, using the same credentials, obtained from secret
+        response = mist_core.add_cloud('Digital Ocean New',
+                                       provider='digitalocean',
+                                       api_token=owner_api_token,
+                                       token='secret(clouds/Digital Ocean.token)').post()
+        assert_response_ok(response)
+        response = mist_core.list_clouds(api_token=owner_api_token).get()
+        assert_response_ok(response)
+        assert len(response.json()) == 2
         print "Success!!!"
