@@ -30,7 +30,7 @@ Feature: Rules
     And I select the "rules-test-machine-random" resource-id when adding new rule in the "rules" page
     And I select the "metric" target-type when adding new rule in the "rules" page
     And I select the "system" target when adding new rule in the "rules" page
-    And I select the "system.load1" target when adding new rule in the "rules" page
+    And I select the "load1" target when adding new rule in the "rules" page
     And I select the "<" operator when adding new rule in the "rules" page
     And I type "1" in the threshold when adding new rule in the "rules" page
     And I select the "every" aggregation when adding new rule in the "rules" page
@@ -45,7 +45,7 @@ Feature: Rules
     And I click the "rules-test-machine-random" "machine"
     And I scroll to the rules section in the "machine" page
     And I wait for 2 seconds
-    Then rule "if system.load1 < 1 for every value within 1 minutes then alert team Owners" should be present in the "machine" page
+    Then rule "if load1 < 1 for every value within 1 minutes then alert team Owners" should be present in the "machine" page
     And I should receive an email at the address "EMAIL" which contains subject terms: "[Mist] *** WARNING *** machine `rules-test-machine-random`:,system,load1" within 180 seconds
 
   @delete-rule
@@ -58,7 +58,7 @@ Feature: Rules
     And I wait for 1 seconds
     And I search for "rules-test-machine-random"
     And I click the "rules-test-machine-random" "machine"
-    Then rule "if system.load1 < 1 for every value within 1 minutes then alert team Owners" should be absent in the "machine" page
+    Then rule "if load1 < 1 for every value within 1 minutes then alert team Owners" should be absent in the "machine" page
 
   @metric-rule-rules-page-destroy
   Scenario: Add rule from rules section that applies on tagged machine. Verify it is visible in single machine page and it works
@@ -90,7 +90,7 @@ Feature: Rules
     And I select the "metric" target-type when adding new rule in the "rules" page
     And I wait for 2 seconds
     And I select the "processes" target when adding new rule in the "rules" page
-    And I select the "processes.running" target when adding new rule in the "rules" page
+    And I select the "running" target when adding new rule in the "rules" page
     And I select the ">" operator when adding new rule in the "rules" page
     And I type "0" in the threshold when adding new rule in the "rules" page
     And I select the "any" aggregation when adding new rule in the "rules" page
@@ -102,7 +102,7 @@ Feature: Rules
     And I search for "rules-test-machine-random"
     And I wait for 1 seconds
     And I click the "rules-test-machine-random" "machine"
-    Then rule "if processes.running > 0 for any value then destroy" should be present in the "machine" page
+    Then rule "if running > 0 for any value then destroy" should be present in the "machine" page
     When I visit the Machines page
     And I clear the search bar
     And I wait for 1 seconds
