@@ -108,3 +108,13 @@ Feature: Login Scenarios and Api Token
     And I enter my new_creds credentials for login
     And I click the sign in button in the landing page popup
     Then I wait for the navigation menu to appear
+
+  @ldap-login
+  Scenario: Log in with Active Directory
+    When I visit mist
+    And I open the login popup
+    And I wait for 3 seconds
+    And I click the sign in with active directory button in the landing page popup
+    And I enter my ad credentials for ldap login
+    And I click the sign in with active directory button in the landing page popup
+    Then I wait for the navigation menu to appear

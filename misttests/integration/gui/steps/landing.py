@@ -72,14 +72,16 @@ def click_button_in_landing_page(context, text):
     text = text.lower()
     if text not in ['email', 'google', 'github', 'sign in', 'sign up',
                     'submit', 'forgot password', 'reset_password_email_submit',
-                    'reset_pass_submit', 'go']:
+                    'reset_pass_submit', 'go', 'sign in with active directory',
+                    'sign in with ldap']:
         raise ValueError('This button does not exist in the landing page popup')
 
     landing_app = context.browser.find_element_by_tag_name("landing-app")
     shadow_root = expand_shadow_root(context, landing_app)
     landing_pages = shadow_root.find_element_by_css_selector("landing-pages")
 
-    if text in ['sign in', 'forgot password', 'google', 'github']:
+    if text in ['sign in', 'forgot password', 'google', 'github',
+                'sign in with active directory', 'sign in with ldap']:
         page = landing_pages.find_element_by_tag_name('landing-sign-in')
     elif text.lower() == 'sign up':
         page = landing_pages.find_element_by_tag_name('landing-sign-up')
@@ -110,6 +112,8 @@ def click_button_in_landing_page(context, text):
         popup = shadow_root.find_element_by_id('signInBtnGoogle')
     elif text == 'github':
         popup = shadow_root.find_element_by_id('signInBtnGithub')
+    elif text == 'sign in with active directory' or text == 'sign in with ldap':
+        popup = shadow_root.find_element_by_id('signInBtnLdap')
 
     clicketi_click(context, popup)
     return
@@ -122,6 +126,8 @@ def get_mist_config_email(context,kind):
         return context.mist_config['MEMBER1_EMAIL']
     elif kind == 'rbac_member2':
         return context.mist_config['MEMBER2_EMAIL']
+    elif kind == ad:
+        return context.mist_config['AD_MEMBER_USERNAME']
     else:
         return context.mist_config['EMAIL']
 
@@ -135,6 +141,8 @@ def get_mist_config_password(context,kind):
         return context.mist_config['MEMBER1_PASSWORD']
     elif kind == 'rbac_member2':
         return context.mist_config['MEMBER2_PASSWORD']
+    elif kind == 'ad':
+        return context.mist_config['AD_MEMBER_PASSWORD']
     else:
         return context.mist_config['PASSWORD1']
 
@@ -143,11 +151,11 @@ def get_mist_config_password(context,kind):
 def enter_credentials(context, kind, action):
     kind = kind.lower()
     action = action.lower()
-    if action not in ['login', 'signup', 'signup_password_set',
-                      'password_reset_request', 'password_reset',
-                      'demo request']:
+    if action not in ['login', 'ldap login', 'signup', 
+                      'signup_password_set', 'password_reset_request',
+                      'password_reset', 'demo request']:
         raise ValueError("Cannot input %s credentials" % action)
-    if kind not in ['standard', 'alt', 'rbac_owner', 'rbac_member1',
+    if kind not in ['standard', 'alt', 'rbac_owner', 'rbac_member1', 'ad',
                     'rbac_member2', 'new_creds', 'changed'] and not kind.startswith('invalid'):
         raise ValueError("No idea what %s credentials are" % kind)
 
@@ -166,6 +174,24 @@ def enter_credentials(context, kind, action):
         email_container = email_shadow.find_element_by_id('container')
         email_input = email_container.find_element_by_tag_name('input')
         email_input.send_keys(get_mist_config_email(context, kind))
+
+        password_paper_input = form.find_element_by_id("signin-password")
+        password_shadow = expand_shadow_root(context, password_paper_input)
+        password_container = password_shadow.find_element_by_id('container')
+        password_input = password_container.find_element_by_tag_name('input')
+        password_input.send_keys(get_mist_config_password(context, kind))
+
+    elif action == "ldap login":
+        sign_in_class = landing_pages.find_element_by_tag_name('landing-sign-in')
+        shadow_root = expand_shadow_root(context, sign_in_class)
+        iron_form = shadow_root.find_element_by_css_selector('iron-form')
+        form = iron_form.find_element_by_tag_name('form')
+
+        username_paper_input = form.find_element_by_id("signin-username")
+        username_shadow = expand_shadow_root(context, username_paper_input)
+        username_container = username_shadow.find_element_by_id('container')
+        username_input = username_container.find_element_by_tag_name('input')
+        username_input.send_keys(get_mist_config_email(context, kind))
 
         password_paper_input = form.find_element_by_id("signin-password")
         password_shadow = expand_shadow_root(context, password_paper_input)
