@@ -126,7 +126,7 @@ def get_mist_config_email(context,kind):
         return context.mist_config['MEMBER1_EMAIL']
     elif kind == 'rbac_member2':
         return context.mist_config['MEMBER2_EMAIL']
-    elif kind == ad:
+    elif kind == 'ad':
         return context.mist_config['AD_MEMBER_USERNAME']
     else:
         return context.mist_config['EMAIL']
@@ -151,7 +151,7 @@ def get_mist_config_password(context,kind):
 def enter_credentials(context, kind, action):
     kind = kind.lower()
     action = action.lower()
-    if action not in ['login', 'ldap login', 'signup', 
+    if action not in ['login', 'ldap login', 'signup',
                       'signup_password_set', 'password_reset_request',
                       'password_reset', 'demo request']:
         raise ValueError("Cannot input %s credentials" % action)

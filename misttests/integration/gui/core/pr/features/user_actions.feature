@@ -116,5 +116,5 @@ Feature: Login Scenarios and Api Token
     And I wait for 3 seconds
     And I click the sign in with active directory button in the landing page popup
     And I enter my ad credentials for ldap login
-    And I click the sign in with active directory button in the landing page popup
+    And I click the sign in button in the landing page popup
     Then I wait for the navigation menu to appear

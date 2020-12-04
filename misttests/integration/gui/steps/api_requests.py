@@ -82,6 +82,24 @@ def initialize_rbac_members(context):
 
     context.mist_config['TEAM_ID'] = response.json()['id']
 
+    # Add teams devs, finance and ops for AD login test
+    payload = {
+        'name': "devs"
+    }
+    response = requests.post(context.mist_config['MIST_URL'] + "/api/v1/org/" + context.mist_config['ORG_ID'] + "/teams", data=json.dumps(payload), headers=headers)
+    assert response.status_code == 200, "Could not add devs team. Response was %s" % response.status_code
+    payload = {
+        'name': "finance"
+    }
+    response = requests.post(context.mist_config['MIST_URL'] + "/api/v1/org/" + context.mist_config['ORG_ID'] + "/teams", data=json.dumps(payload), headers=headers)
+    assert response.status_code == 200, "Could not add finance team. Response was %s" % response.status_code
+    payload = {
+        'name': "ops"
+    }
+    response = requests.post(context.mist_config['MIST_URL'] + "/api/v1/org/" + context.mist_config['ORG_ID'] + "/teams", data=json.dumps(payload), headers=headers)
+    assert response.status_code == 200, "Could not add ops team. Response was %s" % response.status_code
+    # End add teams for AD login test
+
     add_user_to_team(context, context.mist_config['MEMBER1_EMAIL'])
     add_user_to_team(context, context.mist_config['MEMBER2_EMAIL'])
 
