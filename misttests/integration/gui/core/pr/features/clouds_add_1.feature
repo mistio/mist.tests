@@ -20,14 +20,14 @@ Feature: Add second-tier clouds
 
     Examples: Providers
     | provider       |
-    | KubeVirt       |
+#    | KubeVirt       |
+#    | G8             |
     | VMware vSphere |
     | Alibaba Cloud  |
     | Microsoft Azure|
     | Vultr          |
-    | G8             |
 #    | AWS            |
-#    | Packet	     |
+#    | Equinix Metal  |
 
   @other-server-add
   Scenario: Add other-server
