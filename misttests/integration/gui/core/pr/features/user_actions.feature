@@ -111,6 +111,7 @@ Feature: Login Scenarios and Api Token
 
   @ldap-login
   Scenario: Log in with Active Directory
+    Given ldap teams are initialized
     Given I am not logged in to mist
     When I visit mist
     And I open the login popup
