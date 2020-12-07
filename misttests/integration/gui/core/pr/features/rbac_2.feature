@@ -62,6 +62,8 @@ Feature: RBAC-rules-v2
     Then I add the rule always "ALLOW" "location" "all"
     And I click the button "Save Policy" in the "team" page
     And I wait for 2 seconds
+    And I click the button "Add a new rule" in the "team" page
+    And I wait for 1 seconds
     Then I add the rule always "ALLOW" "image" "all"
     And I click the button "Save Policy" in the "team" page
     And I wait for 2 seconds
