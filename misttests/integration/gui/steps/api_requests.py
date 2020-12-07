@@ -32,6 +32,7 @@ def get_owner_api_token(context):
         'password': context.mist_config['PASSWORD1'],
         'org_id': context.mist_config['ORG_ID']
     }
+    print(payoload)
     re = requests.post("%s/api/v1/tokens" % context.mist_config['MIST_URL'], data=json.dumps(payload))
 
     api_token = re.json()['token']
@@ -88,7 +89,8 @@ def initialize_rbac_members(context):
     return
 
 @step(u'ldap teams are initialized')
-def initialize_rbac_teams(context):
+def initialize_ldap_teams(context):
+    print("Context is ", context.mist_config)
     headers = {'Authorization': get_owner_api_token(context)}
     # Add teams devs, finance and ops for AD login test
     for team in ['devs', 'finance', 'ops']:
