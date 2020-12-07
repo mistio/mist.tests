@@ -111,6 +111,7 @@ Feature: Login Scenarios and Api Token
 
   @ldap-login
   Scenario: Log in with Active Directory
+    Given I am not logged in to mist
     When I visit mist
     And I open the login popup
     And I wait for 3 seconds
