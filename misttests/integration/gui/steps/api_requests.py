@@ -33,7 +33,7 @@ def get_owner_api_token(context):
         'org_id': context.mist_config['ORG_ID']
     }
     re = requests.post("%s/api/v1/tokens" % context.mist_config['MIST_URL'], data=json.dumps(payload))
-    print("REASON is: ", re.reason, re)
+
     api_token = re.json()['token']
 
     return api_token
