@@ -316,15 +316,6 @@ class MistIoApi(object):
         req.put = req.unavailable_api_call
         return req
 
-    def delete_keys(self, key_ids, api_token=None):
-        req = MistRequests(uri=self.uri + '/api/v1/keys',
-                           api_token=api_token,
-                           json={'key_ids': key_ids})
-        req.get = req.unavailable_api_call
-        req.post = req.unavailable_api_call
-        req.put = req.unavailable_api_call
-        return req
-
     def generate_keypair(self, cookie=None, csrf_token=None, api_token=None):
         req = MistRequests(uri=self.uri + '/api/v1/keys', cookie=cookie,
                            csrf_token=csrf_token, api_token=api_token)
