@@ -31,6 +31,7 @@ Feature: RBAC-rules-v4
   Scenario: Verify that member1 cannot view the script and the cloud added above, since 'DENY-READ-ALL superseeds 'ALLOW-ALL-ALL rule'
     Given I am logged in to mist as rbac_member1
     And I wait for the navigation menu to appear
+    And I ensure that I am in the "ORG_NAME" organization context
     And I visit the Teams page
     Then "Test Team" team should be present within 5 seconds
     When I visit the Home page
@@ -64,6 +65,8 @@ Feature: RBAC-rules-v4
   @view-cloud-success-and-script-fail
   Scenario: Verify that member1 cannot view the script added above, but can see the docker cloud
     Given I am logged in to mist as rbac_member1
+    And I wait for the navigation menu to appear
+    And I ensure that I am in the "ORG_NAME" organization context
     Then I should have 1 clouds added
     When I visit the Scripts page
     Then "touch_kati" script should be absent within 5 seconds
@@ -102,6 +105,8 @@ Feature: RBAC-rules-v4
   @view-cloud-fail
   Scenario: Verify that member1 cannot view the cloud that has been tagged with "rbac-test"
     Given I am logged in to mist as rbac_member1
+    And I wait for the navigation menu to appear
+    And I ensure that I am in the "ORG_NAME" organization context
     Then I should have 0 clouds added
     When I visit the Scripts page
     Then "touch_kati" script should be present within 3 seconds
@@ -143,6 +148,8 @@ Feature: RBAC-rules-v4
   @view-cloud-success
   Scenario: Verify that member1 can now view the cloud but cannot view the script
     Given I am logged in to mist as rbac_member1
+    And I wait for the navigation menu to appear
+    And I ensure that I am in the "ORG_NAME" organization context
     Then I should have 1 clouds added
     When I visit the Scripts page
     Then "touch_kati" script should be absent within 5 seconds
