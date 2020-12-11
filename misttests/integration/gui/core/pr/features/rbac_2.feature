@@ -29,6 +29,7 @@ Feature: RBAC-rules-v2
   Scenario: Verify that member1 cannot view the machine created above
     Given I am logged in to mist as rbac_member1
     And I wait for the navigation menu to appear
+    And I ensure that I am in the "ORG_NAME" organization context
     And I visit the Teams page
     Then "Test Team" team should be present within 5 seconds
     When I visit the Home page
@@ -75,6 +76,8 @@ Feature: RBAC-rules-v2
   @member1-read-machine-success
   Scenario: Member 1 should now be able to read machine
     Given I am logged in to mist as rbac_member1
+    And I wait for the navigation menu to appear
+    And I ensure that I am in the "ORG_NAME" organization context
     When I visit the Machines page
     Then "Docker" machine should be present within 10 seconds
 

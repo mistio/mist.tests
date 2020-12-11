@@ -39,6 +39,7 @@ Feature: RBAC-rules-v1
   Scenario: Verify that member1 can view a cloud
     Given I am logged in to mist as rbac_member1
     And I wait for the navigation menu to appear
+    And I ensure that I am in the "ORG_NAME" organization context
     And I visit the Teams page
     Then "Test Team" team should be present within 5 seconds
     When I visit the Home page
@@ -73,6 +74,8 @@ Feature: RBAC-rules-v1
   @member1-add-cloud-success
   Scenario: Member 1 should now be able to add cloud
     Given I am logged in to mist as rbac_member1
+    And I wait for the navigation menu to appear
+    And I ensure that I am in the "ORG_NAME" organization context
     When I click the fab button in the "dashboard" page
     Then I expect the "Cloud" add form to be visible within max 5 seconds
     When I select the "Equinix Metal" provider
