@@ -107,6 +107,7 @@ def email_find(context, address, subject_terms):
             result, msgdata = box.fetch(i, "(RFC822)")
             raw = msgdata[0][1]
             email_message = email.message_from_string(raw)
+            print(raw)
             log.info("Checking email with subject: %s " %
                      email_message.get('Subject'))
             if address in email_message.get('To'):
