@@ -100,7 +100,7 @@ def email_find(context, address, subject_terms):
     box.select("INBOX")
     result, data = box.search(None, '(TO ' + address + ')')
     fetched_mails = []
-
+    print(data)
     if data and data[0]:
         ids = data[0].split()
         for i in ids:
