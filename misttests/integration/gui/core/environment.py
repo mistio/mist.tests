@@ -187,7 +187,7 @@ def kill_yolomachine(context, machines, headers, cloud_id):
             log.info('Killing yolomachine...')
             payload = {'action': 'destroy'}
             uri = context.mist_config['MIST_URL'] + '/api/v1/clouds/' + \
-                  cloud_id + '/machines/' + machine['machine_id']
+                  cloud_id + '/machines/' + machine['external_id']
             requests.post(uri, data=json.dumps(payload), headers=headers)
 
 
@@ -233,7 +233,7 @@ def kill_docker_machine(context, machine_to_destroy):
                         payload = {'action': 'destroy'}
                         uri = context.mist_config['MIST_URL'] + \
                                 '/api/v1/clouds/' + cloud['id'] + \
-                                '/machines/' + machine['machine_id']
+                                '/machines/' + machine['external_id']
                         requests.post(uri, data=json.dumps(payload), headers=headers)
 
 def delete_ec2_network(context, network_to_delete):
@@ -288,7 +288,7 @@ def mayday_cleanup(context):
                     payload = {'action': 'start'}
                     uri = context.mist_config['MIST_URL'] + \
                             '/api/v1/clouds/' + cloud['id'] + \
-                            '/machines/' + machine['machine_id']
+                            '/machines/' + machine['external_id']
                     response = requests.post(uri, data=json.dumps(payload), headers=headers)
                     assert response.status_code == 200, "Could not start mayday-test container!"
                     break
@@ -303,7 +303,7 @@ def mp_cleanup(context):
             payload = {'action': 'destroy'}
             uri = context.mist_config['MIST_URL'] + \
                     '/api/v1/clouds/' + machine['cloud'] + \
-                    '/machines/' + machine['machine_id']
+                    '/machines/' + machine['external_id']
             log.info('Killing multiprovisioning machine %s' % str(machine['name']))
             response = requests.post(uri, data=json.dumps(payload), headers=headers)
             assert response.status_code == 200, "Could not destroy multiprovisioning machine %s"  % str(machine['name'])
