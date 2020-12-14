@@ -27,8 +27,8 @@ Feature: Rules
     And I wait for 1 seconds
     And I select the "metric" target-type when adding new rule in the "machine" page
     And I wait for 2 seconds
-    And I select the "mem" target when adding new rule in the "machine" page
-    And I select the "mem.used" target when adding new rule in the "machine" page
+    And I select the "memory" target when adding new rule in the "machine" page
+    And I select the "memory.used" target when adding new rule in the "machine" page
     And I select the ">" operator when adding new rule in the "machine" page
     And I type "0" in the threshold when adding new rule in the "machine" page
     And I select the "any" aggregation when adding new rule in the "machine" page
