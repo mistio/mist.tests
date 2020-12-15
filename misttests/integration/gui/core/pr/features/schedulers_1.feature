@@ -87,7 +87,7 @@ Feature: Schedulers
     # And I wait for 1 seconds
     # And I refresh the page
     # And I wait for the navigation menu to appear
-    # And I visit the Schedules page
+    And I visit the Schedules page
     Then "TestScheduler_2" schedule should be present within 5 seconds
 
   @check-machines-state
