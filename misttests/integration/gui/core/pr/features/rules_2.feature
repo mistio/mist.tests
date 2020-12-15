@@ -29,6 +29,7 @@ Feature: Rules
     And I select the "select" resource-type when adding new rule in the "rules" page
     And I select the "rules-test-machine-random" resource-id when adding new rule in the "rules" page
     And I select the "metric" target-type when adding new rule in the "rules" page
+    And I wait for 5 seconds
     And I select the "system" target when adding new rule in the "rules" page
     And I select the "system.n_cpus" target when adding new rule in the "rules" page
     And I select the "<" operator when adding new rule in the "rules" page
