@@ -82,12 +82,12 @@ Feature: Schedulers
     And I set the value "1" to field "interval" in the "schedule" add form
     And I click the "Run once immediately" toggle button in the "schedule" add form
     And I click the button "Add" in the "schedule" add form
-    And I wait for 1 seconds
-    When I visit the Home page
-    And I wait for 1 seconds
-    And I refresh the page
-    And I wait for the navigation menu to appear
-    And I visit the Schedules page
+    And I wait for 5 seconds
+    # When I visit the Home page
+    # And I wait for 1 seconds
+    # And I refresh the page
+    # And I wait for the navigation menu to appear
+    # And I visit the Schedules page
     Then "TestScheduler_2" schedule should be present within 5 seconds
 
   @check-machines-state
