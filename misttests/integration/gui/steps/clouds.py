@@ -86,7 +86,7 @@ def set_aws_adv_creds(context):
 
 
 def set_linode_creds(context):
-    api_key = safe_get_var('clouds/linode', 'api_key', context.mist_config['CREDENTIALS']['LINODE']['api_key'])
+    api_key = safe_get_var('clouds/linode', 'api_key_new', context.mist_config['CREDENTIALS']['LINODE']['api_key'])
     context.execute_steps(u'Then I set the value "%s" to field "API Key" in '
                           u'the "cloud" add form' % api_key)
 

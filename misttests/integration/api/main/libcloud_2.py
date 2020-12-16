@@ -13,7 +13,7 @@ class TestLibcloudFunctionality:
 
     def test_list_machines_linode(self, pretty_print, mist_core, cache, owner_api_token):
         response = mist_core.add_cloud(title='Linode', provider= 'linode', api_token=owner_api_token,
-                                       api_key=safe_get_var('clouds/linode', 'api_key', config.CREDENTIALS['LINODE']['api_key'])).post()
+                                       api_key=safe_get_var('clouds/linode', 'api_key_new', config.CREDENTIALS['LINODE']['api_key'])).post()
         assert_response_ok(response)
         cache.set('linode_cloud_id', response.json()['id'])
         response = mist_core.list_machines(cloud_id=cache.get('linode_cloud_id', ''), api_token=owner_api_token).get()
