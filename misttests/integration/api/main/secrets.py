@@ -173,7 +173,7 @@ class TestSecretsFunctionality:
         assert_response_ok(response)
         assert len(response.json()) == 1
         # add another cloud, using the same credentials, obtained from secret
-        token = 'secret(clouds/Digital Ocean.token)'
+        token = 'secret(mist/clouds/Digital Ocean.token)'
         response = mist_core.add_cloud('Digital Ocean New',
                                        provider='digitalocean',
                                        api_token=owner_api_token,
