@@ -332,7 +332,7 @@ def select_provider_in_cloud_add_form(context, provider):
         providers += provider_type.find_elements_by_tag_name('paper-item')
 
     for p in providers:
-        if safe_get_element_text(p).lower().strip() == provider_title:
+        if safe_get_element_text(p).replace("\n", "").lower().strip() == provider_title:
             clicketi_click(context, p)
             return
 
