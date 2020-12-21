@@ -293,7 +293,7 @@ cloud_creds_dict = {
     "ibm cloud": set_ibm_clouds_creds,
     "amazon web services": set_aws_creds,
     "linode": set_linode_creds,
-    "digital ocean": set_do_creds,
+    "digitalocean": set_do_creds,
     "docker": set_docker_creds,
     "equinix metal": set_equinix_metal_creds,
     "openstack": set_openstack_creds,
