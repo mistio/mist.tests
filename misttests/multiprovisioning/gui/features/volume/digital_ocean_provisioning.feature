@@ -44,5 +44,5 @@ Feature: Multiprovisioning
     Then "<volume-name>" volume should be absent within 30 seconds
 
     Examples: Providers to be tested
-    | cloud         | location       | volume-name                  |
-    | Digital Ocean | Amsterdam 3    | mp-test-volume-do-random     |
+    | cloud        | location       | volume-name                  |
+    | DigitalOcean | Amsterdam 3    | mp-test-volume-do-random     |

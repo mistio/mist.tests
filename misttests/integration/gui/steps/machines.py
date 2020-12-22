@@ -42,7 +42,7 @@ machine_states_ordering = {
 # this dict contains image, size and location to be tested for each provider
 machine_values_dict = {
     "aws": ["Ubuntu Server 16.04 Beta2 (PV)", "m1.small - Small Instance", "ap-northeast-1a "],
-    "digital ocean": ["Ubuntu 14.04.5 x64", "512mb", "Amsterdam 2"],
+    "digitalocean": ["Ubuntu 14.04.5 x64", "512mb", "Amsterdam 2"],
     "equinixmetal": ["Ubuntu 14.04 LTS", "Type 0 - 8GB RAM", "Amsterdam, NL"],
     "openstack": ["CoreOS", "m1.tiny", "0"],
     "rackspace": ["Ubuntu 14.04 LTS (Trusty Tahr) (PV)", "512MB Standard Instance", "0"],
@@ -67,7 +67,7 @@ def set_values_to_create_machine_form(context,provider,machine_name):
             ''' % (machine_name,
                    machine_values_dict.get(provider)[0]))
 
-    if 'digital ocean' in provider:
+    if 'digitalocean' in provider:
         context.execute_steps(u'''
                     When I open the "Size" drop down in the "machine" add form
                     And I click the "%s" button in the "Size" dropdown in the "machine" add form
