@@ -27,8 +27,8 @@ Feature: Rules
     And I wait for 1 seconds
     And I select the "metric" target-type when adding new rule in the "machine" page
     And I wait for 2 seconds
-    And I select the "memory" target when adding new rule in the "machine" page
-    And I select the "memory.used" target when adding new rule in the "machine" page
+    And I select the "kernel" target when adding new rule in the "machine" page
+    And I select the "kernel.boot_time" target when adding new rule in the "machine" page
     And I select the ">" operator when adding new rule in the "machine" page
     And I type "0" in the threshold when adding new rule in the "machine" page
     And I select the "any" aggregation when adding new rule in the "machine" page
@@ -39,7 +39,7 @@ Feature: Rules
 
   @incidents-triggered
   Scenario: Verify that incidents get triggered
-    Then I should receive an email at the address "EMAIL" which contains subject terms: "[Mist] *** WARNING *** machine `rules-test-machine-random`: RAM used" within 180 seconds
+    Then I should receive an email at the address "EMAIL" which contains subject terms: "[Mist] *** WARNING *** machine `rules-test-machine-random`: KERNEL" within 180 seconds
 
 
   @metric-rule-rules-page-destroy

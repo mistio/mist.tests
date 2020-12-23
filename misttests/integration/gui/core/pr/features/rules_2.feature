@@ -47,7 +47,7 @@ Feature: Rules
     And I scroll to the rules section in the "machine" page
     And I wait for 2 seconds
     Then rule "if system.n_cpus < 9 for every value within 1 minutes then alert team Owners" should be present in the "machine" page
-    And I should receive an email at the address "EMAIL" which contains subject terms: "[Mist] *** WARNING *** machine `rules-test-machine-random`: System n_cpus" within 180 seconds
+    And I should receive an email at the address "EMAIL" which contains subject terms: "[Mist] *** WARNING *** machine `rules-test-machine-random`: System" within 180 seconds
 
   @delete-rule
   Scenario: Delete a rule from rules page and verify it is not visible in single machine page
