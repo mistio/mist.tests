@@ -87,11 +87,11 @@ def click_button_from_collection(context, text, button_collection=None,
 def search_for_button(context, text, button_collection, partial_match=False):
     if partial_match:
         for button in button_collection:
-            if text.lower() in safe_get_element_text(button).strip().lower():
+            if text.lower() in safe_get_element_text(button).replace("\n", "").strip().lower():
                 return button
     else:
         for button in button_collection:
-            if safe_get_element_text(button).strip().lower() == text.lower():
+            if safe_get_element_text(button).replace("\n", "").strip().lower() == text.lower():
                 return button
 
 
