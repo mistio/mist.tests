@@ -32,18 +32,18 @@ class TestLibcloudFunctionality:
         assert len(response.json()) >= 0, "List Equinix Metal machines did not return a proper result"
         print "Success!!!"
 
-   def test_list_machines_openstack(self, pretty_print, mist_core, cache, owner_api_token):
-       response = mist_core.add_cloud(title='Openstack', provider= 'openstack', api_token=owner_api_token,
-                                      username=safe_get_var('clouds/openstack_train', 'username', config.CREDENTIALS['OPENSTACK']['username']),
-                                      auth_url=safe_get_var('clouds/openstack_train', 'auth_url', config.CREDENTIALS['OPENSTACK']['auth_url']),
-                                      tenant=safe_get_var('clouds/openstack_train', 'tenant', config.CREDENTIALS['OPENSTACK']['tenant']),
-                                      password=safe_get_var('clouds/openstack_train', 'password', config.CREDENTIALS['OPENSTACK']['password'])).post()
-       assert_response_ok(response)
-       cache.set('openstack_cloud_id', response.json()['id'])
-       response = mist_core.list_machines(cloud_id=cache.get('openstack_cloud_id', ''), api_token=owner_api_token).get()
-       assert_response_ok(response)
-       assert len(response.json()) >= 0, "List Openstack machines did not return a proper result"
-       print "Success!!!"
+    def test_list_machines_openstack(self, pretty_print, mist_core, cache, owner_api_token):
+        response = mist_core.add_cloud(title='Openstack', provider= 'openstack', api_token=owner_api_token,
+                                        username=safe_get_var('clouds/openstack_train', 'username', config.CREDENTIALS['OPENSTACK']['username']),
+                                        auth_url=safe_get_var('clouds/openstack_train', 'auth_url', config.CREDENTIALS['OPENSTACK']['auth_url']),
+                                        tenant=safe_get_var('clouds/openstack_train', 'tenant', config.CREDENTIALS['OPENSTACK']['tenant']),
+                                        password=safe_get_var('clouds/openstack_train', 'password', config.CREDENTIALS['OPENSTACK']['password'])).post()
+        assert_response_ok(response)
+        cache.set('openstack_cloud_id', response.json()['id'])
+        response = mist_core.list_machines(cloud_id=cache.get('openstack_cloud_id', ''), api_token=owner_api_token).get()
+        assert_response_ok(response)
+        assert len(response.json()) >= 0, "List Openstack machines did not return a proper result"
+        print "Success!!!"
 
 #    def test_list_machines_vultr(self, pretty_print, mist_core, cache, owner_api_token):
 #        response = mist_core.add_cloud(title='Vultr', provider= 'vultr', api_token=owner_api_token,
