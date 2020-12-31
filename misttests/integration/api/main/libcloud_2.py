@@ -85,11 +85,11 @@ class TestLibcloudFunctionality:
         assert len(response.json()) > 0, "List Equinix Metal sizes did not return any sizes"
         print "Success!!!"
 
-   def test_list_sizes_openstack(self, pretty_print, mist_core, cache, owner_api_token):
-       response = mist_core.list_sizes(cloud_id=cache.get('openstack_cloud_id', ''), api_token=owner_api_token).get()
-       assert_response_ok(response)
-       assert len(response.json()) > 0, "List Openstack sizes did not return any sizes"
-       print "Success!!!"
+    def test_list_sizes_openstack(self, pretty_print, mist_core, cache, owner_api_token):
+        response = mist_core.list_sizes(cloud_id=cache.get('openstack_cloud_id', ''), api_token=owner_api_token).get()
+        assert_response_ok(response)
+        assert len(response.json()) > 0, "List Openstack sizes did not return any sizes"
+        print "Success!!!"
 
 #    def test_list_sizes_vultr(self, pretty_print, mist_core, cache, owner_api_token):
 #        response = mist_core.list_sizes(cloud_id=cache.get('vultr_cloud_id', ''), api_token=owner_api_token).get()
@@ -115,11 +115,11 @@ class TestLibcloudFunctionality:
         assert len(response.json()) > 0, "List Equinix Metal locations did not return any locations"
         print "Success!!!"
 
-   def test_list_locations_openstack(self, pretty_print, mist_core, cache, owner_api_token):
-       response = mist_core.list_locations(cloud_id=cache.get('openstack_cloud_id', ''), api_token=owner_api_token).get()
-       assert_response_ok(response)
-       assert len(response.json()) > 0, "List Openstack locations did not return any locations"
-       print "Success!!!"
+    def test_list_locations_openstack(self, pretty_print, mist_core, cache, owner_api_token):
+        response = mist_core.list_locations(cloud_id=cache.get('openstack_cloud_id', ''), api_token=owner_api_token).get()
+        assert_response_ok(response)
+        assert len(response.json()) > 0, "List Openstack locations did not return any locations"
+        print "Success!!!"
 
 #    def test_list_locations_vultr(self, pretty_print, mist_core, cache, owner_api_token):
 #        response = mist_core.list_locations(cloud_id=cache.get('vultr_cloud_id', ''), api_token=owner_api_token).get()
@@ -145,11 +145,11 @@ class TestLibcloudFunctionality:
         assert len(response.json()) > 0, "List Equinix Metal images did not return any images"
         print "Success!!!"
 
-   def test_list_images_openstack(self, pretty_print, mist_core, cache, owner_api_token):
-       response = mist_core.list_images(cloud_id=cache.get('openstack_cloud_id', ''), api_token=owner_api_token).get()
-       assert_response_ok(response)
-       assert len(response.json()) > 0, "List Openstack images did not return any images"
-       print "Success!!!"
+    def test_list_images_openstack(self, pretty_print, mist_core, cache, owner_api_token):
+        response = mist_core.list_images(cloud_id=cache.get('openstack_cloud_id', ''), api_token=owner_api_token).get()
+        assert_response_ok(response)
+        assert len(response.json()) > 0, "List Openstack images did not return any images"
+        print "Success!!!"
 
 #    def test_list_images_vultr(self, pretty_print, mist_core, cache, owner_api_token):
 #        response = mist_core.list_images(cloud_id=cache.get('vultr_cloud_id', ''), api_token=owner_api_token).get()
