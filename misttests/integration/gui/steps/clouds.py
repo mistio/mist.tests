@@ -86,7 +86,7 @@ def set_aws_adv_creds(context):
 
 
 def set_linode_creds(context):
-    api_key = safe_get_var('clouds/linode', 'api_key', context.mist_config['CREDENTIALS']['LINODE']['api_key'])
+    api_key = safe_get_var('clouds/linode', 'api_key_new', context.mist_config['CREDENTIALS']['LINODE']['api_key'])
     context.execute_steps(u'Then I set the value "%s" to field "API Key" in '
                           u'the "cloud" add form' % api_key)
 
@@ -293,7 +293,7 @@ cloud_creds_dict = {
     "ibm cloud": set_ibm_clouds_creds,
     "amazon web services": set_aws_creds,
     "linode": set_linode_creds,
-    "digital ocean": set_do_creds,
+    "digitalocean": set_do_creds,
     "docker": set_docker_creds,
     "equinix metal": set_equinix_metal_creds,
     "openstack": set_openstack_creds,
@@ -332,7 +332,7 @@ def select_provider_in_cloud_add_form(context, provider):
         providers += provider_type.find_elements_by_tag_name('paper-item')
 
     for p in providers:
-        if safe_get_element_text(p).lower().strip() == provider_title:
+        if safe_get_element_text(p).replace("\n", "").lower().strip() == provider_title:
             clicketi_click(context, p)
             return
 

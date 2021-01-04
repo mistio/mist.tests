@@ -36,7 +36,7 @@ providers = {
         "location": "",
         "image": "mist/ubuntu-14.04"
     },
-    "Digital Ocean": {
+    "DigitalOcean": {
         "size": "512mb",
         "location": "ams2",
         "image": "27663881"
@@ -131,13 +131,13 @@ def add_cloud(provider):
                                        api_secret=safe_get_var('clouds/aws', 'api_secret', config.CREDENTIALS['EC2']['api_secret']),
                                        region=providers[provider]['location']).post()
 
-        elif provider == 'Digital Ocean':
+        elif provider == 'DigitalOcean':
             response = mist_core.add_cloud(title=provider, provider= 'digitalocean', api_token=config.MIST_API_TOKEN,
                                        token=safe_get_var('clouds/digitalocean', 'token', config.CREDENTIALS['DIGITALOCEAN']['token'])).post()
 
         elif provider == "Linode":
             response = mist_core.add_cloud(title=provider, provider= 'linode', api_token=config.MIST_API_TOKEN,
-                                       api_key=safe_get_var('clouds/linode', 'api_key', config.CREDENTIALS['LINODE']['api_key'])).post()
+                                       api_key=safe_get_var('clouds/linode', 'api_key_new', config.CREDENTIALS['LINODE']['api_key'])).post()
 
         elif provider == "Azure":
             response = mist_core.add_cloud(title=provider, provider= 'azure', api_token=config.MIST_API_TOKEN,
@@ -285,7 +285,7 @@ def create_machine(cloud_id, provider):
 
 def main():
     for provider in providers:
-        if provider in ['AWS', 'Digital Ocean', 'Linode', 'Azure', 'SoftLayer', 'GCE', 'Rackspace', 'Equinix Metal', 'Vultr', 'Azure_ARM']:
+        if provider in ['AWS', 'DigitalOcean', 'Linode', 'Azure', 'SoftLayer', 'GCE', 'Rackspace', 'Equinix Metal', 'Vultr', 'Azure_ARM']:
             #add the provider if not there
             cloud_id = add_cloud(provider)
 

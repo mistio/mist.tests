@@ -24,7 +24,7 @@ Feature: Multiprovisioning
     Then I set the value "linode-mp-test-random" to field "Machine Name" in the "machine" add form
     When I open the "Location" dropdown in the "machine" add form
     And I wait for 1 seconds
-    And I click the "Frankfurt, DE" button in the "Location" dropdown in the "machine" add form
+    And I click the "eu-central" button in the "Location" dropdown in the "machine" add form
     When I open the "Image" dropdown in the "machine" add form
     And I wait for 1 seconds
     And I click the "Ubuntu 19.10" button in the "Image" dropdown in the "machine" add form
