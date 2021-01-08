@@ -1,18 +1,6 @@
 @user-actions
 Feature: Login Scenarios and Api Token
 
-  @ldap-login
-  Scenario: Log in with Active Directory
-    Given I am not logged in to mist
-    Given ldap teams are initialized
-    When I visit mist
-    And I open the login popup
-    And I wait for 3 seconds
-    And I click the sign in with active directory button in the landing page popup
-    And I enter my ad credentials for ldap login
-    And I click the sign in button in the landing page popup
-    Then I wait for the navigation menu to appear
-
   @api-token-test
   Scenario: Create api token and test it with API call. When it is revoked, API call should fail
     Given I am logged in to mist

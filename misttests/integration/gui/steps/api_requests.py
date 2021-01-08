@@ -87,9 +87,18 @@ def initialize_rbac_members(context):
 
     return
 
-@step(u'ldap teams are initialized')
-def initialize_ldap_teams(context):
+@step(u'ad organization and teams are initialized')
+def initialize_ad_org_teams(context):
+    # Change organization name to AD_ORG_NAME
+    payload = {
+        'new_name': context.mist_config['AD_ORG_NAME']
+    }
     headers = {'Authorization': get_owner_api_token(context)}
+
+    response = requests.put('{}/api/v1/org/{}'.format(
+        context.mist_config['MIST_URL'], context.mist_config['ORG_ID']),
+        data=json.dumps(payload), headers=headers)
+    assert response.status_code == 200, "Could not change org name. Response was {}".format(response.status_code)
     # Add teams devs, finance and ops for AD login test
     for team in ['devs', 'finance', 'ops']:
         payload = {

@@ -230,6 +230,8 @@ API_TESTING_CLOUD_PROVIDER = get_setting('API_TESTING_CLOUD_PROVIDER', '')
 
 ORG_NAME = get_setting('ORG_NAME', '')
 
+AD_ORG_NAME = get_setting('AD_ORG_NAME', '')
+
 ORG_ID = get_setting('ORG_ID', '')
 
 SETUP_ENVIRONMENT = get_setting("SETUP_ENVIRONMENT", False)
