@@ -67,6 +67,11 @@ def safe_get_var(vault_path, vault_key, test_settings_var = None):
 
         return test_settings_var
 
+def get_user_pass_ad_member():
+    ad_groups = safe_get_var(vault_path="ad", vault_key="Active-directory-groups")
+    group = random.choice(['devs', 'finance', 'ops'])
+    all_users = [(k, ad_groups[group][k]) for k in ad_groups[group]]
+    return random.choice(all_users)
 
 def get_setting(setting, default_value=None, priority='config_file'):
 
@@ -175,6 +180,12 @@ MEMBER1_PASSWORD = get_setting("MEMBER1_PASSWORD", PASSWORD1)
 MEMBER2_EMAIL = get_setting("MEMBER2_EMAIL", "")
 MEMBER2_PASSWORD = get_setting("MEMBER2_PASSWORD", PASSWORD1)
 
+ad_user, ad_pass = get_user_pass_ad_member()
+AD_MEMBER_USERNAME = get_setting("AD_MEMBER_USERNAME",
+                                  ad_user)
+AD_MEMBER_PASSWORD = get_setting("AD_MEMBER_PASSWORD",
+                                  ad_pass)
+
 # CREDIT CARD CREDENTIALS
 CC_CVC = get_setting("CC_CVC", "111")
 CC_CC = get_setting("CC_CC", "4242424242424242")
@@ -218,6 +229,8 @@ API_TESTING_CLOUD = get_setting('API_TESTING_CLOUD', '')
 API_TESTING_CLOUD_PROVIDER = get_setting('API_TESTING_CLOUD_PROVIDER', '')
 
 ORG_NAME = get_setting('ORG_NAME', '')
+
+AD_ORG_NAME = get_setting('AD_ORG_NAME', '')
 
 ORG_ID = get_setting('ORG_ID', '')
 

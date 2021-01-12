@@ -9,3 +9,4 @@ from misttests.integration.gui.steps.sessions import *
 from misttests.integration.gui.steps.api_tokens import *
 from misttests.integration.gui.steps.setup import *
 from misttests.integration.gui.steps.sso import *
+from misttests.integration.gui.steps.api_requests import *
