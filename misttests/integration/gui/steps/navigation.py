@@ -353,10 +353,24 @@ def click_user_icon_and_wait_for_menu(context):
     assert False, "Width or height or both of user menu are 0 after 2 clicks"
 
 
+@step(u'the "{title}" navigation menu item should be hidden')
+def go_to_some_page_without_waiting(context, title):
+    title = title.lower()
+    if title not in ['machines', 'images', 'keys', 'networks', 'tunnels',
+                     'scripts', 'schedules', 'templates', 'stacks', 'teams',
+                     'insights', 'zones', 'rules', 'volumes']:
+        raise ValueError('The page given is unknown')
+    mist_app = context.browser.find_element_by_tag_name('mist-app')
+    mist_app_shadow = expand_shadow_root(context, mist_app)
+    sidebar = mist_app_shadow.find_element_by_css_selector(
+        'mist-sidebar')
+    sidebar_shadow = expand_shadow_root(context, sidebar)
+    button = sidebar_shadow.find_element_by_css_selector('#' + title)
+    sleep(1)
+    assert not button.is_displayed(), "Navigation menu item is not hidden!"
+
+
 @step(u'I logout')
 def logout(context):
     from .buttons import click_the_user_menu_button
     click_the_user_menu_button(context, 'logout')
-
-
-
