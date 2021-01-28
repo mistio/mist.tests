@@ -29,8 +29,7 @@ Feature: RBAC-rules-v2
     Then "Test Team" team should be present within 5 seconds
     When I visit the Home page
     Then I should have 1 clouds added
-    When I visit the Machines page
-    Then "Docker" machine should be absent within 5 seconds
+    And the "Machines" navigation menu item should be hidden
     And I logout
 
   @allow-read-machine
@@ -126,8 +125,7 @@ Feature: RBAC-rules-v2
   @member-reads-machine-fail
   Scenario: Member cannot view the machine
     Given I am logged in to mist as rbac_member1
-    When I visit the Machines page
-    Then "Docker" machine should be absent within 5 seconds
+    Then the "Machines" navigation menu item should be hidden
 
   @member-edit-script-success
   Scenario: Member 1 should be able to edit the script

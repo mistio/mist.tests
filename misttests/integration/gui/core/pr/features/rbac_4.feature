@@ -35,8 +35,7 @@ Feature: RBAC-rules-v4
     Then "Test Team" team should be present within 5 seconds
     When I visit the Home page
     Then I should have 0 clouds added
-    When I visit the Scripts page
-    Then "touch_kati" script should be absent within 5 seconds
+    And the "Scripts" navigation menu item should be hidden
     And I logout
 
   @deny-all-script
@@ -65,8 +64,7 @@ Feature: RBAC-rules-v4
   Scenario: Verify that member1 cannot view the script added above, but can see the docker cloud
     Given I am logged in to mist as rbac_member1
     Then I should have 1 clouds added
-    When I visit the Scripts page
-    Then "touch_kati" script should be absent within 5 seconds
+    And the "Scripts" navigation menu item should be hidden
     And I logout
 
   @deny-view-cloud-on-tags
@@ -144,5 +142,4 @@ Feature: RBAC-rules-v4
   Scenario: Verify that member1 can now view the cloud but cannot view the script
     Given I am logged in to mist as rbac_member1
     Then I should have 1 clouds added
-    When I visit the Scripts page
-    Then "touch_kati" script should be absent within 5 seconds
+    And the "Scripts" navigation menu item should be hidden
