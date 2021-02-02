@@ -106,7 +106,7 @@ def initialize_ad_org_teams(context):
         }
         team_response = requests.post(context.mist_config['MIST_URL'] + "/api/v1/org/" + context.mist_config['ORG_ID'] + "/teams", data=json.dumps(payload), headers=headers)
         assert team_response.status_code == 200, "Could not add {} team. Response was {}".format(team, team_response.status_code)
-        team_id = team_ressponse.json()['id']
+        team_id = team_response.json()['id']
         rule1 = {'operator': 'ALLOW', 'action': '', 'rtype': 'cloud', 'rid': '', 'constraints': {}, 'rtags': {}}
         rule2 = {'operator': 'ALLOW', 'action': '', 'rtype': 'machine', 'rid': '', 'constraints': {}, 'rtags': {}}
         policy_payload = {'policy': {'rules': [rule1, rule2], 'operator': 'DENY'}}
