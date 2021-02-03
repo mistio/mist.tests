@@ -30,11 +30,9 @@ Feature: RBAC-rules-v4
   @view-cloud-and-script-fail
   Scenario: Verify that member1 cannot view the script and the cloud added above, since 'DENY-READ-ALL superseeds 'ALLOW-ALL-ALL rule'
     Given I am logged in to mist as rbac_member1
-    And I wait for the navigation menu to appear
-    And I visit the Teams page
-    Then "Test Team" team should be present within 5 seconds
-    When I visit the Home page
-    Then I should have 0 clouds added
+    And the "Teams" navigation menu item should be hidden
+    And the "Clouds" navigation menu item should be hidden
+    And the "Machines" navigation menu item should be hidden
     And the "Scripts" navigation menu item should be hidden
     And I logout
 

@@ -92,6 +92,7 @@ def make_sure_menu_is_open(context):
 def wait_for_buttons_to_appear(context):
     #context.execute_steps(u'Then I make sure the menu is open')
     end_time = time() + 20
+    sections = []
     while time() < end_time:
         try:
             mist_app = context.browser.find_element_by_tag_name('mist-app')
@@ -99,13 +100,13 @@ def wait_for_buttons_to_appear(context):
             sidebar = mist_app_shadow.find_element_by_css_selector(
                 'mist-sidebar')
             sidebar_shadow = expand_shadow_root(context, sidebar)
-            images_button = sidebar_shadow.find_element_by_id('images')
+            sections = sidebar_shadow.find_elements_by_class_name('section')
             break
         except (NoSuchElementException, ValueError, AttributeError):
             assert time() + 1 < end_time, "Links in the home page have not" \
                                           " appeared after 20 seconds"
             sleep(1)
-
+    assert len(sections) >= 2, "Sidebar has no visible items after 20 seconds"
 
 def filter_buttons(container, text):
     return filter(lambda el: safe_get_element_text(el).strip().lower() == text,
