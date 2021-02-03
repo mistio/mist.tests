@@ -373,9 +373,9 @@ def go_to_some_page_without_waiting(context, title):
 @step(u'the "{title}" navigation menu item should not exist')
 def go_to_some_page_without_waiting(context, title):
     title = title.lower()
-    if title not in ['machines', 'images', 'keys', 'networks', 'tunnels',
-                     'scripts', 'schedules', 'templates', 'stacks', 'teams',
-                     'insights', 'zones', 'rules', 'volumes']:
+    if title not in ['clouds', 'machines', 'images', 'keys', 'networks',
+                     'tunnels', 'scripts', 'schedules', 'templates', 'stacks',
+                     'teams', 'insights', 'zones', 'rules', 'volumes']:
         raise ValueError('The page given is unknown')
     mist_app = context.browser.find_element_by_tag_name('mist-app')
     mist_app_shadow = expand_shadow_root(context, mist_app)

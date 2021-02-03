@@ -110,7 +110,7 @@ def initialize_ad_org_teams(context):
         rule1 = {'operator': 'ALLOW', 'action': '', 'rtype': 'cloud', 'rid': '', 'constraints': {}, 'rtags': {}}
         rule2 = {'operator': 'ALLOW', 'action': '', 'rtype': 'machine', 'rid': '', 'constraints': {}, 'rtags': {}}
         policy_payload = {'policy': {'rules': [rule1, rule2], 'operator': 'DENY'}}
-        policy_url = context.mist_config['MIST_URL'] + 'api/v1/org/' + context.mist_config['ORG_ID'] + '/teams/' + team_id + '/policy'
+        policy_url = context.mist_config['MIST_URL'] + '/api/v1/org/' + context.mist_config['ORG_ID'] + '/teams/' + team_id + '/policy'
         policy_response = requests.put(policy_url, data=json.dumps(policy_payload), headers=headers) 
         assert policy_response.status_code == 200, "Could not update policy for {} team. Response was {}, error was {}".format(team, policy_response.status_code, policy_response.text)
 @step(u'script "{script_name}" has been added via API request')
