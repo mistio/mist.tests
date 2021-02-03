@@ -20,7 +20,7 @@ Feature: RBAC-rules-v2
     And I wait for 1 seconds
     And I click the button "Add a new rule" in the "team" page
     And I wait for 1 seconds
-    Then add the rule always "ALLOW" "team" "read"
+    Then I add the rule always "ALLOW" "team" "read"
     And I click the button "Save Policy" in the "team" page
     And I wait for 2 seconds
     Then I logout

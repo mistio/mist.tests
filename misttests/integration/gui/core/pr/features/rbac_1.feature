@@ -18,6 +18,10 @@ Feature: RBAC-rules-v1
     And I click the button "Add a new rule" in the "team" page
     And I wait for 1 seconds
     Then I add the rule always "ALLOW" "cloud" "read"
+    And I wait for 1 seconds
+    And I click the button "Add a new rule" in the "team" page
+    And I wait for 1 seconds
+    Then I add the rule always "ALLOW" "team" "read"
     And I click the button "Save Policy" in the "team" page
     And I wait for 1 seconds
 

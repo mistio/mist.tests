@@ -370,6 +370,21 @@ def go_to_some_page_without_waiting(context, title):
     sleep(1)
     assert not button.is_displayed(), "Navigation menu item is not hidden!"
 
+@step(u'the "{title}" navigation menu item should not exist')
+def go_to_some_page_without_waiting(context, title):
+    title = title.lower()
+    if title not in ['machines', 'images', 'keys', 'networks', 'tunnels',
+                     'scripts', 'schedules', 'templates', 'stacks', 'teams',
+                     'insights', 'zones', 'rules', 'volumes']:
+        raise ValueError('The page given is unknown')
+    mist_app = context.browser.find_element_by_tag_name('mist-app')
+    mist_app_shadow = expand_shadow_root(context, mist_app)
+    sidebar = mist_app_shadow.find_element_by_css_selector(
+        'mist-sidebar')
+    sidebar_shadow = expand_shadow_root(context, sidebar)
+    buttons = sidebar_shadow.find_elements_by_css_selector('#' + title)
+    sleep(1)
+    assert len(buttons) == 0, "Navigation menu item is not hidden!"
 
 @step(u'I logout')
 def logout(context):

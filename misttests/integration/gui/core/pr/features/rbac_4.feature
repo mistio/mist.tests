@@ -30,10 +30,10 @@ Feature: RBAC-rules-v4
   @view-cloud-and-script-fail
   Scenario: Verify that member1 cannot view the script and the cloud added above, since 'DENY-READ-ALL superseeds 'ALLOW-ALL-ALL rule'
     Given I am logged in to mist as rbac_member1
-    And the "Teams" navigation menu item should be hidden
-    And the "Clouds" navigation menu item should be hidden
-    And the "Machines" navigation menu item should be hidden
-    And the "Scripts" navigation menu item should be hidden
+    And the "Teams" navigation menu item should not exist
+    And the "Clouds" navigation menu item should not exist
+    And the "Machines" navigation menu item should not exist
+    And the "Scripts" navigation menu item should not exist
     And I logout
 
   @deny-all-script
