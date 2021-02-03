@@ -101,7 +101,8 @@ def wait_for_buttons_to_appear(context):
                 'mist-sidebar')
             sidebar_shadow = expand_shadow_root(context, sidebar)
             sections = sidebar_shadow.find_elements_by_class_name('section')
-            break
+            if len(sections) >=2:
+                break
         except (NoSuchElementException, ValueError, AttributeError):
             assert time() + 1 < end_time, "Links in the home page have not" \
                                           " appeared after 20 seconds"

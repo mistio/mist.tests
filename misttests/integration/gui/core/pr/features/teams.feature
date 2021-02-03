@@ -37,7 +37,9 @@ Feature: Rbac
     When I visit the Teams page
     Then "Test Team" team should be present within 5 seconds
     And I click the "Test team" "team"
-    And I click the toggle button with id "defaultoperator"
+    And I wait for 3 seconds
+    And I click the "DENY" toggle button in the "team" page
+    And I click the button "Save Policy" in the "team" page
 
   @add-member1
   Scenario: Add member1
