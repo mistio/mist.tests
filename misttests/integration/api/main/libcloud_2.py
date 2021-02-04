@@ -73,6 +73,18 @@ class TestLibcloudFunctionality:
         assert len(response.json()) >= 0, "List Azure_arm machines did not return a proper result"
         print "Success!!!"
 
+    def test_list_machines_cloudsigma(self, pretty_print, mist_core, cache, owner_api_token):
+        response = mist_core.add_cloud(title='CloudSigma', provider='cloudsigma', api_token=owner_api_token,
+                                       username=safe_get_var('clouds/cloudsigma', 'email', config.CREDENTIALS['CLOUDSIGMA']['email']),
+                                       password=safe_get_var('clouds/cloudsigma', 'password', config.CREDENTIALS['CLOUDSIGMA']['password']),
+                                       region=safe_get_var('clouds/cloudsigma', 'region', config.CREDENTIALS['CLOUDSIGMA']['region'])).post()
+        assert_response_ok(response)
+        cache.set('cloudsigma_cloud_id', response.json()['id'])
+        response = mist_core.list_machines(cloud_id=cache.get('cloudsigma_cloud_id', ''), api_token=owner_api_token).get()
+        assert_response_ok(response)
+        assert len(response.json()) >= 0, "List CloudSigma machines did not return a proper result"
+        print "Success!!!"
+
     def test_list_sizes_linode(self, pretty_print, mist_core, cache, owner_api_token):
         response = mist_core.list_sizes(cloud_id=cache.get('linode_cloud_id', ''), api_token=owner_api_token).get()
         assert_response_ok(response)
@@ -101,6 +113,12 @@ class TestLibcloudFunctionality:
         response = mist_core.list_sizes(cloud_id=cache.get('azure_arm_cloud_id', ''), api_token=owner_api_token).get()
         assert_response_ok(response)
         assert len(response.json()) > 0, "List Azure_arm sizes did not return any sizes"
+        print "Success!!!"
+
+    def test_list_sizes_cloudsigma(self, pretty_print, mist_core, cache, owner_api_token):
+        response = mist_core.list_sizes(cloud_id=cache.get('cloudsigma_cloud_id', ''), api_token=owner_api_token).get()
+        assert_response_ok(response)
+        assert len(response.json()) > 0, "List CloudSigma sizes did not return any sizes"
         print "Success!!!"
 
     def test_list_locations_linode(self, pretty_print, mist_core, cache, owner_api_token):
@@ -133,6 +151,12 @@ class TestLibcloudFunctionality:
         assert len(response.json()) > 0, "List Azure_arm locations did not return any locations"
         print "Success!!!"
 
+    def test_list_locations_cloudsigma(self, pretty_print, mist_core, cache, owner_api_token):
+        response = mist_core.list_sizes(cloud_id=cache.get('cloudsigma_cloud_id', ''), api_token=owner_api_token).get()
+        assert_response_ok(response)
+        assert len(response.json()) > 0, "List Azure_arm locations did not return any locations"
+        print "Success!!!"
+
     def test_list_images_linode(self, pretty_print, mist_core, cache, owner_api_token):
         response = mist_core.list_images(cloud_id=cache.get('linode_cloud_id', ''), api_token=owner_api_token).get()
         assert_response_ok(response)
@@ -161,4 +185,10 @@ class TestLibcloudFunctionality:
          response = mist_core.list_images(cloud_id=cache.get('azure_arm_cloud_id', ''), api_token=owner_api_token).get()
          assert_response_ok(response)
          assert len(response.json()) > 0, "List Azure_arm images did not return any images"
+         print "Success!!!"
+
+    def test_list_images_cloudsigma(self, pretty_print, mist_core, cache, owner_api_token):
+         response = mist_core.list_images(cloud_id=cache.get('cloudsigma_cloud_id', ''), api_token=owner_api_token).get()
+         assert_response_ok(response)
+         assert len(response.json()) > 0, "List CloudSigma images did not return any images"
          print "Success!!!"
