@@ -24,7 +24,7 @@ Feature: Multiprovisioning
     Then I set the value "cloudsigma-mp-test-random" to field "Machine Name" in the "machine" add form
     When I open the "Image" dropdown in the "machine" add form
     And I wait for 1 seconds
-    And I click the "CentOS 7.9 Server" button in the "Image" dropdown in the "machine" add form
+    And I click the "Ubuntu 20.04 LTS" button in the "Image" dropdown in the "machine" add form
     When I open the "Size" dropdown in the "machine" add form
     And I wait for 1 seconds
     And I click the "small-1, 1 CPUS, 512MB RAM, 50GB disk" button in the "Size" dropdown in the "machine" add form

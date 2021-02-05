@@ -111,7 +111,7 @@ def check_shell_input_state(context, state, seconds):
     while time() < max_time:
         if update_lines(context, xterm_dialog, lines):
             assert is_ssh_connection_up(lines), "Error while using shell"
-            if state == 'available' and re.search(":?(.*)(\$|#)\s?$", lines[-1]):
+            if state == 'available' and re.search(":(.*)(\$|#)\s?$", lines[-1]):
                 break
             elif state == 'unavailable' and re.search(":(.*)(\$|#)\s?$", lines[-1]):
                 assert False, "Shell input is available although it shouldn't be!"
