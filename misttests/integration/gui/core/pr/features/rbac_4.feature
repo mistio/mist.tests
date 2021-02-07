@@ -62,7 +62,7 @@ Feature: RBAC-rules-v4
   Scenario: Verify that member1 cannot view the script added above, but can see the docker cloud
     Given I am logged in to mist as rbac_member1
     Then I should have 1 clouds added
-    And the "Scripts" navigation menu item should be hidden
+    And the "Scripts" navigation menu item should not exist
     And I logout
 
   @deny-view-cloud-on-tags
