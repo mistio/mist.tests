@@ -277,7 +277,8 @@ DEFAULT_CREDENTIALS = {
     'MAXIHOST': {'api_token': ''},
     'KUBEVIRT': {'host': '', 'ca': '', 'token': ''},
     'LXD': {'host': '', 'key': '', 'cert': ''},
-    'GIG_G8': {'api_key': '', 'url': '', 'user_id': ''}
+    'GIG_G8': {'api_key': '', 'url': '', 'user_id': ''},
+    'CLOUDSIGMA': {'email': '', 'password': '', 'region': ''},
 }
 
 CREDENTIALS = get_setting("CREDENTIALS", DEFAULT_CREDENTIALS)

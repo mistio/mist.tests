@@ -90,6 +90,11 @@ providers = {
         "location": "7",
         "image": "193"
     },
+    "CloudSigma": {
+        "size": "small-1",
+        "image": "749f4885-10dc-48c3-9523-b88fea7441f5",
+        "location": "",
+    }
 }
 
 def check_machine_creation(log_line, job_id):
@@ -193,7 +198,13 @@ def add_cloud(provider):
             response = mist_core.add_cloud(title='Vultr', provider= 'vultr', api_token=config.MIST_API_TOKEN,
                                        api_key=safe_get_var('clouds/vultr', 'apikey',
                                                             config.CREDENTIALS['VULTR']['apikey'])).post()
-
+        elif provider == "CloudSigma":
+            response = mist_core.add_cloud(title='CloudSigma', provider= 'cloudsigma', api_token=config.MIST_API_TOKEN,
+                                           username=safe_get_var('clouds/cloudsigma', 'email',
+                                                                 config.CREDENTIALS['CLOUDSIGMA']['email']),
+                                           password=safe_get_var('clouds/cloudsigma', 'password',
+                                                                 config.CREDENTIALS['CLOUDSIGMA']['password']),
+                                           region='sjc').post()
 
         assert_response_ok(response)
         cloud_id = response.json()['id']
@@ -285,7 +296,7 @@ def create_machine(cloud_id, provider):
 
 def main():
     for provider in providers:
-        if provider in ['AWS', 'DigitalOcean', 'Linode', 'Azure', 'SoftLayer', 'GCE', 'Rackspace', 'Equinix Metal', 'Vultr', 'Azure_ARM']:
+        if provider in ['AWS', 'DigitalOcean', 'Linode', 'Azure', 'SoftLayer', 'GCE', 'Rackspace', 'Equinix Metal', 'Vultr', 'Azure_ARM', 'CloudSigma']:
             #add the provider if not there
             cloud_id = add_cloud(provider)
 
