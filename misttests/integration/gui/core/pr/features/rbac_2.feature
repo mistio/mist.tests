@@ -107,7 +107,7 @@ Feature: RBAC-rules-v2
     And I wait for 1 seconds
     And I click the "Test team" "team"
     Then I expect the "team" page to be visible within max 5 seconds
-    When I remove the rule with index "0"
+    When I remove the rule with index "2"
     And I click the button "Save Policy" in the "team" page
     And I wait for 1 seconds
 
