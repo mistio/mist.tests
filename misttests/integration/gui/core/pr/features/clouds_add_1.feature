@@ -26,6 +26,7 @@ Feature: Add second-tier clouds
     | Alibaba Cloud  |
     | Microsoft Azure|
     | Vultr          |
+    | CloudSigma     |
 #    | AWS            |
 #    | Equinix Metal  |
 
