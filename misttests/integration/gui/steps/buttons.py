@@ -408,6 +408,9 @@ def click_action_in_resource_page(context, action, resource_type):
 def click_action_in_resource_page(context, toggle, resource_type):
     _, container = get_page_element(context, resource_type + 's', resource_type)
     container_shadow = expand_shadow_root(context, container)
+    if toggle == 'DENY' and resource_type == "team":
+        container_shadow = expand_shadow_root(context,
+            container_shadow.find_element_by_tag_name('team-policy'))
     toggle_buttons = container_shadow.find_elements_by_tag_name('paper-toggle-button')
     click_button_from_collection(context, toggle.lower(), toggle_buttons)
 

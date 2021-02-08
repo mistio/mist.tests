@@ -98,15 +98,21 @@ def initialize_ad_org_teams(context):
     response = requests.put('{}/api/v1/org/{}'.format(
         context.mist_config['MIST_URL'], context.mist_config['ORG_ID']),
         data=json.dumps(payload), headers=headers)
-    assert response.status_code == 200, "Could not change org name. Response was {}".format(response.status_code)
+    assert response.status_code == 200, "Could not change org name. Response was {}, error was {}".format(response.status_code, response.text)
     # Add teams devs, finance and ops for AD login test
     for team in ['devs', 'finance', 'ops']:
         payload = {
             'name': team
         }
-        response = requests.post(context.mist_config['MIST_URL'] + "/api/v1/org/" + context.mist_config['ORG_ID'] + "/teams", data=json.dumps(payload), headers=headers)
-        assert response.status_code == 200, "Could not add {} team. Response was {}".format(team ,response.status_code)
-
+        team_response = requests.post(context.mist_config['MIST_URL'] + "/api/v1/org/" + context.mist_config['ORG_ID'] + "/teams", data=json.dumps(payload), headers=headers)
+        assert team_response.status_code == 200, "Could not add {} team. Response was {}, error was {}".format(team, team_response.status_code, team_response.text)
+        team_id = team_response.json()['id']
+        rule1 = {'operator': 'ALLOW', 'action': '', 'rtype': 'cloud', 'rid': '', 'constraints': {}, 'rtags': {}}
+        rule2 = {'operator': 'ALLOW', 'action': '', 'rtype': 'machine', 'rid': '', 'constraints': {}, 'rtags': {}}
+        policy_payload = {'policy': {'rules': [rule1, rule2], 'operator': 'DENY'}}
+        policy_url = context.mist_config['MIST_URL'] + '/api/v1/org/' + context.mist_config['ORG_ID'] + '/teams/' + team_id + '/policy'
+        policy_response = requests.put(policy_url, data=json.dumps(policy_payload), headers=headers) 
+        assert policy_response.status_code == 200, "Could not update policy for {} team. Response was {}, error was {}".format(team, policy_response.status_code, policy_response.text)
 @step(u'script "{script_name}" has been added via API request')
 def create_script_api_request(context, script_name):
     script_data = {'location_type':'inline','exec_type':'executable', 'name': script_name}
