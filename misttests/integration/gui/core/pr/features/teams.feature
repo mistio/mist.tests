@@ -36,10 +36,6 @@ Feature: Rbac
     And I click the "Add" button in the "Add Team" dialog
     When I visit the Teams page
     Then "Test Team" team should be present within 5 seconds
-    And I click the "Test team" "team"
-    And I wait for 3 seconds
-    And I click the "DENY" toggle button in the "team" page
-    And I click the button "Save Policy" in the "team" page
 
   @add-member1
   Scenario: Add member1
@@ -64,10 +60,8 @@ Feature: Rbac
     Then I enter my rbac_member1 credentials for login
     And I click the sign in button in the landing page popup
     Given that I am redirected within 5 seconds
-    And I wait for the navigation menu to appear
+    And I wait for 10 seconds
     Then I ensure that I am in the "ORG_NAME" organization context
-    When I visit the Teams page
-    Then "Test Team" team should be present within 5 seconds
     Then I logout
 
    @add-member2
@@ -91,10 +85,8 @@ Feature: Rbac
     And I wait for 2 seconds
     Then I enter my rbac_member2 credentials for signup_password_set
     And I click the go button in the landing page popup
-    And I wait for the navigation menu to appear
+    And I wait for 10 seconds
     Then I ensure that I am in the "ORG_NAME" organization context
-    When I visit the Teams page
-    And "Test Team" team should be present within 5 seconds
     Then I logout
 
   @delete-members
