@@ -45,7 +45,7 @@ Feature: Scripts
     And I open the "Source" dropdown in the "script" add form
     And I wait for 1 seconds
     And I click the "<source>" button in the "Source" dropdown in the "script" add form
-    And I wait for 1 seconds
+    And I wait for 5 seconds
     And I set the value "<script>" to field "<field>" in the "script" add form
     # And I focus on the button "Add" in the "script" add form
     And I expect for the button "Add" in the "script" add form to be clickable within 3 seconds

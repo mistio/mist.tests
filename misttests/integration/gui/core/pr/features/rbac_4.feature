@@ -140,4 +140,5 @@ Feature: RBAC-rules-v4
   Scenario: Verify that member1 can now view the cloud but cannot view the script
     Given I am logged in to mist as rbac_member1
     Then I should have 1 clouds added
-    And the "Scripts" navigation menu item should be hidden
+    When I visit the Scripts page
+    Then "touch_kati" script should be absent within 5 seconds
