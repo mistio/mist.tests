@@ -4,6 +4,7 @@ from .utils import focus_on_element, get_page_element, clear_input_and_send_keys
 from .utils import safe_get_element_text, expand_shadow_root, expand_slot
 
 from selenium.common.exceptions import NoSuchElementException
+from selenium.webdriver.common.keys import Keys
 
 from time import time
 from time import sleep
@@ -186,6 +187,22 @@ def set_value_to_field(context, value, name, title, form_type):
         value_key = value
         value = value.replace("random", str(randrange(1000)))
         context.mist_config[value_key] = value
+    if name == 'Script':
+        app_form = form_shadow.find_element_by_css_selector('app-form, multi-inputs')
+        app_form_shadow = expand_shadow_root(context, app_form)
+        code_viewer = app_form_shadow.find_elements_by_css_selector('code-viewer')[0]
+        code_viewer_shadow = expand_shadow_root(context, code_viewer)
+        monaco_element = code_viewer_shadow.find_element_by_css_selector('monaco-element')
+        monaco_element_shadow = expand_shadow_root(context, monaco_element)
+        context.browser.switch_to.frame(monaco_element_shadow.find_element_by_id('iframe'))
+        text_area = context.browser.find_element_by_tag_name('textarea')
+        text_area.send_keys(Keys.CONTROL + 'a')
+        text_area.send_keys(Keys.DELETE)
+        clear_input_and_send_keys(text_area, value)
+        text = text_area.get_attribute('value')
+        assert text == value, 'Inserted {} instead of {} after all'.format(text, value)
+        context.browser.switch_to.default_content()
+        return
     form = get_add_form(context, title) if form_type == 'add' else \
         get_edit_form(context, title)
     form_shadow = expand_shadow_root(context, form)
