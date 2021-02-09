@@ -187,6 +187,9 @@ def set_value_to_field(context, value, name, title, form_type):
         value_key = value
         value = value.replace("random", str(randrange(1000)))
         context.mist_config[value_key] = value
+    form = get_add_form(context, title) if form_type == 'add' else \
+        get_edit_form(context, title)
+    form_shadow = expand_shadow_root(context, form)
     if name == 'Script':
         app_form = form_shadow.find_element_by_css_selector('app-form, multi-inputs')
         app_form_shadow = expand_shadow_root(context, app_form)
@@ -203,9 +206,6 @@ def set_value_to_field(context, value, name, title, form_type):
         assert text == value, 'Inserted {} instead of {} after all'.format(text, value)
         context.browser.switch_to.default_content()
         return
-    form = get_add_form(context, title) if form_type == 'add' else \
-        get_edit_form(context, title)
-    form_shadow = expand_shadow_root(context, form)
     form_input = get_input_element_from_form(context, form_shadow, name.lower())
     if not form_input:
         app_form = form_shadow.find_element_by_css_selector('app-form, multi-inputs')
