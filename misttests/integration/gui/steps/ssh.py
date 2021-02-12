@@ -84,7 +84,7 @@ def check_ls_output(lines, filename=None):
 
 
 @step(u'I expect terminal to open within {seconds} seconds')
-def terminal_is_open(context, seconds): 
+def terminal_is_open(context, seconds):
     terminal = None
     end_time = time() + int(seconds)
     while time() < end_time:
