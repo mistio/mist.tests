@@ -86,9 +86,9 @@ Feature: RBAC-rules-v3
     And I wait for 1 seconds
     When I click the "Test team" "team"
     Then I expect the "team" page to be visible within max 5 seconds
-    When I remove the rule with index "0"
+    When I remove the rule with index "1"
     And I wait for 1 seconds
-    And I remove the rule with index "0"
+    And I remove the rule with index "1"
     When I click the button "Add a new rule" in the "team" page
     And I wait for 1 seconds
     And I add the rule "DENY" "CLOUD" "READ" where id = "Docker"
