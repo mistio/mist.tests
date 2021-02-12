@@ -61,7 +61,10 @@ Feature: Rbac
     And I click the sign in button in the landing page popup
     Given that I am redirected within 5 seconds
     And I wait for 5 seconds
+    # And I wait for the navigation menu to appear
     Then I ensure that I am in the "ORG_NAME" organization context
+    # When I visit the Teams page
+    # Then "Test Team" team should be present within 5 seconds
     Then I logout
 
    @add-member2
@@ -85,7 +88,10 @@ Feature: Rbac
     And I wait for 2 seconds
     Then I enter my rbac_member2 credentials for signup_password_set
     And I click the go button in the landing page popup
+    # And I wait for the navigation menu to appear
     And I wait for 5 seconds
+    # When I visit the Teams page
+    # Then "Test Team" team should be present within 5 seconds
     Then I ensure that I am in the "ORG_NAME" organization context
     Then I logout
 
