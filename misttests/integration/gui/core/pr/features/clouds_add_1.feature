@@ -21,14 +21,14 @@ Feature: Add second-tier clouds
     Examples: Providers
     | provider       |
     | KubeVirt       |
-#    | G8             |
+  #  | G8             |
     | VMware vSphere |
     | Alibaba Cloud  |
     | Microsoft Azure|
     | Vultr          |
     | CloudSigma     |
-#    | AWS            |
-#    | Equinix Metal  |
+  #  | AWS            |
+  #  | Equinix Metal  |
 
   @other-server-add
   Scenario: Add other-server
@@ -71,7 +71,8 @@ Feature: Add second-tier clouds
     And I expect the "machine" page to be visible within max 5 seconds
     And I wait for 2 seconds
     When I click the "Shell" action button in the "machine" page
-    Then I expect terminal to open within 3 seconds
+    And I wait for 5 seconds
+    Then I expect terminal to open within 7 seconds
     When I wait for 5 seconds
     And I type in the terminal "ls -l"
     And I wait for 2 seconds

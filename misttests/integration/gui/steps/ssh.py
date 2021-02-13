@@ -85,13 +85,14 @@ def check_ls_output(lines, filename=None):
 
 @step(u'I expect terminal to open within {seconds} seconds')
 def terminal_is_open(context, seconds):
-    mist_app = context.browser.find_element_by_css_selector('mist-app')
-    mist_app_shadow = expand_shadow_root(context, mist_app)
-    end_time = time() + int(seconds)
     terminal = None
+    end_time = time() + int(seconds)
     while time() < end_time:
+        if (len(context.browser.window_handles) < 2):
+            continue
         try:
-            terminal = mist_app_shadow.find_element_by_css_selector('xterm-dialog')
+            context.browser.switch_to.window(context.browser.window_handles[1])
+            terminal = context.browser.find_element_by_css_selector('.xterm-helpers')
             break
         except NoSuchElementException:
             sleep(1)
@@ -123,24 +124,30 @@ def check_shell_input_state(context, state, seconds):
 
 @step('I type in the terminal "{command}"')
 def type_in_terminal(context, command):
-    mist_app = context.browser.find_element_by_css_selector('mist-app')
-    mist_app_shadow = expand_shadow_root(context, mist_app)
-    xterm_dialog = mist_app_shadow.find_element_by_css_selector('xterm-dialog')
+    try:
+        context.browser.switch_to.window(context.browser.window_handles[1])
+    except Exception as exc:
+        print("Failed to find new window")
+        raise(exc)
+    terminal_container = context.browser.find_element_by_id("terminal-container")
     msg = '' + command
-    context.browser.execute_script("arguments[0].term.paste('{}');".format(msg), xterm_dialog)
-    context.browser.execute_script("arguments[0].term.paste('\\n');", xterm_dialog)
+    context.browser.execute_script("arguments[0].term.paste('{}');".format(msg), terminal_container)
+    context.browser.execute_script("arguments[0].term.paste('\\n');", terminal_container)
 
 
 @step('{filename} should be included in the output')
 def check_output(context, filename):
-    mist_app = context.browser.find_element_by_css_selector('mist-app')
-    mist_app_shadow = expand_shadow_root(context, mist_app)
-    xterm_dialog = mist_app_shadow.find_element_by_css_selector('xterm-dialog')
-    context.browser.execute_script("arguments[0].term.selectAll();", xterm_dialog)
+    try:
+        context.browser.switch_to.window(context.browser.window_handles[1])
+    except Exception as exc:
+        print("Failed to find new window")
+        raise(exc)
+    terminal_container = context.browser.find_element_by_id("terminal-container")
+    context.browser.execute_script("arguments[0].term.selectAll();", terminal_container)
     shell_text = context.browser.execute_script(
-        "return arguments[0].term.getSelection();", xterm_dialog)
+        "return arguments[0].term.getSelection();", terminal_container)
     context.browser.execute_script(
-        "arguments[0].term.clearSelection();", xterm_dialog)
+        "arguments[0].term.clearSelection();", terminal_container)
     if filename in shell_text:
         return
     assert False, "%s is not included in the shell's output." % filename
@@ -148,12 +155,14 @@ def check_output(context, filename):
 
 @step('I close the terminal')
 def close_terminal(context):
-    mist_app = context.browser.find_element_by_css_selector('mist-app')
-    mist_app_shadow = expand_shadow_root(context, mist_app)
-    xterm_dialog = mist_app_shadow.find_element_by_css_selector('xterm-dialog')
-    close_button = expand_shadow_root(context, xterm_dialog).find_element_by_css_selector('paper-button')
-    clicketi_click(context, close_button)
-    WebDriverWait(mist_app_shadow, 4).until(EC.invisibility_of_element_located((By.CSS_SELECTOR, 'xterm-dialog')))
+    try:
+        context.browser.switch_to.window(context.browser.window_handles[1])
+    except Exception as exc:
+        print("Failed to find new window")
+        raise(exc)
+    context.browser.close()
+    assert len(context.browser.window_handles) == 1, "There is more than one window opened!!"
+    context.browser.switch_to.window(context.browser.window_handles[0])
 
 
 def check_ssh_connection_with_timeout(context,

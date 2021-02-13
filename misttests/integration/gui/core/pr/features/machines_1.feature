@@ -57,6 +57,7 @@ Feature: Machines
     And I click the "DummyKey2" button in the "Select key" dropdown in the "Associate a key" dialog
     And I click the "Associate" button in the "Associate a key" dialog
     Then "DummyKey2" key should be associated with the machine "ui-test-create-machine-random" within 30 seconds
+    And I wait 10 seconds # for the page to load
 
   @key-disassociate
   Scenario: Disassociate key
