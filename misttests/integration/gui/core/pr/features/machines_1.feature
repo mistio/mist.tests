@@ -93,7 +93,8 @@ Feature: Machines
     And I expect the "machine" page to be visible within max 5 seconds
     And I wait for 2 seconds
     Then I click the "Shell" action button in the "machine" page
-    And I expect terminal to open within 3 seconds
+    And I wait for 5 seconds
+    And I expect terminal to open within 7 seconds
     And shell input should be available after 8 seconds
     And I type in the terminal "ls -l /var"
     And I wait for 1 seconds

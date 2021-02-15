@@ -105,12 +105,15 @@ def check_shell_input_state(context, state, seconds):
     if state not in ['available', 'unavailable']:
         raise ValueError('Unknown type of state')
     lines = []
-    mist_app = context.browser.find_element_by_css_selector('mist-app')
-    mist_app_shadow = expand_shadow_root(context, mist_app)
-    xterm_dialog = mist_app_shadow.find_element_by_css_selector('xterm-dialog')
+    try:
+        context.browser.switch_to.window(context.browser.window_handles[1])
+    except Exception as exc:
+        print("Failed to find new window")
+        raise(exc)
+    terminal_container = context.browser.find_element_by_id("terminal-container")
     max_time = time() + int(seconds)
     while time() < max_time:
-        if update_lines(context, xterm_dialog, lines):
+        if update_lines(context, terminal_container, lines):
             assert is_ssh_connection_up(lines), "Error while using shell"
             if state == 'available' and re.search(":(.*)(\$|#)\s?$", lines[-1]):
                 break
