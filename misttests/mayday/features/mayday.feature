@@ -71,12 +71,12 @@ Feature: Production
     When I click the "Reboot" button in the "Reboot Machine" dialog
     And I wait for 60 seconds
     And I click the "Shell" action button in the "machine" page
-    And I wait 10 seconds
+    And I wait 5 seconds
     Then I expect terminal to open within 14 seconds
     And shell input should be available after 30 seconds
     When I type in the terminal "uptime"
     And I wait for 2 seconds
-    Then up 0 min should be included in the output
+    Then up 0 min || up 1 min should be included in the output
     And I close the terminal
     And I wait for 1 seconds
     And I logout
