@@ -138,8 +138,8 @@ def type_in_terminal(context, command):
     context.browser.execute_script("arguments[0].term.paste('\\n');", terminal_container)
 
 
-@step('{filename} should be included in the output')
-def check_output(context, filename):
+@step('{output} should be included in the output')
+def check_output(context, output):
     try:
         context.browser.switch_to.window(context.browser.window_handles[1])
     except Exception as exc:
@@ -151,9 +151,16 @@ def check_output(context, filename):
         "return arguments[0].term.getSelection();", terminal_container)
     context.browser.execute_script(
         "arguments[0].term.clearSelection();", terminal_container)
-    if filename in shell_text:
+    # This is used in mayday test at the moment of writing
+    if "||" in output:
+        [output1, output2] = output.split("||")
+        if output1.strip() in shell_text:
+            return
+        if output2.strip() in shell_text:
+            return
+    elif output in shell_text:
         return
-    assert False, "%s is not included in the shell's output." % filename
+    assert False, "%s is not included in the shell's output." % output
 
 
 @step('I close the terminal')

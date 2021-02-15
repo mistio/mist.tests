@@ -68,7 +68,14 @@ def safe_get_var(vault_path, vault_key, test_settings_var = None):
         return test_settings_var
 
 def get_user_pass_ad_member():
-    ad_groups = safe_get_var(vault_path="ad", vault_key="Active-directory-groups")
+    try:
+        ad_groups = safe_get_var(vault_path="ad", vault_key="Active-directory-groups")
+    except KeyError:
+        # no vault access
+        return "", ""
+    except Exception as exc:
+        # any other exception should be investigated
+        raise 
     group = random.choice(['devs', 'finance', 'ops'])
     all_users = [(k, ad_groups[group][k]) for k in ad_groups[group]]
     return random.choice(all_users)
