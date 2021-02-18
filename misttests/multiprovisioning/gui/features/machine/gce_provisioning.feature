@@ -50,7 +50,8 @@ Feature: Multiprovisioning
     And I expect the "machine" page to be visible within max 5 seconds
     And I wait for 60 seconds
     Then I click the "Shell" action button in the "machine" page
-    And I expect terminal to open within 3 seconds
+    And I wait for 5 seconds
+    And I expect terminal to open within 5 seconds
     And shell input should be available after 30 seconds
     And I type in the terminal "sudo su"
     And I wait for 2 seconds
