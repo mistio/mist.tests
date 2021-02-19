@@ -98,7 +98,9 @@ def initialize_ad_org_teams(context):
     response = requests.put('{}/api/v1/org/{}'.format(
         context.mist_config['MIST_URL'], context.mist_config['ORG_ID']),
         data=json.dumps(payload), headers=headers)
-    assert response.status_code == 200, "Could not change org name. Response was {}, error was {}".format(response.status_code, response.text)
+    # 409 means that the test is running again and org was created
+    if(response.status_code != 409):
+        assert response.status_code == 200, "Could not change org name. Response was {}, error was {}".format(response.status_code, response.text)
     # Add teams devs, finance and ops for AD login test
     for team in ['devs', 'finance', 'ops']:
         payload = {

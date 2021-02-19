@@ -48,7 +48,8 @@ Feature: Multiprovisioning
     Then I expect the "machine" page to be visible within max 5 seconds
     When I wait for 90 seconds
     And I click the "Shell" action button in the "machine" page
-    And I expect terminal to open within 3 seconds
+    And I wait for 5 seconds
+    And I expect terminal to open within 7 seconds
     And shell input should be available after 30 seconds
     And I type in the terminal "ls -la ~"
     And I wait for 1 seconds

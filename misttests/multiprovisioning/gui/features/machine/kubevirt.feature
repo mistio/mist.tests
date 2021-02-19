@@ -27,7 +27,7 @@ Feature: Multiprovisioning
     And I click the "kubevirt" button in the "Location" dropdown in the "machine" add form
     When I open the "Image" dropdown in the "machine" add form
     And I wait for 1 seconds
-    And I click the "kubevirt/cirros-container-disk-demo:latest" button in the "Image" dropdown in the "machine" add form
+    And I click the "kubevirt/cirros-registry-disk-demo:latest" button in the "Image" dropdown in the "machine" add form
     Then I expect for the button "Launch" in the "machine" add form to be clickable within 10 seconds
     When I focus on the button "Launch" in the "machine" add form
     And I click the button "Launch" in the "machine" add form
