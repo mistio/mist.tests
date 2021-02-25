@@ -12,7 +12,7 @@ No installation is required. mist.tests should already be under mist.io/tests/ d
 
 In order to create the image that is used for tests, you need to run under the tests directory:
 
-docker build -t mistio/tests.
+docker build -t mistio/tests .
 
 ### Running Tests
 
