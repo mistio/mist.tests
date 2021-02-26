@@ -30,7 +30,7 @@ To run tests using Vault export your Vault server's IP address as $VAULT_ADDR an
 
 You can run the entire API tests suite or GUI tests suite, or specify the tests you want to run.
 
-Run ./run_tests -h for more info.
+Run ./run_tests.sh -h for more info.
 
 ##### Using test_settings.py
 
@@ -40,7 +40,7 @@ All the variables needed for the tests will be obtained from test_settings.py in
 
 To run tests without Vault usage flag '-t' is needed:
 
-./run_tests -t -api
+./run_tests.sh -t -api
 
 
 You can always run tests by invoking py.test or behave. For example, for running machines API tests you need to run:
