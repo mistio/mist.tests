@@ -56,6 +56,7 @@ help_message() {
     echo
     echo "[no option]   First API tests and then GUI tests will be invoked"
     echo "-h            Display this message"
+    echo "-t            Skip Vault login"
     echo "-a            Run api tests suite. If no argument provided, the entire API tests suite will be invoked"
     echo "-g            Run gui tests suite. If no argument provided, the entire GUI tests suite will be invoked"
     echo "-p            Run libcloud provision test."
@@ -133,6 +134,7 @@ validate_suites(){
 
 
 # Initialize
+skip_vault=0
 run_api_tests=0
 run_gui_tests=0
 login_only=0
@@ -141,6 +143,10 @@ break_on_failure=1
 for i in "$@"
 do
 case $i in
+    -t)
+    skip_vault=1
+    shift
+    ;;
     -a|--api)
     run_api_tests=1
     shift
@@ -186,7 +192,9 @@ validate_suites
 datadir=/data/`date '+%Y_%m_%d_%H_%M_%S'`
 mkdir -p $datadir
 
-source ./vault_login.sh
+if [ $skip_vault -eq 0 ]; then
+    source ./vault_login.sh
+fi
 
 if [ $login_only -eq 1 ]; then
     exit 0
