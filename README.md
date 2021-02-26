@@ -40,7 +40,7 @@ All the variables needed for the tests will be obtained from test_settings.py in
 
 To run tests without Vault usage flag '-t' is needed:
 
-./run_tests.sh -t -api
+./run_tests.sh -t
 
 
 You can always run tests by invoking py.test or behave. For example, for running machines API tests you need to run:
