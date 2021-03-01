@@ -36,7 +36,9 @@ Run ./run_tests.sh -h for more info.
 
 Usage of Vault is not necessary. You can insert a test_settings.py file under tests directory, and set VAULT_ENABLED variable to False.
 
-All the variables needed for the tests will be obtained from test_settings.py in this case.
+All the variables needed for the tests will be obtained from test_settings.py in this case. By default, the mist url is set to localhost. If it is something else, set the MIST_URL variable, e.g.
+
+MIST_URL = "http://172.17.0.1"
 
 To run tests without Vault usage flag '-t' is needed:
 
