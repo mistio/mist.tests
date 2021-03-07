@@ -10,7 +10,7 @@ from .utils import expand_shadow_root
 log = logging.getLogger(__name__)
 
 
-@step(u'I search for "{search_text}"')
+@step('I search for "{search_text}"')
 def search_for_something(context, search_text):
     sleep(.5)
     mist_app = context.browser.find_element_by_tag_name('mist-app')
@@ -51,7 +51,7 @@ def search_for_something(context, search_text):
     assert search_text in search_field.get_attribute('value'), "Cannot set search term"
 
 
-@step(u'I clear the search bar')
+@step('I clear the search bar')
 def clear_search(context):
     mist_app = context.browser.find_element_by_tag_name('mist-app')
     mist_app_shadow = expand_shadow_root(context, mist_app)
@@ -65,7 +65,7 @@ def clear_search(context):
     clicketi_click(context, top_search)
     clear_icons = mist_filter_shadow.find_elements_by_css_selector(
         'paper-icon-button[icon="close"]')
-    clear_icons = filter(lambda el: el.is_displayed(), clear_icons)
+    clear_icons = [el for el in clear_icons if el.is_displayed()]
     if clear_icons:
         clicketi_click(context, clear_icons[0])
     search_value = search_field.get_attribute('value')

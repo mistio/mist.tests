@@ -5,7 +5,7 @@ from .utils import safe_get_element_text, get_page_element
 from .buttons import clicketi_click
 
 
-@step(u'I revoke token "{token}"')
+@step('I revoke token "{token}"')
 def revoke_api_token(context, token):
     page_element = get_page_element(context, 'my-account')
     page_shadow = expand_shadow_root(context, page_element)
@@ -21,7 +21,7 @@ def revoke_api_token(context, token):
             break
 
 
-@step(u'I get the new api token value "{token_name}"')
+@step('I get the new api token value "{token_name}"')
 def get_new_token_value(context, token_name):
     from .dialog import get_dialog
     dialog = get_dialog(context, 'Copy your Token')
@@ -32,7 +32,7 @@ def get_new_token_value(context, token_name):
     ok_btn.click()
 
 
-@step(u'I test the api token "{token_value}". It should {work_or_fail}.')
+@step('I test the api token "{token_value}". It should {work_or_fail}.')
 def test_api_token(context, token_value, work_or_fail):
     from misttests.integration.api.plugin.core import MistCoreApi as mist_core
     if work_or_fail not in ['work', 'fail']:

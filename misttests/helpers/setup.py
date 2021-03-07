@@ -13,8 +13,8 @@ def setup_user_if_not_exists(email, password, role):
         'request_demo': False
     }
 
-    print role + " used for API tests is " + email
-    print "The password used for user " + email + " is " + password
+    print((role + " used for API tests is " + email))
+    print(("The password used for user " + email + " is " + password))
 
     requests.post("%s/api/v1/dev/register" % config.MIST_URL, data=json.dumps(payload))
     return

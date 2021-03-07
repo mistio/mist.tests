@@ -6,7 +6,7 @@ from time import sleep
 from .utils import expand_shadow_root, get_page_element
 
 
-@step(u'I should see a(n) "{log_type}" log entry of action "{action}" added "{time_entry}" in the "{page}" page within {timeout} seconds')
+@step('I should see a(n) "{log_type}" log entry of action "{action}" added "{time_entry}" in the "{page}" page within {timeout} seconds')
 def check_log_entry_dashboard_page(context, log_type, action, time_entry, page, timeout):
     if page in ['dashboard']:
         mist_app = context.browser.find_element_by_tag_name('mist-app')

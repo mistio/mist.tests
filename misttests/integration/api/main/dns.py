@@ -24,50 +24,50 @@ def test_list_zones(pretty_print, mist_core, cache,  owner_api_token):
     response = mist_core.list_zones(cloud_id=cache.get('gce_cloud_id', ''),
                                     api_token=owner_api_token).get()
     assert_response_ok(response)
-    print "Success!!!"
+    print("Success!!!")
 
 
 def test_list_zones_no_api_token(pretty_print, cache, mist_core):
     response = mist_core.list_zones(cloud_id=cache.get('gce_cloud_id', ''), api_token='').get()
     assert_response_unauthorized(response)
-    print "Success!!!"
+    print("Success!!!")
 
 
 def test_list_zones_wrong_api_token(pretty_print, cache, mist_core):
     response = mist_core.list_zones(cloud_id=cache.get('gce_cloud_id', ''), api_token='dummy').get()
     assert_response_unauthorized(response)
-    print "Success!!!"
+    print("Success!!!")
 
 
 def test_create_zone_no_api_token(pretty_print, cache, mist_core):
     response = mist_core.create_zone(api_token='', cloud_id=cache.get('gce_cloud_id', ''),
                                      domain='dummy.com', type='master', ttl=3600).post()
     assert_response_forbidden(response)
-    print "Success!!!"
+    print("Success!!!")
 
 
 def test_create_zone_wrong_api_token(pretty_print, cache, mist_core):
     response = mist_core.create_zone(api_token='dummy', cloud_id=cache.get('gce_cloud_id', ''),
                                      domain='dummy.com', type='master', ttl=3600).post()
     assert_response_unauthorized(response)
-    print "Success!!!"
+    print("Success!!!")
 
 def test_delete_zone_no_api_token(pretty_print, cache, mist_core):
     response = mist_core.delete_zone(api_token='', cloud_id=cache.get('gce_cloud_id', ''), zone_id='dummy').delete()
     assert_response_forbidden(response)
-    print "Success!!!"
+    print("Success!!!")
 
 
 def test_delete_zone_wrong_api_token(pretty_print, cache, mist_core):
     response = mist_core.delete_zone(api_token='dummy', cloud_id=cache.get('gce_cloud_id', ''), zone_id='dummy').delete()
     assert_response_unauthorized(response)
-    print "Success!!!"
+    print("Success!!!")
 
 
 def test_delete_zone_wrong_zone_id(pretty_print, mist_core, cache, owner_api_token):
     response = mist_core.delete_zone(api_token=owner_api_token, cloud_id=cache.get('gce_cloud_id', ''), zone_id='dummy').delete()
     assert_response_not_found(response)
-    print "Success!!!"
+    print("Success!!!")
 
 
 def test_list_records(pretty_print, mist_core, cache,  owner_api_token):
@@ -80,21 +80,21 @@ def test_list_records(pretty_print, mist_core, cache,  owner_api_token):
     response = mist_core.list_records(cloud_id=cache.get('gce_cloud_id', ''), zone_id=cache.get('zone_id', ''),
                                       api_token=owner_api_token).get()
     assert_response_ok(response)
-    print "Success!!!"
+    print("Success!!!")
 
 
 def test_list_records_no_api_token(pretty_print, cache, mist_core):
     response = mist_core.list_records(cloud_id=cache.get('gce_cloud_id', ''),
                                       zone_id=cache.get('zone_id', ''), api_token='').get()
     assert_response_unauthorized(response)
-    print "Success!!!"
+    print("Success!!!")
 
 
 def test_list_records_wrong_api_token(pretty_print, cache, mist_core):
     response = mist_core.list_records(cloud_id=cache.get('gce_cloud_id', ''),
                                       zone_id=cache.get('zone_id', ''), api_token='dummy').get()
     assert_response_unauthorized(response)
-    print "Success!!!"
+    print("Success!!!")
 
 
 def test_create_record_no_api_token(pretty_print, cache, mist_core):
@@ -105,7 +105,7 @@ def test_create_record_no_api_token(pretty_print, cache, mist_core):
                                        name=name, type='A',
                                        data="1.2.3.4", ttl=3600).post()
     assert_response_forbidden(response)
-    print "Success!!!"
+    print("Success!!!")
 
 
 def test_create_record_wrong_api_token(pretty_print, cache, mist_core):
@@ -116,27 +116,27 @@ def test_create_record_wrong_api_token(pretty_print, cache, mist_core):
                                        name=name, type='A',
                                        data="1.2.3.4", ttl=3600).post()
     assert_response_unauthorized(response)
-    print "Success!!!"
+    print("Success!!!")
 
 def test_delete_record_no_api_token(pretty_print, cache, mist_core):
     response = mist_core.delete_record(api_token='', cloud_id=cache.get('gce_cloud_id', ''),
                                        zone_id='dummy', record_id='dummy').delete()
     assert_response_forbidden(response)
-    print "Success!!!"
+    print("Success!!!")
 
 
 def test_delete_record_wrong_api_token(pretty_print, cache, mist_core):
     response = mist_core.delete_record(api_token='dummy', cloud_id=cache.get('gce_cloud_id', ''),
                                        zone_id='dummy', record_id='dummy').delete()
     assert_response_unauthorized(response)
-    print "Success!!!"
+    print("Success!!!")
 
 
 def test_delete_record_wrong_record_id(pretty_print, mist_core, cache, owner_api_token):
     response = mist_core.delete_record(api_token=owner_api_token, cloud_id=cache.get('gce_cloud_id', ''),
                                        zone_id=cache.get('zone_id', ''), record_id='dummy').delete()
     assert_response_not_found(response)
-    print "Success!!!"
+    print("Success!!!")
 
 
 
@@ -161,7 +161,7 @@ class TestZonesFunctionality:
                 zone_found = True
                 break
         assert zone_found
-        print "Success!!!"
+        print("Success!!!")
 
     def test_create_records(self, pretty_print, mist_core, owner_api_token, cache):
         domain = cache.get('domain', '')
@@ -224,7 +224,7 @@ class TestZonesFunctionality:
                                           ).post()
         assert_response_ok(response)
         cache.set('TXTrecord_id', response.json()['id'])
-        print "Success!!!"
+        print("Success!!!")
 
     def test_record_listing(self, pretty_print, mist_core, owner_api_token, cache):
         response = mist_core.list_records(cloud_id=cache.get('gce_cloud_id', ''),
@@ -245,7 +245,7 @@ class TestZonesFunctionality:
             elif record['type'] == 'TXT':
                 assert 'text' in record['name']
                 #assert record['rdata'] == ['"Just some text"']
-        print "Success!!!"
+        print("Success!!!")
 
     def test_delete_records(self, pretty_print, mist_core, owner_api_token, cache):
         response = mist_core.delete_record(api_token=owner_api_token,
@@ -285,7 +285,7 @@ class TestZonesFunctionality:
                                           api_token=owner_api_token).get()
         assert_response_ok(response)
         assert len(response.json()) == 2
-        print "Success!!!"
+        print("Success!!!")
 
     def test_delete_zone(self, pretty_print, mist_core, owner_api_token, cache):
         #Let's delete the zone
@@ -305,4 +305,4 @@ class TestZonesFunctionality:
                 zone_not_found = False
         assert zone_not_found
 
-        print "Success!!!"
+        print("Success!!!")

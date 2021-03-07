@@ -49,7 +49,7 @@ def get_list_item(context, resource_type, name):
     return None
 
 
-@step(u'"{name}" machine state has to be "{state}" within {seconds} seconds')
+@step('"{name}" machine state has to be "{state}" within {seconds} seconds')
 def assert_machine_state(context, name, state, seconds):
     if context.mist_config.get(name):
         name = context.mist_config.get(name)
@@ -60,10 +60,10 @@ def assert_machine_state(context, name, state, seconds):
             if state in machine.get('state').strip().lower():
                 return
         sleep(2)
-    assert False, u'%s state is not "%s"' % (name, state)
+    assert False, '%s state is not "%s"' % (name, state)
 
 
-@step(u'I select list item "{item_name}" {resource_type}')
+@step('I select list item "{item_name}" {resource_type}')
 def select_item_from_list(context, item_name, resource_type):
     if context.mist_config.get(item_name):
         item_name = context.mist_config.get(item_name)
@@ -87,7 +87,7 @@ def select_item_from_list(context, item_name, resource_type):
     assert False, "Could not select from list item %s" % item_name
 
 
-@step(u'I click on list item "{item_name}" {resource_type}')
+@step('I click on list item "{item_name}" {resource_type}')
 def click_list_item(context, item_name, resource_type):
     if context.mist_config.get(item_name):
         item_name = context.mist_config.get(item_name)
@@ -110,8 +110,8 @@ def click_list_item(context, item_name, resource_type):
 
 
 use_step_matcher("re")
-@step(u'"(?P<name>[A-Za-z0-9()-_. ]+)" (?P<resource_type>[A-Za-z]+) should be '
-      u'(?P<state>[A-Za-z]+) within (?P<seconds>[0-9]+) seconds')
+@step('"(?P<name>[A-Za-z0-9()-_. ]+)" (?P<resource_type>[A-Za-z]+) should be '
+      '(?P<state>[A-Za-z]+) within (?P<seconds>[0-9]+) seconds')
 def wait_for_item_show(context, name, resource_type, state, seconds):
     if context.mist_config.get(name):
         name = context.mist_config.get(name)

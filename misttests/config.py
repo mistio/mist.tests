@@ -34,7 +34,7 @@ logging.basicConfig(level=logging.INFO)
 settings_file = os.getenv('TEST_SETTINGS_FILE') or 'test_settings.py'
 test_settings = {}
 try:
-    execfile(settings_file, test_settings)
+    exec(compile(open(settings_file, "rb").read(), settings_file, 'exec'), test_settings)
 except IOError:
     log.warning("No test_settings.py file found.")
 except Exception as exc:
@@ -85,18 +85,18 @@ def get_setting(setting, default_value=None, priority='config_file'):
     else:
         setting = test_settings.get(setting, os.environ.get(setting, default_value))
 
-    if type(setting) == type(default_value):
+    if isinstance(setting, type(default_value)):
         return setting
 
-    if type(default_value) == str:
+    if isinstance(default_value, str):
         return str(setting)
-    elif type(default_value) == list:
+    elif isinstance(default_value, list):
         return [setting]
-    elif type(default_value) == int:
+    elif isinstance(default_value, int):
         return int(setting)
-    elif type(default_value) == dict:
+    elif isinstance(default_value, dict):
         return ast.literal_eval(setting)
-    elif type(default_value) == bool:
+    elif isinstance(default_value, bool):
         return True if setting in ["True", "true"] else False
 
 LOCAL = get_setting("LOCAL", True)

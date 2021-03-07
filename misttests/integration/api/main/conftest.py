@@ -5,17 +5,17 @@ from misttests.config import safe_get_var
 from misttests.integration.api.helpers import *
 from misttests.helpers.setup import setup_user_if_not_exists
 
-from io import MistIoApi
+from .io import MistIoApi
 from misttests.integration.api.plugin.core import MistCoreApi
 
 
 @pytest.fixture
 def pretty_print(request):
-    print "\n============================================================"
-    print " ".join([word.capitalize() for word in request.function.__name__.split('_')])
+    print("\n============================================================")
+    print((" ".join([word.capitalize() for word in request.function.__name__.split('_')])))
 
     def fin():
-        print "\n============================================================"
+        print("\n============================================================")
 
     request.addfinalizer(fin)
     return 'bla'

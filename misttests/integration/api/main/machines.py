@@ -13,19 +13,19 @@ import pytest
 def test_list_machines_no_api_token(pretty_print, mist_core):
     response = mist_core.list_machines(cloud_id='dummy').get()
     assert_response_unauthorized(response)
-    print "Success!!!"
+    print("Success!!!")
 
 
 def test_list_machines_wrong_api_token(pretty_print, mist_core):
     response = mist_core.list_machines(cloud_id='dummy', api_token='dummy').get()
     assert_response_unauthorized(response)
-    print "Success!!!"
+    print("Success!!!")
 
 
 def test_list_machines_wrong_cloud_id(pretty_print, mist_core, owner_api_token):
     response = mist_core.list_machines(cloud_id='dummy', api_token=owner_api_token).get()
     assert_response_not_found(response)
-    print "Success!!!"
+    print("Success!!!")
 
 
 def test_create_machine_wrong_api_token(pretty_print, mist_core):
@@ -33,7 +33,7 @@ def test_create_machine_wrong_api_token(pretty_print, mist_core):
                                         key_id='', name='', provider='', location='',
                                         image='dummy', size='').post()
     assert_response_unauthorized(response)
-    print "Success!!!"
+    print("Success!!!")
 
 
 def test_create_machine_no_api_token(pretty_print, mist_core):
@@ -41,7 +41,7 @@ def test_create_machine_no_api_token(pretty_print, mist_core):
                                         name='', provider='', location='',
                                         image='dummy', size='',).post()
     assert_response_forbidden(response)
-    print "Success!!!"
+    print("Success!!!")
 
 
 def test_create_machine_wrong_cloud_id(pretty_print, mist_core, owner_api_token):
@@ -49,7 +49,7 @@ def test_create_machine_wrong_cloud_id(pretty_print, mist_core, owner_api_token)
                                         name='', provider='', location='',
                                         image='dummy', size='',).post()
     assert_response_not_found(response)
-    print "Success!!!"
+    print("Success!!!")
 
 
 def test_create_machine_missing_parameter(pretty_print, mist_core, owner_api_token):
@@ -57,63 +57,63 @@ def test_create_machine_missing_parameter(pretty_print, mist_core, owner_api_tok
                                         name='', provider='', location='',
                                         image='', size='',).post()
     assert_response_bad_request(response)
-    print "Success!!!"
+    print("Success!!!")
 
 
 def test_destroy_machine_wrong_api_token(pretty_print, mist_core):
     response = mist_core.destroy_machine(cloud_id='dummy', api_token='dummy',
                                          machine_id='dummy',).post()
     assert_response_unauthorized(response)
-    print "Success!!!"
+    print("Success!!!")
 
 
 def test_destroy_machine_no_api_token(pretty_print, mist_core):
     response = mist_core.destroy_machine(cloud_id='dummy',
                                          machine_id='dummy',).post()
     assert_response_forbidden(response)
-    print "Success!!!"
+    print("Success!!!")
 
 
 def test_destroy_machine_wrong_ids(pretty_print, mist_core, owner_api_token):
     response = mist_core.destroy_machine(cloud_id='dummy',api_token=owner_api_token,
                                          machine_id='dummy',).post()
     assert_response_not_found(response)
-    print "Success!!!"
+    print("Success!!!")
 
 
 def test_machine_action_wrong_api_token(pretty_print, mist_core):
     response = mist_core.machine_action(cloud_id='dummy', api_token='dummy',
                                         machine_id='dummy',).post()
     assert_response_unauthorized(response)
-    print "Success!!!"
+    print("Success!!!")
 
 
 def test_machine_action_no_api_token(pretty_print, mist_core):
     response = mist_core.machine_action(cloud_id='dummy',
                                          machine_id='dummy',).post()
     assert_response_forbidden(response)
-    print "Success!!!"
+    print("Success!!!")
 
 
 def test_machine_action_wrong_ids(pretty_print, mist_core, owner_api_token):
     response = mist_core.machine_action(cloud_id='dummy',api_token=owner_api_token,
                                         machine_id='dummy',).post()
     assert_response_not_found(response)
-    print "Success!!!"
+    print("Success!!!")
 
 
 def test_associate_key_wrong_api_token(pretty_print, mist_core):
     response = mist_core.associate_key(cloud_id='dummy', api_token='dummy',
                                        machine_id='dummy',key_id='dummy').put()
     assert_response_unauthorized(response)
-    print "Success!!!"
+    print("Success!!!")
 
 
 def test_associate_key_no_api_token(pretty_print, mist_core):
     response = mist_core.associate_key(cloud_id='dummy', api_token='',
                                        machine_id='dummy',key_id='dummy').put()
     assert_response_forbidden(response)
-    print "Success!!!"
+    print("Success!!!")
 
 
 def test_associate_key_wrong_ids(pretty_print, mist_core, owner_api_token):
@@ -121,7 +121,7 @@ def test_associate_key_wrong_ids(pretty_print, mist_core, owner_api_token):
                                        key_id='dummy',
                                        api_token=owner_api_token).put()
     assert_response_not_found(response)
-    print "Success!!!"
+    print("Success!!!")
 
 ############################################################################
 #                         Functional Testing                               #
@@ -155,7 +155,7 @@ class TestMachinesFunctionality:
         response = mist_core.list_machines(cloud_id=cache.get('cloud_id', ''), api_token=owner_api_token).get()
         assert_response_ok(response)
         assert len(response.json()) > 0, "List machines did not return any machines"
-        print "Success!!!"
+        print("Success!!!")
 
     def test_create_machine(self, pretty_print, mist_core, cache, owner_api_token):
         response = mist_core.list_images(cloud_id=cache.get('cloud_id', ''), api_token=owner_api_token).get()
@@ -177,7 +177,7 @@ class TestMachinesFunctionality:
         for machine in response.json():
             if machine['name'] == cache.get('machine_name', ''):
                 found = True
-                print "Success!!!"
+                print("Success!!!")
                 break
         if not found:
             assert False, "The machine that was added above is not present in list_machines"
@@ -186,13 +186,13 @@ class TestMachinesFunctionality:
         response = mist_core.machine_action(cloud_id=cache.get('cloud_id', ''), api_token=owner_api_token,
                                             machine_id='dummy').post()
         assert_response_not_found(response)
-        print "Success!!!"
+        print("Success!!!")
 
     def test_machine_wrong_action(self, pretty_print, mist_core, cache, owner_api_token):
         response = mist_core.machine_action(cloud_id=cache.get('cloud_id', ''), api_token=owner_api_token,
                                             machine_id=cache.get('machine_id', '')).post()
         assert_response_bad_request(response)
-        print "Success!!!"
+        print("Success!!!")
 
     def test_machine_stop_machine(self, pretty_print, mist_core, cache, owner_api_token):
         response = mist_core.machine_action(cloud_id=cache.get('cloud_id', ''), api_token=owner_api_token,
@@ -202,7 +202,7 @@ class TestMachinesFunctionality:
         for machine in response.json():
             if machine['name'] == cache.get('machine_name', ''):
                 assert machine['state'] == 'stopped', "Machine's state is not stopped!"
-                print "Success!!!"
+                print("Success!!!")
                 break
 
     # def test_machine_monitoring_wrong_action(self, pretty_print, mist_core, cache, owner_api_token):
@@ -248,4 +248,4 @@ class TestMachinesFunctionality:
         for machine in response.json():
             if machine['name'] == cache.get('machine_name', ''):
                 assert False, "Machine was not destroyed!!!"
-        print "Success!!!"
+        print("Success!!!")

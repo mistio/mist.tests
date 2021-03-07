@@ -12,132 +12,132 @@ def test_list_networks_wrong_cloud_id(pretty_print, mist_core, owner_api_token):
     response = mist_core.list_networks(api_token=owner_api_token,
                                        cloud_id='dummy').get()
     assert_response_not_found(response)
-    print "Success!!!"
+    print("Success!!!")
 
 
 def test_list_networks_wrong_api_token(pretty_print, mist_core):
     response = mist_core.list_networks(api_token='dummy',
                                        cloud_id='dummy').get()
     assert_response_unauthorized(response)
-    print "Success!!!"
+    print("Success!!!")
 
 
 def test_list_networks_no_api_token(pretty_print, mist_core):
     response = mist_core.list_networks(api_token='',
                                        cloud_id='dummy').get()
     assert_response_unauthorized(response)
-    print "Success!!!"
+    print("Success!!!")
 
 
 def test_list_subnets_wrong_cloud_id(pretty_print, mist_core, owner_api_token):
     response = mist_core.list_subnets(api_token=owner_api_token,
                                       cloud_id='dummy', network_id='dummy').get()
     assert_response_not_found(response)
-    print "Success!!!"
+    print("Success!!!")
 
 
 def test_list_subnets_wrong_api_token(pretty_print, mist_core):
     response = mist_core.list_subnets(api_token='dummy', network_id='dummy',
                                       cloud_id='dummy').get()
     assert_response_unauthorized(response)
-    print "Success!!!"
+    print("Success!!!")
 
 
 def test_list_subnets_no_api_token(pretty_print, mist_core):
     response = mist_core.list_networks(api_token='',
                                        cloud_id='dummy').get()
     assert_response_unauthorized(response)
-    print "Success!!!"
+    print("Success!!!")
 
 
 def test_create_network_missing_parameter(pretty_print, mist_core, owner_api_token):
     response = mist_core.create_network(api_token=owner_api_token,
                                         cloud_id='dummy').post()
     assert_response_bad_request(response)
-    print "Success!!!"
+    print("Success!!!")
 
 
 def test_create_network_wrong_api_token(pretty_print, mist_core):
     response = mist_core.create_network(api_token='dummy',
                                         cloud_id='dummy').post()
     assert_response_unauthorized(response)
-    print "Success!!!"
+    print("Success!!!")
 
 
 def test_create_network_wrong_cloud_id(pretty_print, mist_core, owner_api_token):
      response = mist_core.create_network(api_token=owner_api_token, network_params={'network': {'cidr': '10.1.0.0/16'}},
                                          cloud_id='dummy').post()
      assert_response_not_found(response)
-     print "Success!!!"
+     print("Success!!!")
 
 
 def test_create_network_no_api_token(pretty_print, mist_core):
     response = mist_core.create_network(api_token='', cloud_id='dummy').post()
     assert_response_forbidden(response)
-    print "Success!!!"
+    print("Success!!!")
 
 
 def test_create_subnet_wrong_cloud_id(pretty_print, mist_core, owner_api_token):
     response = mist_core.create_subnet(api_token=owner_api_token,
                                        cloud_id='dummy', network_id='dummy').post()
     assert_response_not_found(response)
-    print "Success!!!"
+    print("Success!!!")
 
 
 def test_create_subnet_wrong_api_token(pretty_print, mist_core):
     response = mist_core.create_subnet(api_token='dummy', network_id='dummy',
                                        cloud_id='dummy').post()
     assert_response_unauthorized(response)
-    print "Success!!!"
+    print("Success!!!")
 
 
 def test_create_subnet_no_api_token(pretty_print, mist_core):
     response = mist_core.create_subnet(api_token='', network_id='dummy',
                                        cloud_id='dummy').post()
     assert_response_forbidden(response)
-    print "Success!!!"
+    print("Success!!!")
 
 
 def test_delete_network_no_api_token(pretty_print, mist_core):
     response = mist_core.delete_network(api_token='', network_id='dummy',
                                         cloud_id='dummy').delete()
     assert_response_forbidden(response)
-    print "Success!!!"
+    print("Success!!!")
 
 
 def test_delete_network_wrong_api_token(pretty_print, mist_core):
     response = mist_core.delete_network(api_token='dummy', network_id='dummy',
                                         cloud_id='dummy').delete()
     assert_response_unauthorized(response)
-    print "Success!!!"
+    print("Success!!!")
 
 
 def test_delete_network_wrong_cloud_id(pretty_print, mist_core, owner_api_token):
     response = mist_core.delete_network(api_token=owner_api_token,
                                        cloud_id='dummy', network_id='dummy').delete()
     assert_response_not_found(response)
-    print "Success!!!"
+    print("Success!!!")
 
 
 def test_delete_subnet_wrong_api_token(pretty_print, mist_core, owner_api_token):
     response = mist_core.delete_subnet(api_token='dummy', network_id='dummy',
                                        cloud_id='dummy', subnet_id='dummy').delete()
     assert_response_unauthorized(response)
-    print "Success!!!"
+    print("Success!!!")
 
 
 def test_delete_subnet_no_api_token(pretty_print, mist_core):
     response = mist_core.delete_subnet(api_token='', network_id='dummy',
                                        cloud_id='dummy', subnet_id='dummy').delete()
     assert_response_forbidden(response)
-    print "Success!!!"
+    print("Success!!!")
 
 
 def test_delete_subnet_wrong_cloud_id(pretty_print, mist_core, owner_api_token):
     response = mist_core.delete_subnet(api_token=owner_api_token, network_id='dummy',
                                        cloud_id='dummy', subnet_id='dummy').delete()
     assert_response_not_found(response)
-    print "Success!!!"
+    print("Success!!!")
 
 
 ############################################################################
@@ -164,7 +164,7 @@ class TestNetworksFunctionality:
         response = mist_core.list_networks(api_token=owner_api_token,
                                            cloud_id=cache.get('cloud_ids/ec2', '')).get()
         assert_response_ok(response)
-        print "Success!!!"
+        print("Success!!!")
 
     def test_create_subnet(self, mist_core, cache, owner_api_token, network_valid_cidr, availability_zone):
         response = mist_core.create_subnet(api_token=owner_api_token,
@@ -180,7 +180,7 @@ class TestNetworksFunctionality:
                                           cloud_id=cache.get('cloud_ids/ec2', '')).get()
         for subnet in response.json():
             if subnet['id'] == cache.get('subnet_ids/ec2', ''):
-                print "Success!!!"
+                print("Success!!!")
                 break
 
             assert False, "Subnet created above is not returned in list_subnets."
@@ -197,7 +197,7 @@ class TestNetworksFunctionality:
                                           cloud_id=cache.get('cloud_ids/ec2', '')).get()
         assert_response_ok(response)
         assert len(response.json()) == 0, "List subnets returns subnets, although they have been deleted"
-        print "Success!!!"
+        print("Success!!!")
 
     def test_delete_network(self, mist_core, cache, owner_api_token):
         response = mist_core.delete_network(api_token=owner_api_token,
@@ -213,4 +213,4 @@ class TestNetworksFunctionality:
             if network.get('id') == cache.get('subnet_ids/ec2', ''):
                 assert False, "Network is still returned in list_networks, although it has been deleted"
 
-        print "Success!!!"
+        print("Success!!!")

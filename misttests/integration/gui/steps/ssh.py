@@ -83,7 +83,7 @@ def check_ls_output(lines, filename=None):
                   "command. Contents of the terminal are: %s" & lines
 
 
-@step(u'I expect terminal to open within {seconds} seconds')
+@step('I expect terminal to open within {seconds} seconds')
 def terminal_is_open(context, seconds):
     terminal = None
     end_time = time() + int(seconds)
@@ -100,7 +100,7 @@ def terminal_is_open(context, seconds):
                      "button. Aborting!"
 
 
-@step(u'shell input should be {state} after {seconds} seconds')
+@step('shell input should be {state} after {seconds} seconds')
 def check_shell_input_state(context, state, seconds):
     if state not in ['available', 'unavailable']:
         raise ValueError('Unknown type of state')
@@ -230,7 +230,7 @@ def check_ssh_connection_with_timeout(context,
 
 # Following steps are for docker kubevirt libvirt which open the terminal in the page
 
-@step(u'I expect in-page terminal to open within {seconds} seconds')
+@step('I expect in-page terminal to open within {seconds} seconds')
 def in_page_terminal_is_open(context, seconds):
     mist_app = context.browser.find_element_by_css_selector('mist-app')
     mist_app_shadow = expand_shadow_root(context, mist_app)
@@ -246,7 +246,7 @@ def in_page_terminal_is_open(context, seconds):
                      "button. Aborting!"
 
 
-@step(u'in-page shell input should be {state} after {seconds} seconds')
+@step('in-page shell input should be {state} after {seconds} seconds')
 def check_in_page_shell_input_state(context, state, seconds):
     if state not in ['available', 'unavailable']:
         raise ValueError('Unknown type of state')

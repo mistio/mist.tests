@@ -5,14 +5,14 @@ from selenium.common.exceptions import NoSuchElementException
 from selenium.common.exceptions import StaleElementReferenceException
 
 
-@step(u'key "{key_name}" should be default key')
+@step('key "{key_name}" should be default key')
 def check_if_default_key(context, key_name):
     from .list import get_list_item
     item = get_list_item(context, 'key', key_name)
     assert item.get('isDefault')
 
 
-@step(u'I add new machine key with name "{key_name}" or I select it')
+@step('I add new machine key with name "{key_name}" or I select it')
 def add_or_select_key(context, key_name):
     if context.mist_config.get(key_name):
         key_name = context.mist_config.get(key_name)
@@ -23,7 +23,7 @@ def add_or_select_key(context, key_name):
             key.click()
             return
 
-    context.execute_steps(u'''
+    context.execute_steps('''
         When I click the "Add Key" button inside the "Create Machine" panel
         Then I expect for "key-add-popup" popup to appear within max 4 seconds
         When I fill "%s" as key name
@@ -35,7 +35,7 @@ def add_or_select_key(context, key_name):
 
 
 def find_key(context, key_title):
-    context.execute_steps(u'''
+    context.execute_steps('''
             When I visit the Keys page
     ''')
     key_items = context.browser.find_elements_by_tag_name('list-item')
@@ -56,12 +56,12 @@ def find_key(context, key_title):
     return None
 
 
-@step(u'"{key}" key has been added')
+@step('"{key}" key has been added')
 def given_key(context, key):
     if find_key(context, key.lower()):
         return True
 
-    context.execute_steps(u'''
+    context.execute_steps('''
             When I visit the keys page
             When I click the button "+"
             Then I expect the "Key" add form to be visible within max 10 seconds

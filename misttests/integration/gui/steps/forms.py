@@ -49,8 +49,8 @@ def get_edit_form(context, title):
         return None
 
 
-@step(u'I expect the "{page}" {form_type} form to be visible within max '
-      u'{seconds} seconds')
+@step('I expect the "{page}" {form_type} form to be visible within max '
+      '{seconds} seconds')
 def check_form_is_visible(context, page, form_type, seconds):
     form_type = form_type.lower()
     if form_type not in ['add', 'edit']:
@@ -139,8 +139,8 @@ def get_button_from_form(context, form, button_name, tag_name='paper-button:not(
     assert button, "Could not find button %s" % button_name
 
 
-@step(u'I expect the field "{field_name}" in the {title} {form_type} form to'
-      u' be visible within max {seconds} seconds')
+@step('I expect the field "{field_name}" in the {title} {form_type} form to'
+      ' be visible within max {seconds} seconds')
 def check_that_field_is_visible(context, field_name, title, form_type, seconds):
     field_name = field_name.lower()
     add_form = get_add_form(context, title) if form_type == 'add' else \
@@ -158,14 +158,14 @@ def check_that_field_is_visible(context, field_name, title, form_type, seconds):
 
 
 use_step_matcher("re")
-@step(u'I set the "(?P<script_input>[A-Za-z ]+)" script "(?P<script>[A-Za-z0-9 \-/,._#!<>+:=\{\}@%\*\"\n~\\\\\[\]]+)"')
+@step('I set the "(?P<script_input>[A-Za-z ]+)" script "(?P<script>[A-Za-z0-9 \-/,._#!<>+:=\{\}@%\*\"\n~\\\\\[\]]+)"')
 def set_script_to_field(context, script_input, script):
     form = get_add_form(context, 'machine')
     form_shadow = expand_shadow_root(context, form)
     form_input = get_input_element_from_form(context, form_shadow, script_input.lower())
     n = 70
     script.replace('\"', '"')
-    chunks = [script[i:i+n] for i in xrange(0, len(script), n)]
+    chunks = [script[i:i+n] for i in range(0, len(script), n)]
     for chunk in chunks:
         if '\\n' in chunk:
             _chunks = chunk.split('\\n')
@@ -179,7 +179,7 @@ def set_script_to_field(context, script_input, script):
 
 
 use_step_matcher("re")
-@step(u'I set the value "(?P<value>[A-Za-z0-9 \-/,._#!<>+:=\{\}@%\*\"\n~\\\\\[\]]+)" to field "(?P<name>[A-Za-z ]+)" in the "(?P<title>[A-Za-z]+)" (?P<form_type>[A-Za-z]+) form')
+@step('I set the value "(?P<value>[A-Za-z0-9 \-/,._#!<>+:=\{\}@%\*\"\n~\\\\\[\]]+)" to field "(?P<name>[A-Za-z ]+)" in the "(?P<title>[A-Za-z]+)" (?P<form_type>[A-Za-z]+) form')
 def set_value_to_field(context, value, name, title, form_type):
     if context.mist_config.get(value):
         value = context.mist_config.get(value)
@@ -218,7 +218,7 @@ def set_value_to_field(context, value, name, title, form_type):
         clear_input_and_send_keys(form_input, value)
 
 
-@step(u'I set the value "(?P<value>[A-Za-z0-9 \-/,._#!<>+:=\{\}@%\*\"\n~\\\\]+)" to field "(?P<name>[A-Za-z ]+)" in the Account page')
+@step('I set the value "(?P<value>[A-Za-z0-9 \-/,._#!<>+:=\{\}@%\*\"\n~\\\\]+)" to field "(?P<name>[A-Za-z ]+)" in the Account page')
 def set_value_to_field_in_account_page(context, value, name):
     if context.mist_config.get(value):
         value = context.mist_config.get(value)
@@ -236,8 +236,8 @@ def set_value_to_field_in_account_page(context, value, name):
 
 
 use_step_matcher('parse')
-@step(u'I expect for the button "{button_name}" in the "{title}" {form_type} form'
-      u' to be clickable within {seconds} seconds')
+@step('I expect for the button "{button_name}" in the "{title}" {form_type} form'
+      ' to be clickable within {seconds} seconds')
 def check_button_in_form_is_clickable(context, button_name, title, form_type,
                                       seconds):
     form = get_add_form(context, title) if form_type == 'add' else \
@@ -252,7 +252,7 @@ def check_button_in_form_is_clickable(context, button_name, title, form_type,
     assert False, "Button %s did not become clickable" % button_name
 
 
-@step(u'I focus on the button "{button_name}" in the "{title}" {form_type} form')
+@step('I focus on the button "{button_name}" in the "{title}" {form_type} form')
 def focus_on_form_button(context, button_name, title, form_type):
     form = get_add_form(context, title) if form_type == 'add' else \
         get_edit_form(context, title)
@@ -263,7 +263,7 @@ def focus_on_form_button(context, button_name, title, form_type):
 
 
 use_step_matcher("re")
-@step(u'I click the button "(?P<button_name>[A-Za-z _]+)" in the "(?P<title>[A-Za-z]+)" add form')
+@step('I click the button "(?P<button_name>[A-Za-z _]+)" in the "(?P<title>[A-Za-z]+)" add form')
 def click_button_in_form(context, button_name, title):
     form = get_add_form(context, title)
     form_shadow = expand_shadow_root(context, form)
@@ -272,7 +272,7 @@ def click_button_in_form(context, button_name, title):
     clicketi_click(context, button)
 
 
-@step(u'I click the button "(?P<button_name>[A-Za-z ]+)" in the "(?P<title>[A-Za-z]+)" page')
+@step('I click the button "(?P<button_name>[A-Za-z ]+)" in the "(?P<title>[A-Za-z]+)" page')
 def click_button_in_resource_page(context, button_name, title):
     form = get_page(context, title)
     form_shadow = expand_shadow_root(context, form)
@@ -327,7 +327,7 @@ def find_dropdown(context, container, dropdown_text):
     assert False, 'There is no dropdown with text %s' % dropdown_text
 
 
-@step(u'I open the "{dropdown_text}" dropdown in the "{resource_type}" add form')
+@step('I open the "{dropdown_text}" dropdown in the "{resource_type}" add form')
 def open_drop_down_in_add_form(context, dropdown_text, resource_type):
     from .buttons import clicketi_click
     page = get_add_form(context, resource_type)
@@ -337,7 +337,7 @@ def open_drop_down_in_add_form(context, dropdown_text, resource_type):
 
 
 use_step_matcher("re")
-@step(u'I click the "(?P<button_name>[A-Za-z ]+)" button in the "(?P<dialog_title>[A-Za-z? ]+)" dialog')
+@step('I click the "(?P<button_name>[A-Za-z ]+)" button in the "(?P<dialog_title>[A-Za-z? ]+)" dialog')
 def click_button_in_dialog(context, button_name, dialog_title):
     from .buttons import clicketi_click
     from .dialog import get_dialog
@@ -347,7 +347,7 @@ def click_button_in_dialog(context, button_name, dialog_title):
     clicketi_click(context, button)
 
 
-@step(u'I click the "(?P<button_name>[A-Za-z0-9_ ]+)" button in the "(?P<dropdown_title>[A-Za-z ]+)" dropdown in the "(?P<dialog_title>[A-Za-z ]+)" dialog')
+@step('I click the "(?P<button_name>[A-Za-z0-9_ ]+)" button in the "(?P<dropdown_title>[A-Za-z ]+)" dropdown in the "(?P<dialog_title>[A-Za-z ]+)" dialog')
 def click_button_in_dropdown_in_dialog(context, button_name, dropdown_title, dialog_title):
     from .buttons import clicketi_click
     from .dialog import get_dialog
@@ -360,7 +360,7 @@ def click_button_in_dropdown_in_dialog(context, button_name, dropdown_title, dia
 
 
 use_step_matcher('parse')
-@step(u'I open the "{dropdown_text}" dropdown in the "{dialog_title}" dialog')
+@step('I open the "{dropdown_text}" dropdown in the "{dialog_title}" dialog')
 def open_drop_down_in_dialog(context, dropdown_text, dialog_title):
     from .buttons import clicketi_click
     from .dialog import get_dialog

@@ -40,7 +40,7 @@ ansible_script = """
 
 
 def get_scripts_with_name(name, scripts):
-    return filter(lambda x: x['name'] == name, scripts)
+    return [x for x in scripts if x['name'] == name]
 
 
 def get_random_script_name(existing_scripts):
@@ -77,7 +77,7 @@ def add_bash_script(mist_core, valid_api_token):
 
 
 def get_teams_with_name(name, teams):
-    return filter(lambda x: x['name'] == name, teams)
+    return [x for x in teams if x['name'] == name]
 
 
 def get_random_str():
@@ -94,7 +94,7 @@ def get_random_team_name(existing_teams):
 
 
 def get_keys_with_id(name, keys):
-    return filter(lambda x: x['name'] == name, keys)
+    return [x for x in keys if x['name'] == name]
 
 
 def get_random_key_name(existing_keys):

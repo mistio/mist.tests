@@ -50,7 +50,7 @@ def update_test_settings(arguments, cleanup_list):
             new_value = getattr(arguments, argument_attr_name)
             if new_value:
                 old_value = getattr(config, snake_attr_name)
-                if type(old_value) == bool:
+                if isinstance(old_value, bool):
                     new_value = strtobool(new_value)
                 setattr(config, snake_attr_name, new_value)
                 print(("%s: %s -> %s" % (snake_attr_name, old_value, new_value)))

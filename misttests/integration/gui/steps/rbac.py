@@ -22,14 +22,14 @@ from selenium.common.exceptions import StaleElementReferenceException
 from selenium.webdriver import ActionChains
 
 
-@step(u'I clear the search bar')
+@step('I clear the search bar')
 def clear_search_bar(context):
     input_field = context.browser.find_element_by_class_name('team-search')
     while input_field.get_attribute('value') != '':
-        input_field.send_keys(u'\ue003')
+        input_field.send_keys('\ue003')
 
 
-@step(u'I switch to the {org} organization')
+@step('I switch to the {org} organization')
 def switch_organization(context, org):
     user_button = context.browser.find_element_by_id("me-btn")
     user_button.click()
@@ -42,7 +42,7 @@ def switch_organization(context, org):
         link.click()
 
 
-@step(u'I expect the {user} to appear on the team members within max {seconds}' u'seconds')
+@step('I expect the {user} to appear on the team members within max {seconds}' 'seconds')
 def user_in_team_members(context, user, seconds):
     if user == 'rbac_member1':
         email = context.mist_config.get('RBAC_MEMBER_EMAIL')
@@ -82,10 +82,10 @@ def get_team(context, name):
         return None
 
 
-@step(u'I switch to personal context')
+@step('I switch to personal context')
 def switch_personal(context):
     click_the_gravatar(context)
-    context.execute_steps(u'''
+    context.execute_steps('''
         Then I wait for 2 seconds
     ''')
     user_menu = context.browser.find_element_by_id('user-menu-popup')
@@ -94,7 +94,7 @@ def switch_personal(context):
     ActionChains(context.browser).move_to_element(personal).click().perform()
 
 
-@step(u'I should get an Organization Name Exists error')
+@step('I should get an Organization Name Exists error')
 def already_exists(context):
     time.sleep(1)
     text = safe_get_element_text(context.browser.find_element_by_id('notification-popup'))
@@ -103,7 +103,7 @@ def already_exists(context):
                          "message, but didn't get it.")
 
 
-@step(u'I expect to see no pending member invitations')
+@step('I expect to see no pending member invitations')
 def no_pending(context):
     try:
         context.browser.find_element_by_class_name('label-pending')

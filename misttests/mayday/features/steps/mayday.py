@@ -27,7 +27,7 @@ from time import sleep, time
 import requests
 
 
-@step(u'I search for the mayday machine')
+@step('I search for the mayday machine')
 def search_for_mayday_machine(context):
     text = context.mist_config.get('MAYDAY_MACHINE', 'mayday')
     search_for_something(context, text)
@@ -47,7 +47,7 @@ def _get_imap_box():
         return imaplib.IMAP4_SSL("imap.gmail.com")
 
 
-@step(u'I delete old mayday emails')
+@step('I delete old mayday emails')
 def delete_old_mayday_emails(context):
 
     box = _get_imap_box()
@@ -64,7 +64,7 @@ def delete_old_mayday_emails(context):
     logout_email(box)
 
 
-@step(u'I should receive an email within {seconds} seconds')
+@step('I should receive an email within {seconds} seconds')
 def receive_mail(context, seconds):
     end_time = time() + int(seconds)
     error = ""
@@ -92,10 +92,10 @@ def receive_mail(context, seconds):
             log.info("Email has not arrived yet. Sleeping for 15 seconds\n\n")
             sleep(15)
 
-    assert False, u'Did not receive an email within %s seconds. %s' % (seconds,
+    assert False, 'Did not receive an email within %s seconds. %s' % (seconds,
                                                                        error)
 
-@step(u'I click the mayday machine')
+@step('I click the mayday machine')
 def click_mayday_machine(context):
     """
     This function will try to click a button that says exactly the same thing as
@@ -109,7 +109,7 @@ def click_mayday_machine(context):
     clicketi_click(context, button)
 
 
-@step(u'Mayday machine state should be "{state}" within {seconds} seconds')
+@step('Mayday machine state should be "{state}" within {seconds} seconds')
 def assert_mayday_machine_state(context, state, seconds):
     if context.mist_config.get('MAYDAY_MACHINE'):
         name = context.mist_config.get('MAYDAY_MACHINE')
@@ -126,10 +126,10 @@ def assert_mayday_machine_state(context, state, seconds):
                 pass
         sleep(2)
 
-    assert False, u'%s state is not "%s"' % (name, state)
+    assert False, '%s state is not "%s"' % (name, state)
 
 
-@step(u'I choose the mayday machine')
+@step('I choose the mayday machine')
 def reboot_mayday_machine(context):
     if context.mist_config.get('MAYDAY_MACHINE'):
         name = context.mist_config.get('MAYDAY_MACHINE')
@@ -143,10 +143,10 @@ def reboot_mayday_machine(context):
             return
 
         sleep(2)
-    assert False, u'Could not choose/tick %s machine' % name
+    assert False, 'Could not choose/tick %s machine' % name
 
 
-@step(u'I fill "{value}" as metric value')
+@step('I fill "{value}" as metric value')
 def rule_value(context, value):
     value_input = context.browser.find_element_by_xpath("//paper-input[@id='metricValue']")
     actions = ActionChains(context.browser)
@@ -161,7 +161,7 @@ def rule_value(context, value):
     actions.perform()
 
 
-@step(u'I should see the incident "{incident}"')
+@step('I should see the incident "{incident}"')
 def check_for_incident(context, incident):
     dashboard_page = get_page_element(context, 'dashboard')
     dashboard_shadow = expand_shadow_root(context, dashboard_page)
@@ -175,7 +175,7 @@ def check_for_incident(context, incident):
     assert False, "Incident %s was not found in the home page" % incident
 
 
-@step(u'I add the MaydaySchedule via api')
+@step('I add the MaydaySchedule via api')
 def add_mayday_schedule(context):
     headers = {'Authorization': context.mist_config['MAYDAY_TOKEN']}
     conditions = [{'type': 'tags', 'tags': {'mayday-test': ''}}]
@@ -194,7 +194,7 @@ def add_mayday_schedule(context):
     assert response.status_code == 200, "Could not add MaydayScheduler schedule!"
 
 
-@step(u'I verify that machine with id "{machine_id}" has been seen the last {seconds} seconds')
+@step('I verify that machine with id "{machine_id}" has been seen the last {seconds} seconds')
 def check_machine_last_seen(context, machine_id, seconds):
     celery_limit = int(seconds)
     if context.mist_config.get(machine_id):
