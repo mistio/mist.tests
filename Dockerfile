@@ -1,4 +1,4 @@
-FROM python:2.7-stretch
+FROM python:3.9
 MAINTAINER mist.io <support@mist.io>
 
 RUN set -x && \
@@ -12,13 +12,12 @@ RUN set -x && \
         xvfb \
         unzip \
         libgconf-2-4 \
-        libav-tools \
+        ffmpeg \
         vim \
         jq \
         less \
         socat \
         x11vnc \
-        ffmpeg \
     && \
     wget -q -O - https://dl-ssl.google.com/linux/linux_signing_key.pub | apt-key add - && \
     sh -c 'echo "deb http://dl.google.com/linux/chrome/deb/ stable main" >> /etc/apt/sources.list.d/google.list' && \
