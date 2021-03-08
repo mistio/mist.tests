@@ -6,7 +6,7 @@ pytest==3.10.1
 python-jose
 PyYAML
 requests
-selenium==3.141.0
+selenium
 flake8
 ipdb
 hvac
