@@ -92,12 +92,12 @@ def get_setting(setting, default_value=None, priority='config_file'):
         return str(setting)
     elif isinstance(default_value, list):
         return [setting]
+    elif isinstance(default_value, bool):
+        return setting in ["True", "true"]
     elif isinstance(default_value, int):
         return int(setting)
     elif isinstance(default_value, dict):
         return ast.literal_eval(setting)
-    elif isinstance(default_value, bool):
-        return True if setting in ["True", "true"] else False
 
 LOCAL = get_setting("LOCAL", True)
 
