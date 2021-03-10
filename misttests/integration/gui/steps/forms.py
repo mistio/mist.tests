@@ -368,3 +368,28 @@ def open_drop_down_in_dialog(context, dropdown_text, dialog_title):
     dialog_shadow = expand_shadow_root(context, dialog)
     dropdown = find_dropdown(context, dialog_shadow, dropdown_text.lower())
     clicketi_click(context, dropdown)
+
+@step(u'I expect the "{dropdown_text}" dropdown to be absent in the "{resource_type}" add form')
+def dropdown_is_absent(context, dropdown_text, resource_type):
+    page = get_add_form(context, resource_type)
+    page_shadow = expand_shadow_root(context, page)
+    try:
+        dropdown = find_dropdown(context, page_shadow, dropdown_text.lower())
+    except AssertionError:
+        # no dropdown found, it is what we wanted
+        return
+    if dropdown:
+        assert False, "A dropdown was found"
+
+@step(u'I expect the "{slider_name}" slider of the size field to be absent in the "{resource_type}" add form')
+def field_is_absent(context, slider_name, resource_type):
+    page = get_add_form(context, resource_type)
+    page_shadow = expand_shadow_root(context, page)
+    form = page_shadow.find_element_by_css_selector('app-form')
+    form_shadow = expand_shadow_root(context, form)
+    size_field = form_shadow.find_element_by_css_selector('mist-size-field')
+    size_field_shadow = expand_shadow_root(context, size_field)
+    all_labels = size_field_shadow.find_elements_by_css_selector('.label')
+    for label in all_labels:
+        if safe_get_element_text(label) == slider_name:
+            assert False, "A slider was found with {} name in the size field!!!".format(slider_name)

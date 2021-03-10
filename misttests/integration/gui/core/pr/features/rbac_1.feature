@@ -17,7 +17,7 @@ Feature: RBAC-rules-v1
     Then I expect the "team" page to be visible within max 5 seconds
     And I click the button "Add a new rule" in the "team" page
     And I wait for 1 seconds
-    Then I add the rule always "ALLOW" "cloud" "read"
+    Then I add the rule always "ALLOW" "cloud" "read" with "kevin's" constraints
     And I wait for 1 seconds
     And I click the button "Add a new rule" in the "team" page
     And I wait for 1 seconds

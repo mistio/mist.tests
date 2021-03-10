@@ -92,7 +92,7 @@ def before_all(context):
     context.mist_config['SLACK_WEBHOOK_CHANNEL'] = config.SLACK_WEBHOOK_CHANNEL
     context.mist_config['SLACK_WEBHOOK_TOKEN'] = config.SLACK_WEBHOOK_TOKEN
     context.link_inside_email = ''
-    context.mist_config['ORG_ID'] = ''
+    context.mist_config['ORG_ID'] = config.ORG_ID
     context.mist_config['PRODUCE_VIDEO_SCREENCAST_ON_ERROR'] = config.PRODUCE_VIDEO_SCREENCAST_ON_ERROR
 
     if config.LOCAL:
