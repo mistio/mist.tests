@@ -28,8 +28,8 @@ Feature: Multiprovisioning
     And I wait for 5 seconds
     And I clear the search bar
     And I wait for 5 seconds
-    And I search for "Ubuntu Server 16.04"
-    Then "Ubuntu Server 16.04 LTS (HVM), SSD Volume Type" image should be present within 30 seconds
+    And I search for "ubuntu-focal-20.04"
+    Then "ubuntu/images/hvm-ssd/ubuntu-focal-20.04-amd64-server-20210223" image should be present within 30 seconds
 
     When I wait for 60 seconds
     And I visit the Machines page
@@ -81,5 +81,5 @@ Feature: Multiprovisioning
     Then new_file should be included in the output
 
     Examples: Providers to be tested
-    | cloud                | size                  | location              | image                                          | machine-name           |
-    | Amazon Web Services  | t2.nano - t2.nano     | ap-northeast-1a       | Ubuntu Server 16.04 LTS (HVM), SSD Volume Type | ec2-mp-test-random     |
+    | cloud                | size                  | location              | image                                                          | machine-name           |
+    | Amazon Web Services  | t2.nano - t2.nano     | ap-northeast-1a       | ubuntu/images/hvm-ssd/ubuntu-focal-20.04-amd64-server-20210223 | ec2-mp-test-random     |
