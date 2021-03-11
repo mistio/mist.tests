@@ -41,7 +41,7 @@ machine_states_ordering = {
 
 # this dict contains image, size and location to be tested for each provider
 machine_values_dict = {
-    "aws": ["Ubuntu Server 16.04 Beta2 (PV)", "m1.small - Small Instance", "ap-northeast-1a "],
+    "aws": ["ubuntu/images/hvm-ssd/ubuntu-focal-20.04-amd64-server-20210223", "m1.small - Small Instance", "ap-northeast-1a "],
     "digitalocean": ["Ubuntu 14.04.5 x64", "512mb", "Amsterdam 2"],
     "equinixmetal": ["Ubuntu 14.04 LTS", "Type 0 - 8GB RAM", "Amsterdam, NL"],
     "openstack": ["CoreOS", "m1.tiny", "0"],
