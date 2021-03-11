@@ -1,7 +1,7 @@
 import shutil
 import logging
 import imaplib
-from . import email
+import email
 import re
 
 from time import sleep
