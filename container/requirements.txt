@@ -11,4 +11,3 @@ flake8
 ipdb
 hvac
 pillow
-rsa==4.5
