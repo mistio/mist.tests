@@ -9,6 +9,27 @@ from .io import MistIoApi
 from misttests.integration.api.plugin.core import MistCoreApi
 
 
+def mist_core():
+    return MistCoreApi(config.MIST_URL)
+
+
+def owner_email():
+    BASE_EMAIL = config.BASE_EMAIL
+    return "%s+%d@gmail.com" % (BASE_EMAIL, random.randint(1, 200000))
+
+
+def owner_password():
+    return config.OWNER_PASSWORD
+
+
+def member1_email():
+    return config.MEMBER1_EMAIL
+
+
+def member1_password():
+    return config.MEMBER1_PASSWORD
+
+
 @pytest.fixture
 def pretty_print(request):
     print("\n============================================================")
@@ -41,20 +62,19 @@ def mist_io():
     return MistIoApi(config.MIST_URL + '/api/v1')
 
 
-@pytest.fixture
-def mist_core():
-    return MistCoreApi(config.MIST_URL)
+@pytest.fixture(name='mist_core')
+def mist_core_fixture():
+    return mist_core()
 
 
-@pytest.fixture
-def owner_email():
-    BASE_EMAIL = config.BASE_EMAIL
-    return "%s+%d@gmail.com" % (BASE_EMAIL, random.randint(1, 200000))
+@pytest.fixture(name='owner_email')
+def owner_email_fixture():
+    return owner_email()
 
 
-@pytest.fixture
-def owner_password():
-    return config.OWNER_PASSWORD
+@pytest.fixture(name='owner_password')
+def owner_password_fixture():
+    return owner_password()
 
 
 @pytest.fixture
@@ -65,14 +85,15 @@ def initialize_members():
     password = member1_password()
     setup_user_if_not_exists(email, password, 'Member1')
 
-@pytest.fixture()
-def member1_email():
-    return config.MEMBER1_EMAIL
+
+@pytest.fixture(name='member1_email')
+def member1_email_fixture():
+    return member1_email()
 
 
-@pytest.fixture
-def member1_password():
-    return config.MEMBER1_PASSWORD
+@pytest.fixture(name='member1_password')
+def member1_password_fixture():
+    return member1_password()
 
 
 @pytest.fixture
