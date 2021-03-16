@@ -1,18 +1,20 @@
 from behave import step
 
+from selenium.webdriver.common.keys import Keys
+
 from .forms import get_edit_form
-from .forms import clear_input_and_send_keys
 
 from .buttons import clicketi_click
 from .buttons import click_button_from_collection
 
 from .utils import safe_get_element_text, get_page_element, expand_shadow_root
+from .utils import clear_input_and_send_keys
 
 from time import sleep
 
 
 def add_new_rule(context, operator, rtype='all', raction='all', rid='',
-                 rtags=''):
+                 rtags='', constraints=''):
     operator = operator.lower()
     rtype = rtype.lower()
     raction = raction.lower()
@@ -83,12 +85,44 @@ def add_new_rule(context, operator, rtype='all', raction='all', rid='',
         paper_input_shadow = expand_shadow_root(context, paper_input)
         input_element = paper_input_shadow.find_element_by_css_selector('input')
         input_element.send_keys(rtags)
+    if constraints:
+        if constraints == "kevin\'s":
+            constraints = '{"field": {"datastore": {"show": false}},"size": {"disk": {"show": false}}}'
+        constraints_button = new_rule_shadow.find_element_by_css_selector('span.constraints').\
+            find_element_by_css_selector('rbac-rule-constraints')
+        clicketi_click(context, constraints_button)
+        sleep(3)
+        overlay = context.browser.find_element_by_css_selector('#overlay')
+        overlay_shadow = expand_shadow_root(context, overlay)
+        content_div = overlay_shadow.find_element_by_css_selector('#content')
+        content_div_shadow = expand_shadow_root(context, content_div)
+        save_button = content_div_shadow.find_element_by_css_selector('paper-button.blue')
+        app_form =content_div_shadow.find_element_by_css_selector('app-form')
+        app_form_shadow = expand_shadow_root(context, app_form)
+        code_viewer = app_form_shadow.find_element_by_css_selector('code-viewer')
+        code_viewer_shadow = expand_shadow_root(context, code_viewer)
+        monaco_element = code_viewer_shadow.find_element_by_css_selector('monaco-element')
+        monaco_element_shadow = expand_shadow_root(context, monaco_element)
+        context.browser.switch_to.frame(monaco_element_shadow.find_element_by_id('iframe'))
+        text_area = context.browser.find_element_by_tag_name('textarea')
+        text_area.send_keys(Keys.CONTROL + 'a')
+        sleep(1)
+        text_area.send_keys(Keys.DELETE)
+        sleep(1)
+        text_area.send_keys(constraints)
+        sleep(1)
+        context.browser.switch_to.default_content()
+        clicketi_click(context, save_button)
+        sleep(3)
 
 
 @step(u'I add the rule "{operator}" "{rtype}" "{raction}" where id = "{rid}"')
 def add_new_rule_with_rid(context, operator, rtype, raction, rid):
     add_new_rule(context, operator, rtype, raction, rid)
 
+@step(u'I add the rule always "{operator}" "{rtype}" "{raction}" with "{constr}" constraints')
+def add_new_rule_with_constraints(context, operator, rtype, raction, constr):
+    add_new_rule(context, operator, rtype, raction, constraints=constr)
 
 @step(u'I add the rule "{operator}" "{rtype}" "{raction}" where tags = '
       u'"{rtags}"')
