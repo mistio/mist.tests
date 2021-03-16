@@ -17,20 +17,20 @@ def assert_equal(first, second, msg=None):
     """Fail if the two objects are unequal as determined by the '=='
        operator.
     """
-    if type(first) != type(second):
-        if type(first) not in [str, unicode] and \
-                        type(second) not in [str, unicode]:
+    if not isinstance(first, type(second)):
+        if type(first) not in [str, str] and \
+                        type(second) not in [str, str]:
             raise AssertionError("%s and %s are not of the same type" %
                                  (safe_repr(first), safe_repr(second)))
-    if type(first) == dict and type(second) == dict:
+    if isinstance(first, dict) and isinstance(second, dict):
         assert_dict_equal(first, second, msg)
-    elif type(first) == list and type(second) == list:
+    elif isinstance(first, list) and isinstance(second, list):
         assert_list_equal(first, second, msg)
-    elif type(first) == tuple and type(second) == tuple:
+    elif isinstance(first, tuple) and isinstance(second, tuple):
         assert_tuple_equal(first, second, msg)
-    elif type(first) == set and type(second) == set:
+    elif isinstance(first, set) and isinstance(second, set):
         assert_set_equal(first, second, msg)
-    elif type(first) == frozenset and type(second) == frozenset:
+    elif isinstance(first, frozenset) and isinstance(second, frozenset):
         assert_set_equal(first, second, msg)
     else:
         assert first == second, msg
@@ -193,12 +193,12 @@ def assert_list_equal(list1, list2, msg=None):
 
 
 def assert_list_not_empty(_list, msg=None):
-    assert type(_list) == list, "Object provided is not a list"
+    assert isinstance(_list, list), "Object provided is not a list"
     assert len(_list) > 0, msg
 
 
 def assert_list_empty(_list, msg=None):
-    assert type(_list) == list, "Object provided is not a list: %s" %\
+    assert isinstance(_list, list), "Object provided is not a list: %s" %\
                                 repr(_list)
     if not msg:
         msg = repr(_list)
@@ -231,49 +231,49 @@ def assert_set_equal(set1, set2, msg=None):
 
 
 def assert_response_ok(response, msg=None):
-    assert type(response) == Response, "Object provided is not a Response"
+    assert isinstance(response, Response), "Object provided is not a Response"
     if msg is None:
         msg = response.content
     assert response.status_code == codes.ok, msg
 
 
 def assert_response_unauthorized(response, msg=None):
-    assert type(response) == Response, "Object provided is not a Response"
+    assert isinstance(response, Response), "Object provided is not a Response"
     if msg is None:
         msg = response.content
     assert response.status_code == codes.unauthorized, msg
 
 
 def assert_response_bad_request(response, msg=None):
-    assert type(response) == Response, "Object provided is not a Response"
+    assert isinstance(response, Response), "Object provided is not a Response"
     if msg is None:
         msg = response.content
     assert response.status_code == codes.bad_request, msg
 
 
 def assert_response_conflict(response, msg=None):
-    assert type(response) == Response, "Object provided is not a Response"
+    assert isinstance(response, Response), "Object provided is not a Response"
     if msg is None:
         msg = response.content
     assert response.status_code == codes.conflict, msg
 
 
 def assert_response_forbidden(response, msg=None):
-    assert type(response) == Response, "Object provided is not a Response"
+    assert isinstance(response, Response), "Object provided is not a Response"
     if msg is None:
         msg = response.content
     assert response.status_code == codes.forbidden, msg
 
 
 def assert_response_not_found(response, msg=None):
-    assert type(response) == Response, "Object provided is not a Response"
+    assert isinstance(response, Response), "Object provided is not a Response"
     if msg is None:
         msg = response.content
     assert response.status_code == codes.not_found, msg
 
 
 def assert_response_server_error(response, msg=None):
-    assert type(response) == Response, "Object provided is not a Response"
+    assert isinstance(response, Response), "Object provided is not a Response"
     if msg is None:
         msg = response.content
     assert response.status_code == codes.server_error, msg

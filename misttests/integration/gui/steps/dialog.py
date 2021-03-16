@@ -41,8 +41,8 @@ def get_dialog(context, title):
     return None
 
 
-@step(u'I expect the "{dialog_title}" dialog to be {state} within {seconds}'
-      u' seconds')
+@step('I expect the "{dialog_title}" dialog to be {state} within {seconds}'
+      ' seconds')
 def wait_for_dialog(context, dialog_title, state, seconds):
     state = state.lower()
     if state not in ['open', 'closed']:
@@ -59,8 +59,8 @@ def wait_for_dialog(context, dialog_title, state, seconds):
                   % (dialog_title, state, seconds)
 
 
-@step(u'I expect the field "{field_name}" in the dialog with title '
-      u'"{dialog_title}" to be visible within max {seconds} seconds')
+@step('I expect the field "{field_name}" in the dialog with title '
+      '"{dialog_title}" to be visible within max {seconds} seconds')
 def check_that_field_is_visible(context, field_name, dialog_title, seconds):
     field_name = field_name.lower()
     dialog = get_dialog(context, dialog_title)
@@ -79,7 +79,7 @@ def check_that_field_is_visible(context, field_name, dialog_title, seconds):
 
 #@step(u'I click the "{button_name}" button in the "{dialog_title}" dialog')
 use_step_matcher("re")
-@step(u'I click the "(?P<button_name>[A-Za-z0-9_\. ]+)" button in the "(?P<dialog_title>[A-Za-z ]+)" dialog')
+@step('I click the "(?P<button_name>[A-Za-z0-9_\. ]+)" button in the "(?P<dialog_title>[A-Za-z ]+)" dialog')
 def click_button_in_dialog(context, button_name, dialog_title):
     dialog = get_dialog(context, dialog_title)
     assert dialog, "Could not find dialog with title %s" % dialog_title
@@ -89,7 +89,7 @@ def click_button_in_dialog(context, button_name, dialog_title):
 
 
 use_step_matcher("parse")
-@step(u'I click the toggle button with id "{btn_id}" in the "{dialog}" dialog')
+@step('I click the toggle button with id "{btn_id}" in the "{dialog}" dialog')
 def click_toggle_button_in_dialog(context, btn_id, dialog):
     open_dialog = get_dialog(context, dialog)
     assert open_dialog, "Could not find dialog with title %s" % dialog
@@ -98,7 +98,7 @@ def click_toggle_button_in_dialog(context, btn_id, dialog):
     clicketi_click(context, button_to_click)
 
 
-@step(u'I set the value "{value}" to field "{name}" in the "{title}" dialog')
+@step('I set the value "{value}" to field "{name}" in the "{title}" dialog')
 def set_value_to_field(context, value, name, title):
     if context.mist_config.get(value):
         value = context.mist_config.get(value)
@@ -109,8 +109,8 @@ def set_value_to_field(context, value, name, title):
     clear_input_and_send_keys(input_element, value)
 
 
-@step(u'there should be a "{error_msg}" error message'
-      u' in the "{dialog_title}" dialog')
+@step('there should be a "{error_msg}" error message'
+      ' in the "{dialog_title}" dialog')
 def check_errormsg_in_dialog(context, error_msg, dialog_title):
     dialog = get_dialog(context, dialog_title)
     dialog_shadow = expand_shadow_root(context, dialog)

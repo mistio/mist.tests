@@ -11,7 +11,7 @@ def get_member_list(context):
     return team_shadow.find_element_by_css_selector('paper-material.members')
 
 
-@step(u'user with email "{email}" should be {user_state}')
+@step('user with email "{email}" should be {user_state}')
 def check_user_state(context, email, user_state):
     user_state = user_state.strip().lower()
     if email in context.mist_config:
@@ -31,7 +31,7 @@ def check_user_state(context, email, user_state):
     assert False, "User is not among the team members"
 
 
-@step(u'I delete user "{email}" from team')
+@step('I delete user "{email}" from team')
 def delete_member_from_team(context, email):
     member_list = get_member_list(context)
     members = member_list.find_elements_by_tag_name('paper-item')

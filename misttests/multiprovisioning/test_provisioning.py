@@ -101,11 +101,11 @@ def check_machine_creation(log_line, job_id):
     try:
         if (log_line['job_id'] == job_id) and (log_line['action'] == 'machine_creation_finished'):
             if log_line['error'] == False:
-                print 'Machine created succesfully'
+                print('Machine created succesfully')
                 machine_id = log_line['machine_id']
                 return machine_id
             else:
-                print log_line['error']
+                print((log_line['error']))
                 return True
         else:
             return False
@@ -284,9 +284,9 @@ def create_machine(cloud_id, provider):
 
     try:
         assert_response_ok(response)
-        print "\n " + provider + ": Machine creation command has been submitted successfully. Now polling!\n"
+        print(("\n " + provider + ": Machine creation command has been submitted successfully. Now polling!\n"))
     except AssertionError as e:
-        print "Machine creation was not successful!"
+        print("Machine creation was not successful!")
         raise e
 
     job_id = json.loads(response.content)['job_id']

@@ -104,7 +104,7 @@ def get_fab_button(context, page_title):
     return page_shadow.find_element_by_css_selector('paper-fab')
 
 
-@step(u'I click the button "{text}"')
+@step('I click the button "{text}"')
 def click_button(context, text):
     """
     This function will try to click a button that says exactly the same thing as
@@ -125,7 +125,7 @@ def click_button(context, text):
                                                'contains %s' % text)
 
 
-@step(u'I click the "{button}" button in the "{name}" dropdown within "{container}"')
+@step('I click the "{button}" button in the "{name}" dropdown within "{container}"')
 def click_button_in_dropdown_within_container(context, container, button, name, partial_match=False):
     button = button.strip().lower()
     dropdown = find_dropdown(context, container, name.lower())
@@ -135,12 +135,12 @@ def click_button_in_dropdown_within_container(context, container, button, name, 
     click_button_from_collection(context, button.lower(), buttons, partial_match=partial_match)
 
 
-@step(u'I click the button that contains "{button}" in the "{dropdown_name}" dropdown in the "{resource_type}" add form')
+@step('I click the button that contains "{button}" in the "{dropdown_name}" dropdown in the "{resource_type}" add form')
 def click_button_in_dropdown_within_container_partial_match(context, button, dropdown_name, resource_type):
     click_button_in_dropdown(context, button, dropdown_name, resource_type, partial_match=True)
 
 
-@step(u'I click the "{button_name}" button in the "{dropdown_name}" dropdown in the "{resource_type}" add form')
+@step('I click the "{button_name}" button in the "{dropdown_name}" dropdown in the "{resource_type}" add form')
 def click_button_in_dropdown(context, button_name, dropdown_name, resource_type, partial_match=False):
     if context.mist_config.get(button_name):
         button_name = context.mist_config.get(button_name)
@@ -151,7 +151,7 @@ def click_button_in_dropdown(context, button_name, dropdown_name, resource_type,
 
 
 use_step_matcher("re")
-@step(u'I click the "(?P<button_name>[A-Za-z1-9 \-/]+)" toggle button in the "(?P<resource_type>[A-Za-z]+)" add form')
+@step('I click the "(?P<button_name>[A-Za-z1-9 \-/]+)" toggle button in the "(?P<resource_type>[A-Za-z]+)" add form')
 def click_toggle_button_in_add_form(context, button_name, resource_type):
     from .forms import get_add_form
     form = get_add_form(context, resource_type)
@@ -160,7 +160,7 @@ def click_toggle_button_in_add_form(context, button_name, resource_type):
     clicketi_click(context, button)
 
 
-@step(u'I click the "(?P<button_name>[A-Za-z ]+)" radio button in the "(?P<resource_type>[A-Za-z]+)" add form')
+@step('I click the "(?P<button_name>[A-Za-z ]+)" radio button in the "(?P<resource_type>[A-Za-z]+)" add form')
 def click_toggle_button_in_add_form(context, button_name, resource_type):
     from .forms import get_add_form
     form = get_add_form(context, resource_type)
@@ -170,7 +170,7 @@ def click_toggle_button_in_add_form(context, button_name, resource_type):
 
 
 use_step_matcher("parse")
-@step(u'I click the "{button}" button in the dropdown with id "{dropdown_id}" within "{container_id}"')
+@step('I click the "{button}" button in the dropdown with id "{dropdown_id}" within "{container_id}"')
 def click_button_in_dropdown_with_id_within_container(context, button, dropdown_id, container_id=None):
     button = button.strip().lower()
     if container_id:
@@ -184,12 +184,12 @@ def click_button_in_dropdown_with_id_within_container(context, button, dropdown_
     click_button_from_collection(context, button.lower(), buttons)
 
 
-@step(u'I click the "{button}" button in the dropdown with id "{dropdown_id}"')
+@step('I click the "{button}" button in the dropdown with id "{dropdown_id}"')
 def click_button_in_dropdown_with_id(context, button, dropdown_id):
     click_button_in_dropdown_with_id_within_container(context, button, dropdown_id)
 
 
-@step(u'I open the "{dropdown}" mist-dropdown within "{container_id}"')
+@step('I open the "{dropdown}" mist-dropdown within "{container_id}"')
 def open_mist_dropdown(context, dropdown, container_id=None):
     if dropdown not in ['teams', 'members']:
         raise Exception('Unknown mist-dropdown')
@@ -203,7 +203,7 @@ def open_mist_dropdown(context, dropdown, container_id=None):
         clicketi_click(context, mist_dropdowns[1])
 
 
-@step(u'I select "{members}" in "{dropdown}" mist-dropdown within "{container_id}"')
+@step('I select "{members}" in "{dropdown}" mist-dropdown within "{container_id}"')
 def select_members_in_mist_dropdown(context, members, dropdown, container_id=None):
     if dropdown not in ['teams', 'members']:
         raise Exception('Unknown mist-dropdown')
@@ -223,7 +223,7 @@ def select_members_in_mist_dropdown(context, members, dropdown, container_id=Non
     assert False, "Could not find %s option in %s mist-dropdown" % (members, dropdown)
 
 
-@step(u'I click the button "{button}" in the user menu')
+@step('I click the button "{button}" in the user menu')
 def click_the_user_menu_button(context, button):
     from .navigation import click_user_icon_and_wait_for_menu, get_user_menu
     click_user_icon_and_wait_for_menu(context)
@@ -244,7 +244,7 @@ def click_the_user_menu_button(context, button):
     assert False, "User menu has not appeared yet"
 
 
-@step(u'I click the action "{button_text}" from the {resource_type} list actions')
+@step('I click the action "{button_text}" from the {resource_type} list actions')
 def click_action_of_list(context, button_text, resource_type):
     resource_type = resource_type.lower()
     if resource_type not in ['machine', 'key', 'script', 'network', 'team', 'template', 'stack', 'image', 'schedule', 'record']:
@@ -272,7 +272,7 @@ def click_action_of_list(context, button_text, resource_type):
     clicketi_click(context, button)
 
 
-@step(u'I click the "{text}" "{resource_type}"')
+@step('I click the "{text}" "{resource_type}"')
 def click_item(context, text, resource_type):
     resource_type = resource_type.lower()
     if resource_type not in ['machine', 'key', 'script', 'network', 'team', 'template',
@@ -300,7 +300,7 @@ def click_item(context, text, resource_type):
     assert False, "Could not click item %s" % text
 
 
-@step(u'cloud "{search_cloud}" should be "{state}"')
+@step('cloud "{search_cloud}" should be "{state}"')
 def state_of_cloud(context,search_cloud,state):
     from .clouds import find_cloud
     cloud = find_cloud(context,search_cloud.lower())
@@ -324,7 +324,7 @@ def get_color_from_state(state):
     return None
 
 
-@step(u'I click the mist logo')
+@step('I click the mist logo')
 def click_mist_logo(context):
     mist_app = context.browser.find_element_by_tag_name('mist-app')
     mist_app_shadow = expand_shadow_root(context, mist_app)
@@ -333,7 +333,7 @@ def click_mist_logo(context):
     clicketi_click(context, mist_header_shadow.find_element_by_css_selector('a#logo-link'))
 
 
-@step(u'I click the "{button}" button')
+@step('I click the "{button}" button')
 def click_button_by_class(context,button):
     if button == 'more options':
         button_to_click = context.browser.find_element_by_class_name('more')
@@ -343,7 +343,7 @@ def click_button_by_class(context,button):
         raise Exception('Unknown type of button')
 
 
-@step(u'I click the "{button}" button with id "{button_id}" within "{container_id}"')
+@step('I click the "{button}" button with id "{button_id}" within "{container_id}"')
 def click_button_by_id_within_container(context, button, button_id, container_id=None):
     if container_id:
         container = context.browser.find_element_by_id(container_id)
@@ -353,12 +353,12 @@ def click_button_by_id_within_container(context, button, button_id, container_id
     clicketi_click(context, button_to_click)
 
 
-@step(u'I click the "{button}" button with id "{button_id}"')
+@step('I click the "{button}" button with id "{button_id}"')
 def click_button_by_id(context, button, button_id):
     click_button_by_id_within_container(context, button, button_id)
 
 
-@step(u'I click the toggle button in the "{page_title}" page')
+@step('I click the toggle button in the "{page_title}" page')
 def click_toggle_in_page(context, page_title):
     _, page_element = get_page_element(context, page_title + 's', page_title)
     page_shadow = expand_shadow_root(context, page_element)
@@ -366,13 +366,13 @@ def click_toggle_in_page(context, page_title):
     clicketi_click(context, toggle_button)
 
 
-@step(u'I click the mist-logo')
+@step('I click the mist-logo')
 def visit_home_url(context):
     save_title_button = context.browser.find_element_by_id('logo-link')
     clicketi_click(context, save_title_button)
 
 
-@step(u'I click the user icon')
+@step('I click the user icon')
 def click_the_user_icon(context):
     mist_app = context.browser.find_element_by_tag_name('mist-app')
     mist_app_shadow = expand_shadow_root(context, mist_app)
@@ -385,7 +385,7 @@ def click_the_user_icon(context):
 
 
 use_step_matcher("re")
-@step(u'I click the "(?P<action>[A-Za-z ]+)" action button in the "(?P<resource_type>[A-Za-z]+)" page')
+@step('I click the "(?P<action>[A-Za-z ]+)" action button in the "(?P<resource_type>[A-Za-z]+)" page')
 def click_action_in_resource_page(context, action, resource_type):
     _, container = get_page_element(context, resource_type + 's', resource_type)
     container_shadow = expand_shadow_root(context, container)
@@ -404,7 +404,7 @@ def click_action_in_resource_page(context, action, resource_type):
         click_button_from_collection(context, action.lower(), buttons)
 
 
-@step(u'I click the "(?P<toggle>[A-Za-z ]+)" toggle button in the "(?P<resource_type>[A-Za-z]+)" page')
+@step('I click the "(?P<toggle>[A-Za-z ]+)" toggle button in the "(?P<resource_type>[A-Za-z]+)" page')
 def click_action_in_resource_page(context, toggle, resource_type):
     _, container = get_page_element(context, resource_type + 's', resource_type)
     container_shadow = expand_shadow_root(context, container)
@@ -416,19 +416,19 @@ def click_action_in_resource_page(context, toggle, resource_type):
 
 
 use_step_matcher('parse')
-@step(u'I click the fab button in the "{page_title}" page')
+@step('I click the fab button in the "{page_title}" page')
 def click_fab_button_in_page(context, page_title):
     fab = get_fab_button(context, page_title)
     clicketi_click(context, fab)
 
 
-@step(u'the fab button in the "{page_title}" page should be hidden')
+@step('the fab button in the "{page_title}" page should be hidden')
 def click_fab_button_in_page(context, page_title):
     fab = get_fab_button(context, page_title)
     assert not fab.is_displayed(), "Fab button is still visible."
 
 
-@step(u'I click the "{target}" tab in the account page')
+@step('I click the "{target}" tab in the account page')
 def click_tab_in_page(context, target):
     page_element = get_page_element(context, 'my-account')
     page_shadow = expand_shadow_root(context, page_element)
@@ -439,7 +439,7 @@ def click_tab_in_page(context, target):
     assert False, 'Cannot find tab "%s"' % target
 
 
-@step(u'I click the "{target}" button in the account page')
+@step('I click the "{target}" button in the account page')
 def click_button_in_account_page(context, target):
     page_element = get_page_element(context, 'my-account')
     page_shadow = expand_shadow_root(context, page_element)

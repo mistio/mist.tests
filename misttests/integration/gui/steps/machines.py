@@ -51,13 +51,13 @@ machine_values_dict = {
     "docker": ["Ubuntu 14.04 - mist.io image"]
 }
 
-@step(u'I click the other server machine')
+@step('I click the other server machine')
 def click_bare_metal_machine(context):
-    context.execute_steps(u'Then I click on list item "%s" machine' % context.mist_config['bare_metal_host'])
+    context.execute_steps('Then I click on list item "%s" machine' % context.mist_config['bare_metal_host'])
 
 
 def set_values_to_create_machine_form(context,provider,machine_name):
-    context.execute_steps(u'''
+    context.execute_steps('''
                 Then I set the value "%s" to field "Machine Name" in the "machine" add form
                 When I open the "Image" dropdown in the "machine" add form
                 And I click the "%s" button in the "Image" dropdown in the "machine" add form
@@ -68,7 +68,7 @@ def set_values_to_create_machine_form(context,provider,machine_name):
                    machine_values_dict.get(provider)[0]))
 
     if 'digitalocean' in provider:
-        context.execute_steps(u'''
+        context.execute_steps('''
                     When I open the "Size" drop down in the "machine" add form
                     And I click the "%s" button in the "Size" dropdown in the "machine" add form
                     When I open the "Location" drop down in the "machine" add form
@@ -77,15 +77,15 @@ def set_values_to_create_machine_form(context,provider,machine_name):
                        machine_values_dict.get(provider)[2]))
 
 
-@step(u'I select the proper values for "{provider}" to create the "{machine_name}" machine')
+@step('I select the proper values for "{provider}" to create the "{machine_name}" machine')
 def cloud_creds(context, provider, machine_name):
     provider = provider.strip().lower()
-    if provider not in machine_values_dict.keys():
+    if provider not in list(machine_values_dict.keys()):
         raise Exception("Unknown cloud provider")
     set_values_to_create_machine_form(context, provider, machine_name)
 
 
-@step(u'I expect for "{key}" key to appear within max {seconds} seconds')
+@step('I expect for "{key}" key to appear within max {seconds} seconds')
 def key_appears(context, key, seconds):
     if context.mist_config.get(key):
         key_name = context.mist_config.get(key)
@@ -105,7 +105,7 @@ def key_appears(context, key, seconds):
     assert False, "Key %s did not appear after %s seconds" % (key,seconds)
 
 
-@step(u'I choose the "{name}" machine')
+@step('I choose the "{name}" machine')
 def choose_machine(context, name):
     if context.mist_config.get(name):
         name = context.mist_config.get(name)
@@ -118,10 +118,10 @@ def choose_machine(context, name):
             return
 
         sleep(2)
-    assert False, u'Could not choose/tick %s machine' % name
+    assert False, 'Could not choose/tick %s machine' % name
 
 
-@step(u'I should see the "{name}" machine added within {seconds} seconds')
+@step('I should see the "{name}" machine added within {seconds} seconds')
 def assert_machine_added(context, name, seconds):
     if context.mist_config.get(name):
         name = context.mist_config.get(name)
@@ -133,7 +133,7 @@ def assert_machine_added(context, name, seconds):
             return
         sleep(2)
 
-    assert False, u'%s is not added' % name
+    assert False, '%s is not added' % name
 
 
 def get_machine(context, name):
@@ -152,7 +152,7 @@ def get_machine(context, name):
     except StaleElementReferenceException:
         return None
 
-@step(u'I wait for probing to finish for {seconds} seconds max')
+@step('I wait for probing to finish for {seconds} seconds max')
 def wait_for_loader_to_finish(context, seconds):
     rows = context.browser.find_elements_by_tag_name('tr')
     for row in rows:
@@ -171,7 +171,7 @@ def wait_for_loader_to_finish(context, seconds):
     assert False, "Could not locate ajax loader"
 
 
-@step(u'probing was successful')
+@step('probing was successful')
 def check_probing(context):
     rows = context.browser.find_elements_by_tag_name('tr')
     for row in rows:
@@ -186,7 +186,7 @@ def check_probing(context):
     assert False, "Could not find any line about probing"
 
 
-@step(u'I give a default script for python script')
+@step('I give a default script for python script')
 def fill_default_script(context):
     textfield = context.browser.find_element_by_id("custom-plugin-script")
     textfield.clear()
@@ -205,7 +205,7 @@ def fill_default_script(context):
         textfield.send_keys(letter)
 
 
-@step(u'rule "{rule}" should be {state} in the "{page}" page')
+@step('rule "{rule}" should be {state} in the "{page}" page')
 def verify_rule_is_present(context, rule, state, page):
     found = False
     state = state.lower()
@@ -224,7 +224,7 @@ def verify_rule_is_present(context, rule, state, page):
     assert False, "Rule %s was not %s in existing rules for the monitored machine" % (rule, state)
 
 
-@step(u'"{key}" key should be associated with the machine "{machine}"')
+@step('"{key}" key should be associated with the machine "{machine}"')
 def check_for_associated_key(context, key, machine):
     page = get_page(context, "machine")
     page_shadow = expand_shadow_root(context, page)
@@ -236,7 +236,7 @@ def check_for_associated_key(context, key, machine):
 
 
 use_step_matcher("re")
-@step(u'"(?P<key>[A-Za-z0-9]+)" key should be associated with the machine "(?P<machine>[A-Za-z0-9 \-]+)" within (?P<seconds>[0-9]+) seconds')
+@step('"(?P<key>[A-Za-z0-9]+)" key should be associated with the machine "(?P<machine>[A-Za-z0-9 \-]+)" within (?P<seconds>[0-9]+) seconds')
 def check_for_associated_key_within(context, key, machine, seconds):
     timeout = time() + int(seconds)
     page = get_page(context, "machine")
@@ -251,7 +251,7 @@ def check_for_associated_key_within(context, key, machine, seconds):
 
 
 use_step_matcher("parse")
-@step(u'I delete the associated key "{key}"')
+@step('I delete the associated key "{key}"')
 def disassociate_key(context, key):
     _, page = get_page_element(context, "machines", "machine")
     page_shadow = expand_shadow_root(context, page)
@@ -263,7 +263,7 @@ def disassociate_key(context, key):
             return
 
 
-@step(u'there should be {keys} keys associated with the machine within {seconds} seconds')
+@step('there should be {keys} keys associated with the machine within {seconds} seconds')
 def keys_associated_with_machine(context, keys, seconds):
     timeout = time() + int(seconds)
     _, page = get_page_element(context, "machines", "machine")
@@ -283,7 +283,7 @@ def keys_associated_with_machine(context, keys, seconds):
     assert False, "There are %s keys associated with the machine" % associated_keys_with_machine
 
 
-@step(u'I set an expiration in "{exp_num}" "{exp_unit}" with a notify of "{notify_num}" "{notify_unit}" before')
+@step('I set an expiration in "{exp_num}" "{exp_unit}" with a notify of "{notify_num}" "{notify_unit}" before')
 def set_expiration(context, exp_num, exp_unit, notify_num, notify_unit):
     from .forms import get_add_form
     form = get_add_form(context, 'machine')

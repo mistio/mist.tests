@@ -12,7 +12,7 @@ def test_list_keys(pretty_print, mist_core, owner_api_token):
     response = mist_core.list_keys(api_token=owner_api_token).get()
     assert_response_ok(response)
     assert len(response.json()) == 0
-    print "Success!!!"
+    print("Success!!!")
 
 
 # # # TODO: check below... csrf=None is ok but csrf='' is not?
@@ -25,61 +25,61 @@ def test_list_keys(pretty_print, mist_core, owner_api_token):
 def test_delete_key_wrong_id(pretty_print, mist_core, owner_api_token):
     response = mist_core.delete_key(key_id='dummy',api_token=owner_api_token).delete()
     assert_response_not_found(response)
-    print "Success!!!"
+    print("Success!!!")
 
 
 def test_delete_key_wrong_api_token(pretty_print, mist_core):
     response = mist_core.delete_key(key_id='dummy',api_token='dummy').delete()
     assert_response_unauthorized(response)
-    print "Success!!!"
+    print("Success!!!")
 
 
 def test_delete_multiple_keys_wrong_id(pretty_print, mist_core, owner_api_token):
     response = mist_core.delete_keys(key_ids=['dummy','dummy1'], api_token=owner_api_token).delete()
     assert_response_not_found(response)
-    print "Success!!!"
+    print("Success!!!")
 
 
 def test_delete_multiple_keys_no_ids(pretty_print, mist_core, owner_api_token):
     response = mist_core.delete_keys(key_ids=[], api_token=owner_api_token).delete()
     assert_response_bad_request(response)
-    print "Success!!!"
+    print("Success!!!")
 
 
 def test_delete_multiple_keys_wrong_api_token(pretty_print, mist_core, owner_api_token):
     response = mist_core.delete_keys(key_ids=['dummy','dummy1'], api_token='1234').delete()
     assert_response_unauthorized(response)
-    print "Success!!!"
+    print("Success!!!")
 
 
 def test_rename_key_wrong_id(pretty_print, mist_core, owner_api_token):
     response = mist_core.edit_key('dummy_id', 'new_name', api_token=owner_api_token).put()
     assert_response_not_found(response)
-    print "Success!!!"
+    print("Success!!!")
 
 
 def test_rename_key_wrong_api_token(pretty_print, mist_core, owner_api_token):
     response = mist_core.edit_key('dummy_id', 'new_name', api_token=owner_api_token[:-2]).put()
     assert_response_unauthorized(response)
-    print "Success!!!"
+    print("Success!!!")
 
 
 def test_rename_key_missing_parameter(pretty_print, mist_core, owner_api_token):
     response = mist_core.edit_key('dummy_id', '', api_token=owner_api_token).put()
     assert_response_bad_request(response)
-    print "Success!!!"
+    print("Success!!!")
 
 
 def test_set_default_key_wrong_id(pretty_print, mist_core, owner_api_token):
     response = mist_core.set_default_key(key_id='dummy',api_token=owner_api_token).post()
     assert_response_not_found(response)
-    print "Success!!!"
+    print("Success!!!")
 
 
 def test_set_default_key_wrong_api_token(pretty_print, mist_core, owner_api_token):
     response = mist_core.set_default_key(key_id='dummy',api_token='dummy').post()
     assert_response_unauthorized(response)
-    print "Success!!!"
+    print("Success!!!")
 
 
 def test_add_key_no_name_no_private(pretty_print, mist_core,
@@ -87,7 +87,7 @@ def test_add_key_no_name_no_private(pretty_print, mist_core,
     response = mist_core.add_key(name='', private='',
                                  api_token=owner_api_token).put()
     assert_response_bad_request(response)
-    print "Success!!!"
+    print("Success!!!")
 
 
 def test_add_key_no_private(pretty_print, cache, mist_core,
@@ -100,14 +100,14 @@ def test_add_key_no_private(pretty_print, cache, mist_core,
                                  private='',
                                  api_token=owner_api_token).put()
     assert_response_bad_request(response)
-    print "Success!!!"
+    print("Success!!!")
 
 
 def test_get_private_key_wrong_id(pretty_print, cache, mist_core,
                                   owner_api_token):
     response = mist_core.get_private_key('bla', api_token=owner_api_token).get()
     assert_response_not_found(response)
-    print "Success!!!"
+    print("Success!!!")
 
 
 def test_get_public_key_wrong_id(pretty_print, cache, mist_core,
@@ -116,7 +116,7 @@ def test_get_public_key_wrong_id(pretty_print, cache, mist_core,
         cache.get('keys_tests/key_name', '')[:-2],
         api_token=owner_api_token).get()
     assert_response_not_found(response)
-    print "Success!!!"
+    print("Success!!!")
 
 
 def test_set_default_key_wrong_id(pretty_print, cache, mist_core,
@@ -125,7 +125,7 @@ def test_set_default_key_wrong_id(pretty_print, cache, mist_core,
         key_id='bla',
         api_token=owner_api_token).post()
     assert_response_not_found(response)
-    print "Success!!!"
+    print("Success!!!")
 
 
 ############################################################################
@@ -149,7 +149,7 @@ class TestSimpleUserKeyCycle:
         response = mist_core.list_keys(api_token=owner_api_token).get()
         assert_response_ok(response)
         assert len(response.json()) == 1
-        print "Success!!!"
+        print("Success!!!")
 
     def test_add_key_duplicate_name(self, pretty_print, cache, mist_core,
                                     owner_api_token, private_key):
@@ -158,7 +158,7 @@ class TestSimpleUserKeyCycle:
             private=private_key,
             api_token=owner_api_token).put()
         assert_response_conflict(response)
-        print "Success!!!"
+        print("Success!!!")
 
     def test_rename_key(self, pretty_print, cache, mist_core,
                         owner_api_token):
@@ -170,7 +170,7 @@ class TestSimpleUserKeyCycle:
         response = mist_core.list_keys(api_token=owner_api_token).get()
         assert_response_ok(response)
         assert 'Key1' == response.json()[0]['name'], "Although response was 200, key was not renamed"
-        print "Success"
+        print("Success")
 
     def test_rename_key_no_name(self, pretty_print, cache, mist_core,
                                 owner_api_token):
@@ -182,12 +182,12 @@ class TestSimpleUserKeyCycle:
         response = mist_core.list_keys(api_token=owner_api_token).get()
         assert_response_ok(response)
         assert 'Key1' == response.json()[0]['name']
-        print "Success"
+        print("Success")
 
     def test_generate_key(self, pretty_print, cache, mist_core, owner_api_token):
         response = mist_core.generate_keypair(api_token=owner_api_token).post()
         assert_response_ok(response)
-        if 'public' not in response.json().keys() or 'priv' not in response.json().keys():
+        if 'public' not in list(response.json().keys()) or 'priv' not in list(response.json().keys()):
             assert False, "Public key was not generated!"
         cache.set('key_priv', response.json()['priv'])
         response = mist_core.add_key(
@@ -198,14 +198,14 @@ class TestSimpleUserKeyCycle:
         response = mist_core.list_keys(api_token=owner_api_token).get()
         assert_response_ok(response)
         assert len(response.json()) == 2
-        print "Success!!!"
+        print("Success!!!")
 
     def test_get_private_key(self, pretty_print, private_key, cache, mist_core, owner_api_token):
         response = mist_core.get_private_key(key_id=cache.get('key_id', ''),
                                              api_token=owner_api_token).get()
         assert_response_ok(response)
         assert response.json() == private_key
-        print "Success!!!"
+        print("Success!!!")
 
     def test_delete_key(self, pretty_print, cache, mist_core, owner_api_token):
         response = mist_core.delete_key(key_id=cache.get('key_id', ''),
@@ -214,7 +214,7 @@ class TestSimpleUserKeyCycle:
         response = mist_core.delete_key(key_id=cache.get('key_id', ''),
                                         api_token=owner_api_token).delete()
         assert_response_not_found(response)
-        print "Success"
+        print("Success")
 
     def test_set_default_key(self, pretty_print, cache, mist_core, owner_api_token,
                              private_key):
@@ -238,7 +238,7 @@ class TestSimpleUserKeyCycle:
                 assert key['isDefault'], "Key is not default although response was 200"
             else:
                 assert key['isDefault'] == False, "More than one keys are set as default!"
-        print "Success!!!"
+        print("Success!!!")
 
     # def test_delete_multiple_keys(self, pretty_print, mist_core,
     #                               owner_api_token, private_key):

@@ -8,7 +8,7 @@ import json
 from random import randrange
 
 
-@step(u'rbac member1 has been registered')
+@step('rbac member1 has been registered')
 def register_member_1(context):
     BASE_EMAIL = context.mist_config['BASE_EMAIL']
     context.mist_config['MEMBER1_EMAIL'] = "%s+%d@gmail.com" % (BASE_EMAIL, random.randint(1,200000))
@@ -54,7 +54,7 @@ def add_user_to_team(context, email):
     assert response.status_code == 200, "Could not add %s to Test Team. Response was %s" % (email, response.status_code)
 
 
-@step(u'rbac members, organization and team are initialized')
+@step('rbac members, organization and team are initialized')
 def initialize_rbac_members(context):
 
     register_member_1(context)
@@ -87,7 +87,7 @@ def initialize_rbac_members(context):
 
     return
 
-@step(u'ad organization and teams are initialized')
+@step('ad organization and teams are initialized')
 def initialize_ad_org_teams(context):
     # Change organization name to AD_ORG_NAME
     payload = {
@@ -115,7 +115,7 @@ def initialize_ad_org_teams(context):
         policy_url = context.mist_config['MIST_URL'] + '/api/v1/org/' + context.mist_config['ORG_ID'] + '/teams/' + team_id + '/policy'
         policy_response = requests.put(policy_url, data=json.dumps(policy_payload), headers=headers) 
         assert policy_response.status_code == 200, "Could not update policy for {} team. Response was {}, error was {}".format(team, policy_response.status_code, policy_response.text)
-@step(u'script "{script_name}" has been added via API request')
+@step('script "{script_name}" has been added via API request')
 def create_script_api_request(context, script_name):
     script_data = {'location_type':'inline','exec_type':'executable', 'name': script_name}
     bash_script = """#!/bin/bash\ntouch /var/dummy_file
@@ -127,7 +127,7 @@ def create_script_api_request(context, script_name):
     requests.post(context.mist_config['MIST_URL'] + "/api/v1/scripts" , data=json.dumps(script_data), headers=headers)
 
 
-@step(u'key "{key_name}" has been added via API request')
+@step('key "{key_name}" has been added via API request')
 def add_key_api_request(context, key_name):
     if "random" in key_name:
         value_key = key_name
@@ -144,7 +144,7 @@ def add_key_api_request(context, key_name):
     context.mist_config['ASSOCIATED_KEY'] = re.json()['id']
 
 
-@step(u'key "{key_name}" has been generated and added via API request')
+@step('key "{key_name}" has been generated and added via API request')
 def generate_add_key_api_request(context, key_name):
     if "random" in key_name:
         value_key = key_name
@@ -162,7 +162,7 @@ def generate_add_key_api_request(context, key_name):
     assert re.status_code == 200, "Could not add key. Response was %s" % re.status_code
 
 
-@step(u'cloud "{cloud}" has been added via API request')
+@step('cloud "{cloud}" has been added via API request')
 def add_cloud_api_request(context, cloud):
     headers = {'Authorization': get_owner_api_token(context)}
 
@@ -205,7 +205,7 @@ def add_cloud_api_request(context, cloud):
     requests.post(context.mist_config['MIST_URL'] + "/api/v1/clouds", data=json.dumps(payload), headers=headers)
 
 
-@step(u'Docker machine "{machine_name}" has been added via API request')
+@step('Docker machine "{machine_name}" has been added via API request')
 def create_docker_machine(context, machine_name):
     headers = {'Authorization': get_owner_api_token(context)}
 

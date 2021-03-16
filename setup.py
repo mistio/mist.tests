@@ -4,8 +4,7 @@ from setuptools import setup
 REQS_DIR = os.path.join(os.path.abspath(os.path.dirname(__file__)),
                         'requirements.txt')
 with open(REQS_DIR) as reqs:
-    REQUIRES = map(lambda l: l.strip(),
-                   filter(lambda l: not l.startswith('#'), reqs))
+    REQUIRES = [l.strip() for l in [l for l in reqs if not l.startswith('#')]]
 
 setup(name='misttests',
       version='1.0',

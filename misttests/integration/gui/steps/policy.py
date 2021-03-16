@@ -116,7 +116,7 @@ def add_new_rule(context, operator, rtype='all', raction='all', rid='',
         sleep(3)
 
 
-@step(u'I add the rule "{operator}" "{rtype}" "{raction}" where id = "{rid}"')
+@step('I add the rule "{operator}" "{rtype}" "{raction}" where id = "{rid}"')
 def add_new_rule_with_rid(context, operator, rtype, raction, rid):
     add_new_rule(context, operator, rtype, raction, rid)
 
@@ -124,18 +124,18 @@ def add_new_rule_with_rid(context, operator, rtype, raction, rid):
 def add_new_rule_with_constraints(context, operator, rtype, raction, constr):
     add_new_rule(context, operator, rtype, raction, constraints=constr)
 
-@step(u'I add the rule "{operator}" "{rtype}" "{raction}" where tags = '
-      u'"{rtags}"')
+@step('I add the rule "{operator}" "{rtype}" "{raction}" where tags = '
+      '"{rtags}"')
 def add_new_rule_with_rtags(context, operator, rtype, raction, rtags):
     add_new_rule(context, operator, rtype, raction, rtags=rtags)
 
 
-@step(u'I add the rule always "{operator}" "{rtype}" "{raction}"')
+@step('I add the rule always "{operator}" "{rtype}" "{raction}"')
 def add_new_rule_always(context, operator, rtype, raction):
     add_new_rule(context, operator, rtype, raction)
 
 
-@step(u'I remove the rule with index "{index}"')
+@step('I remove the rule with index "{index}"')
 def delete_rule(context, index):
     _, team_page = get_page_element(context, 'teams', 'team')
     team_page_shadow = expand_shadow_root(context, team_page)
@@ -208,18 +208,18 @@ def check_rule_exists(context, rule_number, operator, rtype, raction, rid, rtags
         assert rtags == rule_tags, "Rule tag is not %s" % rtags
 
 
-@step(u'rule "{rule_number}" is "{operator}" "{rtype}" "{raction}" where tags'
-      u' = "{rtags}"')
+@step('rule "{rule_number}" is "{operator}" "{rtype}" "{raction}" where tags'
+      ' = "{rtags}"')
 def check_rule_with_rtags(context, rule_number, operator, rtype, raction, rtags):
     check_rule_exists(context, rule_number, operator, rtype, raction, '', rtags)
 
 
-@step(u'rule "{rule_number}" is "{operator}" "{rtype}" "{raction}" where id = '
-      u'"{rid}"')
+@step('rule "{rule_number}" is "{operator}" "{rtype}" "{raction}" where id = '
+      '"{rid}"')
 def check_rule_with_rid(context, rule_number, operator, rtype, raction, rid):
     check_rule_exists(context, rule_number, operator, rtype, raction, rid, '')
 
 
-@step(u'rule "{rule_number}" is "{operator}" "{rtype}" "{raction}" always')
+@step('rule "{rule_number}" is "{operator}" "{rtype}" "{raction}" always')
 def check_rule_always(context, rule_number, operator, rtype, raction):
     check_rule_exists(context, rule_number, operator, rtype, raction, '', '')

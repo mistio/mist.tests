@@ -10,10 +10,10 @@ def get_current_org(user_menu):
         strip().lower()
 
 
-@step(u'I ensure that I am in the "{organization}" organization context')
+@step('I ensure that I am in the "{organization}" organization context')
 def ensure_organizational_context(context, organization):
     from .navigation import get_user_menu
-    context.execute_steps(u'''
+    context.execute_steps('''
         Then I open the user menu
     ''')
     user_menu = get_user_menu(context)
@@ -23,13 +23,13 @@ def ensure_organizational_context(context, organization):
     else:
         buttons = user_menu.find_elements_by_css_selector('paper-item')
         click_button_from_collection(context, organization, buttons)
-        context.execute_steps(u'''
+        context.execute_steps('''
             Then I wait for the dashboard to load
             And I open the user menu
         ''')
 
 
-@step(u'I should see the form to set name for new organization')
+@step('I should see the form to set name for new organization')
 def ensure_onboarding_form_is_visible(context):
     dashboard = get_page_element(context, 'dashboard')
     dashboard_shadow = expand_shadow_root(context, dashboard)

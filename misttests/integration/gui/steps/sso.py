@@ -12,7 +12,7 @@ from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 
 
-@step(u'I type the username in the Google form')
+@step('I type the username in the Google form')
 def type_username_gmail(context):
     """
     This is a very specific method only for the Google sign in form
@@ -26,7 +26,7 @@ def type_username_gmail(context):
         raise ValueError("Could not type username in google form")
 
 
-@step(u'I type the password in the Google form')
+@step('I type the password in the Google form')
 def type_password_gmail(context):
     """
     This is a very specific method only for the Google sign in form
@@ -40,7 +40,7 @@ def type_password_gmail(context):
         raise ValueError("Could not type password in google form")
 
 
-@step(u'I click the Sign In button in the Github form')
+@step('I click the Sign In button in the Github form')
 def press_button_with_id(context):
     """
     This is a very specific method only for the Github sign in form

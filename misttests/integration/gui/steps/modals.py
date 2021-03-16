@@ -10,8 +10,8 @@ from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 
 
-@step(u'I expect for "{modal_id}" modal to {action} within max {seconds} '
-      u'seconds')
+@step('I expect for "{modal_id}" modal to {action} within max {seconds} '
+      'seconds')
 def modal_waiting_with_timeout(context, modal_id, action, seconds):
     if action == 'appear':
         try:
@@ -31,7 +31,7 @@ def modal_waiting_with_timeout(context, modal_id, action, seconds):
         raise ValueError("Action can be either appear or disappear. Duh!")
 
 
-@step(u'I click the "{text}" button inside the "{modal_id}" modal')
+@step('I click the "{text}" button inside the "{modal_id}" modal')
 def click_button_within_modal(context, text, modal_id):
     try:
         modal = context.browser.find_element_by_id(modal_id)

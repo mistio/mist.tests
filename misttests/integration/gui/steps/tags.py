@@ -46,30 +46,30 @@ def remove_tag(context, tag):
     clicketi_click(context, expand_shadow_root(context, tag).find_element_by_css_selector('paper-icon-button'))
 
 
-@step(u'I remove all the previous tags')
+@step('I remove all the previous tags')
 def delete_previous_tags(context):
     for tag in get_tags_list(get_dialog(context, "Tags")):
         remove_tag(context, tag)
 
 
-@step(u'I add a tag with key "{key}" and value "{value}"')
+@step('I add a tag with key "{key}" and value "{value}"')
 def add_a_new_tag(context, key, value):
     tags_dialog = get_dialog(context, "Tags")
     tag = get_empty_tag(context, tags_dialog)
     if not tag:
-        context.execute_steps(u'When I click the "Add Tag" button in the "Tags" dialog')
+        context.execute_steps('When I click the "Add Tag" button in the "Tags" dialog')
         tag = get_empty_tag(context, tags_dialog)
     set_key_and_value(context, tag, key, value)
 
 
-@step(u'I remove the tag with key "{key}"')
+@step('I remove the tag with key "{key}"')
 def close_some_tag(context, key):
     tags_dialog = get_dialog(context, "Tags")
     tag = get_tag_with_key(context, tags_dialog, key)
     remove_tag(context, tag)
 
 
-@step(u'I ensure that the "{type_of_item}" has the tags "{tags}" within {seconds} seconds')
+@step('I ensure that the "{type_of_item}" has the tags "{tags}" within {seconds} seconds')
 def ensure_tags_are_present(context, type_of_item, tags, seconds):
     from .forms import get_edit_form
     #form = get_edit_form(context, type_of_item)
@@ -78,7 +78,7 @@ def ensure_tags_are_present(context, type_of_item, tags, seconds):
     end_time = time() + int(seconds)
     while time() < end_time:
         existing_tags = key_page_shadow.find_elements_by_css_selector('.tag')
-        expected_tags = dict(map(lambda t: (t.split(':')[0], t.split(':')[1]), tags.strip().lower().split(',')))
+        expected_tags = dict([(t.split(':')[0], t.split(':')[1]) for t in tags.strip().lower().split(',')])
         for existing_tag in existing_tags:
             key = safe_get_element_text(existing_tag).lower().split('=')[0].strip()
             if key.endswith('\n'):
@@ -88,4 +88,4 @@ def ensure_tags_are_present(context, type_of_item, tags, seconds):
             if len(expected_tags) == 0:
                 return
             sleep(2)
-    assert len(expected_tags) == 0, "These keys are not available: %s" % expected_tags.keys()
+    assert len(expected_tags) == 0, "These keys are not available: %s" % list(expected_tags.keys())

@@ -11,7 +11,7 @@ from selenium.common.exceptions import NoSuchElementException
 from .utils import safe_get_element_text, expand_shadow_root
 
 
-@step(u'I click the "{button}" button in the get-started-page')
+@step('I click the "{button}" button in the get-started-page')
 def click_button_get_started(context, button):
     try:
         landing_app = context.browser.find_element_by_tag_name("landing-app")
@@ -27,16 +27,16 @@ def click_button_get_started(context, button):
                 btn.click()
                 return
 
-    except NoSuchElementException, ElementNotVisibleException:
+    except NoSuchElementException as ElementNotVisibleException:
         # get-started page does not make sense for io
         pass
 
 
-@step(u'I open the {kind} popup')
+@step('I open the {kind} popup')
 def open_login_popup(context, kind):
     kind = kind.lower()
     modals = {'login': 'modalLogin', 'signup': 'modalRegister'}
-    if kind.lower() not in modals.keys():
+    if kind.lower() not in list(modals.keys()):
         raise ValueError('No such popup in the landing page')
     landing_app = context.browser.find_element_by_tag_name("landing-app")
     shadow_root = expand_shadow_root(context, landing_app)
@@ -147,7 +147,7 @@ def get_mist_config_password(context,kind):
         return context.mist_config['PASSWORD1']
 
 
-@step(u'I enter my {kind} credentials for {action}')
+@step('I enter my {kind} credentials for {action}')
 def enter_credentials(context, kind, action):
     kind = kind.lower()
     action = action.lower()
@@ -260,7 +260,7 @@ def enter_credentials(context, kind, action):
         password_input.send_keys(get_mist_config_password(context, kind))
 
 
-@step(u'there should be an "{error_message}" error message inside the "{button}" button')
+@step('there should be an "{error_message}" error message inside the "{button}" button')
 def check_error_message(context, error_message, button):
     button = button.lower()
     error_message = error_message.lower()
@@ -283,7 +283,7 @@ def check_error_message(context, error_message, button):
                                                   (error_message, text)
 
 
-@step(u'the {button} button should be {state}')
+@step('the {button} button should be {state}')
 def check_state_of_button(context, button, state):
     state = state.lower()
     if state not in ['clickable', 'not clickable']:
@@ -308,7 +308,7 @@ def check_state_of_button(context, button, state):
                                         (button, state)
 
 
-@step(u'I should get a conflict error')
+@step('I should get a conflict error')
 def already_registered(context):
     landing_app = context.browser.find_element_by_tag_name("landing-app")
     shadow_root = expand_shadow_root(context, landing_app)
@@ -323,7 +323,7 @@ def already_registered(context):
     assert False, 'No conflict message appeared'
 
 
-@step(u'I should see the landing page within {seconds} seconds')
+@step('I should see the landing page within {seconds} seconds')
 def wait_for_landing_page(context, seconds):
     timeout = time() + int(seconds)
     while time() < timeout:
@@ -336,7 +336,7 @@ def wait_for_landing_page(context, seconds):
                   % seconds
 
 
-@step(u'that I am redirected within {seconds} seconds')
+@step('that I am redirected within {seconds} seconds')
 def ensure_redirection(context, seconds):
     timeout = time() + int(seconds)
     while time() < timeout:

@@ -15,8 +15,8 @@ from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 
 
-@step(u'I expect for "{popup_id}" popup to {action} within max {seconds} '
-      u'seconds')
+@step('I expect for "{popup_id}" popup to {action} within max {seconds} '
+      'seconds')
 def popup_waiting_with_timeout(context, popup_id, action, seconds):
     """
     Function that wait for keyadd-popup to appear but for a maximum
@@ -36,7 +36,7 @@ def popup_waiting_with_timeout(context, popup_id, action, seconds):
                                % (popup_id, action, seconds))
 
 
-@step(u'I click the "{text}" button inside the popup with id "{popup_id}"')
+@step('I click the "{text}" button inside the popup with id "{popup_id}"')
 def click_button_within_popup_with_id(context, text, popup_id):
     if context.mist_config.get(text):
         text = context.mist_config.get(text)
@@ -47,7 +47,7 @@ def click_button_within_popup_with_id(context, text, popup_id):
                                  'with id  %s' % (text, popup_id))
 
 
-@step(u'I click the "{text}" button inside the "{popup}" popup')
+@step('I click the "{text}" button inside the "{popup}" popup')
 def click_button_within_popup(context, text, popup):
     popups = context.browser.find_elements_by_class_name("ui-popup-active")
     for pop in popups:
@@ -73,7 +73,7 @@ def click_button_within_popup(context, text, popup):
     assert False, "Could not find popup with title %s" % popup
 
 
-@step(u'I close the "{object_id}" popup')
+@step('I close the "{object_id}" popup')
 def close_popup(context, object_id):
     objectId = 'modal' + object_id
     context.browser.find_element_by_id(objectId).find_element_by_class_name(
