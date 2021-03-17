@@ -3,7 +3,7 @@ Feature: Login scenario
 
   @LDAP-login
   Scenario: Log in with LDAP
-    Given ldap organization and teams are initialized
+    Given "ldap" organization and teams are initialized
     Given I am not logged in to mist
     When I visit mist
     And I open the login popup
