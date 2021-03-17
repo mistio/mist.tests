@@ -159,7 +159,7 @@ def enter_credentials(context, kind, action):
                       'signup_password_set', 'password_reset_request',
                       'password_reset', 'demo request']:
         raise ValueError("Cannot input %s credentials" % action)
-    if kind not in ['standard', 'alt', 'rbac_owner', 'rbac_member1', 'ad', 'ldap'
+    if kind not in ['standard', 'alt', 'rbac_owner', 'rbac_member1', 'ad', 'ldap',
                     'rbac_member2', 'new_creds', 'changed'] and not kind.startswith('invalid'):
         raise ValueError("No idea what %s credentials are" % kind)
 
