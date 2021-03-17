@@ -128,6 +128,8 @@ def get_mist_config_email(context,kind):
         return context.mist_config['MEMBER2_EMAIL']
     elif kind == 'ad':
         return context.mist_config['AD_MEMBER_USERNAME']
+    elif kind == 'ldap':
+        return context.mist_config['LDAP_MEMBER_USERNAME']
     else:
         return context.mist_config['EMAIL']
 
@@ -143,6 +145,8 @@ def get_mist_config_password(context,kind):
         return context.mist_config['MEMBER2_PASSWORD']
     elif kind == 'ad':
         return context.mist_config['AD_MEMBER_PASSWORD']
+    elif kind == 'ldap':
+        return context.mist_config['LDAP_MEMBER_PASSWORD']
     else:
         return context.mist_config['PASSWORD1']
 
@@ -155,7 +159,7 @@ def enter_credentials(context, kind, action):
                       'signup_password_set', 'password_reset_request',
                       'password_reset', 'demo request']:
         raise ValueError("Cannot input %s credentials" % action)
-    if kind not in ['standard', 'alt', 'rbac_owner', 'rbac_member1', 'ad',
+    if kind not in ['standard', 'alt', 'rbac_owner', 'rbac_member1', 'ad', 'ldap'
                     'rbac_member2', 'new_creds', 'changed'] and not kind.startswith('invalid'):
         raise ValueError("No idea what %s credentials are" % kind)
 
