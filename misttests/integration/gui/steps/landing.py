@@ -112,8 +112,10 @@ def click_button_in_landing_page(context, text):
         popup = shadow_root.find_element_by_id('signInBtnGoogle')
     elif text == 'github':
         popup = shadow_root.find_element_by_id('signInBtnGithub')
-    elif text == 'sign in with active directory' or text == 'sign in with ldap':
-        popup = shadow_root.find_element_by_id('signInBtnLdap')
+    elif text == 'sign in with active directory':
+        popup = shadow_root.find_element_by_id('signInBtnAd')
+    elif text == 'sign in with ldap':
+        popup = shadow_root.find_elements_by_id('signInBtnLdap')
 
     clicketi_click(context, popup)
     return
