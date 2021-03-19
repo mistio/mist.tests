@@ -115,7 +115,7 @@ def click_button_in_landing_page(context, text):
     elif text == 'sign in with active directory':
         popup = shadow_root.find_element_by_id('signInBtnAd')
     elif text == 'sign in with ldap':
-        popup = shadow_root.find_elements_by_id('signInBtnLdap')
+        popup = shadow_root.find_element_by_id('signInBtnLdap')
 
     clicketi_click(context, popup)
     return
