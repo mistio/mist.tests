@@ -75,6 +75,13 @@ def get_user_pass_ad_member():
     all_users = [(k, ad_groups[group][k]) for k in ad_groups[group]]
     return random.choice(all_users)
 
+def get_user_pass_ldap_member():
+    if not VAULT_ENABLED:
+        return "", ""
+    ldap_username = safe_get_var(vault_path="ldap", vault_key="ldap-user-username")
+    ldap_password = safe_get_var(vault_path="ldap", vault_key="ldap-user-password")
+    return ldap_username, ldap_password
+
 def get_setting(setting, default_value=None, priority='config_file'):
 
     if default_value is None:
@@ -187,6 +194,9 @@ AD_MEMBER_USERNAME = get_setting("AD_MEMBER_USERNAME",
                                   ad_user)
 AD_MEMBER_PASSWORD = get_setting("AD_MEMBER_PASSWORD",
                                   ad_pass)
+ldap_user, ldap_pass = get_user_pass_ldap_member()
+LDAP_MEMBER_USERNAME = get_setting("LDAP_MEMBER_USERNAME", ldap_user)
+LDAP_MEMBER_PASSWORD = get_setting("LDAP_MEMBER_PASSWORD", ldap_pass)
 
 # CREDIT CARD CREDENTIALS
 CC_CVC = get_setting("CC_CVC", "111")

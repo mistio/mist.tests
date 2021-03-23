@@ -87,8 +87,8 @@ def initialize_rbac_members(context):
 
     return
 
-@step('ad organization and teams are initialized')
-def initialize_ad_org_teams(context):
+@step('"{protocol_name}" organization and teams are initialized')
+def initialize_ad_org_teams(context, protocol_name):
     # Change organization name to AD_ORG_NAME
     payload = {
         'new_name': context.mist_config['AD_ORG_NAME']
@@ -101,8 +101,12 @@ def initialize_ad_org_teams(context):
     # 409 means that the test is running again and org was created
     if(response.status_code != 409):
         assert response.status_code == 200, "Could not change org name. Response was {}, error was {}".format(response.status_code, response.text)
-    # Add teams devs, finance and ops for AD login test
-    for team in ['devs', 'finance', 'ops']:
+    # Add teams devs, finance and ops for AD login test or mistDev for LDAP
+    if protocol_name == 'ad':
+        teams = ['devs', 'finance', 'ops']
+    if protocol_name == 'ldap':
+        teams = ['mistDev']
+    for team in teams:
         payload = {
             'name': team
         }
@@ -115,6 +119,7 @@ def initialize_ad_org_teams(context):
         policy_url = context.mist_config['MIST_URL'] + '/api/v1/org/' + context.mist_config['ORG_ID'] + '/teams/' + team_id + '/policy'
         policy_response = requests.put(policy_url, data=json.dumps(policy_payload), headers=headers) 
         assert policy_response.status_code == 200, "Could not update policy for {} team. Response was {}, error was {}".format(team, policy_response.status_code, policy_response.text)
+
 @step('script "{script_name}" has been added via API request')
 def create_script_api_request(context, script_name):
     script_data = {'location_type':'inline','exec_type':'executable', 'name': script_name}
