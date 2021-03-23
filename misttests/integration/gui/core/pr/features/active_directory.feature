@@ -3,7 +3,7 @@ Feature: Login scenario
 
   @AD-login
   Scenario: Log in with Active Directory
-    Given ad organization and teams are initialized
+    Given "ad" organization and teams are initialized
     Given I am not logged in to mist
     When I visit mist
     And I open the login popup
