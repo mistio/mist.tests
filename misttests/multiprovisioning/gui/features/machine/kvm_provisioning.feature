@@ -48,3 +48,26 @@ Feature: Multiprovisioning
     And I clear the search bar
     And I search for "kvm-mp-test-random"
     Then "kvm-mp-test-random" machine should be present within 120 seconds
+
+  @kvm-machine-destroy
+  Scenario: Destroy a KVM machine
+    When I visit the Machines page
+    And I wait for 1 seconds
+    And I clear the search bar
+    And I search for "kvm-mp-test-random"
+    Then "kvm-mp-test-random" machine should be present within 10 seconds
+    When I click the "kvm-mp-test-random" "machine"
+    And I wait for 1 seconds
+    Then I expect the "machine" page to be visible within max 5 seconds
+    And I click the "Destroy" action button in the "machine" page
+    Then I expect the "Destroy Machine" dialog to be open within 4 seconds
+    When I click the "Destroy" button in the "Destroy Machine" dialog
+    And I refresh the page
+    And I wait for 30 seconds
+    Then I should see a(n) "request" log entry of action "destroy_machine" added "a few seconds ago" in the "machine" page within 100 seconds
+    When I visit the Machines page
+    And I wait for 1 seconds
+    And I clear the search bar
+    And I search for "kvm-mp-test-random"
+    And I refresh the page
+    Then "kvm-mp-test-random" machine state has to be "terminated" within 300 seconds
