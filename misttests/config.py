@@ -277,7 +277,7 @@ DEFAULT_CREDENTIALS = {
     'DOCKER_MONITORING':{'host': '', 'port': ''},
     'ONAPP':{'username':'', 'password':'', 'host':'', 'verify_ssl': False},
     'MAXIHOST': {'api_token': ''},
-    'KUBEVIRT': {'host': '', 'ca': '', 'token': ''},
+    'KUBEVIRT': {'host': '', 'ca': '', 'token': '', 'port': ''},
     'LXD': {'host': '', 'key': '', 'cert': ''},
     'GIG_G8': {'api_key': '', 'url': '', 'user_id': ''},
     'CLOUDSIGMA': {'email': '', 'password': '', 'region': ''},
