@@ -1,3 +1,4 @@
+from misttests.integration.gui.steps.browser import *
 from misttests.integration.gui.steps.clouds import *
 from misttests.integration.gui.steps.utils import *
 from misttests.integration.gui.steps.setup import *
