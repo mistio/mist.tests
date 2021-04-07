@@ -87,7 +87,7 @@ Feature: Multiprovisioning
     When I set the value "kvm-mp-test-random-renamed" to field "kvm-mp-test-random" in the "Rename Machine" dialog
     And I wait for 1 seconds
     And I click the "Submit" button in the "Rename Machine" dialog
-    Then I expect the "Rename Machine" dialog to be closed within 4 seconds
+
     And I wait for 60 seconds
     And I visit the Machines page
     And I clear the search bar

@@ -16,6 +16,23 @@ from .forms import clear_input_and_send_keys, get_button_from_form
 
 def get_dialog(context, title):
     title = title.lower()
+    if "rename" in title:
+        try:
+            # Machine rename dialog opens in iron-overlay inside machine-edit element
+            # opposed to the rest of the dialogs which open on the vaadin-overlay
+            mist_app = context.browser.find_element_by_tag_name('mist-app')
+            mist_app_shadow = expand_shadow_root(context, mist_app)
+            page_machines = mist_app_shadow.find_element_by_tag_name('page-machines')
+            page_machines_shadow = expand_shadow_root(context, page_machines)
+            machine_page = page_machines_shadow.find_element_by_tag_name('machine-page')
+            machine_page_shadow = expand_shadow_root(context, machine_page)
+            machine_actions = machine_page_shadow.find_element_by_tag_name('machine-actions')
+            machine_actions_shadow = expand_shadow_root(context, machine_actions)
+            machine_edit = machine_actions_shadow.find_element_by_tag_name('machine-edit')
+            return machine_edit
+        except NoSuchElementException:
+            pass
+
     try:
         overlay = context.browser.find_element_by_tag_name('vaadin-dialog-overlay')
         overlay_shadow = expand_shadow_root(context, overlay)
@@ -104,6 +121,8 @@ def set_value_to_field(context, value, name, title):
         value = context.mist_config.get(value)
     dialog = get_dialog(context, title)
     dialog_shadow = expand_shadow_root(context, dialog)
+    if "-random" in name:
+        name = name.replace('-random', '')
     input_element = get_input_element_from_form(context, dialog_shadow, name.lower())
     assert input_element, "Could not set value to field %s" % name
     clear_input_and_send_keys(input_element, value)
