@@ -64,6 +64,7 @@ Feature: Multiprovisioning
     When I click the "Destroy" button in the "Destroy Machine" dialog
     And I refresh the page
     And I wait for 30 seconds
+    And I refresh the page
     Then I should see a(n) "request" log entry of action "destroy_machine" added "a few seconds ago" in the "machine" page within 100 seconds
     When I visit the Machines page
     And I wait for 1 seconds
@@ -72,8 +73,8 @@ Feature: Multiprovisioning
     And I refresh the page
     Then "kvm-mp-test-random" machine state has to be "terminated" within 300 seconds
 
-  @kvm-machine-rename
-  Scenario: Rename a KVM machine
+  @kvm-machine-clone
+  Scenario: Clone a KVM machine
     When I visit the Machines page
     And I wait for 1 seconds
     And I clear the search bar
@@ -82,14 +83,45 @@ Feature: Multiprovisioning
     When I click the "kvm-mp-test-random" "machine"
     And I wait for 1 seconds
     Then I expect the "machine" page to be visible within max 5 seconds
-    When I click the "Rename" action button in the "machine" page
+    And I click the "Clone" action button in the "machine" page
+    Then I expect the "Clone Machine" dialog to be open within 4 seconds
+    When I set the value "temp-kvm-machine" to field "Clone's Name" in the "Clone Machine" dialog
+    And I wait for 1 seconds
+    When I click the "Clone" button in the "Clone Machine" dialog
+    And I refresh the page
+    Then I wait for 30 seconds
+    And I refresh the page
+    Then I should see a(n) "request" log entry of action "clone_machine" added "a few seconds ago" in the "machine" page within 100 seconds
+    When I visit the Machines page
+    And I wait for 1 seconds
+    And I clear the search bar
+    And I search for "temp-kvm-machine"
+    And I refresh the page
+    Then "temp-kvm-machine" machine state has to be "running" within 300 seconds
+
+  @kvm-machine-rename
+  Scenario: Rename a KVM machine
+    When I visit the Machines page
+    And I wait for 1 seconds
+    And I clear the search bar
+    And I search for "temp-kvm-machine"
+    Then "temp-kvm-machine" machine should be present within 10 seconds
+    When I click the "temp-kvm-machine" "machine"
+    And I wait for 1 seconds
+    Then I expect the "machine" page to be visible within max 5 seconds
+    And I click the "Destroy" action button in the "machine" page
+    Then I expect the "Destroy Machine" dialog to be open within 4 seconds
+    When I click the "Destroy" button in the "Destroy Machine" dialog
+    And I refresh the page
+    And I wait for 30 seconds
+    And I refresh the page
+    And I click the "Rename" action button in the "machine" page
     Then I expect the "Rename Machine" dialog to be open within 4 seconds
-    When I set the value "kvm-mp-test-random-renamed" to field "kvm-mp-test-random" in the "Rename Machine" dialog
+    When I set the value "temp-kvm-machine-renamed" to field "temp-kvm-machine" in the "Rename Machine" dialog
     And I wait for 1 seconds
     And I click the "Submit" button in the "Rename Machine" dialog
-
     And I wait for 60 seconds
     And I visit the Machines page
     And I clear the search bar
-    And I search for "kvm-mp-test-random-renamed"
-    Then "kvm-mp-test-random-renamed" machine should be present within 300 seconds
+    And I search for "temp-kvm-machine-renamed"
+    Then "temp-kvm-machine-renamed" machine should be present within 300 seconds
