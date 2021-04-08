@@ -125,3 +125,24 @@ Feature: Multiprovisioning
     And I clear the search bar
     And I search for "temp-kvm-machine-renamed"
     Then "temp-kvm-machine-renamed" machine should be present within 300 seconds
+
+  @kvm-machine-undefine
+  Scenario: Rename a KVM machine
+    When I visit the Machines page
+    And I wait for 1 seconds
+    And I clear the search bar
+    And I search for "temp-kvm-machine-renamed"
+    Then "temp-kvm-machine-renamed" machine should be present within 10 seconds
+    When I click the "temp-kvm-machine-renamed" "machine"
+    And I wait for 1 seconds
+    When I click the "Undefine" action button in the "machine" page
+    Then I expect the "Undefine Machine" dialog to be open within 4 seconds
+    When I click the "Undefine" button in the "Undefine Machine" dialog
+    And I refresh the page
+    And I wait for 30 seconds
+    And I visit the Machines page
+    And I wait for 1 seconds
+    And I clear the search bar
+    And I search for "temp-kvm-machine-renamed"
+    And I refresh the page
+    Then "temp-kvm-machine-renamed" machine should be absent within 3 seconds
