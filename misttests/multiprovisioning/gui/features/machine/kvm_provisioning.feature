@@ -146,3 +146,24 @@ Feature: Multiprovisioning
     And I search for "temp-kvm-machine-renamed"
     And I refresh the page
     Then "temp-kvm-machine-renamed" machine should be absent within 3 seconds
+
+  @kvm-machine-start
+  Scenario: Start a KVM machine
+    When I visit the Machines page
+    And I wait for 1 seconds
+    And I clear the search bar
+    And I search for "kvm-mp-test-random"
+    Then "kvm-mp-test-random" machine should be present within 10 seconds
+    When I click the "kvm-mp-test-random" "machine"
+    And I wait for 1 seconds
+    Then I expect the "machine" page to be visible within max 5 seconds
+    And I click the "Start" action button in the "machine" page
+    Then I expect the "Start Machine" dialog to be open within 4 seconds
+    When I click the "Start" button in the "Start Machine" dialog
+    And I wait for 30 seconds
+    Then I should see a(n) "request" log entry of action "start_machine" added "a few seconds ago" in the "machine" page within 100 seconds
+    When I visit the Machines page
+    And I wait for 1 seconds
+    And I clear the search bar
+    And I search for "kvm-mp-test-random"
+    Then "kvm-mp-test-random" machine state has to be "running" within 300 seconds
