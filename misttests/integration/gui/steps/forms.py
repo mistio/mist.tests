@@ -110,6 +110,8 @@ def get_input_element_from_form(context, form, input_name):
                         input_element = expanded_slot_shadow.find_element_by_css_selector(selector)
                     except NoSuchElementException:
                         print(e)
+            if input_element and input_name == text:
+                break
     return input_element
 
 
