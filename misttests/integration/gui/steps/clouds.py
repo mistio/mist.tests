@@ -250,7 +250,7 @@ def set_kubevirt_creds(context):
                 And I wait for 1 seconds
                 Then I set the value "%s" to field "Hostname or IP" in the "cloud" add form
                 Then I set the value "%s" to field "Bearer Token" in the "cloud" add form
-                Then I set the value "%s" to field "Port"
+                Then I set the value "%s" to field "Port" in the "cloud" add form
             ''' % (safe_get_var('clouds/kubevirt', 'host', context.mist_config['CREDENTIALS']['KUBEVIRT']['host']),
                    safe_get_var('clouds/kubevirt', 'token', context.mist_config['CREDENTIALS']['KUBEVIRT']['token']),
                    safe_get_var('clouds/kubevirt', 'port', context.mist_config['CREDENTIALS']['KUBEVIRT']['port'])
