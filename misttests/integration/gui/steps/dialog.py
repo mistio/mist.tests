@@ -16,7 +16,7 @@ from .forms import clear_input_and_send_keys, get_button_from_form
 
 def get_dialog(context, title):
     title = title.lower()
-    if "rename" in title:
+    if "rename machine" in title:
         try:
             # Machine rename dialog opens in iron-overlay inside machine-edit element
             # opposed to the rest of the dialogs which open on the vaadin-overlay
