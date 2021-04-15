@@ -17,7 +17,7 @@ def get_add_form(context, title):
     if title not in ['cloud', 'machine', 'image', 'key', 'network', 'tunnel',
                      'script', 'schedule', 'template', 'stack', 'team',
                      'members', 'zone', 'record', 'volume']:
-        raise ValueError('The title given is unknown')
+        raise ValueError('The title given is unknown {}'.format(title))
     if title == 'members':
         page_element = get_page_element(context, 'teams')
     elif title == 'record':
@@ -94,7 +94,7 @@ def get_input_element_from_form(context, form, input_name):
         container_shadow = expand_shadow_root(context, container)
         text = safe_get_element_text(
             container_shadow.find_element_by_css_selector('label')).lower().strip().rstrip(' *')
-        if text == input_name:
+        if input_name in text:
             if 'textarea' in container.tag_name:
                 selector = 'textarea'
             else:
@@ -110,6 +110,8 @@ def get_input_element_from_form(context, form, input_name):
                         input_element = expanded_slot_shadow.find_element_by_css_selector(selector)
                     except NoSuchElementException:
                         print(e)
+            if input_element and input_name == text:
+                break
     return input_element
 
 
