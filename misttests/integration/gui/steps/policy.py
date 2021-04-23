@@ -87,7 +87,7 @@ def add_new_rule(context, operator, rtype='all', raction='all', rid='',
         input_element.send_keys(rtags)
     if constraints:
         if constraints == "kevin\'s":
-            constraints = '{"field": {"datastore": {"show": false}},"size": {"disk": {"show": false}}}'
+            constraints = '{"field": [{"name": "datastore", "show": false}],"size": {"disk": {"show": false}}}'
         constraints_button = new_rule_shadow.find_element_by_css_selector('span.constraints').\
             find_element_by_css_selector('rbac-rule-constraints')
         clicketi_click(context, constraints_button)
