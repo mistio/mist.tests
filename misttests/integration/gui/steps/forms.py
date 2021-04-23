@@ -381,7 +381,7 @@ def dropdown_is_absent(context, dropdown_text, resource_type):
         # no dropdown found, it is what we wanted
         return
     if dropdown:
-        assert False, "A dropdown was found"
+        assert False, "A dropdown was found with text: {}".format(dropdown.get_attribute('label'))
 
 @step(u'I expect the "{slider_name}" slider of the size field to be absent in the "{resource_type}" add form')
 def field_is_absent(context, slider_name, resource_type):
