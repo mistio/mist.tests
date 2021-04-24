@@ -17,7 +17,7 @@ from selenium.webdriver.common.action_chains import ActionChains
 
 def safe_get_element_text(check_element):
     try:
-        return check_element.text
+        return check_element.get_attribute('textContent').replace("\n", '').strip()
     except StaleElementReferenceException:
         return ""
 
