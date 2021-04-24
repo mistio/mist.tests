@@ -17,7 +17,7 @@ Feature: Machines
     And I wait for the navigation menu to appear
     And I visit the Images page
     And I search for "Ubuntu 14.04 - mist.io image"
-    Then "Ubuntu 14.04 - mist.io image" image should be present within 30 seconds
+    Then "Ubuntu 14.04 - mist.io image" image should be present within 45 seconds
     When I visit the Machines page
     And I click the button "+"
     Then I expect the "Machine" add form to be visible within max 10 seconds
@@ -47,7 +47,7 @@ Feature: Machines
     And I wait for 1 seconds
     Then I should see a(n) "observation" log entry of action "create_machine" added "a few seconds ago" in the "dashboard" page within 10 seconds
     When I visit the Machines page
-    Then "ui-test-create-machine-random" machine state has to be "stopped" within 120 seconds
+    Then "ui-test-create-machine-random" machine state has to be "stopped" within 150 seconds
 
   @machine-start
   Scenario: Start the machine created above
