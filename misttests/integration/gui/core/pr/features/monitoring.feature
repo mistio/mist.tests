@@ -47,7 +47,7 @@ Feature: Monitoring
     And I expect the metric buttons to appear within 30 seconds
     And I click the "kernel" button in the "Select target for graph" dialog
     And I click the "kernel.entropy_avail" button in the "Select target for graph" dialog
-    Then "kernel entropy_avail" graph should appear in the "machine" page within 30 seconds
+    Then "kernel entropy_avail" graph should appear in the "machine" page within 60 seconds
     And 6 graphs should be visible within max 20 seconds in the "machine" page
 
   @monitoring-home-page

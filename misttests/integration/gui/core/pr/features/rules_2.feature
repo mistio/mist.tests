@@ -10,12 +10,12 @@ Feature: Rules
     And Docker machine "rules-test-machine-random" has been added via API request
     When I visit the Machines page
     And I search for "rules-test-machine-random"
-    Then "rules-test-machine-random" machine state has to be "running" within 120 seconds
+    Then "rules-test-machine-random" machine state has to be "running" within 150 seconds
     When I click the "rules-test-machine-random" "machine"
     And I wait for 2 seconds
     Then "Key1" key should be associated with the machine "rules-test-machine-random" within 120 seconds
     When I click the button "Enable Monitoring" in the "machine" page
-    And I wait for 5 seconds
+    And I wait for 10 seconds
     And I wait for the monitoring graphs to appear in the "machine" page
     Then 5 graphs should be visible within max 30 seconds in the "machine" page
 

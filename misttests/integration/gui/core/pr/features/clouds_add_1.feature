@@ -21,7 +21,6 @@ Feature: Add second-tier clouds
     Examples: Providers
     | provider       |
     | KubeVirt       |
-  #  | G8             |
     | VMware vSphere |
     | Alibaba Cloud  |
     | Microsoft Azure|
@@ -46,7 +45,7 @@ Feature: Add second-tier clouds
     Then I click the button "Add Cloud" in the "cloud" add form
     When I wait for the dashboard to load
     And I scroll the clouds list into view
-    Then the "Bare Metal" provider should be added within 30 seconds
+    Then the "Bare Metal" provider should be added within 45 seconds
 
   @KVM-add
   Scenario: Add KVM
