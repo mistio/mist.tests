@@ -11,6 +11,7 @@ Feature: Rules
     When I visit the Machines page
     And I search for "rules-test-machine-random"
     Then "rules-test-machine-random" machine state has to be "running" within 120 seconds
+    And I wait for 10 seconds
     When I click the "rules-test-machine-random" "machine"
     And I wait for 2 seconds
     Then "Key1" key should be associated with the machine "rules-test-machine-random" within 150 seconds
