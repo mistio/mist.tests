@@ -48,6 +48,7 @@ Feature: Machines
 
   @key-associate
   Scenario: Associate key with machine
+    And I wait for 10 seconds
     When I click the "ui-test-create-machine-random" "machine"
     And I expect the "machine" page to be visible within max 5 seconds
     Then "DummyKey" key should be associated with the machine "ui-test-create-machine-random" within 120 seconds
