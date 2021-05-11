@@ -455,3 +455,15 @@ def click_button_in_account_page(context, target):
             button.click()
             return
     assert False, 'Cannot find button "%s" in account page' % target
+
+# this is intended for specific buttons on a page
+@step('I click the "{target}" button in the "{resource_type}" page')
+def click_button_in_page(context, target, resource_type):
+    _, container = get_page_element(context, resource_type + 's', resource_type)
+    container_shadow = expand_shadow_root(context, container)
+    if target == "edit expiration":
+        button = container_shadow.find_element_by_class_name('edit')
+        clicketi_click(context, button)
+    if target == "remove expiration":
+        button = container_shadow.find_element_by_class_name("clear")
+        clicketi_click(context, button)

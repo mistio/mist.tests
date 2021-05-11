@@ -283,16 +283,27 @@ def keys_associated_with_machine(context, keys, seconds):
     assert False, "There are %s keys associated with the machine" % associated_keys_with_machine
 
 
-@step('I set an expiration in "{exp_num}" "{exp_unit}" with a notify of "{notify_num}" "{notify_unit}" before')
-def set_expiration(context, exp_num, exp_unit, notify_num, notify_unit):
-    from .forms import get_add_form
-    form = get_add_form(context, 'machine')
-    form_shadow = expand_shadow_root(context, form)
-    sub_form = form_shadow.find_element_by_css_selector('app-form')
+@step('I set an expiration in "{exp_num}" "{exp_unit}" with a notify of "{notify_num}" "{notify_unit}" before in the {form}')
+def set_expiration(context, exp_num, exp_unit, notify_num, notify_unit, form):
+    if form == "machine create form":
+        from .forms import get_add_form
+        form = get_add_form(context, 'machine')
+        form_shadow = expand_shadow_root(context, form)
+        sub_form = form_shadow.find_element_by_css_selector('app-form')
+
+    elif form == "expiration dialog":
+        from .dialog import get_dialog
+        dialog = get_dialog(context, 'Edit expiration date')
+        dialog_shadow = expand_shadow_root(context, dialog)
+        sub_form = dialog_shadow.find_element_by_css_selector('app-form')
+
     sub_form_shadow = expand_shadow_root(context, sub_form)
     sub_fieldgroups = sub_form_shadow.find_elements_by_css_selector('sub-fieldgroup')
     for sub_fg in sub_fieldgroups:
         if sub_fg.text.startswith('Set expiration'):
+            sub_fieldgroup = sub_fg
+            break
+        if sub_fg.get_attribute('id') == "fieldgroup-machine-expiration-edit":
             sub_fieldgroup = sub_fg
             break
     sub_field_shadow = expand_shadow_root(context, sub_fieldgroup)
@@ -319,3 +330,10 @@ def set_expiration(context, exp_num, exp_unit, notify_num, notify_unit):
     sleep(0.5)
     buttons = notify_dropdown.find_elements_by_css_selector('paper-item')
     click_button_from_collection(context, notify_unit, buttons)
+
+@step('I expect to see "{duration_text}" in the expiration section of the machine page')
+def check_duration_until_expiration(context, duration_text):
+    _, machine_page = get_page_element(context, 'machines', 'machine')
+    machine_page_shadow = expand_shadow_root(context, machine_page)
+    expiration_cell = machine_page_shadow.find_element_by_css_selector(".cell.expiration")
+    assert expiration_cell.text == duration_text, "Expected time left until expiration does not match actual"
