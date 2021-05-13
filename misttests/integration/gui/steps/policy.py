@@ -120,12 +120,14 @@ def add_new_rule(context, operator, rtype='all', raction='all', rid='',
             sleep(1)
             field_name_paper_input = field_constraint_shadow.find_element_by_tag_name('paper-input')
             field_name_paper_input_shadow = expand_shadow_root(context, field_name_paper_input)
-            field_name_input = field_name_paper_input_shadow.find_element_by_tag_name('iron-input')
+            field_name_iron_input = field_name_paper_input_shadow.find_element_by_tag_name('iron-input')
+            field_name_input = field_name_iron_input.find_element_by_tag_name('input')
+            field_name_input.send_keys('datastore')
             sleep(1)
             buttons_div = mist_form_shadow.find_element_by_css_selector('.buttons')
-            save_button = buttons_div.find_element_by_css_selector('.submit-btn')
-            clicketi_click(context, save_button)
-            sleep(3)
+            save_constraints_button = buttons_div.find_element_by_css_selector('.submit-btn')
+            clicketi_click(context, save_constraints_button)
+            sleep(2)
 
 
 @step('I add the rule "{operator}" "{rtype}" "{raction}" where id = "{rid}"')
