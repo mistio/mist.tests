@@ -29,6 +29,7 @@ Feature: Login Scenarios and Api Token
     When I visit the signup page
     And I wait for 2 seconds
     And I enter my standard credentials for signup
+    And I delete old emails
     And I click the sign up button in the landing page popup
     Then I should receive an email at the address "EMAIL" with subject "Confirm your registration" within 30 seconds
     When I follow the link inside the email
