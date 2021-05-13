@@ -8,7 +8,7 @@ Feature: Login Scenarios
     When I open the signup popup
     And I enter my standard credentials for signup
     And I click the sign up button in the landing page popup
-    Then I should receive an email at the address "EMAIL" with subject "[mist.io] Confirm your registration" within 10 seconds
+    Then I should receive an email at the address "EMAIL" with subject "Confirm your registration" within 10 seconds
     When I follow the link inside the email
     And I delete old emails
     And I enter my standard credentials for signup_password_set
@@ -30,7 +30,7 @@ Feature: Login Scenarios
     And I wait for 1 seconds
     And I enter my standard credentials for password_reset_request
     And I click the reset_password_email_submit button in the landing page popup
-    Then I should receive an email at the address "EMAIL" with subject "[mist.io] Password reset request" within 10 seconds
+    Then I should receive an email at the address "EMAIL" with subject "Password reset request" within 10 seconds
     When I follow the link inside the email
     And I enter my new_creds credentials for password_reset
     And I click the reset_pass_submit button in the landing page popup
