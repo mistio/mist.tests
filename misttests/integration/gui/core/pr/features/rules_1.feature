@@ -40,7 +40,7 @@ Feature: Rules
 
   @incidents-triggered
   Scenario: Verify that incidents get triggered
-    Then I should receive an email at the address "EMAIL" which contains subject terms: "[Mist] *** WARNING *** machine `rules-test-machine-random`: KERNEL" within 180 seconds
+    Then I should receive an email at the address "EMAIL" which contains subject terms: "*** WARNING *** machine `rules-test-machine-random`: KERNEL" within 180 seconds
 
 
   @metric-rule-rules-page-destroy
