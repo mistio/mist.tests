@@ -82,7 +82,7 @@ Feature: Ip-whitelisting
     And I wait for 2 seconds
     Then I should see the error message "Trying to login from a non-whitelisted IP address. You can request whitelisting your current IP via email"
     When I click the forbidden link in the sign-in page
-    Then I should receive an email at the address "EMAIL" with subject "[mist.io] Account IP whitelist request" within 30 seconds
+    Then I should receive an email at the address "EMAIL" with subject "Account IP whitelist request" within 30 seconds
     And I follow the link inside the email
     And I delete old emails
 
