@@ -289,7 +289,11 @@ def keys_associated_with_machine(context, keys, seconds):
 
 @step('I set an expiration in "{exp_num}" "{exp_unit}" with a notify of "{notify_num}" "{notify_unit}" before in the {form}')
 def set_expiration(context, exp_num, exp_unit, notify_num, notify_unit, form):
+<<<<<<< HEAD
     if form == "create machine form":
+=======
+    if form == "machine create form":
+>>>>>>> Add expiration contraints test, rename contraints feature to constraints_kevin
         form = get_add_form(context, 'machine')
         form_shadow = expand_shadow_root(context, form)
         sub_form = form_shadow.find_element_by_css_selector('app-form')
