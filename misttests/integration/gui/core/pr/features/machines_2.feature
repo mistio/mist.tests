@@ -67,22 +67,3 @@ Feature: Machines
     When I visit the Home page
     And I wait for 1 seconds
     Then I should see a(n) "observation" log entry of action "start_machine" added "a few seconds ago" in the "dashboard" page within 10 seconds
-
-#  @set-expiration
-#  Scenario: Set and delete an expiration
-#    When I visit the Machines page
-#    And I click the "ui-test-create-machine-random" "machine"
-#    Then I expect the "machine" page to be visible within max 7 seconds
-#    When I click the "edit expiration" button in the "machine" page
-#    Then I expect the "Edit expiration date" dialog to be open within 7 seconds
-#    And I set an expiration in "1" "months" with a notify of "1" "minutes" before in the expiration dialog
-#    And I wait for 3 seconds
-#    And I click the "Save" button in the "Edit expiration date" dialog
-#    And I wait for 10 seconds
-#    And I expect to see "in a month" in the expiration section of the machine page
-#    And I wait for 1 seconds
-#    When I click the "remove expiration" button in the "machine" page
-#    Then I expect the "Delete expiration of machine" dialog to be open within 7 seconds
-#    And I click the "delete" button in the "Delete expiration of machine?" dialog
-#    And I wait for 10 seconds
-#    And I expect to see "never" in the expiration section of the machine page
