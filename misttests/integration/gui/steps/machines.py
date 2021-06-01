@@ -8,6 +8,8 @@ from random import randrange
 
 from .utils import safe_get_element_text, get_page_element, expand_shadow_root
 from .utils import get_page, clear_input_and_send_keys
+from .forms import get_add_form
+from .dialog import get_dialog
 
 from .buttons import clicketi_click, click_button_from_collection
 
@@ -59,8 +61,10 @@ def click_bare_metal_machine(context):
 def set_values_to_create_machine_form(context,provider,machine_name):
     context.execute_steps('''
                 Then I set the value "%s" to field "Machine Name" in the "machine" add form
+                And I wait for 1 seconds
                 When I open the "Image" dropdown in the "machine" add form
                 And I click the "%s" button in the "Image" dropdown in the "machine" add form
+                And I wait for 1 seconds
                 And I open the "Key" dropdown in the "machine" add form
                 And I click the "DummyKey" button in the "Key" dropdown in the "machine" add form
                 And I wait for 1 seconds
@@ -286,13 +290,11 @@ def keys_associated_with_machine(context, keys, seconds):
 @step('I set an expiration in "{exp_num}" "{exp_unit}" with a notify of "{notify_num}" "{notify_unit}" before in the {form}')
 def set_expiration(context, exp_num, exp_unit, notify_num, notify_unit, form):
     if form == "machine create form":
-        from .forms import get_add_form
         form = get_add_form(context, 'machine')
         form_shadow = expand_shadow_root(context, form)
         sub_form = form_shadow.find_element_by_css_selector('app-form')
 
     elif form == "expiration dialog":
-        from .dialog import get_dialog
         dialog = get_dialog(context, 'Edit expiration date')
         dialog_shadow = expand_shadow_root(context, dialog)
         sub_form = dialog_shadow.find_element_by_css_selector('app-form')
@@ -331,9 +333,45 @@ def set_expiration(context, exp_num, exp_unit, notify_num, notify_unit, form):
     buttons = notify_dropdown.find_elements_by_css_selector('paper-item')
     click_button_from_collection(context, notify_unit, buttons)
 
+@step('I set the expiration to "{exp_num}" "{exp_unit}" in the expiration dialog')
+def set_expiration_duration_only(context, exp_num, exp_unit):
+    dialog = get_dialog(context, 'Edit expiration date')
+    dialog_shadow = expand_shadow_root(context, dialog)
+    form = dialog_shadow.find_element_by_css_selector('app-form')
+    form_shadow = expand_shadow_root(context, form)
+    sub_fieldgroup = form_shadow.find_element_by_tag_name('sub-fieldgroup')
+    sub_fieldgroup_shadow = expand_shadow_root(context, sub_fieldgroup)
+    form2 = sub_fieldgroup_shadow.find_element_by_tag_name('app-form')
+    form2_shadow = expand_shadow_root(context, form2)
+    duration_field = form2_shadow.find_element_by_tag_name('duration-field')
+    duration_field_shadow = expand_shadow_root(context, duration_field)
+    duration_paper_input = duration_field_shadow.find_element_by_tag_name('paper-input')
+    duration_paper_input_shadow = expand_shadow_root(context, duration_paper_input)
+    duration_input = duration_paper_input_shadow.find_element_by_tag_name('input')
+    duration_input.send_keys(Keys.CONTROL + 'a')
+    sleep(0.3)
+    duration_input.send_keys(Keys.BACKSPACE)
+    sleep(0.3)
+    duration_input.send_keys(int(exp_num))
+    sleep(1)
+    duration_paper_dropdown = duration_field_shadow.find_element_by_tag_name('paper-dropdown-menu')
+    clicketi_click(context, duration_paper_dropdown)
+    sleep(0.5)
+    duration_paper_items = duration_paper_dropdown.find_elements_by_css_selector('paper-item')
+    duration_item = None
+    for item in duration_paper_items:
+        if safe_get_element_text(item) == exp_unit:
+            duration_item = item
+    clicketi_click(context, duration_item)
+
 @step('I expect to see "{duration_text}" in the expiration section of the machine page')
 def check_duration_until_expiration(context, duration_text):
     _, machine_page = get_page_element(context, 'machines', 'machine')
     machine_page_shadow = expand_shadow_root(context, machine_page)
     expiration_cell = machine_page_shadow.find_element_by_css_selector(".cell.expiration")
-    assert expiration_cell.text == duration_text, "Expected time left until expiration does not match actual"
+    error_msg = "Expiration time left is wrong {}".format(expiration_cell.text)
+    # minutes are too short to get an accurate reading
+    if duration_text == "in x minutes":
+        assert 'in' in expiration_cell.text and 'minutes' in expiration_cell.text, error_msg
+    else:
+        assert expiration_cell.text == duration_text, error_msg

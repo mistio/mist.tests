@@ -124,11 +124,84 @@ def add_new_rule(context, operator, rtype='all', raction='all', rid='',
             field_name_input = field_name_iron_input.find_element_by_tag_name('input')
             field_name_input.send_keys('datastore')
             sleep(1)
-            buttons_div = mist_form_shadow.find_element_by_css_selector('.buttons')
-            save_constraints_button = buttons_div.find_element_by_css_selector('.submit-btn')
-            clicketi_click(context, save_constraints_button)
-            sleep(2)
-
+        if constraints == "expiration":
+            expiration_constraint_div = mist_form_shadow.find_element_by_id('expiration_constraint_container')
+            expiration_constraint_toggle = expiration_constraint_div.find_element_by_tag_name('paper-toggle-button')
+            clicketi_click(context, expiration_constraint_toggle)
+            sleep(1)
+            default_duration_field_mist_form = expiration_constraint_div.find_element_by_id('default')
+            default_duration_field_mist_form_shadow = expand_shadow_root(context, default_duration_field_mist_form)
+            default_duration_paper_input = default_duration_field_mist_form_shadow.find_element_by_tag_name('paper-input')
+            default_duration_paper_input_shadow = expand_shadow_root(context, default_duration_paper_input)
+            default_duration_iron_input = default_duration_paper_input_shadow.find_element_by_tag_name('iron-input')
+            default_duration_input = default_duration_iron_input.find_element_by_tag_name('input')
+            default_duration_input.send_keys('12')
+            sleep(0.5)
+            default_paper_dropdown_menu = default_duration_field_mist_form_shadow.find_element_by_tag_name('paper-dropdown-menu')
+            clicketi_click(context, default_paper_dropdown_menu)
+            sleep(0.5)
+            default_menu_items = default_duration_field_mist_form_shadow.find_elements_by_css_selector('paper-item')
+            default_minute_item = None
+            for item in default_menu_items:
+              if item.get_attribute('value') == 'm':
+                  default_minute_item = item
+                  break
+            clicketi_click(context, default_minute_item)
+            sleep(1)
+            max_duration_field_mist_form = expiration_constraint_div.find_element_by_id('max')
+            max_duration_field_mist_form_shadow = expand_shadow_root(context, max_duration_field_mist_form)
+            max_duration_paper_input = max_duration_field_mist_form_shadow.find_element_by_tag_name('paper-input')
+            max_duration_paper_input_shadow = expand_shadow_root(context, max_duration_paper_input)
+            max_duration_iron_input = max_duration_paper_input_shadow.find_element_by_tag_name('iron-input')
+            max_duration_input = max_duration_iron_input.find_element_by_tag_name('input')
+            max_duration_input.send_keys('1')
+            sleep(0.5)
+            max_paper_dropdown_menu = max_duration_field_mist_form_shadow.find_element_by_tag_name('paper-dropdown-menu')
+            clicketi_click(context, max_paper_dropdown_menu)
+            sleep(0.5)
+            max_menu_items = max_duration_field_mist_form_shadow.find_elements_by_css_selector('paper-item')
+            max_month_item = None
+            for item in max_menu_items:
+              if item.get_attribute('value') == 'mo':
+                  max_month_item = item
+                  break
+            clicketi_click(context, max_month_item)
+            sleep(1)
+            expiration_actions_div = expiration_constraint_div.find_element_by_id('expiration_actions')
+            destroy_checkbox = expiration_actions_div.find_element_by_id('destroy')
+            clicketi_click(context, destroy_checkbox)
+            sleep(0.5)
+            expiration_actions_dropdown_menu = expiration_actions_div.find_element_by_tag_name('paper-dropdown-menu')
+            clicketi_click(context, expiration_actions_dropdown_menu)
+            sleep(0.5)
+            destroy_action_item = expiration_actions_div.find_element_by_tag_name('paper-item')
+            clicketi_click(context, destroy_action_item)
+            sleep(1)
+            expiration_notify_div = expiration_constraint_div.find_element_by_id('expiration_notify')
+            expiration_notify_subform = expiration_notify_div.find_element_by_tag_name('mist-form-duration-field')
+            expiration_notify_subform_shadow = expand_shadow_root(context, expiration_notify_subform)
+            expiration_notify_paper_input = expiration_notify_subform_shadow.find_element_by_tag_name('paper-input')
+            expiration_notify_paper_input_shadow = expand_shadow_root(context, expiration_notify_paper_input)
+            expiration_notify_input = expiration_notify_paper_input_shadow.find_element_by_tag_name('input')
+            expiration_notify_input.send_keys(1)
+            sleep(0.5)
+            expiration_notify_dropdown_menu = expiration_notify_subform_shadow.find_element_by_tag_name('paper-dropdown-menu')
+            clicketi_click(context, expiration_notify_dropdown_menu)
+            sleep(0.5)
+            expiration_notify_minute_item = None
+            expiration_notify_dropdown_items = expiration_notify_dropdown_menu.find_elements_by_css_selector('paper-item')
+            for item in expiration_notify_dropdown_items:
+                if item.get_attribute('value') == 'm':
+                    expiration_notify_minute_item = item
+            clicketi_click(context, expiration_notify_minute_item)
+            sleep(0.5)
+            require_checkbox = expiration_notify_div.find_element_by_tag_name('paper-checkbox')
+            clicketi_click(context, require_checkbox)
+            sleep(1)
+        buttons_div = mist_form_shadow.find_element_by_css_selector('.buttons')
+        save_constraints_button = buttons_div.find_element_by_css_selector('.submit-btn')
+        clicketi_click(context, save_constraints_button)
+        sleep(2)
 
 @step('I add the rule "{operator}" "{rtype}" "{raction}" where id = "{rid}"')
 def add_new_rule_with_rid(context, operator, rtype, raction, rid):
