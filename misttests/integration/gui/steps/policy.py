@@ -198,6 +198,68 @@ def add_new_rule(context, operator, rtype='all', raction='all', rid='',
             require_checkbox = expiration_notify_div.find_element_by_tag_name('paper-checkbox')
             clicketi_click(context, require_checkbox)
             sleep(1)
+        if constraints == "allowed DO VSPHERE":
+            vsphere_sizes = [(1024, 1, 15), (2048, 2, 0)]
+            # Allow Digital Ocean 2 sizes and VSphere 2 custom sizes
+            size_constraint_div = mist_form_shadow.find_element_by_id('size_constraint_container')
+            size_constraint_toggle = size_constraint_div.find_element_by_tag_name('paper-toggle-button')
+            clicketi_click(context, size_constraint_toggle)
+            sleep(1)
+            allowed_size_element = size_constraint_div.find_element_by_tag_name('size-element')
+            allowed_size_element_shadow = expand_shadow_root(context, allowed_size_element)
+            add_allowed_button = allowed_size_element_shadow.find_element_by_tag_name('paper-button')
+            for i in range(4):
+                clicketi_click(context, add_allowed_button)
+                sleep(0.5)
+            allowed_dropdowns = allowed_size_element_shadow.find_elements_by_css_selector('paper-dropdown-menu')
+            counter=0
+            for dropdown in allowed_dropdowns:
+                clicketi_click(context, dropdown)
+                sleep(0.5)
+                cloud_paper_items = dropdown.find_elements_by_css_selector('paper-item')
+                if counter < 2:
+                    target_cloud = 'DigitalOcean'
+                else:
+                    target_cloud = 'VMware vSphere'
+                for cloud_paper_item in cloud_paper_items:
+                    if safe_get_element_text(cloud_paper_item) == target_cloud:
+                        clicketi_click(context, cloud_paper_item)
+                        sleep(0.5)
+                        break
+                containing_div = dropdown.find_element_by_xpath('..')
+                size_field = containing_div.find_element_by_css_selector('mist-size-field')
+                size_field_shadow = expand_shadow_root(context, size_field)
+                if counter < 2:
+                    size_field_dropdown = size_field_shadow.find_element_by_tag_name('paper-dropdown-menu')
+                    clicketi_click(context, size_field_dropdown)
+                    sleep(0.5)
+                    available_sizes = size_field_dropdown.find_elements_by_css_selector('paper-item')
+                    clicketi_click(context, available_sizes[counter])
+                    sleep(0.5)
+                else:
+                    paper_sliders = size_field_shadow.find_elements_by_css_selector('paper-slider')
+                    slider_counter = 0
+                    for paper_slider in paper_sliders:
+                        paper_slider_shadow = expand_shadow_root(context, paper_slider)
+                        paper_input = paper_slider_shadow.find_element_by_tag_name('paper-input')
+                        paper_input_shadow = expand_shadow_root(context, paper_input)
+                        size_input = paper_input_shadow.find_element_by_tag_name('input')
+                        size_input.send_keys(Keys.CONTROL + 'a')
+                        sleep(0.5)
+                        size_input.send_keys(Keys.DELETE)
+                        sleep(0.5)
+                        # counter is either 2 or 3
+                        size_input.send_keys(vsphere_sizes[counter%2][slider_counter])
+                        sleep(1)
+                        slider_counter += 1
+                    # size_name_paper_input = size_field_shadow.find_element_by_tag_name('paper-input')
+                    # size_name_paper_input_shadow = expand_shadow_root(context, size_name_paper_input)
+                    # human_friendly_input = size_name_paper_input_shadow.find_element_by_tag_name('input')
+                    # size_name = 'Vsphere Size {}'.format(counter%2)
+                    # human_friendly_input.send_keys(size_name)
+                    sleep(1)
+                counter += 1
+
         buttons_div = mist_form_shadow.find_element_by_css_selector('.buttons')
         save_constraints_button = buttons_div.find_element_by_css_selector('.submit-btn')
         clicketi_click(context, save_constraints_button)
