@@ -1,8 +1,8 @@
 @constraints
-Feature: Contstraints-size-allowed
+Feature: Constraints-size-allowed
 
   @create-users-org-team
-  Scenario: Owner creates a new organization,invites member1 and adds a VSphere cloud
+  Scenario: Owner creates a new organization,invites member1 and adds VSphere & DO cloud
     Given rbac members, organization and team are initialized
     Given I am logged in to mist
     And I visit the Home page

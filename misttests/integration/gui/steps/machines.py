@@ -380,9 +380,9 @@ def check_duration_until_expiration(context, duration_text):
 def check_create_size_field(context, size_field):
     page = get_add_form(context, 'machine')
     page_shadow = expand_shadow_root(context, page)
-    app_form = page.find_element_by_css_selector('app-form')
+    app_form = page_shadow.find_element_by_css_selector('app-form')
     app_form_shadow = expand_shadow_root(context, app_form)
-    mist_size = app_form_shadow.find_element_by_tag_name('mist-size')
+    mist_size = app_form_shadow.find_element_by_tag_name('mist-size-field')
     mist_size_shadow = expand_shadow_root(context, mist_size)
     try:
         size_dropdown = mist_size_shadow.find_element_by_tag_name('paper-dropdown-menu')

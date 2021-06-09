@@ -1,5 +1,5 @@
 @constraints
-Feature: Contstraints-RBAC-rules
+Feature: Constraints-field-size
 
   @create-users-org-team
   Scenario: Owner creates a new organization,invites member1 and adds a VSphere cloud

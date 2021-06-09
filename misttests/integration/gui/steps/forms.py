@@ -181,7 +181,7 @@ def set_script_to_field(context, script_input, script):
 
 
 use_step_matcher("re")
-@step('I set the value "(?P<value>[A-Za-z0-9 \-/,._#!<>+:=\{\}@%\*\"\n~\\\\\[\]]+)" to field "(?P<name>[A-Za-z ]+)" in the "(?P<title>[A-Za-z]+)" (?P<form_type>[A-Za-z]+) form')
+@step('I set the value "(?P<value>[A-Za-z0-9 \-\/,._#!<>+:=\{\}@%\*\"\n~\\\(\]]+)" to field "(?P<name>[A-Za-z ]+)" in the "(?P<title>[A-Za-z]+)" (?P<form_type>[A-Za-z]+) form')
 def set_value_to_field(context, value, name, title, form_type):
     if context.mist_config.get(value):
         value = context.mist_config.get(value)
@@ -220,7 +220,7 @@ def set_value_to_field(context, value, name, title, form_type):
         clear_input_and_send_keys(form_input, value)
 
 
-@step('I set the value "(?P<value>[A-Za-z0-9 \-/,._#!<>+:=\{\}@%\*\"\n~\\\\]+)" to field "(?P<name>[A-Za-z ]+)" in the Account page')
+@step('I set the value "(?P<value>[A-Za-z0-9 \-\/,._#!<>+:=\{\}@%\*\"\n~\\\(\]]+)" to field "(?P<name>[A-Za-z ]+)" in the Account page')
 def set_value_to_field_in_account_page(context, value, name):
     if context.mist_config.get(value):
         value = context.mist_config.get(value)
