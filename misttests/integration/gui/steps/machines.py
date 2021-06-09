@@ -375,3 +375,20 @@ def check_duration_until_expiration(context, duration_text):
         assert 'in' in expiration_cell.text and 'minutes' in expiration_cell.text, error_msg
     else:
         assert expiration_cell.text == duration_text, error_msg
+
+@step('I expect the field "{size_field}" to have 2 options')
+def check_create_size_field(context, size_field):
+    page = get_add_form(context, 'machine')
+    page_shadow = expand_shadow_root(context, page)
+    app_form = page.find_element_by_css_selector('app-form')
+    app_form_shadow = expand_shadow_root(context, app_form)
+    mist_size = app_form_shadow.find_element_by_tag_name('mist-size')
+    mist_size_shadow = expand_shadow_root(context, mist_size)
+    try:
+        size_dropdown = mist_size_shadow.find_element_by_tag_name('paper-dropdown-menu')
+        clicketi_click(context, size_dropdown)
+        sleep(0.5)
+    except NoSuchElementException:
+        print("Size was expected to be a dropdown due to the constraints in place")
+    sizes = size_dropdown.find_elements_by_css_selector('paper-item')
+    assert len(sizes) == 2, "Expected only 2 sizes but found {}".format(len(sizes))
