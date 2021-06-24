@@ -27,7 +27,7 @@ Feature: Multiprovisioning
     And I click the "eu-central" button in the "Location" dropdown in the "machine" add form
     When I open the "Image" dropdown in the "machine" add form
     And I wait for 1 seconds
-    And I click the "Ubuntu 19.10" button in the "Image" dropdown in the "machine" add form
+    And I click the "Ubuntu 20.04 LTS" button in the "Image" dropdown in the "machine" add form
     When I open the "Size" dropdown in the "machine" add form
     And I wait for 1 seconds
     And I click the "Nanode 1GB" button in the "Size" dropdown in the "machine" add form
