@@ -13,7 +13,7 @@ Feature: Multiprovisioning
   @azure-machine-create
   Scenario: Create a machine in Azure arm provider with new resource group, storage account, network and cloud init
     Given "Microsoft Azure" cloud has been added
-    And I wait for 180 seconds
+    And I wait for 240 seconds
     When I visit the Machines page
     And I click the button "+"
     Then I expect the "Machine" add form to be visible within max 10 seconds
@@ -28,12 +28,12 @@ Feature: Multiprovisioning
     When I open the "Size" dropdown in the "machine" add form
     And I wait for 1 seconds
     And I click the "Basic_A0 1 cpus/0.75GB RAM/ 20.0GB SSD" button in the "Size" dropdown in the "machine" add form
-    And I open the "Key" dropdown in the "machine" add form
-    And I wait for 1 seconds
-    And I click the "Keyrandom" button in the "Key" dropdown in the "machine" add form
     When I open the "Location" dropdown in the "machine" add form
     And I wait for 1 seconds
     And I click the "East Asia" button in the "Location" dropdown in the "machine" add form
+    And I open the "Key" dropdown in the "machine" add form
+    And I wait for 1 seconds
+    And I click the "Keyrandom" button in the "Key" dropdown in the "machine" add form
     Then I set the value "armmptestrandom" to field "Resource Group name" in the "machine" add form
     Then I set the value "armmptestrandom" to field "Storage Account name" in the "machine" add form
     Then I set the value "armmptestrandom" to field "Network name" in the "machine" add form
