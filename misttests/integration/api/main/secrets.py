@@ -13,42 +13,42 @@ def test_list_secrets(pretty_print, mist_core, owner_api_token):
     response = mist_core.list_secrets(api_token=owner_api_token).get()
     assert_response_ok(response)
     assert len(response.json()) == 0
-    print "Success!!!"
+    print("Success!!!")
 
 
 def test_delete_secret_wrong_id(pretty_print, mist_core, owner_api_token):
     response = mist_core.delete_secret(secret_id='dummy',
                                        api_token=owner_api_token).delete()
     assert_response_not_found(response)
-    print "Success!!!"
+    print("Success!!!")
 
 
 def test_delete_secret_wrong_api_token(pretty_print, mist_core):
     response = mist_core.delete_secret(secret_id='dummy',
                                        api_token='dummy').delete()
     assert_response_unauthorized(response)
-    print "Success!!!"
+    print("Success!!!")
 
 
 def test_create_secret_no_name(pretty_print, mist_core, owner_api_token):
     response = mist_core.create_secret(name='', secret={'a': 'b'},
                                        api_token=owner_api_token).post()
     assert_response_bad_request(response)
-    print "Success!!!"
+    print("Success!!!")
 
 
 def test_create_secret_no_secret(pretty_print, mist_core, owner_api_token):
     response = mist_core.create_secret(name='dummy', secret={},
                                        api_token=owner_api_token).post()
     assert_response_bad_request(response)
-    print "Success!!!"
+    print("Success!!!")
 
 
 def test_get_secret_wrong_id(pretty_print, cache, mist_core,
                              owner_api_token):
     response = mist_core.get_secret('dummy', api_token=owner_api_token).get()
     assert_response_not_found(response)
-    print "Success!!!"
+    print("Success!!!")
 
 
 # ############################################################################
@@ -77,7 +77,7 @@ class TestSecretsFunctionality:
         response = mist_core.list_secrets(api_token=owner_api_token).get()
         assert_response_ok(response)
         assert len(response.json()) == 1
-        print "Success!!!"
+        print("Success!!!")
 
     def test_create_secret_duplicate_name(self, pretty_print, mist_core,
                                           owner_api_token):
@@ -86,7 +86,7 @@ class TestSecretsFunctionality:
             secret={"username": "username"},
             api_token=owner_api_token).post()
         assert_response_bad_request(response)
-        print "Success!!!"
+        print("Success!!!")
 
     def test_get_secret(self, pretty_print, cache, mist_core,
                         owner_api_token):
@@ -99,7 +99,7 @@ class TestSecretsFunctionality:
         assert response.json() == {'password': 'password'}, "Wrong \
             value returned!"
         # TODO: extra get_secret, requesting key (correct and wrong)
-        print "Success"
+        print("Success")
 
     def test_update_secret(self, pretty_print, cache, mist_core,
                            owner_api_token):
@@ -122,7 +122,7 @@ class TestSecretsFunctionality:
             "password": "password"
         }
         assert response.json() == expected_dict, "Wrong value returned!"
-        print "Success"
+        print("Success")
 
     def test_delete_secret(self, pretty_print, cache, mist_core,
                            owner_api_token):
@@ -133,7 +133,7 @@ class TestSecretsFunctionality:
         response = mist_core.list_secrets(api_token=owner_api_token).get()
         assert_response_ok(response)
         assert len(response.json()) == 0
-        print "Success!!!"
+        print("Success!!!")
 
     def test_add_key_from_secret(self, pretty_print, cache, mist_core,
                                  owner_api_token, private_key):
@@ -156,7 +156,7 @@ class TestSecretsFunctionality:
                                              api_token=owner_api_token).get()
         assert_response_ok(response)
         assert response.json() == private_key
-        print "Success!!!"
+        print("Success!!!")
 
     def test_add_cloud_from_secret(self, pretty_print, mist_core, cache,
                                    owner_api_token, private_key):
@@ -182,7 +182,7 @@ class TestSecretsFunctionality:
         response = mist_core.list_clouds(api_token=owner_api_token).get()
         assert_response_ok(response)
         assert len(response.json()) == 2
-        print "Success!!!"
+        print("Success!!!")
 
     def test_delete_cloud_from_vault(self, pretty_print, mist_core,
                                      cache, owner_api_token):
@@ -198,4 +198,4 @@ class TestSecretsFunctionality:
         # response = mist_core.list_secrets(api_token=owner_api_token).get()
         # assert_response_ok(response)
         # assert len(response.json()) == 1
-        print "Success!!!"
+        print("Success!!!")

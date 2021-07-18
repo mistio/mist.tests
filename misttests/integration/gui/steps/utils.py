@@ -296,7 +296,7 @@ def add_credit_card_if_needed(context, form_shadow):
 
 def clear_input_and_send_keys(input_field, text):
     while input_field.get_attribute('value') != '':
-        input_field.send_keys('\ue003')
+        input_field.send_keys('\\ue003')
     current_expected_value = ''
     n = 70
     text.replace('\"', '"')

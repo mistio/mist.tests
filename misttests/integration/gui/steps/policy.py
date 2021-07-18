@@ -269,7 +269,7 @@ def add_new_rule(context, operator, rtype='all', raction='all', rid='',
 def add_new_rule_with_rid(context, operator, rtype, raction, rid):
     add_new_rule(context, operator, rtype, raction, rid)
 
-@step(u'I add the rule always "{operator}" "{rtype}" "{raction}" with "{constr}" constraints')
+@step('I add the rule always "{operator}" "{rtype}" "{raction}" with "{constr}" constraints')
 def add_new_rule_with_constraints(context, operator, rtype, raction, constr):
     add_new_rule(context, operator, rtype, raction, constraints=constr)
 
