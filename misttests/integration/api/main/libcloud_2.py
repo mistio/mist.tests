@@ -34,10 +34,11 @@ class TestLibcloudFunctionality:
 
     def test_list_machines_openstack(self, pretty_print, mist_core, cache, owner_api_token):
         response = mist_core.add_cloud(title='Openstack', provider= 'openstack', api_token=owner_api_token,
-                                        username=safe_get_var('clouds/openstack_train', 'username', config.CREDENTIALS['OPENSTACK']['username']),
-                                        auth_url=safe_get_var('clouds/openstack_train', 'auth_url', config.CREDENTIALS['OPENSTACK']['auth_url']),
-                                        tenant=safe_get_var('clouds/openstack_train', 'tenant', config.CREDENTIALS['OPENSTACK']['tenant']),
-                                        password=safe_get_var('clouds/openstack_train', 'password', config.CREDENTIALS['OPENSTACK']['password'])).post()
+                                        username=safe_get_var('clouds/vexxhost', 'username', config.CREDENTIALS['OPENSTACK']['username']),
+                                        auth_url=safe_get_var('clouds/vexxhost', 'auth_url', config.CREDENTIALS['OPENSTACK']['auth_url']),
+                                        tenant=safe_get_var('clouds/vexxhost', 'tenant', config.CREDENTIALS['OPENSTACK']['tenant']),
+                                        password=safe_get_var('clouds/vexxhost', 'password', config.CREDENTIALS['OPENSTACK']['password']),
+                                        region=safe_get_var('clouds/vexxhost', 'region', config.CREDENTIALS['OPENSTACK']['region'])).post()
         assert_response_ok(response)
         cache.set('openstack_cloud_id', response.json()['id'])
         response = mist_core.list_machines(cloud_id=cache.get('openstack_cloud_id', ''), api_token=owner_api_token).get()

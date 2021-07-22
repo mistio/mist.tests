@@ -131,15 +131,18 @@ def set_equinix_metal_creds(context):
 
 
 def set_openstack_creds(context):
-    password = safe_get_var('clouds/openstack_train', 'password', context.mist_config['CREDENTIALS']['OPENSTACK']['password'])
+    password = safe_get_var('clouds/vexxhost', 'password', context.mist_config['CREDENTIALS']['OPENSTACK']['password'])
     context.execute_steps('''
             Then I set the value "OpenStack" to field "Title" in the "cloud" add form
             Then I set the value "%s" to field "Username" in the "cloud" add form
             Then I set the value "%s" to field "Auth Url" in the "cloud" add form
             Then I set the value "%s" to field "Tenant Name" in the "cloud" add form
-        ''' % (safe_get_var('clouds/openstack_train', 'username', context.mist_config['CREDENTIALS']['OPENSTACK']['username']),
-               safe_get_var('clouds/openstack_train', 'auth_url', context.mist_config['CREDENTIALS']['OPENSTACK']['auth_url']),
-               safe_get_var('clouds/openstack_train', 'tenant', context.mist_config['CREDENTIALS']['OPENSTACK']['tenant']),))
+            Then I set the value "%s" to field "Region" in the "cloud" add form
+        ''' % (safe_get_var('clouds/vexxhost', 'username', context.mist_config['CREDENTIALS']['OPENSTACK']['username']),
+               safe_get_var('clouds/vexxhost', 'auth_url', context.mist_config['CREDENTIALS']['OPENSTACK']['auth_url']),
+               safe_get_var('clouds/vexxhost', 'tenant', context.mist_config['CREDENTIALS']['OPENSTACK']['tenant']),
+               safe_get_var('clouds/vexxhost', 'region', context.mist_config['CREDENTIALS']['OPENSTACK']['region']),
+               ))
 
     set_value_to_field(context, password, 'Password', 'cloud', 'add')
 

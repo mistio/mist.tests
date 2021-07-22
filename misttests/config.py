@@ -274,7 +274,7 @@ DEFAULT_CREDENTIALS = {
     'LINODE': {'api_key': ''},
     'NEPHOSCALE': {'password': '', 'username': ''},
     'GCE': {'project_id': '', 'private_key': {}},
-    'OPENSTACK': {'auth_url': '', 'password': '', 'tenant': '', 'username': ''},
+    'OPENSTACK': {'auth_url': '', 'password': '', 'tenant': '', 'username': '', 'region': ''},
     'DOCKER_ORCHESTRATOR':{"host": "", "port": ""},
     'OPENSTACK_2': {'auth_url': '', 'password': '', 'tenant': '', 'username': ''},
     'EQUINIX METAL': {'api_key': ''},
