@@ -13,8 +13,8 @@ Feature: Multiprovisioning
   @openstack-machine-create
   Scenario: Create a machine in Openstack provider, with floating ip
     Given "Openstack" cloud has been added
-    # make sure resources are populated -- 10mins
-    And I wait for 600 seconds
+    # make sure resources are populated -- 3mins
+    And I wait for 180 seconds
     When I visit the Machines page
     And I click the button "+"
     Then I expect the "Machine" add form to be visible within max 10 seconds
