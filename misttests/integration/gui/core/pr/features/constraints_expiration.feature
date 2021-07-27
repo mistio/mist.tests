@@ -1,4 +1,4 @@
-@constraints
+@constraints-expiration
 Feature: Contstraints-RBAC-rules
 
   @create-users-org-team

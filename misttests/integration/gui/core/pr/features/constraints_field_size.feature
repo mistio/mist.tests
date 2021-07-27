@@ -1,4 +1,4 @@
-@constraints
+@constraints-field-size
 Feature: Constraints-field-size
 
   @create-users-org-team
