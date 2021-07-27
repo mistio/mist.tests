@@ -16,7 +16,7 @@ Feature: Rules
     And I wait for 2 seconds
     Then "Key1" key should be associated with the machine "rules-test-machine-random" within 150 seconds
     When I click the button "Enable Monitoring" in the "machine" page
-    And I wait for 10 seconds
+    And I wait for 15 seconds
     And I wait for the monitoring graphs to appear in the "machine" page
     Then 5 graphs should be visible within max 30 seconds in the "machine" page
 

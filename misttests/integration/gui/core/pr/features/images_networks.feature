@@ -12,7 +12,7 @@ Feature: Images-Networks
     And I visit the Images page
     And I wait for 5 seconds
     And I search for "Ubuntu 20.10"
-    Then "Ubuntu 20.10 x64" image should be present within 10 seconds
+    Then "Ubuntu 20.10 x64" image should be present within 15 seconds
     And "Debian 9 x64" image should be absent within 10 seconds
     When I clear the search bar
     Then "Debian 9 x64" image should be present within 5 seconds
