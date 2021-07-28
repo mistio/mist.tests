@@ -1,4 +1,4 @@
-@constraints
+@constraints-size-allowed
 Feature: Constraints-size-allowed
 
   @create-users-org-team
