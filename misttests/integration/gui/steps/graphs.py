@@ -72,12 +72,15 @@ def check_if_graph_is_visible(context, graph_id, timeout, seconds):
 def wait_for_all_graphs_to_appear(context, graph_count, timeout, page):
     page_element = get_page(context, page)
     page_shadow = expand_shadow_root(context, page_element)
-    mist_monitoring = page_shadow.find_element_by_css_selector('mist-monitoring')
-    mist_monitoring_shadow = expand_shadow_root(context, mist_monitoring)
+    try:
+        mist_monitoring = page_shadow.find_element_by_css_selector('mist-monitoring')
+        container = expand_shadow_root(context, mist_monitoring)
+    except NoSuchElementException:
+        container = page_shadow
     timeout = time() + 30
     while time() < timeout:
         try:
-            polyana_dashboard = mist_monitoring_shadow.find_element_by_css_selector('polyana-dashboard')
+            polyana_dashboard = container.find_element_by_css_selector('polyana-dashboard')
             polyana_dashboard_shadow = expand_shadow_root(context, polyana_dashboard)
             dashboard_panels = polyana_dashboard_shadow.find_elements_by_css_selector('dashboard-panel:not([hidden])')
             if len(dashboard_panels) >= int(graph_count):
@@ -111,9 +114,12 @@ def get_graph_panel(context, graph_title, page, timeout):
     graph_title = graph_title.lower()
     page_element = get_page(context, page)
     page_shadow = expand_shadow_root(context, page_element)
-    mist_monitoring = page_shadow.find_element_by_css_selector('mist-monitoring')
-    mist_monitoring_shadow = expand_shadow_root(context, mist_monitoring)
-    polyana_dashboard = mist_monitoring_shadow.find_element_by_css_selector('polyana-dashboard')
+    try:
+        mist_monitoring = page_shadow.find_element_by_css_selector('mist-monitoring')
+        container = expand_shadow_root(context, mist_monitoring)
+    except NoSuchElementException:
+        container = page_shadow
+    polyana_dashboard = container.find_element_by_css_selector('polyana-dashboard')
     polyana_dashboard_shadow = expand_shadow_root(context, polyana_dashboard)
     end = time() + int(timeout)
     while time() < end:
