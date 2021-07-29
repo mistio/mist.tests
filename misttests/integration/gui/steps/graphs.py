@@ -27,10 +27,15 @@ from selenium.common.exceptions import NoSuchElementException, StaleElementRefer
 def wait_graphs_to_appear(context, page):
     page_element = get_page(context, page)
     page_shadow = expand_shadow_root(context, page_element)
+    try:
+        mist_monitoring = page_shadow.find_element_by_css_selector('mist-monitoring')
+        container = expand_shadow_root(context, mist_monitoring)
+    except NoSuchElementException:
+        container = page_shadow
     timeout = time() + 60
     while time() < timeout:
         try:
-            polyana_dashboard = page_shadow.find_element_by_css_selector('polyana-dashboard')
+            polyana_dashboard = container.find_element_by_css_selector('polyana-dashboard')
             polyana_dashboard_shadow = expand_shadow_root(context, polyana_dashboard)
             WebDriverWait(polyana_dashboard_shadow, 90).until(
                 EC.presence_of_element_located(
