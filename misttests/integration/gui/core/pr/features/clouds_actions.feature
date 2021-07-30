@@ -56,9 +56,9 @@ Feature: Cloud actions for polymer
   Scenario: Rename a cloud
     When I click the "Rename" action button in the "cloud" page
     Then I expect the "Rename Cloud" dialog to be open within 4 seconds
-    When I set the value "Renamed" to field "Title" in the "Rename Cloud" dialog
+    When I set the value "Renamed" to field "Name" in the "Rename Cloud" dialog
     And I wait for 1 seconds
-    And I click the "Save Title" button in the "Rename Cloud" dialog
+    And I click the "Save" button in the "Rename Cloud" dialog
     Then I expect the "Rename Cloud" dialog to be closed within 4 seconds
     And I visit the Home page
     And I wait for the dashboard to load

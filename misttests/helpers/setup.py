@@ -60,10 +60,10 @@ def setup_org_if_not_exists(org_name, owner_email, clean_org=True, add_cloud=Tru
 
         if add_cloud:
             try:
-                Cloud.objects.get(owner=org, title=config.API_TESTING_CLOUD)
+                Cloud.objects.get(owner=org, name=config.API_TESTING_CLOUD)
             except Cloud.DoesNotExist:
                 import mist.io.clouds.models as clouds_models
-                kwargs = {'owner': org, 'title': config.API_TESTING_CLOUD}
+                kwargs = {'owner': org, 'name': config.API_TESTING_CLOUD}
 
                 if config.API_TESTING_CLOUD_PROVIDER == 'EC2':
                     apikey = config.CREDENTIALS['EC2']['api_key']

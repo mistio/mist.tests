@@ -28,9 +28,9 @@ class MistIoApi(object):
         req.delete = req.unavailable_api_call
         return req
 
-    def add_cloud(self, title, provider, api_token=None, **kwargs):
+    def add_cloud(self, name, provider, api_token=None, **kwargs):
         payload = {
-            'title': title,
+            'name': name,
             'provider': provider
         }
         payload.update(kwargs)
