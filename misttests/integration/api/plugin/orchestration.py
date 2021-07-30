@@ -190,7 +190,7 @@ def test_run_workflow_wrong_id(pretty_print, mist_core, owner_api_token):
 class TestOrchestrationFunctionality:
 
     # def test_add_docker_orchestrator(self, pretty_print, mist_core, owner_api_token, cache):
-    #     response = mist_core.add_cloud(title='Docker', provider='docker', api_token=owner_api_token,
+    #     response = mist_core.add_cloud(name='Docker', provider='docker', api_token=owner_api_token,
     #                                    docker_host=safe_get_var('clouds/docker_orchestrator', 'host'),
     #                                    docker_port=safe_get_var('clouds/docker_orchestrator', 'port')).post()
     #     assert_response_ok(response)
