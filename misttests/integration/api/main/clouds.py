@@ -190,7 +190,7 @@ class TestCloudsFunctionality:
         assert_response_ok(response)
         response = mist_core.list_clouds(api_token=owner_api_token).get()
         for cloud in response.json():
-            if cloud['title'] == 'Renamed':
+            if cloud['name'] == 'Renamed':
                 print("Success!!!")
                 return
         assert False, "Renaming cloud did not work!!!"

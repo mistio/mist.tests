@@ -27,7 +27,7 @@ def set_gce_creds(context):
     project_id = safe_get_var('clouds/gce/mist-dev', 'project_id', context.mist_config['CREDENTIALS']['GCE']['project_id'])
     private_key = safe_get_var('clouds/gce/mist-dev', 'private_key', context.mist_config['CREDENTIALS']['GCE']['private_key'])
     context.execute_steps('''
-            Then I set the value "%s" to field "Title" in the "cloud" add form
+            Then I set the value "%s" to field "Name" in the "cloud" add form
             Then I set the value "%s" to field "Project ID" in the "cloud" add form
             Then I set the value "%s" to field "Private Key" in the "cloud" add form
             And I click the "Enable DNS support" toggle button in the "cloud" add form
@@ -42,7 +42,7 @@ def set_rackspace_creds(context):
         Then I open the "Region" dropdown in the "cloud" add form
         And I wait for 1 seconds
         When I click the "%s" button in the "Region" dropdown in the "cloud" add form
-        Then I set the value "Rackspace" to field "Title" in the "cloud" add form
+        Then I set the value "Rackspace" to field "Name" in the "cloud" add form
         Then I set the value "%s" to field "Username" in the "cloud" add form
         Then I set the value "%s" to field "API Key" in the "cloud" add form
     ''' % (region, username, api_key))
@@ -66,7 +66,7 @@ def set_aws_creds(context):
         And I wait for 1 seconds
         When I click the "%s" button in the "Region" dropdown in the "cloud" add form
         And I wait for 1 seconds
-        Then I set the value "Amazon Web Services" to field "Title" in the "cloud" add form
+        Then I set the value "Amazon Web Services" to field "Name" in the "cloud" add form
         And I set the value "%s" to field "API Key" in the "cloud" add form
         And I set the value "%s" to field "API Secret" in the "cloud" add form
     ''' % (region, api_key, api_secret))
@@ -81,7 +81,7 @@ def set_aws_no_images_creds(context):
         And I wait for 1 seconds
         When I click the "%s" button in the "Region" dropdown in the "cloud" add form
         And I wait for 1 seconds
-        Then I set the value "Amazon Web Services" to field "Title" in the "cloud" add form
+        Then I set the value "Amazon Web Services" to field "Name" in the "cloud" add form
         And I set the value "%s" to field "API Key" in the "cloud" add form
         And I set the value "%s" to field "API Secret" in the "cloud" add form
     ''' % (region, api_key, api_secret))
@@ -104,7 +104,7 @@ def set_docker_creds(context):
         host = context.mist_config['LOCAL_DOCKER']
         port = '2375'
         context.execute_steps('''
-                Then I set the value "Docker" to field "Title" in the "cloud" add form
+                Then I set the value "Docker" to field "Name" in the "cloud" add form
                 Then I set the value "%s" to field "Host" in the "cloud" add form
                 Then I set the value "%s" to field "Port" in the "cloud" add form
         ''' % (host, port))
@@ -112,7 +112,7 @@ def set_docker_creds(context):
         host = safe_get_var('clouds/dockerhost', 'host', context.mist_config['CREDENTIALS']['DOCKER']['host'])
         port = safe_get_var('clouds/dockerhost', 'port', context.mist_config['CREDENTIALS']['DOCKER']['port'])
         context.execute_steps('''
-                Then I set the value "Docker" to field "Title" in the "cloud" add form
+                Then I set the value "Docker" to field "Name" in the "cloud" add form
                 Then I set the value "%s" to field "Host" in the "cloud" add form
                 Then I set the value "%s" to field "Port" in the "cloud" add form
             ''' % (host, port))
@@ -135,7 +135,7 @@ def set_equinix_metal_creds(context):
 def set_openstack_creds(context):
     password = safe_get_var('clouds/vexxhost', 'password', context.mist_config['CREDENTIALS']['OPENSTACK']['password'])
     context.execute_steps('''
-            Then I set the value "OpenStack" to field "Title" in the "cloud" add form
+            Then I set the value "OpenStack" to field "Name" in the "cloud" add form
             Then I set the value "%s" to field "Username" in the "cloud" add form
             Then I set the value "%s" to field "Auth Url" in the "cloud" add form
             Then I set the value "%s" to field "Tenant Name" in the "cloud" add form
@@ -166,7 +166,7 @@ def set_aliyun_creds(context):
                         Then I wait for 2 seconds
                         Then I click the "US West 1 (Silicon Valley)" button in the "Region" dropdown in the "cloud" add form
                         Then I wait for 1 seconds
-                        Then I set the value "Alibaba Cloud" to field "Title" in the "cloud" add form
+                        Then I set the value "Alibaba Cloud" to field "Name" in the "cloud" add form
                         Then I set the value "%s" to field "API Key" in the "cloud" add form
                         Then I set the value "%s" to field "API Secret" in the "cloud" add form
                     ''' % (safe_get_var('clouds/aliyun', 'api_key', context.mist_config['CREDENTIALS']['ALIYUN']['api_key']),
@@ -174,7 +174,7 @@ def set_aliyun_creds(context):
 
 def set_azure_arm_creds(context):
     context.execute_steps('''
-                    Then I set the value "Microsoft Azure" to field "Title" in the "cloud" add form
+                    Then I set the value "Microsoft Azure" to field "Name" in the "cloud" add form
                     Then I set the value "%s" to field "Tenant ID" in the "cloud" add form
                     Then I set the value "%s" to field "Subscription ID" in the "cloud" add form
                     Then I set the value "%s" to field "Client Key" in the "cloud" add form
@@ -187,7 +187,7 @@ def set_azure_arm_creds(context):
 
 def set_kvm_creds(context):
     context.execute_steps('''
-                    Then I set the value "KVM" to field "Title" in the "cloud" add form
+                    Then I set the value "KVM" to field "Name" in the "cloud" add form
                     Then I set the value "%s" to field "KVM hostname or IP" in the "cloud" add form
                     And I wait for 1 seconds
                     And I open the "SSH Key" dropdown in the "cloud" add form
@@ -201,7 +201,7 @@ def set_other_server_creds(context):
     hostname = safe_get_var('clouds/other_server', 'hostname', context.mist_config['CREDENTIALS']['KVM']['hostname'])
     context.mist_config['bare_metal_host'] = hostname
     context.execute_steps('''
-                    Then I set the value "Bare Metal" to field "Cloud Title" in the "cloud" add form
+                    Then I set the value "Bare Metal" to field "Cloud Name" in the "cloud" add form
                     Then I set the value "%s" to field "Hostname" in the "cloud" add form
                     And I wait for 1 seconds
                     And I open the "SSH Key" dropdown in the "cloud" add form
@@ -292,7 +292,7 @@ def set_cloudsigma_creds(context):
                         Then I wait for 2 seconds
                         Then I click the "San Jose, CA" button in the "Region" dropdown in the "cloud" add form
                         Then I wait for 1 seconds
-                        Then I set the value "CloudSigma" to field "Title" in the "cloud" add form
+                        Then I set the value "CloudSigma" to field "Name" in the "cloud" add form
                         Then I set the value "%s" to field "Username" in the "cloud" add form
                         Then I set the value "%s" to field "Password" in the "cloud" add form
                     ''' % (email, password))
@@ -345,14 +345,14 @@ def select_provider_in_cloud_add_form(context, provider):
     # if in mist-hs repo and user has not provided mist
     # with a billing card, then a cc-required dialog appears
     add_credit_card_if_needed(context, form_shadow)
-    provider_title = provider.lower()
+    provider_name = provider.lower()
     providers_lists = form_shadow.find_elements(By.CSS_SELECTOR, 'paper-listbox')
     providers = []
     for provider_type in providers_lists:
         providers += provider_type.find_elements(By.CSS_SELECTOR, 'paper-item')
 
     for p in providers:
-        if safe_get_element_text(p).replace("\n", "").lower().strip() == provider_title:
+        if safe_get_element_text(p).replace("\n", "").lower().strip() == provider_name:
             clicketi_click(context, p)
             return
 
@@ -384,7 +384,7 @@ def check_error_message(context, clouds):
         assert False, "There are %s clouds added, not %s"%(len(cloud_chips), clouds)
 
 
-def find_cloud(context, cloud_title):
+def find_cloud(context, cloud_name):
     page_dashboard = get_page_element(context, 'dashboard')
     page_dashboard_shadow = expand_shadow_root(context, page_dashboard)
     if page_dashboard_shadow is None:
@@ -400,13 +400,13 @@ def find_cloud(context, cloud_title):
 
     for cloud in cloud_chips:
         if cloud.is_displayed:
-            title = cloud.find_element(By.CSS_SELECTOR, '.cloud-title')
-            if safe_get_element_text(title).lower().strip() == cloud_title:
+            title = cloud.find_element(By.CSS_SELECTOR, '.cloud-name')
+            if safe_get_element_text(name).lower().strip() == cloud_name:
                 return cloud
     return None
 
 
-def find_cloud_info(context, cloud_title):
+def find_cloud_info(context, cloud_name):
     clouds = context.browser.find_elements(By.CSS_SELECTOR, 'cloud-info')
     clouds = [el for el in clouds if el.is_displayed()]
     for c in clouds:
@@ -414,10 +414,10 @@ def find_cloud_info(context, cloud_title):
             input_containers = c.find_elements(By.CSS_SELECTOR, '#labelAndInputContainer')
             for container in input_containers:
                 text = safe_get_element_text(container.find_element(By.CSS_SELECTOR, 'label')).lower().strip()
-                if text == 'title':
+                if text == 'name':
                     text = container.find_element(By.CSS_SELECTOR, 'input').\
                             get_attribute('value').lower().strip()
-                    if text == cloud_title:
+                    if text == cloud_name:
                         return c
         except NoSuchElementException:
             pass
@@ -442,7 +442,7 @@ def given_cloud(context, cloud):
     context.execute_steps('''When I select the "%s" provider''' % cloud_type)
 
     context.execute_steps('''
-        Then I expect the field "Title" in the cloud add form to be visible within max 4 seconds
+        Then I expect the field "Name" in the cloud add form to be visible within max 4 seconds
         When I use my "%s" credentials
         And I focus on the button "Add Cloud" in the "cloud" add form
         And I click the button "Add Cloud" in the "cloud" add form
@@ -501,10 +501,10 @@ def cloud_removed(context, cloud, seconds):
     assert False, "Cloud has not been removed after %s seconds" % seconds
 
 
-@step('I ensure "{title}" cloud is enabled')
-def ensure_cloud_enabled(context, title):
-    cloud = find_cloud(context, title.lower())
-    assert cloud, "Cloud %s has not been added" % title
+@step('I ensure "{name}" cloud is enabled')
+def ensure_cloud_enabled(context, name):
+    cloud = find_cloud(context, name.lower())
+    assert cloud, "Cloud %s has not been added" % name
     return 'offline' in cloud.get_attibute('class')
 
 

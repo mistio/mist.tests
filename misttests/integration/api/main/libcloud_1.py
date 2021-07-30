@@ -15,11 +15,11 @@ class TestLibcloudFunctionality:
 
     def test_list_machines_docker(self, pretty_print, mist_core, cache, owner_api_token):
         if config.LOCAL:
-            response = mist_core.add_cloud(title='Docker', provider='docker', api_token=owner_api_token,
+            response = mist_core.add_cloud(name='Docker', provider='docker', api_token=owner_api_token,
                                        docker_host=config.LOCAL_DOCKER,
                                        docker_port='2375', show_all=True).post()
         else:
-            response = mist_core.add_cloud(title='Docker', provider='docker', api_token=owner_api_token,
+            response = mist_core.add_cloud(name='Docker', provider='docker', api_token=owner_api_token,
                                        docker_host=safe_get_var('clouds/dockerhost', 'host',
                                                                 config.CREDENTIALS['DOCKER']['host']),
                                        docker_port=safe_get_var('clouds/dockerhost', 'port',
@@ -40,7 +40,7 @@ class TestLibcloudFunctionality:
         print("Success!!!")
 
     def test_list_machines_rackspace(self, pretty_print, mist_core, cache, owner_api_token):
-        response = mist_core.add_cloud(title='Rackspace', provider= 'rackspace', api_token=owner_api_token,
+        response = mist_core.add_cloud(name='Rackspace', provider= 'rackspace', api_token=owner_api_token,
                                        region='dfw',
                                        username = safe_get_var('clouds/rackspace', 'username',
                                                            config.CREDENTIALS['RACKSPACE']['username']),
@@ -54,7 +54,7 @@ class TestLibcloudFunctionality:
         print("Success!!!")
 
     def test_list_machines_aws(self, pretty_print, mist_core, cache, owner_api_token):
-        response = mist_core.add_cloud(title='AWS', provider= 'ec2', api_token=owner_api_token,
+        response = mist_core.add_cloud(name='AWS', provider= 'ec2', api_token=owner_api_token,
                                        api_key=safe_get_var('clouds/aws', 'api_key', config.CREDENTIALS['EC2']['api_key']),
                                        api_secret=safe_get_var('clouds/aws', 'api_secret', config.CREDENTIALS['EC2']['api_secret']),
                                        region='ap-northeast-1').post()
@@ -66,7 +66,7 @@ class TestLibcloudFunctionality:
         print("Success!!!")
 
     def test_list_machines_digitalocean(self, pretty_print, mist_core, cache, owner_api_token):
-        response = mist_core.add_cloud(title='Digital Ocean', provider= 'digitalocean', api_token=owner_api_token,
+        response = mist_core.add_cloud(name='Digital Ocean', provider= 'digitalocean', api_token=owner_api_token,
                                        token=safe_get_var('clouds/digitalocean', 'token', config.CREDENTIALS['DIGITALOCEAN']['token'])).post()
         assert_response_ok(response)
         cache.set('digitalocean_cloud_id', response.json()['id'])
@@ -76,7 +76,7 @@ class TestLibcloudFunctionality:
         print("Success!!!")
 
     def test_list_machines_gce(self, pretty_print, mist_core, cache, owner_api_token):
-       response = mist_core.add_cloud(title='GCE', provider= 'gce', api_token=owner_api_token,
+       response = mist_core.add_cloud(name='GCE', provider= 'gce', api_token=owner_api_token,
                                       project_id=safe_get_var('clouds/gce/mist-dev', 'project_id',
                                                               config.CREDENTIALS['GCE']['project_id']),
                                       private_key = json.dumps(safe_get_var('clouds/gce/mist-dev', 'private_key',
@@ -89,7 +89,7 @@ class TestLibcloudFunctionality:
        print("Success!!!")
 
     def test_list_machines_softlayer(self, pretty_print, mist_core, cache, owner_api_token):
-        response = mist_core.add_cloud(title='Softlayer', provider= 'softlayer', api_token=owner_api_token,
+        response = mist_core.add_cloud(name='Softlayer', provider= 'softlayer', api_token=owner_api_token,
                                        username=safe_get_var('clouds/softlayer', 'username', config.CREDENTIALS['SOFTLAYER']['username']),
                                        api_key=safe_get_var('clouds/softlayer', 'api_key', config.CREDENTIALS['SOFTLAYER']['api_key'])).post()
         assert_response_ok(response)
