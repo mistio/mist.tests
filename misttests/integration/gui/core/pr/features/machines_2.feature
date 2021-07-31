@@ -13,7 +13,7 @@ Feature: Machines
   Scenario: Create a machine in Docker provider and schedule a task to stop the machine immediately
     When I have given card details if needed
     And I refresh the page
-    And I wait for 3 seconds
+    And I wait for 10 seconds
     And I wait for the navigation menu to appear
     And I visit the Images page
     And I search for "Ubuntu 14.04 - mist.io image"

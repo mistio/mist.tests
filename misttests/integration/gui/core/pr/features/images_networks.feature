@@ -10,7 +10,7 @@ Feature: Images-Networks
     Given "Amazon Web Services" cloud has been added
     When I wait for 2 seconds
     And I visit the Images page
-    And I wait for 5 seconds
+    And I wait for 10 seconds
     And I search for "Ubuntu 20.10"
     Then "Ubuntu 20.10 x64" image should be present within 15 seconds
     And "Debian 9 x64" image should be absent within 10 seconds
