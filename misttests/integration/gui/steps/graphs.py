@@ -138,14 +138,15 @@ def get_graph_panel(context, graph_title, page, timeout):
 
 @step('"{graph_title}" graph in the "{page}" page should have some values')
 def graph_some_value(context, graph_title, page):
-    graph_panel = get_graph_panel(context, graph_title, page, 5)
     timeout = time() + int(120)
     non_null = []
     while time() < timeout:
         try:
             # Try to get the datapoints for the first available series
+            graph_panel = get_graph_panel(context, graph_title, page, 5)
             datapoints = graph_panel.get_property('chartData')['series'][0]['data']
             non_null = [v[1] for v in datapoints if v[1]]
+            print(graph_panel, len(datapoints), len(non_null))
             if non_null:
                 break
         except IndexError as KeyError:
