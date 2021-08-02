@@ -128,7 +128,8 @@ def some_counter_loaded(context, counter_title, counter_number, seconds):
         sidebar = mist_app_shadow.find_element_by_css_selector(
             'mist-sidebar')
         sidebar_shadow = expand_shadow_root(context, sidebar)
-        counter = sidebar_shadow.find_element_by_css_selector('a#%s' % counter_title)
+        counter = sidebar_shadow.find_element_by_css_selector(
+            'a#%s' % counter_title)
     except NoSuchElementException:
         raise NoSuchElementException("Counter with name %s has not been found"
                                      % counter_title)
