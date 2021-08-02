@@ -3,6 +3,7 @@ Feature: Actions for Keys
 
   Background:
     Given I am logged in to mist
+    Then I wait for the navigation menu to appear
     When I visit the Keys page
 
   @key-add
