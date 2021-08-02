@@ -1,4 +1,5 @@
 import re
+import logging
 import requests
 
 from behave import step
@@ -21,6 +22,8 @@ from selenium.webdriver import ActionChains
 
 from selenium.common.exceptions import TimeoutException
 from selenium.common.exceptions import NoSuchElementException, StaleElementReferenceException
+
+log = logging.getLogger(__name__)
 
 
 @step('I wait for the monitoring graphs to appear in the "{page}" page')
@@ -146,7 +149,7 @@ def graph_some_value(context, graph_title, page):
             graph_panel = get_graph_panel(context, graph_title, page, 5)
             datapoints = graph_panel.get_property('chartData')['series'][0]['data']
             non_null = [v[1] for v in datapoints if v[1]]
-            print(graph_panel, len(datapoints), len(non_null))
+            log.info(graph_panel, len(datapoints), len(non_null))
             if non_null:
                 break
         except IndexError as KeyError:
