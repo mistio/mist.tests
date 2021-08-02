@@ -332,6 +332,7 @@ def find_dropdown(context, container, dropdown_text):
 
 @step('I open the "{dropdown_text}" dropdown in the "{resource_type}" add form')
 def open_drop_down_in_add_form(context, dropdown_text, resource_type):
+    import ipdb;ipdb.set_trace()
     from .buttons import clicketi_click
     page = get_add_form(context, resource_type)
     page_shadow = expand_shadow_root(context, page)
