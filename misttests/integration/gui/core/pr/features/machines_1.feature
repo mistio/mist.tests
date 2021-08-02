@@ -24,6 +24,7 @@ Feature: Machines
     When I focus on the button "Add" in the "key" add form
     And I click the button "Add" in the "key" add form
     Then I expect the "key" page to be visible within max 10 seconds
+    Then images counter should be greater than 0 within 80 seconds
 
   @machine-create
   Scenario: Create a machine in Docker provider
