@@ -47,6 +47,4 @@ WORKDIR /mist.tests/
 
 RUN pip install -e .
 
-RUN ln -s /mist.tests/container/start_test_env.sh /test_env.sh
-
 ENV DISPLAY=:1.0
