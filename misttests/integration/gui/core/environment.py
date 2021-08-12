@@ -109,7 +109,8 @@ def before_all(context):
         payload = {
             'email': context.mist_config['EMAIL'],
             'password': context.mist_config['PASSWORD1'],
-            'name': "Atheofovos Gkikas"
+            'name': "Atheofovos Gkikas",
+            'org_name': context.mist_config['ORG_NAME']
         }
 
         response = requests.post(
