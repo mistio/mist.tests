@@ -133,7 +133,7 @@ def get_graph_panel(context, graph_title, page, timeout):
                 panel_title = safe_get_element_text(panel_shadow.find_element(By.CSS_SELECTOR, 'div.title'))
                 if graph_title in panel_title.lower():
                     return panel
-        except NoSuchElementException as StaleElementReferenceException:
+        except (NoSuchElementException, StaleElementReferenceException):
             pass
         sleep(2)
     assert False, 'Could not find "%s" graph in %s page within %s seconds' % (graph_title, page, timeout)
@@ -152,7 +152,7 @@ def graph_some_value(context, graph_title, page):
             log.info(graph_panel, len(datapoints), len(non_null))
             if non_null:
                 break
-        except IndexError as KeyError:
+        except (IndexError, KeyError):
             sleep(2)
     assert non_null, 'Graph does not have any values'
 
