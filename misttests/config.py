@@ -114,7 +114,7 @@ VAULT_SERVER = get_setting("VAULT_SERVER", "https://vault.ops.mist.io:8200")
 
 RECORD_SELENIUM = get_setting("RECORD_SELENIUM", True)
 
-LOCAL_DOCKER = get_setting("LOCAL_DOCKER","socat")
+LOCAL_DOCKER = get_setting("LOCAL_DOCKER", "socat")
 
 # Directories and paths used for the tests
 BASE_DIR = get_setting("BASE_DIR", os.getcwd())

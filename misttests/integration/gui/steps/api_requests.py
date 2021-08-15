@@ -17,7 +17,8 @@ def register_member_1(context):
     payload = {
         'email': context.mist_config['MEMBER1_EMAIL'],
         'password': context.mist_config['MEMBER1_PASSWORD'],
-        'name': "Atheofovos Gkikas"
+        'name': "Atheofovos Gkikas",
+        'org_name': context.mist_config['ORG_NAME']
     }
 
     requests.post("%s/api/v1/dev/register" % context.mist_config['MIST_URL'], data=json.dumps(payload))
@@ -57,7 +58,8 @@ def register_member(context, email, password):
     payload = {
         'email': email,
         'password': password,
-        'name': "Atheofovos Gkikas"
+        'name': "Atheofovos Gkikas",
+        'org_name': context.mist_config['ORG_NAME']
     }
 
     requests.post("%s/api/v1/dev/register" % context.mist_config['MIST_URL'], data=json.dumps(payload))
