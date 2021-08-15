@@ -12,7 +12,7 @@ def find_image(image, images_list):
             return check_image.find_element_by_css_selector('strong.name')
 
 
-@step(u'the "{image}" image should be "{state}" within {seconds} seconds')
+@step('the "{image}" image should be "{state}" within {seconds} seconds')
 def assert_starred_unstarred_image(context, image, state, seconds):
     state = state.lower()
     if state not in ['starred', 'unstarred']:

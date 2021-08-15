@@ -24,10 +24,12 @@ Feature: Machines
     When I focus on the button "Add" in the "key" add form
     And I click the button "Add" in the "key" add form
     Then I expect the "key" page to be visible within max 10 seconds
+    Then images counter should be greater than 0 within 80 seconds
 
   @machine-create
   Scenario: Create a machine in Docker provider
     When I visit the Images page
+    And I wait for 5 seconds
     Then "Ubuntu 14.04 - mist.io image" image should be present within 30 seconds
     When I visit the Machines page
     And I click the button "+"
@@ -48,6 +50,7 @@ Feature: Machines
 
   @key-associate
   Scenario: Associate key with machine
+    And I wait for 30 seconds
     When I click the "ui-test-create-machine-random" "machine"
     And I expect the "machine" page to be visible within max 5 seconds
     Then "DummyKey" key should be associated with the machine "ui-test-create-machine-random" within 120 seconds
@@ -57,6 +60,7 @@ Feature: Machines
     And I click the "DummyKey2" button in the "Select key" dropdown in the "Associate a key" dialog
     And I click the "Associate" button in the "Associate a key" dialog
     Then "DummyKey2" key should be associated with the machine "ui-test-create-machine-random" within 30 seconds
+    And I wait for 10 seconds
 
   @key-disassociate
   Scenario: Disassociate key
@@ -92,12 +96,13 @@ Feature: Machines
     And I expect the "machine" page to be visible within max 5 seconds
     And I wait for 2 seconds
     Then I click the "Shell" action button in the "machine" page
-    And I expect terminal to open within 3 seconds
-    And shell input should be available after 8 seconds
-    And I type in the terminal "ls -l /var"
+    And I wait for 5 seconds
+    And I expect in-page terminal to open within 7 seconds
+    And in-page shell input should be available after 8 seconds
+    And I type in the in-page terminal "ls -l /var"
     And I wait for 1 seconds
-    Then dummy_file should be included in the output
-    And I close the terminal
+    Then dummy_file should be included in the in-page terminal output
+    And I close the in-page terminal
 
   @machine-stop
   Scenario: Stop machine created above and check state

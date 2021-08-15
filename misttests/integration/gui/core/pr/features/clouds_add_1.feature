@@ -25,9 +25,9 @@ Feature: Add second-tier clouds
     | Alibaba Cloud  |
     | Microsoft Azure|
     | Vultr          |
-    | G8             |
-#    | AWS            |
-#    | Packet	     |
+    | CloudSigma     |
+  #  | AWS            |
+  #  | Equinix Metal  |
 
   @other-server-add
   Scenario: Add other-server
@@ -45,7 +45,7 @@ Feature: Add second-tier clouds
     Then I click the button "Add Cloud" in the "cloud" add form
     When I wait for the dashboard to load
     And I scroll the clouds list into view
-    Then the "Bare Metal" provider should be added within 30 seconds
+    Then the "Bare Metal" provider should be added within 45 seconds
 
   @KVM-add
   Scenario: Add KVM
@@ -70,7 +70,8 @@ Feature: Add second-tier clouds
     And I expect the "machine" page to be visible within max 5 seconds
     And I wait for 2 seconds
     When I click the "Shell" action button in the "machine" page
-    Then I expect terminal to open within 3 seconds
+    And I wait for 5 seconds
+    Then I expect terminal to open within 7 seconds
     When I wait for 5 seconds
     And I type in the terminal "ls -l"
     And I wait for 2 seconds

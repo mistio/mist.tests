@@ -18,6 +18,10 @@ Feature: RBAC-rules-v1
     And I click the button "Add a new rule" in the "team" page
     And I wait for 1 seconds
     Then I add the rule always "ALLOW" "cloud" "read"
+    And I wait for 1 seconds
+    And I click the button "Add a new rule" in the "team" page
+    And I wait for 1 seconds
+    Then I add the rule always "ALLOW" "team" "read"
     And I click the button "Save Policy" in the "team" page
     And I wait for 1 seconds
 
@@ -71,15 +75,15 @@ Feature: RBAC-rules-v1
     Given I am logged in to mist as rbac_member1
     When I click the fab button in the "dashboard" page
     Then I expect the "Cloud" add form to be visible within max 5 seconds
-    When I select the "Packet" provider
+    When I select the "Equinix Metal" provider
     Then I expect the field "Title" in the cloud add form to be visible within max 4 seconds
-    When I use my "Packet" credentials
+    When I use my "Equinix Metal" credentials
     And I focus on the button "Add Cloud" in the "cloud" add form
     And I click the button "Add Cloud" in the "cloud" add form
     And I wait for 2 seconds
     And I visit the Home page
     And I wait for the dashboard to load
-    Then the "Packet" provider should be added within 120 seconds
+    Then the "Equinix Metal" provider should be added within 120 seconds
     And I should have 2 clouds added
 
   @member1-delete-cloud-fail

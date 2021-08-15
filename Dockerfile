@@ -1,4 +1,4 @@
-FROM python:2.7-stretch
+FROM python:3.9
 MAINTAINER mist.io <support@mist.io>
 
 RUN set -x && \
@@ -12,13 +12,12 @@ RUN set -x && \
         xvfb \
         unzip \
         libgconf-2-4 \
-        libav-tools \
+        ffmpeg \
         vim \
         jq \
         less \
         socat \
         x11vnc \
-        ffmpeg \
     && \
     wget -q -O - https://dl-ssl.google.com/linux/linux_signing_key.pub | apt-key add - && \
     sh -c 'echo "deb http://dl.google.com/linux/chrome/deb/ stable main" >> /etc/apt/sources.list.d/google.list' && \
@@ -26,7 +25,7 @@ RUN set -x && \
     apt-get -y install google-chrome-stable && \
     rm -rf /var/lib/apt/lists/* /var/cache/apt/*
 
-ARG CHROMEDRIVER_VERSION=85.0.4183.38
+ARG CHROMEDRIVER_VERSION=91.0.4472.19
 RUN curl -SLO "https://chromedriver.storage.googleapis.com/$CHROMEDRIVER_VERSION/chromedriver_linux64.zip" && \
     unzip chromedriver_linux64.zip && \
     mv chromedriver /usr/local/bin && \

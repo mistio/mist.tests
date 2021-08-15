@@ -21,19 +21,19 @@ def follow_link(context):
     sleep(2)
 
 
-@step(u'I should receive an email at the address "{email_address}" with subject'
-      u' "{subject}"')
+@step('I should receive an email at the address "{email_address}" with subject'
+      ' "{subject}"')
 def check_if_email_arrived(context, email_address, subject):
     if context.mist_config.get(email_address):
         email_address = context.mist_config.get(email_address)
     if context.mist_config.get(subject):
         subject = context.mist_config.get(subject)
-    context.execute_steps(u'Then I should receive an email at "%s" with subject'
-                          u' "%s"' % (email_address, subject))
+    context.execute_steps('Then I should receive an email at "%s" with subject'
+                          ' "%s"' % (email_address, subject))
 
 
-@step(u'I should receive an email at the address "{email_address}" with subject'
-      u' "{subject}" within {seconds} seconds')
+@step('I should receive an email at the address "{email_address}" with subject'
+      ' "{subject}" within {seconds} seconds')
 def check_if_email_arrived_with_delay(context, email_address, subject, seconds):
     email = context.mist_config[email_address]
 
@@ -54,8 +54,8 @@ def check_if_email_arrived_with_delay(context, email_address, subject, seconds):
             sleep(1)
     assert False, "Email has not arrived after %s seconds" % seconds
 
-@step(u'I should receive an email at the address "{email_address}" which contains subject terms: "{subject_terms}"'
-      u' within {seconds} seconds')
+@step('I should receive an email at the address "{email_address}" which contains subject terms: "{subject_terms}"'
+      ' within {seconds} seconds')
 def check_if_email_arrived_with_delay(context, email_address, subject_terms, seconds):
     email = context.mist_config[email_address]
     subject_terms = subject_terms.split(",")
@@ -79,7 +79,7 @@ def check_if_email_arrived_with_delay(context, email_address, subject_terms, sec
     assert False, "Email has not arrived after %s seconds" % seconds
 
 
-@step(u'I delete old emails')
+@step('I delete old emails')
 def delete_emails(context):
     box = login_email(context)
     box.select('INBOX')
@@ -106,7 +106,7 @@ def email_find(context, address, subject_terms):
         for i in ids:
             result, msgdata = box.fetch(i, "(RFC822)")
             raw = msgdata[0][1]
-            email_message = email.message_from_string(raw)
+            email_message = email.message_from_bytes(raw)
             log.info("Checking email with subject: %s " %
                      email_message.get('Subject'))
             if address in email_message.get('To'):
@@ -114,7 +114,7 @@ def email_find(context, address, subject_terms):
                     if subject_term.lower() not in email_message.get('Subject').lower():
                         break
                 else:
-                    fetched_mails.append(raw)
+                    fetched_mails.append(raw.decode('utf-8'))
                     # delete the email
                     box.store(i, '+FLAGS', '\\Deleted')
                     box.expunge()

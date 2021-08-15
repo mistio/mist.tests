@@ -41,13 +41,13 @@ def test_add_kubevirt_cloud(pretty_print, mist_core, cache, owner_api_token, nam
     cache.set('kubevirt_cloud_id', response.json()['id'])
     print("Success, Kubevirt added!")
 
-def test_add_packet_cloud(pretty_print, mist_core, cache, owner_api_token, name="Packet"):
-    response = mist_core.add_cloud(name, provider='packet', api_token=owner_api_token,
+def test_add_equinix_cloud(pretty_print, mist_core, cache, owner_api_token, name="Equinix Metal"):
+    response = mist_core.add_cloud(name, provider='equinixmetal', api_token=owner_api_token,
                                    apikey=safe_get_var('clouds/packet', 'api_key')
                                    ).post()
     assert_response_ok(response)
-    cache.set('packet_cloud_id', response.json()['id'])
-    print("Success, Packet added!")
+    cache.set('equinix_metal_cloud_id', response.json()['id'])
+    print("Success, Equinix Metal added!")
 
 def test_add_azure_arm_cloud(pretty_print, mist_core, cache, owner_api_token, name="Azure"):
     response = mist_core.add_cloud(name, provider='azure_arm', api_token=owner_api_token,
@@ -151,15 +151,15 @@ def test_list_storage_classes_inexistent_cloud(pretty_print, mist_core, owner_ap
     assert_response_not_found(response)
     print('Success')
 
-  ##### Packet endpoints #####
+  ##### Equinix Metal endpoints #####
 def test_list_projects(pretty_print, mist_core, owner_api_token, cache):
-    cloud_id = cache.get('packet_cloud_id', '')
+    cloud_id = cache.get('equinix_metal_cloud_id', '')
     response = mist_core.list_projects(cloud_id=cloud_id, api_token=owner_api_token).get()
     assert_list_not_empty(response.json())
     print('Success')
 
 def test_list_projects_wrong_token(pretty_print, mist_core, owner_api_token, cache):
-    cloud_id = cache.get('packet_cloud_id', '')
+    cloud_id = cache.get('equinix_metal_cloud_id', '')
     response = mist_core.list_projects(cloud_id=cloud_id, api_token="123Boom!").get()
     assert_response_unauthorized(response)
     print('Success')

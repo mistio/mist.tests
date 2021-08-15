@@ -58,7 +58,7 @@ def get_page_element(context, page=None, subpage=None):
     return page_element
 
 
-@step(u'I type "{some_text}" in input with id "{element_id}" within "{container_id}"')
+@step('I type "{some_text}" in input with id "{element_id}" within "{container_id}"')
 def give_some_input_by_id_within_container(context, some_text, element_id, container_id=None):
     if not container_id:
         input_element = context.browser.find_element_by_id(element_id)
@@ -68,12 +68,12 @@ def give_some_input_by_id_within_container(context, some_text, element_id, conta
     give_some_input(context, input_element, some_text)
 
 
-@step(u'I type "{some_text}" in input with id "{element_id}"')
+@step('I type "{some_text}" in input with id "{element_id}"')
 def give_some_input_by_id(context, some_text, element_id):
     give_some_input_by_id_within_container(context, some_text, element_id)
 
 
-@step(u'I type "{some_text}" in input with class name "{element_class}" within "{container_id}"')
+@step('I type "{some_text}" in input with class name "{element_class}" within "{container_id}"')
 def give_some_input_by_class_within_container(context, some_text, element_class, container_id=None):
     if not container_id:
         input_element = context.browser.find_element_by_class_name(element_class)
@@ -82,14 +82,14 @@ def give_some_input_by_class_within_container(context, some_text, element_class,
     give_some_input(context, input_element, some_text)
 
 
-@step(u'I type "{some_text}" in input with class name "{element_class}"')
+@step('I type "{some_text}" in input with class name "{element_class}"')
 def give_some_input_by_class(context, some_text, element_class):
     give_some_input_by_class_within_container(context, some_text, element_class)
 
 
 def focus_on_element(context, element):
     position = element.location
-    from navigation import found_one
+    from .navigation import found_one
     assert found_one(context), "I have no idea where I am"
     try:
         context.browser.find_element_by_tag_name("mist-app")
@@ -99,23 +99,23 @@ def focus_on_element(context, element):
         context.browser.execute_script("window.scrollTo(0, %s)" % position['y'])
 
 
-@step(u'I wait for {seconds} seconds')
+@step('I wait for {seconds} seconds')
 def wait(context, seconds):
     sleep(int(seconds))
 
 
-@step(u'the title should be "{text}"')
+@step('the title should be "{text}"')
 def assert_title_is(context, text):
     assert text == context.browser.title
 
 
-@step(u'the title should contain "{text}"')
+@step('the title should contain "{text}"')
 def assert_title_contains(context, text):
     assert text in context.browser.title
 
 
-@step(u'{counter_title} counter should be greater than {counter_number} within '
-      u'{seconds} seconds')
+@step('{counter_title} counter should be greater than {counter_number} within '
+      '{seconds} seconds')
 def some_counter_loaded(context, counter_title, counter_number, seconds):
     counter_title = counter_title.lower()
     if counter_title not in ['machines', 'images', 'keys', 'networks',
@@ -128,7 +128,8 @@ def some_counter_loaded(context, counter_title, counter_number, seconds):
         sidebar = mist_app_shadow.find_element_by_css_selector(
             'mist-sidebar')
         sidebar_shadow = expand_shadow_root(context, sidebar)
-        counter = sidebar_shadow.find_element_by_css_selector('a#%s' % counter_title)
+        counter = sidebar_shadow.find_element_by_css_selector(
+            'a#%s' % counter_title)
     except NoSuchElementException:
         raise NoSuchElementException("Counter with name %s has not been found"
                                      % counter_title)
@@ -147,7 +148,7 @@ def some_counter_loaded(context, counter_title, counter_number, seconds):
                   'loaded' % counter_number
 
 
-@step(u'I should see a header with title "{text}"')
+@step('I should see a header with title "{text}"')
 def see_header_with_title(context, text):
     titles = context.browser.find_elements_by_class_name("ui-title")
     for title in titles:
@@ -155,7 +156,7 @@ def see_header_with_title(context, text):
         if text in title_text:
             return
 
-    assert False, u'Could not find title with text %s in the page' % text
+    assert False, 'Could not find title with text %s in the page' % text
 
 
 def wait_for_element_to_be_visible(context, search_tuple, seconds, error_message):
@@ -175,8 +176,8 @@ def wait_for_element_in_container_to_be_visible(container, search_tuple,
         raise TimeoutException(error_message)
 
 
-@step(u'I expect for "{element_id}" to be visible within max {seconds} '
-      u'seconds')
+@step('I expect for "{element_id}" to be visible within max {seconds} '
+      'seconds')
 def become_visible_waiting_with_timeout(context, element_id, seconds):
     msg = "element with id %s did not become visible after %s seconds"\
           % (element_id, seconds)
@@ -184,7 +185,7 @@ def become_visible_waiting_with_timeout(context, element_id, seconds):
                                    int(seconds), msg)
 
 
-@step(u'I expect for "{page_title}" page to appear within max {seconds} seconds')
+@step('I expect for "{page_title}" page to appear within max {seconds} seconds')
 def check_page_is_visible(context, page_title, seconds):
     page = page_title.lower()
     if page not in ['machines', 'images', 'keys', 'networks', 'tunnels',
@@ -217,7 +218,7 @@ def check_page_is_visible(context, page_title, seconds):
         int(seconds), msg)
 
 
-@step(u'I should read "{something}" in input with id "{input_id}"')
+@step('I should read "{something}" in input with id "{input_id}"')
 def check_input_for_text(context, something, input_id):
     input = None
     try:
@@ -295,11 +296,11 @@ def add_credit_card_if_needed(context, form_shadow):
 
 def clear_input_and_send_keys(input_field, text):
     while input_field.get_attribute('value') != '':
-        input_field.send_keys(u'\ue003')
+        input_field.send_keys('\ue003')
     current_expected_value = ''
     n = 70
     text.replace('\"', '"')
-    chunks = [text[i:i+n] for i in xrange(0, len(text), n)]
+    chunks = [text[i:i+n] for i in range(0, len(text), n)]
     for chunk in chunks:
         current_expected_value += chunk
         input_field.send_keys(chunk)

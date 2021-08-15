@@ -36,7 +36,7 @@ providers = {
         "location": "",
         "image": "mist/ubuntu-14.04"
     },
-    "Digital Ocean": {
+    "DigitalOcean": {
         "size": "512mb",
         "location": "ams2",
         "image": "27663881"
@@ -80,7 +80,7 @@ providers = {
         "size_disk_swap": "1",
         "image": "d69e1f0e-5205-4698-880e-81f95774a633"
     },
-    "Packet": {
+    "Equinix Metal": {
         "size": "baremetal_0",
         "location": "ams1",
         "image": "debian_8"
@@ -90,17 +90,22 @@ providers = {
         "location": "7",
         "image": "193"
     },
+    "CloudSigma": {
+        "size": "small-1",
+        "image": "749f4885-10dc-48c3-9523-b88fea7441f5",
+        "location": "",
+    }
 }
 
 def check_machine_creation(log_line, job_id):
     try:
         if (log_line['job_id'] == job_id) and (log_line['action'] == 'machine_creation_finished'):
             if log_line['error'] == False:
-                print 'Machine created succesfully'
+                print('Machine created succesfully')
                 machine_id = log_line['machine_id']
                 return machine_id
             else:
-                print log_line['error']
+                print((log_line['error']))
                 return True
         else:
             return False
@@ -131,13 +136,13 @@ def add_cloud(provider):
                                        api_secret=safe_get_var('clouds/aws', 'api_secret', config.CREDENTIALS['EC2']['api_secret']),
                                        region=providers[provider]['location']).post()
 
-        elif provider == 'Digital Ocean':
+        elif provider == 'DigitalOcean':
             response = mist_core.add_cloud(title=provider, provider= 'digitalocean', api_token=config.MIST_API_TOKEN,
                                        token=safe_get_var('clouds/digitalocean', 'token', config.CREDENTIALS['DIGITALOCEAN']['token'])).post()
 
         elif provider == "Linode":
             response = mist_core.add_cloud(title=provider, provider= 'linode', api_token=config.MIST_API_TOKEN,
-                                       api_key=safe_get_var('clouds/linode', 'api_key', config.CREDENTIALS['LINODE']['api_key'])).post()
+                                       api_key=safe_get_var('clouds/linode', 'api_key_new', config.CREDENTIALS['LINODE']['api_key'])).post()
 
         elif provider == "Azure":
             response = mist_core.add_cloud(title=provider, provider= 'azure', api_token=config.MIST_API_TOKEN,
@@ -184,8 +189,8 @@ def add_cloud(provider):
                                        api_key = safe_get_var('clouds/rackspace', 'api_key',
                                                            config.CREDENTIALS['RACKSPACE']['api_key'])).post()
 
-        elif provider == "Packet":
-            response = mist_core.add_cloud(title='Packet', provider= 'packet', api_token=config.MIST_API_TOKEN,
+        elif provider == "Equinix Metal":
+            response = mist_core.add_cloud(title='Equinix Metal', provider= 'equinixmetal', api_token=config.MIST_API_TOKEN,
                                            api_key=safe_get_var('clouds/packet', 'api_key',
                                                                 config.CREDENTIALS['PACKET']['api_key'])).post()
 
@@ -193,7 +198,13 @@ def add_cloud(provider):
             response = mist_core.add_cloud(title='Vultr', provider= 'vultr', api_token=config.MIST_API_TOKEN,
                                        api_key=safe_get_var('clouds/vultr', 'apikey',
                                                             config.CREDENTIALS['VULTR']['apikey'])).post()
-
+        elif provider == "CloudSigma":
+            response = mist_core.add_cloud(title='CloudSigma', provider= 'cloudsigma', api_token=config.MIST_API_TOKEN,
+                                           username=safe_get_var('clouds/cloudsigma', 'email',
+                                                                 config.CREDENTIALS['CLOUDSIGMA']['email']),
+                                           password=safe_get_var('clouds/cloudsigma', 'password',
+                                                                 config.CREDENTIALS['CLOUDSIGMA']['password']),
+                                           region='sjc').post()
 
         assert_response_ok(response)
         cloud_id = response.json()['id']
@@ -273,9 +284,9 @@ def create_machine(cloud_id, provider):
 
     try:
         assert_response_ok(response)
-        print "\n " + provider + ": Machine creation command has been submitted successfully. Now polling!\n"
+        print(("\n " + provider + ": Machine creation command has been submitted successfully. Now polling!\n"))
     except AssertionError as e:
-        print "Machine creation was not successful!"
+        print("Machine creation was not successful!")
         raise e
 
     job_id = json.loads(response.content)['job_id']
@@ -285,7 +296,7 @@ def create_machine(cloud_id, provider):
 
 def main():
     for provider in providers:
-        if provider in ['AWS', 'Digital Ocean', 'Linode', 'Azure', 'SoftLayer', 'GCE', 'Rackspace', 'Packet', 'Vultr', 'Azure_ARM']:
+        if provider in ['AWS', 'DigitalOcean', 'Linode', 'Azure', 'SoftLayer', 'GCE', 'Rackspace', 'Equinix Metal', 'Vultr', 'Azure_ARM', 'CloudSigma']:
             #add the provider if not there
             cloud_id = add_cloud(provider)
 

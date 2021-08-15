@@ -53,7 +53,8 @@ Feature: Multiprovisioning
     And I expect the "machine" page to be visible within max 5 seconds
     And I wait for 120 seconds
     Then I click the "Shell" action button in the "machine" page
-    And I expect terminal to open within 3 seconds
+    And I wait for 5 seconds
+    And I expect terminal to open within 7 seconds
     And shell input should be available after 30 seconds
     And I type in the terminal "sudo su"
     And I wait for 2 seconds
@@ -77,5 +78,5 @@ Feature: Multiprovisioning
 
 
   Examples: Providers to be tested
-    | cloud         | size                                      | location         | image                                        | machine-name           |
-    | Digital Ocean | 1 CPU, 0.5 GB, 20 GB SSD Disk, $5.0/month | Amsterdam 3      | Ubuntu 18.04 (LTS) x64                       | do-mp-test-random      |
+    | cloud        | size                                      | location         | image                                        | machine-name           |
+    | DigitalOcean | 1 CPU, 0.5 GB, 20 GB SSD Disk, $5.0/month | Amsterdam 3      | Ubuntu 18.04 (LTS) x64                       | do-mp-test-random      |

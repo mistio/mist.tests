@@ -24,10 +24,10 @@ Feature: Multiprovisioning
     Then I set the value "linode-mp-test-random" to field "Machine Name" in the "machine" add form
     When I open the "Location" dropdown in the "machine" add form
     And I wait for 1 seconds
-    And I click the "Frankfurt, DE" button in the "Location" dropdown in the "machine" add form
+    And I click the "eu-central" button in the "Location" dropdown in the "machine" add form
     When I open the "Image" dropdown in the "machine" add form
     And I wait for 1 seconds
-    And I click the "Ubuntu 19.10" button in the "Image" dropdown in the "machine" add form
+    And I click the "Ubuntu 20.04 LTS" button in the "Image" dropdown in the "machine" add form
     When I open the "Size" dropdown in the "machine" add form
     And I wait for 1 seconds
     And I click the "Nanode 1GB" button in the "Size" dropdown in the "machine" add form
@@ -51,7 +51,8 @@ Feature: Multiprovisioning
     Then I expect the "machine" page to be visible within max 5 seconds
     When I wait for 90 seconds
     And I click the "Shell" action button in the "machine" page
-    Then I expect terminal to open within 3 seconds
+    And I wait for 5 seconds
+    Then I expect terminal to open within 7 seconds
     And shell input should be available after 30 seconds
     When I type in the terminal "sudo su"
     And I wait for 2 seconds

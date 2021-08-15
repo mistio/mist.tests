@@ -11,7 +11,7 @@ from selenium.common.exceptions import NoSuchElementException
 from .utils import safe_get_element_text, expand_shadow_root
 
 
-@step(u'I click the "{button}" button in the get-started-page')
+@step('I click the "{button}" button in the get-started-page')
 def click_button_get_started(context, button):
     try:
         landing_app = context.browser.find_element_by_tag_name("landing-app")
@@ -27,16 +27,16 @@ def click_button_get_started(context, button):
                 btn.click()
                 return
 
-    except NoSuchElementException, ElementNotVisibleException:
+    except NoSuchElementException as ElementNotVisibleException:
         # get-started page does not make sense for io
         pass
 
 
-@step(u'I open the {kind} popup')
+@step('I open the {kind} popup')
 def open_login_popup(context, kind):
     kind = kind.lower()
     modals = {'login': 'modalLogin', 'signup': 'modalRegister'}
-    if kind.lower() not in modals.keys():
+    if kind.lower() not in list(modals.keys()):
         raise ValueError('No such popup in the landing page')
     landing_app = context.browser.find_element_by_tag_name("landing-app")
     shadow_root = expand_shadow_root(context, landing_app)
@@ -72,14 +72,16 @@ def click_button_in_landing_page(context, text):
     text = text.lower()
     if text not in ['email', 'google', 'github', 'sign in', 'sign up',
                     'submit', 'forgot password', 'reset_password_email_submit',
-                    'reset_pass_submit', 'go']:
+                    'reset_pass_submit', 'go', 'sign in with active directory',
+                    'sign in with ldap']:
         raise ValueError('This button does not exist in the landing page popup')
 
     landing_app = context.browser.find_element_by_tag_name("landing-app")
     shadow_root = expand_shadow_root(context, landing_app)
     landing_pages = shadow_root.find_element_by_css_selector("landing-pages")
 
-    if text in ['sign in', 'forgot password', 'google', 'github']:
+    if text in ['sign in', 'forgot password', 'google', 'github',
+                'sign in with active directory', 'sign in with ldap']:
         page = landing_pages.find_element_by_tag_name('landing-sign-in')
     elif text.lower() == 'sign up':
         page = landing_pages.find_element_by_tag_name('landing-sign-up')
@@ -110,6 +112,10 @@ def click_button_in_landing_page(context, text):
         popup = shadow_root.find_element_by_id('signInBtnGoogle')
     elif text == 'github':
         popup = shadow_root.find_element_by_id('signInBtnGithub')
+    elif text == 'sign in with active directory':
+        popup = shadow_root.find_element_by_id('signInBtnAd')
+    elif text == 'sign in with ldap':
+        popup = shadow_root.find_element_by_id('signInBtnLdap')
 
     clicketi_click(context, popup)
     return
@@ -122,6 +128,10 @@ def get_mist_config_email(context,kind):
         return context.mist_config['MEMBER1_EMAIL']
     elif kind == 'rbac_member2':
         return context.mist_config['MEMBER2_EMAIL']
+    elif kind == 'ad':
+        return context.mist_config['AD_MEMBER_USERNAME']
+    elif kind == 'ldap':
+        return context.mist_config['LDAP_MEMBER_USERNAME']
     else:
         return context.mist_config['EMAIL']
 
@@ -135,19 +145,23 @@ def get_mist_config_password(context,kind):
         return context.mist_config['MEMBER1_PASSWORD']
     elif kind == 'rbac_member2':
         return context.mist_config['MEMBER2_PASSWORD']
+    elif kind == 'ad':
+        return context.mist_config['AD_MEMBER_PASSWORD']
+    elif kind == 'ldap':
+        return context.mist_config['LDAP_MEMBER_PASSWORD']
     else:
         return context.mist_config['PASSWORD1']
 
 
-@step(u'I enter my {kind} credentials for {action}')
+@step('I enter my {kind} credentials for {action}')
 def enter_credentials(context, kind, action):
     kind = kind.lower()
     action = action.lower()
-    if action not in ['login', 'signup', 'signup_password_set',
-                      'password_reset_request', 'password_reset',
-                      'demo request']:
+    if action not in ['login', 'ldap login', 'signup',
+                      'signup_password_set', 'password_reset_request',
+                      'password_reset', 'demo request']:
         raise ValueError("Cannot input %s credentials" % action)
-    if kind not in ['standard', 'alt', 'rbac_owner', 'rbac_member1',
+    if kind not in ['standard', 'alt', 'rbac_owner', 'rbac_member1', 'ad', 'ldap',
                     'rbac_member2', 'new_creds', 'changed'] and not kind.startswith('invalid'):
         raise ValueError("No idea what %s credentials are" % kind)
 
@@ -166,6 +180,24 @@ def enter_credentials(context, kind, action):
         email_container = email_shadow.find_element_by_id('container')
         email_input = email_container.find_element_by_tag_name('input')
         email_input.send_keys(get_mist_config_email(context, kind))
+
+        password_paper_input = form.find_element_by_id("signin-password")
+        password_shadow = expand_shadow_root(context, password_paper_input)
+        password_container = password_shadow.find_element_by_id('container')
+        password_input = password_container.find_element_by_tag_name('input')
+        password_input.send_keys(get_mist_config_password(context, kind))
+
+    elif action == "ldap login":
+        sign_in_class = landing_pages.find_element_by_tag_name('landing-sign-in')
+        shadow_root = expand_shadow_root(context, sign_in_class)
+        iron_form = shadow_root.find_element_by_css_selector('iron-form')
+        form = iron_form.find_element_by_tag_name('form')
+
+        username_paper_input = form.find_element_by_id("signin-username")
+        username_shadow = expand_shadow_root(context, username_paper_input)
+        username_container = username_shadow.find_element_by_id('container')
+        username_input = username_container.find_element_by_tag_name('input')
+        username_input.send_keys(get_mist_config_email(context, kind))
 
         password_paper_input = form.find_element_by_id("signin-password")
         password_shadow = expand_shadow_root(context, password_paper_input)
@@ -234,7 +266,7 @@ def enter_credentials(context, kind, action):
         password_input.send_keys(get_mist_config_password(context, kind))
 
 
-@step(u'there should be an "{error_message}" error message inside the "{button}" button')
+@step('there should be an "{error_message}" error message inside the "{button}" button')
 def check_error_message(context, error_message, button):
     button = button.lower()
     error_message = error_message.lower()
@@ -257,7 +289,7 @@ def check_error_message(context, error_message, button):
                                                   (error_message, text)
 
 
-@step(u'the {button} button should be {state}')
+@step('the {button} button should be {state}')
 def check_state_of_button(context, button, state):
     state = state.lower()
     if state not in ['clickable', 'not clickable']:
@@ -282,7 +314,7 @@ def check_state_of_button(context, button, state):
                                         (button, state)
 
 
-@step(u'I should get a conflict error')
+@step('I should get a conflict error')
 def already_registered(context):
     landing_app = context.browser.find_element_by_tag_name("landing-app")
     shadow_root = expand_shadow_root(context, landing_app)
@@ -297,7 +329,7 @@ def already_registered(context):
     assert False, 'No conflict message appeared'
 
 
-@step(u'I should see the landing page within {seconds} seconds')
+@step('I should see the landing page within {seconds} seconds')
 def wait_for_landing_page(context, seconds):
     timeout = time() + int(seconds)
     while time() < timeout:
@@ -310,7 +342,7 @@ def wait_for_landing_page(context, seconds):
                   % seconds
 
 
-@step(u'that I am redirected within {seconds} seconds')
+@step('that I am redirected within {seconds} seconds')
 def ensure_redirection(context, seconds):
     timeout = time() + int(seconds)
     while time() < timeout:

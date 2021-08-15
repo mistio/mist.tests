@@ -56,6 +56,7 @@ help_message() {
     echo
     echo "[no option]   First API tests and then GUI tests will be invoked"
     echo "-h            Display this message"
+    echo "-t            Skip Vault login"
     echo "-a            Run api tests suite. If no argument provided, the entire API tests suite will be invoked"
     echo "-g            Run gui tests suite. If no argument provided, the entire GUI tests suite will be invoked"
     echo "-p            Run libcloud provision test."
@@ -70,38 +71,6 @@ help_message() {
     echo "clouds, clouds-actions, machines, images, keys, scripts, users, teams, schedules, orchestration, monitoring, rbac-1, rbac-2, rbac-3, rbac-4, insights, zones, ip-whitelisting, endpoints"
     echo
 }
-
-
-vault_login() {
-    if [ -z "$VAULT_CLIENT_TOKEN" ]
-    then
-        export vault_server=${VAULT_ADDR:-https://vault.ops.mist.io:8200}
-        echo Vault username:
-        read username
-        echo Vault password:
-        read -s password
-        export PYTHONIOENCODING=utf8
-        password_json='{"password":"'"$password"'"}'
-        VAULT_CLIENT_TOKEN=$(
-          curl -k "$vault_server"/v1/auth/userpass/login/"$username" -d "$password_json" |
-          python -c "
-import sys, json;
-res = json.load(sys.stdin)
-if res.get('auth'):
-    print(res['auth']['client_token'])"
-        )
-
-        if [[ -z "${VAULT_CLIENT_TOKEN// }" ]]
-        then
-            echo 'Wrong credentials given...'
-            vault_login
-        else
-            export VAULT_CLIENT_TOKEN
-            echo 'Successfully logged in. About to start running tests...'
-        fi
-    fi
-}
-
 
 run_api_tests_suite() {
     test_suite_paths=""
@@ -165,6 +134,7 @@ validate_suites(){
 
 
 # Initialize
+skip_vault=0
 run_api_tests=0
 run_gui_tests=0
 login_only=0
@@ -173,6 +143,10 @@ break_on_failure=1
 for i in "$@"
 do
 case $i in
+    -t)
+    skip_vault=1
+    shift
+    ;;
     -a|--api)
     run_api_tests=1
     shift
@@ -218,7 +192,9 @@ validate_suites
 datadir=/data/`date '+%Y_%m_%d_%H_%M_%S'`
 mkdir -p $datadir
 
-vault_login
+if [ $skip_vault -eq 0 ]; then
+    source ./vault_login.sh
+fi
 
 if [ $login_only -eq 1 ]; then
     exit 0

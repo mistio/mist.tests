@@ -24,17 +24,25 @@ def is_ssh_connection_up(lines):
     return True
 
 
-def update_lines(terminal, lines):
+def update_lines(context, terminal, lines):
     """
     Scans through the terminal lines to find new ones and update any line that
     has changed(for example when a command is given and enter is pressed).
     """
     starting_lines = len(lines)
     line_has_been_updated = False
-    all_lines = terminal.find_element_by_class_name('xterm-rows').find_elements_by_tag_name('div')
+    context.browser.execute_script("arguments[0].term.selectAll();", terminal)
+    all_lines = context.browser.execute_script("return arguments[0].term.getSelection();", terminal).split("\n")
+    context.browser.execute_script("arguments[0].term.clearSelection();", terminal)
+    i = len(all_lines) - 1
+    while i >= 0:
+        if all_lines[i] != "":
+            break
+        i -= 1
+    all_lines = all_lines[:i+1]
     safety_counter = max_safety_count = 5
     for i in range(0, len(all_lines)):
-        line = safe_get_element_text(all_lines[i]).rstrip().lstrip()
+        line = all_lines[i].rstrip().lstrip()
         if line:
             if i < starting_lines and lines[i] != line:
                 lines[i] = line
@@ -75,15 +83,16 @@ def check_ls_output(lines, filename=None):
                   "command. Contents of the terminal are: %s" & lines
 
 
-@step(u'I expect terminal to open within {seconds} seconds')
+@step('I expect terminal to open within {seconds} seconds')
 def terminal_is_open(context, seconds):
-    mist_app = context.browser.find_element_by_css_selector('mist-app')
-    mist_app_shadow = expand_shadow_root(context, mist_app)
-    end_time = time() + int(seconds)
     terminal = None
+    end_time = time() + int(seconds)
     while time() < end_time:
+        if (len(context.browser.window_handles) < 2):
+            continue
         try:
-            terminal = mist_app_shadow.find_element_by_css_selector('xterm-dialog')
+            context.browser.switch_to.window(context.browser.window_handles[1])
+            terminal = context.browser.find_element_by_css_selector('.xterm-helpers')
             break
         except NoSuchElementException:
             sleep(1)
@@ -91,18 +100,20 @@ def terminal_is_open(context, seconds):
                      "button. Aborting!"
 
 
-@step(u'shell input should be {state} after {seconds} seconds')
+@step('shell input should be {state} after {seconds} seconds')
 def check_shell_input_state(context, state, seconds):
     if state not in ['available', 'unavailable']:
         raise ValueError('Unknown type of state')
     lines = []
-    mist_app = context.browser.find_element_by_css_selector('mist-app')
-    mist_app_shadow = expand_shadow_root(context, mist_app)
-    xterm_dialog = mist_app_shadow.find_element_by_css_selector('xterm-dialog')
-    terminal = expand_shadow_root(context, xterm_dialog).find_element_by_css_selector('.terminal')
+    try:
+        context.browser.switch_to.window(context.browser.window_handles[1])
+    except Exception as exc:
+        print("Failed to find new window")
+        raise(exc)
+    terminal_container = context.browser.find_element_by_id("terminal-container")
     max_time = time() + int(seconds)
     while time() < max_time:
-        if update_lines(terminal, lines):
+        if update_lines(context, terminal_container, lines):
             assert is_ssh_connection_up(lines), "Error while using shell"
             if state == 'available' and re.search(":(.*)(\$|#)\s?$", lines[-1]):
                 break
@@ -116,35 +127,52 @@ def check_shell_input_state(context, state, seconds):
 
 @step('I type in the terminal "{command}"')
 def type_in_terminal(context, command):
-    mist_app = context.browser.find_element_by_css_selector('mist-app')
-    mist_app_shadow = expand_shadow_root(context, mist_app)
-    xterm_dialog = mist_app_shadow.find_element_by_css_selector('xterm-dialog')
-    terminal = expand_shadow_root(context, xterm_dialog).find_element_by_css_selector('.terminal')
-    terminal.send_keys(' ' + command + '\n')
+    try:
+        context.browser.switch_to.window(context.browser.window_handles[1])
+    except Exception as exc:
+        print("Failed to find new window")
+        raise(exc)
+    terminal_container = context.browser.find_element_by_id("terminal-container")
+    msg = '' + command
+    context.browser.execute_script("arguments[0].term.paste('{}');".format(msg), terminal_container)
+    context.browser.execute_script("arguments[0].term.paste('\\n');", terminal_container)
 
 
-@step('{filename} should be included in the output')
-def check_output(context, filename):
-    mist_app = context.browser.find_element_by_css_selector('mist-app')
-    mist_app_shadow = expand_shadow_root(context, mist_app)
-    xterm_dialog = mist_app_shadow.find_element_by_css_selector('xterm-dialog')
-    terminal = expand_shadow_root(context, xterm_dialog).find_element_by_css_selector('.terminal')
-    rows_class = terminal.find_element_by_css_selector('.xterm-rows')
-    rows = rows_class.find_elements_by_css_selector('div')
-    for row in rows:
-        if filename in safe_get_element_text(row):
+@step('{output} should be included in the output')
+def check_output(context, output):
+    try:
+        context.browser.switch_to.window(context.browser.window_handles[1])
+    except Exception as exc:
+        print("Failed to find new window")
+        raise(exc)
+    terminal_container = context.browser.find_element_by_id("terminal-container")
+    context.browser.execute_script("arguments[0].term.selectAll();", terminal_container)
+    shell_text = context.browser.execute_script(
+        "return arguments[0].term.getSelection();", terminal_container)
+    context.browser.execute_script(
+        "arguments[0].term.clearSelection();", terminal_container)
+    # This is used in mayday test at the moment of writing
+    if "||" in output:
+        [output1, output2] = output.split("||")
+        if output1.strip() in shell_text:
             return
-    assert False, "%s is not included in the shell's output." % filename
+        if output2.strip() in shell_text:
+            return
+    elif output in shell_text:
+        return
+    assert False, "%s is not included in the shell's output." % output
 
 
 @step('I close the terminal')
 def close_terminal(context):
-    mist_app = context.browser.find_element_by_css_selector('mist-app')
-    mist_app_shadow = expand_shadow_root(context, mist_app)
-    xterm_dialog = mist_app_shadow.find_element_by_css_selector('xterm-dialog')
-    close_button = expand_shadow_root(context, xterm_dialog).find_element_by_css_selector('paper-button')
-    clicketi_click(context, close_button)
-    WebDriverWait(mist_app_shadow, 4).until(EC.invisibility_of_element_located((By.CSS_SELECTOR, 'xterm-dialog')))
+    try:
+        context.browser.switch_to.window(context.browser.window_handles[1])
+    except Exception as exc:
+        print("Failed to find new window")
+        raise(exc)
+    context.browser.close()
+    assert len(context.browser.window_handles) == 1, "There is more than one window opened!!"
+    context.browser.switch_to.window(context.browser.window_handles[0])
 
 
 def check_ssh_connection_with_timeout(context,
@@ -175,8 +203,10 @@ def check_ssh_connection_with_timeout(context,
                                                  " %s seconds. Aborting!"\
                                                  % connection_timeout
         sleep(1)
-
-    terminal.send_keys("ls -l\n")
+    mist_app = context.browser.find_element_by_css_selector('mist-app')
+    mist_app_shadow = expand_shadow_root(context, mist_app)
+    xterm_dialog = mist_app_shadow.find_element_by_css_selector('xterm-dialog')
+    contect.browser.execute_script("arguments[0].term.paste('ls -l\n')", xterm_dialog)
     # remove the last line so that it can be updated since the command has
     # been added
     lines = lines[:-1]
@@ -197,3 +227,76 @@ def check_ssh_connection_with_timeout(context,
                         raise e
         sleep(1)
     assert False, "Command output took too long"
+
+# Following steps are for docker kubevirt libvirt which open the terminal in the page
+
+@step('I expect in-page terminal to open within {seconds} seconds')
+def in_page_terminal_is_open(context, seconds):
+    mist_app = context.browser.find_element_by_css_selector('mist-app')
+    mist_app_shadow = expand_shadow_root(context, mist_app)
+    end_time = time() + int(seconds)
+    terminal = None
+    while time() < end_time:
+        try:
+            terminal = mist_app_shadow.find_element_by_css_selector('xterm-dialog')
+            break
+        except NoSuchElementException:
+            sleep(1)
+    assert terminal, "Terminal has not opened after pressing the " \
+                     "button. Aborting!"
+
+
+@step('in-page shell input should be {state} after {seconds} seconds')
+def check_in_page_shell_input_state(context, state, seconds):
+    if state not in ['available', 'unavailable']:
+        raise ValueError('Unknown type of state')
+    lines = []
+    mist_app = context.browser.find_element_by_css_selector('mist-app')
+    mist_app_shadow = expand_shadow_root(context, mist_app)
+    xterm_dialog = mist_app_shadow.find_element_by_css_selector('xterm-dialog')
+    max_time = time() + int(seconds)
+    while time() < max_time:
+        if update_lines(context, xterm_dialog, lines):
+            assert is_ssh_connection_up(lines), "Error while using shell"
+            if state == 'available' and re.search(":(.*)(\$|#)\s?$", lines[-1]):
+                break
+            elif state == 'unavailable' and re.search(":(.*)(\$|#)\s?$", lines[-1]):
+                assert False, "Shell input is available although it shouldn't be!"
+        if state == 'available':
+            assert time() + 1 < max_time, "Shell hasn't connected after" \
+                                      " %s seconds. Aborting!" \
+                                                 % seconds
+
+
+@step('{filename} should be included in the in-page terminal output')
+def check_in_page_terminal_output(context, filename):
+    mist_app = context.browser.find_element_by_css_selector('mist-app')
+    mist_app_shadow = expand_shadow_root(context, mist_app)
+    xterm_dialog = mist_app_shadow.find_element_by_css_selector('xterm-dialog')
+    context.browser.execute_script("arguments[0].term.selectAll();", xterm_dialog)
+    shell_text = context.browser.execute_script(
+        "return arguments[0].term.getSelection();", xterm_dialog)
+    context.browser.execute_script(
+        "arguments[0].term.clearSelection();", xterm_dialog)
+    if filename in shell_text:
+        return
+    assert False, "%s is not included in the shell's output." % filename
+
+
+@step('I type in the in-page terminal "{command}"')
+def type_in_in_page_terminal(context, command):
+    mist_app = context.browser.find_element_by_css_selector('mist-app')
+    mist_app_shadow = expand_shadow_root(context, mist_app)
+    xterm_dialog = mist_app_shadow.find_element_by_css_selector('xterm-dialog')
+    msg = '' + command
+    context.browser.execute_script("arguments[0].term.paste('{}');".format(msg), xterm_dialog)
+    context.browser.execute_script("arguments[0].term.paste('\\n');", xterm_dialog)
+
+@step('I close the in-page terminal')
+def close_in_page_terminal(context):
+    mist_app = context.browser.find_element_by_css_selector('mist-app')
+    mist_app_shadow = expand_shadow_root(context, mist_app)
+    xterm_dialog = mist_app_shadow.find_element_by_css_selector('xterm-dialog')
+    close_button = expand_shadow_root(context, xterm_dialog).find_element_by_css_selector('paper-button')
+    clicketi_click(context, close_button)
+    WebDriverWait(mist_app_shadow, 4).until(EC.invisibility_of_element_located((By.CSS_SELECTOR, 'xterm-dialog')))

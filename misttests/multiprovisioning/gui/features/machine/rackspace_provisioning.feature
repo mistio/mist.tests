@@ -31,7 +31,7 @@ Feature: Multiprovisioning
     And I wait for 1 seconds
     And I click the "Set Expiration" toggle button in the "machine" add form
     And I wait for 1 seconds
-    And I set an expiration in "12" "minutes" with a notify of "1" "minutes" before
+    And I set an expiration in "12" "minutes" with a notify of "1" "minutes" before in the "create machine form"
     And I wait for 1 seconds
     And I open the "Key" dropdown in the "machine" add form
     And I wait for 1 seconds
@@ -45,7 +45,7 @@ Feature: Multiprovisioning
     And I clear the search bar
     And I search for "rackspace-mp-test-random"
     Then "rackspace-mp-test-random" machine should be present within 120 seconds
-    And I should receive an email at the address "EMAIL" with subject "[mist.io] Machine is about to expire" within 720 seconds
+    And I should receive an email at the address "EMAIL" with subject "Machine is about to expire" within 720 seconds
     # When I visit the Machines page
     # And I wait for 1 seconds
     # And I clear the search bar

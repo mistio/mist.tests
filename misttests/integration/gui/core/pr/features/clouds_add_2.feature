@@ -26,15 +26,15 @@ Feature: Add second-tier clouds
     | OnApp               |
     | Maxihost            |
     | Amazon Web Services |
-    #| Openstack           |
+    | Openstack           |
     | LXD                 |
 
 
   @cloud-edit-creds
   Scenario: AWS cloud added in the beginning, does not have access to list images (DenyDescribeImages policy in aws), whereas the seconds one has (EC2FullAccess)
     When I visit the Images page
-    And I search for "Ubuntu Server 16.04"
-    Then "Ubuntu Server 16.04 LTS (HVM), SSD Volume Type" image should be absent within 10 seconds
+    And I search for "ubuntu-focal-20.04"
+    Then "ubuntu/images/hvm-ssd/ubuntu-focal-20.04-amd64-server-20210223" image should be absent within 10 seconds
     Then I visit the Home page
     And I wait for the dashboard to load
     When I open the cloud page for "Amazon Web Services"
@@ -49,5 +49,5 @@ Feature: Add second-tier clouds
     And I wait for 2 seconds
     And I clear the search bar
     And I wait for 2 seconds
-    And I search for "Ubuntu Server 16.04"
-    Then "Ubuntu Server 16.04 LTS (HVM), SSD Volume Type" image should be present within 20 seconds
+    And I search for "ubuntu-focal-20.04"
+    Then "ubuntu/images/hvm-ssd/ubuntu-focal-20.04-amd64-server-20210223" image should be present within 20 seconds

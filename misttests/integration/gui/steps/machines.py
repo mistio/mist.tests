@@ -8,6 +8,8 @@ from random import randrange
 
 from .utils import safe_get_element_text, get_page_element, expand_shadow_root
 from .utils import get_page, clear_input_and_send_keys
+from .forms import get_add_form
+from .dialog import get_dialog
 
 from .buttons import clicketi_click, click_button_from_collection
 
@@ -41,9 +43,9 @@ machine_states_ordering = {
 
 # this dict contains image, size and location to be tested for each provider
 machine_values_dict = {
-    "aws": ["Ubuntu Server 16.04 Beta2 (PV)", "m1.small - Small Instance", "ap-northeast-1a "],
-    "digital ocean": ["Ubuntu 14.04.5 x64", "512mb", "Amsterdam 2"],
-    "packet": ["Ubuntu 14.04 LTS", "Type 0 - 8GB RAM", "Amsterdam, NL"],
+    "aws": ["ubuntu/images/hvm-ssd/ubuntu-focal-20.04-amd64-server-20210223", "m1.small - Small Instance", "ap-northeast-1a "],
+    "digitalocean": ["Ubuntu 14.04.5 x64", "512mb", "Amsterdam 2"],
+    "equinixmetal": ["Ubuntu 14.04 LTS", "Type 0 - 8GB RAM", "Amsterdam, NL"],
     "openstack": ["CoreOS", "m1.tiny", "0"],
     "rackspace": ["Ubuntu 14.04 LTS (Trusty Tahr) (PV)", "512MB Standard Instance", "0"],
     "softlayer": ["Ubuntu - Latest (64 bit) ", "1 CPU, 1GB ram, 25GB ", "AMS01 - Amsterdam"],
@@ -51,24 +53,26 @@ machine_values_dict = {
     "docker": ["Ubuntu 14.04 - mist.io image"]
 }
 
-@step(u'I click the other server machine')
+@step('I click the other server machine')
 def click_bare_metal_machine(context):
-    context.execute_steps(u'Then I click on list item "%s" machine' % context.mist_config['bare_metal_host'])
+    context.execute_steps('Then I click on list item "%s" machine' % context.mist_config['bare_metal_host'])
 
 
 def set_values_to_create_machine_form(context,provider,machine_name):
-    context.execute_steps(u'''
+    context.execute_steps('''
                 Then I set the value "%s" to field "Machine Name" in the "machine" add form
+                And I wait for 1 seconds
                 When I open the "Image" dropdown in the "machine" add form
                 And I click the "%s" button in the "Image" dropdown in the "machine" add form
+                And I wait for 1 seconds
                 And I open the "Key" dropdown in the "machine" add form
                 And I click the "DummyKey" button in the "Key" dropdown in the "machine" add form
                 And I wait for 1 seconds
             ''' % (machine_name,
                    machine_values_dict.get(provider)[0]))
 
-    if 'digital ocean' in provider:
-        context.execute_steps(u'''
+    if 'digitalocean' in provider:
+        context.execute_steps('''
                     When I open the "Size" drop down in the "machine" add form
                     And I click the "%s" button in the "Size" dropdown in the "machine" add form
                     When I open the "Location" drop down in the "machine" add form
@@ -77,15 +81,15 @@ def set_values_to_create_machine_form(context,provider,machine_name):
                        machine_values_dict.get(provider)[2]))
 
 
-@step(u'I select the proper values for "{provider}" to create the "{machine_name}" machine')
+@step('I select the proper values for "{provider}" to create the "{machine_name}" machine')
 def cloud_creds(context, provider, machine_name):
     provider = provider.strip().lower()
-    if provider not in machine_values_dict.keys():
+    if provider not in list(machine_values_dict.keys()):
         raise Exception("Unknown cloud provider")
     set_values_to_create_machine_form(context, provider, machine_name)
 
 
-@step(u'I expect for "{key}" key to appear within max {seconds} seconds')
+@step('I expect for "{key}" key to appear within max {seconds} seconds')
 def key_appears(context, key, seconds):
     if context.mist_config.get(key):
         key_name = context.mist_config.get(key)
@@ -105,7 +109,7 @@ def key_appears(context, key, seconds):
     assert False, "Key %s did not appear after %s seconds" % (key,seconds)
 
 
-@step(u'I choose the "{name}" machine')
+@step('I choose the "{name}" machine')
 def choose_machine(context, name):
     if context.mist_config.get(name):
         name = context.mist_config.get(name)
@@ -118,10 +122,10 @@ def choose_machine(context, name):
             return
 
         sleep(2)
-    assert False, u'Could not choose/tick %s machine' % name
+    assert False, 'Could not choose/tick %s machine' % name
 
 
-@step(u'I should see the "{name}" machine added within {seconds} seconds')
+@step('I should see the "{name}" machine added within {seconds} seconds')
 def assert_machine_added(context, name, seconds):
     if context.mist_config.get(name):
         name = context.mist_config.get(name)
@@ -133,7 +137,7 @@ def assert_machine_added(context, name, seconds):
             return
         sleep(2)
 
-    assert False, u'%s is not added' % name
+    assert False, '%s is not added' % name
 
 
 def get_machine(context, name):
@@ -152,7 +156,7 @@ def get_machine(context, name):
     except StaleElementReferenceException:
         return None
 
-@step(u'I wait for probing to finish for {seconds} seconds max')
+@step('I wait for probing to finish for {seconds} seconds max')
 def wait_for_loader_to_finish(context, seconds):
     rows = context.browser.find_elements_by_tag_name('tr')
     for row in rows:
@@ -171,7 +175,7 @@ def wait_for_loader_to_finish(context, seconds):
     assert False, "Could not locate ajax loader"
 
 
-@step(u'probing was successful')
+@step('probing was successful')
 def check_probing(context):
     rows = context.browser.find_elements_by_tag_name('tr')
     for row in rows:
@@ -186,7 +190,7 @@ def check_probing(context):
     assert False, "Could not find any line about probing"
 
 
-@step(u'I give a default script for python script')
+@step('I give a default script for python script')
 def fill_default_script(context):
     textfield = context.browser.find_element_by_id("custom-plugin-script")
     textfield.clear()
@@ -205,7 +209,7 @@ def fill_default_script(context):
         textfield.send_keys(letter)
 
 
-@step(u'rule "{rule}" should be {state} in the "{page}" page')
+@step('rule "{rule}" should be {state} in the "{page}" page')
 def verify_rule_is_present(context, rule, state, page):
     found = False
     state = state.lower()
@@ -224,7 +228,7 @@ def verify_rule_is_present(context, rule, state, page):
     assert False, "Rule %s was not %s in existing rules for the monitored machine" % (rule, state)
 
 
-@step(u'"{key}" key should be associated with the machine "{machine}"')
+@step('"{key}" key should be associated with the machine "{machine}"')
 def check_for_associated_key(context, key, machine):
     page = get_page(context, "machine")
     page_shadow = expand_shadow_root(context, page)
@@ -236,7 +240,7 @@ def check_for_associated_key(context, key, machine):
 
 
 use_step_matcher("re")
-@step(u'"(?P<key>[A-Za-z0-9]+)" key should be associated with the machine "(?P<machine>[A-Za-z0-9 \-]+)" within (?P<seconds>[0-9]+) seconds')
+@step('"(?P<key>[A-Za-z0-9]+)" key should be associated with the machine "(?P<machine>[A-Za-z0-9 \-]+)" within (?P<seconds>[0-9]+) seconds')
 def check_for_associated_key_within(context, key, machine, seconds):
     timeout = time() + int(seconds)
     page = get_page(context, "machine")
@@ -251,7 +255,7 @@ def check_for_associated_key_within(context, key, machine, seconds):
 
 
 use_step_matcher("parse")
-@step(u'I delete the associated key "{key}"')
+@step('I delete the associated key "{key}"')
 def disassociate_key(context, key):
     _, page = get_page_element(context, "machines", "machine")
     page_shadow = expand_shadow_root(context, page)
@@ -263,7 +267,7 @@ def disassociate_key(context, key):
             return
 
 
-@step(u'there should be {keys} keys associated with the machine within {seconds} seconds')
+@step('there should be {keys} keys associated with the machine within {seconds} seconds')
 def keys_associated_with_machine(context, keys, seconds):
     timeout = time() + int(seconds)
     _, page = get_page_element(context, "machines", "machine")
@@ -283,16 +287,25 @@ def keys_associated_with_machine(context, keys, seconds):
     assert False, "There are %s keys associated with the machine" % associated_keys_with_machine
 
 
-@step(u'I set an expiration in "{exp_num}" "{exp_unit}" with a notify of "{notify_num}" "{notify_unit}" before')
-def set_expiration(context, exp_num, exp_unit, notify_num, notify_unit):
-    from .forms import get_add_form
-    form = get_add_form(context, 'machine')
-    form_shadow = expand_shadow_root(context, form)
-    sub_form = form_shadow.find_element_by_css_selector('app-form')
+@step('I set an expiration in "{exp_num}" "{exp_unit}" with a notify of "{notify_num}" "{notify_unit}" before in the {form}')
+def set_expiration(context, exp_num, exp_unit, notify_num, notify_unit, form):
+    if form == "create machine form":
+        form = get_add_form(context, 'machine')
+        form_shadow = expand_shadow_root(context, form)
+        sub_form = form_shadow.find_element_by_css_selector('app-form')
+
+    elif form == "expiration dialog":
+        dialog = get_dialog(context, 'Edit expiration date')
+        dialog_shadow = expand_shadow_root(context, dialog)
+        sub_form = dialog_shadow.find_element_by_css_selector('app-form')
+
     sub_form_shadow = expand_shadow_root(context, sub_form)
     sub_fieldgroups = sub_form_shadow.find_elements_by_css_selector('sub-fieldgroup')
     for sub_fg in sub_fieldgroups:
         if sub_fg.text.startswith('Set expiration'):
+            sub_fieldgroup = sub_fg
+            break
+        if sub_fg.get_attribute('id') == "fieldgroup-machine-expiration-edit":
             sub_fieldgroup = sub_fg
             break
     sub_field_shadow = expand_shadow_root(context, sub_fieldgroup)
@@ -319,3 +332,63 @@ def set_expiration(context, exp_num, exp_unit, notify_num, notify_unit):
     sleep(0.5)
     buttons = notify_dropdown.find_elements_by_css_selector('paper-item')
     click_button_from_collection(context, notify_unit, buttons)
+
+@step('I set the expiration to "{exp_num}" "{exp_unit}" in the expiration dialog')
+def set_expiration_duration_only(context, exp_num, exp_unit):
+    dialog = get_dialog(context, 'Edit expiration date')
+    dialog_shadow = expand_shadow_root(context, dialog)
+    form = dialog_shadow.find_element_by_css_selector('app-form')
+    form_shadow = expand_shadow_root(context, form)
+    sub_fieldgroup = form_shadow.find_element_by_tag_name('sub-fieldgroup')
+    sub_fieldgroup_shadow = expand_shadow_root(context, sub_fieldgroup)
+    form2 = sub_fieldgroup_shadow.find_element_by_tag_name('app-form')
+    form2_shadow = expand_shadow_root(context, form2)
+    duration_field = form2_shadow.find_element_by_tag_name('duration-field')
+    duration_field_shadow = expand_shadow_root(context, duration_field)
+    duration_paper_input = duration_field_shadow.find_element_by_tag_name('paper-input')
+    duration_paper_input_shadow = expand_shadow_root(context, duration_paper_input)
+    duration_input = duration_paper_input_shadow.find_element_by_tag_name('input')
+    duration_input.send_keys(Keys.CONTROL + 'a')
+    sleep(0.3)
+    duration_input.send_keys(Keys.BACKSPACE)
+    sleep(0.3)
+    duration_input.send_keys(int(exp_num))
+    sleep(1)
+    duration_paper_dropdown = duration_field_shadow.find_element_by_tag_name('paper-dropdown-menu')
+    clicketi_click(context, duration_paper_dropdown)
+    sleep(0.5)
+    duration_paper_items = duration_paper_dropdown.find_elements_by_css_selector('paper-item')
+    duration_item = None
+    for item in duration_paper_items:
+        if safe_get_element_text(item) == exp_unit:
+            duration_item = item
+    clicketi_click(context, duration_item)
+
+@step('I expect to see "{duration_text}" in the expiration section of the machine page')
+def check_duration_until_expiration(context, duration_text):
+    _, machine_page = get_page_element(context, 'machines', 'machine')
+    machine_page_shadow = expand_shadow_root(context, machine_page)
+    expiration_cell = machine_page_shadow.find_element_by_css_selector(".cell.expiration")
+    error_msg = "Expiration time left is wrong {}".format(expiration_cell.text)
+    # minutes are too short to get an accurate reading
+    if duration_text == "in x minutes":
+        assert 'in' in expiration_cell.text and 'minutes' in expiration_cell.text, error_msg
+    else:
+        assert expiration_cell.text == duration_text, error_msg
+
+@step('I expect the field "{size_field}" to have 2 options')
+def check_create_size_field(context, size_field):
+    page = get_add_form(context, 'machine')
+    page_shadow = expand_shadow_root(context, page)
+    app_form = page_shadow.find_element_by_css_selector('app-form')
+    app_form_shadow = expand_shadow_root(context, app_form)
+    mist_size = app_form_shadow.find_element_by_tag_name('mist-size-field')
+    mist_size_shadow = expand_shadow_root(context, mist_size)
+    try:
+        size_dropdown = mist_size_shadow.find_element_by_tag_name('paper-dropdown-menu')
+        clicketi_click(context, size_dropdown)
+        sleep(0.5)
+    except NoSuchElementException:
+        print("Size was expected to be a dropdown due to the constraints in place")
+    sizes = size_dropdown.find_elements_by_css_selector('paper-item')
+    assert len(sizes) == 2, "Expected only 2 sizes but found {}".format(len(sizes))

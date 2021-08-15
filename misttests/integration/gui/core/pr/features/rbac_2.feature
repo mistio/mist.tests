@@ -17,6 +17,10 @@ Feature: RBAC-rules-v2
     And I click the button "Add a new rule" in the "team" page
     And I wait for 1 seconds
     Then I add the rule always "ALLOW" "cloud" "read"
+    And I wait for 1 seconds
+    And I click the button "Add a new rule" in the "team" page
+    And I wait for 1 seconds
+    Then I add the rule always "ALLOW" "team" "read"
     And I click the button "Save Policy" in the "team" page
     And I wait for 2 seconds
     Then I logout
@@ -29,8 +33,7 @@ Feature: RBAC-rules-v2
     Then "Test Team" team should be present within 5 seconds
     When I visit the Home page
     Then I should have 1 clouds added
-    When I visit the Machines page
-    Then "Docker" machine should be absent within 5 seconds
+    And the "Machines" navigation menu item should not exist
     And I logout
 
   @allow-read-machine
@@ -62,6 +65,8 @@ Feature: RBAC-rules-v2
     Then I add the rule always "ALLOW" "location" "all"
     And I click the button "Save Policy" in the "team" page
     And I wait for 2 seconds
+    And I click the button "Add a new rule" in the "team" page
+    And I wait for 1 seconds
     Then I add the rule always "ALLOW" "image" "all"
     And I click the button "Save Policy" in the "team" page
     And I wait for 2 seconds
@@ -102,7 +107,7 @@ Feature: RBAC-rules-v2
     And I wait for 1 seconds
     And I click the "Test team" "team"
     Then I expect the "team" page to be visible within max 5 seconds
-    When I remove the rule with index "0"
+    When I remove the rule with index "2"
     And I click the button "Save Policy" in the "team" page
     And I wait for 1 seconds
 
@@ -124,8 +129,7 @@ Feature: RBAC-rules-v2
   @member-reads-machine-fail
   Scenario: Member cannot view the machine
     Given I am logged in to mist as rbac_member1
-    When I visit the Machines page
-    Then "Docker" machine should be absent within 5 seconds
+    Then the "Machines" navigation menu item should not exist
 
   @member-edit-script-success
   Scenario: Member 1 should be able to edit the script

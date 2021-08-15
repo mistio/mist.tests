@@ -14,8 +14,6 @@ Feature: Login Scenarios and Api Token
     And I open the "Expires After" dropdown in the "Create API Token" dialog
     And I click the "Never" button in the "Expires After" dropdown in the "Create API Token" dialog
     And I wait for 1 seconds
-    And I set the value "PASSWORD1" to field "Password" in the "Create API Token" dialog
-    And I wait for 1 seconds
     And I click the "Create" button in the "Create API Token" dialog
     And I wait for 3 seconds
     And I get the new api token value "BLABLA_TOKEN"

@@ -19,7 +19,7 @@ def get_insights_element(context, shadow=False):
     return insights_element
 
 
-@step(u'the "{section}" section should be visible within {seconds} seconds')
+@step('the "{section}" section should be visible within {seconds} seconds')
 def check_insights_element_visibility(context, section, seconds):
     insights_element_shadow = get_insights_element(context, shadow=True)
     end_time = time() + int(seconds)
@@ -34,7 +34,7 @@ def check_insights_element_visibility(context, section, seconds):
                   % (section, seconds)
 
 
-@step(u'"{element}" in "{section}" section should be "{value}"')
+@step('"{element}" in "{section}" section should be "{value}"')
 def check_value_in_section(context, element, section, value):
     insights_element_shadow = get_insights_element(context, shadow=True)
     section_element = insights_element_shadow.find_element_by_css_selector('#%s' % section )
@@ -54,12 +54,12 @@ def check_value_in_section(context, element, section, value):
             (element, value, safe_get_element_text(element_to_check))
 
 
-@step(u'I refresh the Insights page until data are available')
+@step('I refresh the Insights page until data are available')
 def refresh_until_data_are_available(context):
     end_time = time() + 120
     while time() < end_time:
-        context.execute_steps(u'When I refresh the page')
-        context.execute_steps(u'When I wait for 3 seconds')
+        context.execute_steps('When I refresh the page')
+        context.execute_steps('When I wait for 3 seconds')
         try:
             insights_element_shadow = get_insights_element(context, shadow=True)
             section_element = insights_element_shadow.\

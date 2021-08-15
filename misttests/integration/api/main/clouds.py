@@ -14,27 +14,27 @@ def test_list_clouds(pretty_print, mist_core, owner_api_token):
     response = mist_core.list_clouds(api_token=owner_api_token).get()
     assert_response_ok(response)
     assert len(response.json()) == 0
-    print "Success!!!"
+    print("Success!!!")
 
 
 def test_add_cloud_missing_parameter(pretty_print, mist_core, owner_api_token):
     response = mist_core.add_cloud("Openstack", 'openstack',
                                    api_token=owner_api_token).post()
     assert_response_bad_request(response)
-    print "Success!!!"
+    print("Success!!!")
 
 
 def test_add_cloud_wrong_api_token(pretty_print, mist_core, owner_api_token):
     response = mist_core.add_cloud("Openstack", 'openstack',
                                    api_token='00' + owner_api_token[:-2]).post()
     assert_response_unauthorized(response)
-    print "Success!!!"
+    print("Success!!!")
 
 
 def test_add_cloud_no_api_token(pretty_print, mist_core):
     response = mist_core.add_cloud("Openstack", 'openstack').post()
     assert_response_forbidden(response)
-    print "Success!!!"
+    print("Success!!!")
 
 
 def test_add_cloud_ok(pretty_print, mist_core, owner_api_token, name='Docker'):
@@ -57,70 +57,70 @@ def test_add_cloud_ok(pretty_print, mist_core, owner_api_token, name='Docker'):
                                    cert_file=safe_get_var('clouds/dockerhost', 'cert',
                                                           config.CREDENTIALS['DOCKER']['cert']), show_all=True).post()
     assert_response_ok(response)
-    print "Success!!!"
+    print("Success!!!")
 
 
 def test_rename_cloud_wrong_id(pretty_print, mist_core, owner_api_token):
     response = mist_core.rename_cloud(cloud_id='dummy', new_name='test',
                                       api_token=owner_api_token).put()
     assert_response_not_found(response)
-    print "Success!!!"
+    print("Success!!!")
 
 
 def test_rename_cloud_no_api_token(pretty_print, mist_core):
     response = mist_core.rename_cloud(cloud_id='dummy', new_name='test').put()
     assert_response_forbidden(response)
-    print "Success!!!"
+    print("Success!!!")
 
 
 def test_rename_cloud_wrong_api_token(pretty_print, mist_core, owner_api_token):
     response = mist_core.rename_cloud(cloud_id='dummy', new_name='test',
                                       api_token='00' + owner_api_token[:-2]).put()
     assert_response_unauthorized(response)
-    print "Success!!!"
+    print("Success!!!")
 
 
 def test_rename_cloud_missing_parameter(pretty_print, mist_core, owner_api_token):
     response = mist_core.rename_cloud(cloud_id='dummy', new_name='',
                                       api_token=owner_api_token).put()
     assert_response_not_found(response)
-    print "Success!!!"
+    print("Success!!!")
 
 
 def test_delete_cloud_wrong_id(pretty_print, mist_core, owner_api_token):
     response = mist_core.delete_cloud(cloud_id='dummy',api_token=owner_api_token).delete()
     assert_response_not_found(response)
-    print "Success"
+    print("Success")
 
 
 def test_delete_cloud_no_api_token(pretty_print, mist_core):
     response = mist_core.delete_cloud(cloud_id='dummy').delete()
     assert_response_forbidden(response)
-    print "Success!!!"
+    print("Success!!!")
 
 
 def test_delete_cloud_wrong_api_token(pretty_print, mist_core, owner_api_token):
     response = mist_core.delete_cloud(cloud_id='dummy', api_token='00' + owner_api_token[:-2]).delete()
     assert_response_unauthorized(response)
-    print "Success!!!"
+    print("Success!!!")
 
 
 def test_toggle_cloud_wrong_api_token(pretty_print, mist_core, owner_api_token):
     response = mist_core.toggle_cloud(cloud_id='dummy', api_token='00' + owner_api_token[:-2]).post()
     assert_response_unauthorized(response)
-    print "Success!!!"
+    print("Success!!!")
 
 
 def test_toggle_cloud_no_api_token(pretty_print, mist_core):
     response = mist_core.toggle_cloud(cloud_id='dummy').post()
     assert_response_forbidden(response)
-    print "Success!!!"
+    print("Success!!!")
 
 
 def test_toggle_cloud_wrong_id(pretty_print, mist_core, owner_api_token):
     response = mist_core.toggle_cloud(cloud_id='dummy',api_token=owner_api_token).post()
     assert_response_not_found(response)
-    print "Success"
+    print("Success")
 
 
 ############################################################################
@@ -135,14 +135,14 @@ class TestCloudsFunctionality:
         response = mist_core.list_clouds(api_token=owner_api_token).get()
         assert_response_ok(response)
         assert len(response.json()) == 1
-        print "Success!!!"
+        print("Success!!!")
 
     def test_add_multiple_clouds(self, pretty_print, mist_core, owner_api_token):
         test_add_cloud_ok(pretty_print, mist_core, owner_api_token, name='Docker2')
         response = mist_core.list_clouds(api_token=owner_api_token).get()
         assert_response_ok(response)
         assert len(response.json()) == 2
-        print "Success!!!"
+        print("Success!!!")
 
     def test_add_cloud_failures(self, pretty_print, mist_core, owner_api_token):
         test_add_cloud_missing_parameter(pretty_print, mist_core, owner_api_token)
@@ -151,7 +151,7 @@ class TestCloudsFunctionality:
         response = mist_core.list_clouds(api_token=owner_api_token).get()
         assert_response_ok(response)
         assert len(response.json()) == 2
-        print "Success!!!"
+        print("Success!!!")
 
     def test_delete_cloud(self, pretty_print, mist_core, owner_api_token):
         response = mist_core.list_clouds(api_token=owner_api_token).get()
@@ -166,14 +166,14 @@ class TestCloudsFunctionality:
         response = mist_core.list_clouds(api_token=owner_api_token).get()
         assert_response_ok(response)
         assert len(response.json()) == 1
-        print "Success!!!"
+        print("Success!!!")
 
     def test_delete_cloud_failures(self, pretty_print, mist_core, owner_api_token):
         response = mist_core.list_clouds(api_token=owner_api_token).get()
         linode_id = response.json()[0]['id']
         response = mist_core.delete_cloud(cloud_id=linode_id+'d', api_token=owner_api_token).delete()
         assert_response_not_found(response)
-        print "Success!!!"
+        print("Success!!!")
         response = mist_core.list_clouds(api_token=owner_api_token).get()
         assert_response_ok(response)
         assert len(response.json()) == 1
@@ -181,7 +181,7 @@ class TestCloudsFunctionality:
         response = mist_core.list_clouds(api_token=owner_api_token).get()
         assert_response_ok(response)
         assert len(response.json()) == 1
-        print "Success!!!"
+        print("Success!!!")
 
     def test_rename_cloud(self, pretty_print, mist_core, owner_api_token):
         response = mist_core.list_clouds(api_token=owner_api_token).get()
@@ -191,7 +191,7 @@ class TestCloudsFunctionality:
         response = mist_core.list_clouds(api_token=owner_api_token).get()
         for cloud in response.json():
             if cloud['title'] == 'Renamed':
-                print "Success!!!"
+                print("Success!!!")
                 return
         assert False, "Renaming cloud did not work!!!"
 

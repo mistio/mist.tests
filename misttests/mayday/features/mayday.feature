@@ -71,11 +71,12 @@ Feature: Production
     When I click the "Reboot" button in the "Reboot Machine" dialog
     And I wait for 60 seconds
     And I click the "Shell" action button in the "machine" page
-    Then I expect terminal to open within 3 seconds
+    And I wait for 5 seconds
+    Then I expect terminal to open within 14 seconds
     And shell input should be available after 30 seconds
     When I type in the terminal "uptime"
     And I wait for 2 seconds
-    Then up 0 min should be included in the output
+    Then up 0 min || up 1 min should be included in the output
     And I close the terminal
     And I wait for 1 seconds
     And I logout
@@ -99,17 +100,15 @@ Feature: Production
     When I open the login popup
     And I wait for 2 seconds
     And I click the google button in the landing page popup
-    And I input my "GOOGLE_TEST_EMAIL" in the field with id "identifierId"
-    And I click the "next" button with id "identifierNext"
+    And I type the username in the Google form
     And I wait for 2 seconds
     And I type the password in the Google form
-    And I press the button with id "passwordNext"
     Then I wait for the dashboard to load
     And I logout
 
   @confirm_alert_email
   Scenario: Confirm that alert email arrived
-    Then I should receive an email within 200 seconds
+    Then I should receive an email within 300 seconds
     And I wait for 30 seconds
 
   @logs

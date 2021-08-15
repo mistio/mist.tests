@@ -6,22 +6,22 @@ Feature: Images-Networks
 
   @image-search
   Scenario: Search image
-    Given "Digital Ocean" cloud has been added
+    Given "DigitalOcean" cloud has been added
     Given "Amazon Web Services" cloud has been added
-    When I wait for 2 seconds
+    Then I wait for the navigation menu to appear
+    Then images counter should be greater than 12 within 80 seconds
     And I visit the Images page
-    And I wait for 5 seconds
-    And I search for "CentOS 6.9"
-    Then "CentOS 6.9 x32" image should be present within 10 seconds
-    And "CentOS 6.9 x64" image should be present within 10 seconds
+    And I wait for 2 seconds
+    And I search for "Ubuntu 20.10"
+    Then "Ubuntu 20.10 x64" image should be present within 15 seconds
     And "Debian 9 x64" image should be absent within 10 seconds
     When I clear the search bar
     Then "Debian 9 x64" image should be present within 5 seconds
 
   @image-star
   Scenario: Star image
-    When I search for "CentOS 6.9 x32"
-    And I click the "CentOS 6.9 x32" "image"
+    When I search for "Ubuntu 20.10 x64"
+    And I click the "Ubuntu 20.10 x64" "image"
     Then I expect the "image" page to be visible within max 5 seconds
     When I wait for 1 seconds
     And I click the "Star" action button in the "image" page
@@ -32,12 +32,12 @@ Feature: Images-Networks
     And I wait for 2 seconds
     And I clear the search bar
     And I wait for 2 seconds
-    And I search for "CentOS 6.9 x32"
-    Then the "CentOS 6.9 x32" image should be "starred" within 20 seconds
+    And I search for "Ubuntu 20.10 x64"
+    Then the "Ubuntu 20.10 x64" image should be "starred" within 20 seconds
 
   @image-unstar
   Scenario: Unstar image
-    When I click the "CentOS 6.9 x32" "image"
+    When I click the "Ubuntu 20.10 x64" "image"
     Then I expect the "image" page to be visible within max 5 seconds
     When I click the "Unstar" action button in the "image" page
     And  I visit the Home page
@@ -46,8 +46,8 @@ Feature: Images-Networks
     And I wait for 2 seconds
     And I clear the search bar
     And I wait for 2 seconds
-    And I search for "CentOS 6.9 x32"
-    Then the "CentOS 6.9 x32" image should be "unstarred" within 20 seconds
+    And I search for "Ubuntu 20.10 x64"
+    Then the "Ubuntu 20.10 x64" image should be "unstarred" within 20 seconds
 
 #  @image-tags
 #  Scenario: Add tags to image

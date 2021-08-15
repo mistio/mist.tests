@@ -34,7 +34,7 @@ logging.basicConfig(level=logging.INFO)
 settings_file = os.getenv('TEST_SETTINGS_FILE') or 'test_settings.py'
 test_settings = {}
 try:
-    execfile(settings_file, test_settings)
+    exec(compile(open(settings_file, "rb").read(), settings_file, 'exec'), test_settings)
 except IOError:
     log.warning("No test_settings.py file found.")
 except Exception as exc:
@@ -67,6 +67,20 @@ def safe_get_var(vault_path, vault_key, test_settings_var = None):
 
         return test_settings_var
 
+def get_user_pass_ad_member():
+    if not VAULT_ENABLED:
+        return "", ""
+    ad_groups = safe_get_var(vault_path="ad", vault_key="Active-directory-groups")
+    group = random.choice(['devs', 'finance', 'ops'])
+    all_users = [(k, ad_groups[group][k]) for k in ad_groups[group]]
+    return random.choice(all_users)
+
+def get_user_pass_ldap_member():
+    if not VAULT_ENABLED:
+        return "", ""
+    ldap_username = safe_get_var(vault_path="ldap", vault_key="ldap-user-username")
+    ldap_password = safe_get_var(vault_path="ldap", vault_key="ldap-user-password")
+    return ldap_username, ldap_password
 
 def get_setting(setting, default_value=None, priority='config_file'):
 
@@ -78,19 +92,19 @@ def get_setting(setting, default_value=None, priority='config_file'):
     else:
         setting = test_settings.get(setting, os.environ.get(setting, default_value))
 
-    if type(setting) == type(default_value):
+    if isinstance(setting, type(default_value)):
         return setting
 
-    if type(default_value) == str:
+    if isinstance(default_value, str):
         return str(setting)
-    elif type(default_value) == list:
+    elif isinstance(default_value, list):
         return [setting]
-    elif type(default_value) == int:
+    elif isinstance(default_value, bool):
+        return setting in ["True", "true"]
+    elif isinstance(default_value, int):
         return int(setting)
-    elif type(default_value) == dict:
+    elif isinstance(default_value, dict):
         return ast.literal_eval(setting)
-    elif type(default_value) == bool:
-        return True if setting in ["True", "true"] else False
 
 LOCAL = get_setting("LOCAL", True)
 
@@ -175,6 +189,15 @@ MEMBER1_PASSWORD = get_setting("MEMBER1_PASSWORD", PASSWORD1)
 MEMBER2_EMAIL = get_setting("MEMBER2_EMAIL", "")
 MEMBER2_PASSWORD = get_setting("MEMBER2_PASSWORD", PASSWORD1)
 
+ad_user, ad_pass = get_user_pass_ad_member()
+AD_MEMBER_USERNAME = get_setting("AD_MEMBER_USERNAME",
+                                  ad_user)
+AD_MEMBER_PASSWORD = get_setting("AD_MEMBER_PASSWORD",
+                                  ad_pass)
+ldap_user, ldap_pass = get_user_pass_ldap_member()
+LDAP_MEMBER_USERNAME = get_setting("LDAP_MEMBER_USERNAME", ldap_user)
+LDAP_MEMBER_PASSWORD = get_setting("LDAP_MEMBER_PASSWORD", ldap_pass)
+
 # CREDIT CARD CREDENTIALS
 CC_CVC = get_setting("CC_CVC", "111")
 CC_CC = get_setting("CC_CC", "4242424242424242")
@@ -219,6 +242,8 @@ API_TESTING_CLOUD_PROVIDER = get_setting('API_TESTING_CLOUD_PROVIDER', '')
 
 ORG_NAME = get_setting('ORG_NAME', '')
 
+AD_ORG_NAME = get_setting('AD_ORG_NAME', '')
+
 ORG_ID = get_setting('ORG_ID', '')
 
 SETUP_ENVIRONMENT = get_setting("SETUP_ENVIRONMENT", False)
@@ -249,10 +274,10 @@ DEFAULT_CREDENTIALS = {
     'LINODE': {'api_key': ''},
     'NEPHOSCALE': {'password': '', 'username': ''},
     'GCE': {'project_id': '', 'private_key': {}},
-    'OPENSTACK': {'auth_url': '', 'password': '', 'tenant': '', 'username': ''},
+    'OPENSTACK': {'auth_url': '', 'password': '', 'tenant': '', 'username': '', 'region': ''},
     'DOCKER_ORCHESTRATOR':{"host": "", "port": ""},
     'OPENSTACK_2': {'auth_url': '', 'password': '', 'tenant': '', 'username': ''},
-    'PACKET': {'api_key': ''},
+    'EQUINIX METAL': {'api_key': ''},
     'PACKET_2': {'api_key': ''},
     'VSPHERE': {'username': '', 'password': '', 'ca': '', 'host': '' },
     'RACKSPACE': {'api_key': '', 'region': '', 'username': ''},
@@ -262,9 +287,10 @@ DEFAULT_CREDENTIALS = {
     'DOCKER_MONITORING':{'host': '', 'port': ''},
     'ONAPP':{'username':'', 'password':'', 'host':'', 'verify_ssl': False},
     'MAXIHOST': {'api_token': ''},
-    'KUBEVIRT': {'host': '', 'ca': '', 'token': ''},
+    'KUBEVIRT': {'host': '', 'ca': '', 'token': '', 'port': ''},
     'LXD': {'host': '', 'key': '', 'cert': ''},
-    'GIG_G8': {'api_key': '', 'url': '', 'user_id': ''}
+    'GIG_G8': {'api_key': '', 'url': '', 'user_id': ''},
+    'CLOUDSIGMA': {'email': '', 'password': '', 'region': ''},
 }
 
 CREDENTIALS = get_setting("CREDENTIALS", DEFAULT_CREDENTIALS)

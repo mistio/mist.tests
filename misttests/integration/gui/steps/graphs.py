@@ -23,16 +23,19 @@ from selenium.common.exceptions import TimeoutException
 from selenium.common.exceptions import NoSuchElementException, StaleElementReferenceException
 
 
-@step(u'I wait for the monitoring graphs to appear in the "{page}" page')
+@step('I wait for the monitoring graphs to appear in the "{page}" page')
 def wait_graphs_to_appear(context, page):
     page_element = get_page(context, page)
     page_shadow = expand_shadow_root(context, page_element)
-    mist_monitoring = page_shadow.find_element_by_css_selector('mist-monitoring')
-    mist_monitoring_shadow = expand_shadow_root(context, mist_monitoring)
+    try:
+        mist_monitoring = page_shadow.find_element_by_css_selector('mist-monitoring')
+        container = expand_shadow_root(context, mist_monitoring)
+    except NoSuchElementException:
+        container = page_shadow
     timeout = time() + 60
     while time() < timeout:
         try:
-            polyana_dashboard = mist_monitoring_shadow.find_element_by_css_selector('polyana-dashboard')
+            polyana_dashboard = container.find_element_by_css_selector('polyana-dashboard')
             polyana_dashboard_shadow = expand_shadow_root(context, polyana_dashboard)
             WebDriverWait(polyana_dashboard_shadow, 90).until(
                 EC.presence_of_element_located(
@@ -43,7 +46,7 @@ def wait_graphs_to_appear(context, page):
     assert False, "No graphs have appeared after 150 seconds"
 
 
-@step(u'graphs should disappear within {seconds} seconds')
+@step('graphs should disappear within {seconds} seconds')
 def wait_for_graphs_to_disappear(context, seconds):
     timeout = time() + int(seconds)
     while time() < timeout:
@@ -65,26 +68,29 @@ def check_if_graph_is_visible(context, graph_id, timeout, seconds):
     assert False, "Graph %s has not appeared after %s seconds" % (graph_id, seconds)
 
 
-@step(u'{graph_count} graphs should be visible within max {timeout} seconds in the "{page}" page')
+@step('{graph_count} graphs should be visible within max {timeout} seconds in the "{page}" page')
 def wait_for_all_graphs_to_appear(context, graph_count, timeout, page):
     page_element = get_page(context, page)
     page_shadow = expand_shadow_root(context, page_element)
-    mist_monitoring = page_shadow.find_element_by_css_selector('mist-monitoring')
-    mist_monitoring_shadow = expand_shadow_root(context, mist_monitoring)
+    try:
+        mist_monitoring = page_shadow.find_element_by_css_selector('mist-monitoring')
+        container = expand_shadow_root(context, mist_monitoring)
+    except NoSuchElementException:
+        container = page_shadow
     timeout = time() + 30
     while time() < timeout:
         try:
-            polyana_dashboard = mist_monitoring_shadow.find_element_by_css_selector('polyana-dashboard')
+            polyana_dashboard = container.find_element_by_css_selector('polyana-dashboard')
             polyana_dashboard_shadow = expand_shadow_root(context, polyana_dashboard)
             dashboard_panels = polyana_dashboard_shadow.find_elements_by_css_selector('dashboard-panel:not([hidden])')
             if len(dashboard_panels) >= int(graph_count):
                 return
-        except NoSuchElementException, StaleElementReferenceException:
+        except NoSuchElementException as StaleElementReferenceException:
             sleep(1)
     assert False, "%d graphs appeared after %s seconds" % (len(dashboard_panels), timeout)
 
 
-@step(u'I expect the metric buttons to appear within {seconds} seconds')
+@step('I expect the metric buttons to appear within {seconds} seconds')
 def wait_metric_buttons(context, seconds):
     from .dialog import get_dialog
     dialog = get_dialog(context, "Select target for graph")
@@ -93,13 +99,13 @@ def wait_metric_buttons(context, seconds):
         try:
             expand_shadow_root(context, dialog).find_element_by_css_selector('metric-menu')
             return
-        except NoSuchElementException, StaleElementReferenceException:
+        except NoSuchElementException as StaleElementReferenceException:
             sleep(1)
     assert False, "Metric buttons inside popup did not appear after %s " \
                   "seconds" % seconds
 
 
-@step(u'"{graph_title}" graph should appear in the "{page}" page within {timeout} seconds')
+@step('"{graph_title}" graph should appear in the "{page}" page within {timeout} seconds')
 def wait_for_graph_to_appear(context, graph_title, page, timeout):
     return get_graph_panel(context, graph_title, page, timeout)
 
@@ -108,9 +114,12 @@ def get_graph_panel(context, graph_title, page, timeout):
     graph_title = graph_title.lower()
     page_element = get_page(context, page)
     page_shadow = expand_shadow_root(context, page_element)
-    mist_monitoring = page_shadow.find_element_by_css_selector('mist-monitoring')
-    mist_monitoring_shadow = expand_shadow_root(context, mist_monitoring)
-    polyana_dashboard = mist_monitoring_shadow.find_element_by_css_selector('polyana-dashboard')
+    try:
+        mist_monitoring = page_shadow.find_element_by_css_selector('mist-monitoring')
+        container = expand_shadow_root(context, mist_monitoring)
+    except NoSuchElementException:
+        container = page_shadow
+    polyana_dashboard = container.find_element_by_css_selector('polyana-dashboard')
     polyana_dashboard_shadow = expand_shadow_root(context, polyana_dashboard)
     end = time() + int(timeout)
     while time() < end:
@@ -121,30 +130,31 @@ def get_graph_panel(context, graph_title, page, timeout):
                 panel_title = safe_get_element_text(panel_shadow.find_element_by_css_selector('div.title'))
                 if graph_title in panel_title.lower():
                     return panel
-        except NoSuchElementException, StaleElementReferenceException:
+        except NoSuchElementException as StaleElementReferenceException:
             pass
         sleep(2)
     assert False, 'Could not find "%s" graph in %s page within %s seconds' % (graph_title, page, timeout)
 
 
-@step(u'"{graph_title}" graph in the "{page}" page should have some values')
+@step('"{graph_title}" graph in the "{page}" page should have some values')
 def graph_some_value(context, graph_title, page):
-    graph_panel = get_graph_panel(context, graph_title, page, 5)
     timeout = time() + int(120)
     non_null = []
     while time() < timeout:
         try:
             # Try to get the datapoints for the first available series
+            graph_panel = get_graph_panel(context, graph_title, page, 5)
             datapoints = graph_panel.get_property('chartData')['series'][0]['data']
             non_null = [v[1] for v in datapoints if v[1]]
+            print(graph_panel, len(datapoints), len(non_null))
             if non_null:
                 break
-        except IndexError, KeyError:
+        except IndexError as KeyError:
             sleep(2)
     assert non_null, 'Graph does not have any values'
 
 
-@step(u'I give a "{name}" name for my custom metric')
+@step('I give a "{name}" name for my custom metric')
 def fill_metric_mame(context, name):
     from .dialog import get_dialog
     dialog = get_dialog(context, "Custom graph")
@@ -155,7 +165,7 @@ def fill_metric_mame(context, name):
         textfield.send_keys(letter)
 
 
-@step(u'I delete the "{graph_title}" graph in the "{page}" page')
+@step('I delete the "{graph_title}" graph in the "{page}" page')
 def delete_a_graph(context, graph_title, page):
     graph_title = graph_title.lower()
     graph_panel = get_graph_panel(context, graph_title, page, 5)
@@ -174,7 +184,7 @@ def delete_a_graph(context, graph_title, page):
     assert False, "Graph %s has not disappeared after 20 seconds" % graph_title
 
 
-@step(u'I select "{metric}" in the dialog "{dialog}"')
+@step('I select "{metric}" in the dialog "{dialog}"')
 def select_metric_from_dialog(context,metric,dialog):
     if dialog == 'Select target for graph':
         dialog_element = context.browser.find_element_by_id('selectTarget')
@@ -184,7 +194,7 @@ def select_metric_from_dialog(context,metric,dialog):
     clicketi_click(context,option_to_click)
 
 
-@step(u'I click the disable monitoring button for the "{resource_type}"')
+@step('I click the disable monitoring button for the "{resource_type}"')
 def disable_resource_monitoring(context, resource_type):
     page_element = get_page(context, resource_type)
     page_shadow = expand_shadow_root(context, page_element)
@@ -196,7 +206,7 @@ def disable_resource_monitoring(context, resource_type):
     menu_button.find_element_by_css_selector('paper-button#disable').click()
 
 
-@step(u'I select the "{option}" {dropdown} when adding new rule in the "{resource_type}" page')
+@step('I select the "{option}" {dropdown} when adding new rule in the "{resource_type}" page')
 def select_option_when_adding_rule(context, option, dropdown, resource_type):
     if context.mist_config.get(option):
         option = context.mist_config.get(option)
@@ -234,7 +244,7 @@ def select_option_when_adding_rule(context, option, dropdown, resource_type):
         sleep(.5)
 
 
-@step(u'I type "{value}" in the {input_class} when adding new rule in the "{page}" page')
+@step('I type "{value}" in the {input_class} when adding new rule in the "{page}" page')
 def set_new_rule_threshold(context, value, page, input_class):
     if context.mist_config.get(value):
         value = context.mist_config.get(value)
@@ -252,7 +262,7 @@ def set_new_rule_threshold(context, value, page, input_class):
         paper_input.send_keys(value)
 
 
-@step(u'a new webhook alert should have been posted in slack channel "{channel}" within {seconds} seconds')
+@step('a new webhook alert should have been posted in slack channel "{channel}" within {seconds} seconds')
 def check_slack_webhook(context, channel, seconds):
     if context.mist_config.get(channel):
         channel = context.mist_config.get(channel)
@@ -277,7 +287,7 @@ def check_slack_webhook(context, channel, seconds):
     assert False, "Slack webhook alert has not arrived after %s seconds" % seconds
 
 
-@step(u'I save the new rule in the "{page}" page')
+@step('I save the new rule in the "{page}" page')
 def save_new_rule(context, page):
     page_element = get_page(context, page)
     page_shadow = expand_shadow_root(context, page_element)
@@ -289,7 +299,7 @@ def save_new_rule(context, page):
     clicketi_click(context, save_button)
 
 
-@step(u'I remove previous rules in the "{page}" page')
+@step('I remove previous rules in the "{page}" page')
 def remove_previous_rules(context, page):
     page_element = get_page(context, page)
     page_shadow = expand_shadow_root(context, page_element)

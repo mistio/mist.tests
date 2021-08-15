@@ -9,14 +9,15 @@ Feature: Monitoring
     And I have given card details if needed
     And key "Key1" has been added via API request
     When I visit the Machines page
-    And I wait for 1 seconds
+    And I wait for 5 seconds
     And I click the button "+"
     Then I expect the "Machine" add form to be visible within max 5 seconds
     When I open the "Select Cloud" dropdown in the "machine" add form
-    And I wait for 1 seconds
+    And I wait for 7 seconds
     And I click the "Docker" button in the "Select Cloud" dropdown in the "machine" add form
     Then I expect the field "Machine name" in the machine add form to be visible within max 4 seconds
     Then I set the value "monitored-machine-random" to field "Machine Name" in the "machine" add form
+    And I wait for 7 seconds
     When I open the "Image" dropdown in the "machine" add form
     And I click the "Ubuntu 14.04 - mist.io image" button in the "Image" dropdown in the "machine" add form
     When I open the "Key" dropdown in the "machine" add form
@@ -47,7 +48,7 @@ Feature: Monitoring
     And I expect the metric buttons to appear within 30 seconds
     And I click the "kernel" button in the "Select target for graph" dialog
     And I click the "kernel.entropy_avail" button in the "Select target for graph" dialog
-    Then "kernel entropy_avail" graph should appear in the "machine" page within 30 seconds
+    Then "kernel entropy_avail" graph should appear in the "machine" page within 70 seconds
     And 6 graphs should be visible within max 20 seconds in the "machine" page
 
   @monitoring-home-page

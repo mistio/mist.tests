@@ -3,7 +3,7 @@ from behave import step
 from .utils import get_page_element, expand_shadow_root
 
 
-@step(u'there should be {subnets} subnets visible in single network page')
+@step('there should be {subnets} subnets visible in single network page')
 def find_subnets_in_single_network_page(context, subnets):
     _, page = get_page_element(context, 'networks', 'network')
     page_shadow = expand_shadow_root(context, page)
