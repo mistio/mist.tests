@@ -54,6 +54,9 @@ class MistIoApi(object):
 
     def remove_cloud(self, cloud_id, cookie=None, csrf_token=None,
                      api_token=None):
+        # data = {
+        #     'delete_from_vault': delete_from_vault
+        # }
         req = MistRequests(uri=self.uri + '/api/v1/clouds/' + cloud_id,
                            cookie=cookie, csrf_token=csrf_token,
                            api_token=api_token)
@@ -308,15 +311,6 @@ class MistIoApi(object):
         req = MistRequests(uri=self.uri + '/api/v1/keys/' + key_id,
                            cookie=cookie,
                            csrf_token=csrf_token, api_token=api_token)
-        req.get = req.unavailable_api_call
-        req.post = req.unavailable_api_call
-        req.put = req.unavailable_api_call
-        return req
-
-    def delete_keys(self, key_ids, api_token=None):
-        req = MistRequests(uri=self.uri + '/api/v1/keys',
-                           api_token=api_token,
-                           json={'key_ids': key_ids})
         req.get = req.unavailable_api_call
         req.post = req.unavailable_api_call
         req.put = req.unavailable_api_call
@@ -746,6 +740,57 @@ class MistIoApi(object):
         req.put = req.unavailable_api_call
         return req
 
+    #################################################
+    #                   SECRETS                     #
+    #################################################
+
+    def list_secrets(self, api_token):
+        req = MistRequests(uri=self.uri + '/api/v1/secrets', api_token=api_token)
+
+        req.post = req.unavailable_api_call
+        req.put = req.unavailable_api_call
+        req.delete = req.unavailable_api_call
+        return req
+
+    def create_secret(self, name, secret, api_token):
+        data = {
+            'name': name,
+            'secret': secret
+        }
+        req = MistRequests(uri=self.uri + '/api/v1/secrets', api_token=api_token,
+                           data=json.dumps(data))
+        req.get = req.unavailable_api_call
+        req.put = req.unavailable_api_call
+        req.delete = req.unavailable_api_call
+        return req
+
+    def get_secret(self, secret_id, api_token):
+        req = MistRequests(uri=self.uri + '/api/v1/secrets/' + secret_id, api_token=api_token)
+
+        req.delete = req.unavailable_api_call
+        req.post = req.unavailable_api_call
+        req.put = req.unavailable_api_call
+        return req
+
+    def update_secret(self, secret_id, secret, api_token):
+        data = {
+            'secret': secret
+        }
+        req = MistRequests(uri=self.uri + '/api/v1/secrets/' + secret_id, api_token=api_token,
+                           data=json.dumps(data))
+
+        req.delete = req.unavailable_api_call
+        req.post = req.unavailable_api_call
+        req.get = req.unavailable_api_call
+        return req
+
+    def delete_secret(self, secret_id, api_token):
+        req = MistRequests(uri=self.uri + '/api/v1/secrets/' + secret_id, api_token=api_token)
+
+        req.get = req.unavailable_api_call
+        req.post = req.unavailable_api_call
+        req.put = req.unavailable_api_call
+        return req
 
     #################################################
     #                 USER-ACTIONS                  #

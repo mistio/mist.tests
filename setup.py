@@ -8,7 +8,7 @@ with open(REQS_DIR) as reqs:
 
 setup(name='misttests',
       version='1.0',
-      description='Tests for mist.core and mist.io',
+      description='Tests for Mist, the open-source multicloud management platform',
       long_description='',
       classifiers=["Programming Language :: Python"],
       author='mist.io',

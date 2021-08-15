@@ -58,7 +58,7 @@ def before_all(context):
     context.mist_config['LDAP_MEMBER_USERNAME'] = config.LDAP_MEMBER_USERNAME
     context.mist_config['LDAP_MEMBER_PASSWORD'] = config.LDAP_MEMBER_PASSWORD
     context.mist_config['LOCAL'] = config.LOCAL
-    context.mist_config['ORG_NAME'] = config.ORG_NAME + str(random.randint(1, 10000000))
+    context.mist_config['ORG_NAME'] = (config.ORG_NAME or config.NAME) + str(random.randint(1, 10000000))
     context.mist_config['NON_STOP'] = '--stop' not in sys.argv
     context.mist_config['ERROR_NUM'] = 0
     context.mist_config['MIST_URL'] = config.MIST_URL
@@ -109,7 +109,8 @@ def before_all(context):
         payload = {
             'email': context.mist_config['EMAIL'],
             'password': context.mist_config['PASSWORD1'],
-            'name': "Atheofovos Gkikas"
+            'name': "Atheofovos Gkikas",
+            'org_name': context.mist_config['ORG_NAME']
         }
 
         response = requests.post(

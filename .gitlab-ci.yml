@@ -82,6 +82,7 @@ flake8:
     - cd /mist.tests/
   script:
     - flake8 misttests/integration/api/mistrequests.py
+    - flake8 misttests/integration/api/main/secrets.py
     - flake8 misttests/integration/api/utils.py
     - flake8 misttests/integration/gui/steps/browser.py
     - flake8 misttests/integration/gui/steps/images.py
