@@ -186,6 +186,18 @@ def add_new_rule(context, operator, rtype='all', raction='all', rid='',
             destroy_checkbox = checkbox_group_shadow.find_element_by_id('destroy')
             clicketi_click(context, destroy_checkbox)
             sleep(1)
+            actions_drowdown = expiration_actions_subform_shadow.find_element_by_tag_name('mist-form-dropdown')
+            actions_drowdown_shadow = expand_shadow_root(context, actions_drowdown)
+            actions_paper_dropdown = actions_drowdown_shadow.find_element_by_tag_name('paper-dropdown-menu')
+            clicketi_click(context, actions_paper_dropdown)
+            sleep(0.5)
+            actions_paper_items = actions_paper_dropdown.find_elements_by_css_selector('paper-item')
+            destroy_item = None
+            for item in actions_paper_items:
+                if item.get_attribute('value') == 'destroy':
+                    destroy_item = item
+            clicketi_click(context, destroy_item)
+            sleep(1)
             expiration_notify_subform = expiration_constraint_subform_shadow.find_element_by_id('expiration_notify')
             expiration_notify_subform_shadow = expand_shadow_root(context, expiration_notify_subform)
             notify_subform = expiration_notify_subform_shadow.find_element_by_id('default')
