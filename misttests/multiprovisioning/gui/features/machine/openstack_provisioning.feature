@@ -13,8 +13,8 @@ Feature: Multiprovisioning
   @openstack-machine-create
   Scenario: Create a machine in Openstack provider, with floating ip
     Given "Openstack" cloud has been added
-    # make sure resources are populated -- 3mins
-    And I wait for 180 seconds
+    # make sure resources are populated -- 5mins
+    And I wait for 300 seconds
     When I visit the Machines page
     And I click the button "+"
     Then I expect the "Machine" add form to be visible within max 10 seconds
@@ -32,7 +32,7 @@ Feature: Multiprovisioning
     And I wait for 1 seconds
     Then I set the value "public" to field "Networks" in the "machine" add form
     And I wait for 1 seconds
-    Then I set the value "default" to field "Security group" in the "machine" add form
+    Then I set the value "SSH" to field "security_group" in the "machine" add form
     And I expect for the button "Launch" in the "machine" add form to be clickable within 10 seconds
     When I focus on the button "Launch" in the "machine" add form
     And I click the button "Launch" in the "machine" add form

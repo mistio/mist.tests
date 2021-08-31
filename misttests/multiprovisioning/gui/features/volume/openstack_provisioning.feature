@@ -35,4 +35,4 @@ Feature: Multiprovisioning
     When I visit the Volumes page
     And I clear the search bar
     And I search for "mp-test-volume-openstack-random"
-    Then "mp-test-volume-openstack-random" volume should be absent within 30 seconds
+    Then "mp-test-volume-openstack-random" volume should be absent within 120 seconds
