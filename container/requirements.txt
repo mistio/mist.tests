@@ -10,4 +10,4 @@ selenium==3.141.0
 flake8==3.8.4
 ipdb==0.13.5
 hvac==0.10.8
-pillow==8.1.2
+pillow==8.3.2
