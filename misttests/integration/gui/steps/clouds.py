@@ -466,11 +466,11 @@ def open_cloud_menu(context, action, provider):
 
 
 @step('I delete the "{provider}" cloud')
-def delete_cloud(context, provider):
+def remove_cloud(context, provider):
     cloud_info = find_cloud_info(context, provider.lower())
     assert cloud_info, "Cloud page has not been found"
     cloud_menu_buttons = cloud_info.find_elements_by_tag_name('paper-button')
-    click_button_from_collection(context, 'Delete Cloud', cloud_menu_buttons)
+    click_button_from_collection(context, 'Remove Cloud', cloud_menu_buttons)
 
 
 @step('the "{cloud}" provider should be added within {seconds} seconds')
@@ -483,20 +483,20 @@ def cloud_added(context, cloud, seconds):
     assert False, '%s is not added within %s seconds' % (cloud, seconds)
 
 
-@step('the "{cloud}" cloud should be deleted')
-def cloud_deleted(context, cloud):
+@step('the "{cloud}" cloud should be removed')
+def cloud_removed(context, cloud):
     if find_cloud(context, cloud.lower()):
         return False
 
 
-@step('the "{cloud}" cloud should be deleted within "{seconds}" seconds')
-def cloud_deleted(context, cloud, seconds):
+@step('the "{cloud}" cloud should be removed within "{seconds}" seconds')
+def cloud_removed(context, cloud, seconds):
     timeout = time() + int(seconds)
     while time() < timeout:
         if not find_cloud(context, cloud.lower()):
             return True
         sleep(1)
-    assert False, "Cloud has not been deleted after %s seconds" % seconds
+    assert False, "Cloud has not been removed after %s seconds" % seconds
 
 
 @step('I ensure "{title}" cloud is enabled')
