@@ -14,8 +14,7 @@ def mist_core():
 
 
 def owner_email():
-    BASE_EMAIL = config.BASE_EMAIL
-    return "%s+%d@gmail.com" % (BASE_EMAIL, random.randint(1, 200000))
+    return config.OWNER_EMAIL
 
 
 def owner_password():
