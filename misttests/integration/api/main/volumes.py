@@ -8,8 +8,8 @@ import pytest
 ############################################################################
 
 
-def test_list_volumes_wrong_cloud_id(pretty_print, mist_core, owner_api_token):
-    response = mist_core.list_volumes(api_token=owner_api_token,
+def test_list_volumes_wrong_cloud_id(pretty_print, mist_core, new_owner_api_token):
+    response = mist_core.list_volumes(api_token=new_owner_api_token,
                                       cloud_id='dummy').get()
     assert_response_not_found(response)
     print("Success!!!")
@@ -29,8 +29,8 @@ def test_list_volumes_no_api_token(pretty_print, mist_core):
     print("Success!!!")
 
 
-def test_create_volume_missing_parameter(pretty_print, mist_core, owner_api_token):
-    response = mist_core.create_volume(api_token=owner_api_token,
+def test_create_volume_missing_parameter(pretty_print, mist_core, new_owner_api_token):
+    response = mist_core.create_volume(api_token=new_owner_api_token,
                                         cloud_id='dummy').post()
     assert_response_bad_request(response)
     print("Success!!!")
@@ -63,8 +63,8 @@ def test_delete_volume_wrong_api_token(pretty_print, mist_core):
     print("Success!!!")
 
 
-def test_delete_volume_wrong_cloud_id(pretty_print, mist_core, owner_api_token):
-    response = mist_core.delete_volume(api_token=owner_api_token,
+def test_delete_volume_wrong_cloud_id(pretty_print, mist_core, new_owner_api_token):
+    response = mist_core.delete_volume(api_token=new_owner_api_token,
                                        cloud_id='dummy', volume_id='dummy').delete()
     assert_response_not_found(response)
     print("Success!!!")

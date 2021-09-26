@@ -833,9 +833,9 @@ class MistIoApi(object):
     #                WHITELIST_IPS                  #
     #################################################
 
-    def request_whitelist_ip(self, owner_email, api_token):
+    def request_whitelist_ip(self, new_owner_email, api_token):
         data = {
-            'email': owner_email
+            'email': new_owner_email
         }
         req = MistRequests(uri=self.uri + '/request-whitelist-ip',
                            api_token=api_token, data=data)

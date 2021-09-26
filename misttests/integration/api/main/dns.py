@@ -9,20 +9,20 @@ import pytest
 ############################################################################
 
 
-def test_list_zones(pretty_print, mist_core, cache,  owner_api_token):
-    response = mist_core.add_cloud(title='GCE', provider= 'gce', api_token=owner_api_token,
+def test_list_zones(pretty_print, mist_core, cache,  new_owner_api_token):
+    response = mist_core.add_cloud(title='GCE', provider= 'gce', api_token=new_owner_api_token,
                                    project_id=safe_get_var('clouds/gce/mist-dev', 'project_id',
                                                            config.CREDENTIALS['GCE']['project_id']),
                                    private_key = json.dumps(safe_get_var('clouds/gce/mist-dev', 'private_key',
                                                            config.CREDENTIALS['GCE']['private_key'])),
                                    dns_enabled = True).post()
     assert_response_ok(response)
-    response = mist_core.list_clouds(api_token=owner_api_token).get()
+    response = mist_core.list_clouds(api_token=new_owner_api_token).get()
     assert_response_ok(response)
     assert len(response.json()) == 1
     cache.set('gce_cloud_id', response.json()[0]['id'])
     response = mist_core.list_zones(cloud_id=cache.get('gce_cloud_id', ''),
-                                    api_token=owner_api_token).get()
+                                    api_token=new_owner_api_token).get()
     assert_response_ok(response)
     print("Success!!!")
 
@@ -64,21 +64,21 @@ def test_delete_zone_wrong_api_token(pretty_print, cache, mist_core):
     print("Success!!!")
 
 
-def test_delete_zone_wrong_zone_id(pretty_print, mist_core, cache, owner_api_token):
-    response = mist_core.delete_zone(api_token=owner_api_token, cloud_id=cache.get('gce_cloud_id', ''), zone_id='dummy').delete()
+def test_delete_zone_wrong_zone_id(pretty_print, mist_core, cache, new_owner_api_token):
+    response = mist_core.delete_zone(api_token=new_owner_api_token, cloud_id=cache.get('gce_cloud_id', ''), zone_id='dummy').delete()
     assert_response_not_found(response)
     print("Success!!!")
 
 
-def test_list_records(pretty_print, mist_core, cache,  owner_api_token):
+def test_list_records(pretty_print, mist_core, cache,  new_owner_api_token):
     domain = 'dummytestzone%d.com' % random.randint(1,200)
-    response = mist_core.create_zone(api_token=owner_api_token, cloud_id=cache.get('gce_cloud_id', ''),
+    response = mist_core.create_zone(api_token=new_owner_api_token, cloud_id=cache.get('gce_cloud_id', ''),
                                      domain=domain, type='master', ttl=3600).post()
     assert_response_ok(response)
     cache.set('zone_id', response.json()['id'])
     cache.set('domain', response.json()['domain'])
     response = mist_core.list_records(cloud_id=cache.get('gce_cloud_id', ''), zone_id=cache.get('zone_id', ''),
-                                      api_token=owner_api_token).get()
+                                      api_token=new_owner_api_token).get()
     assert_response_ok(response)
     print("Success!!!")
 
@@ -132,8 +132,8 @@ def test_delete_record_wrong_api_token(pretty_print, cache, mist_core):
     print("Success!!!")
 
 
-def test_delete_record_wrong_record_id(pretty_print, mist_core, cache, owner_api_token):
-    response = mist_core.delete_record(api_token=owner_api_token, cloud_id=cache.get('gce_cloud_id', ''),
+def test_delete_record_wrong_record_id(pretty_print, mist_core, cache, new_owner_api_token):
+    response = mist_core.delete_record(api_token=new_owner_api_token, cloud_id=cache.get('gce_cloud_id', ''),
                                        zone_id=cache.get('zone_id', ''), record_id='dummy').delete()
     assert_response_not_found(response)
     print("Success!!!")
@@ -148,8 +148,8 @@ def test_delete_record_wrong_record_id(pretty_print, mist_core, cache, owner_api
 @pytest.mark.incremental
 class TestZonesFunctionality:
 
-    def test_list_zones_contains_created_zone(self, pretty_print, mist_core, owner_api_token, cache):
-        response = mist_core.list_zones(api_token=owner_api_token,
+    def test_list_zones_contains_created_zone(self, pretty_print, mist_core, new_owner_api_token, cache):
+        response = mist_core.list_zones(api_token=new_owner_api_token,
                                         cloud_id=cache.get('gce_cloud_id', '')
                                        ).get()
         assert_response_ok(response)
@@ -163,10 +163,10 @@ class TestZonesFunctionality:
         assert zone_found
         print("Success!!!")
 
-    def test_create_records(self, pretty_print, mist_core, owner_api_token, cache):
+    def test_create_records(self, pretty_print, mist_core, new_owner_api_token, cache):
         domain = cache.get('domain', '')
         nameA = 'subdomain.' + domain
-        response = mist_core.create_record(api_token=owner_api_token,
+        response = mist_core.create_record(api_token=new_owner_api_token,
                                            cloud_id=cache.get('gce_cloud_id', ''),
                                            zone_id=cache.get('zone_id', ''),
                                            name=nameA,
@@ -178,7 +178,7 @@ class TestZonesFunctionality:
         cache.set('Arecord_id', response.json()['id'])
 
         nameAAAA = 'subdomain2.' + domain
-        response = mist_core.create_record(api_token=owner_api_token,
+        response = mist_core.create_record(api_token=new_owner_api_token,
                                            cloud_id=cache.get('gce_cloud_id', ''),
                                            zone_id=cache.get('zone_id', ''),
                                            name=nameAAAA,
@@ -190,7 +190,7 @@ class TestZonesFunctionality:
         cache.set('AAAArecord_id', response.json()['id'])
 
         nameCNAME = 'subdomain3.' + domain
-        response = mist_core.create_record(api_token=owner_api_token,
+        response = mist_core.create_record(api_token=new_owner_api_token,
                                            cloud_id=cache.get('gce_cloud_id', ''),
                                            zone_id=cache.get('zone_id', ''),
                                            name=nameCNAME,
@@ -202,7 +202,7 @@ class TestZonesFunctionality:
         cache.set('CNAMErecord_id', response.json()['id'])
 
         nameMX = 'mailserver.' + domain
-        response = mist_core.create_record(api_token=owner_api_token,
+        response = mist_core.create_record(api_token=new_owner_api_token,
                                            cloud_id=cache.get('gce_cloud_id', ''),
                                            zone_id=cache.get('zone_id', ''),
                                            name=nameMX,
@@ -214,7 +214,7 @@ class TestZonesFunctionality:
         cache.set('MXrecord_id', response.json()['id'])
 
         nameTXT = 'text.' + domain
-        response = mist_core.create_record(api_token=owner_api_token,
+        response = mist_core.create_record(api_token=new_owner_api_token,
                                            cloud_id=cache.get('gce_cloud_id', ''),
                                            zone_id=cache.get('zone_id', ''),
                                            name=nameTXT,
@@ -226,10 +226,10 @@ class TestZonesFunctionality:
         cache.set('TXTrecord_id', response.json()['id'])
         print("Success!!!")
 
-    def test_record_listing(self, pretty_print, mist_core, owner_api_token, cache):
+    def test_record_listing(self, pretty_print, mist_core, new_owner_api_token, cache):
         response = mist_core.list_records(cloud_id=cache.get('gce_cloud_id', ''),
                                           zone_id=cache.get('zone_id', ''),
-                                          api_token=owner_api_token).get()
+                                          api_token=new_owner_api_token).get()
         assert_response_ok(response)
         assert len(response.json()) == 7
         for record in response.json():
@@ -247,32 +247,32 @@ class TestZonesFunctionality:
                 #assert record['rdata'] == ['"Just some text"']
         print("Success!!!")
 
-    def test_delete_records(self, pretty_print, mist_core, owner_api_token, cache):
-        response = mist_core.delete_record(api_token=owner_api_token,
+    def test_delete_records(self, pretty_print, mist_core, new_owner_api_token, cache):
+        response = mist_core.delete_record(api_token=new_owner_api_token,
                                            cloud_id=cache.get('gce_cloud_id', ''),
                                            zone_id=cache.get('zone_id', ''),
                                            record_id=cache.get('Arecord_id', '')
                                           ).delete()
         assert_response_ok(response)
-        response = mist_core.delete_record(api_token=owner_api_token,
+        response = mist_core.delete_record(api_token=new_owner_api_token,
                                            cloud_id=cache.get('gce_cloud_id', ''),
                                            zone_id=cache.get('zone_id', ''),
                                            record_id=cache.get('AAAArecord_id', '')
                                           ).delete()
         assert_response_ok(response)
-        response = mist_core.delete_record(api_token=owner_api_token,
+        response = mist_core.delete_record(api_token=new_owner_api_token,
                                            cloud_id=cache.get('gce_cloud_id', ''),
                                            zone_id=cache.get('zone_id', ''),
                                            record_id=cache.get('CNAMErecord_id', '')
                                           ).delete()
         assert_response_ok(response)
-        response = mist_core.delete_record(api_token=owner_api_token,
+        response = mist_core.delete_record(api_token=new_owner_api_token,
                                            cloud_id=cache.get('gce_cloud_id', ''),
                                            zone_id=cache.get('zone_id', ''),
                                            record_id=cache.get('MXrecord_id', '')
                                           ).delete()
         assert_response_ok(response)
-        response = mist_core.delete_record(api_token=owner_api_token,
+        response = mist_core.delete_record(api_token=new_owner_api_token,
                                            cloud_id=cache.get('gce_cloud_id', ''),
                                            zone_id=cache.get('zone_id', ''),
                                            record_id=cache.get('TXTrecord_id', '')
@@ -282,20 +282,20 @@ class TestZonesFunctionality:
         # the NS and SOA required onces
         response = mist_core.list_records(cloud_id=cache.get('gce_cloud_id', ''),
                                           zone_id=cache.get('zone_id', ''),
-                                          api_token=owner_api_token).get()
+                                          api_token=new_owner_api_token).get()
         assert_response_ok(response)
         assert len(response.json()) == 2
         print("Success!!!")
 
-    def test_delete_zone(self, pretty_print, mist_core, owner_api_token, cache):
+    def test_delete_zone(self, pretty_print, mist_core, new_owner_api_token, cache):
         #Let's delete the zone
-        response = mist_core.delete_zone(api_token=owner_api_token,
+        response = mist_core.delete_zone(api_token=new_owner_api_token,
                                          cloud_id=cache.get('gce_cloud_id', ''),
                                          zone_id=cache.get('zone_id', '')
                                         ).delete()
         assert_response_ok(response)
         #And make sure that the zone has been deleted:
-        response = mist_core.list_zones(api_token=owner_api_token,
+        response = mist_core.list_zones(api_token=new_owner_api_token,
                                         cloud_id=cache.get('gce_cloud_id', '')).get()
         assert_response_ok(response)
         zone_id = cache.get('zone_id', '')

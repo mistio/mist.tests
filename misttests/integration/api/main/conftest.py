@@ -13,7 +13,7 @@ def mist_core():
     return MistCoreApi(config.MIST_URL)
 
 
-def owner_email():
+def create_new_owner_email():
     BASE_EMAIL = config.BASE_EMAIL
     return "%s+%d@gmail.com" % (BASE_EMAIL, random.randint(1, 200000))
 
@@ -62,19 +62,19 @@ def mist_io():
     return MistIoApi(config.MIST_URL + '/api/v1')
 
 
-@pytest.fixture(name='mist_core')
-def mist_core_fixture():
-    return mist_core()
-
-
-@pytest.fixture(name='owner_email')
-def owner_email_fixture():
-    return owner_email()
+@pytest.fixture
+def new_owner_email():
+    return create_new_owner_email()
 
 
 @pytest.fixture(name='owner_password')
 def owner_password_fixture():
     return owner_password()
+
+
+@pytest.fixture(name='mist_core')
+def mist_core_fixture():
+    return mist_core()
 
 
 @pytest.fixture
@@ -118,17 +118,17 @@ def private_key():
 
 
 @pytest.fixture()
-def schedules_cleanup(mist_core, owner_api_token, cache):
+def schedules_cleanup(mist_core, new_owner_api_token, cache):
     yield
-    response = mist_core.list_schedules(api_token=owner_api_token).get()
+    response = mist_core.list_schedules(api_token=new_owner_api_token).get()
     assert_response_ok(response)
     for schedule in response.json():
-        mist_core.delete_schedule(api_token=owner_api_token, schedule_id=schedule['id']).delete()
-    response = mist_core.list_machines(cloud_id=cache.get('docker_id', ''), api_token=owner_api_token).get()
+        mist_core.delete_schedule(api_token=new_owner_api_token, schedule_id=schedule['id']).delete()
+    response = mist_core.list_machines(cloud_id=cache.get('docker_id', ''), api_token=new_owner_api_token).get()
     for machine in response.json():
         if 'api_test_machine' in machine['name']:
             mist_core.machine_action(cloud_id=cache.get('docker_id', ''),
-                                     api_token=owner_api_token,
+                                     api_token=new_owner_api_token,
                                      machine_id=machine['machine_id'],
                                      action='destroy').post()
 
@@ -174,9 +174,10 @@ def common_valid_api_token(request, email, password, org_id=None):
 
 
 @pytest.fixture(scope='module')
-def owner_api_token(request):
+def new_owner_api_token(request):
+    """Create a token for a newly-created owner."""
     _mist_core = mist_core()
-    email = owner_email()
+    email = create_new_owner_email()
     password = owner_password()
     setup_user_if_not_exists(email, password, 'Owner')
     _mist_core.login(email, password)

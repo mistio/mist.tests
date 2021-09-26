@@ -47,7 +47,7 @@ def test_list_api_tokens_no_api_token(pretty_print, cache, mist_core):
     print("Success")
 
 
-def test_list_api_tokens(pretty_print, cache, mist_core, owner_api_token):
-    response = mist_core.list_tokens(api_token=owner_api_token).get()
+def test_list_api_tokens(pretty_print, cache, mist_core, new_owner_api_token):
+    response = mist_core.list_tokens(api_token=new_owner_api_token).get()
     assert_response_ok(response)
     print("Success")
