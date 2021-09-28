@@ -3,6 +3,7 @@ behaving==1.5.6
 pycrypto==2.6.1
 pymongo==3.11.3
 pytest==6.2.2
+pytest-order==1.0.0
 python-jose==3.2.0
 PyYAML==5.4.1
 requests==2.25.1
