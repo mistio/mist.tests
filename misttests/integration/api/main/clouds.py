@@ -87,20 +87,20 @@ def test_rename_cloud_missing_parameter(pretty_print, mist_core, owner_api_token
     print("Success!!!")
 
 
-def test_delete_cloud_wrong_id(pretty_print, mist_core, owner_api_token):
-    response = mist_core.delete_cloud(cloud_id='dummy',api_token=owner_api_token).delete()
+def test_remove_cloud_wrong_id(pretty_print, mist_core, owner_api_token):
+    response = mist_core.remove_cloud(cloud_id='dummy',api_token=owner_api_token).delete()
     assert_response_not_found(response)
     print("Success")
 
 
-def test_delete_cloud_no_api_token(pretty_print, mist_core):
-    response = mist_core.delete_cloud(cloud_id='dummy').delete()
+def test_remove_cloud_no_api_token(pretty_print, mist_core):
+    response = mist_core.remove_cloud(cloud_id='dummy').delete()
     assert_response_forbidden(response)
     print("Success!!!")
 
 
-def test_delete_cloud_wrong_api_token(pretty_print, mist_core, owner_api_token):
-    response = mist_core.delete_cloud(cloud_id='dummy', api_token='00' + owner_api_token[:-2]).delete()
+def test_remove_cloud_wrong_api_token(pretty_print, mist_core, owner_api_token):
+    response = mist_core.remove_cloud(cloud_id='dummy', api_token='00' + owner_api_token[:-2]).delete()
     assert_response_unauthorized(response)
     print("Success!!!")
 
@@ -153,31 +153,31 @@ class TestCloudsFunctionality:
         assert len(response.json()) == 2
         print("Success!!!")
 
-    def test_delete_cloud(self, pretty_print, mist_core, owner_api_token):
+    def test_remove_cloud(self, pretty_print, mist_core, owner_api_token):
         response = mist_core.list_clouds(api_token=owner_api_token).get()
         linode_id = response.json()[0]['id']
-        response = mist_core.delete_cloud(cloud_id=linode_id, api_token=owner_api_token).delete()
+        response = mist_core.remove_cloud(cloud_id=linode_id, api_token=owner_api_token).delete()
         assert_response_ok(response)
         response = mist_core.list_clouds(api_token=owner_api_token).get()
         assert_response_ok(response)
         assert len(response.json()) == 1
-        response = mist_core.delete_cloud(cloud_id=linode_id, api_token=owner_api_token).delete()
+        response = mist_core.remove_cloud(cloud_id=linode_id, api_token=owner_api_token).delete()
         assert_response_not_found(response)
         response = mist_core.list_clouds(api_token=owner_api_token).get()
         assert_response_ok(response)
         assert len(response.json()) == 1
         print("Success!!!")
 
-    def test_delete_cloud_failures(self, pretty_print, mist_core, owner_api_token):
+    def test_remove_cloud_failures(self, pretty_print, mist_core, owner_api_token):
         response = mist_core.list_clouds(api_token=owner_api_token).get()
         linode_id = response.json()[0]['id']
-        response = mist_core.delete_cloud(cloud_id=linode_id+'d', api_token=owner_api_token).delete()
+        response = mist_core.remove_cloud(cloud_id=linode_id+'d', api_token=owner_api_token).delete()
         assert_response_not_found(response)
         print("Success!!!")
         response = mist_core.list_clouds(api_token=owner_api_token).get()
         assert_response_ok(response)
         assert len(response.json()) == 1
-        test_delete_cloud_no_api_token(pretty_print, mist_core)
+        test_remove_cloud_no_api_token(pretty_print, mist_core)
         response = mist_core.list_clouds(api_token=owner_api_token).get()
         assert_response_ok(response)
         assert len(response.json()) == 1

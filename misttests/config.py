@@ -40,6 +40,10 @@ except IOError:
 except Exception as exc:
     log.error("Error parsing test_settings py: %r", exc)
 
+PROVIDER_VAULT_MAP = {
+    'google': 'gce',
+}
+
 # TODO: modify so that it can parse nested objects as well
 def safe_get_var(vault_path, vault_key, test_settings_var = None):
 
@@ -61,11 +65,31 @@ def safe_get_var(vault_path, vault_key, test_settings_var = None):
 
         json_data = response.json().get('data')
 
+        if vault_key == '*':
+            return json_data
+
         return json_data.get(vault_key)
 
     else:
 
         return test_settings_var
+
+
+def inject_vault_credentials(dikt):
+    if not isinstance(dikt, dict):
+        return
+    if 'provider' not in dikt:
+        return
+    provider = PROVIDER_VAULT_MAP[dikt['provider']]
+    credentials = safe_get_var(f'clouds_new/{provider}', '*')
+    dikt_credentials = dikt.get('credentials', {})
+    for key in dikt_credentials:
+        dikt_credentials[key] = credentials[key]
+    if not dikt_credentials:
+        for key in credentials:
+            if key in dikt:
+                dikt[key] = credentials[key]
+
 
 def get_user_pass_ad_member():
     if not VAULT_ENABLED:

@@ -52,7 +52,7 @@ class MistIoApi(object):
         req.delete = req.unavailable_api_call
         return req
 
-    def delete_cloud(self, cloud_id, cookie=None, csrf_token=None,
+    def remove_cloud(self, cloud_id, cookie=None, csrf_token=None,
                      api_token=None):
         req = MistRequests(uri=self.uri + '/api/v1/clouds/' + cloud_id,
                            cookie=cookie, csrf_token=csrf_token,
