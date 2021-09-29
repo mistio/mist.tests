@@ -64,15 +64,15 @@ Feature: Cloud actions for polymer
     And I wait for the dashboard to load
     Then "Renamed" cloud has been added
 
-  @cloud-delete
-  Scenario: Delete a cloud
+  @cloud-remove
+  Scenario: Remove a cloud
     When I open the cloud page for "Renamed"
     Then I expect the "cloud" page to be visible within max 5 seconds
-    When I click the "Delete" action button in the "cloud" page
-    Then I expect the "Delete cloud" dialog to be open within 4 seconds
+    When I click the "Remove" action button in the "cloud" page
+    Then I expect the "Remove cloud" dialog to be open within 4 seconds
     And I wait for 1 seconds
-    And I click the "Delete" button in the "Delete cloud" dialog
-    Then I expect the "Delete cloud" dialog to be closed within 4 seconds
+    And I click the "Remove" button in the "Remove cloud" dialog
+    Then I expect the "Remove cloud" dialog to be closed within 4 seconds
     And I wait for 2 seconds
     When I visit the Machines page
     And I wait for 1 seconds
