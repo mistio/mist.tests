@@ -465,7 +465,7 @@ def open_cloud_menu(context, action, provider):
         clicketi_click(context, close_button)
 
 
-@step('I delete the "{provider}" cloud')
+@step('I remove the "{provider}" cloud')
 def remove_cloud(context, provider):
     cloud_info = find_cloud_info(context, provider.lower())
     assert cloud_info, "Cloud page has not been found"

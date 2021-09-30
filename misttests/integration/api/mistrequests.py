@@ -33,12 +33,12 @@ class MistRequests(object):
         return response
 
     def put(self):
-        response = requests.put(self.uri, data=self.data,
+        response = requests.put(self.uri, data=self.data, json=self.json,
                                 headers=self.headers, timeout=self.timeout)
         return response
 
     def patch(self):
-        response = requests.patch(self.uri, data=self.data,
+        response = requests.patch(self.uri, data=self.data, json=self.json,
                                   headers=self.headers, timeout=self.timeout)
         return response
 
