@@ -86,15 +86,15 @@ Feature: RBAC-rules-v1
     Then the "Equinix Metal" provider should be added within 120 seconds
     And I should have 2 clouds added
 
-  @member1-delete-cloud-fail
-  Scenario: Member 1 should not be able to delete cloud
+  @member1-remove-cloud-fail
+  Scenario: Member 1 should not be able to remove cloud
     When I wait for 1 seconds
     And I open the cloud page for "Docker"
     Then I expect the "cloud" page to be visible within max 10 seconds
-    When I click the "Delete" action button in the "cloud" page
-    Then I expect the "Delete cloud" dialog to be open within 4 seconds
+    When I click the "Remove" action button in the "cloud" page
+    Then I expect the "Remove cloud" dialog to be open within 4 seconds
     And I wait for 2 seconds
-    And I click the "Delete" button in the "Delete cloud" dialog
+    And I click the "Remove" button in the "Remove cloud" dialog
     And I wait for 3 seconds
     And I visit the Home page
     # deletion did not work
