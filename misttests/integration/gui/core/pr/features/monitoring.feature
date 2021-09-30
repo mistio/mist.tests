@@ -57,7 +57,6 @@ Feature: Monitoring
     When I visit the Home page
     And I wait for the navigation menu to appear
     Then I wait for the monitoring graphs to appear in the "dashboard" page
-    And I refresh the page
     And "Load on all monitored machines" graph in the "dashboard" page should have some values
 
   @disable-monitoring
