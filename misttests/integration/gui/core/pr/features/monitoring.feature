@@ -56,6 +56,7 @@ Feature: Monitoring
   Scenario: Visit Home page and verify that polyana-dashboard is there
     When I visit the Home page
     And I wait for the navigation menu to appear
+    And I wait for 60 seconds
     Then I wait for the monitoring graphs to appear in the "dashboard" page
     And "Load on all monitored machines" graph in the "dashboard" page should have some values
 
