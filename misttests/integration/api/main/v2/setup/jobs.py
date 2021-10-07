@@ -57,12 +57,11 @@ def setup(api_token):
     size_found = False
     key_found = False
     resources_found = False
-
+    location_uri = f'{config.MIST_URL}/api/v2/locations/{MACHINE_LOCATION}'
+    images_uri = f'{config.MIST_URL}/api/v2/images/{MACHINE_IMAGE}'
+    size_uri = f'{config.MIST_URL}/api/v2/sizes/{MACHINE_SIZE}'
+    key_uri = f'{config.MIST_URL}/api/v2/keys/{KEY_NAME}'
     while not resources_found:
-        location_uri = f'{config.MIST_URL}/api/v2/locations/{MACHINE_LOCATION}'
-        images_uri = f'{config.MIST_URL}/api/v2/images/{MACHINE_IMAGE}'
-        size_uri = f'{config.MIST_URL}/api/v2/sizes/{MACHINE_SIZE}'
-        key_uri = f'{config.MIST_URL}/api/v2/sizes/{KEY_NAME}'
         if not location_found:
             location_found = is_data_available(api_token, location_uri)
         if not image_found:
@@ -102,7 +101,7 @@ def setup(api_token):
 def teardown(api_token):
     jobs_uri = f'{config.MIST_URL}/api/v2/jobs/{machine_job_id}'
     if is_data_available(api_token, jobs_uri):
-        sleep(200)
+        sleep(150)
         # Destroy the machine
         uri = (f'{config.MIST_URL}/api/v2/machines'
                f'/{MACHINE_NAME}/actions/destroy')
