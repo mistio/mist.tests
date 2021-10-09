@@ -42,6 +42,7 @@ except Exception as exc:
 
 PROVIDER_VAULT_MAP = {
     'google': 'gce',
+    'docker': 'dockerhost'
 }
 
 # TODO: modify so that it can parse nested objects as well
