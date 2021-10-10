@@ -393,7 +393,7 @@ def logout(context):
 
 @step('I expand the "{item}" item')
 def expandItem(context, item):
-    mist_list = context.find_element_by_css_selector('mist_list')
+    mist_list = context.browser.find_element_by_css_selector('mist_list')
     mist_list_shadow = expand_shadow_root(context, mist_list)
     items = mist_list_shadow.find_elements_by_css_selector('strong.name')
     # find item to expand
