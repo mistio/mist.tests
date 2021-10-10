@@ -30,6 +30,7 @@ Feature: Monitoring
     And I wait for 2 seconds
     And I visit the Home page
     And I visit the Machines page
+    And I expand the "Docker" item
     And I search for "monitored-machine-random"
     Then "monitored-machine-random" machine state has to be "running" within 100 seconds
     When I click the "monitored-machine-random" "machine"

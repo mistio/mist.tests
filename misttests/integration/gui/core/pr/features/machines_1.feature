@@ -45,6 +45,7 @@ Feature: Machines
     And I click the button "Launch" in the "machine" add form
     When I visit the Home page
     And I visit the Machines page
+    And I expand the "Docker" item
     And I search for "ui-test-create-machine-random"
     Then "ui-test-create-machine-random" machine state has to be "running" within 100 seconds
 

@@ -390,3 +390,23 @@ def go_to_some_page_without_waiting(context, title):
 def logout(context):
     from .buttons import click_the_user_menu_button
     click_the_user_menu_button(context, 'logout')
+
+@step('I expand the "{item}" item')
+def expandItem(context, item):
+    mist_list = context.find_element_by_css_selector('mist_list')
+    mist_list_shadow = expand_shadow_root(context, mist_list)
+    items = mist_list_shadow.find_elements_by_css_selector('strong.name')
+    # find item to expand
+    for item in items:
+        if safe_get_element_text(item) == item:
+            vaadin_grid_tree_toggle = item.parent.parent
+            if vaadin_grid_tree_toggle.get_attribute('expanded'):
+                # already expanded
+                break
+            vaadin_grid_tree_toggle_shadow = expand_shadow_root(contect, vaadin_grid_tree_toggle)
+            try:
+                toggle_button = vaadin_grid_tree_toggle_shadow.find_elements_by_css_selector('span')[1]
+            except IndexError:
+                print("Item is not expandable!")
+            clicketi_click(context, toggle_button)
+        break
