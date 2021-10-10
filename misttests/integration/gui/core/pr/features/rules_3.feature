@@ -63,7 +63,7 @@ Feature: Rules
     When I visit the Machines page
     And I clear the search bar
     And I wait for 1 seconds
-    And I expand the "Docker" item
+    And I expand the "Docker" item in the "machines" page
     And I search for "rules-test-machine-1-random"
     Then "rules-test-machine-1-random" machine should be present within 60 seconds
     And I should receive an email at the address "EMAIL" with subject "*** INFO *** cloud `Docker`: count of matching logs" within 180 seconds

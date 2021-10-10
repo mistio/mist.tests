@@ -9,7 +9,7 @@ Feature: Rules
     And key "Key1" has been added via API request
     And Docker machine "rules-test-machine-random" has been added via API request
     When I visit the Machines page
-    And I expand the "Docker" item
+    And I expand the "Docker" item in the "machines" page
     And I search for "rules-test-machine-random"
     Then "rules-test-machine-random" machine state has to be "running" within 120 seconds
     And I wait for 10 seconds
@@ -62,7 +62,7 @@ Feature: Rules
     And I wait for 2 seconds
     And I save the new rule in the "rules" page
     And I visit the Machines page
-    And I expand the "Docker" item
+    And I expand the "Docker" item in the "machines" page
     And I clear the search bar
     And I wait for 1 seconds
     And I search for "rules-test-machine-random"

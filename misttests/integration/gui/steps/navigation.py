@@ -391,9 +391,15 @@ def logout(context):
     from .buttons import click_the_user_menu_button
     click_the_user_menu_button(context, 'logout')
 
-@step('I expand the "{item}" item')
-def expandItem(context, item):
-    mist_list = context.browser.find_element_by_css_selector('mist_list')
+@step('I expand the "{item}" item in the "{resource_type}" page')
+def expandItem(context, item, resource_type):
+    resource_type = resource_type.lower()
+    container = get_page_element(context, resource_type)
+    container_shadow = expand_shadow_root(context, container)
+    if container_shadow is None:
+        sleep(1)
+        container_shadow = expand_shadow_root(context, container)
+    mist_list = container_shadow.find_element_by_css_selector('mist_list')
     mist_list_shadow = expand_shadow_root(context, mist_list)
     items = mist_list_shadow.find_elements_by_css_selector('strong.name')
     # find item to expand
