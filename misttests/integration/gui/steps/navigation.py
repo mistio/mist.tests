@@ -399,7 +399,7 @@ def expandItem(context, item, resource_type):
     if container_shadow is None:
         sleep(1)
         container_shadow = expand_shadow_root(context, container)
-    mist_list = container_shadow.find_element_by_css_selector('mist_list')
+    mist_list = container_shadow.find_element_by_css_selector('mist-list')
     mist_list_shadow = expand_shadow_root(context, mist_list)
     items = mist_list_shadow.find_elements_by_css_selector('strong.name')
     # find item to expand
