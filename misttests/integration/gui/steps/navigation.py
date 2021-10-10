@@ -415,4 +415,4 @@ def expandItem(context, item, resource_type):
             except IndexError:
                 print("Item is not expandable!")
             clicketi_click(context, toggle_button)
-        break
+            break

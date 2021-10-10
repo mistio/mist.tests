@@ -10,7 +10,7 @@ Feature: Schedulers-b
     Given I am logged in to mist
     And I have given card details if needed
     When I visit the Machines page
-    And I expand the "Docker" item in the "machine" page
+    And I expand the "Docker" item in the "machines" page
     And I wait for 3 seconds
     And I search for "test-ui-machine-random"
     Then "test-ui-machine-random" machine state has to be "running" within 60 seconds
@@ -100,7 +100,7 @@ Feature: Schedulers-b
   @check-machines-state
   Scenario: Check machine's state
     When I visit the Machines page
-    And I expand the "Docker" item in the "machine" page
+    And I expand the "Docker" item in the "machines" page
     And I search for "test-ui-machine-random"
     Then "test-ui-machine-random" machine state has to be "stopped" within 120 seconds
     When I clear the search bar
