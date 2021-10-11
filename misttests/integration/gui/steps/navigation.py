@@ -405,7 +405,8 @@ def expandItem(context, item_name, resource_type):
     # find item to expand
     for item in items:
         if safe_get_element_text(item) == item_name:
-            vaadin_grid_tree_toggle = item.parent.parent
+            item_parent = item.find_element_by_xpath('..')
+            vaadin_grid_tree_toggle = item_parent.find_element_by_xpath('..')
             if vaadin_grid_tree_toggle.get_attribute('expanded'):
                 # already expanded
                 break
