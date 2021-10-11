@@ -44,12 +44,12 @@ Feature: Contstraints-RBAC-rules
     And I click the button "Launch" in the "machine" add form
     And I wait for 3 seconds
     When I visit the Machines page
-    And I expand the "Docker" item in the "machines" page
     And I wait for 5 seconds
     And I search for "ui-test-expiration-random"
     Then "ui-test-expiration-random" machine state has to be "running" within 100 seconds
     And I refresh the page
     And I wait for 5 seconds
+    And I expand the "Docker" item in the "machines" page
     When I click the "ui-test-expiration-random" "machine"
     And I wait for 3 seconds
     Then I expect to see "in x minutes" in the expiration section of the machine page
