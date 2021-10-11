@@ -418,4 +418,5 @@ def expandItem(context, item_name, resource_type):
                 print("Item is not expandable!")
             print('Expanding')
             clicketi_click(context, toggle_button)
+            assert vaadin_grid_tree_toggle.get_attribute('expanded'), 'Item did not expand!!!'
             break
