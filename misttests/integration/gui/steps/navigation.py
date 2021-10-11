@@ -411,7 +411,7 @@ def expandItem(context, item_name, resource_type):
                 # already expanded
                 print(f'vaadin grid toggle is {vaadin_grid_tree_toggle.get_attribute("expanded")}')
                 break
-            vaadin_grid_tree_toggle_shadow = expand_shadow_root(contect, vaadin_grid_tree_toggle)
+            vaadin_grid_tree_toggle_shadow = expand_shadow_root(context, vaadin_grid_tree_toggle)
             try:
                 toggle_button = vaadin_grid_tree_toggle_shadow.find_elements_by_css_selector('span')[1]
             except IndexError:
