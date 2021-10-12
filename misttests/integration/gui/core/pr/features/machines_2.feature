@@ -38,9 +38,9 @@ Feature: Machines
     Then I expect for the button "Launch" in the "machine" add form to be clickable within 10 seconds
     When I focus on the button "Launch" in the "machine" add form
     And I click the button "Launch" in the "machine" add form
-    And I wait for 20 seconds
     When I visit the Home page
     Then I should see a(n) "request" log entry of action "create_machine" added "a few seconds ago" in the "dashboard" page within 10 seconds
+    And I wait for 10 seconds
     When I visit the Machines page
     And I wait for 2 seconds
     And I expand the "Docker" item in the "machines" page

@@ -42,7 +42,7 @@ Feature: Contstraints-RBAC-rules
     Then I expect for the button "Launch" in the "machine" add form to be clickable within 10 seconds
     When I focus on the button "Launch" in the "machine" add form
     And I click the button "Launch" in the "machine" add form
-    And I wait for 3 seconds
+    And I wait for 20 seconds
     When I visit the Machines page
     And I wait for 5 seconds
     And I expand the "Docker" item in the "machines" page

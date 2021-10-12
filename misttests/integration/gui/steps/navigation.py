@@ -409,14 +409,12 @@ def expandItem(context, item_name, resource_type):
             vaadin_grid_tree_toggle = item_parent.find_element_by_xpath('..')
             if vaadin_grid_tree_toggle.get_attribute('expanded') == 'true':
                 # already expanded
-                print(f'vaadin grid toggle is {vaadin_grid_tree_toggle.get_attribute("expanded")}')
                 break
             vaadin_grid_tree_toggle_shadow = expand_shadow_root(context, vaadin_grid_tree_toggle)
             try:
                 toggle_button = vaadin_grid_tree_toggle_shadow.find_elements_by_css_selector('span')[1]
             except IndexError:
                 print("Item is not expandable!")
-            print('Expanding')
             clicketi_click(context, toggle_button)
             assert vaadin_grid_tree_toggle.get_attribute('expanded') == "true", 'Item did not expand!!!'
             break
