@@ -251,6 +251,9 @@ def expand_slot(context, element):
 def get_grid_items(context, grid):
     return context.browser.execute_script('return arguments[0].items', grid)
 
+def get_tree_view_grid_items(context, grid):
+    return context.browser.execute_script('return arguments[0]._cache.itemCaches[0].items', grid)
+
 def get_list_item_from_checkbox(context, checkbox):
     return context.browser.execute_script('return arguments[0].item', checkbox)
 
