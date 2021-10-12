@@ -16,8 +16,8 @@ Feature: Machines
     And I wait for 10 seconds
     And I wait for the navigation menu to appear
     And I visit the Images page
-    And I search for "Ubuntu 14.04 - mist.io image"
-    Then "Ubuntu 14.04 - mist.io image" image should be present within 45 seconds
+    And I search for "Debian Bullseye with SSH server"
+    Then "Debian Bullseye with SSH server" image should be present within 45 seconds
     When I visit the Machines page
     And I click the button "+"
     Then I expect the "Machine" add form to be visible within max 10 seconds

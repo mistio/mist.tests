@@ -19,7 +19,7 @@ Feature: Monitoring
     Then I set the value "monitored-machine-random" to field "Machine Name" in the "machine" add form
     And I wait for 7 seconds
     When I open the "Image" dropdown in the "machine" add form
-    And I click the "Ubuntu 14.04 - mist.io image" button in the "Image" dropdown in the "machine" add form
+    And I click the "Debian Bullseye with SSH server" button in the "Image" dropdown in the "machine" add form
     When I open the "Key" dropdown in the "machine" add form
     And I click the "Key1" button in the "Key" dropdown in the "machine" add form
     And I wait for 1 seconds

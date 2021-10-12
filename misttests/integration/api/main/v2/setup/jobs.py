@@ -48,7 +48,7 @@ def setup(api_token):
     assert_response_ok(response)
     cloud_id = response.json().get('data', {}).get('id', '')
     # Get image id
-    image_name = 'Ubuntu 14.04 - mist.io image'
+    image_name = 'Debian Bullseye with SSH server'
     image_uri = f'{config.MIST_URL}/api/v2/images/{image_name}'
     request = MistRequests(
         api_token=api_token, uri=image_uri)

@@ -50,7 +50,7 @@ machine_values_dict = {
     "rackspace": ["Ubuntu 14.04 LTS (Trusty Tahr) (PV)", "512MB Standard Instance", "0"],
     "softlayer": ["Ubuntu - Latest (64 bit) ", "1 CPU, 1GB ram, 25GB ", "AMS01 - Amsterdam"],
     "azure": ["Ubuntu Server 14.04 LTS", "ExtraSmall (1 cores, 768 MB) ", "West Europe"],
-    "docker": ["Ubuntu 14.04 - mist.io image"]
+    "docker": ["Debian Bullseye with SSH server"]
 }
 
 @step('I click the other server machine')
