@@ -27,7 +27,7 @@ Feature: Monitoring
     When I focus on the button "Launch" in the "machine" add form
     And I wait for 2 seconds
     And I click the button "Launch" in the "machine" add form
-    And I wait for 2 seconds
+    And I wait for 20 seconds
     And I visit the Home page
     And I visit the Machines page
     And I wait for 2 seconds

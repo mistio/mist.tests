@@ -8,6 +8,7 @@ Feature: Rules
     And I have given card details if needed
     And key "Key1" has been added via API request
     And Docker machine "rules-test-machine-random" has been added via API request
+    And I wait for 20 seconds
     When I visit the Machines page
     And I wait for 1 seconds
     And I expand the "Docker" item in the "machines" page

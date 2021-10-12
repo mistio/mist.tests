@@ -43,6 +43,7 @@ Feature: Machines
     Then I expect for the button "Launch" in the "machine" add form to be clickable within 10 seconds
     When I focus on the button "Launch" in the "machine" add form
     And I click the button "Launch" in the "machine" add form
+    And I wait for 20 seconds
     When I visit the Home page
     And I visit the Machines page
     And I wait for 2 seconds
