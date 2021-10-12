@@ -10,6 +10,7 @@ Feature: Schedulers
     And I have given card details if needed
     When I visit the Machines page
     And I wait for 3 seconds
+    And I expand the "Docker" item in the "machines" page
     And I search for "test-machine-random"
     Then "test-machine-random" machine state has to be "running" within 60 seconds
     When I visit the Schedules page
@@ -50,6 +51,7 @@ Feature: Schedulers
     When I visit the Machines page
     And I clear the search bar
     And I wait for 2 seconds
+    And I expand the "Docker" item in the "machines" page
     And I search for "test-machine-random"
     Then "test-machine-random" machine state has to be "stopped" within 120 seconds
 
@@ -95,5 +97,6 @@ Feature: Schedulers
     When I visit the Machines page
     And I clear the search bar
     And I wait for 2 seconds
+    And I expand the "Docker" item in the "machines" page
     And I search for "test-machine-random"
     Then "test-machine-random" machine state has to be "running" within 120 seconds

@@ -74,6 +74,7 @@ Feature: RBAC-rules-v3
   Scenario: Verify that member1 can view cloud and machine
     Given I am logged in to mist as rbac_member1
     When I visit the Machines page
+    And I wait for 2 seconds
     Then "Docker" machine should be present within 5 seconds
     When I visit the Home page
     Then I should have 1 clouds added

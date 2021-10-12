@@ -45,6 +45,7 @@ Feature: Machines
     And I click the button "Launch" in the "machine" add form
     When I visit the Home page
     And I visit the Machines page
+    And I wait for 2 seconds
     And I expand the "Docker" item in the "machines" page
     And I search for "ui-test-create-machine-random"
     Then "ui-test-create-machine-random" machine state has to be "running" within 100 seconds
@@ -52,6 +53,7 @@ Feature: Machines
   @key-associate
   Scenario: Associate key with machine
     And I wait for 30 seconds
+    And I expand the "Docker" item in the "machines" page
     When I click the "ui-test-create-machine-random" "machine"
     And I expect the "machine" page to be visible within max 5 seconds
     Then "DummyKey" key should be associated with the machine "ui-test-create-machine-random" within 120 seconds
@@ -74,6 +76,8 @@ Feature: Machines
    @machine-run-script
    Scenario: Run script to machine created above
     When I visit the machines page
+    And I wait for 2 seconds
+    And I expand the "Docker" item in the "machines" page
     And I clear the search bar
     And I wait for 2 seconds
     And I search for "ui-test-create-machine-random"
@@ -90,6 +94,8 @@ Feature: Machines
   @machine-shell
   Scenario: Check shell access and verify that script run
     When I visit the Machines page
+    And I wait for 2 seconds
+    And I expand the "Docker" item in the "machines" page
     And I clear the search bar
     And I wait for 2 seconds
     And I search for "ui-test-create-machine-random"
@@ -116,6 +122,8 @@ Feature: Machines
     And I wait for 1 seconds
     Then I should see a(n) "request" log entry of action "stop_machine" added "a few seconds ago" in the "dashboard" page within 20 seconds
     When I visit the Machines page
+    And I wait for 2 seconds
+    And I expand the "Docker" item in the "machines" page
     And I clear the search bar
     And I search for "ui-test-create-machine-random"
     Then "ui-test-create-machine-random" machine state has to be "stopped" within 60 seconds
@@ -128,6 +136,8 @@ Feature: Machines
     When I visit the Home page
     And I wait for the navigation menu to appear
     And I visit the Machines page after the counter has loaded
+    And I wait for 2 seconds
+    And I expand the "Docker" item in the "machines" page
     And I clear the search bar
     And I wait for 1 seconds
     Then I search for "ui-test-create-machine-random"
@@ -144,6 +154,8 @@ Feature: Machines
     And I wait for 1 seconds
     Then I should see a(n) "request" log entry of action "destroy_machine" added "a few seconds ago" in the "dashboard" page within 10 seconds
     When I visit the Machines page
+    And I wait for 2 seconds
+    And I expand the "Docker" item in the "machines" page
     And I search for "ui-test-create-machine-random"
     Then "ui-test-create-machine-random" machine should be absent within 60 seconds
     When I visit the Home page

@@ -9,6 +9,7 @@ Feature: Rules
     And key "Key1" has been added via API request
     And Docker machine "rules-test-machine-random" has been added via API request
     When I visit the Machines page
+    And I wait for 1 seconds
     And I expand the "Docker" item in the "machines" page
     And I search for "rules-test-machine-random"
     Then "rules-test-machine-random" machine state has to be "running" within 150 seconds
@@ -42,6 +43,7 @@ Feature: Rules
     And I wait for 1 seconds
     And I save the new rule in the "rules" page
     And I visit the Machines page
+    And I wait for 1 seconds
     And I expand the "Docker" item in the "machines" page
     And I clear the search bar
     And I wait for 1 seconds
@@ -58,6 +60,7 @@ Feature: Rules
     And I remove previous rules in the "rules" page
     And I wait for 2 seconds
     And I visit the Machines page
+    And I wait for 1 seconds
     And I expand the "Docker" item in the "machines" page
     And I clear the search bar
     And I wait for 1 seconds
@@ -69,6 +72,7 @@ Feature: Rules
   Scenario: Add rule from rules section that applies on tagged machine. Verify it is visible in single machine page and it works
     Given I am logged in to mist
     When I visit the Machines page
+    And I wait for 1 seconds
     And I expand the "Docker" item in the "machines" page
     And I clear the search bar
     And I wait for 1 seconds
@@ -82,6 +86,7 @@ Feature: Rules
     And I click the "Save" button in the "Tags" dialog
     Then I expect the "Tags" dialog to be closed within 4 seconds
     When I visit the Machines page
+    And I wait for 1 seconds
     And I expand the "Docker" item in the "machines" page
     And I clear the search bar
     And I wait for 1 seconds
@@ -104,6 +109,7 @@ Feature: Rules
     And I select the "destroy" action when adding new rule in the "rules" page
     And I save the new rule in the "rules" page
     When I visit the Machines page
+    And I wait for 1 seconds
     And I expand the "Docker" item in the "machines" page
     And I clear the search bar
     And I wait for 1 seconds
@@ -112,6 +118,7 @@ Feature: Rules
     And I click the "rules-test-machine-random" "machine"
     Then rule "if processes.running > 0 for any value then destroy" should be present in the "machine" page
     When I visit the Machines page
+    And I wait for 1 seconds
     And I expand the "Docker" item in the "machines" page
     And I clear the search bar
     And I wait for 1 seconds

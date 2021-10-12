@@ -45,6 +45,7 @@ Feature: Contstraints-RBAC-rules
     And I wait for 3 seconds
     When I visit the Machines page
     And I wait for 5 seconds
+    And I expand the "Docker" item in the "machines" page
     And I search for "ui-test-expiration-random"
     Then "ui-test-expiration-random" machine state has to be "running" within 100 seconds
     And I refresh the page

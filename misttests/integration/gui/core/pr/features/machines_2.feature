@@ -41,6 +41,7 @@ Feature: Machines
     When I visit the Home page
     Then I should see a(n) "request" log entry of action "create_machine" added "a few seconds ago" in the "dashboard" page within 10 seconds
     When I visit the Machines page
+    And I wait for 2 seconds
     And I expand the "Docker" item in the "machines" page
     And I search for "ui-test-create-machine-random"
     Then "ui-test-create-machine-random" machine state has to be "running" within 100 seconds
@@ -48,6 +49,7 @@ Feature: Machines
     And I wait for 1 seconds
     Then I should see a(n) "observation" log entry of action "create_machine" added "a few seconds ago" in the "dashboard" page within 10 seconds
     When I visit the Machines page
+    And I wait for 2 seconds
     And I expand the "Docker" item in the "machines" page
     Then "ui-test-create-machine-random" machine state has to be "stopped" within 150 seconds
 
@@ -63,6 +65,7 @@ Feature: Machines
     And I wait for 1 seconds
     Then I should see a(n) "request" log entry of action "start_machine" added "a few seconds ago" in the "dashboard" page within 10 seconds
     When I visit the Machines page
+    And I wait for 2 seconds
     And I expand the "Docker" item in the "machines" page
     And I clear the search bar
     And I search for "ui-test-create-machine-random"

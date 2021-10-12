@@ -76,6 +76,7 @@ Feature: RBAC-rules-v2
   Scenario: Member 1 should now be able to read machine
     Given I am logged in to mist as rbac_member1
     When I visit the Machines page
+    And I wait for 2 seconds
     Then "Docker" machine should be present within 10 seconds
 
   @member1-create-machine-success
@@ -96,6 +97,7 @@ Feature: RBAC-rules-v2
     Then I click the button "Launch" in the "machine" add form
     When I visit the Home page
     And I visit the Machines page
+    And I wait for 2 seconds
     And I expand the "Docker" item in the "machines" page
     And I search for "rbac-test-machine-random"
     Then "rbac-test-machine-random" machine state has to be "running" within 50 seconds
