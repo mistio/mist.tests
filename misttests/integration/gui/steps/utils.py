@@ -252,7 +252,8 @@ def get_grid_items(context, grid):
     ret = context.browser.execute_script('return arguments[0].items', grid)
     try:
         extra_items = context.browser.execute_script(
-            'return Object.values(Object.values(arguments[0]._cache.itemCaches)[0].items)', grid)
+            'return Object.values(Object.values(arguments[0]._cache.itemCaches)[0].items)',
+            grid)
         if type(ret) is dict and ret.get(length) != 0:
             return extra_times
         ret = ret + extra_items
