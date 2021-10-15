@@ -57,6 +57,7 @@ def assert_machine_state(context, name, state, seconds):
     while time() < end_time:
         machine = get_list_item(context, 'machine', name)
         if machine:
+            print("Found machine: {}",format(machine.get(name)))
             if state in machine.get('state').strip().lower():
                 return
         sleep(2)
