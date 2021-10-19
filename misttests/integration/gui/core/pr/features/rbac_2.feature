@@ -89,7 +89,7 @@ Feature: RBAC-rules-v2
     Then I expect the field "Machine name" in the machine add form to be visible within max 4 seconds
     Then I set the value "rbac-test-machine-random" to field "Machine Name" in the "machine" add form
     When I open the "Image" dropdown in the "machine" add form
-    And I click the "mist/ubuntu-14.04:latest" button in the "Image" dropdown in the "machine" add form
+    And I click the "Debian Bullseye with SSH server" button in the "Image" dropdown in the "machine" add form
     And I wait for 3 seconds
     Then I expect for the button "Launch" in the "machine" add form to be clickable within 10 seconds
     When I focus on the button "Launch" in the "machine" add form
