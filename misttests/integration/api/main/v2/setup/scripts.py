@@ -1,4 +1,3 @@
-from time import sleep
 from misttests import config
 from misttests.integration.api.helpers import assert_response_ok
 from misttests.integration.api.mistrequests import MistRequests
