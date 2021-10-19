@@ -30,14 +30,14 @@ def setup(api_token):
         api_token=api_token, uri=uri, json=add_cloud_request)
     response = request.post()
     assert_response_ok(response)
-    # Create key
-    create_key_request = {
+    # Add key
+    add_key_request = {
         "name": "example-key",
         "generate": True
     }
     keys_uri = f'{config.MIST_URL}/api/v2/keys'
     request = MistRequests(
-        api_token=api_token, uri=keys_uri, json=create_key_request)
+        api_token=api_token, uri=keys_uri, json=add_key_request)
     response = request.post()
     assert_response_ok(response)
     key_id = response.json().get('id')
