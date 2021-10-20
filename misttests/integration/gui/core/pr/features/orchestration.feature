@@ -55,7 +55,7 @@ Feature: Orchestration
 #    And I click the button "Docker_Orchestrator" in the "cloud" dropdown
 #    And I open the "mist image" drop down
 #    And I wait for 1 seconds
-#    And I click the button "Ubuntu 14.04" in the "mist image" dropdown
+#    And I click the button "Debian Bullseye with SSH server" in the "mist image" dropdown
 #    And I open the "mist key" drop down
 #    And I wait for 1 seconds
 #    And I click the button "TestKey2" in the "mist key" dropdown

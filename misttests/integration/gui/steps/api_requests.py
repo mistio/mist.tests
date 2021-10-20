@@ -226,7 +226,7 @@ def create_docker_machine(context, machine_name):
     re = requests.get(context.mist_config['MIST_URL'] + "/api/v1/clouds/" + cloud_id + "/images", headers=headers)
 
     for image in re.json():
-        if 'Ubuntu 14.04' in image['name']:
+        if config.DEFAULT_IMAGE_NAME in image['name']:
             image_id = image['id']
             break
 
