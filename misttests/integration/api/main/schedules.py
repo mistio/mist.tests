@@ -1,5 +1,5 @@
 from misttests.integration.api.helpers import *
-from misttests.config import safe_get_var
+from misttests.config import safe_get_var, DEFAULT_IMAGE_NAME
 from misttests import config
 from time import sleep
 
