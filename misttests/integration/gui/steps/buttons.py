@@ -296,7 +296,7 @@ def click_tree_view_item(context, text, resource_type):
             name = safe_get_element_text(item).strip().lower()
             if text == name:
                 vaadin_grid_cell_content = item.find_element_by_xpath(
-                    './/parent::vaadin-grid-cell-content')
+                    './/ancestor::vaadin-grid-cell-content')
                 action = ActionChains(context.browser)
                 action.move_to_element_with_offset(vaadin_grid_cell_content, 100, 5)
                 action.click()
