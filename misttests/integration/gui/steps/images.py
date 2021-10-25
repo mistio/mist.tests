@@ -3,7 +3,7 @@ from behave import step
 from time import time
 
 from .utils import safe_get_element_text, get_page_element
-from .utils import expand_shadow_root, get_grid_items
+from .utils import expand_shadow_root, get_list_filtered_items
 
 
 def find_image(image, images_list):
@@ -20,11 +20,9 @@ def assert_starred_unstarred_image(context, image, state, seconds):
     images_page = get_page_element(context, 'images')
     images_page_shadow = expand_shadow_root(context, images_page)
     mist_list = images_page_shadow.find_element_by_css_selector('mist-list')
-    list_shadow = expand_shadow_root(context, mist_list)
-    grid = list_shadow.find_element_by_css_selector('vaadin-grid')
     end_time = time() + int(seconds)
     while time() < end_time:
-        starred = get_grid_items(context, grid)[0]['starred']
+        starred = get_list_filtered_items(context, mist_list)[0]['starred']
         if state == 'starred':
             assert starred, "Image is not starred"
         else:

@@ -1,6 +1,6 @@
 from behave import step
 
-from misttests.config import safe_get_var
+from misttests.config import safe_get_var, DEFAULT_IMAGE_NAME
 import requests
 import random
 import json
@@ -226,7 +226,7 @@ def create_docker_machine(context, machine_name):
     re = requests.get(context.mist_config['MIST_URL'] + "/api/v1/clouds/" + cloud_id + "/images", headers=headers)
 
     for image in re.json():
-        if 'Debian Bullseye' in image['name']:
+        if DEFAULT_IMAGE_NAME in image['name']:
             image_id = image['id']
             break
 

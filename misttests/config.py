@@ -42,6 +42,7 @@ except Exception as exc:
 
 PROVIDER_VAULT_MAP = {
     'google': 'gce',
+    'docker': 'dockerhost'
 }
 
 # TODO: modify so that it can parse nested objects as well
@@ -320,3 +321,5 @@ DEFAULT_CREDENTIALS = {
 CREDENTIALS = get_setting("CREDENTIALS", DEFAULT_CREDENTIALS)
 
 PRODUCE_VIDEO_SCREENCAST_ON_ERROR = get_setting("PRODUCE_VIDEO_SCREENCAST_ON_ERROR", True)
+
+DEFAULT_IMAGE_NAME = get_setting("DEFAULT_IMAGE_NAME", "Debian Bullseye with SSH server")

@@ -185,7 +185,8 @@ def become_visible_waiting_with_timeout(context, element_id, seconds):
                                    int(seconds), msg)
 
 
-@step('I expect for "{page_title}" page to appear within max {seconds} seconds')
+@step(
+    'I expect for "{page_title}" page to appear within max {seconds} seconds')
 def check_page_is_visible(context, page_title, seconds):
     page = page_title.lower()
     if page not in ['machines', 'images', 'keys', 'networks', 'tunnels',
@@ -195,11 +196,14 @@ def check_page_is_visible(context, page_title, seconds):
     mist_app = context.browser.find_element_by_tag_name('mist-app')
     mist_app_shadow = expand_shadow_root(context, mist_app)
     page_css_selector = 'iron-pages > page-%s' % page
-    page_element = mist_app_shadow.find_element_by_css_selector(page_css_selector)
+    page_element = mist_app_shadow.find_element_by_css_selector(
+        page_css_selector)
     if page in ['machines', 'images', 'teams','keys', 'networks',
-                'scripts', 'schedules', 'templates', 'stacks', 'zones', 'volumes']:
+                'scripts', 'schedules', 'templates', 'stacks', 'zones',
+                'volumes']:
         container = expand_shadow_root(context, page_element)
-        # Retry a few times because the shadow root won't always get expanded right away
+        # Retry a few times because the shadow root won't always get expanded
+        # right away
         timeout = 5
         while timeout and not container:
             sleep(1)
@@ -215,7 +219,7 @@ def check_page_is_visible(context, page_title, seconds):
         sleep(1)
     msg = "%s page is not visible after %s seconds" % (page, seconds)
     wait_for_element_in_container_to_be_visible(container, selector,
-        int(seconds), msg)
+                                                int(seconds), msg)
 
 
 @step('I should read "{something}" in input with id "{input_id}"')
@@ -241,12 +245,18 @@ def wait_until_visible(element, seconds):
 
 
 def expand_shadow_root(context, element):
-    return context.browser.execute_script('return arguments[0].shadowRoot', element)
+    return context.browser.execute_script(
+        'return arguments[0].shadowRoot', element)
 
 
 def expand_slot(context, element):
-    return context.browser.execute_script('return arguments[0].assignedElements()', element)
+    return context.browser.execute_script(
+        'return arguments[0].assignedElements()', element)
 
+
+def get_list_filtered_items(context, mist_list):
+    return context.browser.execute_script(
+        'return arguments[0].filteredItems', mist_list)
 
 def get_grid_items(context, grid):
     ret = context.browser.execute_script('return arguments[0].items', grid)
@@ -264,15 +274,23 @@ def get_grid_items(context, grid):
 def get_list_item_from_checkbox(context, checkbox):
     return context.browser.execute_script('return arguments[0].item', checkbox)
 
+
 def scroll_into_view(context, element):
-    return context.browser.execute_script('return arguments[0].scrollIntoView()', element)
+    return context.browser.execute_script(
+        'return arguments[0].scrollIntoView()', element)
+
 
 def has_finished_loading(context, section):
-    return context.browser.execute_script('return !document.querySelector("mist-app").model.pending["' + section + '"]')
+    return context.browser.execute_script(
+        'return !document.querySelector("mist-app").model.pending["'
+        f'{section}"]'
+    )
+
 
 def add_credit_card_if_needed(context, form_shadow):
     try:
-        plan_purchase_dialog = form_shadow.find_element_by_css_selector('plan-purchase')
+        plan_purchase_dialog = form_shadow.find_element_by_css_selector(
+            'plan-purchase')
         dialog_shadow = expand_shadow_root(context, plan_purchase_dialog)
         card_form = dialog_shadow.find_element_by_css_selector('card-form')
         if card_form.is_displayed():

@@ -1,5 +1,5 @@
 from misttests.integration.api.helpers import *
-from misttests.config import safe_get_var
+from misttests.config import safe_get_var, DEFAULT_IMAGE_NAME
 from misttests import config
 from time import sleep
 
@@ -137,9 +137,9 @@ class TestSchedulesFunctionality:
         response = mist_core.list_images(cloud_id=cache.get('docker_id', ''), api_token=owner_api_token).get()
         assert_response_ok(response)
         for image in response.json():
-            if 'Ubuntu 14.04' in image['name']:
+            if DEFAULT_IMAGE_NAME in image['name']:
                 cache.set('image_id', image['id'])
-                break;
+                break
 
         for i in range(1,4):
             name = 'api_test_machine_%d' % random.randint(1, 10000000)

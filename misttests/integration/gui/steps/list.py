@@ -4,7 +4,8 @@ from time import time
 from time import sleep
 
 from .utils import safe_get_element_text, get_page_element, expand_shadow_root
-from .utils import get_grid_items, get_list_item_from_checkbox
+from .utils import get_list_item_from_checkbox
+from .utils import get_list_filtered_items
 
 from .buttons import clicketi_click
 
@@ -21,9 +22,7 @@ def get_list_items(context, resource_type):
         _, container = get_page_element(context, 'zones', 'zone')
     container_shadow = expand_shadow_root(context, container)
     mist_list = container_shadow.find_element_by_css_selector('mist-list')
-    list_shadow = expand_shadow_root(context, mist_list)
-    grid = list_shadow.find_element_by_css_selector('vaadin-grid')
-    return get_grid_items(context, grid)
+    return get_list_filtered_items(context, mist_list)
 
 
 def get_list_item(context, resource_type, name):
