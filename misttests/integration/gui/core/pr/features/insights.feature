@@ -42,7 +42,7 @@ Feature: Actions for Insights
     And I clear the search bar
     And I wait for 2 seconds
     And I search for "unknown"
-    And I click the "Docker" "machine"
+    And I click the "Docker" "machine" in the list with tree view
     Then I ensure that the "machine" has the tags "cost_per_month:100" within 20 seconds
     When I visit the Insights page
     And I wait for 60 seconds
