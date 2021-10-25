@@ -30,7 +30,7 @@ Feature: Actions for Insights
     And I clear the search bar
     And I wait for 2 seconds
     And I search for "unknown"
-    And I click the "Docker" "machine"
+    And I click the "Docker" "machine" in the list with tree view
     Then I expect the "machine" page to be visible within max 5 seconds
     Then I click the "Tag" action button in the "machine" page
     Then I expect the "Tags" dialog to be open within 4 seconds
