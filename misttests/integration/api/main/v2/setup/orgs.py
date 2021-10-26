@@ -3,11 +3,6 @@ from misttests.integration.api.helpers import assert_response_ok
 from misttests.integration.api.mistrequests import MistRequests
 
 
-USER_EMAIL = 'example-member@something.com'
-ORG_NAME = 'example-org'
-TEAM_NAME = 'example-team'
-
-
 def setup(api_token):
     orgs_uri = MIST_URL + '/api/v2/orgs'
     request = MistRequests(api_token=api_token, uri=orgs_uri)
@@ -25,5 +20,5 @@ def setup(api_token):
     }
 
 
-def teardown(api_token):
+def teardown(api_token, setup_data):
     pass
