@@ -1,30 +1,15 @@
 from time import sleep
 from misttests import config
 from misttests.integration.api.helpers import assert_response_ok
+from misttests.integration.api.helpers import uniquify_string
 from misttests.integration.api.mistrequests import MistRequests
-
-
-CLOUD_NAME = 'example-cloud'
-KEY_NAME = 'example-key'
-MACHINE_NAME = 'example-machine'
-MACHINE_LOCATION = 'us-east1-b'
-MACHINE_IMAGE = 'ubuntu-1804-bionic-v20210928'
-MACHINE_SIZE = 'f1-micro'
-
-machine_job_id = None
-
-
-def is_data_available(api_token, uri):
-    request = MistRequests(api_token=api_token, uri=uri)
-    response = request.get()
-    assert_response_ok(response)
-    return bool(response.json().get('data'))
 
 
 def setup(api_token):
     # Add a cloud
+    cloud_name = uniquify_string('test-cloud')
     add_cloud_request = {
-        "name": CLOUD_NAME,
+        "name": cloud_name,
         "provider": "docker",
         "credentials": {
             "tlsCaCert": None,
@@ -41,7 +26,7 @@ def setup(api_token):
     response = request.post()
     assert_response_ok(response)
     # Get cloud id
-    cloud_uri = f'{config.MIST_URL}/api/v2/clouds/{CLOUD_NAME}'
+    cloud_uri = f'{config.MIST_URL}/api/v2/clouds/{cloud_name}'
     request = MistRequests(
         api_token=api_token, uri=cloud_uri)
     response = request.get()
@@ -56,8 +41,9 @@ def setup(api_token):
     assert_response_ok(response)
     image_id = response.json().get('data', {}).get('id', '')
     # Create a machine
+    machine_name = uniquify_string('test-machine')
     add_machine_request = {
-        "name": MACHINE_NAME,
+        "name": machine_name,
         "provider": "docker",
         "image": image_id,
         "size": '',
@@ -70,22 +56,24 @@ def setup(api_token):
     assert_response_ok(response)
     job_id = response.json().get('jobId') or response.json().get('job_id')
     sleep(30)
-    return {'job_id': job_id}
+    return {
+        'cloud': cloud_name,
+        'machine': machine_name,
+        'job_id': job_id
+    }
 
 
-def teardown(api_token):
+def teardown(api_token, setup_data):
     # Destroy the machine
+    machine_name = setup_data['machine']
     uri = (f'{config.MIST_URL}/api/v2/machines'
-           f'/{MACHINE_NAME}/actions/destroy')
+           f'/{machine_name}/actions/destroy')
     request = MistRequests(api_token=api_token, uri=uri)
     response = request.post()
     assert_response_ok(response)
-    # Delete key
-    uri = f'{config.MIST_URL}/api/v2/keys/{KEY_NAME}'
-    request = MistRequests(api_token=api_token, uri=uri)
-    request.delete()
     # Remove the cloud
-    uri = f'{config.MIST_URL}/api/v2/clouds/{CLOUD_NAME}'
+    cloud_name = setup_data['cloud']
+    uri = f'{config.MIST_URL}/api/v2/clouds/{cloud_name}'
     request = MistRequests(
         api_token=api_token, uri=uri)
     response = request.delete()
