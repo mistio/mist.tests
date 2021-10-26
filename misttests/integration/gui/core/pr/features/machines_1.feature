@@ -100,7 +100,7 @@ Feature: Machines
     And I expect in-page terminal to open within 7 seconds
     And in-page shell input should be available after 8 seconds
     And I type in the in-page terminal "ls -l /var"
-    And I wait for 1 seconds
+    And I wait for 10 seconds
     Then dummy_file should be included in the in-page terminal output
     And I close the in-page terminal
 
@@ -146,5 +146,5 @@ Feature: Machines
     And I search for "ui-test-create-machine-random"
     Then "ui-test-create-machine-random" machine should be absent within 60 seconds
     When I visit the Home page
-    And I wait for 10 seconds
+    And I wait for 1 seconds
     Then I should see a(n) "observation" log entry of action "destroy_machine" added "a few seconds ago" in the "dashboard" page within 60 seconds
