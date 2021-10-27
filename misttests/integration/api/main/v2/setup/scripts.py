@@ -46,16 +46,14 @@ def setup(api_token):
     key_id = response.json().get('id')
     # Get cloud id
     cloud_uri = f'{config.MIST_URL}/{CLOUDS_V2_ENDPOINT}/{cloud_name}'
-    request = MistRequests(
-        api_token=api_token, uri=cloud_uri)
+    request = MistRequests(api_token=api_token, uri=cloud_uri)
     response = request.get()
     assert_response_ok(response)
     cloud_id = response.json().get('data', {}).get('id', '')
     # Get image id
     image_name = 'debian-ssh'
     image_uri = f'{config.MIST_URL}/{IMAGES_ENDPOINT}/{image_name}'
-    request = MistRequests(
-        api_token=api_token, uri=image_uri)
+    request = MistRequests(api_token=api_token, uri=image_uri)
     response = request.get()
     assert_response_ok(response)
     image_id = response.json().get('data', {}).get('id', '')
@@ -98,7 +96,6 @@ def teardown(api_token, setup_data):
     # Remove cloud
     cloud_name = setup_data['cloud']
     uri = f'{config.MIST_URL}/{CLOUDS_V2_ENDPOINT}/{cloud_name}'
-    request = MistRequests(
-        api_token=api_token, uri=uri)
+    request = MistRequests(api_token=api_token, uri=uri)
     response = request.delete()
     assert_response_ok(response)
