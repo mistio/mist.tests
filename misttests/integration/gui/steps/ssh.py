@@ -13,6 +13,8 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.common.exceptions import NoSuchElementException
 from selenium.webdriver.support import expected_conditions as EC
+from selenium.webdriver.common.keys import Keys
+from selenium.webdriver import ActionChains
 
 
 def is_ssh_connection_up(lines):
@@ -290,7 +292,9 @@ def type_in_in_page_terminal(context, command):
     xterm_dialog = mist_app_shadow.find_element_by_css_selector('xterm-dialog')
     msg = '' + command
     context.browser.execute_script("arguments[0].term.paste('{}');".format(msg), xterm_dialog)
-    context.browser.execute_script("arguments[0].term.paste('\\n');", xterm_dialog)
+    action = ActionChains(context.browser)
+    action.send_keys(Keys.ENTER)
+    action.perform()
 
 @step('I close the in-page terminal')
 def close_in_page_terminal(context):
