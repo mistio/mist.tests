@@ -63,7 +63,7 @@ def setup(api_token):
     response = request.post()
     assert_response_ok(response)
     job_id = response.json().get('jobId') or response.json().get('job_id')
-    sleep(60)
+    sleep(80)
     return {
         'cloud': cloud_name,
         'machine': machine_name,
@@ -78,7 +78,6 @@ def teardown(api_token, setup_data):
            f'/{machine_name}/actions/destroy')
     request = MistRequests(api_token=api_token, uri=uri)
     response = request.post()
-    assert_response_ok(response)
     # Remove cloud
     cloud_name = setup_data['cloud']
     uri = f'{config.MIST_URL}/{CLOUDS_V2_ENDPOINT}/{cloud_name}'
