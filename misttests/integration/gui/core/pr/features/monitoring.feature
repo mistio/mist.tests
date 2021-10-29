@@ -13,13 +13,14 @@ Feature: Monitoring
     And I click the button "+"
     Then I expect the "Machine" add form to be visible within max 5 seconds
     When I open the "Select Cloud" dropdown in the "machine" add form
-    And I wait for 7 seconds
+    And I wait for 5 seconds
     And I click the "Docker" button in the "Select Cloud" dropdown in the "machine" add form
     Then I expect the field "Machine name" in the machine add form to be visible within max 4 seconds
     Then I set the value "monitored-machine-random" to field "Machine Name" in the "machine" add form
-    And I wait for 7 seconds
+    And I wait for 5 seconds
     When I open the "Image" dropdown in the "machine" add form
     And I click the "Debian Bullseye with SSH server" button in the "Image" dropdown in the "machine" add form
+    And I wait for 2 seconds
     When I open the "Key" dropdown in the "machine" add form
     And I click the "Key1" button in the "Key" dropdown in the "machine" add form
     And I wait for 1 seconds

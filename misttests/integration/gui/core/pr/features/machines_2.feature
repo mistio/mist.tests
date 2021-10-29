@@ -41,6 +41,7 @@ Feature: Machines
     When I visit the Home page
     Then I should see a(n) "request" log entry of action "create_machine" added "a few seconds ago" in the "dashboard" page within 10 seconds
     When I visit the Machines page
+    And I clear the search bar
     And I search for "ui-test-create-machine-random"
     Then "ui-test-create-machine-random" machine state has to be "running" within 100 seconds
     When I visit the Home page
