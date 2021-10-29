@@ -55,7 +55,7 @@ Feature: Rules
     And I select the "system" target when adding new rule in the "rules" page
     And I select the "system.n_cpus" target when adding new rule in the "rules" page
     And I select the "<" operator when adding new rule in the "rules" page
-    And I type "9" in the threshold when adding new rule in the "rules" page
+    And I type "99" in the threshold when adding new rule in the "rules" page
     And I select the "any" aggregation when adding new rule in the "rules" page
     And I select the "destroy" action when adding new rule in the "rules" page
     And I wait for 2 seconds
