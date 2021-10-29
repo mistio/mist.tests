@@ -132,7 +132,11 @@ def click_button_in_dropdown_within_container(context, container, button, name, 
     if button == get_current_value_of_dropdown(dropdown):
         return True
     buttons = dropdown.find_elements_by_css_selector('paper-item')
-    click_button_from_collection(context, button.lower(), buttons, partial_match=partial_match)
+    try:
+        click_button_from_collection(context, button.lower(), buttons, partial_match=partial_match)
+    except Exception:
+        dropdown.click()
+        click_button_from_collection(context, button.lower(), buttons, partial_match=partial_match)
 
 
 @step('I click the button that contains "{button}" in the "{dropdown_name}" dropdown in the "{resource_type}" add form')
