@@ -1,12 +1,16 @@
 from time import sleep
 from misttests import config
 from misttests.integration.api.helpers import assert_response_ok
+from misttests.integration.api.helpers import uniquify_string
 from misttests.integration.api.mistrequests import MistRequests
+
+CLOUDS_ENDPOINT = 'api/v2/clouds'
 
 
 def setup(api_token):
+    cloud_name = uniquify_string('test-cloud')
     add_cloud_request = {
-        "name": "example-cloud",
+        "name": cloud_name,
         "provider": "google",
         "credentials": {
             "projectId": "projectId",
@@ -15,16 +19,18 @@ def setup(api_token):
         },
     }
     config.inject_vault_credentials(add_cloud_request)
-    uri = config.MIST_URL + '/api/v2/clouds'
+    uri = f'{config.MIST_URL}/{CLOUDS_ENDPOINT}'
     request = MistRequests(
         api_token=api_token, uri=uri, json=add_cloud_request)
     response = request.post()
     assert_response_ok(response)
     sleep(120)
+    return {'cloud': cloud_name}
 
 
-def teardown(api_token):
-    uri = config.MIST_URL + '/api/v2/clouds/example-cloud'
+def teardown(api_token, setup_data):
+    cloud = setup_data['cloud']
+    uri = f'{config.MIST_URL}/{CLOUDS_ENDPOINT}/{cloud}'
     request = MistRequests(api_token=api_token, uri=uri)
     response = request.delete()
     assert_response_ok(response)

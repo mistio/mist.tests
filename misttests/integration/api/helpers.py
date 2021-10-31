@@ -1,3 +1,4 @@
+import uuid
 import json
 import string
 import random
@@ -103,6 +104,10 @@ def get_random_key_name(existing_keys):
         keys = get_keys_with_id(random_key_name, existing_keys)
         if len(keys) == 0:
             return random_key_name
+
+
+def uniquify_string(string):
+    return f"{string}-{str(uuid.uuid4()).split('-')[0]}"
 
 
 def destroy_machine(log, mist_core, api_token, cloud_id, machine_id):
