@@ -47,7 +47,6 @@ Feature: Contstraints-RBAC-rules
     And I wait for 5 seconds
     And I search for "ui-test-expiration-random"
     Then "ui-test-expiration-random" machine state has to be "running" within 100 seconds
-    And I refresh the page
     And I wait for 5 seconds
     When I click the "ui-test-expiration-random" "machine"
     And I wait for 3 seconds
