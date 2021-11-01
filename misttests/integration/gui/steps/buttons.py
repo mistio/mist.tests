@@ -303,6 +303,38 @@ def click_item(context, text, resource_type):
                 return True
     assert False, "Could not click item %s" % text
 
+@step('I click the "{text}" "{resource_type}" in the list with tree view')
+def click_tree_view_item(context, text, resource_type):
+    resource_type = resource_type.lower()
+    if resource_type not in ['machine', 'key', 'script', 'network', 'team', 'template',
+                             'stack', 'image', 'schedule', 'zone', 'volume']:
+        raise Exception('Unknown type of button')
+    if context.mist_config.get(text):
+        text = context.mist_config[text]
+    text = text.lower()
+    container = get_page_element(context, resource_type + 's')
+    container_shadow = expand_shadow_root(context, container)
+    if container_shadow is None:
+        sleep(1)
+        container_shadow = expand_shadow_root(context, container)
+
+    mist_list = container_shadow.find_element_by_css_selector('mist-list')
+    list_shadow = expand_shadow_root(context, mist_list)
+    items = list_shadow.find_elements_by_css_selector('strong.name')
+    for item in items:
+        if resource_type in ['machine', 'image', 'team', 'key', 'script', 'volume',
+                             'network', 'template', 'stack', 'schedule', 'zone']:
+            name = safe_get_element_text(item).strip().lower()
+            if text == name:
+                vaadin_grid_cell_content = item.find_element_by_xpath(
+                    './/ancestor::vaadin-grid-cell-content')
+                action = ActionChains(context.browser)
+                action.move_to_element_with_offset(vaadin_grid_cell_content, 100, 5)
+                action.click()
+                action.perform()
+                sleep(1)
+                return True
+    assert False, "Could not click item %s" % text
 
 @step('cloud "{search_cloud}" should be "{state}"')
 def state_of_cloud(context,search_cloud,state):
