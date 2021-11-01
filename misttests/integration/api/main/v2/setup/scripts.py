@@ -85,17 +85,14 @@ def teardown(api_token, setup_data):
     uri = (f'{config.MIST_URL}/{MACHINES_ENDPOINT}'
            f'/{machine_name}/actions/destroy')
     request = MistRequests(api_token=api_token, uri=uri)
-    response = request.post()
-    assert_response_ok(response)
+    request.post()
     # Delete key
     key_name = setup_data['key']
     uri = f'{config.MIST_URL}/{KEYS_ENDPOINT}/{key_name}'
     request = MistRequests(api_token=api_token, uri=uri)
-    response = request.delete()
-    assert_response_ok(response)
+    request.delete()
     # Remove cloud
     cloud_name = setup_data['cloud']
     uri = f'{config.MIST_URL}/{CLOUDS_V2_ENDPOINT}/{cloud_name}'
     request = MistRequests(api_token=api_token, uri=uri)
-    response = request.delete()
-    assert_response_ok(response)
+    request.delete()
