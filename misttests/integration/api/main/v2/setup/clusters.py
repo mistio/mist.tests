@@ -28,6 +28,8 @@ def setup(api_token):
     assert_response_ok(response)
     cluster_name = uniquify_string('test-cluster')
     return {
+        'test_create_cluster_timeout': 300,
+        'test_destroy_cluster_timeout': 150,
         'cluster': cluster_name,
         'cloud': cloud_name
     }
