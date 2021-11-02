@@ -46,7 +46,7 @@ Feature: Production
     And I select the "metric" target-type when adding new rule in the "machine" page
     And I wait for 5 seconds
     And I select the "system" target when adding new rule in the "machine" page
-    And I select the "system.load1" target when adding new rule in the "machine" page
+    And I select the "system_load1" target when adding new rule in the "machine" page
     And I select the "<" operator when adding new rule in the "machine" page
     And I type "10" in the threshold when adding new rule in the "machine" page
     And I select the "any" aggregation when adding new rule in the "machine" page
