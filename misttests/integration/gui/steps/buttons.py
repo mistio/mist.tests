@@ -299,10 +299,16 @@ def click_item(context, text, resource_type):
                              'network', 'template', 'stack', 'schedule', 'zone']:
             name = safe_get_element_text(item).strip().lower()
             if text == name:
-                clicketi_click(context, item)
+                # click a bit to the right so it won't expand the element
+                vaadin_grid_cell_content = item.find_element_by_xpath(
+                    './/ancestor::vaadin-grid-cell-content')
+                action = ActionChains(context.browser)
+                action.move_to_element_with_offset(vaadin_grid_cell_content, 100, 5)
+                action.click()
+                action.perform()
+                sleep(1)
                 return True
     assert False, "Could not click item %s" % text
-
 
 @step('cloud "{search_cloud}" should be "{state}"')
 def state_of_cloud(context,search_cloud,state):
