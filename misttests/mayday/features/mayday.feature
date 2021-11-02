@@ -35,17 +35,18 @@ Feature: Production
     When I click the "MAYDAY_MACHINE" "machine"
     And I expect the "machine" page to be visible within max 5 seconds
     Then I wait for the monitoring graphs to appear in the "machine" page
+    And I wait for 5 seconds
     When I scroll to the rules section in the "machine" page
     When I remove previous rules in the "machine" page
     When I delete old mayday emails
     And I wait for 2 seconds
     And I scroll to the rules section in the "machine" page
     And I click the button "add new rule" in the "machine" page
-    And I wait for 1 seconds
-    And I select the "metric" target-type when adding new rule in the "machine" page
     And I wait for 2 seconds
+    And I select the "metric" target-type when adding new rule in the "machine" page
+    And I wait for 5 seconds
     And I select the "system" target when adding new rule in the "machine" page
-    And I select the "system.load1" target when adding new rule in the "machine" page
+    And I select the "system_load1" target when adding new rule in the "machine" page
     And I select the "<" operator when adding new rule in the "machine" page
     And I type "10" in the threshold when adding new rule in the "machine" page
     And I select the "any" aggregation when adding new rule in the "machine" page
