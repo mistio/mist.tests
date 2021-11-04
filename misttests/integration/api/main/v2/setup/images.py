@@ -32,5 +32,4 @@ def teardown(api_token, setup_data):
     cloud = setup_data['cloud']
     uri = f'{config.MIST_URL}/{CLOUDS_ENDPOINT}/{cloud}'
     request = MistRequests(api_token=api_token, uri=uri)
-    response = request.delete()
-    assert_response_ok(response)
+    request.delete()
