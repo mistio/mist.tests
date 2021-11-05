@@ -23,8 +23,9 @@ class MistRequests(object):
         self.json = json
 
     def post(self):
-        response = requests.post(self.uri, data=self.data, json=self.json,
-                                 headers=self.headers, timeout=self.timeout)
+        response = requests.post(self.uri, params=self.params, data=self.data,
+                                 json=self.json, headers=self.headers,
+                                 timeout=self.timeout)
         return response
 
     def get(self):
@@ -33,13 +34,15 @@ class MistRequests(object):
         return response
 
     def put(self):
-        response = requests.put(self.uri, data=self.data, json=self.json,
-                                headers=self.headers, timeout=self.timeout)
+        response = requests.put(self.uri, params=self.params, data=self.data,
+                                json=self.json, headers=self.headers,
+                                timeout=self.timeout)
         return response
 
     def patch(self):
-        response = requests.patch(self.uri, data=self.data, json=self.json,
-                                  headers=self.headers, timeout=self.timeout)
+        response = requests.patch(self.uri, params=self.params, data=self.data,
+                                  json=self.json, headers=self.headers,
+                                  timeout=self.timeout)
         return response
 
     def delete(self):
