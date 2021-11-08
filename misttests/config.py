@@ -42,6 +42,7 @@ except Exception as exc:
 
 PROVIDER_VAULT_MAP = {
     'google': 'gce',
+    'amazon': 'aws',
     'docker': 'dockerhost'
 }
 
