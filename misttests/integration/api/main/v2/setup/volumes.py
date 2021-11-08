@@ -32,7 +32,11 @@ def setup(api_token):
         'ex_volume_type': 'standard',
         'ex_iops': ''
     }
+    query_string = {
+        'edit_volume': [('name', volume_name)]
+    }
     return dict(overwrite_request=request_body,
+                query_string=query_string,
                 cloud=cloud_name,
                 volume=volume_name)
 
