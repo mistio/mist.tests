@@ -16,14 +16,14 @@ def setup(api_token):
     # Add cloud
     cloud_name = uniquify_string('test-cloud')
     add_cloud_request = {
-        "name": cloud_name,
-        "provider": "docker",
-        "credentials": {
-            "tlsCaCert": None,
-            "tlsCert": None,
-            "tlsKey": None,
-            "host": None,
-            "port": None
+        'name': cloud_name,
+        'provider': 'docker',
+        'credentials': {
+            'tlsCaCert': None,
+            'tlsCert': None,
+            'tlsKey': None,
+            'host': None,
+            'port': None
         }
     }
     config.inject_vault_credentials(add_cloud_request)
@@ -35,8 +35,8 @@ def setup(api_token):
     # Add key
     key_name = uniquify_string('test-key')
     add_key_request = {
-        "name": key_name,
-        "generate": True
+        'name': key_name,
+        'generate': True
     }
     keys_uri = f'{config.MIST_URL}/{KEYS_ENDPOINT}'
     request = MistRequests(
@@ -60,11 +60,11 @@ def setup(api_token):
     # Create machine
     machine_name = uniquify_string('test-machine')
     add_machine_request = {
-        "name": machine_name,
-        "provider": "docker",
-        "image": image_id,
-        "key": key_id,
-        "size": ''
+        'name': machine_name,
+        'provider': 'docker',
+        'image': image_id,
+        'key': key_id,
+        'size': ''
     }
     machines_uri = \
         f'{config.MIST_URL}/{CLOUDS_V1_ENDPOINT}/{cloud_id}/machines'
@@ -72,7 +72,23 @@ def setup(api_token):
         api_token=api_token, uri=machines_uri, json=add_machine_request)
     response = request.post()
     assert_response_ok(response)
+    script_name = uniquify_string('test-script')
+    request_body = {
+        'add_script': {
+            'name': script_name,
+            'exec_type': 'executable',
+            'script': '#!/usr/bin/env bash\necho Hello, World!',
+            'location_type': 'inline'
+        },
+        'run_script': {
+            'su': 'false',
+            'machine': machine_name
+        }
+    }
     return {
+        'request_body': request_body,
+        'query_string': {'edit_script': [('name', script_name)]},
+        'script': script_name,
         'cloud': cloud_name,
         'key': key_name,
         'machine': machine_name

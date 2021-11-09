@@ -26,17 +26,19 @@ def setup(api_token):
     response = request.post()
     assert_response_ok(response)
     request_body = {
-        'name': network_name,
-        'cloud': cloud_name,
-        'extra': {
-            'cidr': f'10.{randint(1, 255 + 1)}.0.0/16'
+        'create_network': {
+            'name': network_name,
+            'cloud': cloud_name,
+            'extra': {
+                'cidr': f'10.{randint(1, 255 + 1)}.0.0/16'
+            }
         }
     }
     query_string = {
         'delete_network': [('cloud', cloud_name)],
         'edit_network': [('name', network_name)]
     }
-    return dict(overwrite_request=request_body,
+    return dict(request_body=request_body,
                 query_string=query_string,
                 cloud=cloud_name,
                 network=network_name)
