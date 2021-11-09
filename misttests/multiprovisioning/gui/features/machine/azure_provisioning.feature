@@ -54,8 +54,8 @@ Feature: Multiprovisioning
     When I wait for 180 seconds
     And I click the "Shell" action button in the "machine" page
     And I wait for 5 seconds
-    Then I expect terminal to open within 7 seconds
-    And shell input should be available after 30 seconds
+    Then I expect terminal to open within 30 seconds
+    And shell input should be available after 45 seconds
     When I type in the terminal "sudo su"
     And I wait for 2 seconds
     And I type in the terminal "ls -la ~"

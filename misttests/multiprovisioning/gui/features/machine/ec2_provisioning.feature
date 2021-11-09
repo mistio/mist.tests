@@ -23,13 +23,13 @@ Feature: Multiprovisioning
     When I use my second AWS credentials
     And I wait for 1 seconds
     When I click the "Edit Credentials" button in the "Edit Credentials" dialog
-    And I wait for 3 seconds
+    And I wait for 45 seconds
     And I visit the Images page
     And I wait for 5 seconds
     And I clear the search bar
     And I wait for 5 seconds
     And I search for "ubuntu-focal-20.04"
-    Then "ubuntu/images/hvm-ssd/ubuntu-focal-20.04-amd64-server-20210223" image should be present within 30 seconds
+    Then "ubuntu/images/hvm-ssd/ubuntu-focal-20.04-amd64-server-20210223" image should be present within 60 seconds
 
     When I wait for 60 seconds
     And I visit the Machines page
@@ -72,8 +72,8 @@ Feature: Multiprovisioning
     When I wait for 60 seconds
     And I click the "Shell" action button in the "machine" page
     And I wait for 5 seconds
-    Then I expect terminal to open within 7 seconds
-    And shell input should be available after 30 seconds
+    Then I expect terminal to open within 30 seconds
+    And shell input should be available after 45 seconds
     And I type in the terminal "sudo su"
     And I wait for 2 seconds
     And I type in the terminal "ls -la ~"
