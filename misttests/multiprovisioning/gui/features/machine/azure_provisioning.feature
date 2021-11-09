@@ -27,7 +27,7 @@ Feature: Multiprovisioning
     And I click the "Canonical UbuntuServer 18.04-LTS" button in the "Image" dropdown in the "machine" add form
     When I open the "Size" dropdown in the "machine" add form
     And I wait for 1 seconds
-    And I click the "Basic_A0 1 cpus/0.75GB RAM/ 20.0GB SSD" button in the "Size" dropdown in the "machine" add form
+    And I click the "Standard_A1_v2 1 cpus/2.0GB RAM/ 10.0GB SSD" button in the "Size" dropdown in the "machine" add form
     When I open the "Location" dropdown in the "machine" add form
     And I wait for 1 seconds
     And I click the "East Asia" button in the "Location" dropdown in the "machine" add form
