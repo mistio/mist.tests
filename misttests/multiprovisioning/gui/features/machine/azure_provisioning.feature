@@ -27,7 +27,7 @@ Feature: Multiprovisioning
     And I click the "Canonical UbuntuServer 18.04-LTS" button in the "Image" dropdown in the "machine" add form
     When I open the "Size" dropdown in the "machine" add form
     And I wait for 1 seconds
-    And I click the "Basic_A0 1 cpus/0.75GB RAM/ 20.0GB SSD" button in the "Size" dropdown in the "machine" add form
+    And I click the "Standard_A1_v2 1 cpus/2.0GB RAM/ 10.0GB SSD" button in the "Size" dropdown in the "machine" add form
     When I open the "Location" dropdown in the "machine" add form
     And I wait for 1 seconds
     And I click the "East Asia" button in the "Location" dropdown in the "machine" add form
@@ -54,8 +54,8 @@ Feature: Multiprovisioning
     When I wait for 180 seconds
     And I click the "Shell" action button in the "machine" page
     And I wait for 5 seconds
-    Then I expect terminal to open within 7 seconds
-    And shell input should be available after 30 seconds
+    Then I expect terminal to open within 30 seconds
+    And shell input should be available after 45 seconds
     When I type in the terminal "sudo su"
     And I wait for 2 seconds
     And I type in the terminal "ls -la ~"

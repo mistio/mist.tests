@@ -27,7 +27,7 @@ Feature: Multiprovisioning
     And I click the "us-west-1a" button in the "Location" dropdown in the "machine" add form
     When I open the "Image" dropdown in the "machine" add form
     And I wait for 1 seconds
-    And I click the button that contains "ubuntu_18_04_x64_20G_alibase" in the "Image" dropdown in the "machine" add form
+    And I click the button that contains "Ubuntu 20.04 64 bit" in the "Image" dropdown in the "machine" add form
     When I open the "Size" dropdown in the "machine" add form
     And I wait for 1 seconds
     And I click the "ecs.e4.small (1 cpus/ 8.0Gb RAM )" button in the "Size" dropdown in the "machine" add form
