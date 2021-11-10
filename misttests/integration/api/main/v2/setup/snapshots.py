@@ -66,7 +66,7 @@ def setup(api_token):
     assert_response_ok(response)
     snapshot_name = uniquify_string('test-snapshot')
     query_string = {'create_snapshot': [('name', snapshot_name)]}
-    sleep(80)
+    sleep(200)
     return {
         'cloud': cloud_name,
         'machine': machine_name,
