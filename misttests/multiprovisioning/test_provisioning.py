@@ -132,8 +132,8 @@ def add_cloud(provider):
     if cloud_id == None:
         if provider == 'AWS':
             response = mist_core.add_cloud(title=provider, provider= 'ec2', api_token=config.MIST_API_TOKEN,
-                                       api_key=safe_get_var('clouds/aws', 'api_key', config.CREDENTIALS['EC2']['api_key']),
-                                       api_secret=safe_get_var('clouds/aws', 'api_secret', config.CREDENTIALS['EC2']['api_secret']),
+                                       api_key=safe_get_var('clouds/aws_no_images', 'api_key', config.CREDENTIALS['EC2']['api_key']),
+                                       api_secret=safe_get_var('clouds/aws_no_images', 'api_secret', config.CREDENTIALS['EC2']['api_secret']),
                                        region=providers[provider]['location']).post()
 
         elif provider == 'DigitalOcean':
