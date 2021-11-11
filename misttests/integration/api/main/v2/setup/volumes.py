@@ -1,3 +1,4 @@
+from time import sleep
 from misttests import config
 from misttests.integration.api.helpers import assert_response_ok
 from misttests.integration.api.helpers import uniquify_string
@@ -24,15 +25,22 @@ def setup(api_token):
         api_token=api_token, uri=uri, json=add_cloud_request)
     response = request.post()
     assert_response_ok(response)
+    sleep(60)
     request_body = {
-        'name': volume_name,
-        'cloud': cloud_name,
-        'location': 'ap-northeast-1a',
-        'size': 1,
-        'ex_volume_type': 'standard',
-        'ex_iops': ''
+        'create_volume': {
+            'name': volume_name,
+            'cloud': cloud_name,
+            'location': 'ap-northeast-1a',
+            'size': 1,
+            'ex_volume_type': 'standard',
+            'ex_iops': ''
+        }
     }
-    return dict(overwrite_request=request_body,
+    query_string = {
+        'edit_volume': [('name', volume_name)]
+    }
+    return dict(request_body=request_body,
+                query_string=query_string,
                 cloud=cloud_name,
                 volume=volume_name)
 

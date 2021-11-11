@@ -1,5 +1,5 @@
 def setup(api_token):
-    request_body = {
+    query_request_body = {
         'queries': [
             {
                 'target': 'type:session',
@@ -28,7 +28,11 @@ def setup(api_token):
             'every': 1
         }
     }
-    return dict(overwrite_request=request_body,
+    request_body = {
+        'add_rule': query_request_body,
+        'edit_rule': query_request_body,
+    }
+    return dict(request_body=request_body,
                 rule='rule')
 
 

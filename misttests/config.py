@@ -43,7 +43,8 @@ except Exception as exc:
 PROVIDER_VAULT_MAP = {
     'google': 'gce',
     'amazon': 'aws',
-    'docker': 'dockerhost'
+    'docker': 'dockerhost',
+    'vsphere': 'vsphere-7'
 }
 
 # TODO: modify so that it can parse nested objects as well

@@ -25,6 +25,7 @@ def setup(api_token):
     assert_response_ok(response)
     key_name = uniquify_string('test-key')
     return {
+        'query_string': {'edit_key': [('name', key_name)]},
         'cloud': cloud_name,
         'key': key_name
     }

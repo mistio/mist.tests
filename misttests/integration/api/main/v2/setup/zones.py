@@ -25,12 +25,14 @@ def setup(api_token):
     response = request.post()
     assert_response_ok(response)
     request_body = {
-        'name': zone_name,
-        'cloud': cloud_name,
-        'type': 'master',
-        'ttl': '0'
+        'create_zone': {
+            'name': zone_name,
+            'cloud': cloud_name,
+            'type': 'master',
+            'ttl': '0'
+        }
     }
-    return dict(overwrite_request=request_body,
+    return dict(request_body=request_body,
                 cloud=cloud_name,
                 zone=zone_name)
 
