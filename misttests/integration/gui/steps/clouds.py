@@ -56,9 +56,9 @@ def set_ibm_clouds_creds(context):
 
 
 def set_aws_creds(context):
-    api_key = safe_get_var('clouds/aws_2', 'api_key', context.mist_config['CREDENTIALS']['EC2']['api_key'])
-    api_secret = safe_get_var('clouds/aws_2', 'api_secret', context.mist_config['CREDENTIALS']['EC2']['api_secret'])
-    region = safe_get_var('clouds/aws_2', 'region', context.mist_config['CREDENTIALS']['EC2']['region'])
+    api_key = safe_get_var('clouds/aws', 'api_key', context.mist_config['CREDENTIALS']['EC2']['api_key'])
+    api_secret = safe_get_var('clouds/aws', 'api_secret', context.mist_config['CREDENTIALS']['EC2']['api_secret'])
+    region = safe_get_var('clouds/aws', 'region', context.mist_config['CREDENTIALS']['EC2']['region'])
     context.execute_steps('''
         Then I open the "Region" dropdown in the "cloud" add form
         And I wait for 1 seconds
@@ -71,9 +71,9 @@ def set_aws_creds(context):
 
 
 def set_aws_no_images_creds(context):
-    api_key = safe_get_var('clouds/aws', 'api_key', context.mist_config['CREDENTIALS']['EC2']['api_key'])
-    api_secret = safe_get_var('clouds/aws', 'api_secret', context.mist_config['CREDENTIALS']['EC2']['api_secret'])
-    region = safe_get_var('clouds/aws', 'region', context.mist_config['CREDENTIALS']['EC2']['region'])
+    api_key = safe_get_var('clouds/aws_no_images', 'api_key', context.mist_config['CREDENTIALS']['EC2']['api_key'])
+    api_secret = safe_get_var('clouds/aws_no_images', 'api_secret', context.mist_config['CREDENTIALS']['EC2']['api_secret'])
+    region = safe_get_var('clouds/aws_no_images', 'region', context.mist_config['CREDENTIALS']['EC2']['region'])
     context.execute_steps('''
         Then I open the "Region" dropdown in the "cloud" add form
         And I wait for 1 seconds
@@ -300,8 +300,8 @@ def set_second_aws_creds(context):
     context.execute_steps('''
                 Then I set the value "%s" to field "API KEY" in the "Edit Credentials" dialog
                 Then I set the value "%s" to field "API SECRET" in the "Edit Credentials" dialog
-            ''' % (safe_get_var('clouds/aws_2', 'api_key', context.mist_config['CREDENTIALS']['AWS_2']['api_key']),
-                   safe_get_var('clouds/aws_2', 'api_secret', context.mist_config['CREDENTIALS']['AWS_2']['api_secret']),))
+            ''' % (safe_get_var('clouds/aws', 'api_key', context.mist_config['CREDENTIALS']['AWS_2']['api_key']),
+                   safe_get_var('clouds/aws', 'api_secret', context.mist_config['CREDENTIALS']['AWS_2']['api_secret']),))
 
 
 cloud_creds_dict = {
