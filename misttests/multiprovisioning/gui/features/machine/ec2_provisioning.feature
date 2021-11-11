@@ -13,16 +13,10 @@ Feature: Multiprovisioning
   @ec2-machine-create
   Scenario Outline: Create a machine in EC2 provider, creating a file using cloud init
     Given "<cloud>" cloud has been added
-    # TODO: add from the beginning cloud with DescribeImages Access
     When I visit the Home page
     And I wait for the dashboard to load
     When I open the cloud page for "Amazon Web Services"
     Then I expect the "cloud" page to be visible within max 10 seconds
-    When I click the "Edit Credentials" action button in the "cloud" page
-    Then I expect the "Edit Credentials" dialog to be open within 4 seconds
-    When I use my second AWS credentials
-    And I wait for 1 seconds
-    When I click the "Edit Credentials" button in the "Edit Credentials" dialog
     And I wait for 45 seconds
     And I visit the Images page
     And I wait for 5 seconds

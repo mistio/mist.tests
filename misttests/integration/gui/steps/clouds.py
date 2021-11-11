@@ -56,9 +56,9 @@ def set_ibm_clouds_creds(context):
 
 
 def set_aws_creds(context):
-    api_key = safe_get_var('clouds/aws', 'api_key', context.mist_config['CREDENTIALS']['EC2']['api_key'])
-    api_secret = safe_get_var('clouds/aws', 'api_secret', context.mist_config['CREDENTIALS']['EC2']['api_secret'])
-    region = safe_get_var('clouds/aws', 'region', context.mist_config['CREDENTIALS']['EC2']['region'])
+    api_key = safe_get_var('clouds/aws_2', 'api_key', context.mist_config['CREDENTIALS']['EC2']['api_key'])
+    api_secret = safe_get_var('clouds/aws_2', 'api_secret', context.mist_config['CREDENTIALS']['EC2']['api_secret'])
+    region = safe_get_var('clouds/aws_2', 'region', context.mist_config['CREDENTIALS']['EC2']['region'])
     context.execute_steps('''
         Then I open the "Region" dropdown in the "cloud" add form
         And I wait for 1 seconds
@@ -70,16 +70,16 @@ def set_aws_creds(context):
     ''' % (region, api_key, api_secret))
 
 
-def set_aws_adv_creds(context):
-    api_key = safe_get_var('clouds/aws_advantis', 'api_key', context.mist_config['CREDENTIALS']['EC2']['api_key'])
-    api_secret = safe_get_var('clouds/aws_advantis', 'api_secret', context.mist_config['CREDENTIALS']['EC2']['api_secret'])
-    region = safe_get_var('clouds/aws_advantis', 'region', context.mist_config['CREDENTIALS']['EC2']['region'])
+def set_aws_no_images_creds(context):
+    api_key = safe_get_var('clouds/aws', 'api_key', context.mist_config['CREDENTIALS']['EC2']['api_key'])
+    api_secret = safe_get_var('clouds/aws', 'api_secret', context.mist_config['CREDENTIALS']['EC2']['api_secret'])
+    region = safe_get_var('clouds/aws', 'region', context.mist_config['CREDENTIALS']['EC2']['region'])
     context.execute_steps('''
         Then I open the "Region" dropdown in the "cloud" add form
         And I wait for 1 seconds
         When I click the "%s" button in the "Region" dropdown in the "cloud" add form
         And I wait for 1 seconds
-        Then I set the value "AWS Advantis" to field "Title" in the "cloud" add form
+        Then I set the value "Amazon Web Services" to field "Title" in the "cloud" add form
         And I set the value "%s" to field "API Key" in the "cloud" add form
         And I set the value "%s" to field "API Secret" in the "cloud" add form
     ''' % (region, api_key, api_secret))
@@ -309,6 +309,7 @@ cloud_creds_dict = {
     "rackspace": set_rackspace_creds,
     "ibm cloud": set_ibm_clouds_creds,
     "amazon web services": set_aws_creds,
+    "amazon web services no images": set_aws_no_images_creds,
     "linode": set_linode_creds,
     "digitalocean": set_do_creds,
     "docker": set_docker_creds,
@@ -322,7 +323,6 @@ cloud_creds_dict = {
     "vmware vsphere": set_vsphere_creds,
     "onapp": set_onapp_creds,
     "alibaba cloud": set_aliyun_creds,
-    "aws advantis": set_aws_adv_creds,
     "maxihost": set_maxihost_creds,
     "kubevirt": set_kubevirt_creds,
     "lxd": set_lxd_creds,
@@ -432,7 +432,7 @@ def given_cloud(context, cloud):
         Then I expect the "Cloud" add form to be visible within max 5 seconds
     ''')
 
-    if 'aws advantis' in cloud.lower():
+    if 'amazon web services no images' in cloud.lower():
         cloud_type = 'amazon web services'
     else:
         cloud_type = cloud
