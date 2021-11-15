@@ -25,7 +25,7 @@ RUN set -x && \
     apt-get -y install google-chrome-stable && \
     rm -rf /var/lib/apt/lists/* /var/cache/apt/*
 
-ARG CHROMEDRIVER_VERSION=94.0.4606.61
+ARG CHROMEDRIVER_VERSION=96.0.4664.35
 RUN curl -SLO "https://chromedriver.storage.googleapis.com/$CHROMEDRIVER_VERSION/chromedriver_linux64.zip" && \
     unzip chromedriver_linux64.zip && \
     mv chromedriver /usr/local/bin && \
