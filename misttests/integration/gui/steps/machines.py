@@ -287,7 +287,7 @@ def keys_associated_with_machine(context, keys, seconds):
     assert False, "There are %s keys associated with the machine" % associated_keys_with_machine
 
 
-@step('I set an expiration in "{exp_num}" "{exp_unit}" with a notify of "{notify_num}" "{notify_unit}" before in the {form}')
+@step('I set an expiration in "{exp_num}" "{exp_unit}" with a notify of "{notify_num}" "{notify_unit}" before in the "{form}"')
 def set_expiration(context, exp_num, exp_unit, notify_num, notify_unit, form):
     if form == "create machine form":
         form = get_add_form(context, 'machine')
