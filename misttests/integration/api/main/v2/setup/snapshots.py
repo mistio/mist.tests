@@ -12,6 +12,10 @@ MACHINES_ENDPOINT = f'{V2_ENDPOINT}/machines'
 IMAGES_ENDPOINT = f'{V2_ENDPOINT}/images'
 
 
+class ImageNotFound(Exception):
+    pass
+
+
 def setup(api_token):
     # Add cloud
     cloud_name = uniquify_string('test-cloud')
@@ -22,10 +26,6 @@ def setup(api_token):
             'ca_cert_file': None,
             'host': None,
             'password': None,
-            'pfsense': {
-                'password': None,
-                'username': None
-            },
             'username': None
         }
     }
@@ -47,9 +47,19 @@ def setup(api_token):
     image_uri = f'{config.MIST_URL}/{IMAGES_ENDPOINT}/{image_name}'
     request = MistRequests(
         api_token=api_token, uri=image_uri)
-    response = request.get()
-    assert_response_ok(response)
-    image_id = response.json()['data']['id']
+
+    for _ in range(10):
+        response = request.get()
+        try:
+            assert_response_ok(response)
+            image_id = response.json()['data']['id']
+        except (KeyError, AssertionError):
+            sleep(10)
+        else:
+            break
+    else:
+        raise ImageNotFound()
+
     # Create machine
     machine_name = uniquify_string('test-machine')
     add_machine_request = {
