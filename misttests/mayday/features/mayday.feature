@@ -117,7 +117,7 @@ Feature: Production
     Given I am logged in to mist
     And I wait for the navigation menu to appear
     And I wait for 4 seconds
-    Then I should see a(n) "session" log entry of action "connect" added "a few seconds ago" in the "dashboard" page within 20 seconds
+    Then I should see a(n) "session" log entry of action "connect" added "a few seconds ago" in the "dashboard" page within 30 seconds
 
   @incidents
   Scenario: Verify that incident gets triggered
