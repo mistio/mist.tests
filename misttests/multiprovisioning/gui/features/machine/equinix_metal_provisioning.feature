@@ -100,5 +100,5 @@ Feature: Multiprovisioning
     Then new_file should be included in the output
 
     Examples: Providers to be tested
-    | cloud         | size                                                    | location               | image                                          | machine-name                  |
-    | Equinix Metal | x1.small.x86 - 32768 RAM                                | Atlanta, GA (ATL2)     | Ubuntu 18.04 LTS                               | equinix-metal-mp-test-random  |
+    | cloud         | size                    | location                 | image            | machine-name                  |
+    | Equinix Metal | t1.small.x86 - 8192 RAM | Sunnyvale, CA (SJC1)     | Ubuntu 18.04 LTS | equinix-metal-mp-test-random  |
