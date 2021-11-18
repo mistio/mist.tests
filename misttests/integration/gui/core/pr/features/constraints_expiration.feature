@@ -48,6 +48,11 @@ Feature: Contstraints-RBAC-rules
     And I search for "ui-test-expiration-random"
     Then "ui-test-expiration-random" machine state has to be "running" within 100 seconds
     And I wait for 5 seconds
+    When I visit the Home page
+    And I wait for 1 seconds
+    Then I should see a(n) "job" log entry of action "post_deploy_finished" added "a few seconds ago" in the "dashboard" page within 100 seconds
+    When I visit the Machines page
+    And I wait for 2 seconds
     When I click the "ui-test-expiration-random" "machine"
     And I wait for 3 seconds
     Then I expect to see "in x minutes" in the expiration section of the machine page
