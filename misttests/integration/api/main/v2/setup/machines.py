@@ -1,8 +1,8 @@
-# from time import sleep
-# from misttests import config
-# from misttests.integration.api.helpers import assert_response_ok
-# from misttests.integration.api.helpers import uniquify_string
-# from misttests.integration.api.mistrequests import MistRequests
+from time import sleep
+from misttests import config
+from misttests.integration.api.helpers import assert_response_ok
+from misttests.integration.api.helpers import uniquify_string
+from misttests.integration.api.mistrequests import MistRequests
 
 # This variable is used by the machines test module. It must contain a list of
 # all the machines test methods in the specific order in which they should be
@@ -28,10 +28,116 @@ TEST_METHOD_ORDERING = [
     'undefine_machine',
 ]
 
+KVM_PROVIDER = 'kvm'
+V2_ENDPOINT = 'api/v2'
+CLOUDS_ENDPOINT = f'{V2_ENDPOINT}/clouds'
+KEYS_ENDPOINT = f'{V2_ENDPOINT}/keys'
+MACHINES_ENDPOINT = f'{V2_ENDPOINT}/machines'
+
 
 def setup(api_token):
-    pass
+    amazon_cloud_name = uniquify_string('test-cloud')
+    kvm_cloud_name = uniquify_string('test-cloud')
+    add_amazon_cloud_request = {
+        'name': amazon_cloud_name,
+        'provider': 'amazon',
+        'credentials': {
+            'apikey': None,
+            'apisecret': None,
+            'region': None
+        },
+    }
+    kvm_host = config.safe_get_var(
+        f'clouds_new/{KVM_PROVIDER}', 'hostname')
+    add_kvm_cloud_request = {
+        'name': kvm_cloud_name,
+        'provider': 'kvm',
+        'credentials': {
+            'hosts': [{
+                'host': kvm_host,
+                'key': None
+            }]
+        }
+    }
+    clouds_uri = f'{config.MIST_URL}/{CLOUDS_ENDPOINT}'
+    # Add amazon cloud
+    config.inject_vault_credentials(add_amazon_cloud_request)
+    request = MistRequests(
+        api_token=api_token, uri=clouds_uri, json=add_amazon_cloud_request)
+    response = request.post()
+    assert_response_ok(response)
+    # Add kvm cloud
+    kvm_private_key = config.safe_get_var(
+        f'clouds_new/{KVM_PROVIDER}', 'key')
+    kvm_key_name = uniquify_string('test-key')
+    add_key_request = {
+        'name': kvm_key_name,
+        'private': kvm_private_key
+    }
+    keys_uri = f'{config.MIST_URL}/{KEYS_ENDPOINT}'
+    request = MistRequests(
+        api_token=api_token, uri=keys_uri, json=add_key_request)
+    response = request.post()
+    assert_response_ok(response)
+    kvm_key_id = response.json().get('id')
+    add_kvm_cloud_request['credentials']['hosts'][0]['key'] = kvm_key_id
+    request = MistRequests(
+        api_token=api_token, uri=clouds_uri, json=add_kvm_cloud_request)
+    response = request.post()
+    assert_response_ok(response)
+    sleep(120)
+    # Create kvm machine
+    kvm_machine_name = uniquify_string('test-machine')
+    create_kvm_machine_request = {
+        'name': kvm_machine_name,
+        'provider': KVM_PROVIDER,
+        'cloud': kvm_cloud_name,
+        'key': kvm_key_name,
+        'image': 'cirros-0.5.1-x86_64-disk.img',
+        'size': {
+            'ram': 256,
+            'cpus': 1
+        },
+        'disks': {
+            'disk_path': f'/var/lib/libvirt/images/{kvm_machine_name}.img',
+            'disk_size': 4
+        },
+        'dry': False
+    }
+    machines_uri = f'{config.MIST_URL}/{MACHINES_ENDPOINT}'
+    request = MistRequests(
+        api_token=api_token, uri=machines_uri, json=create_kvm_machine_request)
+    response = request.post()
+    assert_response_ok(response)
+    sleep(60)
+    setup_data = {
+        'amazon_cloud': amazon_cloud_name,
+        'kvm_cloud': kvm_cloud_name,
+        'machine': kvm_machine_name,
+        'key': kvm_key_name
+    }
+    return setup_data
 
 
 def teardown(api_token, setup_data):
-    pass
+    # Destroy machine
+    machine_name = setup_data['machine']
+    uri = (f'{config.MIST_URL}/{MACHINES_ENDPOINT}'
+           f'/{machine_name}/actions/destroy')
+    request = MistRequests(api_token=api_token, uri=uri)
+    request.post()
+    # Delete key
+    key_name = setup_data['key']
+    uri = f'{config.MIST_URL}/{KEYS_ENDPOINT}/{key_name}'
+    request = MistRequests(api_token=api_token, uri=uri)
+    request.delete()
+    # Remove amazon cloud
+    amazon_cloud_name = setup_data['amazon_cloud']
+    uri = f'{config.MIST_URL}/{CLOUDS_ENDPOINT}/{amazon_cloud_name}'
+    request = MistRequests(api_token=api_token, uri=uri)
+    request.delete()
+    # Remove amazon cloud
+    kvm_cloud_name = setup_data['kvm_cloud']
+    uri = f'{config.MIST_URL}/{CLOUDS_ENDPOINT}/{kvm_cloud_name}'
+    request = MistRequests(api_token=api_token, uri=uri)
+    request.delete()
