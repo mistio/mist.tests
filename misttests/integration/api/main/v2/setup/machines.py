@@ -1,4 +1,5 @@
 from time import sleep
+from time import time
 from misttests import config
 from misttests.integration.api.helpers import assert_response_ok
 from misttests.integration.api.helpers import uniquify_string
@@ -29,9 +30,11 @@ TEST_METHOD_ORDERING = [
 ]
 
 KVM_PROVIDER = 'kvm'
+KVM_IMAGE = 'cirros-0.5.1-x86_64-disk.img'
 V2_ENDPOINT = 'api/v2'
 CLOUDS_ENDPOINT = f'{V2_ENDPOINT}/clouds'
 KEYS_ENDPOINT = f'{V2_ENDPOINT}/keys'
+IMAGES_ENDPOINT = f'{V2_ENDPOINT}/images'
 MACHINES_ENDPOINT = f'{V2_ENDPOINT}/machines'
 
 
@@ -85,7 +88,27 @@ def setup(api_token):
         api_token=api_token, uri=clouds_uri, json=add_kvm_cloud_request)
     response = request.post()
     assert_response_ok(response)
-    sleep(120)
+    # Wait until kvm image is available
+    image_uri = f'{config.MIST_URL}/{IMAGES_ENDPOINT}'
+    request = MistRequests(
+        api_token=api_token,
+        uri=image_uri,
+        params=[('cloud', kvm_cloud_name)])
+    minutes = 5
+    t_end = time() + 60 * minutes
+
+    def find_value(data, key, value):
+        for d in data:
+            if d[key] == value:
+                return True
+        return False
+    while time() < t_end:
+        response = request.get()
+        assert_response_ok(response)
+        data, key, value = response.json()['data'], 'name', KVM_IMAGE
+        if find_value(data, key, value):
+            break
+        sleep(5)
     # Create kvm machine
     kvm_machine_name = uniquify_string('test-machine')
     create_kvm_machine_request = {
@@ -93,7 +116,7 @@ def setup(api_token):
         'provider': KVM_PROVIDER,
         'cloud': kvm_cloud_name,
         'key': kvm_key_name,
-        'image': 'cirros-0.5.1-x86_64-disk.img',
+        'image': KVM_IMAGE,
         'size': {
             'ram': 256,
             'cpus': 1
@@ -110,13 +133,22 @@ def setup(api_token):
     response = request.post()
     assert_response_ok(response)
     sleep(60)
-    setup_data = {
-        'amazon_cloud': amazon_cloud_name,
-        'kvm_cloud': kvm_cloud_name,
-        'machine': kvm_machine_name,
-        'key': kvm_key_name
+    amazon_machine_name = uniquify_string('test-machine')
+    create_machine = {
+        'request_body': {
+            'name': amazon_machine_name,
+            'provider': 'amazon',
+            'cloud': amazon_cloud_name,
+            'image': 'ubuntu',
+            'size': 'micro',
+            'dry': False
+        }
     }
-    return setup_data
+    return dict(create_machine=create_machine,
+                amazon_cloud=amazon_cloud_name,
+                kvm_cloud=kvm_cloud_name,
+                machine=kvm_machine_name,
+                key=kvm_key_name)
 
 
 def teardown(api_token, setup_data):
