@@ -26,8 +26,8 @@ def setup(api_token):
     response = request.post()
     assert_response_ok(response)
     sleep(60)
-    request_body = {
-        'create_volume': {
+    create_volume = {
+        'request_body': {
             'name': volume_name,
             'cloud': cloud_name,
             'location': 'ap-northeast-1a',
@@ -36,11 +36,11 @@ def setup(api_token):
             'ex_iops': ''
         }
     }
-    query_string = {
-        'edit_volume': [('name', volume_name)]
+    edit_volume = {
+        'query_string': [('name', volume_name)]
     }
-    return dict(request_body=request_body,
-                query_string=query_string,
+    return dict(create_volume=create_volume,
+                edit_volume=edit_volume,
                 cloud=cloud_name,
                 volume=volume_name)
 

@@ -73,26 +73,28 @@ def setup(api_token):
     response = request.post()
     assert_response_ok(response)
     script_name = uniquify_string('test-script')
-    request_body = {
-        'add_script': {
+    add_script = {
+        'request_body': {
             'name': script_name,
             'exec_type': 'executable',
             'script': '#!/usr/bin/env bash\necho Hello, World!',
             'location_type': 'inline'
         },
-        'run_script': {
+    }
+    edit_script = {'query_string': [('name', script_name)]}
+    run_script = {
+        'request_body': {
             'su': 'false',
             'machine': machine_name
         }
     }
-    return {
-        'request_body': request_body,
-        'query_string': {'edit_script': [('name', script_name)]},
-        'script': script_name,
-        'cloud': cloud_name,
-        'key': key_name,
-        'machine': machine_name
-    }
+    return dict(add_script=add_script,
+                edit_script=edit_script,
+                run_script=run_script,
+                script=script_name,
+                cloud=cloud_name,
+                key=key_name,
+                machine=machine_name)
 
 
 def teardown(api_token, setup_data):

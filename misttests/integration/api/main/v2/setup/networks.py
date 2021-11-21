@@ -25,8 +25,8 @@ def setup(api_token):
         api_token=api_token, uri=uri, json=add_cloud_request)
     response = request.post()
     assert_response_ok(response)
-    request_body = {
-        'create_network': {
+    create_network = {
+        'request_body': {
             'name': network_name,
             'cloud': cloud_name,
             'extra': {
@@ -34,12 +34,11 @@ def setup(api_token):
             }
         }
     }
-    query_string = {
-        'delete_network': [('cloud', cloud_name)],
-        'edit_network': [('name', network_name)]
-    }
-    return dict(request_body=request_body,
-                query_string=query_string,
+    edit_network = {'query_string': [('name', network_name)]}
+    delete_network = {'query_string': [('cloud', cloud_name)]}
+    return dict(create_network=create_network,
+                edit_network=edit_network,
+                delete_network=delete_network,
                 cloud=cloud_name,
                 network=network_name)
 

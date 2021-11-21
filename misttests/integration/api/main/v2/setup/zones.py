@@ -24,15 +24,15 @@ def setup(api_token):
         api_token=api_token, uri=uri, json=add_cloud_request)
     response = request.post()
     assert_response_ok(response)
-    request_body = {
-        'create_zone': {
+    create_zone = {
+        'request_body': {
             'name': zone_name,
             'cloud': cloud_name,
             'type': 'master',
             'ttl': '0'
         }
     }
-    return dict(request_body=request_body,
+    return dict(create_zone=create_zone,
                 cloud=cloud_name,
                 zone=zone_name)
 
