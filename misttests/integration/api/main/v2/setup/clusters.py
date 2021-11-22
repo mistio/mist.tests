@@ -27,12 +27,12 @@ def setup(api_token):
     response = request.post()
     assert_response_ok(response)
     cluster_name = uniquify_string('test-cluster')
-    return {
-        'test_create_cluster_timeout': 300,
-        'test_destroy_cluster_timeout': 150,
-        'cluster': cluster_name,
-        'cloud': cloud_name
-    }
+    create_cluster = {'sleep': 300}
+    destroy_cluster = {'sleep': 150}
+    return dict(create_cluster=create_cluster,
+                destroy_cluster=destroy_cluster,
+                cluster=cluster_name,
+                cloud=cloud_name)
 
 
 def teardown(api_token, setup_data):
