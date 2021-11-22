@@ -142,7 +142,8 @@ def setup(api_token):
             'image': 'ubuntu',
             'size': 'micro',
             'dry': False
-        }
+        },
+        'sleep': 60
     }
     return dict(create_machine=create_machine,
                 amazon_cloud=amazon_cloud_name,
