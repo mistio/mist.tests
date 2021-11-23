@@ -11,11 +11,11 @@ from misttests.integration.api.mistrequests import MistRequests
 TEST_METHOD_ORDERING = [
     'create_machine',
     'reboot_machine',
-    'resize_machine',
     'stop_machine',
+    'resize_machine',
     'start_machine',
-    'ssh',
     'associate_key',
+    'ssh',
     'disassociate_key',
     'edit_machine',
     'rename_machine',
@@ -72,9 +72,9 @@ def setup(api_token):
     # Add kvm cloud
     kvm_private_key = config.safe_get_var(
         f'clouds_new/{KVM_PROVIDER}', 'key')
-    kvm_key_name = uniquify_string('test-key')
+    key_name = uniquify_string('test-key')
     add_key_request = {
-        'name': kvm_key_name,
+        'name': key_name,
         'private': kvm_private_key
     }
     keys_uri = f'{config.MIST_URL}/{KEYS_ENDPOINT}'
@@ -115,7 +115,7 @@ def setup(api_token):
         'name': kvm_machine_name,
         'provider': KVM_PROVIDER,
         'cloud': kvm_cloud_name,
-        'key': kvm_key_name,
+        'key': key_name,
         'image': KVM_IMAGE,
         'size': {
             'ram': 256,
@@ -145,16 +145,36 @@ def setup(api_token):
         },
         'sleep': 60
     }
+    reboot_machine = stop_machine = start_machine = {
+        'machine': amazon_machine_name,
+        'sleep': 60
+    }
+    associate_key = disassociate_key = {
+        'request_body': {'key': key_name},
+        'machine': amazon_machine_name,
+    }
+    ssh = {'machine': amazon_machine_name}
+    resize_machine = {
+        'query_string': [('size', 'micro')],
+        'machine': amazon_machine_name
+    }
     return dict(create_machine=create_machine,
+                reboot_machine=reboot_machine,
+                stop_machine=stop_machine,
+                resize_machine=resize_machine,
+                start_machine=start_machine,
+                associate_key=associate_key,
+                ssh=ssh,
+                disassociate_key=disassociate_key,
                 amazon_cloud=amazon_cloud_name,
                 kvm_cloud=kvm_cloud_name,
                 machine=kvm_machine_name,
-                key=kvm_key_name)
+                key=key_name)
 
 
 def teardown(api_token, setup_data):
     # Destroy machine
-    machine_name = setup_data['machine']
+    machine_name = setup_data['create_machine']['request_body']['name']
     uri = (f'{config.MIST_URL}/{MACHINES_ENDPOINT}'
            f'/{machine_name}/actions/destroy')
     request = MistRequests(api_token=api_token, uri=uri)
