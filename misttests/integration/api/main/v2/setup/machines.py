@@ -1,3 +1,4 @@
+from datetime import datetime, timedelta
 from time import sleep
 from time import time
 from misttests import config
@@ -158,6 +159,21 @@ def setup(api_token):
         'query_string': [('size', 'micro')],
         'machine': amazon_machine_name
     }
+    dt = datetime.now() + timedelta(hours=1)
+    edit_machine = {
+        'machine': amazon_machine_name,
+        'request_body': {
+            'expiration': {
+                'date': dt.strftime('%Y-%m-%d %H:%M:%S'),
+                'action': 'destroy',
+                'notify': 0
+            }
+        }
+    }
+    rename_machine = {
+        'machine': amazon_machine_name,
+        'query_string': [('name', amazon_machine_name)],
+    }
     return dict(create_machine=create_machine,
                 reboot_machine=reboot_machine,
                 stop_machine=stop_machine,
@@ -166,6 +182,8 @@ def setup(api_token):
                 associate_key=associate_key,
                 ssh=ssh,
                 disassociate_key=disassociate_key,
+                edit_machine=edit_machine,
+                rename_machine=rename_machine,
                 amazon_cloud=amazon_cloud_name,
                 kvm_cloud=kvm_cloud_name,
                 machine=kvm_machine_name,
