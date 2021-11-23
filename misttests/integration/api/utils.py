@@ -230,6 +230,13 @@ def assert_set_equal(set1, set2, msg=None):
     assert_sequence_equal(set1, set2, msg=msg, seq_type=set)
 
 
+def assert_response_found(response, msg=None):
+    assert isinstance(response, Response), "Object provided is not a Response"
+    if msg is None:
+        msg = response.content
+    assert response.status_code == codes.found, msg
+
+
 def assert_response_ok(response, msg=None):
     assert isinstance(response, Response), "Object provided is not a Response"
     if msg is None:
