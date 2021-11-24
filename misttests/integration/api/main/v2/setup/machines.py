@@ -98,16 +98,18 @@ def setup(api_token):
     minutes = 5
     t_end = time() + 60 * minutes
 
-    def find_value(data, key, value):
-        for d in data:
-            if d[key] == value:
+    def find_subdict(obj, subdict):
+        if isinstance(obj, dict):
+            return subdict.items() <= obj.items()
+        for d in obj:
+            assert isinstance(d, dict)
+            if subdict.items() <= d.items():
                 return True
         return False
     while time() < t_end:
         response = request.get()
         assert_response_ok(response)
-        data, key, value = response.json()['data'], 'name', KVM_IMAGE
-        if find_value(data, key, value):
+        if find_subdict(response.json()['data'], {'name': KVM_IMAGE}):
             break
         sleep(5)
     # Create kvm machine
@@ -133,7 +135,23 @@ def setup(api_token):
         api_token=api_token, uri=machines_uri, json=create_kvm_machine_request)
     response = request.post()
     assert_response_ok(response)
-    sleep(60)
+    # Wait until kvm machine is available
+    request = MistRequests(
+        api_token=api_token,
+        uri=machines_uri,
+        params=[('cloud', kvm_cloud_name)])
+    t_end = time() + 60 * minutes
+    while time() < t_end:
+        response = request.get()
+        assert_response_ok(response)
+        machines_data = response.json()['data']
+        subdict = {
+            'name': kvm_machine_name,
+            'state': 'running'
+        }
+        if find_subdict(machines_data, subdict):
+            break
+        sleep(5)
     amazon_machine_name = uniquify_string('test-machine')
     create_machine = {
         'request_body': {
@@ -174,6 +192,19 @@ def setup(api_token):
         'machine': amazon_machine_name,
         'query_string': [('name', amazon_machine_name)],
     }
+    clone_machine_name = kvm_machine_name + '-clone'
+    clone_machine = {
+        'machine': kvm_machine_name,
+        'query_string': [('name', clone_machine_name), ('run_async', False)],
+        'sleep': 30,
+    }
+    suspend_machine = resume_machine = destroy_machine = {
+        'machine': clone_machine_name,
+        'sleep': 30
+    }
+    console = undefine_machine = {
+        'machine': clone_machine_name
+    }
     return dict(create_machine=create_machine,
                 reboot_machine=reboot_machine,
                 stop_machine=stop_machine,
@@ -184,17 +215,34 @@ def setup(api_token):
                 disassociate_key=disassociate_key,
                 edit_machine=edit_machine,
                 rename_machine=rename_machine,
+                clone_machine=clone_machine,
+                console=console,
+                suspend_machine=suspend_machine,
+                resume_machine=resume_machine,
+                destroy_machine=destroy_machine,
+                undefine_machine=undefine_machine,
                 amazon_cloud=amazon_cloud_name,
                 kvm_cloud=kvm_cloud_name,
-                machine=kvm_machine_name,
+                kvm_machine=kvm_machine_name,
                 key=key_name)
 
 
 def teardown(api_token, setup_data):
-    # Destroy machine
+    # Destroy amazon machine
     machine_name = setup_data['create_machine']['request_body']['name']
     uri = (f'{config.MIST_URL}/{MACHINES_ENDPOINT}'
            f'/{machine_name}/actions/destroy')
+    request = MistRequests(api_token=api_token, uri=uri)
+    request.post()
+    # Destroy kvm machine
+    machine_name = setup_data['kvm_machine']
+    uri = (f'{config.MIST_URL}/{MACHINES_ENDPOINT}'
+           f'/{machine_name}/actions/destroy')
+    request = MistRequests(api_token=api_token, uri=uri)
+    request.post()
+    # Undefine kvm machine
+    uri = (f'{config.MIST_URL}/{MACHINES_ENDPOINT}'
+           f'/{machine_name}/actions/undefine')
     request = MistRequests(api_token=api_token, uri=uri)
     request.post()
     # Delete key
