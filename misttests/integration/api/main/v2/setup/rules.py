@@ -28,10 +28,12 @@ def setup(api_token):
             'every': 1
         }
     }
-    add_rule = edit_rule = {'request_body': query_request_body}
-    return dict(add_rule=add_rule,
-                edit_rule=edit_rule,
-                rule='rule')
+    setup_data = {
+        'add_rule': {'request_body': query_request_body},
+        'edit_rule': {'request_body': query_request_body},
+        'rule': 'rule'
+    }
+    return setup_data
 
 
 def teardown(api_token, setup_data):
