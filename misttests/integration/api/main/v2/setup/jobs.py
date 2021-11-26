@@ -54,7 +54,7 @@ def setup(api_token):
     assert_response_ok(response)
     response_json = response.json()
     job_id = response_json.get('jobId') or response_json.get('job_id')
-    # Wait to machine to become available
+    # Wait for machine to become available
     assert poll(
         api_token=api_token,
         uri=machines_uri,
