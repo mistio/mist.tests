@@ -25,22 +25,27 @@ def setup(api_token):
         api_token=api_token, uri=uri, json=add_cloud_request)
     response = request.post()
     assert_response_ok(response)
-    create_network = {
-        'request_body': {
-            'name': network_name,
-            'cloud': cloud_name,
-            'extra': {
-                'cidr': f'10.{randint(1, 255 + 1)}.0.0/16'
+    test_args = {
+        'create_network': {
+            'request_body': {
+                'name': network_name,
+                'cloud': cloud_name,
+                'extra': {
+                    'cidr': f'10.{randint(1, 255 + 1)}.0.0/16'
+                }
             }
+        },
+        'edit_network': {
+            'network': network_name,
+            'query_string': [('name', network_name)]
+        },
+        'delete_network': {
+            'network': network_name,
+            'query_string': [('cloud', cloud_name)]
         }
     }
-    edit_network = {'query_string': [('name', network_name)]}
-    delete_network = {'query_string': [('cloud', cloud_name)]}
-    return dict(create_network=create_network,
-                edit_network=edit_network,
-                delete_network=delete_network,
-                cloud=cloud_name,
-                network=network_name)
+    setup_data = dict(**test_args, cloud=cloud_name, network=network_name)
+    return setup_data
 
 
 def teardown(api_token, setup_data):
