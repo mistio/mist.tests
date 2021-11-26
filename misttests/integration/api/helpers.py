@@ -142,7 +142,7 @@ def find_subdict(obj, subdict, exact_match=False):
     return False
 
 
-def poll(api_token, uri, data, query_params=None,
+def poll(api_token, uri, data=None, query_params=None,
          timeout=60 * 5, interval=10, post_delay=None):
     req_kwargs = dict(api_token=api_token, uri=uri)
     if query_params:
@@ -152,7 +152,10 @@ def poll(api_token, uri, data, query_params=None,
     while time.time() < t_end:
         response = request.get()
         assert_response_ok(response)
-        if find_subdict(response.json()['data'], data):
+        response_data = response.json()['data']
+        if response_data and data is None:
+            return True
+        if find_subdict(response_data, data):
             if post_delay:
                 time.sleep(post_delay)
             return True
