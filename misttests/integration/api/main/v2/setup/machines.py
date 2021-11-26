@@ -1,9 +1,9 @@
 from datetime import datetime, timedelta
 from time import sleep
-from time import time
 from misttests import config
 from misttests.integration.api.helpers import assert_response_ok
 from misttests.integration.api.helpers import uniquify_string
+from misttests.integration.api.helpers import poll
 from misttests.integration.api.mistrequests import MistRequests
 
 # This variable is used by the machines test module. It must contain a list of
@@ -30,12 +30,16 @@ TEST_METHOD_ORDERING = [
     'undefine_machine',
 ]
 
+AMAZON_PROVIDER = 'amazon'
+AMAZON_IMAGE = 'ubuntu'
+AMAZON_SIZE = 'micro'
 KVM_PROVIDER = 'kvm'
 KVM_IMAGE = 'cirros-0.5.1-x86_64-disk.img'
 V2_ENDPOINT = 'api/v2'
 CLOUDS_ENDPOINT = f'{V2_ENDPOINT}/clouds'
 KEYS_ENDPOINT = f'{V2_ENDPOINT}/keys'
 IMAGES_ENDPOINT = f'{V2_ENDPOINT}/images'
+SIZES_ENDPOINT = f'{V2_ENDPOINT}/sizes'
 MACHINES_ENDPOINT = f'{V2_ENDPOINT}/machines'
 
 
@@ -44,7 +48,7 @@ def setup(api_token):
     kvm_cloud_name = uniquify_string('test-cloud')
     add_amazon_cloud_request = {
         'name': amazon_cloud_name,
-        'provider': 'amazon',
+        'provider': AMAZON_PROVIDER,
         'credentials': {
             'apikey': None,
             'apisecret': None,
@@ -89,29 +93,24 @@ def setup(api_token):
         api_token=api_token, uri=clouds_uri, json=add_kvm_cloud_request)
     response = request.post()
     assert_response_ok(response)
-    # Wait until kvm image is available
-    image_uri = f'{config.MIST_URL}/{IMAGES_ENDPOINT}'
-    request = MistRequests(
+    # Wait until amazon image is available
+    assert poll(
         api_token=api_token,
-        uri=image_uri,
-        params=[('cloud', kvm_cloud_name)])
-    minutes = 5
-    t_end = time() + 60 * minutes
-
-    def find_subdict(obj, subdict):
-        if isinstance(obj, dict):
-            return subdict.items() <= obj.items()
-        for d in obj:
-            assert isinstance(d, dict)
-            if subdict.items() <= d.items():
-                return True
-        return False
-    while time() < t_end:
-        response = request.get()
-        assert_response_ok(response)
-        if find_subdict(response.json()['data'], {'name': KVM_IMAGE}):
-            break
-        sleep(5)
+        uri=f'{config.MIST_URL}/{IMAGES_ENDPOINT}',
+        query_params=[('cloud', amazon_cloud_name)],
+        data={'name': AMAZON_IMAGE})
+    # Wait until amazon size is available
+    assert poll(
+        api_token=api_token,
+        uri=f'{config.MIST_URL}/{SIZES_ENDPOINT}',
+        query_params=[('cloud', amazon_cloud_name), ('limit', 500)],
+        data={'name': AMAZON_SIZE})
+    # Wait until kvm image is available
+    assert poll(
+        api_token=api_token,
+        uri=f'{config.MIST_URL}/{IMAGES_ENDPOINT}',
+        query_params=[('cloud', kvm_cloud_name)],
+        data={'name': KVM_IMAGE})
     # Create kvm machine
     kvm_machine_name = uniquify_string('test-machine')
     create_kvm_machine_request = {
@@ -135,38 +134,40 @@ def setup(api_token):
         api_token=api_token, uri=machines_uri, json=create_kvm_machine_request)
     response = request.post()
     assert_response_ok(response)
-    # Wait until kvm machine is available
-    request = MistRequests(
-        api_token=api_token,
-        uri=machines_uri,
-        params=[('cloud', kvm_cloud_name)])
-    t_end = time() + 60 * minutes
-    while time() < t_end:
-        response = request.get()
-        assert_response_ok(response)
-        machines_data = response.json()['data']
-        subdict = {
-            'name': kvm_machine_name,
-            'state': 'running'
-        }
-        if find_subdict(machines_data, subdict):
-            break
-        sleep(5)
     amazon_machine_name = uniquify_string('test-machine')
+    amazon_machine_uri = f'{machines_uri}/{amazon_machine_name}'
+
+    def create_poller(data, post_delay=None):
+        def poll_machine():
+            if poll(api_token=api_token,
+                    uri=amazon_machine_uri,
+                    data=data,
+                    post_delay=post_delay):
+                return True
+            return False
+        return poll_machine
     create_machine = {
         'request_body': {
             'name': amazon_machine_name,
-            'provider': 'amazon',
+            'provider': AMAZON_PROVIDER,
             'cloud': amazon_cloud_name,
-            'image': 'ubuntu',
-            'size': 'micro',
+            'image': AMAZON_IMAGE,
+            'size': AMAZON_SIZE,
             'dry': False
         },
-        'sleep': 60
+        'callback': create_poller(data={'state': 'running'}, post_delay=30)
     }
-    reboot_machine = stop_machine = start_machine = {
+    reboot_machine = {
         'machine': amazon_machine_name,
-        'sleep': 60
+        'callback': create_poller(data={'state': 'running'}, post_delay=30)
+    }
+    stop_machine = {
+        'machine': amazon_machine_name,
+        'callback': create_poller(data={'state': 'stopped'})
+    }
+    start_machine = {
+        'machine': amazon_machine_name,
+        'callback': create_poller(data={'state': 'running'}, post_delay=10)
     }
     associate_key = disassociate_key = {
         'request_body': {'key': key_name},
