@@ -1,4 +1,5 @@
-from misttests import config
+from misttests.config import inject_vault_credentials
+from misttests.config import MIST_URL
 from misttests.integration.api.helpers import assert_response_ok
 from misttests.integration.api.helpers import uniquify_string
 from misttests.integration.api.mistrequests import MistRequests
@@ -13,13 +14,13 @@ def setup(api_token):
         'name': cloud_name,
         'provider': 'google',
         'credentials': {
-            'projectId': 'projectId',
-            'privateKey': 'privateKey',
-            'email': 'email'
+            'projectId': None,
+            'privateKey': None,
+            'email': None
         },
     }
-    config.inject_vault_credentials(add_cloud_request)
-    uri = f'{config.MIST_URL}/{CLOUDS_ENDPOINT}'
+    inject_vault_credentials(add_cloud_request)
+    uri = f'{MIST_URL}/{CLOUDS_ENDPOINT}'
     request = MistRequests(
         api_token=api_token, uri=uri, json=add_cloud_request)
     response = request.post()
@@ -32,14 +33,15 @@ def setup(api_token):
             'ttl': '0'
         }
     }
-    return dict(create_zone=create_zone,
-                cloud=cloud_name,
-                zone=zone_name)
+    setup_data = dict(create_zone=create_zone,
+                      cloud=cloud_name,
+                      zone=zone_name)
+    return setup_data
 
 
 def teardown(api_token, setup_data):
     cloud_name = setup_data['cloud']
-    uri = f'{config.MIST_URL}/{CLOUDS_ENDPOINT}/{cloud_name}'
+    uri = f'{MIST_URL}/{CLOUDS_ENDPOINT}/{cloud_name}'
     request = MistRequests(
         api_token=api_token, uri=uri)
     request.delete()
