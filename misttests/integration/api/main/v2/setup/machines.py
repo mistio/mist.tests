@@ -1,5 +1,9 @@
+from functools import partial
 from datetime import datetime, timedelta
-from misttests import config
+
+from misttests.config import inject_vault_credentials
+from misttests.config import MIST_URL
+from misttests.config import safe_get_var
 from misttests.integration.api.helpers import assert_response_ok
 from misttests.integration.api.helpers import uniquify_string
 from misttests.integration.api.helpers import poll
@@ -54,7 +58,7 @@ def setup(api_token):
             'region': None
         },
     }
-    kvm_host = config.safe_get_var(
+    kvm_host = safe_get_var(
         f'clouds_new/{KVM_PROVIDER}', 'hostname')
     add_kvm_cloud_request = {
         'name': kvm_cloud_name,
@@ -66,22 +70,22 @@ def setup(api_token):
             }]
         }
     }
-    clouds_uri = f'{config.MIST_URL}/{CLOUDS_ENDPOINT}'
+    clouds_uri = f'{MIST_URL}/{CLOUDS_ENDPOINT}'
     # Add amazon cloud
-    config.inject_vault_credentials(add_amazon_cloud_request)
+    inject_vault_credentials(add_amazon_cloud_request)
     request = MistRequests(
         api_token=api_token, uri=clouds_uri, json=add_amazon_cloud_request)
     response = request.post()
     assert_response_ok(response)
     # Add kvm cloud
-    kvm_private_key = config.safe_get_var(
+    kvm_private_key = safe_get_var(
         f'clouds_new/{KVM_PROVIDER}', 'key')
     key_name = uniquify_string('test-key')
     add_key_request = {
         'name': key_name,
         'private': kvm_private_key
     }
-    keys_uri = f'{config.MIST_URL}/{KEYS_ENDPOINT}'
+    keys_uri = f'{MIST_URL}/{KEYS_ENDPOINT}'
     request = MistRequests(
         api_token=api_token, uri=keys_uri, json=add_key_request)
     response = request.post()
@@ -95,21 +99,22 @@ def setup(api_token):
     # Wait until amazon image is available
     assert poll(
         api_token=api_token,
-        uri=f'{config.MIST_URL}/{IMAGES_ENDPOINT}',
+        uri=f'{MIST_URL}/{IMAGES_ENDPOINT}',
         query_params=[('cloud', amazon_cloud_name)],
         data={'name': AMAZON_IMAGE})
     # Wait until amazon size is available
     assert poll(
         api_token=api_token,
-        uri=f'{config.MIST_URL}/{SIZES_ENDPOINT}',
+        uri=f'{MIST_URL}/{SIZES_ENDPOINT}',
         query_params=[('cloud', amazon_cloud_name), ('limit', 500)],
         data={'name': AMAZON_SIZE})
     # Wait until kvm image is available
     assert poll(
         api_token=api_token,
-        uri=f'{config.MIST_URL}/{IMAGES_ENDPOINT}',
+        uri=f'{MIST_URL}/{IMAGES_ENDPOINT}',
         query_params=[('cloud', kvm_cloud_name)],
-        data={'name': KVM_IMAGE})
+        data={'name': KVM_IMAGE},
+        timeout=500)
     # Create kvm machine
     kvm_machine_name = uniquify_string('test-machine')
     create_kvm_machine_request = {
@@ -128,135 +133,150 @@ def setup(api_token):
         },
         'dry': False
     }
-    machines_uri = f'{config.MIST_URL}/{MACHINES_ENDPOINT}'
+    machines_uri = f'{MIST_URL}/{MACHINES_ENDPOINT}'
     request = MistRequests(
         api_token=api_token, uri=machines_uri, json=create_kvm_machine_request)
     response = request.post()
     assert_response_ok(response)
     amazon_machine_name = uniquify_string('test-machine')
     amazon_machine_uri = f'{machines_uri}/{amazon_machine_name}'
-
-    def create_poller(data, post_delay=None):
-        def poll_machine():
-            if poll(api_token=api_token,
-                    uri=amazon_machine_uri,
-                    data=data,
-                    post_delay=post_delay):
-                return True
-            return False
-        return poll_machine
-    create_machine = {
-        'request_body': {
-            'name': amazon_machine_name,
-            'provider': AMAZON_PROVIDER,
-            'cloud': amazon_cloud_name,
-            'image': AMAZON_IMAGE,
-            'size': AMAZON_SIZE,
-            'dry': False
-        },
-        'callback': create_poller(data={'state': 'running'}, post_delay=30)
-    }
-    reboot_machine = {
-        'machine': amazon_machine_name,
-        'callback': create_poller(data={'state': 'running'}, post_delay=30)
-    }
-    stop_machine = {
-        'machine': amazon_machine_name,
-        'callback': create_poller(data={'state': 'stopped'})
-    }
-    start_machine = {
-        'machine': amazon_machine_name,
-        'callback': create_poller(data={'state': 'running'}, post_delay=10)
-    }
-    associate_key = disassociate_key = {
-        'request_body': {'key': key_name},
-        'machine': amazon_machine_name,
-    }
-    ssh = {'machine': amazon_machine_name}
-    resize_machine = {
-        'query_string': [('size', 'micro')],
-        'machine': amazon_machine_name
-    }
     dt = datetime.now() + timedelta(hours=1)
-    edit_machine = {
-        'machine': amazon_machine_name,
-        'request_body': {
-            'expiration': {
-                'date': dt.strftime('%Y-%m-%d %H:%M:%S'),
-                'action': 'destroy',
-                'notify': 0
+    edit_machine_date = dt.strftime('%Y-%m-%d %H:%M:%S')
+    clone_machine_name = kvm_machine_name + '-clone'
+    test_args = {
+        'create_machine': {
+            'request_body': {
+                'name': amazon_machine_name,
+                'provider': AMAZON_PROVIDER,
+                'cloud': amazon_cloud_name,
+                'image': AMAZON_IMAGE,
+                'size': AMAZON_SIZE,
+                'dry': False
+            },
+            'callback': partial(
+                poll,
+                api_token=api_token,
+                uri=amazon_machine_uri,
+                data={'state': 'running'},
+                post_delay=30)
+        },
+        'reboot_machine': {
+            'machine': amazon_machine_name,
+            'callback': partial(
+                poll,
+                api_token=api_token,
+                uri=amazon_machine_uri,
+                data={'state': 'running'},
+                post_delay=30)
+        },
+        'stop_machine': {
+            'machine': amazon_machine_name,
+            'callback': partial(
+                poll,
+                api_token=api_token,
+                uri=amazon_machine_uri,
+                data={'state': 'stopped'})
+        },
+        'start_machine': {
+            'machine': amazon_machine_name,
+            'callback': partial(
+                poll,
+                api_token=api_token,
+                uri=amazon_machine_uri,
+                data={'state': 'running'},
+                post_delay=10)
+        },
+        'associate_key': {
+            'request_body': {'key': key_name},
+            'machine': amazon_machine_name,
+        },
+        'disassociate_key': {
+            'request_body': {'key': key_name},
+            'machine': amazon_machine_name,
+        },
+        'ssh': {'machine': amazon_machine_name},
+        'resize_machine': {
+            'query_string': [('size', 'micro')],
+            'machine': amazon_machine_name
+        },
+        'edit_machine': {
+            'machine': amazon_machine_name,
+            'request_body': {
+                'expiration': {
+                    'date': edit_machine_date,
+                    'action': 'destroy',
+                    'notify': 0
+                }
             }
+        },
+        'rename_machine': {
+            'machine': amazon_machine_name,
+            'query_string': [('name', amazon_machine_name)],
+        },
+        'clone_machine': {
+            'machine': kvm_machine_name,
+            'query_string': [
+                ('name', clone_machine_name),
+                ('run_async', False)],
+            'sleep': 30,
+        },
+        'suspend_machine': {
+            'machine': clone_machine_name,
+            'sleep': 30
+        },
+        'resume_machine': {
+            'machine': clone_machine_name,
+            'sleep': 30
+        },
+        'destroy_machine': {
+            'machine': clone_machine_name,
+            'sleep': 30
+        },
+        'console': {
+            'machine': clone_machine_name
+        },
+        'undefine_machine': {
+            'machine': clone_machine_name
         }
     }
-    rename_machine = {
-        'machine': amazon_machine_name,
-        'query_string': [('name', amazon_machine_name)],
-    }
-    clone_machine_name = kvm_machine_name + '-clone'
-    clone_machine = {
-        'machine': kvm_machine_name,
-        'query_string': [('name', clone_machine_name), ('run_async', False)],
-        'sleep': 30,
-    }
-    suspend_machine = resume_machine = destroy_machine = {
-        'machine': clone_machine_name,
-        'sleep': 30
-    }
-    console = undefine_machine = {
-        'machine': clone_machine_name
-    }
-    return dict(create_machine=create_machine,
-                reboot_machine=reboot_machine,
-                stop_machine=stop_machine,
-                resize_machine=resize_machine,
-                start_machine=start_machine,
-                associate_key=associate_key,
-                ssh=ssh,
-                disassociate_key=disassociate_key,
-                edit_machine=edit_machine,
-                rename_machine=rename_machine,
-                clone_machine=clone_machine,
-                console=console,
-                suspend_machine=suspend_machine,
-                resume_machine=resume_machine,
-                destroy_machine=destroy_machine,
-                undefine_machine=undefine_machine,
-                amazon_cloud=amazon_cloud_name,
-                kvm_cloud=kvm_cloud_name,
-                kvm_machine=kvm_machine_name,
-                key=key_name)
+    setup_data = dict(**test_args,
+                      amazon_cloud=amazon_cloud_name,
+                      kvm_cloud=kvm_cloud_name,
+                      kvm_machine=kvm_machine_name,
+                      key=key_name)
+    return setup_data
 
 
 def teardown(api_token, setup_data):
     # Destroy amazon machine
     machine_name = setup_data['create_machine']['request_body']['name']
-    uri = (f'{config.MIST_URL}/{MACHINES_ENDPOINT}'
+    uri = (f'{MIST_URL}/{MACHINES_ENDPOINT}'
            f'/{machine_name}/actions/destroy')
     request = MistRequests(api_token=api_token, uri=uri)
     request.post()
     # Destroy kvm machine
     machine_name = setup_data['kvm_machine']
-    uri = (f'{config.MIST_URL}/{MACHINES_ENDPOINT}'
+    uri = (f'{MIST_URL}/{MACHINES_ENDPOINT}'
            f'/{machine_name}/actions/destroy')
     request = MistRequests(api_token=api_token, uri=uri)
     request.post()
     # Undefine kvm machine
-    uri = (f'{config.MIST_URL}/{MACHINES_ENDPOINT}'
+    uri = (f'{MIST_URL}/{MACHINES_ENDPOINT}'
            f'/{machine_name}/actions/undefine')
     request = MistRequests(api_token=api_token, uri=uri)
     request.post()
     # Delete key
     key_name = setup_data['key']
-    uri = f'{config.MIST_URL}/{KEYS_ENDPOINT}/{key_name}'
+    uri = f'{MIST_URL}/{KEYS_ENDPOINT}/{key_name}'
     request = MistRequests(api_token=api_token, uri=uri)
     request.delete()
     # Remove amazon cloud
     amazon_cloud_name = setup_data['amazon_cloud']
-    uri = f'{config.MIST_URL}/{CLOUDS_ENDPOINT}/{amazon_cloud_name}'
+    uri = f'{MIST_URL}/{CLOUDS_ENDPOINT}/{amazon_cloud_name}'
     request = MistRequests(api_token=api_token, uri=uri)
     request.delete()
     # Remove amazon cloud
     kvm_cloud_name = setup_data['kvm_cloud']
-    uri = f'{config.MIST_URL}/{CLOUDS_ENDPOINT}/{kvm_cloud_name}'
+    uri = f'{MIST_URL}/{CLOUDS_ENDPOINT}/{kvm_cloud_name}'
     request = MistRequests(api_token=api_token, uri=uri)
     request.delete()
