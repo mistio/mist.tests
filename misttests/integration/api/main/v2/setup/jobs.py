@@ -59,7 +59,8 @@ def setup(api_token):
         api_token=api_token,
         uri=machines_uri,
         query_params=[('cloud', cloud_name)],
-        data={'name': machine_name})
+        data={'name': machine_name},
+        timeout=800)
     setup_data = {
         'get_job': {'job_id': job_id},
         'cloud': cloud_name,
