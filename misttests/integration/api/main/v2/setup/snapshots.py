@@ -6,7 +6,7 @@ from misttests.integration.api.helpers import uniquify_string
 from misttests.integration.api.mistrequests import MistRequests
 
 V2_ENDPOINT = 'api/v2'
-CLOUDS_V2_ENDPOINT = f'{V2_ENDPOINT}/clouds'
+CLOUDS_ENDPOINT = f'{V2_ENDPOINT}/clouds'
 MACHINES_ENDPOINT = f'{V2_ENDPOINT}/machines'
 IMAGES_ENDPOINT = f'{V2_ENDPOINT}/images'
 VSPHERE_IMAGE = 'template'
@@ -26,16 +26,19 @@ def setup(api_token):
         }
     }
     inject_vault_credentials(add_cloud_request)
-    uri = f'{MIST_URL}/{CLOUDS_V2_ENDPOINT}'
+    clouds_uri = f'{MIST_URL}/{CLOUDS_ENDPOINT}'
     request = MistRequests(
-        api_token=api_token, uri=uri, json=add_cloud_request)
+        api_token=api_token, uri=clouds_uri, json=add_cloud_request)
     response = request.post()
     assert_response_ok(response)
+    # Wait for cloud to become available
+    assert poll(api_token=api_token, uri=f'{clouds_uri}/{cloud_name}')
     # Wait for image to become available
     assert poll(api_token=api_token,
                 uri=f'{MIST_URL}/{IMAGES_ENDPOINT}',
                 query_params=[('cloud', cloud_name)],
-                data={'name': VSPHERE_IMAGE})
+                data={'name': VSPHERE_IMAGE},
+                timeout=800)
     # Create machine
     machine_name = uniquify_string('test-machine')
     add_machine_request = {
@@ -75,7 +78,7 @@ def teardown(api_token, setup_data):
     request.post()
     # Remove cloud
     cloud_name = setup_data['cloud']
-    uri = f'{MIST_URL}/{CLOUDS_V2_ENDPOINT}/{cloud_name}'
+    uri = f'{MIST_URL}/{CLOUDS_ENDPOINT}/{cloud_name}'
     request = MistRequests(
         api_token=api_token, uri=uri)
     request.delete()
