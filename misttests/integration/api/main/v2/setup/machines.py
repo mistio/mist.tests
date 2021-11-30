@@ -1,3 +1,4 @@
+from requests import codes
 from functools import partial
 from datetime import datetime, timedelta
 
@@ -143,6 +144,7 @@ def setup(api_token):
     dt = datetime.now() + timedelta(hours=1)
     edit_machine_date = dt.strftime('%Y-%m-%d %H:%M:%S')
     clone_machine_name = kvm_machine_name + '-clone'
+    clone_machine_uri = f'{machines_uri}/{clone_machine_name}'
     test_args = {
         'create_machine': {
             'request_body': {
@@ -184,6 +186,7 @@ def setup(api_token):
                 api_token=api_token,
                 uri=amazon_machine_uri,
                 data={'state': 'running'},
+                timeout=500,
                 post_delay=10)
         },
         'associate_key': {
@@ -218,26 +221,43 @@ def setup(api_token):
             'query_string': [
                 ('name', clone_machine_name),
                 ('run_async', False)],
-            'sleep': 30,
+            'callback': partial(
+                poll,
+                api_token=api_token,
+                uri=clone_machine_uri,
+                timeout=500)
         },
         'suspend_machine': {
             'machine': clone_machine_name,
-            'sleep': 30
+            'callback': partial(
+                poll,
+                api_token=api_token,
+                uri=clone_machine_uri,
+                data={'state': 'suspended'},
+                timeout=500)
         },
         'resume_machine': {
             'machine': clone_machine_name,
-            'sleep': 30
+            'callback': partial(
+                poll,
+                api_token=api_token,
+                uri=clone_machine_uri,
+                data={'state': 'running'},
+                timeout=500,
+                post_delay=10)
         },
         'destroy_machine': {
             'machine': clone_machine_name,
-            'sleep': 30
+            'callback': partial(
+                poll,
+                api_token=api_token,
+                uri=clone_machine_uri,
+                data={'state': 'terminated'},
+                timeout=500,
+                post_delay=20)
         },
-        'console': {
-            'machine': clone_machine_name
-        },
-        'undefine_machine': {
-            'machine': clone_machine_name
-        }
+        'console': {'machine': clone_machine_name},
+        'undefine_machine': {'machine': clone_machine_name}
     }
     setup_data = dict(**test_args,
                       amazon_cloud=amazon_cloud_name,
@@ -259,7 +279,12 @@ def teardown(api_token, setup_data):
     uri = (f'{MIST_URL}/{MACHINES_ENDPOINT}'
            f'/{machine_name}/actions/destroy')
     request = MistRequests(api_token=api_token, uri=uri)
-    request.post()
+    response = request.post()
+    if response.status_code == codes.ok:
+        machine_uri = f'{MIST_URL}/{MACHINES_ENDPOINT}/{machine_name}'
+        poll(api_token=api_token,
+             uri=machine_uri,
+             data={'state': 'terminated'})
     # Undefine kvm machine
     uri = (f'{MIST_URL}/{MACHINES_ENDPOINT}'
            f'/{machine_name}/actions/undefine')
