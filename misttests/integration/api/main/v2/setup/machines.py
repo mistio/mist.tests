@@ -115,7 +115,7 @@ def setup(api_token):
         uri=f'{MIST_URL}/{IMAGES_ENDPOINT}',
         query_params=[('cloud', kvm_cloud_name)],
         data={'name': KVM_IMAGE},
-        timeout=500)
+        timeout=800)
     # Create kvm machine
     kvm_machine_name = uniquify_string('test-machine')
     create_kvm_machine_request = {
