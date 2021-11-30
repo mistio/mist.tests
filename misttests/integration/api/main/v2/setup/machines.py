@@ -97,6 +97,8 @@ def setup(api_token):
         api_token=api_token, uri=clouds_uri, json=add_kvm_cloud_request)
     response = request.post()
     assert_response_ok(response)
+    # Wait for kvm cloud to become available
+    assert poll(api_token=api_token, uri=f'{clouds_uri}/{kvm_cloud_name}')
     # Wait until amazon image is available
     assert poll(
         api_token=api_token,
