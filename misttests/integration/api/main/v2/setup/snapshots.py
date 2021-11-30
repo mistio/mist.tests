@@ -43,7 +43,7 @@ def setup(api_token):
     machine_name = uniquify_string('test-machine')
     add_machine_request = {
         'name': machine_name,
-        'cloud': 'vsphere',
+        'cloud': cloud_name,
         'image': VSPHERE_IMAGE,
         'size': {'ram': 256, 'cpus': 1},
         'dry': False
