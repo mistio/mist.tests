@@ -43,6 +43,7 @@ V2_ENDPOINT = 'api/v2'
 CLOUDS_ENDPOINT = f'{V2_ENDPOINT}/clouds'
 KEYS_ENDPOINT = f'{V2_ENDPOINT}/keys'
 IMAGES_ENDPOINT = f'{V2_ENDPOINT}/images'
+LOCATIONS_ENDPOINT = f'{V2_ENDPOINT}/locations'
 SIZES_ENDPOINT = f'{V2_ENDPOINT}/sizes'
 MACHINES_ENDPOINT = f'{V2_ENDPOINT}/machines'
 
@@ -118,6 +119,11 @@ def setup(api_token):
         query_params=[('cloud', kvm_cloud_name)],
         data={'name': KVM_IMAGE},
         timeout=800)
+    # Wait for kvm locations to become available
+    assert poll(api_token=api_token,
+                uri=f'{MIST_URL}/{LOCATIONS_ENDPOINT}',
+                query_params=[('cloud', kvm_cloud_name)],
+                timeout=800)
     # Create kvm machine
     kvm_machine_name = uniquify_string('test-machine')
     create_kvm_machine_request = {
@@ -126,10 +132,7 @@ def setup(api_token):
         'cloud': kvm_cloud_name,
         'key': key_name,
         'image': KVM_IMAGE,
-        'size': {
-            'ram': 256,
-            'cpus': 1
-        },
+        'size': {'memory': 256, 'cpu': 1},
         'disks': {
             'disk_path': f'/var/lib/libvirt/images/{kvm_machine_name}.img',
             'disk_size': 4
