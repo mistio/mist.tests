@@ -9,6 +9,7 @@ V2_ENDPOINT = 'api/v2'
 CLOUDS_ENDPOINT = f'{V2_ENDPOINT}/clouds'
 MACHINES_ENDPOINT = f'{V2_ENDPOINT}/machines'
 IMAGES_ENDPOINT = f'{V2_ENDPOINT}/images'
+LOCATIONS_ENDPOINT = f'{V2_ENDPOINT}/locations'
 VSPHERE_IMAGE = 'template'
 
 
@@ -39,13 +40,18 @@ def setup(api_token):
                 query_params=[('cloud', cloud_name)],
                 data={'name': VSPHERE_IMAGE},
                 timeout=800)
+    # Wait for locations to become available
+    assert poll(api_token=api_token,
+                uri=f'{MIST_URL}/{LOCATIONS_ENDPOINT}',
+                query_params=[('cloud', cloud_name)],
+                timeout=800)
     # Create machine
     machine_name = uniquify_string('test-machine')
     add_machine_request = {
         'name': machine_name,
         'cloud': cloud_name,
         'image': VSPHERE_IMAGE,
-        'size': {'ram': 256, 'cpus': 1},
+        'size': {'memory': 256, 'cpu': 1},
         'dry': False
     }
     machines_uri = f'{MIST_URL}/{MACHINES_ENDPOINT}'
