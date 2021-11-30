@@ -70,7 +70,8 @@ def setup(api_token):
         api_token=api_token,
         uri=machines_uri,
         query_params=[('cloud', cloud_name)],
-        data={'name': machine_name})
+        data={'name': machine_name},
+        timeout=800)
     script_name = uniquify_string('test-script')
     test_args = {
         'add_script': {
