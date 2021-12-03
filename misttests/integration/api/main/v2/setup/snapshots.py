@@ -24,7 +24,10 @@ def setup(api_token):
             'host': None,
             'password': None,
             'username': None
-        }
+        },
+        'extra': {
+            'datastore': 'datastore2'
+        },
     }
     inject_vault_credentials(add_cloud_request)
     clouds_uri = f'{MIST_URL}/{CLOUDS_ENDPOINT}'
