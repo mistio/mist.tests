@@ -126,19 +126,16 @@ def destroy_machine(log, mist_core, api_token, cloud_id, machine_id):
 
 
 def find_subdict(obj, subdict, exact_match=False):
-    if isinstance(obj, dict):
+    def contains(dict1, dict2):
         if exact_match:
-            return subdict.items() <= obj.items()
-        return all(k in obj and v in obj[k] for k, v in subdict.items())
-    if exact_match:
-        for d in obj:
-            assert isinstance(d, dict)
-            if subdict.items() <= d.items():
-                return True
-    else:
-        for d in obj:
-            if all(k in d and v in d[k] for k, v in subdict.items()):
-                return True
+            return dict2.items() <= dict1.items()
+        return all(k in dict1 and v in dict1[k] for k, v in dict2.items())
+    if isinstance(obj, dict):
+        return contains(obj, subdict)
+    for d in obj:
+        assert isinstance(d, dict)
+        if contains(d, subdict):
+            return True
     return False
 
 
