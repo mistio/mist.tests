@@ -220,6 +220,12 @@ def setup(api_token):
         'rename_machine': {
             'machine': amazon_machine_name,
             'query_string': [('name', amazon_machine_name)],
+            'callback': partial(
+                poll,
+                api_token=api_token,
+                uri=f'{MIST_URL}/{MACHINES_ENDPOINT}/{kvm_machine_name}',
+                data={'state': 'running'},
+                timeout=800)
         },
         'clone_machine': {
             'machine': kvm_machine_name,
@@ -259,7 +265,7 @@ def setup(api_token):
                 uri=clone_machine_uri,
                 data={'state': 'terminated'},
                 timeout=500,
-                post_delay=20)
+                post_delay=30)
         },
         'console': {'machine': clone_machine_name},
         'undefine_machine': {'machine': clone_machine_name}
