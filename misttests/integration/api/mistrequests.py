@@ -8,7 +8,8 @@ class MistRequests(object):
     """
 
     def __init__(self, uri, params=None, data=None, json=None, cookie=None,
-                 timeout=None, csrf_token=None, api_token=None):
+                 timeout=None, csrf_token=None, api_token=None,
+                 allow_redirects=False):
         self.headers = {}
         if cookie:
             self.headers.update({'Cookie': cookie})
@@ -21,11 +22,13 @@ class MistRequests(object):
         self.data = data
         self.params = params
         self.json = json
+        self.allow_redirects = allow_redirects
 
     def post(self):
         response = requests.post(self.uri, params=self.params, data=self.data,
                                  json=self.json, headers=self.headers,
-                                 timeout=self.timeout)
+                                 timeout=self.timeout,
+                                 allow_redirects=self.allow_redirects)
         return response
 
     def get(self):

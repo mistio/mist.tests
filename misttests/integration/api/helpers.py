@@ -1,9 +1,11 @@
+import time
 import uuid
 import json
 import string
 import random
 
 from misttests.integration.api.utils import *
+from misttests.integration.api.mistrequests import MistRequests
 from misttests import config
 
 from misttests.config import safe_get_var
@@ -121,3 +123,38 @@ def destroy_machine(log, mist_core, api_token, cloud_id, machine_id):
     except AssertionError as e:
         log.error("Machine destruction was not successful!")
         raise e
+
+
+def find_subdict(obj, subdict, exact_match=False):
+    def contains(dict1, dict2):
+        if exact_match:
+            return dict2.items() <= dict1.items()
+        return all(k in dict1 and v in dict1[k] for k, v in dict2.items())
+    if isinstance(obj, dict):
+        return contains(obj, subdict)
+    for d in obj:
+        assert isinstance(d, dict)
+        if contains(d, subdict):
+            return True
+    return False
+
+
+def poll(api_token, uri, data={}, query_params=None,
+         timeout=60 * 5, interval=10, post_delay=None):
+    req_kwargs = dict(api_token=api_token, uri=uri)
+    if query_params:
+        req_kwargs['params'] = query_params
+    request = MistRequests(**req_kwargs)
+    t_end = time.time() + timeout
+    while time.time() < t_end:
+        response = request.get()
+        assert_response_ok(response)
+        response_data = response.json()['data']
+        if response_data and not data:
+            return True
+        if data and find_subdict(response_data, data):
+            if post_delay:
+                time.sleep(post_delay)
+            return True
+        time.sleep(interval)
+    return False

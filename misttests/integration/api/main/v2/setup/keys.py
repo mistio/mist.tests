@@ -9,12 +9,12 @@ CLOUDS_ENDPOINT = 'api/v2/clouds'
 def setup(api_token):
     cloud_name = uniquify_string('test-cloud')
     add_cloud_request = {
-        "name": cloud_name,
-        "provider": "google",
-        "credentials": {
-            "projectId": "projectId",
-            "privateKey": "privateKey",
-            "email": "email"
+        'name': cloud_name,
+        'provider': 'google',
+        'credentials': {
+            'projectId': None,
+            'privateKey': None,
+            'email': None
         },
     }
     config.inject_vault_credentials(add_cloud_request)
@@ -24,11 +24,13 @@ def setup(api_token):
     response = request.post()
     assert_response_ok(response)
     key_name = uniquify_string('test-key')
-    return {
-        'query_string': {'edit_key': [('name', key_name)]},
-        'cloud': cloud_name,
-        'key': key_name
+    test_args = {
+        'add_key': {'request_body': {'name': key_name, 'generate': True}},
+        'edit_key': {'key': key_name, 'query_string': [('name', key_name)]},
+        'delete_key': {'key': key_name}
     }
+    setup_data = dict(**test_args, cloud=cloud_name, key=key_name)
+    return setup_data
 
 
 def teardown(api_token, setup_data):
