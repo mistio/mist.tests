@@ -165,7 +165,8 @@ def setup(api_token):
                 api_token=api_token,
                 uri=amazon_machine_uri,
                 data={'state': 'running'},
-                post_delay=30)
+                timeout=800,
+                post_delay=10)
         },
         'reboot_machine': {
             'machine': amazon_machine_name,
@@ -174,7 +175,8 @@ def setup(api_token):
                 api_token=api_token,
                 uri=amazon_machine_uri,
                 data={'state': 'running'},
-                post_delay=30)
+                timeout=800,
+                post_delay=10)
         },
         'stop_machine': {
             'machine': amazon_machine_name,
@@ -182,6 +184,7 @@ def setup(api_token):
                 poll,
                 api_token=api_token,
                 uri=amazon_machine_uri,
+                timeout=800,
                 data={'state': 'stopped'})
         },
         'start_machine': {
@@ -191,7 +194,7 @@ def setup(api_token):
                 api_token=api_token,
                 uri=amazon_machine_uri,
                 data={'state': 'running'},
-                timeout=500,
+                timeout=800,
                 post_delay=10)
         },
         'associate_key': {
@@ -236,7 +239,7 @@ def setup(api_token):
                 poll,
                 api_token=api_token,
                 uri=clone_machine_uri,
-                timeout=500)
+                timeout=800)
         },
         'suspend_machine': {
             'machine': clone_machine_name,
@@ -245,7 +248,7 @@ def setup(api_token):
                 api_token=api_token,
                 uri=clone_machine_uri,
                 data={'state': 'suspended'},
-                timeout=500)
+                timeout=800)
         },
         'resume_machine': {
             'machine': clone_machine_name,
@@ -254,7 +257,7 @@ def setup(api_token):
                 api_token=api_token,
                 uri=clone_machine_uri,
                 data={'state': 'running'},
-                timeout=500,
+                timeout=800,
                 post_delay=10)
         },
         'destroy_machine': {
@@ -264,8 +267,8 @@ def setup(api_token):
                 api_token=api_token,
                 uri=clone_machine_uri,
                 data={'state': 'terminated'},
-                timeout=500,
-                post_delay=30)
+                timeout=800,
+                post_delay=10)
         },
         'console': {'machine': clone_machine_name},
         'undefine_machine': {'machine': clone_machine_name}
