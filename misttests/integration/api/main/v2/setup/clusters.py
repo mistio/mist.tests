@@ -45,8 +45,8 @@ def setup(api_token):
             'callback': partial(poll,
                                 api_token=api_token,
                                 uri=cluster_uri,
-                                data={'name': cluster_name},
-                                post_delay=120),
+                                data={'state': 'running'},
+                                timeout=800),
         },
         'destroy_cluster': {'cluster': cluster_name}
     }
