@@ -247,3 +247,38 @@ def create_docker_machine(context, machine_name):
 
     re = requests.post(context.mist_config['MIST_URL'] + "/api/v1/clouds/" + cloud_id + "/machines", data=json.dumps(payload), headers=headers)
     assert re.status_code == 200, "Could not create machine. Response was %s" % re.status_code
+
+
+@step('Docker machine "{machine_name}" with "{key_name}" key and "{script_name}" script has been added via API-v2 request')
+def create_docker_machine_with_scheduled_script_v2(context,
+                                                   machine_name,
+                                                   key_name,
+                                                   script_name):
+    headers = {
+        'Authorization': get_owner_api_token(context),
+        'Content-Type': 'application/json',
+    }
+
+    if 'random' in machine_name:
+        value_key = machine_name
+        machine_name = machine_name.replace("random", str(randrange(1000)))
+        context.mist_config[value_key] = machine_name
+
+    payload = {
+        'name': machine_name,
+        'image': DEFAULT_IMAGE_NAME,
+        'key': key_name,
+        'schedules': [{
+            'schedule_type': 'interval',
+            'every': 1,
+            'period': 'minutes',
+            'script': {
+                'script': script_name
+            }}],
+        'dry': False,
+    }
+
+    response = requests.post(context.mist_config['MIST_URL'] + '/api/v2/machines',
+                             data=json.dumps(payload), headers=headers)
+
+    assert response.status_code == 200, 'Could not create machine. Response was %s' % response.status_code
