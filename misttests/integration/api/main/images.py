@@ -31,7 +31,7 @@ def test_list_images(pretty_print, mist_core, owner_api_token, cache):
     response = mist_core.list_images(cloud_id=cache.get('cloud_id',''), api_token=owner_api_token).get()
     assert_response_ok(response)
     for image in response.json():
-        if 'collectd' in image['name']:
+        if config.DEFAULT_IMAGE_NAME in image['name']:
             cache.set('image_id', image['id'])
             break
     assert len(response.json()) > 0, "No images are listed for Docker cloud"
