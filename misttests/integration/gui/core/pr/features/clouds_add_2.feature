@@ -24,7 +24,7 @@ Feature: Add second-tier clouds
     | provider                      |
     | IBM Cloud                     |
     | OnApp                         |
-    | Maxihost                      |
+#    | Maxihost                      |
     | Openstack                     |
     | LXD                           |
 
