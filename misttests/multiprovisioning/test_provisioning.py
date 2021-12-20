@@ -34,7 +34,7 @@ providers = {
     "Docker": {
         "size": "",
         "location": "",
-        "image": "mist/ubuntu-14.04"
+        "image": "mist/debian-ssh"
     },
     "DigitalOcean": {
         "size": "512mb",

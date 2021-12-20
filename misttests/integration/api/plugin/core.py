@@ -308,7 +308,7 @@ class MistCoreApi(MistIoApi):
                 'mist_cloud': cloud_id,
                 'webserver_port': 8000,
                 'machine_name': machine_name,
-                'mist_image': 'mist/ubuntu-14.04',
+                'mist_image': 'mist/debian-ssh',
                 'mist_size': 'default'
             }
         }
