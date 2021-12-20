@@ -32,7 +32,7 @@ RUN curl -SLO "https://chromedriver.storage.googleapis.com/$CHROMEDRIVER_VERSION
     rm chromedriver_linux64.zip
 
 # Install latest version of GNU parallel
-RUN (wget -O - pi.dk/3 || curl pi.dk/3/ || fetch -o - http://pi.dk/3) | bash
+# RUN (wget -O - pi.dk/3 || curl pi.dk/3/ || fetch -o - http://pi.dk/3) | bash
 
 #Install latest tmux
 RUN git clone https://github.com/tmux/tmux.git && cd tmux && sh autogen.sh && ./configure && make && mv tmux /usr/bin/
