@@ -36,7 +36,7 @@ TEST_METHOD_ORDERING = [
 
 AMAZON_PROVIDER = 'amazon'
 AMAZON_IMAGE = 'ubuntu'
-AMAZON_SIZE = 'micro'
+AMAZON_SIZE = 'nano'
 KVM_PROVIDER = 'kvm'
 KVM_IMAGE = 'cirros-0.5.1-x86_64-disk.img'
 V2_ENDPOINT = 'api/v2'
@@ -207,7 +207,7 @@ def setup(api_token):
         },
         'ssh': {'machine': amazon_machine_name},
         'resize_machine': {
-            'query_string': [('size', 'micro')],
+            'query_string': [('size', AMAZON_SIZE)],
             'machine': amazon_machine_name
         },
         'edit_machine': {
