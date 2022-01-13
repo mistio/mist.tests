@@ -2,6 +2,8 @@ import os
 
 from datetime import datetime
 
+from selenium.webdriver.common.by import By
+
 from misttests.integration.gui.steps.email import *
 from misttests.integration.gui.steps.sso import *
 from misttests.integration.gui.steps.navigation import *
@@ -105,7 +107,7 @@ def click_mayday_machine(context):
     """
     if context.mist_config.get('MAYDAY_MACHINE'):
         text = context.mist_config['MAYDAY_MACHINE']
-    button = context.browser.find_element_by_xpath("//vaadin-grid-table-row[.//strong[text()='%s']]" % text)
+    button = context.browser.find_element(By.XPATH, "//vaadin-grid-table-row[.//strong[text()='%s']]" % text)
     clicketi_click(context, button)
 
 
@@ -138,7 +140,7 @@ def reboot_mayday_machine(context):
     while time() < end_time:
         machine = get_machine(context, name)
         if machine:
-            checkbox = machine.find_element_by_class_name("mist-check")
+            checkbox = machine.find_element(By.CSS_SELECTOR, ".mist-check")
             checkbox.click()
             return
 
@@ -148,7 +150,7 @@ def reboot_mayday_machine(context):
 
 @step('I fill "{value}" as metric value')
 def rule_value(context, value):
-    value_input = context.browser.find_element_by_xpath("//paper-input[@id='metricValue']")
+    value_input = context.browser.find_element(By.XPATH, "//paper-input[@id='metricValue']")
     actions = ActionChains(context.browser)
     actions.move_to_element(value_input)
     actions.click()
@@ -165,9 +167,9 @@ def rule_value(context, value):
 def check_for_incident(context, incident):
     dashboard_page = get_page_element(context, 'dashboard')
     dashboard_shadow = expand_shadow_root(context, dashboard_page)
-    app_incidents = dashboard_shadow.find_element_by_css_selector('app-incidents')
+    app_incidents = dashboard_shadow.find_element(By.CSS_SELECTOR, 'app-incidents')
     app_incidents_shadow = expand_shadow_root(context, app_incidents)
-    incidents_list = app_incidents_shadow.find_elements_by_css_selector('span.rule-condition')
+    incidents_list = app_incidents_shadow.find_elements(By.CSS_SELECTOR, 'span.rule-condition')
     for item in incidents_list:
         if incident in safe_get_element_text(item):
             return

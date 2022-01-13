@@ -19,7 +19,7 @@ def type_username_gmail(context):
     """
     email = context.mist_config.get('GOOGLE_TEST_EMAIL', None)
     try:
-        email_input = context.browser.find_element_by_css_selector('input[type=email]')
+        email_input = context.browser.find_element(By.CSS_SELECTOR, 'input[type=email]')
         email_input.send_keys(email)
         email_input.send_keys(Keys.RETURN)
     except:
@@ -33,7 +33,7 @@ def type_password_gmail(context):
     """
     password = context.mist_config.get('GOOGLE_TEST_PASSWORD', None)
     try:
-        password_input = context.browser.find_element_by_css_selector('input[type=password]')
+        password_input = context.browser.find_element(By.CSS_SELECTOR, 'input[type=password]')
         password_input.send_keys(password)
         password_input.send_keys(Keys.RETURN)
     except:
@@ -46,7 +46,7 @@ def press_button_with_id(context):
     This is a very specific method only for the Github sign in form
     """
     try:
-        button = context.browser.find_element_by_css_selector('input.btn[type=submit]')
+        button = context.browser.find_element(By.CSS_SELECTOR, 'input.btn[type=submit]')
         button.click()
     except:
         raise ValueError("Could not find Sign In button in github form")

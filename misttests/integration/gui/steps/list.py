@@ -1,5 +1,7 @@
 from behave import step, use_step_matcher
 
+from selenium.webdriver.common.by import By
+
 from time import time
 from time import sleep
 
@@ -21,7 +23,7 @@ def get_list_items(context, resource_type):
     elif resource_type in ['record']:
         _, container = get_page_element(context, 'zones', 'zone')
     container_shadow = expand_shadow_root(context, container)
-    mist_list = container_shadow.find_element_by_css_selector('mist-list')
+    mist_list = container_shadow.find_element(By.CSS_SELECTOR, 'mist-list')
     return get_list_filtered_items(context, mist_list)
 
 
@@ -73,10 +75,10 @@ def select_item_from_list(context, item_name, resource_type):
     else:
         container = get_page_element(context, resource_type + 's')
     container_shadow = expand_shadow_root(context, container)
-    mist_list = container_shadow.find_element_by_css_selector('mist-list')
+    mist_list = container_shadow.find_element(By.CSS_SELECTOR, 'mist-list')
     list_shadow = expand_shadow_root(context, mist_list)
-    grid = list_shadow.find_element_by_css_selector('vaadin-grid')
-    checkboxes = grid.find_elements_by_css_selector('mist-check.item-check')
+    grid = list_shadow.find_element(By.CSS_SELECTOR, 'vaadin-grid')
+    checkboxes = grid.find_elements(By.CSS_SELECTOR, 'mist-check.item-check')
     for checkbox in checkboxes:
         item = get_list_item_from_checkbox(context, checkbox)
         if item and item.get('name') == item_name:
@@ -97,9 +99,9 @@ def click_list_item(context, item_name, resource_type):
     else:
         container = get_page_element(context, resource_type + 's')
     container_shadow = expand_shadow_root(context, container)
-    mist_list = container_shadow.find_element_by_css_selector('mist-list')
+    mist_list = container_shadow.find_element(By.CSS_SELECTOR, 'mist-list')
     list_shadow = expand_shadow_root(context, mist_list)
-    list_item_names = list_shadow.find_elements_by_css_selector('strong.name')
+    list_item_names = list_shadow.find_elements(By.CSS_SELECTOR, 'strong.name')
     for item in list_item_names:
         item_text = safe_get_element_text(item)
         if item_text.strip().lower() == item_name.strip().lower():

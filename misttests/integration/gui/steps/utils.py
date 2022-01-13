@@ -33,38 +33,38 @@ def give_some_input(context, input_element, text):
 
 
 def get_page(context, page):
-    mist_app = context.browser.find_element_by_tag_name('mist-app')
+    mist_app = context.browser.find_element(By.TAG_NAME, 'mist-app')
     mist_app_shadow = expand_shadow_root(context, mist_app)
     if page in ['machine', 'cloud', 'stack', 'volume', 'zone', 'key', 'image', 'script', 'template', 'tunnel', 'schedule', 'team']:
         page_css_selector = 'iron-pages > page-%ss' % page
-        container = mist_app_shadow.find_element_by_css_selector(page_css_selector)
+        container = mist_app_shadow.find_element(By.CSS_SELECTOR, page_css_selector)
         container_shadow = expand_shadow_root(context, container)
-        return container_shadow.find_element_by_css_selector(page + '-page')
+        return container_shadow.find_element(By.CSS_SELECTOR, page + '-page')
     elif page in ['machines', 'clouds', 'stacks', 'volumes', 'zones', 'keys', 'images', 'scripts', 'templates', 'tunnels', 'schedules', 'teams', 'dashboard', 'rules', 'insights']:
         page_css_selector = 'iron-pages > page-%s' % page
-        return mist_app_shadow.find_element_by_css_selector(page_css_selector)
+        return mist_app_shadow.find_element(By.CSS_SELECTOR, page_css_selector)
 
 
 def get_page_element(context, page=None, subpage=None):
-    mist_app = context.browser.find_element_by_tag_name('mist-app')
+    mist_app = context.browser.find_element(By.TAG_NAME, 'mist-app')
     if not page:
         page = mist_app.get_attribute('page')
     mist_app_shadow = expand_shadow_root(context, mist_app)
     page_css_selector = 'iron-pages > page-%s' % page
-    page_element = mist_app_shadow.find_element_by_css_selector(page_css_selector)
+    page_element = mist_app_shadow.find_element(By.CSS_SELECTOR, page_css_selector)
     if subpage:
         page_shadow = expand_shadow_root(context, page_element)
-        return page_element, page_shadow.find_element_by_css_selector(subpage + '-page')
+        return page_element, page_shadow.find_element(By.CSS_SELECTOR, subpage + '-page')
     return page_element
 
 
 @step('I type "{some_text}" in input with id "{element_id}" within "{container_id}"')
 def give_some_input_by_id_within_container(context, some_text, element_id, container_id=None):
     if not container_id:
-        input_element = context.browser.find_element_by_id(element_id)
+        input_element = context.browser.find_element(By.ID, element_id)
     else:
-        container = context.browser.find_element_by_id(container_id)
-        input_element = container.find_element_by_id(element_id)
+        container = context.browser.find_element(By.ID, container_id)
+        input_element = container.find_element(By.ID, element_id)
     give_some_input(context, input_element, some_text)
 
 
@@ -76,9 +76,9 @@ def give_some_input_by_id(context, some_text, element_id):
 @step('I type "{some_text}" in input with class name "{element_class}" within "{container_id}"')
 def give_some_input_by_class_within_container(context, some_text, element_class, container_id=None):
     if not container_id:
-        input_element = context.browser.find_element_by_class_name(element_class)
+        input_element = context.browser.find_element(By.CLASS_NAME, element_class)
     else:
-        input_element = context.browser.find_element_by_id(container_id).find_element_by_class_name(element_class)
+        input_element = context.browser.find_element(By.ID, container_id).find_element(By.CLASS_NAME, element_class)
     give_some_input(context, input_element, some_text)
 
 
@@ -92,7 +92,7 @@ def focus_on_element(context, element):
     from .navigation import found_one
     assert found_one(context), "I have no idea where I am"
     try:
-        context.browser.find_element_by_tag_name("mist-app")
+        context.browser.find_element(By.TAG_NAME, "mist-app")
         js = "document.querySelector('paper-header-panel').scroller.scrollTop = %s" % position['y']
         context.browser.execute_script(js)
     except:
@@ -123,20 +123,20 @@ def some_counter_loaded(context, counter_title, counter_number, seconds):
                              'teams', 'zones']:
         raise ValueError('The counter given is unknown')
     try:
-        mist_app = context.browser.find_element_by_tag_name('mist-app')
+        mist_app = context.browser.find_element(By.TAG_NAME, 'mist-app')
         mist_app_shadow = expand_shadow_root(context, mist_app)
-        sidebar = mist_app_shadow.find_element_by_css_selector(
-            'mist-sidebar')
+        sidebar = mist_app_shadow.find_element(
+            By.CSS_SELECTOR, 'mist-sidebar')
         sidebar_shadow = expand_shadow_root(context, sidebar)
-        counter = sidebar_shadow.find_element_by_css_selector(
-            'a#%s' % counter_title)
+        counter = sidebar_shadow.find_element(
+            By.CSS_SELECTOR, 'a#%s' % counter_title)
     except NoSuchElementException:
         raise NoSuchElementException("Counter with name %s has not been found"
                                      % counter_title)
 
     end_time = time() + int(seconds)
     while time() < end_time:
-        counter_span = counter.find_element_by_css_selector("span.count")
+        counter_span = counter.find_element(By.CSS_SELECTOR, "span.count")
         counter_span_text = safe_get_element_text(counter_span)
         counter_span_text = "0" if not counter_span_text else counter_span_text
         if int(counter_span_text) > int(counter_number):
@@ -150,7 +150,7 @@ def some_counter_loaded(context, counter_title, counter_number, seconds):
 
 @step('I should see a header with title "{text}"')
 def see_header_with_title(context, text):
-    titles = context.browser.find_elements_by_class_name("ui-title")
+    titles = context.browser.find_elements(By.CSS_SELECTOR, ".ui-title")
     for title in titles:
         title_text = safe_get_element_text(title)
         if text in title_text:
@@ -193,11 +193,11 @@ def check_page_is_visible(context, page_title, seconds):
                     'scripts', 'schedules', 'templates', 'stacks', 'insights',
                     'teams', 'zones', 'rules', 'volumes']:
         raise ValueError('The page given is unknown')
-    mist_app = context.browser.find_element_by_tag_name('mist-app')
+    mist_app = context.browser.find_element(By.TAG_NAME, 'mist-app')
     mist_app_shadow = expand_shadow_root(context, mist_app)
     page_css_selector = 'iron-pages > page-%s' % page
-    page_element = mist_app_shadow.find_element_by_css_selector(
-        page_css_selector)
+    page_element = mist_app_shadow.find_element(
+        By.CSS_SELECTOR, page_css_selector)
     if page in ['machines', 'images', 'teams','keys', 'networks',
                 'scripts', 'schedules', 'templates', 'stacks', 'zones',
                 'volumes']:
@@ -226,7 +226,7 @@ def check_page_is_visible(context, page_title, seconds):
 def check_input_for_text(context, something, input_id):
     input = None
     try:
-        input = context.browser.find_element_by_id(input_id)
+        input = context.browser.find_element(By.ID, input_id)
     except NoSuchElementException:
         pass
     assert input, 'Could not find element with id %s' % input_id
@@ -277,25 +277,25 @@ def has_finished_loading(context, section):
 
 def add_credit_card_if_needed(context, form_shadow):
     try:
-        plan_purchase_dialog = form_shadow.find_element_by_css_selector(
+        plan_purchase_dialog = form_shadow.find_element(By.CSS_SELECTOR, 
             'plan-purchase')
         dialog_shadow = expand_shadow_root(context, plan_purchase_dialog)
-        card_form = dialog_shadow.find_element_by_css_selector('card-form')
+        card_form = dialog_shadow.find_element(By.CSS_SELECTOR, 'card-form')
         if card_form.is_displayed():
             card_form_shadow = expand_shadow_root(context, card_form)
-            cc = card_form_shadow.find_element_by_css_selector('#cc')
+            cc = card_form_shadow.find_element(By.CSS_SELECTOR, '#cc')
             cc_shadow = expand_shadow_root(context, cc)
-            cc_shadow.find_element_by_css_selector('input').send_keys(context.mist_config['CC_CC'])
+            cc_shadow.find_element(By.CSS_SELECTOR, 'input').send_keys(context.mist_config['CC_CC'])
 
-            cvc = expand_shadow_root(context, card_form_shadow.find_element_by_css_selector('#cvc')).find_element_by_css_selector('input')
+            cvc = expand_shadow_root(context, card_form_shadow.find_element(By.CSS_SELECTOR, '#cvc')).find_element(By.CSS_SELECTOR, 'input')
             clear_input_and_send_keys(cvc, context.mist_config['CC_CVC'])
-            exp_month = expand_shadow_root(context, card_form_shadow.find_element_by_css_selector('#expirationMonth')).find_element_by_css_selector('input')
+            exp_month = expand_shadow_root(context, card_form_shadow.find_element(By.CSS_SELECTOR, '#expirationMonth')).find_element(By.CSS_SELECTOR, 'input')
             clear_input_and_send_keys(exp_month, context.mist_config['CC_EXPIRE_MONTH'])
-            exp_year = expand_shadow_root(context, card_form_shadow.find_element_by_css_selector('#expirationYear')).find_element_by_css_selector('input')
+            exp_year = expand_shadow_root(context, card_form_shadow.find_element(By.CSS_SELECTOR, '#expirationYear')).find_element(By.CSS_SELECTOR, 'input')
             clear_input_and_send_keys(exp_year, context.mist_config['CC_EXPIRE_YEAR'])
-            zip_code = expand_shadow_root(context, card_form_shadow.find_element_by_css_selector('#zipCode')).find_element_by_css_selector('input')
+            zip_code = expand_shadow_root(context, card_form_shadow.find_element(By.CSS_SELECTOR, '#zipCode')).find_element(By.CSS_SELECTOR, 'input')
             clear_input_and_send_keys(zip_code, context.mist_config['CC_ZIP_CODE'])
-            for button in dialog_shadow.find_elements_by_css_selector('paper-button:not([hidden])'):
+            for button in dialog_shadow.find_elements(By.CSS_SELECTOR, 'paper-button:not([hidden])'):
                 if button.text.lower() == 'enable':
                     from .buttons import clicketi_click
                     clicketi_click(context, button)

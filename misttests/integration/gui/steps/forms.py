@@ -5,6 +5,7 @@ from .utils import safe_get_element_text, expand_shadow_root, expand_slot
 
 from selenium.common.exceptions import NoSuchElementException
 from selenium.webdriver.common.keys import Keys
+from selenium.webdriver.common.by import By
 
 from time import time
 from time import sleep
@@ -29,7 +30,7 @@ def get_add_form(context, title):
         add_form_selector = '%s-create' % title
     else:
         add_form_selector = '%s-add' % title
-    return page_shadow.find_element_by_css_selector(add_form_selector)
+    return page_shadow.find_element(By.CSS_SELECTOR, add_form_selector)
 
 
 def get_edit_form(context, title):
@@ -41,8 +42,8 @@ def get_edit_form(context, title):
         if title == 'policy':
             page_teams_element = get_page_element(context, 'teams')
             page_teams_shadow = expand_shadow_root(context, page_teams_element)
-            return expand_shadow_root(context, page_teams_shadow.find_element_by_css_selector('team-page'))
-            # return context.browser.find_element_by_tag_name('team-policy')
+            return expand_shadow_root(context, page_teams_shadow.find_element(By.CSS_SELECTOR, 'team-page'))
+            # return context.browser.find_element(By.TAG_NAME, 'team-policy')
         page_shadow = expand_shadow_root(context, get_page_element(context, title + 's'))
         return page_shadow
     except NoSuchElementException:
@@ -73,41 +74,41 @@ def check_form_is_visible(context, page, form_type, seconds):
 
 def get_input_element_from_form(context, form, input_name):
     input_element = None
-    input_containers = form.find_elements_by_css_selector('paper-input, paper-textarea')
-    form_containers = form.find_elements_by_css_selector('cloud-edit, cloud-dns')
+    input_containers = form.find_elements(By.CSS_SELECTOR, 'paper-input, paper-textarea')
+    form_containers = form.find_elements(By.CSS_SELECTOR, 'cloud-edit, cloud-dns')
     form_containers_shadow = [expand_shadow_root(context, f) for f in form_containers]
     form_containers_shadow.append(form)
     for form in form_containers_shadow:
         try:
-            app_form = form.find_element_by_css_selector('app-form, multi-inputs')
+            app_form = form.find_element(By.CSS_SELECTOR, 'app-form, multi-inputs')
             app_form_shadow = expand_shadow_root(context, app_form)
-            input_containers += app_form_shadow.find_elements_by_css_selector('paper-input, paper-textarea')
-            sub_forms = app_form_shadow.find_elements_by_css_selector('sub-form, multi-inputs')
+            input_containers += app_form_shadow.find_elements(By.CSS_SELECTOR, 'paper-input, paper-textarea')
+            sub_forms = app_form_shadow.find_elements(By.CSS_SELECTOR, 'sub-form, multi-inputs')
             for sub in sub_forms:
                 sub_shadow = expand_shadow_root(context, sub)
-                sub_app_form = sub_shadow.find_element_by_css_selector('app-form')
+                sub_app_form = sub_shadow.find_element(By.CSS_SELECTOR, 'app-form')
                 sub_app_form_shadow = expand_shadow_root(context, sub_app_form)
-                input_containers += sub_app_form_shadow.find_elements_by_css_selector('paper-input, paper-textarea')
+                input_containers += sub_app_form_shadow.find_elements(By.CSS_SELECTOR, 'paper-input, paper-textarea')
         except NoSuchElementException:
             pass
     for container in input_containers:
         container_shadow = expand_shadow_root(context, container)
         text = safe_get_element_text(
-            container_shadow.find_element_by_css_selector('label')).lower().strip().rstrip(' *')
+            container_shadow.find_element(By.CSS_SELECTOR, 'label')).lower().strip().rstrip(' *')
         if input_name in text:
             if 'textarea' in container.tag_name:
                 selector = 'textarea'
             else:
                 selector = 'input'
             try:
-                input_element = container_shadow.find_element_by_css_selector(selector)
+                input_element = container_shadow.find_element(By.CSS_SELECTOR, selector)
             except NoSuchElementException:
-                input_container_shadow = expand_shadow_root(context, container_shadow.find_element_by_css_selector('paper-input-container'))
-                input_slot = input_container_shadow.find_element_by_css_selector('slot[name="input"]')
+                input_container_shadow = expand_shadow_root(context, container_shadow.find_element(By.CSS_SELECTOR, 'paper-input-container'))
+                input_slot = input_container_shadow.find_element(By.CSS_SELECTOR, 'slot[name="input"]')
                 for expanded_slot in expand_slot(context, input_slot):
                     expanded_slot_shadow = expand_shadow_root(context,  expanded_slot)
                     try:
-                        input_element = expanded_slot_shadow.find_element_by_css_selector(selector)
+                        input_element = expanded_slot_shadow.find_element(By.CSS_SELECTOR, selector)
                     except NoSuchElementException:
                         print(e)
             if input_element and input_name == text:
@@ -117,20 +118,20 @@ def get_input_element_from_form(context, form, input_name):
 
 def get_button_from_form(context, form, button_name, tag_name='paper-button:not([hidden])'):
     all_buttons = []
-    form_containers = form.find_elements_by_css_selector('cloud-edit, cloud-dns, network-create, mist-monitoring, mist-rules, team-policy, metric-menu, rule-metrics')
+    form_containers = form.find_elements(By.CSS_SELECTOR, 'cloud-edit, cloud-dns, network-create, mist-monitoring, mist-rules, team-policy, metric-menu, rule-metrics')
     form_containers_shadow = [expand_shadow_root(context, f) for f in form_containers]
     form_containers_shadow.append(form)
     for form in form_containers_shadow:
-        all_buttons += form.find_elements_by_css_selector('%s' % tag_name)
+        all_buttons += form.find_elements(By.CSS_SELECTOR, '%s' % tag_name)
         try:
-            sub_forms = form.find_elements_by_css_selector('app-form, add-graph, metric-menu, rule-metrics')
+            sub_forms = form.find_elements(By.CSS_SELECTOR, 'app-form, add-graph, metric-menu, rule-metrics')
             for sub_form in sub_forms:
                 sub_form_shadow = expand_shadow_root(context, sub_form)
-                all_buttons += sub_form_shadow.find_elements_by_css_selector('%s' % tag_name)
-                sub_fieldgroups = sub_form_shadow.find_elements_by_css_selector('sub-fieldgroup')
+                all_buttons += sub_form_shadow.find_elements(By.CSS_SELECTOR, '%s' % tag_name)
+                sub_fieldgroups = sub_form_shadow.find_elements(By.CSS_SELECTOR, 'sub-fieldgroup')
                 for sub_fieldgroup in sub_fieldgroups:
                     sub_field_shadow = expand_shadow_root(context, sub_fieldgroup)
-                    all_buttons += sub_field_shadow.find_elements_by_css_selector('%s' % tag_name)
+                    all_buttons += sub_field_shadow.find_elements(By.CSS_SELECTOR, '%s' % tag_name)
         except NoSuchElementException:
             pass
     assert all_buttons, "Could not find any buttons in the form"
@@ -193,14 +194,14 @@ def set_value_to_field(context, value, name, title, form_type):
         get_edit_form(context, title)
     form_shadow = expand_shadow_root(context, form)
     if name == 'Script':
-        app_form = form_shadow.find_element_by_css_selector('app-form, multi-inputs')
+        app_form = form_shadow.find_element(By.CSS_SELECTOR, 'app-form, multi-inputs')
         app_form_shadow = expand_shadow_root(context, app_form)
-        code_viewer = app_form_shadow.find_elements_by_css_selector('code-viewer')[0]
+        code_viewer = app_form_shadow.find_elements(By.CSS_SELECTOR, 'code-viewer')[0]
         code_viewer_shadow = expand_shadow_root(context, code_viewer)
-        monaco_element = code_viewer_shadow.find_element_by_css_selector('monaco-element')
+        monaco_element = code_viewer_shadow.find_element(By.CSS_SELECTOR, 'monaco-element')
         monaco_element_shadow = expand_shadow_root(context, monaco_element)
-        context.browser.switch_to.frame(monaco_element_shadow.find_element_by_id('iframe'))
-        text_area = context.browser.find_element_by_tag_name('textarea')
+        context.browser.switch_to.frame(monaco_element_shadow.find_element(By.CSS_SELECTOR, '#iframe'))
+        text_area = context.browser.find_element(By.TAG_NAME, 'textarea')
         text_area.send_keys(Keys.CONTROL + 'a')
         text_area.send_keys(Keys.DELETE)
         clear_input_and_send_keys(text_area, value)
@@ -210,9 +211,9 @@ def set_value_to_field(context, value, name, title, form_type):
         return
     form_input = get_input_element_from_form(context, form_shadow, name.lower())
     if not form_input:
-        app_form = form_shadow.find_element_by_css_selector('app-form, multi-inputs')
+        app_form = form_shadow.find_element(By.CSS_SELECTOR, 'app-form, multi-inputs')
         app_form_shadow = expand_shadow_root(context, app_form)
-        form_checkboxes = app_form_shadow.find_elements_by_css_selector('paper-checkbox[name="%s"]' % name.lower())
+        form_checkboxes = app_form_shadow.find_elements(By.CSS_SELECTOR, 'paper-checkbox[name="%s"]' % name.lower())
         assert len(form_checkboxes), "Could not set value to field %s" % name
         from .buttons import click_button_from_collection
         click_button_from_collection(context, value, form_checkboxes)
@@ -230,7 +231,7 @@ def set_value_to_field_in_account_page(context, value, name):
         context.mist_config[value_key] = value
     page_element = get_page_element(context, 'my-account')
     page_shadow = expand_shadow_root(context, page_element)
-    active_section = page_shadow.find_element_by_css_selector('iron-pages > .iron-selected')
+    active_section = page_shadow.find_element(By.CSS_SELECTOR, 'iron-pages > .iron-selected')
     section_shadow = expand_shadow_root(context, active_section)
     form_input = get_input_element_from_form(context, section_shadow, name.lower())
     assert form_input, "Could not set value to field %s" % name
@@ -287,15 +288,15 @@ use_step_matcher('parse')
 def get_text_of_dropdown(el):
     try:
         return safe_get_element_text(
-            el.find_element_by_css_selector('paper-input')).strip().lower()
+            el.find_element(By.CSS_SELECTOR, 'paper-input')).strip().lower()
     except NoSuchElementException:
         return ''
 
 
 def get_current_value_of_dropdown(el):
     try:
-        return el.find_element_by_id('labelAndInputContainer').\
-            find_element_by_tag_name('input').\
+        return el.find_element(By.CSS_SELECTOR, '#labelAndInputContainer').\
+            find_element(By.TAG_NAME, 'input').\
             get_attribute('value').strip().lower()
     except:
         return ''
@@ -303,24 +304,24 @@ def get_current_value_of_dropdown(el):
 
 def find_dropdown(context, container, dropdown_text):
     dropdown_text = dropdown_text.lower().rstrip(' *')
-    all_dropdowns = container.find_elements_by_css_selector('paper-dropdown-menu:not([hidden])')
+    all_dropdowns = container.find_elements(By.CSS_SELECTOR, 'paper-dropdown-menu:not([hidden])')
     try:
-        app_form = container.find_element_by_css_selector('app-form')
+        app_form = container.find_element(By.CSS_SELECTOR, 'app-form')
         app_form_shadow = expand_shadow_root(context, app_form)
-        all_dropdowns += app_form_shadow.find_elements_by_css_selector('paper-dropdown-menu:not([hidden])')
+        all_dropdowns += app_form_shadow.find_elements(By.CSS_SELECTOR, 'paper-dropdown-menu:not([hidden])')
         try:
-            size = app_form_shadow.find_element_by_id('app-form-createForm-size')
+            size = app_form_shadow.find_element(By.CSS_SELECTOR, '#app-form-createForm-size')
             shadow = expand_shadow_root(context, size)
-            size_dropdown = shadow.find_element_by_css_selector('paper-dropdown-menu:not([hidden])')
+            size_dropdown = shadow.find_element(By.CSS_SELECTOR, 'paper-dropdown-menu:not([hidden])')
             all_dropdowns.append(size_dropdown)
         except NoSuchElementException:
             pass
-        sub_forms = app_form_shadow.find_elements_by_css_selector('sub-form')
+        sub_forms = app_form_shadow.find_elements(By.CSS_SELECTOR, 'sub-form')
         for sub in sub_forms:
             sub_shadow = expand_shadow_root(context, sub)
-            sub_app_form = sub_shadow.find_element_by_css_selector('app-form')
+            sub_app_form = sub_shadow.find_element(By.CSS_SELECTOR, 'app-form')
             sub_app_form_shadow = expand_shadow_root(context, sub_app_form)
-            all_dropdowns += sub_app_form_shadow.find_elements_by_css_selector('paper-dropdown-menu:not([hidden])')
+            all_dropdowns += sub_app_form_shadow.find_elements(By.CSS_SELECTOR, 'paper-dropdown-menu:not([hidden])')
     except NoSuchElementException:
         pass
     for dropdown in all_dropdowns:
@@ -387,11 +388,11 @@ def dropdown_is_absent(context, dropdown_text, resource_type):
 def field_is_absent(context, slider_name, resource_type):
     page = get_add_form(context, resource_type)
     page_shadow = expand_shadow_root(context, page)
-    form = page_shadow.find_element_by_css_selector('app-form')
+    form = page_shadow.find_element(By.CSS_SELECTOR, 'app-form')
     form_shadow = expand_shadow_root(context, form)
-    size_field = form_shadow.find_element_by_css_selector('mist-size-field')
+    size_field = form_shadow.find_element(By.CSS_SELECTOR, 'mist-size-field')
     size_field_shadow = expand_shadow_root(context, size_field)
-    all_labels = size_field_shadow.find_elements_by_css_selector('.label')
+    all_labels = size_field_shadow.find_elements(By.CSS_SELECTOR, '.label')
     for label in all_labels:
         if safe_get_element_text(label) == slider_name:
             assert False, "A slider was found with {} name in the size field!!!".format(slider_name)

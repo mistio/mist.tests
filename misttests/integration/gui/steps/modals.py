@@ -34,8 +34,8 @@ def modal_waiting_with_timeout(context, modal_id, action, seconds):
 @step('I click the "{text}" button inside the "{modal_id}" modal')
 def click_button_within_modal(context, text, modal_id):
     try:
-        modal = context.browser.find_element_by_id(modal_id)
-        buttons = modal.find_elements_by_tag_name("paper-item")
+        modal = context.browser.find_element(By.ID, modal_id)
+        buttons = modal.find_elements(By.TAG_NAME, "paper-item")
         click_button_from_collection(context, text, buttons,
                                      'Could not find %s button in %s '
                                      'modal' % (text, modal_id))

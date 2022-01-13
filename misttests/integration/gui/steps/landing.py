@@ -14,13 +14,13 @@ from .utils import safe_get_element_text, expand_shadow_root
 @step('I click the "{button}" button in the get-started-page')
 def click_button_get_started(context, button):
     try:
-        landing_app = context.browser.find_element_by_tag_name("landing-app")
+        landing_app = context.browser.find_element(By.TAG_NAME, "landing-app")
         shadow_root = expand_shadow_root(context, landing_app)
-        pages = shadow_root.find_element_by_id('pages')
-        get_started = pages.find_element_by_id('get-started')
+        pages = shadow_root.find_element(By.CSS_SELECTOR, '#pages')
+        get_started = pages.find_element(By.CSS_SELECTOR, '#get-started')
         inner_shadow_root = expand_shadow_root(context, get_started)
-        container = inner_shadow_root.find_element_by_id('container')
-        buttons = container.find_elements_by_tag_name('paper-button')
+        container = inner_shadow_root.find_element(By.CSS_SELECTOR, '#container')
+        buttons = container.find_elements(By.TAG_NAME, 'paper-button')
 
         for btn in buttons:
             if safe_get_element_text(btn).lower() == button.lower():
@@ -38,29 +38,29 @@ def open_login_popup(context, kind):
     modals = {'login': 'modalLogin', 'signup': 'modalRegister'}
     if kind.lower() not in list(modals.keys()):
         raise ValueError('No such popup in the landing page')
-    landing_app = context.browser.find_element_by_tag_name("landing-app")
+    landing_app = context.browser.find_element(By.TAG_NAME, "landing-app")
     shadow_root = expand_shadow_root(context, landing_app)
     if shadow_root is None:
         sleep(1)
         shadow_root = expand_shadow_root(context, landing_app)
 
     if kind == 'login':
-        app_toolbar = shadow_root.find_element_by_css_selector("app-toolbar")
+        app_toolbar = shadow_root.find_element(By.CSS_SELECTOR, "app-toolbar")
         if app_toolbar is None:
             sleep(1)
-            app_toolbar = shadow_root.find_element_by_css_selector("app-toolbar")
-        sign_in_class = app_toolbar.find_element_by_class_name('signin-btn-container')
-        a = sign_in_class.find_element_by_tag_name("a")
-        button_to_click = a.find_element_by_tag_name("paper-button")
+            app_toolbar = shadow_root.find_element(By.CSS_SELECTOR, "app-toolbar")
+        sign_in_class = app_toolbar.find_element(By.CSS_SELECTOR, '.signin-btn-container')
+        a = sign_in_class.find_element(By.TAG_NAME, "a")
+        button_to_click = a.find_element(By.TAG_NAME, "paper-button")
 
     elif kind == 'signup':
-        landing_pages = shadow_root.find_element_by_css_selector('landing-pages')
-        landing_home = landing_pages.find_element_by_tag_name("landing-home")
+        landing_pages = shadow_root.find_element(By.CSS_SELECTOR, 'landing-pages')
+        landing_home = landing_pages.find_element(By.TAG_NAME, "landing-home")
         inner_shadow_root = expand_shadow_root(context, landing_home)
-        container = inner_shadow_root.find_element_by_id('container')
-        landing_fold = container.find_element_by_tag_name('landing-fold')
-        a = landing_fold.find_element_by_tag_name("a")
-        button_to_click = a.find_element_by_tag_name("paper-button")
+        container = inner_shadow_root.find_element(By.CSS_SELECTOR, '#container')
+        landing_fold = container.find_element(By.TAG_NAME, 'landing-fold')
+        a = landing_fold.find_element(By.TAG_NAME, "a")
+        button_to_click = a.find_element(By.TAG_NAME, "paper-button")
 
     if button_to_click.is_displayed():
         button_to_click.click()
@@ -76,46 +76,46 @@ def click_button_in_landing_page(context, text):
                     'sign in with ldap']:
         raise ValueError('This button does not exist in the landing page popup')
 
-    landing_app = context.browser.find_element_by_tag_name("landing-app")
+    landing_app = context.browser.find_element(By.TAG_NAME, "landing-app")
     shadow_root = expand_shadow_root(context, landing_app)
-    landing_pages = shadow_root.find_element_by_css_selector("landing-pages")
+    landing_pages = shadow_root.find_element(By.CSS_SELECTOR, "landing-pages")
 
     if text in ['sign in', 'forgot password', 'google', 'github',
                 'sign in with active directory', 'sign in with ldap']:
-        page = landing_pages.find_element_by_tag_name('landing-sign-in')
+        page = landing_pages.find_element(By.TAG_NAME, 'landing-sign-in')
     elif text.lower() == 'sign up':
-        page = landing_pages.find_element_by_tag_name('landing-sign-up')
+        page = landing_pages.find_element(By.TAG_NAME, 'landing-sign-up')
     elif text.lower() == 'go':
-        page = landing_pages.find_element_by_tag_name('landing-set-password')
+        page = landing_pages.find_element(By.TAG_NAME, 'landing-set-password')
     elif text.lower() == 'reset_password_email_submit':
-        page = landing_pages.find_element_by_tag_name('landing-forgot-password')
+        page = landing_pages.find_element(By.TAG_NAME, 'landing-forgot-password')
     elif text.lower() == 'reset_pass_submit':
-        page = landing_pages.find_element_by_tag_name('landing-reset-password')
+        page = landing_pages.find_element(By.TAG_NAME, 'landing-reset-password')
 
     shadow_root = expand_shadow_root(context, page)
-    iron_form = shadow_root.find_element_by_css_selector('iron-form')
-    form = iron_form.find_element_by_tag_name('form')
+    iron_form = shadow_root.find_element(By.CSS_SELECTOR, 'iron-form')
+    form = iron_form.find_element(By.TAG_NAME, 'form')
 
     if text == 'sign in':
-        popup = form.find_element_by_id('signInSubmit')
+        popup = form.find_element(By.CSS_SELECTOR, '#signInSubmit')
     elif text == 'sign up':
-        popup = form.find_element_by_id('signUpSubmit')
+        popup = form.find_element(By.CSS_SELECTOR, '#signUpSubmit')
     elif text == 'go':
-        popup = form.find_element_by_id('setPasswordSubmit')
+        popup = form.find_element(By.CSS_SELECTOR, '#setPasswordSubmit')
     elif text == 'forgot password':
-        popup = form.find_element_by_id('forgotPasswordLink')
+        popup = form.find_element(By.CSS_SELECTOR, '#forgotPasswordLink')
     elif text == 'reset_password_email_submit':
-        popup = form.find_element_by_id('forgotPasswordSubmit')
+        popup = form.find_element(By.CSS_SELECTOR, '#forgotPasswordSubmit')
     elif text == 'reset_pass_submit':
-        popup = form.find_element_by_id('resetPasswordSubmit')
+        popup = form.find_element(By.CSS_SELECTOR, '#resetPasswordSubmit')
     elif text == 'google':
-        popup = shadow_root.find_element_by_id('signInBtnGoogle')
+        popup = shadow_root.find_element(By.CSS_SELECTOR, '#signInBtnGoogle')
     elif text == 'github':
-        popup = shadow_root.find_element_by_id('signInBtnGithub')
+        popup = shadow_root.find_element(By.CSS_SELECTOR, '#signInBtnGithub')
     elif text == 'sign in with active directory':
-        popup = shadow_root.find_element_by_id('signInBtnAd')
+        popup = shadow_root.find_element(By.CSS_SELECTOR, '#signInBtnAd')
     elif text == 'sign in with ldap':
-        popup = shadow_root.find_element_by_id('signInBtnLdap')
+        popup = shadow_root.find_element(By.CSS_SELECTOR, '#signInBtnLdap')
 
     clicketi_click(context, popup)
     return
@@ -165,104 +165,104 @@ def enter_credentials(context, kind, action):
                     'rbac_member2', 'new_creds', 'changed'] and not kind.startswith('invalid'):
         raise ValueError("No idea what %s credentials are" % kind)
 
-    landing_app = context.browser.find_element_by_tag_name("landing-app")
+    landing_app = context.browser.find_element(By.TAG_NAME, "landing-app")
     shadow_root = expand_shadow_root(context, landing_app)
-    landing_pages = shadow_root.find_element_by_css_selector("landing-pages")
+    landing_pages = shadow_root.find_element(By.CSS_SELECTOR, "landing-pages")
 
     if action == 'login':
-        sign_in_class = landing_pages.find_element_by_tag_name('landing-sign-in')
+        sign_in_class = landing_pages.find_element(By.TAG_NAME, 'landing-sign-in')
         shadow_root = expand_shadow_root(context, sign_in_class)
-        iron_form = shadow_root.find_element_by_css_selector('iron-form')
-        form = iron_form.find_element_by_tag_name('form')
+        iron_form = shadow_root.find_element(By.CSS_SELECTOR, 'iron-form')
+        form = iron_form.find_element(By.TAG_NAME, 'form')
 
-        email_paper_input = form.find_element_by_id("signin-email")
+        email_paper_input = form.find_element(By.CSS_SELECTOR, "#signin-email")
         email_shadow = expand_shadow_root(context, email_paper_input)
-        email_container = email_shadow.find_element_by_id('container')
-        email_input = email_container.find_element_by_tag_name('input')
+        email_container = email_shadow.find_element(By.CSS_SELECTOR, '#container')
+        email_input = email_container.find_element(By.TAG_NAME, 'input')
         email_input.send_keys(get_mist_config_email(context, kind))
 
-        password_paper_input = form.find_element_by_id("signin-password")
+        password_paper_input = form.find_element(By.CSS_SELECTOR, "#signin-password")
         password_shadow = expand_shadow_root(context, password_paper_input)
-        password_container = password_shadow.find_element_by_id('container')
-        password_input = password_container.find_element_by_tag_name('input')
+        password_container = password_shadow.find_element(By.CSS_SELECTOR, '#container')
+        password_input = password_container.find_element(By.TAG_NAME, 'input')
         password_input.send_keys(get_mist_config_password(context, kind))
 
     elif action == "ldap login":
-        sign_in_class = landing_pages.find_element_by_tag_name('landing-sign-in')
+        sign_in_class = landing_pages.find_element(By.TAG_NAME, 'landing-sign-in')
         shadow_root = expand_shadow_root(context, sign_in_class)
-        iron_form = shadow_root.find_element_by_css_selector('iron-form')
-        form = iron_form.find_element_by_tag_name('form')
+        iron_form = shadow_root.find_element(By.CSS_SELECTOR, 'iron-form')
+        form = iron_form.find_element(By.TAG_NAME, 'form')
 
-        username_paper_input = form.find_element_by_id("signin-username")
+        username_paper_input = form.find_element(By.CSS_SELECTOR, "#signin-username")
         username_shadow = expand_shadow_root(context, username_paper_input)
-        username_container = username_shadow.find_element_by_id('container')
-        username_input = username_container.find_element_by_tag_name('input')
+        username_container = username_shadow.find_element(By.CSS_SELECTOR, '#container')
+        username_input = username_container.find_element(By.TAG_NAME, 'input')
         username_input.send_keys(get_mist_config_email(context, kind))
 
-        password_paper_input = form.find_element_by_id("signin-password")
+        password_paper_input = form.find_element(By.CSS_SELECTOR, "#signin-password")
         password_shadow = expand_shadow_root(context, password_paper_input)
-        password_container = password_shadow.find_element_by_id('container')
-        password_input = password_container.find_element_by_tag_name('input')
+        password_container = password_shadow.find_element(By.CSS_SELECTOR, '#container')
+        password_input = password_container.find_element(By.TAG_NAME, 'input')
         password_input.send_keys(get_mist_config_password(context, kind))
 
     elif action == 'signup':
-        sign_up_class = landing_pages.find_element_by_tag_name('landing-sign-up')
+        sign_up_class = landing_pages.find_element(By.TAG_NAME, 'landing-sign-up')
         shadow_root = expand_shadow_root(context, sign_up_class)
-        iron_form = shadow_root.find_element_by_css_selector('iron-form')
-        form = iron_form.find_element_by_tag_name('form')
+        iron_form = shadow_root.find_element(By.CSS_SELECTOR, 'iron-form')
+        form = iron_form.find_element(By.TAG_NAME, 'form')
 
-        name_paper_input = form.find_element_by_id("name")
+        name_paper_input = form.find_element(By.CSS_SELECTOR, "#name")
         name_shadow = expand_shadow_root(context, name_paper_input)
-        name_container = name_shadow.find_element_by_id('container')
-        name_input = name_container.find_element_by_tag_name('input')
+        name_container = name_shadow.find_element(By.CSS_SELECTOR, '#container')
+        name_input = name_container.find_element(By.TAG_NAME, 'input')
         name_input.send_keys(context.mist_config['NAME'])
 
-        email_paper_input = form.find_element_by_id("signUp-email")
+        email_paper_input = form.find_element(By.CSS_SELECTOR, "#signUp-email")
         email_shadow = expand_shadow_root(context, email_paper_input)
-        email_container = email_shadow.find_element_by_id('container')
-        email_input = email_container.find_element_by_tag_name('input')
+        email_container = email_shadow.find_element(By.CSS_SELECTOR, '#container')
+        email_input = email_container.find_element(By.TAG_NAME, 'input')
         email_input.send_keys(get_mist_config_email(context, kind))
 
     elif action == 'password_reset_request':
-        password_reset_class = landing_pages.find_element_by_tag_name('landing-forgot-password')
+        password_reset_class = landing_pages.find_element(By.TAG_NAME, 'landing-forgot-password')
         shadow_root = expand_shadow_root(context, password_reset_class)
-        iron_form = shadow_root.find_element_by_css_selector('iron-form')
-        form = iron_form.find_element_by_tag_name('form')
+        iron_form = shadow_root.find_element(By.CSS_SELECTOR, 'iron-form')
+        form = iron_form.find_element(By.TAG_NAME, 'form')
 
-        email_paper_input = form.find_element_by_id("forgotPassword-email")
+        email_paper_input = form.find_element(By.CSS_SELECTOR, "#forgotPassword-email")
         email_shadow = expand_shadow_root(context, email_paper_input)
-        email_container = email_shadow.find_element_by_id('container')
-        email_input = email_container.find_element_by_tag_name('input')
+        email_container = email_shadow.find_element(By.CSS_SELECTOR, '#container')
+        email_input = email_container.find_element(By.TAG_NAME, 'input')
         email_input.send_keys(get_mist_config_email(context, kind))
 
     elif action == 'password_reset':
-        password_reset_class = landing_pages.find_element_by_tag_name('landing-reset-password')
+        password_reset_class = landing_pages.find_element(By.TAG_NAME, 'landing-reset-password')
         shadow_root = expand_shadow_root(context, password_reset_class)
-        iron_form = shadow_root.find_element_by_css_selector('iron-form')
-        form = iron_form.find_element_by_tag_name('form')
+        iron_form = shadow_root.find_element(By.CSS_SELECTOR, 'iron-form')
+        form = iron_form.find_element(By.TAG_NAME, 'form')
 
-        mist_password = form.find_element_by_tag_name('mist-password')
+        mist_password = form.find_element(By.TAG_NAME, 'mist-password')
         shadow_root = expand_shadow_root(context, mist_password)
 
-        password_paper_input = shadow_root.find_element_by_css_selector('paper-input')
+        password_paper_input = shadow_root.find_element(By.CSS_SELECTOR, 'paper-input')
         password_shadow = expand_shadow_root(context, password_paper_input)
-        password_container = password_shadow.find_element_by_id('container')
-        password_input = password_container.find_element_by_tag_name('input')
+        password_container = password_shadow.find_element(By.CSS_SELECTOR, '#container')
+        password_input = password_container.find_element(By.TAG_NAME, 'input')
         password_input.send_keys(get_mist_config_password(context, kind))
 
     elif action == 'signup_password_set':
-        set_password_class = landing_pages.find_element_by_tag_name('landing-set-password')
+        set_password_class = landing_pages.find_element(By.TAG_NAME, 'landing-set-password')
 
         shadow_root = expand_shadow_root(context, set_password_class)
-        iron_form = shadow_root.find_element_by_css_selector('iron-form')
-        form = iron_form.find_element_by_tag_name('form')
-        mist_password = form.find_element_by_tag_name('mist-password')
+        iron_form = shadow_root.find_element(By.CSS_SELECTOR, 'iron-form')
+        form = iron_form.find_element(By.TAG_NAME, 'form')
+        mist_password = form.find_element(By.TAG_NAME, 'mist-password')
         shadow_root = expand_shadow_root(context, mist_password)
 
-        password_paper_input = shadow_root.find_element_by_css_selector('paper-input')
+        password_paper_input = shadow_root.find_element(By.CSS_SELECTOR, 'paper-input')
         password_shadow = expand_shadow_root(context, password_paper_input)
-        password_container = password_shadow.find_element_by_id('container')
-        password_input = password_container.find_element_by_tag_name('input')
+        password_container = password_shadow.find_element(By.CSS_SELECTOR, '#container')
+        password_input = password_container.find_element(By.TAG_NAME, 'input')
         password_input.send_keys(get_mist_config_password(context, kind))
 
 
@@ -273,14 +273,14 @@ def check_error_message(context, error_message, button):
     if button not in ['sign in']:
         raise Exception('Unknown type of button')
     if button == 'sign in':
-        landing_app = context.browser.find_element_by_tag_name("landing-app")
+        landing_app = context.browser.find_element(By.TAG_NAME, "landing-app")
         shadow_root = expand_shadow_root(context, landing_app)
-        landing_pages = shadow_root.find_element_by_css_selector("landing-pages")
-        sign_in_class = landing_pages.find_element_by_tag_name('landing-sign-in')
+        landing_pages = shadow_root.find_element(By.CSS_SELECTOR, "landing-pages")
+        sign_in_class = landing_pages.find_element(By.TAG_NAME, 'landing-sign-in')
         shadow_root = expand_shadow_root(context, sign_in_class)
-        iron_form = shadow_root.find_element_by_css_selector('iron-form')
-        form = iron_form.find_element_by_tag_name('form')
-        login_popup = form.find_element_by_id('signInSubmit')
+        iron_form = shadow_root.find_element(By.CSS_SELECTOR, 'iron-form')
+        form = iron_form.find_element(By.TAG_NAME, 'form')
+        login_popup = form.find_element(By.CSS_SELECTOR, '#signInSubmit')
         text = safe_get_element_text(login_popup).lower()
 
     if text == error_message:
@@ -295,14 +295,14 @@ def check_state_of_button(context, button, state):
     if state not in ['clickable', 'not clickable']:
         raise Exception('Unknown state of button')
     if button == 'sign in':
-        landing_app = context.browser.find_element_by_tag_name("landing-app")
+        landing_app = context.browser.find_element(By.TAG_NAME, "landing-app")
         shadow_root = expand_shadow_root(context, landing_app)
-        landing_pages = shadow_root.find_element_by_css_selector("landing-pages")
-        sign_in_class = landing_pages.find_element_by_tag_name('landing-sign-in')
+        landing_pages = shadow_root.find_element(By.CSS_SELECTOR, "landing-pages")
+        sign_in_class = landing_pages.find_element(By.TAG_NAME, 'landing-sign-in')
         shadow_root = expand_shadow_root(context, sign_in_class)
-        iron_form = shadow_root.find_element_by_css_selector('iron-form')
-        form = iron_form.find_element_by_tag_name('form')
-        login_popup = form.find_element_by_id('signInSubmit')
+        iron_form = shadow_root.find_element(By.CSS_SELECTOR, 'iron-form')
+        form = iron_form.find_element(By.TAG_NAME, 'form')
+        login_popup = form.find_element(By.CSS_SELECTOR, '#signInSubmit')
         is_not_clickable = login_popup.get_attribute('aria-disabled')
 
     if state == 'clickable' and is_not_clickable == 'false':
@@ -316,14 +316,14 @@ def check_state_of_button(context, button, state):
 
 @step('I should get a conflict error')
 def already_registered(context):
-    landing_app = context.browser.find_element_by_tag_name("landing-app")
+    landing_app = context.browser.find_element(By.TAG_NAME, "landing-app")
     shadow_root = expand_shadow_root(context, landing_app)
-    landing_pages = shadow_root.find_element_by_css_selector("landing-pages")
-    sign_up_class = landing_pages.find_element_by_tag_name('landing-sign-up')
+    landing_pages = shadow_root.find_element(By.CSS_SELECTOR, "landing-pages")
+    sign_up_class = landing_pages.find_element(By.TAG_NAME, 'landing-sign-up')
     shadow_root = expand_shadow_root(context, sign_up_class)
-    iron_form = shadow_root.find_element_by_css_selector('iron-form')
-    form = iron_form.find_element_by_tag_name('form')
-    error_msg = form.find_element_by_id("signUpSubmit")
+    iron_form = shadow_root.find_element(By.CSS_SELECTOR, 'iron-form')
+    form = iron_form.find_element(By.TAG_NAME, 'form')
+    error_msg = form.find_element(By.CSS_SELECTOR, "#signUpSubmit")
     if 'conflict' in safe_get_element_text(error_msg).lower():
         return
     assert False, 'No conflict message appeared'
@@ -334,7 +334,7 @@ def wait_for_landing_page(context, seconds):
     timeout = time() + int(seconds)
     while time() < timeout:
         try:
-            context.browser.find_element_by_tag_name('landing-app')
+            context.browser.find_element(By.TAG_NAME, 'landing-app')
             return
         except NoSuchElementException:
             sleep(1)
@@ -347,7 +347,7 @@ def ensure_redirection(context, seconds):
     timeout = time() + int(seconds)
     while time() < timeout:
         try:
-            context.browser.find_element_by_id("top-signup-button")
+            context.browser.find_element(By.CSS_SELECTOR, "#top-signup-button")
             sleep(1)
         except NoSuchElementException:
             return True
