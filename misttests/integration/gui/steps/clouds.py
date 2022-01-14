@@ -2,6 +2,8 @@ import json
 
 from behave import step
 
+from selenium.webdriver.common.by import By
+
 from misttests.config import safe_get_var
 from time import time
 from time import sleep
@@ -344,10 +346,10 @@ def select_provider_in_cloud_add_form(context, provider):
     # with a billing card, then a cc-required dialog appears
     add_credit_card_if_needed(context, form_shadow)
     provider_title = provider.lower()
-    providers_lists = form_shadow.find_elements_by_tag_name('paper-listbox')
+    providers_lists = form_shadow.find_elements(By.CSS_SELECTOR, 'paper-listbox')
     providers = []
     for provider_type in providers_lists:
-        providers += provider_type.find_elements_by_tag_name('paper-item')
+        providers += provider_type.find_elements(By.CSS_SELECTOR, 'paper-item')
 
     for p in providers:
         if safe_get_element_text(p).replace("\n", "").lower().strip() == provider_title:
@@ -375,7 +377,7 @@ def cloud_second_creds(context, provider):
 def check_error_message(context, clouds):
     page_dashboard = get_page_element(context, 'dashboard')
     page_dashboard_shadow = expand_shadow_root(context, page_dashboard)
-    cloud_chips = page_dashboard_shadow.find_elements_by_css_selector('cloud-chip')
+    cloud_chips = page_dashboard_shadow.find_elements(By.CSS_SELECTOR, 'cloud-chip')
     if len(cloud_chips) == int(clouds):
         return
     else:
@@ -391,29 +393,29 @@ def find_cloud(context, cloud_title):
 
     end_time = time() + 10
     while time() < end_time:
-        cloud_chips = page_dashboard_shadow.find_elements_by_css_selector('cloud-chip')
+        cloud_chips = page_dashboard_shadow.find_elements(By.CSS_SELECTOR, 'cloud-chip')
         if cloud_chips or has_finished_loading(context, 'clouds'):
             break
         sleep(2)
 
     for cloud in cloud_chips:
         if cloud.is_displayed:
-            title = cloud.find_element_by_css_selector('.cloud-title')
+            title = cloud.find_element(By.CSS_SELECTOR, '.cloud-title')
             if safe_get_element_text(title).lower().strip() == cloud_title:
                 return cloud
     return None
 
 
 def find_cloud_info(context, cloud_title):
-    clouds = context.browser.find_elements_by_tag_name('cloud-info')
+    clouds = context.browser.find_elements(By.CSS_SELECTOR, 'cloud-info')
     clouds = [el for el in clouds if el.is_displayed()]
     for c in clouds:
         try:
-            input_containers = c.find_elements_by_id('labelAndInputContainer')
+            input_containers = c.find_elements(By.CSS_SELECTOR, '#labelAndInputContainer')
             for container in input_containers:
-                text = safe_get_element_text(container.find_element_by_tag_name('label')).lower().strip()
+                text = safe_get_element_text(container.find_element(By.CSS_SELECTOR, 'label')).lower().strip()
                 if text == 'title':
-                    text = container.find_element_by_tag_name('input').\
+                    text = container.find_element(By.CSS_SELECTOR, 'input').\
                             get_attribute('value').lower().strip()
                     if text == cloud_title:
                         return c
@@ -461,7 +463,7 @@ def open_cloud_menu(context, action, provider):
         clicketi_click(context, cloud)
     cloud_info = find_cloud_info(context, provider.lower())
     if action == 'close':
-        close_button = cloud_info.find_element_by_id('close-btn')
+        close_button = cloud_info.find_element(By.CSS_SELECTOR, '#close-btn')
         clicketi_click(context, close_button)
 
 
@@ -469,7 +471,7 @@ def open_cloud_menu(context, action, provider):
 def remove_cloud(context, provider):
     cloud_info = find_cloud_info(context, provider.lower())
     assert cloud_info, "Cloud page has not been found"
-    cloud_menu_buttons = cloud_info.find_elements_by_tag_name('paper-button')
+    cloud_menu_buttons = cloud_info.find_elements(By.CSS_SELECTOR, 'paper-button')
     click_button_from_collection(context, 'Remove Cloud', cloud_menu_buttons)
 
 

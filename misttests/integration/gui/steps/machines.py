@@ -4,6 +4,8 @@ from behave import given
 from time import time
 from time import sleep
 
+from selenium.webdriver.common.by import By
+
 from random import randrange
 
 from .utils import safe_get_element_text, get_page_element, expand_shadow_root
@@ -96,7 +98,7 @@ def key_appears(context, key, seconds):
     timeout = time() + int(seconds)
     while time() < timeout:
         try:
-            for key_in_list in context.browser.find_elements_by_class_name('small-list-item'):
+            for key_in_list in context.browser.find_elements(By.CSS_SELECTOR, '.small-list-item'):
                 if key_name == safe_get_element_text(key_in_list):
                     actions = ActionChains(context.browser)
                     actions.send_keys(Keys.ESCAPE)
@@ -117,7 +119,7 @@ def choose_machine(context, name):
     while time() < end_time:
         machine = get_machine(context, name)
         if machine:
-            checkbox = machine.find_element_by_tag_name("mist-check")
+            checkbox = machine.find_element(By.CSS_SELECTOR, "mist-check")
             checkbox.click()
             return
 
@@ -142,8 +144,8 @@ def assert_machine_added(context, name, seconds):
 
 def get_machine(context, name):
     try:
-        placeholder = context.browser.find_element_by_tag_name("page-machines").find_element_by_id("items")
-        machines = placeholder.find_elements_by_tag_name("vaadin-grid-table-row")
+        placeholder = context.browser.find_element(By.CSS_SELECTOR, "page-machines").find_element(By.CSS_SELECTOR, "#items")
+        machines = placeholder.find_elements(By.CSS_SELECTOR, "vaadin-grid-table-row")
 
         for machine in machines:
             machine_text = safe_get_element_text(machine)
@@ -158,15 +160,15 @@ def get_machine(context, name):
 
 @step('I wait for probing to finish for {seconds} seconds max')
 def wait_for_loader_to_finish(context, seconds):
-    rows = context.browser.find_elements_by_tag_name('tr')
+    rows = context.browser.find_elements(By.CSS_SELECTOR, 'tr')
     for row in rows:
-        cells = row.find_elements_by_tag_name('td')
+        cells = row.find_elements(By.CSS_SELECTOR, 'td')
         cells_text = safe_get_element_text(cells[0])
         if cells_text == 'Last probed':
             end_time = time() + int(seconds)
             while time() < end_time:
                 try:
-                    cells[1].find_element_by_class_name('ajax-loader')
+                    cells[1].find_element(By.CSS_SELECTOR, '.ajax-loader')
                     sleep(1)
                 except NoSuchElementException:
                     sleep(1)
@@ -177,9 +179,9 @@ def wait_for_loader_to_finish(context, seconds):
 
 @step('probing was successful')
 def check_probing(context):
-    rows = context.browser.find_elements_by_tag_name('tr')
+    rows = context.browser.find_elements(By.CSS_SELECTOR, 'tr')
     for row in rows:
-        cells = row.find_elements_by_tag_name('td')
+        cells = row.find_elements(By.CSS_SELECTOR, 'td')
         cells_zero_text = safe_get_element_text(cells[0])
         if cells_zero_text == 'Last probed':
             cells_one_text = safe_get_element_text(cells[1])
@@ -192,7 +194,7 @@ def check_probing(context):
 
 @step('I give a default script for python script')
 def fill_default_script(context):
-    textfield = context.browser.find_element_by_id("custom-plugin-script")
+    textfield = context.browser.find_element(By.CSS_SELECTOR, "#custom-plugin-script")
     textfield.clear()
     my_script ="import time\n\ntry:\n    from urllib2 import urlopen \n\n" \
                "except ImportError:\n    from urllib import urlopen\n" \
@@ -217,7 +219,7 @@ def verify_rule_is_present(context, rule, state, page):
         raise Exception('Unknown state %s' % state)
     page_element = get_page(context, page)
     page_shadow = expand_shadow_root(context, page_element)
-    rules = page_shadow.find_element_by_css_selector('mist-rules').text.replace('\n','').replace(' ','').lower()
+    rules = page_shadow.find_element(By.CSS_SELECTOR, 'mist-rules').text.replace('\n','').replace(' ','').lower()
     rule = rule.replace(" ", "").lower()
     if rule in rules:
         found = True
@@ -232,7 +234,7 @@ def verify_rule_is_present(context, rule, state, page):
 def check_for_associated_key(context, key, machine):
     page = get_page(context, "machine")
     page_shadow = expand_shadow_root(context, page)
-    machine_keys_class = page_shadow.find_elements_by_css_selector('div.associatedKeys > div.machine-key')
+    machine_keys_class = page_shadow.find_elements(By.CSS_SELECTOR, 'div.associatedKeys > div.machine-key')
     for element in machine_keys_class:
         if safe_get_element_text(element) == key:
             return
@@ -246,7 +248,7 @@ def check_for_associated_key_within(context, key, machine, seconds):
     page = get_page(context, "machine")
     page_shadow = expand_shadow_root(context, page)
     while time() < timeout:
-        machine_keys_class = page_shadow.find_elements_by_css_selector('div.associatedKeys > div.machine-key')
+        machine_keys_class = page_shadow.find_elements(By.CSS_SELECTOR, 'div.associatedKeys > div.machine-key')
         for element in machine_keys_class:
             if safe_get_element_text(element) == key:
                 return
@@ -259,10 +261,10 @@ use_step_matcher("parse")
 def disassociate_key(context, key):
     _, page = get_page_element(context, "machines", "machine")
     page_shadow = expand_shadow_root(context, page)
-    machine_keys_class = page_shadow.find_elements_by_css_selector('div.associatedKeys > div.machine-key')
+    machine_keys_class = page_shadow.find_elements(By.CSS_SELECTOR, 'div.associatedKeys > div.machine-key')
     for element in machine_keys_class:
         if safe_get_element_text(element) == key:
-            delete_btn = element.find_element_by_css_selector('.delete')
+            delete_btn = element.find_element(By.CSS_SELECTOR, '.delete')
             clicketi_click(context, delete_btn)
             return
 
@@ -273,11 +275,11 @@ def keys_associated_with_machine(context, keys, seconds):
     _, page = get_page_element(context, "machines", "machine")
     page_shadow = expand_shadow_root(context, page)
     while time() < timeout:
-        machine_keys_class = page_shadow.find_elements_by_css_selector('div.associatedKeys > div.machine-key')
+        machine_keys_class = page_shadow.find_elements(By.CSS_SELECTOR, 'div.associatedKeys > div.machine-key')
         associated_keys_with_machine = 0
         for element in machine_keys_class:
             try:
-                element.find_element_by_tag_name('a')
+                element.find_element(By.CSS_SELECTOR, 'a')
                 associated_keys_with_machine += 1
             except:
                 pass
@@ -292,15 +294,15 @@ def set_expiration(context, exp_num, exp_unit, notify_num, notify_unit, form):
     if form == "create machine form":
         form = get_add_form(context, 'machine')
         form_shadow = expand_shadow_root(context, form)
-        sub_form = form_shadow.find_element_by_css_selector('app-form')
+        sub_form = form_shadow.find_element(By.CSS_SELECTOR, 'app-form')
 
     elif form == "expiration dialog":
         dialog = get_dialog(context, 'Edit expiration date')
         dialog_shadow = expand_shadow_root(context, dialog)
-        sub_form = dialog_shadow.find_element_by_css_selector('app-form')
+        sub_form = dialog_shadow.find_element(By.CSS_SELECTOR, 'app-form')
 
     sub_form_shadow = expand_shadow_root(context, sub_form)
-    sub_fieldgroups = sub_form_shadow.find_elements_by_css_selector('sub-fieldgroup')
+    sub_fieldgroups = sub_form_shadow.find_elements(By.CSS_SELECTOR, 'sub-fieldgroup')
     for sub_fg in sub_fieldgroups:
         if sub_fg.text.startswith('Set expiration'):
             sub_fieldgroup = sub_fg
@@ -309,55 +311,55 @@ def set_expiration(context, exp_num, exp_unit, notify_num, notify_unit, form):
             sub_fieldgroup = sub_fg
             break
     sub_field_shadow = expand_shadow_root(context, sub_fieldgroup)
-    nested_app_form=sub_field_shadow.find_element_by_tag_name('app-form')
+    nested_app_form=sub_field_shadow.find_element(By.CSS_SELECTOR, 'app-form')
     nested_app_form_shadow = expand_shadow_root(context, nested_app_form)
-    dur_fields=nested_app_form_shadow.find_elements_by_tag_name('duration-field')
+    dur_fields=nested_app_form_shadow.find_elements(By.CSS_SELECTOR, 'duration-field')
     # set expiration params
     expiration=dur_fields[0]
     expiration_shadow_root=expand_shadow_root(context, expiration)
-    exp_input=expiration_shadow_root.find_element_by_tag_name('paper-input')
+    exp_input=expiration_shadow_root.find_element(By.CSS_SELECTOR, 'paper-input')
     clear_input_and_send_keys(exp_input, exp_num)
-    exp_dropdown=expiration_shadow_root.find_element_by_tag_name('paper-dropdown-menu')
+    exp_dropdown=expiration_shadow_root.find_element(By.CSS_SELECTOR, 'paper-dropdown-menu')
     exp_dropdown.click()
     sleep(0.5)
-    buttons = exp_dropdown.find_elements_by_css_selector('paper-item')
+    buttons = exp_dropdown.find_elements(By.CSS_SELECTOR, 'paper-item')
     click_button_from_collection(context, exp_unit, buttons)
     # set notify params
     notify=dur_fields[1]
     notify_shadow_root=expand_shadow_root(context, notify)
-    notify_input=notify_shadow_root.find_element_by_tag_name('paper-input')
+    notify_input=notify_shadow_root.find_element(By.CSS_SELECTOR, 'paper-input')
     clear_input_and_send_keys(notify_input, notify_num)
-    notify_dropdown=notify_shadow_root.find_element_by_tag_name('paper-dropdown-menu')
+    notify_dropdown=notify_shadow_root.find_element(By.CSS_SELECTOR, 'paper-dropdown-menu')
     notify_dropdown.click()
     sleep(0.5)
-    buttons = notify_dropdown.find_elements_by_css_selector('paper-item')
+    buttons = notify_dropdown.find_elements(By.CSS_SELECTOR, 'paper-item')
     click_button_from_collection(context, notify_unit, buttons)
 
 @step('I set the expiration to "{exp_num}" "{exp_unit}" in the expiration dialog')
 def set_expiration_duration_only(context, exp_num, exp_unit):
     dialog = get_dialog(context, 'Edit expiration date')
     dialog_shadow = expand_shadow_root(context, dialog)
-    form = dialog_shadow.find_element_by_css_selector('app-form')
+    form = dialog_shadow.find_element(By.CSS_SELECTOR, 'app-form')
     form_shadow = expand_shadow_root(context, form)
-    sub_fieldgroup = form_shadow.find_element_by_tag_name('sub-fieldgroup')
+    sub_fieldgroup = form_shadow.find_element(By.CSS_SELECTOR, 'sub-fieldgroup')
     sub_fieldgroup_shadow = expand_shadow_root(context, sub_fieldgroup)
-    form2 = sub_fieldgroup_shadow.find_element_by_tag_name('app-form')
+    form2 = sub_fieldgroup_shadow.find_element(By.CSS_SELECTOR, 'app-form')
     form2_shadow = expand_shadow_root(context, form2)
-    duration_field = form2_shadow.find_element_by_tag_name('duration-field')
+    duration_field = form2_shadow.find_element(By.CSS_SELECTOR, 'duration-field')
     duration_field_shadow = expand_shadow_root(context, duration_field)
-    duration_paper_input = duration_field_shadow.find_element_by_tag_name('paper-input')
+    duration_paper_input = duration_field_shadow.find_element(By.CSS_SELECTOR, 'paper-input')
     duration_paper_input_shadow = expand_shadow_root(context, duration_paper_input)
-    duration_input = duration_paper_input_shadow.find_element_by_tag_name('input')
+    duration_input = duration_paper_input_shadow.find_element(By.CSS_SELECTOR, 'input')
     duration_input.send_keys(Keys.CONTROL + 'a')
     sleep(0.3)
     duration_input.send_keys(Keys.BACKSPACE)
     sleep(0.3)
     duration_input.send_keys(int(exp_num))
     sleep(1)
-    duration_paper_dropdown = duration_field_shadow.find_element_by_tag_name('paper-dropdown-menu')
+    duration_paper_dropdown = duration_field_shadow.find_element(By.CSS_SELECTOR, 'paper-dropdown-menu')
     clicketi_click(context, duration_paper_dropdown)
     sleep(0.5)
-    duration_paper_items = duration_paper_dropdown.find_elements_by_css_selector('paper-item')
+    duration_paper_items = duration_paper_dropdown.find_elements(By.CSS_SELECTOR, 'paper-item')
     duration_item = None
     for item in duration_paper_items:
         if safe_get_element_text(item) == exp_unit:
@@ -368,7 +370,7 @@ def set_expiration_duration_only(context, exp_num, exp_unit):
 def check_duration_until_expiration(context, duration_text):
     _, machine_page = get_page_element(context, 'machines', 'machine')
     machine_page_shadow = expand_shadow_root(context, machine_page)
-    expiration_cell = machine_page_shadow.find_element_by_css_selector(".cell.expiration")
+    expiration_cell = machine_page_shadow.find_element(By.CSS_SELECTOR, ".cell.expiration")
     error_msg = "Expiration time left is wrong {}".format(expiration_cell.text)
     # minutes are too short to get an accurate reading
     if duration_text == "in x minutes":
@@ -380,15 +382,15 @@ def check_duration_until_expiration(context, duration_text):
 def check_create_size_field(context, size_field):
     page = get_add_form(context, 'machine')
     page_shadow = expand_shadow_root(context, page)
-    app_form = page_shadow.find_element_by_css_selector('app-form')
+    app_form = page_shadow.find_element(By.CSS_SELECTOR, 'app-form')
     app_form_shadow = expand_shadow_root(context, app_form)
-    mist_size = app_form_shadow.find_element_by_tag_name('mist-size-field')
+    mist_size = app_form_shadow.find_element(By.CSS_SELECTOR, 'mist-size-field')
     mist_size_shadow = expand_shadow_root(context, mist_size)
     try:
-        size_dropdown = mist_size_shadow.find_element_by_tag_name('paper-dropdown-menu')
+        size_dropdown = mist_size_shadow.find_element(By.CSS_SELECTOR, 'paper-dropdown-menu')
         clicketi_click(context, size_dropdown)
         sleep(0.5)
     except NoSuchElementException:
         print("Size was expected to be a dropdown due to the constraints in place")
-    sizes = size_dropdown.find_elements_by_css_selector('paper-item')
+    sizes = size_dropdown.find_elements(By.CSS_SELECTOR, 'paper-item')
     assert len(sizes) == 2, "Expected only 2 sizes but found {}".format(len(sizes))

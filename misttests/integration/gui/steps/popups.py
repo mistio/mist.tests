@@ -40,8 +40,8 @@ def popup_waiting_with_timeout(context, popup_id, action, seconds):
 def click_button_within_popup_with_id(context, text, popup_id):
     if context.mist_config.get(text):
         text = context.mist_config.get(text)
-    popup = context.browser.find_element_by_id(popup_id)
-    buttons = popup.find_elements_by_tag_name("paper-item")
+    popup = context.browser.find_element(By.CSS_SELECTOR, '#' + popup_id)
+    buttons = popup.find_elements(By.CSS_SELECTOR, "paper-item")
     click_button_from_collection(context, text, buttons,
                                  'Could not find %s button in popup'
                                  'with id  %s' % (text, popup_id))
@@ -49,13 +49,13 @@ def click_button_within_popup_with_id(context, text, popup_id):
 
 @step('I click the "{text}" button inside the "{popup}" popup')
 def click_button_within_popup(context, text, popup):
-    popups = context.browser.find_elements_by_class_name("ui-popup-active")
+    popups = context.browser.find_elements(By.CSS_SELECTOR, ".ui-popup-active")
     for pop in popups:
         title = safe_get_element_text(
-            pop.find_element_by_class_name('ui-title'))
+            pop.find_element(By.CSS_SELECTOR, '.ui-title'))
         if popup.lower() in title.lower():
             if text == '_x_':
-                buttons = pop.find_elements_by_class_name("close")
+                buttons = pop.find_elements(By.CSS_SELECTOR, ".close")
                 assert len(buttons) > 0, "Could not find the close button"
                 for i in range(0, 2):
                     try:
@@ -65,7 +65,7 @@ def click_button_within_popup(context, text, popup):
                         sleep(1)
                 assert False, 'Could not click the close button'
             else:
-                buttons = pop.find_elements_by_class_name("ui-btn")
+                buttons = pop.find_elements(By.CSS_SELECTOR, ".ui-btn")
                 click_button_from_collection(context, text, buttons,
                                              'Could not find %s button in %s '
                                              'popup' % (text, popup))
@@ -76,5 +76,5 @@ def click_button_within_popup(context, text, popup):
 @step('I close the "{object_id}" popup')
 def close_popup(context, object_id):
     objectId = 'modal' + object_id
-    context.browser.find_element_by_id(objectId).find_element_by_class_name(
-                   'modal-close').click()
+    context.browser.find_element(By.CSS_SELECTOR, '#' + objectId).find_element(
+        By.CLASS_NAME, 'modal-close').click()

@@ -3,6 +3,8 @@ from behave import step
 from time import time
 from time import sleep
 
+from selenium.webdriver.common.by import By
+
 from .utils import safe_get_element_text, expand_shadow_root, get_page_element
 
 from .buttons import clicketi_click
@@ -12,14 +14,14 @@ from .dialog import get_dialog
 
 
 def get_tags_list(tags_dialog):
-    return tags_dialog.find_elements_by_css_selector('tag-item')
+    return tags_dialog.find_elements(By.CSS_SELECTOR, 'tag-item')
 
 
 def get_empty_tag(context, tags_dialog):
     tags_dialog_shadow = expand_shadow_root(context, tags_dialog)
     tags = get_tags_list(tags_dialog_shadow)
     for tag in tags:
-        inputs = expand_shadow_root(context, tag).find_elements_by_css_selector('vaadin-combo-box')
+        inputs = expand_shadow_root(context, tag).find_elements(By.CSS_SELECTOR, 'vaadin-combo-box')
         if not inputs[0].get_attribute('value').strip():
             return tag
     return None
@@ -30,20 +32,20 @@ def get_tag_with_key(context, tags_dialog, key):
     tags_dialog_shadow = expand_shadow_root(context, tags_dialog)
     tags = get_tags_list(tags_dialog_shadow)
     for tag in tags:
-        inputs = expand_shadow_root(context, tag).find_elements_by_css_selector('vaadin-combo-box.key')
+        inputs = expand_shadow_root(context, tag).find_elements(By.CSS_SELECTOR, 'vaadin-combo-box.key')
         if inputs[0].get_attribute('value').strip().lower() == key:
             return tag
     return None
 
 
 def set_key_and_value(context, tag, key, value):
-    inputs = expand_shadow_root(context, tag).find_elements_by_css_selector('vaadin-combo-box')
+    inputs = expand_shadow_root(context, tag).find_elements(By.CSS_SELECTOR, 'vaadin-combo-box')
     clear_input_and_send_keys(inputs[0], key)
     clear_input_and_send_keys(inputs[1], value)
 
 
 def remove_tag(context, tag):
-    clicketi_click(context, expand_shadow_root(context, tag).find_element_by_css_selector('paper-icon-button'))
+    clicketi_click(context, expand_shadow_root(context, tag).find_element(By.CSS_SELECTOR, 'paper-icon-button'))
 
 
 @step('I remove all the previous tags')
@@ -77,7 +79,7 @@ def ensure_tags_are_present(context, type_of_item, tags, seconds):
     key_page_shadow = expand_shadow_root(context, key_page)
     end_time = time() + int(seconds)
     while time() < end_time:
-        existing_tags = key_page_shadow.find_elements_by_css_selector('.tag')
+        existing_tags = key_page_shadow.find_elements(By.CSS_SELECTOR, '.tag')
         expected_tags = dict([(t.split(':')[0], t.split(':')[1]) for t in tags.strip().lower().split(',')])
         for existing_tag in existing_tags:
             key = safe_get_element_text(existing_tag).lower().split('=')[0].strip()

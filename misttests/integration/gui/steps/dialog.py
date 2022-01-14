@@ -3,6 +3,7 @@ from time import sleep
 
 from behave import step, use_step_matcher
 
+from selenium.webdriver.common.by import By
 from selenium.common.exceptions import StaleElementReferenceException
 from selenium.common.exceptions import NoSuchElementException
 
@@ -20,37 +21,37 @@ def get_dialog(context, title):
         try:
             # Machine rename dialog opens in iron-overlay inside machine-edit element
             # opposed to the rest of the dialogs which open on the vaadin-overlay
-            mist_app = context.browser.find_element_by_tag_name('mist-app')
+            mist_app = context.browser.find_element(By.CSS_SELECTOR, 'mist-app')
             mist_app_shadow = expand_shadow_root(context, mist_app)
-            page_machines = mist_app_shadow.find_element_by_tag_name('page-machines')
+            page_machines = mist_app_shadow.find_element(By.CSS_SELECTOR, 'page-machines')
             page_machines_shadow = expand_shadow_root(context, page_machines)
-            machine_page = page_machines_shadow.find_element_by_tag_name('machine-page')
+            machine_page = page_machines_shadow.find_element(By.CSS_SELECTOR, 'machine-page')
             machine_page_shadow = expand_shadow_root(context, machine_page)
-            machine_actions = machine_page_shadow.find_element_by_tag_name('machine-actions')
+            machine_actions = machine_page_shadow.find_element(By.CSS_SELECTOR, 'machine-actions')
             machine_actions_shadow = expand_shadow_root(context, machine_actions)
-            machine_edit = machine_actions_shadow.find_element_by_tag_name('machine-edit')
+            machine_edit = machine_actions_shadow.find_element(By.CSS_SELECTOR, 'machine-edit')
             return machine_edit
         except NoSuchElementException:
             pass
 
     try:
-        overlay = context.browser.find_element_by_tag_name('vaadin-dialog-overlay')
+        overlay = context.browser.find_element(By.CSS_SELECTOR, 'vaadin-dialog-overlay')
         overlay_shadow = expand_shadow_root(context, overlay)
-        dialog = overlay_shadow.find_element_by_css_selector('div#content')
+        dialog = overlay_shadow.find_element(By.CSS_SELECTOR, 'div#content')
         dialog_shadow = expand_shadow_root(context, dialog)
         if dialog.is_displayed():
             try:
-                dialog = dialog_shadow.find_element_by_css_selector('team-add-element, custom-graph')
+                dialog = dialog_shadow.find_element(By.CSS_SELECTOR, 'team-add-element, custom-graph')
                 dialog_shadow = expand_shadow_root(context, dialog)
             except NoSuchElementException:
                 pass
             try:
-                t = safe_get_element_text(dialog_shadow.find_element_by_css_selector(
-                    'h2')).strip().lower()
+                t = safe_get_element_text(dialog_shadow.find_element(
+                    By.CSS_SELECTOR, 'h2')).strip().lower()
             except NoSuchElementException:
                 # single cloud page
-                t = safe_get_element_text(dialog_shadow.find_element_by_css_selector(
-                    'h3')).strip().lower()
+                t = safe_get_element_text(dialog_shadow.find_element(
+                    By.CSS_SELECTOR, 'h3')).strip().lower()
             if title in t:
                 return dialog
     except NoSuchElementException:
@@ -111,7 +112,7 @@ def click_toggle_button_in_dialog(context, btn_id, dialog):
     open_dialog = get_dialog(context, dialog)
     assert open_dialog, "Could not find dialog with title %s" % dialog
     dialog_shadow = expand_shadow_root(context, open_dialog)
-    button_to_click = dialog_shadow.find_element_by_css_selector('#%s' % btn_id)
+    button_to_click = dialog_shadow.find_element(By.CSS_SELECTOR, '#%s' % btn_id)
     clicketi_click(context, button_to_click)
 
 
@@ -133,7 +134,7 @@ def set_value_to_field(context, value, name, title):
 def check_errormsg_in_dialog(context, error_msg, dialog_title):
     dialog = get_dialog(context, dialog_title)
     dialog_shadow = expand_shadow_root(context, dialog)
-    error_element = dialog_shadow.find_element_by_css_selector('#errormsg')
+    error_element = dialog_shadow.find_element(By.CSS_SELECTOR, '#errormsg')
     if error_msg in safe_get_element_text(error_element):
         return
     assert False, "%s is not part of the error message" % error_msg

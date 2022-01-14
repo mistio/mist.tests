@@ -1,6 +1,7 @@
 from behave import step
 from time import time, sleep
 
+from selenium.webdriver.common.by import By
 from selenium.common.exceptions import NoSuchElementException
 from selenium.common.exceptions import StaleElementReferenceException
 
@@ -13,7 +14,7 @@ def get_insights_element(context, shadow=False):
         sleep(1)
         insights_page_shadow = expand_shadow_root(context, insights_page)
 
-    insights_element = insights_page_shadow.find_element_by_css_selector('mist-insights')
+    insights_element = insights_page_shadow.find_element(By.CSS_SELECTOR, 'mist-insights')
     if shadow:
         return expand_shadow_root(context, insights_element)
     return insights_element
@@ -25,7 +26,7 @@ def check_insights_element_visibility(context, section, seconds):
     end_time = time() + int(seconds)
     while time() < end_time:
         try:
-            target = insights_element_shadow.find_element_by_css_selector('#' + section )
+            target = insights_element_shadow.find_element(By.CSS_SELECTOR, '#' + section )
             if target.is_displayed():
                 return
         except NoSuchElementException:
@@ -37,9 +38,9 @@ def check_insights_element_visibility(context, section, seconds):
 @step('"{element}" in "{section}" section should be "{value}"')
 def check_value_in_section(context, element, section, value):
     insights_element_shadow = get_insights_element(context, shadow=True)
-    section_element = insights_element_shadow.find_element_by_css_selector('#%s' % section )
-    data_element = section_element.find_element_by_css_selector('#%s-data' % section)
-    element_to_check = data_element.find_element_by_css_selector('#%s-%s' % (section, element))
+    section_element = insights_element_shadow.find_element(By.CSS_SELECTOR, '#%s' % section )
+    data_element = section_element.find_element(By.CSS_SELECTOR, '#%s-data' % section)
+    element_to_check = data_element.find_element(By.CSS_SELECTOR, '#%s-%s' % (section, element))
     if element == "machine_count" and value == "greater than 0":
         assert int(safe_get_element_text(element_to_check).
                    strip('MACHINE COUNT\n')) > 0,\
@@ -63,10 +64,10 @@ def refresh_until_data_are_available(context):
         try:
             insights_element_shadow = get_insights_element(context, shadow=True)
             section_element = insights_element_shadow.\
-                find_element_by_css_selector('#quick-overview')
+                find_element(By.CSS_SELECTOR, '#quick-overview')
             data_element = section_element.\
-                find_element_by_css_selector('#quick-overview-data')
-            cost = data_element.find_element_by_css_selector('#quick-overview-cost')
+                find_element(By.CSS_SELECTOR, '#quick-overview-data')
+            cost = data_element.find_element(By.CSS_SELECTOR, '#quick-overview-cost')
             if 'COST\nNo data' not in safe_get_element_text(cost):
                 return
         except StaleElementReferenceException:
