@@ -43,7 +43,7 @@ def get_edit_form(context, title):
             page_teams_element = get_page_element(context, 'teams')
             page_teams_shadow = expand_shadow_root(context, page_teams_element)
             return expand_shadow_root(context, page_teams_shadow.find_element(By.CSS_SELECTOR, 'team-page'))
-            # return context.browser.find_element(By.TAG_NAME, 'team-policy')
+            # return context.browser.find_element(By.CSS_SELECTOR, 'team-policy')
         page_shadow = expand_shadow_root(context, get_page_element(context, title + 's'))
         return page_shadow
     except NoSuchElementException:
@@ -201,7 +201,7 @@ def set_value_to_field(context, value, name, title, form_type):
         monaco_element = code_viewer_shadow.find_element(By.CSS_SELECTOR, 'monaco-element')
         monaco_element_shadow = expand_shadow_root(context, monaco_element)
         context.browser.switch_to.frame(monaco_element_shadow.find_element(By.CSS_SELECTOR, '#iframe'))
-        text_area = context.browser.find_element(By.TAG_NAME, 'textarea')
+        text_area = context.browser.find_element(By.CSS_SELECTOR, 'textarea')
         text_area.send_keys(Keys.CONTROL + 'a')
         text_area.send_keys(Keys.DELETE)
         clear_input_and_send_keys(text_area, value)
@@ -296,7 +296,7 @@ def get_text_of_dropdown(el):
 def get_current_value_of_dropdown(el):
     try:
         return el.find_element(By.CSS_SELECTOR, '#labelAndInputContainer').\
-            find_element(By.TAG_NAME, 'input').\
+            find_element(By.CSS_SELECTOR, 'input').\
             get_attribute('value').strip().lower()
     except:
         return ''

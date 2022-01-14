@@ -54,9 +54,9 @@ def user_in_team_members(context, user, seconds):
         end_time = time() + int(seconds)
         while time() < end_time:
             placeholder = context.browser.find_element(By.CSS_SELECTOR, "#team-members-list")
-            members = placeholder.find_elements(By.TAG_NAME, "tr")
+            members = placeholder.find_elements(By.CSS_SELECTOR, "tr")
             for member in members:
-                sections = member.find_elements(By.TAG_NAME, "td")
+                sections = member.find_elements(By.CSS_SELECTOR, "td")
                 for section in sections:
                     if section.text == email:
                         return
@@ -70,7 +70,7 @@ def user_in_team_members(context, user, seconds):
 def get_team(context, name):
     try:
         placeholder = context.browser.find_element(By.CSS_SELECTOR, "#team-list-page")
-        teams = placeholder.find_elements(By.TAG_NAME, "li")
+        teams = placeholder.find_elements(By.CSS_SELECTOR, "li")
 
         for team in teams:
             team_text = safe_get_element_text(team)

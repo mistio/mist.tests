@@ -178,13 +178,13 @@ use_step_matcher("parse")
 def click_button_in_dropdown_with_id_within_container(context, button, dropdown_id, container_id=None):
     button = button.strip().lower()
     if container_id:
-        container = context.browser.find_element(By.ID, container_id)
+        container = context.browser.find_element(By.CSS_SELECTOR, '#' + container_id)
     else:
         container = context.browser
-    dropdown = container.find_element(By.ID, dropdown_id)
+    dropdown = container.find_element(By.CSS_SELECTOR, '#' + dropdown_id)
     if button == get_current_value_of_dropdown(dropdown):
         return True
-    buttons = dropdown.find_elements(By.TAG_NAME, 'paper-item')
+    buttons = dropdown.find_elements(By.CSS_SELECTOR, 'paper-item')
     click_button_from_collection(context, button.lower(), buttons)
 
 
@@ -198,9 +198,9 @@ def open_mist_dropdown(context, dropdown, container_id=None):
     if dropdown not in ['teams', 'members']:
         raise Exception('Unknown mist-dropdown')
     if container_id:
-        mist_dropdowns = context.browser.find_element(By.ID, container_id).find_elements(By.TAG_NAME, 'mist-dropdown-multi')
+        mist_dropdowns = context.browser.find_element(By.CSS_SELECTOR, '#' + container_id).find_elements(By.CSS_SELECTOR, 'mist-dropdown-multi')
     else:
-        mist_dropdowns = context.browser.find_elements(By.TAG_NAME, 'mist-dropdown-multi')
+        mist_dropdowns = context.browser.find_elements(By.CSS_SELECTOR, 'mist-dropdown-multi')
     if dropdown == 'teams':
         clicketi_click(context, mist_dropdowns[0])
     else:
@@ -212,14 +212,14 @@ def select_members_in_mist_dropdown(context, members, dropdown, container_id=Non
     if dropdown not in ['teams', 'members']:
         raise Exception('Unknown mist-dropdown')
     if container_id:
-        mist_dropdowns = context.browser.find_element(By.ID, container_id).find_elements(By.TAG_NAME, 'mist-dropdown-multi')
+        mist_dropdowns = context.browser.find_element(By.CSS_SELECTOR, '#' + container_id).find_elements(By.CSS_SELECTOR, 'mist-dropdown-multi')
     else:
-        mist_dropdowns = context.browser.find_elements(By.TAG_NAME, 'mist-dropdown-multi')
+        mist_dropdowns = context.browser.find_elements(By.CSS_SELECTOR, 'mist-dropdown-multi')
     if dropdown == 'teams':
         mist_dropdown = mist_dropdowns[0]
     else:
         mist_dropdown = mist_dropdowns[1]
-    options = mist_dropdown.find_elements(By.TAG_NAME, 'paper-checkbox')
+    options = mist_dropdown.find_elements(By.CSS_SELECTOR, 'paper-checkbox')
     for option in options:
         if members in option.text:
             clicketi_click(context, option)
@@ -336,7 +336,7 @@ def get_color_from_state(state):
 
 @step('I click the mist logo')
 def click_mist_logo(context):
-    mist_app = context.browser.find_element(By.TAG_NAME, 'mist-app')
+    mist_app = context.browser.find_element(By.CSS_SELECTOR, 'mist-app')
     mist_app_shadow = expand_shadow_root(context, mist_app)
     mist_header = mist_app_shadow.find_element(By.CSS_SELECTOR, 'mist-header')
     mist_header_shadow = expand_shadow_root(context, mist_header)
@@ -356,10 +356,10 @@ def click_button_by_class(context,button):
 @step('I click the "{button}" button with id "{button_id}" within "{container_id}"')
 def click_button_by_id_within_container(context, button, button_id, container_id=None):
     if container_id:
-        container = context.browser.find_element(By.ID, container_id)
+        container = context.browser.find_element(By.CSS_SELECTOR, '#' + container_id)
     else:
         container = context.browser
-    button_to_click = container.find_element(By.ID, button_id)
+    button_to_click = container.find_element(By.CSS_SELECTOR, '#' + button_id)
     clicketi_click(context, button_to_click)
 
 
@@ -384,7 +384,7 @@ def visit_home_url(context):
 
 @step('I click the user icon')
 def click_the_user_icon(context):
-    mist_app = context.browser.find_element(By.TAG_NAME, 'mist-app')
+    mist_app = context.browser.find_element(By.CSS_SELECTOR, 'mist-app')
     mist_app_shadow = expand_shadow_root(context, mist_app)
     mist_header = mist_app_shadow.find_element(By.CSS_SELECTOR, 'mist-header')
     mist_header_shadow = expand_shadow_root(context, mist_header)
@@ -420,8 +420,8 @@ def click_action_in_resource_page(context, toggle, resource_type):
     container_shadow = expand_shadow_root(context, container)
     if toggle == 'DENY' and resource_type == "team":
         container_shadow = expand_shadow_root(context,
-            container_shadow.find_element(By.TAG_NAME, 'team-policy'))
-    toggle_buttons = container_shadow.find_elements(By.TAG_NAME, 'paper-toggle-button')
+            container_shadow.find_element(By.CSS_SELECTOR, 'team-policy'))
+    toggle_buttons = container_shadow.find_elements(By.CSS_SELECTOR, 'paper-toggle-button')
     click_button_from_collection(context, toggle.lower(), toggle_buttons)
 
 

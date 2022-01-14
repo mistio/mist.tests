@@ -19,7 +19,7 @@ def add_or_select_key(context, key_name):
     if context.mist_config.get(key_name):
         key_name = context.mist_config.get(key_name)
 
-    keys = context.browser.find_element(By.CSS_SELECTOR, '#key').find_elements(By.TAG_NAME, 'li')
+    keys = context.browser.find_element(By.CSS_SELECTOR, '#key').find_elements(By.CSS_SELECTOR, 'li')
     for key in keys:
         if key_name == safe_get_element_text(key):
             key.click()
@@ -40,7 +40,7 @@ def find_key(context, key_title):
     context.execute_steps('''
             When I visit the Keys page
     ''')
-    key_items = context.browser.find_elements(By.TAG_NAME, 'list-item')
+    key_items = context.browser.find_elements(By.CSS_SELECTOR, 'list-item')
     keys = []
     for key in key_items:
         try:

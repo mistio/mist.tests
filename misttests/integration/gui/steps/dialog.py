@@ -21,21 +21,21 @@ def get_dialog(context, title):
         try:
             # Machine rename dialog opens in iron-overlay inside machine-edit element
             # opposed to the rest of the dialogs which open on the vaadin-overlay
-            mist_app = context.browser.find_element(By.TAG_NAME, 'mist-app')
+            mist_app = context.browser.find_element(By.CSS_SELECTOR, 'mist-app')
             mist_app_shadow = expand_shadow_root(context, mist_app)
-            page_machines = mist_app_shadow.find_element(By.TAG_NAME, 'page-machines')
+            page_machines = mist_app_shadow.find_element(By.CSS_SELECTOR, 'page-machines')
             page_machines_shadow = expand_shadow_root(context, page_machines)
-            machine_page = page_machines_shadow.find_element(By.TAG_NAME, 'machine-page')
+            machine_page = page_machines_shadow.find_element(By.CSS_SELECTOR, 'machine-page')
             machine_page_shadow = expand_shadow_root(context, machine_page)
-            machine_actions = machine_page_shadow.find_element(By.TAG_NAME, 'machine-actions')
+            machine_actions = machine_page_shadow.find_element(By.CSS_SELECTOR, 'machine-actions')
             machine_actions_shadow = expand_shadow_root(context, machine_actions)
-            machine_edit = machine_actions_shadow.find_element(By.TAG_NAME, 'machine-edit')
+            machine_edit = machine_actions_shadow.find_element(By.CSS_SELECTOR, 'machine-edit')
             return machine_edit
         except NoSuchElementException:
             pass
 
     try:
-        overlay = context.browser.find_element(By.TAG_NAME, 'vaadin-dialog-overlay')
+        overlay = context.browser.find_element(By.CSS_SELECTOR, 'vaadin-dialog-overlay')
         overlay_shadow = expand_shadow_root(context, overlay)
         dialog = overlay_shadow.find_element(By.CSS_SELECTOR, 'div#content')
         dialog_shadow = expand_shadow_root(context, dialog)

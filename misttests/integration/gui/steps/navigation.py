@@ -37,7 +37,7 @@ def wait_for_log_in_page_to_load(context):
     timeout = 120 if context.mist_config['LOCAL'] else 160
     try:
         WebDriverWait(context.browser, timeout).until(
-            EC.visibility_of_element_located((By.ID, "top-signup-button")))
+            EC.visibility_of_element_located((By.CSS_SELECTOR, "#top-signup-button")))
     except TimeoutException:
         raise TimeoutException("Signup button did not appear %s "
                                "seconds" % timeout)
@@ -45,7 +45,7 @@ def wait_for_log_in_page_to_load(context):
     time_left -= time()
     try:
         WebDriverWait(context.browser, time_left).until(
-            EC.element_to_be_clickable((By.ID, "top-signup-button")))
+            EC.element_to_be_clickable((By.CSS_SELECTOR, "#top-signup-button")))
     except TimeoutException:
         raise TimeoutException("Signup button did not become clickable after "
                                "%s seconds" % time_left)
@@ -58,7 +58,7 @@ def visit(context):
     timeout = time() + 4
     while time() < timeout:
         try:
-            elements = context.browser.find_element(By.TAG_NAME, "landing-app")
+            elements = context.browser.find_element(By.CSS_SELECTOR, "landing-app")
             return
         except NoSuchElementException:
             try:
@@ -95,7 +95,7 @@ def wait_for_buttons_to_appear(context):
     sections = []
     while time() < end_time:
         try:
-            mist_app = context.browser.find_element(By.TAG_NAME, 'mist-app')
+            mist_app = context.browser.find_element(By.CSS_SELECTOR, 'mist-app')
             mist_app_shadow = expand_shadow_root(context, mist_app)
             sidebar = mist_app_shadow.find_element(
                 By.CSS_SELECTOR, 'mist-sidebar')
@@ -152,7 +152,7 @@ def go_to_some_page_without_waiting(context, title):
     elif title.lower() == 'signup':
         context.browser.get(context.mist_config['MIST_URL'] + '/sign-up')
     else:
-        mist_app = context.browser.find_element(By.TAG_NAME, 'mist-app')
+        mist_app = context.browser.find_element(By.CSS_SELECTOR, 'mist-app')
         mist_app_shadow = expand_shadow_root(context, mist_app)
         sidebar = mist_app_shadow.find_element(
             By.CSS_SELECTOR, 'mist-sidebar')
@@ -244,7 +244,7 @@ def scroll_to_top(context):
 @step('I am logged in to mist')
 def given_logged_in(context):
     try:
-        context.browser.find_element(By.TAG_NAME, "mist-app")
+        context.browser.find_element(By.CSS_SELECTOR, "mist-app")
         return
     except:
         pass
@@ -277,7 +277,7 @@ def found_one(context):
                 return True
         except NoSuchElementException:
             try:
-                context.browser.find_element(By.TAG_NAME, "mist-app")
+                context.browser.find_element(By.CSS_SELECTOR, "mist-app")
                 success += 1
                 if success == 2:
                     return True
@@ -316,7 +316,7 @@ def given_not_logged_in(context):
     if not i_am_in_homepage(context):
         context.execute_steps('When I visit mist')
     try:
-        context.browser.find_element(By.TAG_NAME, "landing-app")
+        context.browser.find_element(By.CSS_SELECTOR, "landing-app")
         return
     except:
         try:
@@ -330,7 +330,7 @@ def given_not_logged_in(context):
 
 
 def get_user_menu(context):
-    mist_app = context.browser.find_element(By.TAG_NAME, 'mist-app')
+    mist_app = context.browser.find_element(By.CSS_SELECTOR, 'mist-app')
     mist_app_shadow = expand_shadow_root(context, mist_app)
     mist_header = mist_app_shadow.find_element(By.CSS_SELECTOR, 'mist-header')
     mist_header_shadow = expand_shadow_root(context, mist_header)
@@ -361,7 +361,7 @@ def go_to_some_page_without_waiting(context, title):
                      'scripts', 'schedules', 'templates', 'stacks', 'teams',
                      'insights', 'zones', 'rules', 'volumes']:
         raise ValueError('The page given is unknown')
-    mist_app = context.browser.find_element(By.TAG_NAME, 'mist-app')
+    mist_app = context.browser.find_element(By.CSS_SELECTOR, 'mist-app')
     mist_app_shadow = expand_shadow_root(context, mist_app)
     sidebar = mist_app_shadow.find_element(
         By.CSS_SELECTOR, 'mist-sidebar')
@@ -377,7 +377,7 @@ def go_to_some_page_without_waiting(context, title):
                      'tunnels', 'scripts', 'schedules', 'templates', 'stacks',
                      'teams', 'insights', 'zones', 'rules', 'volumes']:
         raise ValueError('The page given is unknown')
-    mist_app = context.browser.find_element(By.TAG_NAME, 'mist-app')
+    mist_app = context.browser.find_element(By.CSS_SELECTOR, 'mist-app')
     mist_app_shadow = expand_shadow_root(context, mist_app)
     sidebar = mist_app_shadow.find_element(
         By.CSS_SELECTOR, 'mist-sidebar')

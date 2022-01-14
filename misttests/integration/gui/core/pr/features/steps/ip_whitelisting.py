@@ -7,7 +7,7 @@ from misttests.integration.gui.steps.utils import safe_get_element_text, expand_
 
 @step('I remove all whitelisted ips')
 def remove_whitelisted_ips(context):
-    whitelisted_ips_tag = context.browser.find_element(By.TAG_NAME, 'multi-inputs')
+    whitelisted_ips_tag = context.browser.find_element(By.CSS_SELECTOR, 'multi-inputs')
     whitelisted_ips = whitelisted_ips_tag.find_elements(By.CSS_SELECTOR, '.input')
     for whitelisted_ip in whitelisted_ips:
         remove_btn = whitelisted_ip.find_element(By.CSS_SELECTOR, '.remove')
@@ -15,19 +15,19 @@ def remove_whitelisted_ips(context):
 
 @step('I add the IP "{ip}" as whitelisted')
 def add_whitelisted_ip(context,ip):
-    whitelisted_ips_tag = context.browser.find_element(By.TAG_NAME, 'multi-inputs')
-    new_whitelisted_ip_div = whitelisted_ips_tag.find_element(By.TAG_NAME, 'div')
-    whitelisted_ip_paper_input = new_whitelisted_ip_div.find_element(By.TAG_NAME, 'paper-input')
+    whitelisted_ips_tag = context.browser.find_element(By.CSS_SELECTOR, 'multi-inputs')
+    new_whitelisted_ip_div = whitelisted_ips_tag.find_element(By.CSS_SELECTOR, 'div')
+    whitelisted_ip_paper_input = new_whitelisted_ip_div.find_element(By.CSS_SELECTOR, 'paper-input')
     clear_input_and_send_keys(whitelisted_ip_paper_input, ip)
 
 def get_forbidden_error_element(context):
-    landing_app = context.browser.find_element(By.TAG_NAME, "landing-app")
+    landing_app = context.browser.find_element(By.CSS_SELECTOR, "landing-app")
     shadow_root = expand_shadow_root(context, landing_app)
     landing_pages = shadow_root.find_element(By.CSS_SELECTOR, "landing-pages")
-    page = landing_pages.find_element(By.TAG_NAME, 'landing-sign-in')
+    page = landing_pages.find_element(By.CSS_SELECTOR, 'landing-sign-in')
     shadow_root = expand_shadow_root(context, page)
     sign_in_form = shadow_root.find_element(By.CSS_SELECTOR, '#signInForm')
-    form = sign_in_form.find_element(By.TAG_NAME, 'form')
+    form = sign_in_form.find_element(By.CSS_SELECTOR, 'form')
     return form.find_element(By.CSS_SELECTOR, '.forbidden-error')
 
 

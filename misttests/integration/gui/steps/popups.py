@@ -40,8 +40,8 @@ def popup_waiting_with_timeout(context, popup_id, action, seconds):
 def click_button_within_popup_with_id(context, text, popup_id):
     if context.mist_config.get(text):
         text = context.mist_config.get(text)
-    popup = context.browser.find_element(By.ID, popup_id)
-    buttons = popup.find_elements(By.TAG_NAME, "paper-item")
+    popup = context.browser.find_element(By.CSS_SELECTOR, '#' + popup_id)
+    buttons = popup.find_elements(By.CSS_SELECTOR, "paper-item")
     click_button_from_collection(context, text, buttons,
                                  'Could not find %s button in popup'
                                  'with id  %s' % (text, popup_id))
@@ -76,5 +76,5 @@ def click_button_within_popup(context, text, popup):
 @step('I close the "{object_id}" popup')
 def close_popup(context, object_id):
     objectId = 'modal' + object_id
-    context.browser.find_element(By.ID, objectId).find_element(
+    context.browser.find_element(By.CSS_SELECTOR, '#' + objectId).find_element(
         By.CLASS_NAME, 'modal-close').click()

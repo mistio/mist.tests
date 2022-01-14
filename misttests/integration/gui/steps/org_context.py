@@ -10,7 +10,7 @@ def get_current_org(user_menu):
     return safe_get_element_text(
         user_menu.find_element(
             By.CSS_SELECTOR, 'div.current.context').find_element(
-                By.TAG_NAME, 'h4')).\
+                By.CSS_SELECTOR, 'h4')).\
         strip().lower()
 
 

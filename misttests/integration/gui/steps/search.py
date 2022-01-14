@@ -15,7 +15,7 @@ log = logging.getLogger(__name__)
 @step('I search for "{search_text}"')
 def search_for_something(context, search_text):
     sleep(.5)
-    mist_app = context.browser.find_element(By.TAG_NAME, 'mist-app')
+    mist_app = context.browser.find_element(By.CSS_SELECTOR, 'mist-app')
     mist_app_shadow = expand_shadow_root(context, mist_app)
     mist_header = mist_app_shadow.find_element(By.CSS_SELECTOR, 'mist-header')
     mist_header_shadow = expand_shadow_root(context, mist_header)
@@ -55,7 +55,7 @@ def search_for_something(context, search_text):
 
 @step('I clear the search bar')
 def clear_search(context):
-    mist_app = context.browser.find_element(By.TAG_NAME, 'mist-app')
+    mist_app = context.browser.find_element(By.CSS_SELECTOR, 'mist-app')
     mist_app_shadow = expand_shadow_root(context, mist_app)
     mist_header = mist_app_shadow.find_element(By.CSS_SELECTOR, 'mist-header')
     mist_header_shadow = expand_shadow_root(context, mist_header)

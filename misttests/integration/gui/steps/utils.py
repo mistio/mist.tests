@@ -33,7 +33,7 @@ def give_some_input(context, input_element, text):
 
 
 def get_page(context, page):
-    mist_app = context.browser.find_element(By.TAG_NAME, 'mist-app')
+    mist_app = context.browser.find_element(By.CSS_SELECTOR, 'mist-app')
     mist_app_shadow = expand_shadow_root(context, mist_app)
     if page in ['machine', 'cloud', 'stack', 'volume', 'zone', 'key', 'image', 'script', 'template', 'tunnel', 'schedule', 'team']:
         page_css_selector = 'iron-pages > page-%ss' % page
@@ -46,7 +46,7 @@ def get_page(context, page):
 
 
 def get_page_element(context, page=None, subpage=None):
-    mist_app = context.browser.find_element(By.TAG_NAME, 'mist-app')
+    mist_app = context.browser.find_element(By.CSS_SELECTOR, 'mist-app')
     if not page:
         page = mist_app.get_attribute('page')
     mist_app_shadow = expand_shadow_root(context, mist_app)
@@ -61,10 +61,10 @@ def get_page_element(context, page=None, subpage=None):
 @step('I type "{some_text}" in input with id "{element_id}" within "{container_id}"')
 def give_some_input_by_id_within_container(context, some_text, element_id, container_id=None):
     if not container_id:
-        input_element = context.browser.find_element(By.ID, element_id)
+        input_element = context.browser.find_element(By.CSS_SELECTOR, '#' + element_id)
     else:
-        container = context.browser.find_element(By.ID, container_id)
-        input_element = container.find_element(By.ID, element_id)
+        container = context.browser.find_element(By.CSS_SELECTOR, '#' + container_id)
+        input_element = container.find_element(By.CSS_SELECTOR, '#' + element_id)
     give_some_input(context, input_element, some_text)
 
 
@@ -78,7 +78,7 @@ def give_some_input_by_class_within_container(context, some_text, element_class,
     if not container_id:
         input_element = context.browser.find_element(By.CLASS_NAME, element_class)
     else:
-        input_element = context.browser.find_element(By.ID, container_id).find_element(By.CLASS_NAME, element_class)
+        input_element = context.browser.find_element(By.CSS_SELECTOR, '#' + container_id).find_element(By.CLASS_NAME, element_class)
     give_some_input(context, input_element, some_text)
 
 
@@ -92,7 +92,7 @@ def focus_on_element(context, element):
     from .navigation import found_one
     assert found_one(context), "I have no idea where I am"
     try:
-        context.browser.find_element(By.TAG_NAME, "mist-app")
+        context.browser.find_element(By.CSS_SELECTOR, "mist-app")
         js = "document.querySelector('paper-header-panel').scroller.scrollTop = %s" % position['y']
         context.browser.execute_script(js)
     except:
@@ -123,7 +123,7 @@ def some_counter_loaded(context, counter_title, counter_number, seconds):
                              'teams', 'zones']:
         raise ValueError('The counter given is unknown')
     try:
-        mist_app = context.browser.find_element(By.TAG_NAME, 'mist-app')
+        mist_app = context.browser.find_element(By.CSS_SELECTOR, 'mist-app')
         mist_app_shadow = expand_shadow_root(context, mist_app)
         sidebar = mist_app_shadow.find_element(
             By.CSS_SELECTOR, 'mist-sidebar')
@@ -181,7 +181,7 @@ def wait_for_element_in_container_to_be_visible(container, search_tuple,
 def become_visible_waiting_with_timeout(context, element_id, seconds):
     msg = "element with id %s did not become visible after %s seconds"\
           % (element_id, seconds)
-    wait_for_element_to_be_visible(context, (By.ID, element_id),
+    wait_for_element_to_be_visible(context, (By.CSS_SELECTOR, '#' + element_id),
                                    int(seconds), msg)
 
 
@@ -193,7 +193,7 @@ def check_page_is_visible(context, page_title, seconds):
                     'scripts', 'schedules', 'templates', 'stacks', 'insights',
                     'teams', 'zones', 'rules', 'volumes']:
         raise ValueError('The page given is unknown')
-    mist_app = context.browser.find_element(By.TAG_NAME, 'mist-app')
+    mist_app = context.browser.find_element(By.CSS_SELECTOR, 'mist-app')
     mist_app_shadow = expand_shadow_root(context, mist_app)
     page_css_selector = 'iron-pages > page-%s' % page
     page_element = mist_app_shadow.find_element(
@@ -226,7 +226,7 @@ def check_page_is_visible(context, page_title, seconds):
 def check_input_for_text(context, something, input_id):
     input = None
     try:
-        input = context.browser.find_element(By.ID, input_id)
+        input = context.browser.find_element(By.CSS_SELECTOR, '#' + input_id)
     except NoSuchElementException:
         pass
     assert input, 'Could not find element with id %s' % input_id

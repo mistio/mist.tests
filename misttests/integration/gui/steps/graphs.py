@@ -51,7 +51,7 @@ def wait_for_graphs_to_disappear(context, seconds):
     timeout = time() + int(seconds)
     while time() < timeout:
         try:
-            context.browser.find_element(By.TAG_NAME, "polyana-dashboard")
+            context.browser.find_element(By.CSS_SELECTOR, "polyana-dashboard")
             sleep(1)
         except NoSuchElementException:
             return
@@ -61,7 +61,7 @@ def wait_for_graphs_to_disappear(context, seconds):
 def check_if_graph_is_visible(context, graph_id, timeout, seconds):
     while time() < timeout:
         try:
-            context.browser.find_element(By.ID, graph_id)
+            context.browser.find_element(By.CSS_SELECTOR, '#' + graph_id)
             return
         except NoSuchElementException:
             sleep(1)
@@ -190,7 +190,7 @@ def select_metric_from_dialog(context,metric,dialog):
         dialog_element = context.browser.find_element(By.CSS_SELECTOR, '#selectTarget')
     else:
         assert False, "Unknown dialog given"
-    option_to_click = dialog_element.find_element(By.ID, metric)
+    option_to_click = dialog_element.find_element(By.CSS_SELECTOR, '#' + metric)
     clicketi_click(context,option_to_click)
 
 

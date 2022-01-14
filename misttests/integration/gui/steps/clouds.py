@@ -346,10 +346,10 @@ def select_provider_in_cloud_add_form(context, provider):
     # with a billing card, then a cc-required dialog appears
     add_credit_card_if_needed(context, form_shadow)
     provider_title = provider.lower()
-    providers_lists = form_shadow.find_elements(By.TAG_NAME, 'paper-listbox')
+    providers_lists = form_shadow.find_elements(By.CSS_SELECTOR, 'paper-listbox')
     providers = []
     for provider_type in providers_lists:
-        providers += provider_type.find_elements(By.TAG_NAME, 'paper-item')
+        providers += provider_type.find_elements(By.CSS_SELECTOR, 'paper-item')
 
     for p in providers:
         if safe_get_element_text(p).replace("\n", "").lower().strip() == provider_title:
@@ -407,15 +407,15 @@ def find_cloud(context, cloud_title):
 
 
 def find_cloud_info(context, cloud_title):
-    clouds = context.browser.find_elements(By.TAG_NAME, 'cloud-info')
+    clouds = context.browser.find_elements(By.CSS_SELECTOR, 'cloud-info')
     clouds = [el for el in clouds if el.is_displayed()]
     for c in clouds:
         try:
             input_containers = c.find_elements(By.CSS_SELECTOR, '#labelAndInputContainer')
             for container in input_containers:
-                text = safe_get_element_text(container.find_element(By.TAG_NAME, 'label')).lower().strip()
+                text = safe_get_element_text(container.find_element(By.CSS_SELECTOR, 'label')).lower().strip()
                 if text == 'title':
-                    text = container.find_element(By.TAG_NAME, 'input').\
+                    text = container.find_element(By.CSS_SELECTOR, 'input').\
                             get_attribute('value').lower().strip()
                     if text == cloud_title:
                         return c
@@ -471,7 +471,7 @@ def open_cloud_menu(context, action, provider):
 def remove_cloud(context, provider):
     cloud_info = find_cloud_info(context, provider.lower())
     assert cloud_info, "Cloud page has not been found"
-    cloud_menu_buttons = cloud_info.find_elements(By.TAG_NAME, 'paper-button')
+    cloud_menu_buttons = cloud_info.find_elements(By.CSS_SELECTOR, 'paper-button')
     click_button_from_collection(context, 'Remove Cloud', cloud_menu_buttons)
 
 
