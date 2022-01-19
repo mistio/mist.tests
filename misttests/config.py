@@ -229,7 +229,7 @@ LDAP_MEMBER_PASSWORD = get_setting("LDAP_MEMBER_PASSWORD", ldap_pass)
 CC_CVC = get_setting("CC_CVC", "111")
 CC_CC = get_setting("CC_CC", "4242424242424242")
 CC_EXPIRE_MONTH = get_setting("CC_EXPIRE_MONTH", "12")
-CC_EXPIRE_YEAR = get_setting("CC_EXPIRE_YEAR", "21")
+CC_EXPIRE_YEAR = get_setting("CC_EXPIRE_YEAR", "27")
 CC_ZIP_CODE = get_setting("MEMBER1_PASSWORD", "17675")
 
 # CREDENTIALS FOR GOOGLE SSO
