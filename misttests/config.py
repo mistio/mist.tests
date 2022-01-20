@@ -44,7 +44,7 @@ PROVIDER_VAULT_MAP = {
     'google': 'gce',
     'amazon': 'aws',
     'docker': 'dockerhost',
-    'vsphere': 'vsphere-7'
+    'vsphere': 'VCenter-packet'
 }
 
 # TODO: modify so that it can parse nested objects as well
