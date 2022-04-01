@@ -233,7 +233,7 @@ def kill_docker_machine(context, machine_to_destroy):
                         payload = {'action': 'destroy'}
                         uri = context.mist_config['MIST_URL'] + \
                                 '/api/v1/clouds/' + cloud['id'] + \
-                                '/machines/' + machine['machine_id']
+                                '/machines/' + machine['external_id']
                         requests.post(uri, data=json.dumps(payload), headers=headers)
 
 def delete_ec2_network(context, network_to_delete):
