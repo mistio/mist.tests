@@ -384,7 +384,7 @@ def check_error_message(context, clouds):
         assert False, "There are %s clouds added, not %s"%(len(cloud_chips), clouds)
 
 
-def find_cloud(context, cloud_title):
+def find_cloud(context, cloud_name):
     page_dashboard = get_page_element(context, 'dashboard')
     page_dashboard_shadow = expand_shadow_root(context, page_dashboard)
     if page_dashboard_shadow is None:
@@ -400,13 +400,13 @@ def find_cloud(context, cloud_title):
 
     for cloud in cloud_chips:
         if cloud.is_displayed:
-            title = cloud.find_element(By.CSS_SELECTOR, '.cloud-title')
-            if safe_get_element_text(title).lower().strip() == cloud_title:
+            name = cloud.find_element(By.CSS_SELECTOR, '.cloud-name')
+            if safe_get_element_text(name).lower().strip() == cloud_name:
                 return cloud
     return None
 
 
-def find_cloud_info(context, cloud_title):
+def find_cloud_info(context, cloud_name):
     clouds = context.browser.find_elements(By.CSS_SELECTOR, 'cloud-info')
     clouds = [el for el in clouds if el.is_displayed()]
     for c in clouds:
@@ -417,7 +417,7 @@ def find_cloud_info(context, cloud_title):
                 if text == 'title':
                     text = container.find_element(By.CSS_SELECTOR, 'input').\
                             get_attribute('value').lower().strip()
-                    if text == cloud_title:
+                    if text == cloud_name:
                         return c
         except NoSuchElementException:
             pass
