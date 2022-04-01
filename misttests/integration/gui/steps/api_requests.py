@@ -175,7 +175,7 @@ def add_cloud_api_request(context, cloud):
 
         if context.mist_config['LOCAL']:
             payload = {
-                'title': "Docker",
+                'name': "Docker",
                 'provider': "docker",
                 'docker_host': context.mist_config['LOCAL_DOCKER'],
                 'docker_port': '2375',
@@ -185,7 +185,7 @@ def add_cloud_api_request(context, cloud):
         else:
 
             payload = {
-                'title': "Docker",
+                'name': "Docker",
                 'provider': "docker",
                 'docker_host': safe_get_var('clouds/dockerhost', 'host', context.mist_config['CREDENTIALS']['DOCKER']['host']),
                 'docker_port': safe_get_var('clouds/dockerhost', 'port', context.mist_config['CREDENTIALS']['DOCKER']['port']),
@@ -198,7 +198,7 @@ def add_cloud_api_request(context, cloud):
 
     elif cloud == 'GCE':
         payload = {
-            'title': 'GCE',
+            'name': 'GCE',
             'provider': 'gce',
             'project_id': safe_get_var('clouds/gce/mist-dev', 'project_id',
                                       context.mist_config['CREDENTIALS']['GCE']['project_id']),
