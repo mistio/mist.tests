@@ -1,4 +1,5 @@
 import re
+import logging
 import requests
 
 from behave import step
@@ -21,6 +22,8 @@ from selenium.webdriver import ActionChains
 
 from selenium.common.exceptions import TimeoutException
 from selenium.common.exceptions import NoSuchElementException, StaleElementReferenceException
+
+log = logging.getLogger(__name__)
 
 
 @step('I wait for the monitoring graphs to appear in the "{page}" page')
@@ -130,7 +133,7 @@ def get_graph_panel(context, graph_title, page, timeout):
                 panel_title = safe_get_element_text(panel_shadow.find_element(By.CSS_SELECTOR, 'div.title'))
                 if graph_title in panel_title.lower():
                     return panel
-        except NoSuchElementException as StaleElementReferenceException:
+        except (NoSuchElementException, StaleElementReferenceException):
             pass
         sleep(2)
     assert False, 'Could not find "%s" graph in %s page within %s seconds' % (graph_title, page, timeout)
@@ -146,10 +149,10 @@ def graph_some_value(context, graph_title, page):
             graph_panel = get_graph_panel(context, graph_title, page, 5)
             datapoints = graph_panel.get_property('chartData')['series'][0]['data']
             non_null = [v[1] for v in datapoints if v[1]]
-            print(graph_panel, len(datapoints), len(non_null))
+            log.info(graph_panel, len(datapoints), len(non_null))
             if non_null:
                 break
-        except IndexError as KeyError:
+        except (IndexError, KeyError):
             sleep(2)
     assert non_null, 'Graph does not have any values'
 

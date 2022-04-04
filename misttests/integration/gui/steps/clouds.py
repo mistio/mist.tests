@@ -345,14 +345,14 @@ def select_provider_in_cloud_add_form(context, provider):
     # if in mist-hs repo and user has not provided mist
     # with a billing card, then a cc-required dialog appears
     add_credit_card_if_needed(context, form_shadow)
-    provider_title = provider.lower()
+    provider_name = provider.lower()
     providers_lists = form_shadow.find_elements(By.CSS_SELECTOR, 'paper-listbox')
     providers = []
     for provider_type in providers_lists:
         providers += provider_type.find_elements(By.CSS_SELECTOR, 'paper-item')
 
     for p in providers:
-        if safe_get_element_text(p).replace("\n", "").lower().strip() == provider_title:
+        if safe_get_element_text(p).replace("\n", "").lower().strip() == provider_name:
             clicketi_click(context, p)
             return
 

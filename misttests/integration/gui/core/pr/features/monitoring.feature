@@ -8,8 +8,10 @@ Feature: Monitoring
     And I am logged in to mist
     And I have given card details if needed
     And key "Key1" has been added via API request
+    Then I wait for the navigation menu to appear
+    Then images counter should be greater than 0 within 80 seconds
     When I visit the Machines page
-    And I wait for 5 seconds
+    And I wait for 3 seconds
     And I click the button "+"
     Then I expect the "Machine" add form to be visible within max 5 seconds
     When I open the "Select Cloud" dropdown in the "machine" add form

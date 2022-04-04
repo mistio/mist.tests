@@ -42,6 +42,7 @@ Feature: RBAC-rules-v3
   Scenario: Verify that member1 cannot view the team created above but can delete script
     Given I am logged in to mist as rbac_member1
     And I wait for the navigation menu to appear
+    And I ensure that I am in the "ORG_NAME" organization context
     And I visit the Teams page
     Then "Test Team" team should be present within 5 seconds
     And "Non-visible Team" team should be absent within 5 seconds
@@ -73,6 +74,8 @@ Feature: RBAC-rules-v3
   @member1-view-cloud-and-machine-success
   Scenario: Verify that member1 can view cloud and machine
     Given I am logged in to mist as rbac_member1
+    And I wait for the navigation menu to appear
+    And I ensure that I am in the "ORG_NAME" organization context
     When I visit the Machines page
     Then "Docker" machine should be present within 5 seconds
     When I visit the Home page
@@ -102,4 +105,6 @@ Feature: RBAC-rules-v3
   @member1-view-cloud-and-machine-success
   Scenario: Verify that member1 cannot view docker cloud
     Given I am logged in to mist as rbac_member1
+    And I wait for the navigation menu to appear
+    And I ensure that I am in the "ORG_NAME" organization context
     Then I should have 0 clouds added

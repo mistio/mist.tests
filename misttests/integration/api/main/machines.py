@@ -133,11 +133,11 @@ class TestMachinesFunctionality:
 
     def test_list_machines(self, pretty_print, mist_core, cache, owner_api_token):
         if config.LOCAL:
-            response = mist_core.add_cloud(title='Docker', provider='docker', api_token=owner_api_token,
+            response = mist_core.add_cloud(name='Docker', provider='docker', api_token=owner_api_token,
                                        docker_host=config.LOCAL_DOCKER,
                                        docker_port='2375').post()
         else:
-            response = mist_core.add_cloud(title='Docker', provider='docker', api_token=owner_api_token,
+            response = mist_core.add_cloud(name='Docker', provider='docker', api_token=owner_api_token,
                                        docker_host=safe_get_var('clouds/dockerhost', 'host',
                                                                 config.CREDENTIALS['DOCKER']['host']),
                                        docker_port=int(safe_get_var('clouds/dockerhost', 'port',

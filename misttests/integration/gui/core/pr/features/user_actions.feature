@@ -37,6 +37,8 @@ Feature: Login Scenarios and Api Token
     And I enter my standard credentials for signup_password_set
     And I click the go button in the landing page popup
     Then I wait for the navigation menu to appear
+    When I visit the Home page
+    And I save the org name if necessary
     Given "Linode" cloud has been added
 
   @change-password

@@ -12,7 +12,7 @@ import pytest
 class TestLibcloudFunctionality:
 
     def test_list_machines_linode(self, pretty_print, mist_core, cache, owner_api_token):
-        response = mist_core.add_cloud(title='Linode', provider= 'linode', api_token=owner_api_token,
+        response = mist_core.add_cloud(name='Linode', provider= 'linode', api_token=owner_api_token,
                                        api_key=safe_get_var('clouds/linode', 'api_key_new', config.CREDENTIALS['LINODE']['api_key'])).post()
         assert_response_ok(response)
         cache.set('linode_cloud_id', response.json()['id'])
@@ -22,7 +22,7 @@ class TestLibcloudFunctionality:
         print("Success!!!")
 
     def test_list_machines_equinix_metal(self, pretty_print, mist_core, cache, owner_api_token):
-        response = mist_core.add_cloud(title='Equinix Metal', provider= 'equinixmetal', api_token=owner_api_token,
+        response = mist_core.add_cloud(name='Equinix Metal', provider= 'equinixmetal', api_token=owner_api_token,
                                        api_key=safe_get_var('clouds/packet', 'api_key',
                                                             config.CREDENTIALS['EQUINIX METAL']['api_key'])).post()
         assert_response_ok(response)
@@ -33,7 +33,7 @@ class TestLibcloudFunctionality:
         print("Success!!!")
 
     def test_list_machines_openstack(self, pretty_print, mist_core, cache, owner_api_token):
-        response = mist_core.add_cloud(title='Openstack', provider= 'openstack', api_token=owner_api_token,
+        response = mist_core.add_cloud(name='Openstack', provider= 'openstack', api_token=owner_api_token,
                                         username=safe_get_var('clouds/vexxhost', 'username', config.CREDENTIALS['OPENSTACK']['username']),
                                         auth_url=safe_get_var('clouds/vexxhost', 'auth_url', config.CREDENTIALS['OPENSTACK']['auth_url']),
                                         tenant=safe_get_var('clouds/vexxhost', 'tenant', config.CREDENTIALS['OPENSTACK']['tenant']),
@@ -47,7 +47,7 @@ class TestLibcloudFunctionality:
         print("Success!!!")
 
 #    def test_list_machines_vultr(self, pretty_print, mist_core, cache, owner_api_token):
-#        response = mist_core.add_cloud(title='Vultr', provider= 'vultr', api_token=owner_api_token,
+#        response = mist_core.add_cloud(name='Vultr', provider= 'vultr', api_token=owner_api_token,
 #                                       api_key=safe_get_var('clouds/vultr', 'apikey',
 #                                                            config.CREDENTIALS['VULTR']['apikey'])).post()
 #        assert_response_ok(response)
@@ -58,7 +58,7 @@ class TestLibcloudFunctionality:
 #        print "Success!!!"
 
     def test_list_machines_azure_arm(self, pretty_print, mist_core, cache, owner_api_token):
-        response = mist_core.add_cloud(title='Azure_arm', provider= 'azure_arm', api_token=owner_api_token,
+        response = mist_core.add_cloud(name='Azure_arm', provider= 'azure_arm', api_token=owner_api_token,
                                        tenant_id=safe_get_var('clouds/azure_arm', 'tenant_id',
                                                               config.CREDENTIALS['AZURE_ARM']['tenant_id']),
                                        subscription_id=safe_get_var('clouds/azure_arm', 'subscription_id',
@@ -75,7 +75,7 @@ class TestLibcloudFunctionality:
         print("Success!!!")
 
     def test_list_machines_cloudsigma(self, pretty_print, mist_core, cache, owner_api_token):
-        response = mist_core.add_cloud(title='CloudSigma', provider='cloudsigma', api_token=owner_api_token,
+        response = mist_core.add_cloud(name='CloudSigma', provider='cloudsigma', api_token=owner_api_token,
                                        username=safe_get_var('clouds/cloudsigma', 'email', config.CREDENTIALS['CLOUDSIGMA']['email']),
                                        password=safe_get_var('clouds/cloudsigma', 'password', config.CREDENTIALS['CLOUDSIGMA']['password']),
                                        region=safe_get_var('clouds/cloudsigma', 'region', config.CREDENTIALS['CLOUDSIGMA']['region'])).post()
