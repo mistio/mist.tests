@@ -400,7 +400,7 @@ def find_cloud(context, cloud_name):
 
     for cloud in cloud_chips:
         if cloud.is_displayed:
-            title = cloud.find_element(By.CSS_SELECTOR, '.cloud-name')
+            name = cloud.find_element(By.CSS_SELECTOR, '.cloud-name')
             if safe_get_element_text(name).lower().strip() == cloud_name:
                 return cloud
     return None

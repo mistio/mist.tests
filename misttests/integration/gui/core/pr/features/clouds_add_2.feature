@@ -34,7 +34,7 @@ Feature: Add second-tier clouds
     Then I expect the "Cloud" add form to be visible within max 5 seconds
     When I select the "Amazon Web Services" provider
     And I wait for 3 seconds
-    Then I expect the field "Title" in the cloud add form to be visible within max 4 seconds
+    Then I expect the field "Name" in the cloud add form to be visible within max 4 seconds
     When I use my "Amazon Web Services No Images" credentials
     And I focus on the button "Add Cloud" in the "cloud" add form
     Then I click the button "Add Cloud" in the "cloud" add form
