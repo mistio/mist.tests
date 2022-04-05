@@ -110,9 +110,9 @@ def get_fab_button(context, page_title):
 def get_org_name_input(context):
     page_element = get_page_element(context, 'dashboard')
     page_shadow = expand_shadow_root(context, page_element)
-    onb_element = page_shadow.find_element_by_css_selector('onb-element')
+    onb_element = page_shadow.find_element(By.CSS_SELECTOR, 'onb-element')
     onb_shadow = expand_shadow_root(context, onb_element)
-    return onb_shadow.find_element_by_css_selector('paper-input#orginput')
+    return onb_shadow.find_element(By.CSS_SELECTOR, 'paper-input#orginput')
 
 
 def get_save_org_button(context):
