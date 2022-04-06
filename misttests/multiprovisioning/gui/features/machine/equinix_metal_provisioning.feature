@@ -24,10 +24,10 @@ Feature: Multiprovisioning
   #   Then I set the value "equinix-metal-mp-test0-random" to field "Machine Name" in the "machine" add form
   #   When I open the "Image" dropdown in the "machine" add form
   #   And I wait for 1 seconds
-  #   And I click the "Ubuntu 19.04" button in the "Image" dropdown in the "machine" add form
+  #   And I click the "Ubuntu 18.04 LTS" button in the "Image" dropdown in the "machine" add form
   #   When I open the "Size" dropdown in the "machine" add form
   #   And I wait for 1 seconds
-  #   And I click the "t1.small.x86 - 8GB RAM" button in the "Size" dropdown in the "machine" add form
+  #   And I click the "c3.small.x86 - 32768 RAM" button in the "Size" dropdown in the "machine" add form
   #   And I open the "Key" dropdown in the "machine" add form
   #   And I wait for 1 seconds
   #   And I click the "Keyrandom" button in the "Key" dropdown in the "machine" add form
@@ -36,7 +36,7 @@ Feature: Multiprovisioning
   #   And I click the "/30" button in the "Private IPv4 Subnet Size" dropdown in the "machine" add form
   #   When I open the "Location" dropdown in the "machine" add form
   #   And I wait for 1 seconds
-  #   And I click the "Amsterdam, NL (AMS1)" button in the "Location" dropdown in the "machine" add form
+  #   And I click the "Amsterdam (AM6)" button in the "Location" dropdown in the "machine" add form
   #   Then I expect for the button "Launch" in the "machine" add form to be clickable within 10 seconds
   #   When I focus on the button "Launch" in the "machine" add form
   #   And I click the button "Launch" in the "machine" add form
@@ -100,5 +100,5 @@ Feature: Multiprovisioning
     Then new_file should be included in the output
 
     Examples: Providers to be tested
-    | cloud         | size                    | location                 | image            | machine-name                  |
-    | Equinix Metal | t1.small.x86 - 8192 RAM | Sunnyvale, CA (SJC1)     | Ubuntu 18.04 LTS | equinix-metal-mp-test-random  |
+    | cloud         | size                     | location                 | image            | machine-name                  |
+    | Equinix Metal | c3.small.x86 - 32768 RAM | Amsterdam (AM6)          | Ubuntu 18.04 LTS | equinix-metal-mp-test-random  |
