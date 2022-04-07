@@ -55,6 +55,9 @@ def setup(api_token):
                                 data={'state': 'running'},
                                 timeout=800),
         },
+        'get_cluster': {
+            'cluster': cluster_name,
+        },
         'destroy_cluster': {'cluster': cluster_name}
     }
     setup_data = dict(**test_args, cloud=cloud_name)
