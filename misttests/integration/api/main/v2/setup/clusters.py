@@ -10,7 +10,7 @@ from misttests.integration.api.mistrequests import MistRequests
 V2_ENDPOINT = 'api/v2'
 CLOUDS_ENDPOINT = f'{V2_ENDPOINT}/clouds'
 CLUSTERS_ENDPOINT = f'{V2_ENDPOINT}/clusters'
-
+LOCATIONS_ENDPOINT = f'{V2_ENDPOINT}/locations'
 
 def setup(api_token):
     cloud_name = uniquify_string('test-cloud')
@@ -32,6 +32,13 @@ def setup(api_token):
         api_token=api_token, uri=clouds_uri, json=add_cloud_request)
     response = request.post()
     assert_response_ok(response)
+
+    # Wait for gce locations to become available
+    assert poll(api_token=api_token,
+                uri=f'{MIST_URL}/{LOCATIONS_ENDPOINT}',
+                query_params=[('cloud', cloud_name)],
+                timeout=800)
+
     cluster_name = uniquify_string('test-cluster')
     cluster_uri = f'{MIST_URL}/{CLUSTERS_ENDPOINT}/{cluster_name}'
     test_args = {
