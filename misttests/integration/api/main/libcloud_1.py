@@ -26,12 +26,12 @@ class TestLibcloudFunctionality:
                                                                 config.CREDENTIALS['DOCKER']['port']),
                                        authentication=safe_get_var('clouds/dockerhost', 'authentication',
                                                                    config.CREDENTIALS['DOCKER']['authentication']),
-                                       ca_cert_file=safe_get_var('clouds/dockerhost', 'ca',
-                                                                 config.CREDENTIALS['DOCKER']['ca']),
-                                       key_file=safe_get_var('clouds/dockerhost', 'key',
-                                                             config.CREDENTIALS['DOCKER']['key']),
-                                       cert_file=safe_get_var('clouds/dockerhost', 'cert',
-                                                              config.CREDENTIALS['DOCKER']['cert']), show_all=True).post()
+                                       ca_cert_file=safe_get_var('clouds/dockerhost', 'tlsCaCert',
+                                                                 config.CREDENTIALS['DOCKER']['tlsCaCert']),
+                                       key_file=safe_get_var('clouds/dockerhost', 'tlsKey',
+                                                             config.CREDENTIALS['DOCKER']['tlsKey']),
+                                       cert_file=safe_get_var('clouds/dockerhost', 'tlsCert',
+                                                              config.CREDENTIALS['DOCKER']['tlsCert']), show_all=True).post()
         assert_response_ok(response)
         cache.set('docker_cloud_id', response.json()['id'])
         response = mist_core.list_machines(cloud_id=cache.get('docker_cloud_id', ''), api_token=owner_api_token).get()
@@ -44,8 +44,8 @@ class TestLibcloudFunctionality:
                                        region='dfw',
                                        username = safe_get_var('clouds/rackspace', 'username',
                                                            config.CREDENTIALS['RACKSPACE']['username']),
-                                       api_key = safe_get_var('clouds/rackspace', 'api_key',
-                                                           config.CREDENTIALS['RACKSPACE']['api_key'])).post()
+                                       api_key = safe_get_var('clouds/rackspace', 'apikey',
+                                                           config.CREDENTIALS['RACKSPACE']['apikey'])).post()
         assert_response_ok(response)
         cache.set('rackspace_cloud_id', response.json()['id'])
         response = mist_core.list_machines(cloud_id=cache.get('rackspace_cloud_id', ''), api_token=owner_api_token).get()
@@ -55,8 +55,8 @@ class TestLibcloudFunctionality:
 
     def test_list_machines_aws(self, pretty_print, mist_core, cache, owner_api_token):
         response = mist_core.add_cloud(title='AWS', provider= 'ec2', api_token=owner_api_token,
-                                       api_key=safe_get_var('clouds/aws', 'api_key', config.CREDENTIALS['EC2']['api_key']),
-                                       api_secret=safe_get_var('clouds/aws', 'api_secret', config.CREDENTIALS['EC2']['api_secret']),
+                                       api_key=safe_get_var('clouds/aws', 'apikey', config.CREDENTIALS['EC2']['apikey']),
+                                       api_secret=safe_get_var('clouds/aws', 'apisecret', config.CREDENTIALS['EC2']['apisecret']),
                                        region='ap-northeast-1').post()
         assert_response_ok(response)
         cache.set('aws_cloud_id', response.json()['id'])
@@ -77,10 +77,10 @@ class TestLibcloudFunctionality:
 
     def test_list_machines_gce(self, pretty_print, mist_core, cache, owner_api_token):
        response = mist_core.add_cloud(title='GCE', provider= 'gce', api_token=owner_api_token,
-                                      project_id=safe_get_var('clouds/gce/mist-dev', 'project_id',
-                                                              config.CREDENTIALS['GCE']['project_id']),
-                                      private_key = json.dumps(safe_get_var('clouds/gce/mist-dev', 'private_key',
-                                                              config.CREDENTIALS['GCE']['private_key']))).post()
+                                      project_id=safe_get_var('clouds/gce/mist-dev-tests', 'projectId',
+                                                              config.CREDENTIALS['GCE']['projectId']),
+                                      private_key = json.dumps(safe_get_var('clouds/gce/mist-dev-tests', 'privateKey',
+                                                              config.CREDENTIALS['GCE']['privateKey']))).post()
        assert_response_ok(response)
        cache.set('gce_cloud_id', response.json()['id'])
        response = mist_core.list_machines(cloud_id=cache.get('gce_cloud_id', ''), api_token=owner_api_token).get()

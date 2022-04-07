@@ -61,7 +61,7 @@ def setup(api_token):
         },
     }
     kvm_host = safe_get_var(
-        f'clouds_new/{KVM_PROVIDER}', 'hostname')
+        f'clouds/{KVM_PROVIDER}', 'hostname')
     add_kvm_cloud_request = {
         'name': kvm_cloud_name,
         'provider': 'kvm',
@@ -81,7 +81,7 @@ def setup(api_token):
     assert_response_ok(response)
     # Add kvm cloud
     kvm_private_key = safe_get_var(
-        f'clouds_new/{KVM_PROVIDER}', 'key')
+        f'clouds/{KVM_PROVIDER}', 'key')
     key_name = uniquify_string('test-key')
     add_key_request = {
         'name': key_name,

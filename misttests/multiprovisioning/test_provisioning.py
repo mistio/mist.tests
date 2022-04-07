@@ -132,8 +132,8 @@ def add_cloud(provider):
     if cloud_id == None:
         if provider == 'AWS':
             response = mist_core.add_cloud(title=provider, provider= 'ec2', api_token=config.MIST_API_TOKEN,
-                                       api_key=safe_get_var('clouds/aws_no_images', 'api_key', config.CREDENTIALS['EC2']['api_key']),
-                                       api_secret=safe_get_var('clouds/aws_no_images', 'api_secret', config.CREDENTIALS['EC2']['api_secret']),
+                                       api_key=safe_get_var('clouds/aws_no_images', 'apikey', config.CREDENTIALS['EC2']['apikey']),
+                                       api_secret=safe_get_var('clouds/aws_no_images', 'apisecret', config.CREDENTIALS['EC2']['apisecret']),
                                        region=providers[provider]['location']).post()
 
         elif provider == 'DigitalOcean':
@@ -142,7 +142,7 @@ def add_cloud(provider):
 
         elif provider == "Linode":
             response = mist_core.add_cloud(title=provider, provider= 'linode', api_token=config.MIST_API_TOKEN,
-                                       api_key=safe_get_var('clouds/linode', 'api_key_new', config.CREDENTIALS['LINODE']['api_key'])).post()
+                                       api_key=safe_get_var('clouds/linode', 'api_key_new', config.CREDENTIALS['LINODE']['apikey'])).post()
 
         elif provider == "Azure":
             response = mist_core.add_cloud(title=provider, provider= 'azure', api_token=config.MIST_API_TOKEN,
@@ -176,23 +176,23 @@ def add_cloud(provider):
 
         elif provider == "GCE":
             response = mist_core.add_cloud(title='GCE', provider= 'gce', api_token=config.MIST_API_TOKEN,
-                                      project_id=safe_get_var('clouds/gce/mist-dev', 'project_id',
-                                                              config.CREDENTIALS['GCE']['project_id']),
-                                      private_key = json.dumps(safe_get_var('clouds/gce/mist-dev', 'private_key',
-                                                              config.CREDENTIALS['GCE']['private_key']))).post()
+                                      project_id=safe_get_var('clouds/gce/mist-dev-tests', 'projectId',
+                                                              config.CREDENTIALS['GCE']['projectId']),
+                                      private_key = json.dumps(safe_get_var('clouds/gce/mist-dev-tests', 'privateKey',
+                                                              config.CREDENTIALS['GCE']['privateKey']))).post()
 
         elif provider == "Rackspace":
             response = mist_core.add_cloud(title='Rackspace', provider= 'rackspace', api_token=config.MIST_API_TOKEN,
                                        region='dfw',
                                        username = safe_get_var('clouds/rackspace', 'username',
                                                            config.CREDENTIALS['RACKSPACE']['username']),
-                                       api_key = safe_get_var('clouds/rackspace', 'api_key',
-                                                           config.CREDENTIALS['RACKSPACE']['api_key'])).post()
+                                       api_key = safe_get_var('clouds/rackspace', 'apikey',
+                                                           config.CREDENTIALS['RACKSPACE']['apikey'])).post()
 
         elif provider == "Equinix Metal":
             response = mist_core.add_cloud(title='Equinix Metal', provider= 'equinixmetal', api_token=config.MIST_API_TOKEN,
-                                           api_key=safe_get_var('clouds/packet', 'api_key',
-                                                                config.CREDENTIALS['PACKET']['api_key'])).post()
+                                           api_key=safe_get_var('clouds/packet', 'apikey',
+                                                                config.CREDENTIALS['PACKET']['apikey'])).post()
 
         elif provider == "Vultr":
             response = mist_core.add_cloud(title='Vultr', provider= 'vultr', api_token=config.MIST_API_TOKEN,
