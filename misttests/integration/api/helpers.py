@@ -148,8 +148,10 @@ def poll(api_token, uri, data={}, query_params=None,
     t_end = time.time() + timeout
     while time.time() < t_end:
         response = request.get()
-        assert_response_ok(response)
-        response_data = response.json()['data']
+        try:
+            response_data = response.json()['data']
+        except (KeyError, TypeError):
+            response_data = {}
         if response_data and not data:
             return True
         if data and find_subdict(response_data, data):
