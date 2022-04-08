@@ -220,6 +220,9 @@ def setup(api_token):
                 }
             }
         },
+        'get_machine': {
+            'machine': amazon_machine_name,
+        },
         'rename_machine': {
             'machine': amazon_machine_name,
             'query_string': [('name', amazon_machine_name)],
