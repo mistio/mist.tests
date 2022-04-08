@@ -2,9 +2,12 @@ from misttests.config import inject_vault_credentials
 from misttests.config import MIST_URL
 from misttests.integration.api.helpers import assert_response_ok
 from misttests.integration.api.helpers import uniquify_string
+from misttests.integration.api.helpers import poll
 from misttests.integration.api.mistrequests import MistRequests
 
+V2_ENDPOINT = 'api/v2'
 CLOUDS_ENDPOINT = 'api/v2/clouds'
+LOCATIONS_ENDPOINT = f'{V2_ENDPOINT}/locations'
 
 
 def setup(api_token):
@@ -24,6 +27,11 @@ def setup(api_token):
         api_token=api_token, uri=uri, json=add_cloud_request)
     response = request.post()
     assert_response_ok(response)
+    # Wait until locations are available
+    assert poll(
+        api_token=api_token,
+        uri=f'{MIST_URL}/{LOCATIONS_ENDPOINT}',
+        query_params=[('cloud', cloud_name)])
     setup_data = {
         'get_location': {'location': 'us-central1-c'},
         'cloud': cloud_name
