@@ -37,7 +37,8 @@ def setup(api_token):
     assert poll(api_token=api_token,
                 uri=f'{MIST_URL}/{LOCATIONS_ENDPOINT}',
                 query_params=[('cloud', cloud_name)],
-                timeout=800)
+                timeout=800,
+                data={'name': 'us-central1-c'})
 
     cluster_name = uniquify_string('test-cluster')
     cluster_uri = f'{MIST_URL}/{CLUSTERS_ENDPOINT}/{cluster_name}'
