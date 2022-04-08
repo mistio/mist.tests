@@ -20,6 +20,9 @@ def setup(api_token):
             'request_body': {'name': cloud_name},
             'cloud': cloud_name
         },
+        'get_cloud': {
+            'cloud': cloud_name,
+        },
         'remove_cloud': {'cloud': cloud_name}
     }
     return test_args
