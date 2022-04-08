@@ -31,7 +31,8 @@ def setup(api_token):
     assert poll(
         api_token=api_token,
         uri=f'{MIST_URL}/{LOCATIONS_ENDPOINT}',
-        query_params=[('cloud', cloud_name)])
+        query_params=[('cloud', cloud_name)],
+        data={'name': 'us-central1-c'})
     setup_data = {
         'get_location': {'location': 'us-central1-c'},
         'cloud': cloud_name
