@@ -25,7 +25,7 @@ from .dialog import get_dialog
 
 def set_gce_creds(context):
     project_id = safe_get_var('clouds/gce/mist-dev-tests', 'projectId', context.mist_config['CREDENTIALS']['GCE']['projectId'])
-    private_key = safe_get_var('clouds/gce/mist-dev-tests', 'privateKey', context.mist_config['CREDENTIALS']['GCE']['privateKey'])
+    private_key = safe_get_var('clouds/gce/mist-dev-tests', 'privateKeyDetailed', context.mist_config['CREDENTIALS']['GCE']['privateKeyDetailed'])
     context.execute_steps('''
             Then I set the value "%s" to field "Title" in the "cloud" add form
             Then I set the value "%s" to field "Project ID" in the "cloud" add form
