@@ -220,7 +220,7 @@ def set_vsphere_creds(context):
                    safe_get_var('clouds/VCenter-packet', 'password', context.mist_config['CREDENTIALS']['VSPHERE']['password']),
                    safe_get_var('clouds/VCenter-packet', 'host', context.mist_config['CREDENTIALS']['VSPHERE']['host']),))
 
-    ca = safe_get_var('clouds/VCenter-packet', 'ca_cert_file', context.mist_config['CREDENTIALS']['VSPHERE']['ca'])
+    ca = safe_get_var('clouds/VCenter-packet', 'ca_cert_file', context.mist_config['CREDENTIALS']['VSPHERE']['ca_cert'])
     set_value_to_field(context, ca, 'ca certificate', 'cloud', 'add')
 
 
