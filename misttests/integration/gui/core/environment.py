@@ -58,7 +58,7 @@ def before_all(context):
     context.mist_config['LDAP_MEMBER_USERNAME'] = config.LDAP_MEMBER_USERNAME
     context.mist_config['LDAP_MEMBER_PASSWORD'] = config.LDAP_MEMBER_PASSWORD
     context.mist_config['LOCAL'] = config.LOCAL
-    context.mist_config['ORG_NAME'] = config.ORG_NAME + str(random.randint(1, 10000000))
+    context.mist_config['ORG_NAME'] = (config.ORG_NAME or config.NAME) + str(random.randint(1, 10000000))
     context.mist_config['NON_STOP'] = '--stop' not in sys.argv
     context.mist_config['ERROR_NUM'] = 0
     context.mist_config['MIST_URL'] = config.MIST_URL
@@ -109,7 +109,8 @@ def before_all(context):
         payload = {
             'email': context.mist_config['EMAIL'],
             'password': context.mist_config['PASSWORD1'],
-            'name': "Atheofovos Gkikas"
+            'name': "Atheofovos Gkikas",
+            'org_name': context.mist_config['ORG_NAME']
         }
 
         response = requests.post(
@@ -187,7 +188,7 @@ def kill_yolomachine(context, machines, headers, cloud_id):
             log.info('Killing yolomachine...')
             payload = {'action': 'destroy'}
             uri = context.mist_config['MIST_URL'] + '/api/v1/clouds/' + \
-                  cloud_id + '/machines/' + machine['machine_id']
+                  cloud_id + '/machines/' + machine['external_id']
             requests.post(uri, data=json.dumps(payload), headers=headers)
 
 
@@ -233,7 +234,7 @@ def kill_docker_machine(context, machine_to_destroy):
                         payload = {'action': 'destroy'}
                         uri = context.mist_config['MIST_URL'] + \
                                 '/api/v1/clouds/' + cloud['id'] + \
-                                '/machines/' + machine['machine_id']
+                                '/machines/' + machine['external_id']
                         requests.post(uri, data=json.dumps(payload), headers=headers)
 
 def delete_ec2_network(context, network_to_delete):
@@ -288,7 +289,7 @@ def mayday_cleanup(context):
                     payload = {'action': 'start'}
                     uri = context.mist_config['MIST_URL'] + \
                             '/api/v1/clouds/' + cloud['id'] + \
-                            '/machines/' + machine['machine_id']
+                            '/machines/' + machine['external_id']
                     response = requests.post(uri, data=json.dumps(payload), headers=headers)
                     assert response.status_code == 200, "Could not start mayday-test container!"
                     break
@@ -303,7 +304,7 @@ def mp_cleanup(context):
             payload = {'action': 'destroy'}
             uri = context.mist_config['MIST_URL'] + \
                     '/api/v1/clouds/' + machine['cloud'] + \
-                    '/machines/' + machine['machine_id']
+                    '/machines/' + machine['external_id']
             log.info('Killing multiprovisioning machine %s' % str(machine['name']))
             response = requests.post(uri, data=json.dumps(payload), headers=headers)
             assert response.status_code == 200, "Could not destroy multiprovisioning machine %s"  % str(machine['name'])

@@ -10,7 +10,7 @@ import pytest
 
 
 def test_list_zones(pretty_print, mist_core, cache,  owner_api_token):
-    response = mist_core.add_cloud(title='GCE', provider= 'gce', api_token=owner_api_token,
+    response = mist_core.add_cloud(name='GCE', provider= 'gce', api_token=owner_api_token,
                                    project_id=safe_get_var('clouds/gce/mist-dev-tests', 'projectId',
                                                            config.CREDENTIALS['GCE']['projectId']),
                                    private_key = json.dumps(safe_get_var('clouds/gce/mist-dev-tests', 'privateKeyDetailed',

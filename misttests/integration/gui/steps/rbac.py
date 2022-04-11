@@ -28,7 +28,7 @@ from selenium.webdriver import ActionChains
 def clear_search_bar(context):
     input_field = context.browser.find_element(By.CSS_SELECTOR, '.team-search')
     while input_field.get_attribute('value') != '':
-        input_field.send_keys('\ue003')
+        input_field.send_keys('\\ue003')
 
 
 @step('I switch to the {org} organization')

@@ -1,6 +1,7 @@
 from behave import step, when, use_step_matcher
 
 from time import sleep, time
+from random import randrange
 
 import logging
 
@@ -21,6 +22,8 @@ from selenium.common.exceptions import TimeoutException
 from selenium.common.exceptions import NoSuchElementException
 from selenium.common.exceptions import StaleElementReferenceException
 from selenium.common.exceptions import ElementClickInterceptedException
+from selenium.common.exceptions import ElementNotInteractableException
+
 
 log = logging.getLogger(__name__)
 
@@ -102,6 +105,22 @@ def get_fab_button(context, page_title):
         _, page_element = get_page_element(context, page_title + 's', page_title)
     page_shadow = expand_shadow_root(context, page_element)
     return page_shadow.find_element(By.CSS_SELECTOR, 'paper-fab')
+
+
+def get_org_name_input(context):
+    page_element = get_page_element(context, 'dashboard')
+    page_shadow = expand_shadow_root(context, page_element)
+    onb_element = page_shadow.find_element(By.CSS_SELECTOR, 'onb-element')
+    onb_shadow = expand_shadow_root(context, onb_element)
+    return onb_shadow.find_element(By.CSS_SELECTOR, 'paper-input#orginput')
+
+
+def get_save_org_button(context):
+    page_element = get_page_element(context, 'dashboard')
+    page_shadow = expand_shadow_root(context, page_element)
+    onb_element = page_shadow.find_element(By.CSS_SELECTOR, 'onb-element')
+    onb_shadow = expand_shadow_root(context, onb_element)
+    return onb_shadow.find_element(By.CSS_SELECTOR, 'paper-button')
 
 
 @step('I click the button "{text}"')
@@ -436,6 +455,17 @@ def click_fab_button_in_page(context, page_title):
 def click_fab_button_in_page(context, page_title):
     fab = get_fab_button(context, page_title)
     assert not fab.is_displayed(), "Fab button is still visible."
+
+
+@step('I save the org name if necessary')
+def save_org_name(context):
+    inp = get_org_name_input(context)
+    btn = get_save_org_button(context)
+    inp.send_keys(randrange(1000))
+    try:
+        clicketi_click(context, btn)
+    except ElementNotInteractableException:
+        pass
 
 
 @step('I click the "{target}" tab in the account page')

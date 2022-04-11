@@ -372,7 +372,7 @@ def open_drop_down_in_dialog(context, dropdown_text, dialog_title):
     dropdown = find_dropdown(context, dialog_shadow, dropdown_text.lower())
     clicketi_click(context, dropdown)
 
-@step(u'I expect the "{dropdown_text}" dropdown to be absent in the "{resource_type}" add form')
+@step('I expect the "{dropdown_text}" dropdown to be absent in the "{resource_type}" add form')
 def dropdown_is_absent(context, dropdown_text, resource_type):
     page = get_add_form(context, resource_type)
     page_shadow = expand_shadow_root(context, page)
@@ -384,7 +384,7 @@ def dropdown_is_absent(context, dropdown_text, resource_type):
     if dropdown:
         assert False, "A dropdown was found with text: {}".format(dropdown.get_attribute('label'))
 
-@step(u'I expect the "{slider_name}" slider of the size field to be absent in the "{resource_type}" add form')
+@step('I expect the "{slider_name}" slider of the size field to be absent in the "{resource_type}" add form')
 def field_is_absent(context, slider_name, resource_type):
     page = get_add_form(context, resource_type)
     page_shadow = expand_shadow_root(context, page)
