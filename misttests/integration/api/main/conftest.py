@@ -224,4 +224,4 @@ def network_valid_cidr(request):
 
 @pytest.fixture(scope='module')
 def availability_zone(request):
-    return safe_get_var('clouds/aws', 'region_id', config.CREDENTIALS['EC2']['region_id']) + 'a'
+    return safe_get_var('clouds/aws', 'region', config.CREDENTIALS['EC2']['region']) + 'a'

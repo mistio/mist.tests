@@ -193,9 +193,9 @@ def add_cloud_api_request(context, cloud):
                 'docker_host': safe_get_var('clouds/dockerhost', 'host', context.mist_config['CREDENTIALS']['DOCKER']['host']),
                 'docker_port': safe_get_var('clouds/dockerhost', 'port', context.mist_config['CREDENTIALS']['DOCKER']['port']),
                 'authentication': safe_get_var('clouds/dockerhost', 'authentication', context.mist_config['CREDENTIALS']['DOCKER']['authentication']),
-                'ca_cert_file': safe_get_var('clouds/dockerhost', 'ca', context.mist_config['CREDENTIALS']['DOCKER']['ca']),
-                'key_file': safe_get_var('clouds/dockerhost', 'key', context.mist_config['CREDENTIALS']['DOCKER']['key']),
-                'cert_file': safe_get_var('clouds/dockerhost', 'cert', context.mist_config['CREDENTIALS']['DOCKER']['cert']),
+                'ca_cert_file': safe_get_var('clouds/dockerhost', 'tlsCaCert', context.mist_config['CREDENTIALS']['DOCKER']['tlsCaCert']),
+                'key_file': safe_get_var('clouds/dockerhost', 'tlsKey', context.mist_config['CREDENTIALS']['DOCKER']['tlsKey']),
+                'cert_file': safe_get_var('clouds/dockerhost', 'tlsCert', context.mist_config['CREDENTIALS']['DOCKER']['tlsCert']),
                 'show_all': True
             }
 
@@ -203,10 +203,10 @@ def add_cloud_api_request(context, cloud):
         payload = {
             'name': 'GCE',
             'provider': 'gce',
-            'project_id': safe_get_var('clouds/gce/mist-dev', 'project_id',
-                                      context.mist_config['CREDENTIALS']['GCE']['project_id']),
-            'private_key': json.dumps(safe_get_var('clouds/gce/mist-dev', 'private_key',
-                                   context.mist_config['CREDENTIALS']['GCE']['private_key'])),
+            'project_id': safe_get_var('clouds/gce/mist-dev-tests', 'projectId',
+                                      context.mist_config['CREDENTIALS']['GCE']['projectId']),
+            'private_key': json.dumps(safe_get_var('clouds/gce/mist-dev-tests', 'privateKeyDetailed',
+                                   context.mist_config['CREDENTIALS']['GCE']['privateKeyDetailed'])),
             'dns_enabled': True
         }
 

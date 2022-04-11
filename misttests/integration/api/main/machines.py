@@ -144,12 +144,12 @@ class TestMachinesFunctionality:
                                                                 config.CREDENTIALS['DOCKER']['port'])),
                                        authentication=safe_get_var('clouds/dockerhost', 'authentication',
                                                                    config.CREDENTIALS['DOCKER']['authentication']),
-                                       ca_cert_file=safe_get_var('clouds/dockerhost', 'ca',
-                                                                 config.CREDENTIALS['DOCKER']['ca']),
-                                       key_file=safe_get_var('clouds/dockerhost', 'key',
-                                                             config.CREDENTIALS['DOCKER']['key']),
-                                       cert_file=safe_get_var('clouds/dockerhost', 'cert',
-                                                              config.CREDENTIALS['DOCKER']['cert']), show_all=True).post()
+                                       ca_cert_file=safe_get_var('clouds/dockerhost', 'tlsCaCert',
+                                                                 config.CREDENTIALS['DOCKER']['tlsCaCert']),
+                                       key_file=safe_get_var('clouds/dockerhost', 'tlsKey',
+                                                             config.CREDENTIALS['DOCKER']['tlsKey']),
+                                       cert_file=safe_get_var('clouds/dockerhost', 'tlsCert',
+                                                              config.CREDENTIALS['DOCKER']['tlsCert']), show_all=True).post()
         assert_response_ok(response)
         cache.set('cloud_id', response.json()['id'])
         response = mist_core.list_machines(cloud_id=cache.get('cloud_id', ''), api_token=owner_api_token).get()

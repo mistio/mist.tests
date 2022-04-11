@@ -41,7 +41,7 @@ except Exception as exc:
     log.error("Error parsing test_settings py: %r", exc)
 
 PROVIDER_VAULT_MAP = {
-    'google': 'gce',
+    'google': 'gce/mist-dev-tests',
     'amazon': 'aws',
     'docker': 'dockerhost',
     'vsphere': 'VCenter-packet'
@@ -84,7 +84,7 @@ def inject_vault_credentials(dikt):
     if 'provider' not in dikt:
         return
     provider = PROVIDER_VAULT_MAP[dikt['provider']]
-    credentials = safe_get_var(f'clouds_new/{provider}', '*')
+    credentials = safe_get_var(f'clouds/{provider}', '*')
     dikt_credentials = dikt.get('credentials', {})
     for key in dikt_credentials:
         dikt_credentials[key] = credentials[key]
@@ -290,32 +290,31 @@ IMAP_PORT = get_setting('IMAP_PORT', '8143', priority='environment')
 IMAP_USE_SSL = get_setting('IMAP_USE_SSL', False, priority='environment')
 
 DEFAULT_CREDENTIALS = {
-    'AWS': {'api_key': '', 'api_secret': '', 'region': '', 'region_id': ''},
-    'AWS_2': {'api_key': '', 'api_secret': '', 'region': '', 'region_id': ''},
+    'AWS': {'apikey': '', 'apisecret': '', 'region_name': '', 'region': ''},
+    'AWS_2': {'apikey': '', 'apisecret': '', 'region_name': '', 'region': ''},
     'KVM': {'key': """ """, 'hostname': ''},
     'AZURE': {'certificate': """ """, 'subscription_id': ''},
     'AZURE_ARM': {'client_key': '', 'client_secret': '', 'subscription_id': '', 'tenant_id': ''},
     'DIGITALOCEAN': {'token': ''},
-    'DOCKER': {'authentication': '', 'ca': """ """, 'cert': """ """, 'host': '', 'key': """""", 'port': ''},
-    'EC2': {'api_key': '', 'api_secret': '', 'region': '', 'region_id': ''},
-    'LINODE': {'api_key': ''},
+    'DOCKER': {'authentication': '', 'tlsCaCert': """ """, 'tlsCert': """ """, 'host': '', 'tlsKey': """""", 'port': ''},
+    'EC2': {'apikey': '', 'apisecret': '', 'region_name': '', 'region': ''},
+    'LINODE': {'apikey': ''},
     'NEPHOSCALE': {'password': '', 'username': ''},
-    'GCE': {'project_id': '', 'private_key': {}},
-    'OPENSTACK': {'auth_url': '', 'password': '', 'tenant': '', 'username': '', 'region': ''},
+    'GCE': {'email': '', 'projectId': '', 'privateKey': '', 'privateKeyDetailed': {}},
+    'OPENSTACK': {'authUrl': '', 'password': '', 'tenant': '', 'user': '', 'region': ''},
     'DOCKER_ORCHESTRATOR':{"host": "", "port": ""},
-    'OPENSTACK_2': {'auth_url': '', 'password': '', 'tenant': '', 'username': ''},
-    'EQUINIX METAL': {'api_key': ''},
-    'PACKET_2': {'api_key': ''},
-    'VSPHERE': {'username': '', 'password': '', 'ca': '', 'host': '' },
-    'RACKSPACE': {'api_key': '', 'region': '', 'username': ''},
+    'EQUINIX METAL': {'apikey': ''},
+    'PACKET_2': {'apikey': ''},
+    'VSPHERE': {'username': '', 'password': '', 'ca_cert': '', 'host': '' },
+    'RACKSPACE': {'apikey': '', 'region': '', 'username': ''},
     'SOFTLAYER': {'api_key': '', 'username': ''},
     'VULTR': {'apikey': ''},
-    'ALIYUN': {'api_key': '', 'api_secret': ''},
+    'ALIYUN': {'apikey': '', 'apisecret': ''},
     'DOCKER_MONITORING':{'host': '', 'port': ''},
-    'ONAPP':{'username':'', 'password':'', 'host':'', 'verify_ssl': False},
-    'MAXIHOST': {'api_token': ''},
-    'KUBEVIRT': {'host': '', 'ca': '', 'token': '', 'port': ''},
-    'LXD': {'host': '', 'key': '', 'cert': ''},
+    'ONAPP':{'username':'', 'apikey':'', 'host':'', 'verify_ssl': False},
+    'MAXIHOST': {'token': ''},
+    'KUBEVIRT': {'host': '', 'tlsCaCert': '', 'token': '', 'port': ''},
+    'LXD': {'host': '', 'tlsKey': '', 'tlsCert': ''},
     'GIG_G8': {'api_key': '', 'url': '', 'user_id': ''},
     'CLOUDSIGMA': {'email': '', 'password': '', 'region': ''},
 }

@@ -24,7 +24,7 @@ def test_add_vsphere_cloud(pretty_print, mist_core, cache, owner_api_token, name
                                    host=safe_get_var('clouds/vsphere-7', 'host'),
                                    username=safe_get_var('clouds/vsphere-7', 'username'),
                                    password=safe_get_var('clouds/vsphere-7', 'password'),
-                                   ca_cert_file=safe_get_var('clouds/vsphere-7', 'ca')
+                                   ca_cert_file=safe_get_var('clouds/vsphere-7', 'ca_cert')
                                    ).post()
     assert_response_ok(response)
     cache.set('vsphere_cloud_id', response.json()['id'])
@@ -35,7 +35,7 @@ def test_add_kubevirt_cloud(pretty_print, mist_core, cache, owner_api_token, nam
                                    host=safe_get_var('clouds/kubevirt', 'host'),
                                    authentication='tokenbearer',
                                    token=safe_get_var('clouds/kubevirt', 'token'),
-                                   ca_cert_file=safe_get_var('clouds/kubevirt', 'ca')
+                                   ca_cert_file=safe_get_var('clouds/kubevirt', 'tlsCaCert')
                                    ).post()
     assert_response_ok(response)
     cache.set('kubevirt_cloud_id', response.json()['id'])
@@ -43,7 +43,7 @@ def test_add_kubevirt_cloud(pretty_print, mist_core, cache, owner_api_token, nam
 
 def test_add_equinix_cloud(pretty_print, mist_core, cache, owner_api_token, name="Equinix Metal"):
     response = mist_core.add_cloud(name, provider='equinixmetal', api_token=owner_api_token,
-                                   apikey=safe_get_var('clouds/packet', 'api_key')
+                                   apikey=safe_get_var('clouds/packet', 'apikey')
                                    ).post()
     assert_response_ok(response)
     cache.set('equinix_metal_cloud_id', response.json()['id'])
@@ -63,8 +63,8 @@ def test_add_azure_arm_cloud(pretty_print, mist_core, cache, owner_api_token, na
 def test_add_lxd_cloud(pretty_print, mist_core, cache, owner_api_token, name="LXD"):
     response = mist_core.add_cloud(name, provider='lxd', api_token=owner_api_token,
                                    host=safe_get_var('clouds/lxd', 'host'),
-                                   key_file=safe_get_var('clouds/lxd', 'key'),
-                                   cert_file=safe_get_var('clouds/lxd', 'cert'),
+                                   key_file=safe_get_var('clouds/lxd', 'tlsKey'),
+                                   cert_file=safe_get_var('clouds/lxd', 'tlsCert'),
                                    port=8443
                                    ).post()
     assert_response_ok(response)

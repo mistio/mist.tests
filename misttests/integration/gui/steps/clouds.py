@@ -24,8 +24,8 @@ from .dialog import get_dialog
 
 
 def set_gce_creds(context):
-    project_id = safe_get_var('clouds/gce/mist-dev', 'project_id', context.mist_config['CREDENTIALS']['GCE']['project_id'])
-    private_key = safe_get_var('clouds/gce/mist-dev', 'private_key', context.mist_config['CREDENTIALS']['GCE']['private_key'])
+    project_id = safe_get_var('clouds/gce/mist-dev-tests', 'projectId', context.mist_config['CREDENTIALS']['GCE']['projectId'])
+    private_key = safe_get_var('clouds/gce/mist-dev-tests', 'privateKeyDetailed', context.mist_config['CREDENTIALS']['GCE']['privateKeyDetailed'])
     context.execute_steps('''
             Then I set the value "%s" to field "Name" in the "cloud" add form
             Then I set the value "%s" to field "Project ID" in the "cloud" add form
@@ -37,7 +37,7 @@ def set_gce_creds(context):
 def set_rackspace_creds(context):
     region = safe_get_var('clouds/rackspace', 'region', context.mist_config['CREDENTIALS']['RACKSPACE']['region'])
     username = safe_get_var('clouds/rackspace', 'username', context.mist_config['CREDENTIALS']['RACKSPACE']['username'])
-    api_key = safe_get_var('clouds/rackspace', 'api_key', context.mist_config['CREDENTIALS']['RACKSPACE']['api_key'])
+    api_key = safe_get_var('clouds/rackspace', 'apikey', context.mist_config['CREDENTIALS']['RACKSPACE']['apikey'])
     context.execute_steps('''
         Then I open the "Region" dropdown in the "cloud" add form
         And I wait for 1 seconds
@@ -58,9 +58,9 @@ def set_ibm_clouds_creds(context):
 
 
 def set_aws_creds(context):
-    api_key = safe_get_var('clouds/aws', 'api_key', context.mist_config['CREDENTIALS']['EC2']['api_key'])
-    api_secret = safe_get_var('clouds/aws', 'api_secret', context.mist_config['CREDENTIALS']['EC2']['api_secret'])
-    region = safe_get_var('clouds/aws', 'region', context.mist_config['CREDENTIALS']['EC2']['region'])
+    api_key = safe_get_var('clouds/aws', 'apikey', context.mist_config['CREDENTIALS']['EC2']['apikey'])
+    api_secret = safe_get_var('clouds/aws', 'apisecret', context.mist_config['CREDENTIALS']['EC2']['apisecret'])
+    region = safe_get_var('clouds/aws', 'region_name', context.mist_config['CREDENTIALS']['EC2']['region_name'])
     context.execute_steps('''
         Then I open the "Region" dropdown in the "cloud" add form
         And I wait for 1 seconds
@@ -73,9 +73,9 @@ def set_aws_creds(context):
 
 
 def set_aws_no_images_creds(context):
-    api_key = safe_get_var('clouds/aws_no_images', 'api_key', context.mist_config['CREDENTIALS']['EC2']['api_key'])
-    api_secret = safe_get_var('clouds/aws_no_images', 'api_secret', context.mist_config['CREDENTIALS']['EC2']['api_secret'])
-    region = safe_get_var('clouds/aws_no_images', 'region', context.mist_config['CREDENTIALS']['EC2']['region'])
+    api_key = safe_get_var('clouds/aws_no_images', 'apikey', context.mist_config['CREDENTIALS']['EC2']['apikey'])
+    api_secret = safe_get_var('clouds/aws_no_images', 'apisecret', context.mist_config['CREDENTIALS']['EC2']['apisecret'])
+    region = safe_get_var('clouds/aws_no_images', 'region_name', context.mist_config['CREDENTIALS']['EC2']['region_name'])
     context.execute_steps('''
         Then I open the "Region" dropdown in the "cloud" add form
         And I wait for 1 seconds
@@ -88,7 +88,7 @@ def set_aws_no_images_creds(context):
 
 
 def set_linode_creds(context):
-    api_key = safe_get_var('clouds/linode', 'api_key_new', context.mist_config['CREDENTIALS']['LINODE']['api_key'])
+    api_key = safe_get_var('clouds/linode', 'api_key_new', context.mist_config['CREDENTIALS']['LINODE']['apikey'])
     context.execute_steps('Then I set the value "%s" to field "API Key" in '
                           'the "cloud" add form' % api_key)
 
@@ -117,9 +117,9 @@ def set_docker_creds(context):
                 Then I set the value "%s" to field "Port" in the "cloud" add form
             ''' % (host, port))
 
-        certificate = safe_get_var('clouds/dockerhost', 'cert', context.mist_config['CREDENTIALS']['DOCKER']['cert'])
-        key = safe_get_var('clouds/dockerhost', 'key', context.mist_config['CREDENTIALS']['DOCKER']['key'])
-        ca = safe_get_var('clouds/dockerhost', 'ca', context.mist_config['CREDENTIALS']['DOCKER']['ca'])
+        certificate = safe_get_var('clouds/dockerhost', 'tlsCert', context.mist_config['CREDENTIALS']['DOCKER']['tlsCert'])
+        key = safe_get_var('clouds/dockerhost', 'tlsKey', context.mist_config['CREDENTIALS']['DOCKER']['tlsKey'])
+        ca = safe_get_var('clouds/dockerhost', 'tlsCaCert', context.mist_config['CREDENTIALS']['DOCKER']['tlsCaCert'])
 
         set_value_to_field(context, key, 'key', 'cloud', 'add')
         set_value_to_field(context, certificate, 'certificate', 'cloud', 'add')
@@ -127,7 +127,7 @@ def set_docker_creds(context):
 
 
 def set_equinix_metal_creds(context):
-    api_key = safe_get_var('clouds/packet', 'api_key', context.mist_config['CREDENTIALS']['EQUINIX METAL']['api_key'])
+    api_key = safe_get_var('clouds/packet', 'apikey', context.mist_config['CREDENTIALS']['EQUINIX METAL']['apikey'])
     context.execute_steps('Then I set the value "%s" to field "API Key" in the '
                           '"cloud" add form' % api_key)
 
@@ -140,8 +140,8 @@ def set_openstack_creds(context):
             Then I set the value "%s" to field "Auth Url" in the "cloud" add form
             Then I set the value "%s" to field "Tenant Name" in the "cloud" add form
             Then I set the value "%s" to field "Region" in the "cloud" add form
-        ''' % (safe_get_var('clouds/vexxhost', 'username', context.mist_config['CREDENTIALS']['OPENSTACK']['username']),
-               safe_get_var('clouds/vexxhost', 'auth_url', context.mist_config['CREDENTIALS']['OPENSTACK']['auth_url']),
+        ''' % (safe_get_var('clouds/vexxhost', 'user', context.mist_config['CREDENTIALS']['OPENSTACK']['user']),
+               safe_get_var('clouds/vexxhost', 'authUrl', context.mist_config['CREDENTIALS']['OPENSTACK']['authUrl']),
                safe_get_var('clouds/vexxhost', 'tenant', context.mist_config['CREDENTIALS']['OPENSTACK']['tenant']),
                safe_get_var('clouds/vexxhost', 'region', context.mist_config['CREDENTIALS']['OPENSTACK']['region']),
                ))
@@ -169,8 +169,8 @@ def set_aliyun_creds(context):
                         Then I set the value "Alibaba Cloud" to field "Name" in the "cloud" add form
                         Then I set the value "%s" to field "API Key" in the "cloud" add form
                         Then I set the value "%s" to field "API Secret" in the "cloud" add form
-                    ''' % (safe_get_var('clouds/aliyun', 'api_key', context.mist_config['CREDENTIALS']['ALIYUN']['api_key']),
-                           safe_get_var('clouds/aliyun', 'api_secret', context.mist_config['CREDENTIALS']['ALIYUN']['api_secret'])))
+                    ''' % (safe_get_var('clouds/aliyun', 'apikey', context.mist_config['CREDENTIALS']['ALIYUN']['apikey']),
+                           safe_get_var('clouds/aliyun', 'apisecret', context.mist_config['CREDENTIALS']['ALIYUN']['apisecret'])))
 
 def set_azure_arm_creds(context):
     context.execute_steps('''
@@ -220,7 +220,7 @@ def set_vsphere_creds(context):
                    safe_get_var('clouds/VCenter-packet', 'password', context.mist_config['CREDENTIALS']['VSPHERE']['password']),
                    safe_get_var('clouds/VCenter-packet', 'host', context.mist_config['CREDENTIALS']['VSPHERE']['host']),))
 
-    ca = safe_get_var('clouds/VCenter-packet', 'ca_cert', context.mist_config['CREDENTIALS']['VSPHERE']['ca'])
+    ca = safe_get_var('clouds/VCenter-packet', 'ca_cert_file', context.mist_config['CREDENTIALS']['VSPHERE']['ca_cert'])
     set_value_to_field(context, ca, 'ca certificate', 'cloud', 'add')
 
 
@@ -231,18 +231,18 @@ def set_onapp_creds(context):
                 Then I set the value "%s" to field "Host" in the "cloud" add form
                 And I click the "Verify SSL certificate" toggle button in the "cloud" add form
             ''' % (safe_get_var('clouds/onapp', 'username', context.mist_config['CREDENTIALS']['ONAPP']['username']),
-                   safe_get_var('clouds/onapp', 'password', context.mist_config['CREDENTIALS']['ONAPP']['password']),
+                   safe_get_var('clouds/onapp', 'apikey', context.mist_config['CREDENTIALS']['ONAPP']['apikey']),
                    safe_get_var('clouds/onapp', 'host', context.mist_config['CREDENTIALS']['ONAPP']['host']),))
 
 
 def set_second_packet_creds(context):
-    api_key = safe_get_var('clouds/packet_2', 'api_key', context.mist_config['CREDENTIALS']['PACKET_2']['api_key'])
+    api_key = safe_get_var('clouds/packet_2', 'apikey', context.mist_config['CREDENTIALS']['PACKET_2']['apikey'])
     context.execute_steps('Then I set the value "%s" to field "API Key" in '
                           '"cloud" edit form' % api_key)
 
 
 def set_maxihost_creds(context):
-    api_key = safe_get_var('clouds/maxihost', 'api_token', context.mist_config['CREDENTIALS']['MAXIHOST']['api_token'])
+    api_key = safe_get_var('clouds/maxihost', 'token', context.mist_config['CREDENTIALS']['MAXIHOST']['token'])
     context.execute_steps('''
                 Then I set the value "%s" to field "API token" in the "cloud" add form
             ''' % api_key)
@@ -261,7 +261,7 @@ def set_kubevirt_creds(context):
                    safe_get_var('clouds/kubevirt', 'port', context.mist_config['CREDENTIALS']['KUBEVIRT']['port'])
             ))
 
-    ca = safe_get_var('clouds/kubevirt', 'ca', context.mist_config['CREDENTIALS']['KUBEVIRT']['ca'])
+    ca = safe_get_var('clouds/kubevirt', 'tlsCaCert', context.mist_config['CREDENTIALS']['KUBEVIRT']['tlsCaCert'])
     set_value_to_field(context, ca, 'ca certificate', 'cloud', 'add')
 
 
@@ -270,8 +270,8 @@ def set_lxd_creds(context):
                 Then I set the value "%s" to field "Host" in the "cloud" add form
             ''' % (safe_get_var('clouds/lxd', 'host', context.mist_config['CREDENTIALS']['LXD']['host']),
     ))
-    key = safe_get_var('clouds/lxd', 'key', context.mist_config['CREDENTIALS']['LXD']['key'])
-    cert = safe_get_var('clouds/lxd', 'cert', context.mist_config['CREDENTIALS']['LXD']['cert'])
+    key = safe_get_var('clouds/lxd', 'tlsKey', context.mist_config['CREDENTIALS']['LXD']['tlsKey'])
+    cert = safe_get_var('clouds/lxd', 'tlsCert', context.mist_config['CREDENTIALS']['LXD']['tlsCert'])
     set_value_to_field(context, key, 'client private key', 'cloud', 'add')
     set_value_to_field(context, cert, 'client certificate', 'cloud', 'add')
 
@@ -302,8 +302,8 @@ def set_second_aws_creds(context):
     context.execute_steps('''
                 Then I set the value "%s" to field "API KEY" in the "Edit Credentials" dialog
                 Then I set the value "%s" to field "API SECRET" in the "Edit Credentials" dialog
-            ''' % (safe_get_var('clouds/aws', 'api_key', context.mist_config['CREDENTIALS']['AWS_2']['api_key']),
-                   safe_get_var('clouds/aws', 'api_secret', context.mist_config['CREDENTIALS']['AWS_2']['api_secret']),))
+            ''' % (safe_get_var('clouds/aws', 'apikey', context.mist_config['CREDENTIALS']['AWS_2']['apikey']),
+                   safe_get_var('clouds/aws', 'apisecret', context.mist_config['CREDENTIALS']['AWS_2']['apisecret']),))
 
 
 cloud_creds_dict = {
