@@ -2,6 +2,7 @@ from misttests.config import inject_vault_credentials
 from misttests.config import MIST_URL
 from misttests.integration.api.helpers import assert_response_ok
 from misttests.integration.api.helpers import uniquify_string
+from misttests.integration.api.helpers import poll
 from misttests.integration.api.mistrequests import MistRequests
 
 CLOUDS_ENDPOINT = 'api/v2/clouds'
@@ -25,6 +26,12 @@ def setup(api_token):
         api_token=api_token, uri=clouds_uri, json=add_cloud_request)
     response = request.post()
     assert_response_ok(response)
+    # Wait until images are available
+    assert poll(
+        api_token=api_token,
+        uri=f'{MIST_URL}/{IMAGES_ENDPOINT}',
+        query_params=[('cloud', cloud_name)],
+        data={'name': 'ubuntu'})
     setup_data = {
         'get_image': {
             'image': 'ubuntu'
