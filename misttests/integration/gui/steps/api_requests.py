@@ -202,8 +202,8 @@ def add_cloud_api_request(context, cloud):
             'provider': 'gce',
             'project_id': safe_get_var('clouds/gce/mist-dev-tests', 'projectId',
                                       context.mist_config['CREDENTIALS']['GCE']['projectId']),
-            'private_key': json.dumps(safe_get_var('clouds/gce/mist-dev-tests', 'privateKey',
-                                   context.mist_config['CREDENTIALS']['GCE']['privateKey'])),
+            'private_key': json.dumps(safe_get_var('clouds/gce/mist-dev-tests', 'privateKeyDetailed',
+                                   context.mist_config['CREDENTIALS']['GCE']['privateKeyDetailed'])),
             'dns_enabled': True
         }
 

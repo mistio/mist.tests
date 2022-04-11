@@ -178,8 +178,8 @@ def add_cloud(provider):
             response = mist_core.add_cloud(title='GCE', provider= 'gce', api_token=config.MIST_API_TOKEN,
                                       project_id=safe_get_var('clouds/gce/mist-dev-tests', 'projectId',
                                                               config.CREDENTIALS['GCE']['projectId']),
-                                      private_key = json.dumps(safe_get_var('clouds/gce/mist-dev-tests', 'privateKey',
-                                                              config.CREDENTIALS['GCE']['privateKey']))).post()
+                                      private_key = json.dumps(safe_get_var('clouds/gce/mist-dev-tests', 'privateKeyDetailed',
+                                                              config.CREDENTIALS['GCE']['privateKeyDetailed']))).post()
 
         elif provider == "Rackspace":
             response = mist_core.add_cloud(title='Rackspace', provider= 'rackspace', api_token=config.MIST_API_TOKEN,

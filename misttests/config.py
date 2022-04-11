@@ -300,7 +300,7 @@ DEFAULT_CREDENTIALS = {
     'EC2': {'apikey': '', 'apisecret': '', 'region_name': '', 'region': ''},
     'LINODE': {'apikey': ''},
     'NEPHOSCALE': {'password': '', 'username': ''},
-    'GCE': {'projectId': '', 'privateKey': {}},
+    'GCE': {'email': '', 'projectId': '', 'privateKey': '', 'privateKeyDetailed': {}},
     'OPENSTACK': {'authUrl': '', 'password': '', 'tenant': '', 'user': '', 'region': ''},
     'DOCKER_ORCHESTRATOR':{"host": "", "port": ""},
     'EQUINIX METAL': {'apikey': ''},
