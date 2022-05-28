@@ -70,10 +70,10 @@ Feature: Production
     And I click the "Reboot" action button in the "machine" page
     Then I expect the "Reboot Machine" dialog to be open within 4 seconds
     When I click the "Reboot" button in the "Reboot Machine" dialog
-    And I wait for 60 seconds
+    And I wait for 80 seconds
     And I click the "Shell" action button in the "machine" page
     And I wait for 5 seconds
-    Then I expect terminal to open within 14 seconds
+    Then I expect terminal to open within 25 seconds
     And shell input should be available after 30 seconds
     When I type in the terminal "uptime"
     And I wait for 2 seconds
