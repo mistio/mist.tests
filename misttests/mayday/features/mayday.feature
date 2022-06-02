@@ -52,6 +52,7 @@ Feature: Production
     And I select the "any" aggregation when adding new rule in the "machine" page
     And I select the "alert" action when adding new rule in the "machine" page
     And I select the "Owners" team when adding new rule in the "machine" page
+    And I type "tester.mist.io@dmo.bar" in the emails when adding new rule in the "machine" page
     And I wait for 2 seconds
     And I save the new rule in the "machine" page
     And I wait for 10 seconds

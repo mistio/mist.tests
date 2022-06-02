@@ -247,8 +247,8 @@ def select_option_when_adding_rule(context, option, dropdown, resource_type):
         sleep(.5)
 
 
-@step('I type "{value}" in the {input_class} when adding new rule in the "{page}" page')
-def set_new_rule_threshold(context, value, page, input_class):
+@step('I type "{value}" in the {input_class_or_id} when adding new rule in the "{page}" page')
+def set_new_rule_threshold(context, value, page, input_class_or_id):
     if context.mist_config.get(value):
         value = context.mist_config.get(value)
     page_element = get_page(context, page)
@@ -258,11 +258,21 @@ def set_new_rule_threshold(context, value, page, input_class):
     new_rule = mist_rules_shadow.find_element(By.CSS_SELECTOR, 'paper-material#add-new-rule-dialog > rule-edit')
     new_rule_shadow = expand_shadow_root(context, new_rule)
     try:
-        paper_input = new_rule_shadow.find_element(By.CSS_SELECTOR, 'paper-input.%s' % input_class)
+        paper_input = new_rule_shadow.find_element(
+            By.CSS_SELECTOR, 'paper-input.%s' % input_class_or_id)
         expand_shadow_root(context, paper_input).find_element(By.CSS_SELECTOR, 'input').send_keys(value)
     except NoSuchElementException:
-        paper_input = new_rule_shadow.find_element(By.CSS_SELECTOR, 'paper-textarea.%s' % input_class)
-        paper_input.send_keys(value)
+        try:
+            paper_input = new_rule_shadow.find_element(
+                By.CSS_SELECTOR, 'paper-textarea.%s' % input_class_or_id)
+            paper_input.send_keys(value)
+        except NoSuchElementException:
+            paper_input = new_rule_shadow.find_element(
+                By.CSS_SELECTOR, f'paper-input#{input_class_or_id}'
+            )
+            expand_shadow_root(context, paper_input).find_element(
+                By.CSS_SELECTOR, 'input').send_keys(value)
+
 
 
 @step('a new webhook alert should have been posted in slack channel "{channel}" within {seconds} seconds')
