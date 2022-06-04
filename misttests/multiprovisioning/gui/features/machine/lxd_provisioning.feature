@@ -35,7 +35,7 @@ Feature: Multiprovisioning
     And I search for "lxd-mp-test-random"
     Then "lxd-mp-test-random" machine should be present within 120 seconds
 
-  @lxd-machine-shell
+  @machine-shell
   Scenario: Check shell access and verify that script run
     When I visit the Machines page
     And I clear the search bar
