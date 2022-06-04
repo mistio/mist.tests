@@ -36,19 +36,17 @@ Feature: Multiprovisioning
     Then "lxd-mp-test-random" machine should be present within 120 seconds
 
   @machine-shell
-  Scenario: Check shell access and verify that script run
-    When I visit the Machines page
-    And I clear the search bar
-    And I wait for 2 seconds
-    And I search for "ui-test-create-machine-random"
-    When I click the "ui-test-create-machine-random" "machine"
+  Scenario: Check shell access in other server
+    When I visit the machines page after the counter has loaded
+    And I wait for 10 seconds
+    And I click the other server machine
     And I expect the "machine" page to be visible within max 5 seconds
     And I wait for 2 seconds
-    Then I click the "Shell" action button in the "machine" page
+    When I click the "Shell" action button in the "machine" page
     And I wait for 5 seconds
-    And I expect in-page terminal to open within 7 seconds
-    And in-page shell input should be available after 8 seconds
-    And I type in the in-page terminal "ls -l /var"
-    And I wait for 1 seconds
-    Then dummy_file should be included in the in-page terminal output
-    And I close the in-page terminal
+    Then I expect terminal to open within 7 seconds
+    When I wait for 5 seconds
+    And I type in the terminal "ls -l"
+    And I wait for 2 seconds
+    Then total should be included in the output
+    And I close the terminal
