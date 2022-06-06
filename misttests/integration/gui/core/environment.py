@@ -96,6 +96,9 @@ def before_all(context):
     context.link_inside_email = ''
     context.mist_config['ORG_ID'] = config.ORG_ID
     context.mist_config['PRODUCE_VIDEO_SCREENCAST_ON_ERROR'] = config.PRODUCE_VIDEO_SCREENCAST_ON_ERROR
+    context.mist_config['RULES_TEST_HOST'] = config.RULES_TEST_HOST
+    context.mist_config['RULES_TEST_EMAIL'] = config.RULES_TEST_EMAIL
+    context.mist_config['RULES_TEST_PASSWORD'] = config.RULES_TEST_PASSWORD
 
     if config.LOCAL:
         log.info("Initializing behaving mail for path: %s" % config.MAIL_PATH)

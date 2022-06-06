@@ -225,6 +225,11 @@ ldap_user, ldap_pass = get_user_pass_ldap_member()
 LDAP_MEMBER_USERNAME = get_setting("LDAP_MEMBER_USERNAME", ldap_user)
 LDAP_MEMBER_PASSWORD = get_setting("LDAP_MEMBER_PASSWORD", ldap_pass)
 
+# CREDENTIALS FOR MAYDAY EMAIL ALERTS
+RULES_TEST_HOST = get_setting("RULES_TEST_HOST", "")
+RULES_TEST_EMAIL = get_setting("RULES_TEST_EMAIL", "")
+RULES_TEST_PASSWORD = get_setting("RULES_TEST_PASSWORD", "")
+
 # CREDIT CARD CREDENTIALS
 CC_CVC = get_setting("CC_CVC", "111")
 CC_CC = get_setting("CC_CC", "4242424242424242")
