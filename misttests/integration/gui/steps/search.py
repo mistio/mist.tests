@@ -33,7 +33,7 @@ def search_for_something(context, search_text):
     focused = context.browser.execute_script('return arguments[0].focused', search_field)
     # log.info('Search field focused after: %s' % focused)
     if not focused:
-        top_search.click()
+        search_field.click()
         sleep(.5)
         expand_shadow_root(context, search_field).find_element(By.CSS_SELECTOR, 'input').send_keys('')
         focused = context.browser.execute_script('return arguments[0].focused', search_field)
