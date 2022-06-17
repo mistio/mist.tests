@@ -1,9 +1,9 @@
-from datetime import datetime
 from misttests.integration.api.helpers import assert_response_ok
 from misttests.integration.api.helpers import uniquify_string
 from misttests.integration.api.mistrequests import MistRequests
 from misttests.config import MIST_URL
-from misttests.integration.api.utils import assert_equal, assert_response_not_found
+from misttests.integration.api.utils import assert_equal
+from misttests.integration.api.utils import assert_response_not_found
 
 
 V2_ENDPOINT = 'api/v2'
@@ -13,10 +13,10 @@ KEYS_URI = f'{MIST_URL}/{KEYS_ENDPOINT}'
 TAGS_URI = f'{MIST_URL}/{TAGS_ENDPOINT}'
 N_KEYS = 10
 N_TAGGED = 4
+SLEEP = 3
+
 
 def setup(api_token):
-
-    
 
     KEY_NAMES = N_TAGGED*['tagged-key'] + (N_KEYS - N_TAGGED)*['key']
 
@@ -71,9 +71,8 @@ def setup(api_token):
 
     assert_equal(response.json()['meta']['total'], setup_data['N_KEYS'])
 
-    setup_data['tag_keys'] = {'sleep': 10}
-    setup_data['untag_keys'] = {'sleep': 10}
-
+    setup_data['tag_keys'] = {'sleep': SLEEP}
+    setup_data['untag_keys'] = {'sleep': SLEEP}
 
     return setup_data
 
