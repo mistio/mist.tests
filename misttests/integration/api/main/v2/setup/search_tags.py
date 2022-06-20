@@ -13,12 +13,11 @@ KEYS_URI = f'{MIST_URL}/{KEYS_ENDPOINT}'
 TAGS_URI = f'{MIST_URL}/{TAGS_ENDPOINT}'
 N_KEYS = 10
 N_TAGGED = 4
+KEY_NAMES = N_TAGGED*['tagged-key'] + (N_KEYS - N_TAGGED)*['key']
 SLEEP = 3
 
 
 def setup(api_token):
-
-    KEY_NAMES = N_TAGGED*['tagged-key'] + (N_KEYS - N_TAGGED)*['key']
 
     # Add keys
     setup_data = {
