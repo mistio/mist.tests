@@ -272,8 +272,10 @@ def set_lxd_creds(context):
     ))
     key = safe_get_var('clouds/lxd', 'tlsKey', context.mist_config['CREDENTIALS']['LXD']['tlsKey'])
     cert = safe_get_var('clouds/lxd', 'tlsCert', context.mist_config['CREDENTIALS']['LXD']['tlsCert'])
+    ca = safe_get_var('clouds/lxd', 'ca', context.mist_config['CREDENTIALS']['LXD']['ca'])
     set_value_to_field(context, key, 'client private key', 'cloud', 'add')
     set_value_to_field(context, cert, 'client certificate', 'cloud', 'add')
+    set_value_to_field(context, ca, 'ca certificate', 'cloud', 'add')
 
 def set_g8_creds(context):
     api_key = safe_get_var('clouds/gig_g8', 'api_key', context.mist_config['CREDENTIALS']['GIG_G8']['api_key'])
