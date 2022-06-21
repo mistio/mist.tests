@@ -98,6 +98,8 @@ def email_find(context, address, subject_terms):
         subject_terms = [subject_terms]
     box = login_email(context)
     box.select("INBOX")
+    if isinstance(address, bytes):
+        address = address.decode('utf-8')
     result, data = box.search(None, '(TO ' + address + ')')
     fetched_mails = []
 
