@@ -272,7 +272,7 @@ def set_lxd_creds(context):
     ))
     key = safe_get_var('clouds/lxd', 'tlsKey', context.mist_config['CREDENTIALS']['LXD']['tlsKey'])
     cert = safe_get_var('clouds/lxd', 'tlsCert', context.mist_config['CREDENTIALS']['LXD']['tlsCert'])
-    ca = safe_get_var('clouds/lxd', 'ca', context.mist_config['CREDENTIALS']['LXD']['ca'])
+    ca = safe_get_var('clouds/lxd', 'tlsCa', context.mist_config['CREDENTIALS']['LXD']['tlsCa'])
     set_value_to_field(context, key, 'client private key', 'cloud', 'add')
     set_value_to_field(context, cert, 'client certificate', 'cloud', 'add')
     set_value_to_field(context, ca, 'ca certificate', 'cloud', 'add')
