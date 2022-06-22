@@ -170,6 +170,7 @@ def test_edit_script_no_new_name(pretty_print, mist_core, owner_api_token):
 class TestSimpleUserScript:
     def test_add_script_duplicate_name(self, pretty_print, cache, mist_core,
                              owner_api_token):
+
         script_data = {'location_type':'inline','exec_type':'executable', 'name': 'Script1'}
         response = mist_core.add_script(api_token=owner_api_token, script_data=script_data,
                                         script=bash_script).post()
@@ -187,6 +188,47 @@ class TestSimpleUserScript:
         assert len(response.json()) == 2
         cache.set('script_id', response.json()[0]['id'])
         print("Success!!!")
+    
+    def test_setup_machine(self, pretty_print, cache, mist_core,
+                             owner_api_token):
+        #add cloud_key
+        response = mist_core.add_key(
+                name= uniquify_string('kvm_key'),
+                private=safe_get_var('clouds/kvm', 'key'),
+                api_token=owner_api_token).put()
+        assert_response_ok(response)
+        key_id = response.json()['id']
+        kwargs = {
+           'machines' :[{
+               'machine_hostname':  safe_get_var('clouds/kvm', 'hostname'),
+               'machine_name': '',
+               'operating_system': 'unix',
+               'machine_key': key_id,
+               'user': 'root',
+               'machine_port': '22',
+               'monitoring': False
+           }]
+        }
+        #add cloud
+        response = mist_core.add_cloud(title='KVM',
+                                       provider='bare_metal',
+                                       api_token=owner_api_token,
+                                       **kwargs).post()
+        assert_response_ok(response)
+        cloud_id = response.json()['id']
+        
+        #get machine_id
+        response = mist_core.list_machines(cloud_id,
+                                          api_token=owner_api_token).get()
+        assert_response_ok(response)
+        machine_id = response.json()[0]['id']
+        
+        key_associations = list(response.json()[0]['key_associations'].values())[0]
+        assert_equal(key_id, key_associations['key'])
+        assert_equal(machine_id, key_associations['machine'])
+        cache.set('cloud', cloud_id)
+        cache.set('machine', machine_id)
+        
 
     def test_show_script(self, pretty_print, cache, mist_core, owner_api_token):
         response = mist_core.show_script(owner_api_token,
@@ -243,7 +285,7 @@ class TestSimpleUserScript:
         assert len(response.json()) == 1
         print("Success!!!")
 
-    def test_add_ansible_script(self, pretty_print, mist_core,
+    def test_add_ansible_script_inline(self, pretty_print, mist_core,
                                 owner_api_token):
         script_data = {'location_type': 'inline', 'exec_type': 'ansible', 'name': 'AnsibleScript'}
         response = mist_core.add_script(api_token=owner_api_token, script_data=script_data,
