@@ -359,6 +359,27 @@ class MistIoApi(object):
         req.put = req.unavailable_api_call
         req.delete = req.unavailable_api_call
         return req
+    #################################################
+    #                    LOGS                    #
+    #################################################
+
+    def get_logs(self, api_token, params=None):
+        req = MistRequests(uri=self.uri + '/api/v1/logs',
+                           api_token=api_token, params=params)
+
+        req.post = req.unavailable_api_call
+        req.delete = req.unavailable_api_call
+        req.put = req.unavailable_api_call
+        return req
+
+    def show_job(self, api_token, job_id):
+        req = MistRequests(uri=self.uri + f'/api/v1/jobs/{job_id}',
+                           api_token=api_token)
+
+        req.post = req.unavailable_api_call
+        req.delete = req.unavailable_api_call
+        req.put = req.unavailable_api_call
+        return req
 
     #################################################
     #                    SCRIPTS                    #
