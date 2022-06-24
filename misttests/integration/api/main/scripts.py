@@ -3,6 +3,7 @@ from misttests.integration.api.helpers import *
 
 import pytest
 
+SLEEP = 25
 
 ############################################################################
 #                             Unit Testing                                 #
@@ -194,6 +195,7 @@ class TestSimpleUserScript:
     def test_setup_machine(self, pretty_print, cache, mist_core,
                            owner_api_token):
         # add cloud_key
+
         response = mist_core.add_key(
                 name = uniquify_string('kvm_key'),
                 private = safe_get_var('clouds/kvm', 'key'),
@@ -247,7 +249,8 @@ class TestSimpleUserScript:
         job_id = response.json()['job_id']
         # Wait for job log to become available
 
-        time.sleep(10)
+        time.sleep(SLEEP)
+
         response = mist_core.show_job(
              api_token=owner_api_token,
              job_id=job_id
@@ -377,3 +380,83 @@ class TestSimpleUserScript:
         assert_response_ok(response)
         assert len(response.json()) == 0, "Not all of the scripts were deleted!"
         print("Success!!!")
+
+    def test_run_bash_url(self, pretty_print, cache, mist_core,
+                          owner_api_token):
+
+        response = mist_core.add_script(api_token=owner_api_token,
+                                        script_data={
+                                            'name': 'BashUrl',
+                                            'description': '',
+                                            'exec_type': 'executable',
+                                            'location_type': 'url',
+                                            'script_url': bash_url,
+                                            'entrypoint': 'bash_example.sh'},
+                                        ).post()
+        assert_response_ok(response)
+        script_id = response.json()['id']
+
+        response = mist_core.run_script(
+            api_token=owner_api_token,
+            cloud_id=cache.get('cloud', ''),
+            machine_id=cache.get('machine', ''),
+            script_id=script_id,
+            job_id='').post()
+
+        assert_response_ok(response)
+
+        job_id = response.json()['job_id']
+        # Wait for job log to become available
+
+        time.sleep(SLEEP)
+        response = mist_core.show_job(
+             api_token=owner_api_token,
+             job_id=job_id
+        ).get()
+
+        assert_response_ok(response)
+        data = response.json()
+        assert_equal(data['error'], False)
+        assert_not_equal(response.json()['finished_at'], 0)
+        assert_equal(data['logs'][-1]['stdout'], "whatever\nwhat else\n0\n0\n")
+        
+        
+    def test_run_bash_git(self, pretty_print, cache, mist_core,
+                          owner_api_token):
+
+        response = mist_core.add_script(api_token=owner_api_token,
+                                        script_data={
+                                            'name': 'bash_git',
+                                            'description': '',
+                                            'exec_type': 'executable',
+                                            'location_type': 'github',
+                                            'script_github': bash_git,
+                                            'entrypoint': 'bash_example.sh'},
+                                        ).post()
+        assert_response_ok(response)
+        script_id = response.json()['id']
+
+        response = mist_core.run_script(
+            api_token=owner_api_token,
+            cloud_id=cache.get('cloud', ''),
+            machine_id=cache.get('machine', ''),
+            script_id=script_id,
+            job_id='').post()
+
+        assert_response_ok(response)
+
+        job_id = response.json()['job_id']
+        # Wait for job log to become available
+
+        time.sleep(SLEEP)
+        response = mist_core.show_job(
+             api_token=owner_api_token,
+             job_id=job_id
+        ).get()
+
+        assert_response_ok(response)
+        data = response.json()
+        assert_equal(data['error'], False)
+        assert_equal(data['logs'][-1]['stdout'], "whatever\nwhat else\n0\n0\n")
+        assert_not_equal(response.json()['finished_at'], 0)
+ 

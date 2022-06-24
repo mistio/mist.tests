@@ -18,9 +18,17 @@ echo "what else" >> ~/bla
 """
 
 bash_script = """#!/bin/bash
-touch ~/bla
-echo "whatever" > ~/bla
-echo "what else" >> ~/bla
+touch $FILE_PATH
+while getopts u:f: flag
+do
+    case "${flag}" in
+        u) username=${OPTARG};;
+        f) fullname=${OPTARG};;
+    esac
+done
+echo "Username: $username" > $FILE_PATH;
+echo "Full Name: $fullname" >> $FILE_PATH;
+cat $FILE_PATH
 """
 
 ansible_script_with_error = """
@@ -40,6 +48,8 @@ ansible_script = """
      debug:
        msg: "Hello World"
 """
+bash_url = 'https://raw.githubusercontent.com/mistio/ansible-examples/master/bash_example.sh'
+bash_git = 'https://github.com/mistio/ansible-examples'
 
 
 def get_scripts_with_name(name, scripts):
