@@ -215,14 +215,15 @@ class TestOrchestrationFunctionality:
         response = mist_core.add_template(api_token=owner_api_token, name=tplname1, location_type='github',
                                           template_github=template_github,
                                           entrypoint="blueprint.yaml").post()
-        cache.set('template_id', response.json()['id'])
         assert_response_ok(response)
+        cache.set('template_name', tplname1)
+        cache.set('template_id', response.json()['id'])
         tplname2 = generate_template_name()
         response = mist_core.add_template(api_token=owner_api_token, name=tplname2, location_type='github',
                                           template_github=template_github,
                                           entrypoint="blueprint.yaml").post()
-        cache.set('template_to_use_id', response.json()['id'])
         assert_response_ok(response)
+        cache.set('template_to_use_id', response.json()['id'])
         response = mist_core.list_templates(api_token=owner_api_token).get()
         assert_response_ok(response)
         tpls = response.json()
@@ -231,12 +232,14 @@ class TestOrchestrationFunctionality:
         assert tpls_returned, "Template added, however list_templates did not return them"
         print("Success!!!")
 
-    # def test_add_template_conflict(self, pretty_print, mist_core, owner_api_token):
-    #     response = mist_core.add_template(api_token=owner_api_token, name='Template1', location_type='github',
-    #                                       template_github='https://github.com/mistio/kubernetes-blueprint',
-    #                                       entrypoint="blueprint.yaml").post()
-    #     assert_response_conflict(response)
-    #     print "Success!!!"
+    def test_add_template_conflict(self, pretty_print, mist_core, owner_api_token, cache):
+        response = mist_core.add_template(api_token=owner_api_token,
+                                          name=cache.get('template_name', ''),
+                                          location_type='github',
+                                          template_github='https://github.com/mistio/kubernetes-blueprint',
+                                          entrypoint="blueprint.yaml").post()
+        assert_response_conflict(response)
+        print("Success!!!")
 
     def test_edit_template_missing_param(self, pretty_print, mist_core, owner_api_token, cache):
         response = mist_core.edit_template(api_token=owner_api_token,
