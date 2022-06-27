@@ -263,14 +263,18 @@ class TestOrchestrationFunctionality:
         print("Success!!!")
 
     def test_delete_template_ok(self, pretty_print, mist_core, owner_api_token, cache):
+        tplid = cache.get('template_id', '')
         response = mist_core.delete_template(api_token=owner_api_token,
-                                             template_id=cache.get('template_id', '')).delete()
+                                             template_id=tplid).delete()
         assert_response_ok(response)
         response = mist_core.delete_template(api_token=owner_api_token,
-                                             template_id=cache.get('template_id', '')).delete()
+                                             template_id=tplid).delete()
         assert_response_not_found(response)
         response = mist_core.list_templates(api_token=owner_api_token).get()
-        assert len(response.json()) == 1, "Although template has been deleted, it is still visible in list_templates"
+        assert_response_ok(response)
+        tpls = response.json()
+        tplids = [tpl['id'] for tpl in tpls]
+        assert tplid not in tplids, "Template returned, despite deletion"
         print("Success!!!")
 
     def test_show_template(self, pretty_print, mist_core, owner_api_token, cache):
