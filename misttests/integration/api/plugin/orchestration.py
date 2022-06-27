@@ -11,7 +11,6 @@ import pytest
 def test_list_templates(pretty_print, mist_core, owner_api_token):
     response = mist_core.list_templates(api_token=owner_api_token).get()
     assert_response_ok(response)
-    assert len(response.json()) == 0
     print("Success!!!")
 
 
