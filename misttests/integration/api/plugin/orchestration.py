@@ -249,14 +249,17 @@ class TestOrchestrationFunctionality:
         print("Success!!!")
 
     def test_edit_template_ok(self, pretty_print, mist_core, owner_api_token, cache):
+        edited_tplname = f"edited-{cache.get('template_name', '')}"
         response = mist_core.edit_template(api_token=owner_api_token,
                                            template_id=cache.get('template_id', ''),
-                                           name='EditedTemplate').put()
+                                           name=edited_tplname).put()
         assert_response_ok(response)
         response = mist_core.list_templates(api_token=owner_api_token).get()
         assert_response_ok(response)
-        assert 'EditedTemplate' in response.json()[0]['name'], \
-            'Template has not been renamed although response was 200!'
+        tpls = response.json()
+        tpl_names = [tpl['name'] for tpl in tpls]
+        assert edited_tplname in tpl_names, \
+            'Template rename failed, despite ok response'
         print("Success!!!")
 
     def test_delete_template_ok(self, pretty_print, mist_core, owner_api_token, cache):
