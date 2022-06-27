@@ -1,7 +1,11 @@
+import uuid
+import pytest
 from misttests.integration.api.helpers import *
 
-import pytest
+TPL_NAME_PREFIX = 'test-template'
 
+def generate_template_name():
+    return f'{TPL_NAME_PREFIX}-{str(uuid.uuid4())[:8]}'
 
 ############################################################################
 #                             Unit Testing                                 #
@@ -207,18 +211,24 @@ class TestOrchestrationFunctionality:
         print("Success!!!")
 
     def test_add_template_ok(self, pretty_print, mist_core, owner_api_token, cache, template_github):
-        response = mist_core.add_template(api_token=owner_api_token, name='Template1', location_type='github',
+        tplname1 = generate_template_name()
+        response = mist_core.add_template(api_token=owner_api_token, name=tplname1, location_type='github',
                                           template_github=template_github,
                                           entrypoint="blueprint.yaml").post()
         cache.set('template_id', response.json()['id'])
         assert_response_ok(response)
-        response = mist_core.add_template(api_token=owner_api_token, name='Template2', location_type='github',
+        tplname2 = generate_template_name()
+        response = mist_core.add_template(api_token=owner_api_token, name=tplname2, location_type='github',
                                           template_github=template_github,
                                           entrypoint="blueprint.yaml").post()
         cache.set('template_to_use_id', response.json()['id'])
         assert_response_ok(response)
         response = mist_core.list_templates(api_token=owner_api_token).get()
-        assert len(response.json()) == 2, "Although template has been added, it is not visible in list_templates"
+        assert_response_ok(response)
+        tpls = response.json()
+        tplnames = [tpl['name'] for tpl in tpls]
+        tpls_returned = all(name in tplnames for name in [tplname1, tplname2])
+        assert tpls_returned, "Template added, however list_templates did not return them"
         print("Success!!!")
 
     # def test_add_template_conflict(self, pretty_print, mist_core, owner_api_token):
