@@ -1,12 +1,31 @@
 import uuid
 import pytest
+from misttests.config import inject_vault_credentials
 from misttests.integration.api.helpers import *
 
 TPL_NAME_PREFIX = 'test-template'
+CLOUD_NAME_PREFIX = 'test-cloud'
+KEY_NAME_PREFIX = 'test-key'
+STACK_NAME_PREFIX = 'test-stack'
+STACK_IMAGE_NAME = 'ubuntu-focal-20.04-amd64-server'
+STACK_SIZE_NAME = 't3.medium'
+STACK_LOCATION_NAME = "ap-northeast-1a"
 
 
 def generate_template_name():
     return f'{TPL_NAME_PREFIX}-{str(uuid.uuid4())[:8]}'
+
+
+def generate_cloud_name():
+    return f'{CLOUD_NAME_PREFIX}-{str(uuid.uuid4())[:8]}'
+
+
+def generate_stack_name():
+    return f'{STACK_NAME_PREFIX}-{str(uuid.uuid4())[:8]}'
+
+
+def generate_key_name():
+    return f'{KEY_NAME_PREFIX}-{str(uuid.uuid4())[:8]}'
 
 ############################################################################
 #                             Unit Testing                                 #
@@ -342,21 +361,86 @@ class TestOrchestrationFunctionality:
         assert_response_ok(response)
         print("Success!!!")
 
-    # def test_create_stack(self, pretty_print, mist_core,
-    #                       owner_api_token, cache):
-    #     response = mist_core.create_stack(
-    #         api_token=owner_api_token, name='TestStack',
-    #         template_id=cache.get(
-    #             'template_to_use_id', ''),
-    #         cloud_id='', machine_name='Spiros-test').post()
-    #     assert_response_ok(response)
-    #     cache.set('stack_id', response.json()['stack']['id'])
-    #     response = mist_core.list_stacks(api_token=owner_api_token).get()
-    #     assert_response_ok(response)
-    #     assert len(response.json()) == 1, \
-    #         "Although stack has been added, it is not" \
-    #         "visible in list_stacks"
-    #     print("Success!!!")
+    def test_create_stack(self, pretty_print, mist_core,
+                          owner_api_token, cache, private_key):
+        cloud_name = generate_cloud_name()
+        add_cloud_kwargs = dict(
+            name=cloud_name,
+            provider='amazon',
+            api_token=owner_api_token,
+            apikey=None,
+            apisecret=None,
+            region=None
+        )
+        inject_vault_credentials(add_cloud_kwargs)
+        cloud_response = mist_core.add_cloud(
+            **add_cloud_kwargs).post()
+        assert_response_ok(cloud_response)
+        key_name = generate_key_name()
+        key_response = mist_core.add_key(
+            name=key_name,
+            private=private_key,
+            api_token=owner_api_token).put()
+        assert_response_ok(key_response)
+        key_id = key_response.json()['id']
+        cloud_id = cloud_response.json()['id']
+        list_images_response = mist_core.list_images(
+            cloud_id=cloud_id,
+            api_token=owner_api_token).get()
+        assert_response_ok(list_images_response)
+        images = list_images_response.json()
+        for image in images:
+            if STACK_IMAGE_NAME in image['name']:
+                image_id = image['id']
+                break
+        else:
+            image_id = None
+        assert image_id is not None, "Stack image not found"
+        list_sizes_response = mist_core.list_sizes(
+            cloud_id=cloud_id,
+            api_token=owner_api_token).get()
+        sizes = list_sizes_response.json()
+        for size in sizes:
+            if STACK_SIZE_NAME in size['name']:
+                size_id = size['id']
+                break
+        else:
+            size_id = None
+        assert size_id is not None, "Stack size not found"
+        list_locations_response = mist_core.list_locations(
+            cloud_id=cloud_id,
+            api_token=owner_api_token).get()
+        locations = list_locations_response.json()
+        for location in locations:
+            if STACK_LOCATION_NAME in location['name']:
+                location_id = location['id']
+                break
+        else:
+            location_id = None
+        assert location_id is not None, "Stack location not found"
+        name = generate_stack_name()
+        template_id = cache.get('template_to_use_id', '')
+        response = mist_core.create_stack(
+            deploy=False,
+            api_token=owner_api_token,
+            name=name,
+            template_id=template_id,
+            cloud_id=cloud_id,
+            key_id=key_id,
+            image_id=image_id,
+            size_id=size_id,
+            location_id=location_id,
+        ).post()
+        assert_response_ok(response)
+        stack = response.json()
+        cache.set('stack_id', stack['id'])
+        list_stacks_response = mist_core.list_stacks(
+            api_token=owner_api_token).get()
+        assert_response_ok(list_stacks_response)
+        stacks = list_stacks_response.json()
+        stack_names = [s['name'] for s in stacks]
+        assert name in stack_names, "Stack not returned, despite being created"
+        print("Success!!!")
 
     # def test_show_stack(self, pretty_print, mist_core,
     #                     owner_api_token, cache):
