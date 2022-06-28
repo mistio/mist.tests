@@ -3,7 +3,6 @@ from misttests.integration.api.helpers import *
 
 import pytest
 
-SLEEP = 25
 
 ############################################################################
 #                             Unit Testing                                 #
@@ -242,14 +241,19 @@ class TestSimpleUserScript:
             cloud_id=cache.get('cloud', ''),
             machine_id=cache.get('machine', ''),
             script_id=cache.get('bash_inline', ''),
-            job_id='').post()
+            job_id='',
+            env='FILE_PATH=~/test_file',
+            params='-u thin -f thingirl').post()
 
         assert_response_ok(response)
 
         job_id = response.json()['job_id']
         # Wait for job log to become available
-
-        time.sleep(SLEEP)
+        params = [('action', 'script_finished')]
+        assert mist_core.poll_logs(owner_api_token,
+                                   params=params,
+                                   data={
+                                       'job_id': job_id})
 
         response = mist_core.show_job(
              api_token=owner_api_token,
@@ -259,6 +263,8 @@ class TestSimpleUserScript:
         assert_response_ok(response)
         assert_equal(response.json()['error'], False)
         assert_not_equal(response.json()['finished_at'], 0)
+        assert_equal(response.json()['logs'][-1]['stdout'],
+                     'Username: thin\nFull Name: thingirl\n0\n0\n')
 
     def test_show_script(self, pretty_print, cache, mist_core, owner_api_token):
         response = mist_core.show_script(owner_api_token,
@@ -407,8 +413,12 @@ class TestSimpleUserScript:
 
         job_id = response.json()['job_id']
         # Wait for job log to become available
+        params = [('action', 'script_finished')]
+        assert mist_core.poll_logs(owner_api_token,
+                                   params=params,
+                                   data={
+                                       'job_id': job_id})
 
-        time.sleep(SLEEP)
         response = mist_core.show_job(
              api_token=owner_api_token,
              job_id=job_id
@@ -447,8 +457,11 @@ class TestSimpleUserScript:
 
         job_id = response.json()['job_id']
         # Wait for job log to become available
-
-        time.sleep(SLEEP)
+        params = [('action', 'script_finished')]
+        assert mist_core.poll_logs(owner_api_token,
+                                   params=params,
+                                   data={
+                                       'job_id': job_id})
         response = mist_core.show_job(
              api_token=owner_api_token,
              job_id=job_id

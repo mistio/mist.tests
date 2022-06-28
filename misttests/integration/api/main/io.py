@@ -372,6 +372,13 @@ class MistIoApi(object):
         req.put = req.unavailable_api_call
         return req
 
+    def poll_logs(self, api_token, params=None, data={}):
+        from misttests.integration.api.helpers import poll
+        return poll(api_token,
+                    uri=self.uri + '/api/v1/logs',
+                    query_params=params,
+                    data=data)
+
     def show_job(self, api_token, job_id):
         req = MistRequests(uri=self.uri + f'/api/v1/jobs/{job_id}',
                            api_token=api_token)
@@ -431,11 +438,14 @@ class MistIoApi(object):
         req.delete = req.unavailable_api_call
         return req
 
-    def run_script(self, api_token, cloud_id, machine_id, script_id, job_id):
+    def run_script(self, api_token, cloud_id, machine_id,
+                   script_id, job_id, env='', params=''):
         data = {
             'cloud_id': cloud_id,
             'machine_id': machine_id,
             'job_id': job_id,
+            'env': env,
+            'params': params
         }
         req = MistRequests(uri=self.uri + '/api/v1/scripts/%s' % script_id,
                            api_token=api_token, data=data)
