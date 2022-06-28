@@ -340,6 +340,14 @@ class MistCoreApi(MistIoApi):
         req.delete = req.unavailable_api_call
         return req
 
+    def fetch_story(self, api_token, job_id):
+        req = MistRequests(uri=self.uri + '/api/v1/jobs/' + job_id,
+                           api_token=api_token)
+        req.post = req.unavailable_api_call
+        req.put = req.unavailable_api_call
+        req.delete = req.unavailable_api_call
+        return req
+
     def run_workflow(self, api_token, stack_id, workflow=''):
         payload = {
             'workflow': workflow

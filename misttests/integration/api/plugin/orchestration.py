@@ -1,5 +1,7 @@
+import time
 import uuid
 import pytest
+from requests import codes
 from misttests.config import inject_vault_credentials
 from misttests.integration.api.helpers import *
 
@@ -10,6 +12,9 @@ STACK_NAME_PREFIX = 'test-stack'
 STACK_IMAGE_NAME = 'ubuntu-focal-20.04-amd64-server'
 STACK_SIZE_NAME = 't3.medium'
 STACK_LOCATION_NAME = "ap-northeast-1a"
+STACK_INSTALL_WAIT = 60 * 4
+STACK_INSTALL_WAIT_FOR_STORY = 10
+STACK_INSTALL_WAIT_STORY_REQUEST = 10
 
 
 def generate_template_name():
@@ -448,6 +453,39 @@ class TestOrchestrationFunctionality:
             api_token=owner_api_token,
             stack_id=cache.get('stack_id', '')).get()
         assert_response_ok(response)
+        print("Success!!!")
+
+    def test_install_stack(self, pretty_print, mist_core,
+                           owner_api_token, cache):
+        stack_id = cache.get('stack_id', '')
+        response = mist_core.run_workflow(
+            api_token=owner_api_token,
+            stack_id=stack_id,
+            workflow='install').post()
+        assert_response_ok(response)
+        job_id = response.json()['job_id']
+        workflow_finished = False
+        t_end = time.time() + STACK_INSTALL_WAIT
+        while time.time() < t_end:
+            fetch_story_response = mist_core.fetch_story(
+                api_token=owner_api_token,
+                job_id=job_id).get()
+            if fetch_story_response.status_code == codes.not_found:
+                time.sleep(STACK_INSTALL_WAIT_FOR_STORY)
+                continue
+            assert_response_ok(fetch_story_response)
+            logs = fetch_story_response.json()['logs']
+            for log in logs:
+                assert log['error'] is False, \
+                    'Install workflow failed'
+                if log['action'] == 'workflow_finished':
+                    workflow_finished = True
+                    break
+            if workflow_finished:
+                break
+            time.sleep(STACK_INSTALL_WAIT_STORY_REQUEST)
+        else:
+            raise RuntimeError('Install stack action is taking too long')
         print("Success!!!")
 
     def test_delete_stack(self, pretty_print, mist_core,
