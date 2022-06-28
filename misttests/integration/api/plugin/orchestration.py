@@ -442,13 +442,13 @@ class TestOrchestrationFunctionality:
         assert name in stack_names, "Stack not returned, despite being created"
         print("Success!!!")
 
-    # def test_show_stack(self, pretty_print, mist_core,
-    #                     owner_api_token, cache):
-    #     response = mist_core.show_stack(
-    #         api_token=owner_api_token,
-    #         stack_id=cache.get('stack_id', '')).get()
-    #     assert_response_ok(response)
-    #     print("Success!!!")
+    def test_show_stack(self, pretty_print, mist_core,
+                        owner_api_token, cache):
+        response = mist_core.show_stack(
+            api_token=owner_api_token,
+            stack_id=cache.get('stack_id', '')).get()
+        assert_response_ok(response)
+        print("Success!!!")
 
     # def test_delete_stack(self, pretty_print, mist_core,
     #                       owner_api_token, cache):
