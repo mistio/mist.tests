@@ -450,15 +450,18 @@ class TestOrchestrationFunctionality:
         assert_response_ok(response)
         print("Success!!!")
 
-    # def test_delete_stack(self, pretty_print, mist_core,
-    #                       owner_api_token, cache):
-    #     response = mist_core.delete_stack(
-    #         api_token=owner_api_token,
-    #         stack_id=cache.get('stack_id', '')).delete()
-    #     assert_response_ok(response)
-    #     response = mist_core.list_stacks(api_token=owner_api_token).get()
-    #     assert_response_ok(response)
-    #     assert len(response.json()) == 0, \
-    #         "Although stack has been deleted, it is still" \
-    #         "visible in list_stacks"
-    #     print "Success!!!"
+    def test_delete_stack(self, pretty_print, mist_core,
+                          owner_api_token, cache):
+        stack_id = cache.get('stack_id', '')
+        response = mist_core.delete_stack(
+            api_token=owner_api_token,
+            stack_id=stack_id).delete()
+        assert_response_ok(response)
+        list_stacks_response = mist_core.list_stacks(
+            api_token=owner_api_token).get()
+        assert_response_ok(list_stacks_response)
+        stacks = list_stacks_response.json()
+        stack_ids = [s['id'] for s in stacks]
+        assert stack_id not in stack_ids, \
+            "Stack is still visible, despite deletion"
+        print("Success!!!")
