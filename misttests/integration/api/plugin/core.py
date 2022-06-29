@@ -296,20 +296,25 @@ class MistCoreApi(MistIoApi):
         req.delete = req.unavailable_api_call
         return req
 
-    def create_stack(self, api_token, name, template_id,
-                     cloud_id='', machine_name=''):
+    def create_stack(self, api_token, name, deploy, template_id,
+                     cloud_id, key_id, image_id, size_id, location_id):
         payload = {
-            'name': name,
-            'template_id': template_id,
-            'workflow': 'install',
-            'deploy': True,
-            'inputs': {
-                'mist_uri': 'https://mist.io',
-                'mist_cloud': cloud_id,
-                'webserver_port': 8000,
-                'machine_name': machine_name,
-                'mist_image': 'mist/debian-ssh',
-                'mist_size': 'default'
+            "deploy": deploy,
+            "name": name,
+            "template_id": template_id,
+            "description": "",
+            "workflow": "install",
+            "inputs": {
+                "mist_machine": {
+                    "cloud_id": cloud_id,
+                    "key_id": key_id,
+                    "image_id": image_id,
+                    "size_id": size_id,
+                    "location_id": location_id,
+                },
+                "mist_tags": [],
+                "mist_token": None,
+                "mist_uri": "https://mist.io"
             }
         }
         req = MistRequests(uri=self.uri + '/api/v1/stacks',
@@ -329,6 +334,14 @@ class MistCoreApi(MistIoApi):
 
     def show_stack(self, api_token, stack_id):
         req = MistRequests(uri=self.uri + '/api/v1/stacks/' + stack_id,
+                           api_token=api_token)
+        req.post = req.unavailable_api_call
+        req.put = req.unavailable_api_call
+        req.delete = req.unavailable_api_call
+        return req
+
+    def fetch_story(self, api_token, job_id):
+        req = MistRequests(uri=self.uri + '/api/v1/jobs/' + job_id,
                            api_token=api_token)
         req.post = req.unavailable_api_call
         req.put = req.unavailable_api_call
