@@ -41,15 +41,20 @@ hosts: localhost
 """
 
 ansible_script = """
-- name: Dummy ansible playbook
-  hosts: localhost
+- name: Create File
+  hosts: all
   tasks:
-   - name: Dummy task
-     debug:
-       msg: "Hello World"
+    - copy:
+        content: "Does this work?"
+        dest: ~/test_file
+    - command: cat ~/test_file
+      register: test
+    - debug:
+        msg: "{{ test.stdout }}"
 """
 bash_url = 'https://raw.githubusercontent.com/mistio/ansible-examples/master/bash_example.sh'
-bash_git = 'https://github.com/mistio/ansible-examples'
+examples_repo = 'https://github.com/mistio/ansible-examples'
+ansible_url = 'https://raw.githubusercontent.com/mistio/ansible-examples/master/create_file.yaml'
 
 
 def get_scripts_with_name(name, scripts):

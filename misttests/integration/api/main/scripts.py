@@ -250,6 +250,7 @@ class TestSimpleUserScript:
         job_id = response.json()['job_id']
         # Wait for job log to become available
         params = [('action', 'script_finished')]
+        print(mist_core.get_logs(owner_api_token, params).get().json())
         assert mist_core.poll_logs(owner_api_token,
                                    params=params,
                                    data={
@@ -440,7 +441,7 @@ class TestSimpleUserScript:
                                             'description': '',
                                             'exec_type': 'executable',
                                             'location_type': 'github',
-                                            'script_github': bash_git,
+                                            'script_github': examples_repo,
                                             'entrypoint': 'bash_example.sh'},
                                         ).post()
         assert_response_ok(response)
@@ -472,4 +473,129 @@ class TestSimpleUserScript:
         assert_equal(data['error'], False)
         assert_equal(data['logs'][-1]['stdout'], "whatever\nwhat else\n0\n0\n")
         assert_not_equal(response.json()['finished_at'], 0)
- 
+    def test_run_ansible_inline(self, pretty_print, cache, mist_core,
+                          owner_api_token):
+
+        response = mist_core.add_script(api_token=owner_api_token,
+                                        script_data={
+                                            'name': 'ansible_inline',
+                                            'description': '',
+                                            'exec_type': 'ansible',
+                                            'location_type': 'inline',
+                                            'script_inline': ansible_script,
+                                            'entrypoint': ''},
+                                        ).post()
+        assert_response_ok(response)
+        script_id = response.json()['id']
+
+        response = mist_core.run_script(
+            api_token=owner_api_token,
+            cloud_id=cache.get('cloud', ''),
+            machine_id=cache.get('machine', ''),
+            script_id=script_id,
+            job_id='').post()
+
+        assert_response_ok(response)
+
+        job_id = response.json()['job_id']
+        # Wait for job log to become available
+        params = [('action', 'script_finished')]
+        assert mist_core.poll_logs(owner_api_token,
+                                   params=params,
+                                   data={
+                                       'job_id': job_id})
+        response = mist_core.show_job(
+             api_token=owner_api_token,
+             job_id=job_id
+        ).get()
+        
+        assert_response_ok(response)
+        data = response.json()
+        assert_equal(data['error'], False)
+        assert "Does this work?" in data['logs'][-1]['stdout']
+        assert_not_equal(response.json()['finished_at'], 0)  
+        
+    def test_run_ansible_git(self, pretty_print, cache, mist_core,
+                          owner_api_token):
+
+        response = mist_core.add_script(api_token=owner_api_token,
+                                        script_data={
+                                            'name': 'ansible_git',
+                                            'description': '',
+                                            'exec_type': 'ansible',
+                                            'location_type': 'github',
+                                            'script_github': examples_repo,
+                                            'entrypoint': 'create_file.yaml'},
+                                        ).post()
+        assert_response_ok(response)
+        script_id = response.json()['id']
+
+        response = mist_core.run_script(
+            api_token=owner_api_token,
+            cloud_id=cache.get('cloud', ''),
+            machine_id=cache.get('machine', ''),
+            script_id=script_id,
+            job_id='').post()
+
+        assert_response_ok(response)
+
+        job_id = response.json()['job_id']
+        # Wait for job log to become available
+        params = [('action', 'script_finished')]
+        assert mist_core.poll_logs(owner_api_token,
+                                   params=params,
+                                   data={
+                                       'job_id': job_id})
+        response = mist_core.show_job(
+             api_token=owner_api_token,
+             job_id=job_id
+        ).get()
+        
+        assert_response_ok(response)
+        data = response.json()
+        assert_equal(data['error'], False)
+        assert "Does this work?" in data['logs'][-1]['stdout']
+        assert_not_equal(response.json()['finished_at'], 0)   
+    
+    def test_run_ansible_url(self, pretty_print, cache, mist_core,
+                          owner_api_token):
+
+        response = mist_core.add_script(api_token=owner_api_token,
+                                        script_data={
+                                            'name': 'ansible_url',
+                                            'description': '',
+                                            'exec_type': 'ansible',
+                                            'location_type': 'url',
+                                            'script_url': ansible_url,
+                                            'entrypoint': 'create_file.yaml'},
+                                        ).post()
+        assert_response_ok(response)
+        script_id = response.json()['id']
+
+        response = mist_core.run_script(
+            api_token=owner_api_token,
+            cloud_id=cache.get('cloud', ''),
+            machine_id=cache.get('machine', ''),
+            script_id=script_id,
+            job_id='').post()
+
+        assert_response_ok(response)
+
+        job_id = response.json()['job_id']
+        # Wait for job log to become available
+        params = [('action', 'script_finished')]
+        assert mist_core.poll_logs(owner_api_token,
+                                   params=params,
+                                   data={
+                                       'job_id': job_id})
+        response = mist_core.show_job(
+             api_token=owner_api_token,
+             job_id=job_id
+        ).get()
+        
+        assert_response_ok(response)
+        data = response.json()
+        assert_equal(data['error'], False)
+        assert "Does this work?" in data['logs'][-1]['stdout']
+        assert_not_equal(response.json()['finished_at'], 0)  
+    
