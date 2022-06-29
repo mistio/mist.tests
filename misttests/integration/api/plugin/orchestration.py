@@ -15,6 +15,7 @@ STACK_LOCATION_NAME = "ap-northeast-1a"
 STACK_INSTALL_WAIT = 60 * 4
 STACK_INSTALL_WAIT_FOR_STORY = 10
 STACK_INSTALL_WAIT_STORY_REQUEST = 10
+STACK_DELETE_WAIT = 60 * 4
 
 
 def generate_template_name():
@@ -495,11 +496,16 @@ class TestOrchestrationFunctionality:
             api_token=owner_api_token,
             stack_id=stack_id).delete()
         assert_response_ok(response)
-        list_stacks_response = mist_core.list_stacks(
-            api_token=owner_api_token).get()
-        assert_response_ok(list_stacks_response)
-        stacks = list_stacks_response.json()
-        stack_ids = [s['id'] for s in stacks]
-        assert stack_id not in stack_ids, \
-            "Stack is still visible, despite deletion"
+        t_end = time.time() + STACK_DELETE_WAIT
+        while time.time() < t_end:
+            list_stacks_response = mist_core.list_stacks(
+                api_token=owner_api_token).get()
+            assert_response_ok(list_stacks_response)
+            stacks = list_stacks_response.json()
+            stack_ids = [s['id'] for s in stacks]
+            if stack_id in stack_ids:
+                continue
+            break
+        else:
+            raise RuntimeError('Delete stack action is taking too long')
         print("Success!!!")
