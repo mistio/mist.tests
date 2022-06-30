@@ -225,10 +225,11 @@ class TestSchedulesFunctionality:
         assert cache.get('machine_2_id', '') != ''
         machine_ids.append(cache.get('machine_2_id', ''))
         selectors = [{"type": "machines", "ids": machine_ids}]
+        action = [{"action_type": "stop"}]
 
         response = mist_core.add_schedule(api_token=owner_api_token,
                                           name='TestSchedule3',
-                                          action='stop',
+                                          action=action,
                                           schedule_type='one_off',
                                           selectors=selectors,
                                           schedule_entry=str(scheduled_date)
@@ -244,10 +245,11 @@ class TestSchedulesFunctionality:
         machine_ids = []
         machine_ids.append(cache.get('machine_3_id', ''))
         selectors = [{"type": "machines", "ids": machine_ids}]
+        action = [{"action_type": "start"}]
 
         response = mist_core.add_schedule(api_token=owner_api_token,
                                           name='CrontabSchedule',
-                                          action='start', schedule_type='crontab',
+                                          action=action, schedule_type='crontab',
                                           selectors=selectors,
                                           schedule_entry={'minute': '*',
                                                           'hour': '*',
@@ -267,7 +269,7 @@ class TestSchedulesFunctionality:
         response = mist_core.edit_schedule(api_token=owner_api_token,
                                            schedule_id=cache.get(
                                                'crontab_schedule_id', ''),
-                                           data={'action': 'stop'}
+                                           data={'action': [{"action_type": "stop"}]}
                                            ).patch()
         assert_response_ok(response)
         print("Success!!!")
@@ -277,8 +279,9 @@ class TestSchedulesFunctionality:
         date_now = datetime.datetime.now().replace(microsecond=0)
         scheduled_date = date_now + datetime.timedelta(seconds=10)
         selectors = [{"type": "tags", "include": {'schedule_test': ''}}]
+        action = [{"action_type": "stop"}]
         response = mist_core.add_schedule(api_token=owner_api_token, name='TestSchedule4',
-                                          action='stop', schedule_type='one_off',
+                                          action=action, schedule_type='one_off',
                                           selectors=selectors,
                                           run_immediately=True,
                                           schedule_entry=str(scheduled_date)).post()
