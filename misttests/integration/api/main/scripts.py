@@ -1,4 +1,3 @@
-import time
 from misttests.integration.api.helpers import *
 
 import pytest
@@ -262,9 +261,11 @@ class TestSimpleUserScript:
         ).get()
 
         assert_response_ok(response)
-        assert_equal(response.json()['error'], False)
-        assert_not_equal(response.json()['finished_at'], 0)
-        assert_equal(response.json()['logs'][-1]['stdout'],
+
+        data = response.json()
+        assert_equal(data['error'], False)
+        assert_not_equal(data['finished_at'], 0)
+        assert_equal(data['logs'][-1]['stdout'],
                      'Username: thin\nFull Name: thingirl\n0\n0\n')
 
     def test_show_script(self, pretty_print, cache, mist_core, owner_api_token):
@@ -428,7 +429,7 @@ class TestSimpleUserScript:
         assert_response_ok(response)
         data = response.json()
         assert_equal(data['error'], False)
-        assert_not_equal(response.json()['finished_at'], 0)
+        assert_not_equal(data['finished_at'], 0)
         assert_equal(data['logs'][-1]['stdout'], "whatever\nwhat else\n0\n0\n")
         
         
@@ -472,7 +473,8 @@ class TestSimpleUserScript:
         data = response.json()
         assert_equal(data['error'], False)
         assert_equal(data['logs'][-1]['stdout'], "whatever\nwhat else\n0\n0\n")
-        assert_not_equal(response.json()['finished_at'], 0)
+        assert_not_equal(data['finished_at'], 0)
+
     def test_run_ansible_inline(self, pretty_print, cache, mist_core,
                           owner_api_token):
 
@@ -513,7 +515,7 @@ class TestSimpleUserScript:
         data = response.json()
         assert_equal(data['error'], False)
         assert "Does this work?" in data['logs'][-1]['stdout']
-        assert_not_equal(response.json()['finished_at'], 0)  
+        assert_not_equal(data['finished_at'], 0)  
         
     def test_run_ansible_git(self, pretty_print, cache, mist_core,
                           owner_api_token):
@@ -555,7 +557,7 @@ class TestSimpleUserScript:
         data = response.json()
         assert_equal(data['error'], False)
         assert "Does this work?" in data['logs'][-1]['stdout']
-        assert_not_equal(response.json()['finished_at'], 0)   
+        assert_not_equal(data['finished_at'], 0)   
     
     def test_run_ansible_url(self, pretty_print, cache, mist_core,
                           owner_api_token):
@@ -597,5 +599,50 @@ class TestSimpleUserScript:
         data = response.json()
         assert_equal(data['error'], False)
         assert "Does this work?" in data['logs'][-1]['stdout']
-        assert_not_equal(response.json()['finished_at'], 0)  
-    
+        assert_not_equal(data['finished_at'], 0)  
+
+    def test_run_ansible_with_params(self, pretty_print, cache, mist_core,
+                                     owner_api_token):
+
+        response = mist_core.add_script(api_token=owner_api_token,
+                                        script_data={
+                                            'name': 'ansible_w_params',
+                                            'description': '',
+                                            'exec_type': 'ansible',
+                                            'location_type': 'inline',
+                                            'script_inline': ansible_script_w_params,
+                                            'entrypoint': ''},
+                                        ).post()
+        assert_response_ok(response)
+        script_id = response.json()['id']
+
+        content = f"'{uniquify_string('Does this work?')}'"
+        response = mist_core.run_script(
+            api_token=owner_api_token,
+            cloud_id=cache.get('cloud', ''),
+            machine_id=cache.get('machine', ''),
+            script_id=script_id,
+            params=f'"content={content}" "dest=~/test_file"',
+            job_id='').post()
+
+        assert_response_ok(response)
+
+        job_id = response.json()['job_id']
+        # Wait for job log to become available
+        params = [('action', 'script_finished')]
+        assert mist_core.poll_logs(owner_api_token,
+                                   params=params,
+                                   data={
+                                       'job_id': job_id})
+        response = mist_core.show_job(
+             api_token=owner_api_token,
+             job_id=job_id
+        ).get()
+
+        content = content[1:-2]  # Remove extra quotes
+
+        assert_response_ok(response)
+        data = response.json()
+        assert_equal(data['error'], False)
+        assert content in data['logs'][-1]['stdout']
+        assert_not_equal(data['finished_at'], 0)

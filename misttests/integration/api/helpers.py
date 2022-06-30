@@ -52,6 +52,18 @@ ansible_script = """
     - debug:
         msg: "{{ test.stdout }}"
 """
+ansible_script_w_params = """
+- name: Create File
+  hosts: localhost
+  tasks:
+    - copy:
+        content: "{{ content }}"
+        dest: "{{ dest }}"
+    - command: cat "{{ dest }}"
+      register: test
+    - debug:
+        msg: "{{ test.stdout }}"
+"""
 bash_url = 'https://raw.githubusercontent.com/mistio/ansible-examples/master/bash_example.sh'
 examples_repo = 'https://github.com/mistio/ansible-examples'
 ansible_url = 'https://raw.githubusercontent.com/mistio/ansible-examples/master/create_file.yaml'
