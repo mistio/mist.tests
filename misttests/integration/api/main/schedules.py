@@ -219,6 +219,8 @@ class TestSchedulesFunctionality:
 
     def test_add_one_off_schedule_ok(self, pretty_print, mist_core,
                                      cache, owner_api_token):
+        response = mist_core.list_machines(cloud_id=cache.get('docker_id', ''), api_token=owner_api_token).get()
+        assert_response_ok(response)
         date_now = datetime.datetime.now().replace(microsecond=0)
         scheduled_date = date_now + datetime.timedelta(seconds=10)
         machine_ids = []
