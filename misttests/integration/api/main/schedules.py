@@ -222,6 +222,7 @@ class TestSchedulesFunctionality:
         date_now = datetime.datetime.now().replace(microsecond=0)
         scheduled_date = date_now + datetime.timedelta(seconds=10)
         machine_ids = []
+        assert cache.get('machine_2_id', '') != ''
         machine_ids.append(cache.get('machine_2_id', ''))
         selectors = [{"type": "machines", "ids": machine_ids}]
 

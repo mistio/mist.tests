@@ -44,7 +44,7 @@ def setup(api_token):
         api_token=api_token, uri=keys_uri, json=add_key_request)
     response = request.post()
     assert_response_ok(response)
-    assert response.id == ''
+    assert response == {}
     # Wait for image to become available
     assert poll(
         api_token=api_token,
