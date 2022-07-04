@@ -65,6 +65,7 @@ def setup(api_token):
         api_token=api_token, uri=machines_uri, json=add_machine_request)
     response = request.post()
     assert_response_ok(response)
+    machine_id = response.json()['data'][0]['id']
     # Wait for machine to become available
     assert poll(
         api_token=api_token,
@@ -72,7 +73,6 @@ def setup(api_token):
         query_params=[('cloud', cloud_name)],
         data={'name': machine_name},
         timeout=800)
-    assert response.data == {}
     schedule_name = uniquify_string('test-schedule')
     test_args = {
         'add_schedule': {
@@ -81,7 +81,7 @@ def setup(api_token):
                 'name' : schedule_name,
                 'description' : "Test schedule",
                 'run_immediately' : false,
-                'selectors' : [ {'ids':[], 'type': 'machines'}],
+                'selectors' : [ {'ids':[machine_id], 'type': 'machines'}],
                 'actions' : [{'action_type':'reboot'}],
                 'enabled' : true
             },
