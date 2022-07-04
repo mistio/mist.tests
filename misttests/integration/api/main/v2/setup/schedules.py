@@ -72,7 +72,7 @@ def setup(api_token):
         query_params=[('cloud', cloud_name)],
         data={'name': machine_name},
         timeout=800)
-    assert response.body == {}
+    assert response.data == {}
     schedule_name = uniquify_string('test-schedule')
     test_args = {
         'add_schedule': {
