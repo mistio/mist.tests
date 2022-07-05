@@ -88,6 +88,10 @@ def setup(api_token):
                 'selectors' : [ {'ids':[machine_id], 'type': 'machines'}],
                 'actions' : [{'action_type':'reboot'}],
                 'enabled' : True
+                'when': {
+                    'schedule_type': 'one_off'
+                    'datetime': str(datetime.now() + timedelta(days=1))
+                }
             },
         },
         'edit_schedule': {'query_string': [('name', schedule_name)]}
