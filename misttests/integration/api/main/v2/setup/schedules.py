@@ -79,6 +79,7 @@ def setup(api_token):
     response = request.get()
     machine_id = response.json()['data']['id']
     schedule_name = uniquify_string('test-schedule')
+    expiration_date = str(datetime.now() + timedelta(days=8))
     test_args = {
         'add_schedule': {
             'request_body': {
