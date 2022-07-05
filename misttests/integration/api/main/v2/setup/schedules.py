@@ -1,7 +1,6 @@
 from misttests.config import inject_vault_credentials
 from misttests.config import MIST_URL
 from datetime import datetime, timedelta
-from datetime import datetime, timedelta
 from misttests.integration.api.helpers import poll
 from misttests.integration.api.helpers import assert_response_ok
 from misttests.integration.api.helpers import uniquify_string
@@ -85,15 +84,11 @@ def setup(api_token):
             'request_body': {
                 'expires' : (datetime.now() + timedelta(days=8)).strftime("%Y-%m-%d %H:%m:%S"),
                 'name' : schedule_name,
-                'description' : 'Test schedule',
-                'run_immediately' : False,
+                'description' : "Test schedule",
+                'run_immediately' : false,
                 'selectors' : [ {'ids':[machine_id], 'type': 'machines'}],
                 'actions' : [{'action_type':'reboot'}],
-                'enabled' : True,
-                'when': {
-                    'schedule_type' : 'one_off',
-                    'datetime' : (datetime.now() + timedelta(days=1)).strftime("%Y-%m-%d %H:%m:%S")
-                }
+                'enabled' : true
             },
         },
         'edit_schedule': {
