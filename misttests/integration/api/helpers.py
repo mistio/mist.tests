@@ -18,9 +18,17 @@ echo "what else" >> ~/bla
 """
 
 bash_script = """#!/bin/bash
-touch ~/bla
-echo "whatever" > ~/bla
-echo "what else" >> ~/bla
+touch $FILE_PATH
+while getopts u:f: flag
+do
+    case "${flag}" in
+        u) username=${OPTARG};;
+        f) fullname=${OPTARG};;
+    esac
+done
+echo "Username: $username" > $FILE_PATH;
+echo "Full Name: $fullname" >> $FILE_PATH;
+cat $FILE_PATH
 """
 
 ansible_script_with_error = """
@@ -33,13 +41,32 @@ hosts: localhost
 """
 
 ansible_script = """
-- name: Dummy ansible playbook
+- name: Create File
+  hosts: all
+  tasks:
+    - copy:
+        content: "Does this work?"
+        dest: ~/test_file
+    - command: cat ~/test_file
+      register: test
+    - debug:
+        msg: "{{ test.stdout }}"
+"""
+ansible_script_w_params = """
+- name: Create File
   hosts: localhost
   tasks:
-   - name: Dummy task
-     debug:
-       msg: "Hello World"
+    - copy:
+        content: "{{ content }}"
+        dest: "{{ dest }}"
+    - command: cat "{{ dest }}"
+      register: test
+    - debug:
+        msg: "{{ test.stdout }}"
 """
+bash_url = 'https://raw.githubusercontent.com/mistio/ansible-examples/master/bash_example.sh'
+examples_repo = 'https://github.com/mistio/ansible-examples'
+ansible_url = 'https://raw.githubusercontent.com/mistio/ansible-examples/master/create_file.yaml'
 
 
 def get_scripts_with_name(name, scripts):
@@ -151,7 +178,7 @@ def poll(api_token, uri, data={}, query_params=None,
         try:
             response_data = response.json()['data']
         except (KeyError, TypeError):
-            response_data = {}
+            response_data = response.json()
         if response_data and not data:
             return True
         if data and find_subdict(response_data, data):
