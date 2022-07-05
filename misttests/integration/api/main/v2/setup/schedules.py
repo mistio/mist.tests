@@ -78,10 +78,11 @@ def setup(api_token):
     response = request.get()
     machine_id = response.json()['data']['id']
     schedule_name = uniquify_string('test-schedule')
+    expiration_date = str(datetime.now() + timedelta(days=8))
     test_args = {
         'add_schedule': {
             'request_body': {
-                'expires' : str(datetime.now() + timedelta(days=8)),
+                'expires' : '2023-01-01 00:00:00',
                 'name' : schedule_name,
                 'description' : "Test schedule",
                 'run_immediately' : False,
@@ -90,7 +91,7 @@ def setup(api_token):
                 'enabled' : True,
                 'when': {
                     'schedule_type' : 'one_off',
-                    'datetime' : str(datetime.now() + timedelta(days=1))
+                    'datetime' : '2022-08-08 00:00:00'
                 }
             },
         },
