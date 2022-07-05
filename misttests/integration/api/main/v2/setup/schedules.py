@@ -89,8 +89,8 @@ def setup(api_token):
                 'actions' : [{'action_type':'reboot'}],
                 'enabled' : True,
                 'when': {
-                    'schedule_type': 'one_off'
-                    'datetime': str(datetime.now() + timedelta(days=1))
+                    'schedule_type' : 'one_off',
+                    'datetime' : str(datetime.now() + timedelta(days=1))
                 }
             },
         },
