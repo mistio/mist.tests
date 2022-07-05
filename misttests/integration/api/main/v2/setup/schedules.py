@@ -1,5 +1,6 @@
 from misttests.config import inject_vault_credentials
 from misttests.config import MIST_URL
+from datetime import datetime, timedelta
 from misttests.integration.api.helpers import poll
 from misttests.integration.api.helpers import assert_response_ok
 from misttests.integration.api.helpers import uniquify_string
@@ -80,7 +81,7 @@ def setup(api_token):
     test_args = {
         'add_schedule': {
             'request_body': {
-                'expires' : str(datetime.datetime.now() + datetime.timedelta(days=8)),
+                'expires' : str(datetime.now() + timedelta(days=8)),
                 'name' : schedule_name,
                 'description' : "Test schedule",
                 'run_immediately' : false,
