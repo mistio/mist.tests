@@ -84,10 +84,10 @@ def setup(api_token):
                 'expires' : str(datetime.now() + timedelta(days=8)),
                 'name' : schedule_name,
                 'description' : "Test schedule",
-                'run_immediately' : false,
+                'run_immediately' : False,
                 'selectors' : [ {'ids':[machine_id], 'type': 'machines'}],
                 'actions' : [{'action_type':'reboot'}],
-                'enabled' : true
+                'enabled' : True
             },
         },
         'edit_schedule': {'query_string': [('name', schedule_name)]}
