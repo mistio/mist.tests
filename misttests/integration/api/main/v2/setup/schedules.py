@@ -67,7 +67,6 @@ def setup(api_token):
         api_token=api_token, uri=machines_uri, json=add_machine_request)
     response = request.post()
     assert_response_ok(response)
-    machine_id = response.json()['data'][0]['id']
     # Wait for machine to become available
     assert poll(
         api_token=api_token,
