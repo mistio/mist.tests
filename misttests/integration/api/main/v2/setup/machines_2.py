@@ -26,10 +26,12 @@ V2_ENDPOINT = 'api/v2'
 CLOUDS_ENDPOINT = f'{V2_ENDPOINT}/clouds'
 CLOUDS_URI = f'{MIST_URL}/{CLOUDS_ENDPOINT}'
 KEYS_ENDPOINT = f'{V2_ENDPOINT}/keys'
+KEYS_URI = f'{MIST_URL}/{KEYS_ENDPOINT}'
 IMAGES_ENDPOINT = f'{V2_ENDPOINT}/images'
 LOCATIONS_ENDPOINT = f'{V2_ENDPOINT}/locations'
 SIZES_ENDPOINT = f'{V2_ENDPOINT}/sizes'
 MACHINES_ENDPOINT = f'{V2_ENDPOINT}/machines'
+MACHINES_URI = f'{MIST_URL}/{MACHINES_ENDPOINT}'
 
 
 def setup(api_token):
@@ -94,9 +96,8 @@ def setup(api_token):
         },
         'dry': False
     }
-    machines_uri = f'{MIST_URL}/{MACHINES_ENDPOINT}'
     request = MistRequests(
-        api_token=api_token, uri=machines_uri, json=create_kvm_machine_request)
+        api_token=api_token, uri=MACHINES_URI, json=create_kvm_machine_request)
     response = request.post()
     assert_response_ok(response)
     # Wait for machine to become available
@@ -106,7 +107,7 @@ def setup(api_token):
         data={'state': 'running'},
         timeout=800)
     clone_machine_name = kvm_machine_name + '-clone'
-    clone_machine_uri = f'{machines_uri}/{clone_machine_name}'
+    clone_machine_uri = f'{MACHINES_URI}/{clone_machine_name}'
     test_args = {
         'clone_machine': {
             'machine': kvm_machine_name,
@@ -117,8 +118,9 @@ def setup(api_token):
                 poll,
                 api_token=api_token,
                 uri=clone_machine_uri,
-                timeout=800)
+                timeout=240)
         },
+        'console': {'machine': clone_machine_name},
         'suspend_machine': {
             'machine': clone_machine_name,
             'callback': partial(
@@ -126,7 +128,7 @@ def setup(api_token):
                 api_token=api_token,
                 uri=clone_machine_uri,
                 data={'state': 'suspended'},
-                timeout=800)
+                timeout=240)
         },
         'resume_machine': {
             'machine': clone_machine_name,
@@ -135,8 +137,7 @@ def setup(api_token):
                 api_token=api_token,
                 uri=clone_machine_uri,
                 data={'state': 'running'},
-                timeout=800,
-                post_delay=10)
+                timeout=240)
         },
         'destroy_machine': {
             'machine': clone_machine_name,
@@ -144,11 +145,9 @@ def setup(api_token):
                 poll,
                 api_token=api_token,
                 uri=clone_machine_uri,
-                data={'state': 'terminated'},
-                timeout=800,
-                post_delay=10)
+                data={'actions': {'undefine': True}},
+                timeout=240)
         },
-        'console': {'machine': clone_machine_name},
         'undefine_machine': {'machine': clone_machine_name}
     }
     setup_data = dict(**test_args,
@@ -161,27 +160,31 @@ def setup(api_token):
 def teardown(api_token, setup_data):
     # Destroy kvm machine
     machine_name = setup_data['kvm_machine']
-    uri = (f'{MIST_URL}/{MACHINES_ENDPOINT}'
-           f'/{machine_name}/actions/destroy')
-    request = MistRequests(api_token=api_token, uri=uri)
+    machine_uri = f'{MACHINES_URI}/{machine_name}'
+    destroy_machine_uri = f'{machine_uri}/actions/destroy'
+    request = MistRequests(
+        api_token=api_token,
+        uri=destroy_machine_uri)
     response = request.post()
     if response.status_code == codes.ok:
-        machine_uri = f'{MIST_URL}/{MACHINES_ENDPOINT}/{machine_name}'
         poll(api_token=api_token,
              uri=machine_uri,
-             data={'state': 'terminated'})
-    # Undefine kvm machine
-    uri = (f'{MIST_URL}/{MACHINES_ENDPOINT}'
-           f'/{machine_name}/actions/undefine')
-    request = MistRequests(api_token=api_token, uri=uri)
-    request.post()
+             data={'actions': {'undefine': True}},
+             timeout=240)
+        # Undefine kvm machine
+        undef_machine_uri = f'{machine_uri}/actions/undefine'
+        request = MistRequests(
+            api_token=api_token,
+            uri=undef_machine_uri,
+            params=[('delete_domain_image', True)])
+        request.post()
     # Delete key
     key_name = setup_data['key']
-    uri = f'{MIST_URL}/{KEYS_ENDPOINT}/{key_name}'
-    request = MistRequests(api_token=api_token, uri=uri)
+    key_uri = f'{KEYS_URI}/{key_name}'
+    request = MistRequests(api_token=api_token, uri=key_uri)
     request.delete()
     # Remove kvm cloud
     kvm_cloud_name = setup_data['kvm_cloud']
-    uri = f'{MIST_URL}/{CLOUDS_ENDPOINT}/{kvm_cloud_name}'
-    request = MistRequests(api_token=api_token, uri=uri)
+    cloud_uri = f'{CLOUDS_URI}/{kvm_cloud_name}'
+    request = MistRequests(api_token=api_token, uri=cloud_uri)
     request.delete()
