@@ -99,6 +99,22 @@ class TestLibcloudFunctionality:
         assert len(response.json()) >= 0, "List Softlayer machines did not return a proper result"
         print("Success!!!")
 
+    def test_list_machines_vultr(self, pretty_print, mist_core, cache, owner_api_token):
+        response = mist_core.add_cloud(name='Vultr', provider='vultr', api_token=owner_api_token,
+                                       api_key=safe_get_var('clouds/vultr',
+                                                            'apikey',
+                                                            config.CREDENTIALS['VULTR']['apikey']
+                                                            )
+                                       ).post()
+        assert_response_ok(response)
+        cache.set('vultr_cloud_id', response.json()['id'])
+        response = mist_core.list_machines(cloud_id=cache.get(
+            'vultr_cloud_id', ''), api_token=owner_api_token).get()
+        assert_response_ok(response)
+        assert len(response.json(
+        )) >= 0, "List Vultr machines did not return a proper result"
+        print("Success!!!")
+
     def test_list_sizes_docker(self, pretty_print, mist_core, cache, owner_api_token):
         response = mist_core.list_sizes(cloud_id=cache.get('docker_cloud_id', ''), api_token=owner_api_token).get()
         assert_response_ok(response)
@@ -135,6 +151,14 @@ class TestLibcloudFunctionality:
         assert len(response.json()) > 0, "List Softlayer sizes did not return any sizes"
         print("Success!!!")
 
+    def test_list_sizes_vultr(self, pretty_print, mist_core, cache, owner_api_token):
+        response = mist_core.list_sizes(cloud_id=cache.get(
+            'vultr_cloud_id', ''), api_token=owner_api_token).get()
+        assert_response_ok(response)
+        assert len(response.json()
+                   ) > 0, "List Vultr sizes did not return any sizes"
+        print("Success!!!")
+
     def test_list_locations_rackspace(self, pretty_print, mist_core, cache, owner_api_token):
         response = mist_core.list_locations(cloud_id=cache.get('rackspace_cloud_id', ''), api_token=owner_api_token).get()
         assert_response_ok(response)
@@ -163,6 +187,14 @@ class TestLibcloudFunctionality:
         response = mist_core.list_locations(cloud_id=cache.get('softlayer_cloud_id', ''), api_token=owner_api_token).get()
         assert_response_ok(response)
         assert len(response.json()) > 0, "List Softlayer locations did not return any locations"
+        print("Success!!!")
+
+    def test_list_locations_vultr(self, pretty_print, mist_core, cache, owner_api_token):
+        response = mist_core.list_locations(cloud_id=cache.get(
+            'vultr_cloud_id', ''), api_token=owner_api_token).get()
+        assert_response_ok(response)
+        assert len(response.json()
+                   ) > 0, "List Vultr locations did not return any locations"
         print("Success!!!")
 
     def test_list_images_docker(self, pretty_print, mist_core, cache, owner_api_token):
@@ -199,4 +231,12 @@ class TestLibcloudFunctionality:
         response = mist_core.list_images(cloud_id=cache.get('softlayer_cloud_id', ''), api_token=owner_api_token).get()
         assert_response_ok(response)
         assert len(response.json()) > 0, "List Softlayer images did not return any images"
+        print("Success!!!")
+
+    def test_list_images_vultr(self, pretty_print, mist_core, cache, owner_api_token):
+        response = mist_core.list_images(cloud_id=cache.get(
+            'vultr_cloud_id', ''), api_token=owner_api_token).get()
+        assert_response_ok(response)
+        assert len(response.json()
+                   ) > 0, "List Vultr images did not return any images"
         print("Success!!!")
