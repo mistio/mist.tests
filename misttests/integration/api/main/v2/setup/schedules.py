@@ -106,6 +106,7 @@ def setup(api_token):
                     'every': 2
                 }
             }
+        }
     }
     return dict(**test_args)
 
