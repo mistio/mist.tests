@@ -96,7 +96,6 @@ def setup(api_token):
             },
         },
         'edit_schedule': {
-            'schedule': schedule_name, 
             'request_body': {
                 'name': schedule_name,
                 'when': {
@@ -107,14 +106,14 @@ def setup(api_token):
             }
         },
         'get_schedule': {
-            'schedule': schedule_name,
             'query_string': [('schedule', schedule_name)] 
-        },
-        'delete_schedule': {
-            'schedule': schedule_name
         }
     }
-    return dict(**test_args)
+    return dict(**test_args
+                schedule=schedule_name,
+                cloud=cloud_name,
+                key=key_name,
+                machine=machine_name)
 
 
 def teardown(api_token, setup_data):
