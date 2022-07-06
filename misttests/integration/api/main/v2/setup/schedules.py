@@ -109,6 +109,9 @@ def setup(api_token):
         'get_schedule': {
             'schedule': schedule_name,
             'query_string': [('schedule', schedule_name)] 
+        },
+        'delete_schedule': {
+            'schedule': schedule_name
         }
     }
     return dict(**test_args)
