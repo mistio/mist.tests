@@ -78,25 +78,25 @@ def setup(api_token):
     response = request.get()
     machine_id = response.json()['data']['id']
     schedule_name = uniquify_string('test-schedule')
-    expiration_date = str(datetime.now() + timedelta(days=8))
     test_args = {
         'add_schedule': {
             'request_body': {
-                'expires' : '2023-01-01 00:00:00',
+                'expires' : (datetime.now() + timedelta(days=8)).strftime("%Y-%m-%d %H:%m:%S"),
                 'name' : schedule_name,
-                'description' : "Test schedule",
+                'description' : 'Test schedule',
                 'run_immediately' : False,
                 'selectors' : [ {'ids':[machine_id], 'type': 'machines'}],
                 'actions' : [{'action_type':'reboot'}],
                 'enabled' : True,
                 'when': {
                     'schedule_type' : 'one_off',
-                    'datetime' : '2022-08-08 00:00:00'
+                    'datetime' : (datetime.now() + timedelta(days=1)).strftime("%Y-%m-%d %H:%m:%S")
                 }
             },
         },
         'edit_schedule': {
             'request_body': {
+                'name': schedule_name,
                 'when': {
                     'schedule_type' : 'interval',
                     'period' : 'hours',
