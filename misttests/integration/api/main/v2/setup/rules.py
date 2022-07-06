@@ -14,6 +14,22 @@ IMAGES_ENDPOINT = f'{V2_ENDPOINT}/images'
 DOCKER_IMAGE = 'debian-ssh'
 
 
+from misttests.config import inject_vault_credentials
+from misttests.config import MIST_URL
+from datetime import datetime, timedelta
+from misttests.integration.api.helpers import poll
+from misttests.integration.api.helpers import assert_response_ok
+from misttests.integration.api.helpers import uniquify_string
+from misttests.integration.api.mistrequests import MistRequests
+
+V2_ENDPOINT = 'api/v2'
+CLOUDS_V2_ENDPOINT = f'{V2_ENDPOINT}/clouds'
+KEYS_ENDPOINT = f'{V2_ENDPOINT}/keys'
+MACHINES_ENDPOINT = f'{V2_ENDPOINT}/machines'
+IMAGES_ENDPOINT = f'{V2_ENDPOINT}/images'
+DOCKER_IMAGE = 'debian-ssh'
+
+
 def setup(api_token):
     # Add cloud
     cloud_name = uniquify_string('test-cloud')
