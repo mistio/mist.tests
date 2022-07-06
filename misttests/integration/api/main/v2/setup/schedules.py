@@ -95,7 +95,17 @@ def setup(api_token):
                 }
             },
         },
-        'edit_schedule': {'query_string': [('name', schedule_name)]}
+        'edit_schedule': {
+            'query_string': [('schedule', schedule_name)], 
+            'request_body': {
+                'name': schedule_name,
+                'description': 'Updated schedule',
+                'when': {
+                    'schedule_type' : 'interval',
+                    'period' : 'hours',
+                    'every': 2
+                }
+            }
     }
     return dict(**test_args)
 
