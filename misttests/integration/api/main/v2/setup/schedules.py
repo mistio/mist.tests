@@ -109,7 +109,7 @@ def setup(api_token):
             'query_string': [('schedule', schedule_name)] 
         }
     }
-    return dict(**test_args
+    return dict(**test_args,
                 schedule=schedule_name,
                 cloud=cloud_name,
                 key=key_name,
