@@ -20,8 +20,8 @@ def setup_user_if_not_exists(email, password, role):
     return
 
 
-def remove_user_if_exists(core_uri, user_email):
-    url = "%s/api/v1/dev/users" % core_uri
+def remove_user_if_exists(portal_uri, user_email):
+    url = "%s/api/v1/dev/users" % portal_uri
     payload = {
         "email": user_email
     }
