@@ -121,6 +121,12 @@ def setup(api_token):
         },
         'get_rule': {
             'query_string': [('rule', rule_name)] 
+        },
+        'rename_rule': {
+            'query_string': [('name', rule_name)] 
+        },
+        'toggle_rule': {
+            'query_string': [('action', 'disable')] 
         }
     }
     return dict(**test_args,
