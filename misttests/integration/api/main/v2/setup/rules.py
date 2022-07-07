@@ -112,11 +112,8 @@ def setup(api_token):
         },
         'edit_rule': {
             'request_body': {
-                'when': {
-                    'schedule_type' : 'interval',
-                    'period' : 'hours',
-                    'every': 2
-                }
+                'actions': [{'action_type': 'reboot'}],
+                'selectors': [{'ids': [machine_id], 'type': 'machines'}]
             }
         },
         'get_rule': {
