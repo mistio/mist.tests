@@ -19,14 +19,12 @@ def setup(api_token):
     cloud_name = uniquify_string('test-cloud')
     add_cloud_request = {
         'name': cloud_name,
-        'provider': 'docker',
+        'provider': 'google',
         'credentials': {
-            'tlsCaCert': None,
-            'tlsCert': None,
-            'tlsKey': None,
-            'host': None,
-            'port': None
-        }
+            'projectId': None,
+            'privateKey': None,
+            'email': None
+        },
     }
     inject_vault_credentials(add_cloud_request)
     uri = f'{MIST_URL}/{CLOUDS_V2_ENDPOINT}'
