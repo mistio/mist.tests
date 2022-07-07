@@ -78,7 +78,7 @@ def setup(api_token):
         api_token=api_token, uri=f'{machines_uri}/{machine_name}')
     response = request.get()
     machine_id = response.json()['data']['id']
-    schedule_name = 'test-schedule'
+    schedule_name = uniquify_string('test-schedule')
     test_args = {
         'add_schedule': {
             'request_body': {
@@ -96,6 +96,7 @@ def setup(api_token):
             },
         },
         'edit_schedule': {
+            'schedule': schedule_name,
             'request_body': {
                 'name': schedule_name,
                 'when': {
