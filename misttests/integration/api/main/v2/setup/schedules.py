@@ -97,7 +97,6 @@ def setup(api_token):
         },
         'edit_schedule': {
             'request_body': {
-                'name': str(schedule_name),
                 'when': {
                     'schedule_type' : 'interval',
                     'period' : 'hours',
