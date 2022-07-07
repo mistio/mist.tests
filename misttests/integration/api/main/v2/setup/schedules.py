@@ -53,7 +53,7 @@ def setup(api_token):
         data={'name': DOCKER_IMAGE},
         timeout=800)
     # Create machine
-    machine_name = uniquify_string('test-machine')
+    machine_name = 'test-machine'
     add_machine_request = {
         'name': machine_name,
         'cloud': cloud_name,
