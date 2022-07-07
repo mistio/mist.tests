@@ -50,7 +50,8 @@ def setup(api_token):
         api_token=api_token,
         uri=f'{MIST_URL}/{IMAGES_ENDPOINT}',
         query_params=[('cloud', cloud_name)],
-        data={'name': DOCKER_IMAGE})
+        data={'name': DOCKER_IMAGE},
+        timeout=800)
     # Create machine
     machine_name = uniquify_string('test-machine')
     add_machine_request = {
@@ -71,7 +72,8 @@ def setup(api_token):
         api_token=api_token,
         uri=machines_uri,
         query_params=[('cloud', cloud_name)],
-        data={'name': machine_name})
+        data={'name': machine_name},
+        timeout=800)
     request = MistRequests(
         api_token=api_token, uri=f'{machines_uri}/{machine_name}')
     response = request.get()
