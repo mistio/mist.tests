@@ -71,8 +71,7 @@ def setup(api_token):
         api_token=api_token,
         uri=machines_uri,
         query_params=[('cloud', cloud_name)],
-        data={'name': machine_name},
-        timeout=800)
+        data={'name': machine_name})
     request = MistRequests(
         api_token=api_token, uri=f'{machines_uri}/{machine_name}')
     response = request.get()
