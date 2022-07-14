@@ -20,6 +20,7 @@ TEST_METHOD_ORDERING = [
     'undefine_machine',
 ]
 
+DEFAULT_TIMEOUT = 240
 KVM_PROVIDER = 'kvm'
 KVM_IMAGE = 'cirros-0.5.1-x86_64-disk.img'
 V2_ENDPOINT = 'api/v2'
@@ -75,12 +76,12 @@ def setup(api_token):
         uri=f'{MIST_URL}/{IMAGES_ENDPOINT}',
         query_params=[('cloud', kvm_cloud_name)],
         data={'name': KVM_IMAGE},
-        timeout=800)
+        timeout=DEFAULT_TIMEOUT)
     # Wait for kvm locations to become available
     assert poll(api_token=api_token,
                 uri=f'{MIST_URL}/{LOCATIONS_ENDPOINT}',
                 query_params=[('cloud', kvm_cloud_name)],
-                timeout=800)
+                timeout=DEFAULT_TIMEOUT)
     # Create kvm machine
     kvm_machine_name = uniquify_string('test-machine')
     create_kvm_machine_request = {
@@ -105,7 +106,7 @@ def setup(api_token):
         api_token=api_token,
         uri=f'{MIST_URL}/{MACHINES_ENDPOINT}/{kvm_machine_name}',
         data={'state': 'running'},
-        timeout=800)
+        timeout=DEFAULT_TIMEOUT)
     clone_machine_name = kvm_machine_name + '-clone'
     clone_machine_uri = f'{MACHINES_URI}/{clone_machine_name}'
     test_args = {
@@ -118,7 +119,7 @@ def setup(api_token):
                 poll,
                 api_token=api_token,
                 uri=clone_machine_uri,
-                timeout=240)
+                timeout=DEFAULT_TIMEOUT)
         },
         'console': {'machine': clone_machine_name},
         'suspend_machine': {
@@ -128,7 +129,7 @@ def setup(api_token):
                 api_token=api_token,
                 uri=clone_machine_uri,
                 data={'state': 'suspended'},
-                timeout=240)
+                timeout=DEFAULT_TIMEOUT)
         },
         'resume_machine': {
             'machine': clone_machine_name,
@@ -137,7 +138,7 @@ def setup(api_token):
                 api_token=api_token,
                 uri=clone_machine_uri,
                 data={'state': 'running'},
-                timeout=240)
+                timeout=DEFAULT_TIMEOUT)
         },
         'destroy_machine': {
             'machine': clone_machine_name,
@@ -146,7 +147,7 @@ def setup(api_token):
                 api_token=api_token,
                 uri=clone_machine_uri,
                 data={'actions': {'undefine': True}},
-                timeout=240)
+                timeout=DEFAULT_TIMEOUT)
         },
         'undefine_machine': {'machine': clone_machine_name}
     }
@@ -170,7 +171,7 @@ def teardown(api_token, setup_data):
         poll(api_token=api_token,
              uri=machine_uri,
              data={'actions': {'undefine': True}},
-             timeout=240)
+             timeout=DEFAULT_TIMEOUT)
         # Undefine kvm machine
         undef_machine_uri = f'{machine_uri}/actions/undefine'
         request = MistRequests(

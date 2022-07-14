@@ -27,6 +27,7 @@ TEST_METHOD_ORDERING = [
     'list_machines',
 ]
 
+DEFAULT_TIMEOUT = 600
 KVM_PROVIDER = 'kvm'
 AMAZON_PROVIDER = 'amazon'
 AMAZON_IMAGE = 'ubuntu'
@@ -103,7 +104,7 @@ def setup(api_token):
                 api_token=api_token,
                 uri=amazon_machine_uri,
                 data={'state': 'running'},
-                timeout=800,
+                timeout=DEFAULT_TIMEOUT,
                 post_delay=10)
         },
         'reboot_machine': {
@@ -113,7 +114,7 @@ def setup(api_token):
                 api_token=api_token,
                 uri=amazon_machine_uri,
                 data={'state': 'running'},
-                timeout=800,
+                timeout=DEFAULT_TIMEOUT,
                 post_delay=10)
         },
         'stop_machine': {
@@ -122,7 +123,7 @@ def setup(api_token):
                 poll,
                 api_token=api_token,
                 uri=amazon_machine_uri,
-                timeout=800,
+                timeout=DEFAULT_TIMEOUT,
                 data={'state': 'stopped'})
         },
         'start_machine': {
@@ -132,7 +133,7 @@ def setup(api_token):
                 api_token=api_token,
                 uri=amazon_machine_uri,
                 data={'state': 'running'},
-                timeout=800,
+                timeout=DEFAULT_TIMEOUT,
                 post_delay=10)
         },
         'associate_key': {
