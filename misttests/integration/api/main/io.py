@@ -7,7 +7,46 @@ class MistIoApi(object):
 
     def __init__(self, uri):
         self.uri = uri
+    #################################################
+    #                    BUCKETS                    #
+    #################################################
 
+    def list_buckets(self, api_token=None, params=None):
+        req = MistRequests(uri=self.uri + '/api/v1/buckets',
+                           api_token=api_token, params=params)
+
+        req.post = req.unavailable_api_call
+        req.delete = req.unavailable_api_call
+        req.put = req.unavailable_api_call
+        return req
+
+    def get_bucket(self, bucket_id,  api_token=None):
+        req = MistRequests(uri=self.uri + f'/api/v1/buckets/{bucket_id}',
+                           api_token=api_token)
+        req.post = req.unavailable_api_call
+        req.delete = req.unavailable_api_call
+        req.put = req.unavailable_api_call
+        return req
+
+    def list_bucket_content(self, bucket_id, api_token=None, path=''):
+        params = {}
+        if path:
+            params['path'] = path
+
+        req = MistRequests(
+            uri=self.uri + f'/api/v1/buckets/{bucket_id}/content',
+            api_token=api_token, params=params)
+        req.post = req.unavailable_api_call
+        req.delete = req.unavailable_api_call
+        req.put = req.unavailable_api_call
+        return req
+
+    def poll_buckets(self, api_token, params=None, data={}):
+        from misttests.integration.api.helpers import poll
+        return poll(api_token,
+                    uri=self.uri + '/api/v1/buckets',
+                    query_params=params,
+                    data=data)
     #################################################
     #                     CLOUDS                    #
     #################################################
