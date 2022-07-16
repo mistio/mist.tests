@@ -1,3 +1,4 @@
+import json
 import time
 
 import pytest
@@ -29,125 +30,243 @@ def after_test(request):
             time.sleep(sleep)
 
 
-class TestMachinesController2:
+class TestMachinesController1:
     """MachinesController integration test stubs"""
 
-    def test_clone_machine(self, pretty_print, owner_api_token):
-        """Test case for clone_machine
+    def test_associate_key(self, pretty_print, owner_api_token):
+        """Test case for associate_key
 
-        Clone machine
+        Associate a key with a machine
         """
-        query_string = setup_data.get('clone_machine', {}).get(
-            'query_string') or [('name', 'my-machine-clone'),
-                                ('run_async', False)]
-        uri = MIST_URL + '/api/v2/machines/{machine}/actions/clone'.format(
-            machine=setup_data.get('clone_machine', {}).get('machine')
-            or setup_data.get('machine') or 'my-machine')
+        key_machine_association = setup_data.get('associate_key', {}).get(
+            'request_body') or json.loads("""{
+  "port" : 1,
+  "machine" : "machine",
+  "last_used" : 6,
+  "sudo" : true,
+  "user" : "user",
+  "key" : "key"
+}""", strict=False)
+        machine = setup_data.get('associate_key', {}).get('machine') or \
+            setup_data.get('machine') or 'my-machine'
+        uri = MIST_URL + \
+            '/api/v2/machines/{machine}/actions/associate-key'.format(
+                machine=machine)
+        request = MistRequests(
+            api_token=owner_api_token,
+            uri=uri,
+            json=key_machine_association)
+        request_method = getattr(request, 'PUT'.lower())
+        response = request_method()
+        if 'associate_key' in REDIRECT_OPERATIONS:
+            assert_response_found(response)
+        else:
+            assert_response_ok(response)
+        print('Success!!!')
+
+    def test_create_machine(self, pretty_print, owner_api_token):
+        """Test case for create_machine
+
+        Create machine
+        """
+        create_machine_request = setup_data.get('create_machine', {}).get(
+            'request_body') or json.loads("""{
+  "template" : "{}",
+  "image" : "Debian",
+  "quantity" : 1.4658129805029452,
+  "disks" : {
+    "disk_size" : 0,
+    "disk_path" : "disk_path"
+  },
+  "fqdn" : "fqdn",
+  "cloudinit" : "cloudinit",
+  "volumes" : "",
+  "save" : true,
+  "dry" : true,
+  "monitoring" : true,
+  "tags" : "{}",
+  "cloud" : "cloud",
+  "size" : "m1.small",
+  "optimize" : "optimize",
+  "schedules" : [ "", "" ],
+  "extra" : "",
+  "name" : "DB mirror",
+  "location" : "",
+  "expiration" : {
+    "date" : "2000-01-23T04:56:07.000+00:00",
+    "action" : "stop",
+    "notify" : {
+      "period" : "minutes",
+      "value" : 1
+    },
+    "notify_msg" : "notify_msg"
+  },
+  "net" : "",
+  "scripts" : [ "", "" ],
+  "key" : ""
+}""", strict=False)
+        uri = MIST_URL + '/api/v2/machines'
+        request = MistRequests(
+            api_token=owner_api_token,
+            uri=uri,
+            json=create_machine_request)
+        request_method = getattr(request, 'POST'.lower())
+        response = request_method()
+        if 'create_machine' in REDIRECT_OPERATIONS:
+            assert_response_found(response)
+        else:
+            assert_response_ok(response)
+        print('Success!!!')
+
+    def test_disassociate_key(self, pretty_print, owner_api_token):
+        """Test case for disassociate_key
+
+        Disassociate a key from a machine
+        """
+        key_machine_disassociation = setup_data.get(
+            'disassociate_key', {}).get(
+            'request_body') or json.loads("""{
+  "key" : "key"
+}""", strict=False)
+        machine = setup_data.get('disassociate_key', {}).get('machine') or \
+            setup_data.get('machine') or 'my-machine'
+        uri = MIST_URL + \
+            '/api/v2/machines/{machine}/actions/disassociate-key'.format(
+                machine=machine)
+        request = MistRequests(
+            api_token=owner_api_token,
+            uri=uri,
+            json=key_machine_disassociation)
+        request_method = getattr(request, 'DELETE'.lower())
+        response = request_method()
+        if 'disassociate_key' in REDIRECT_OPERATIONS:
+            assert_response_found(response)
+        else:
+            assert_response_ok(response)
+        print('Success!!!')
+
+    def test_edit_machine(self, pretty_print, owner_api_token):
+        """Test case for edit_machine
+
+        Edit machine
+        """
+        edit_machine_request = setup_data.get('edit_machine', {}).get(
+            'request_body') or json.loads("""{
+  "expiration" : {
+    "date" : "date",
+    "action" : "stop",
+    "notify" : 0
+  }
+}""", strict=False)
+        machine = setup_data.get('edit_machine', {}).get('machine') or \
+            setup_data.get('machine') or 'my-machine'
+        uri = MIST_URL + '/api/v2/machines/{machine}'.format(machine=machine)
+        request = MistRequests(
+            api_token=owner_api_token,
+            uri=uri,
+            json=edit_machine_request)
+        request_method = getattr(request, 'PUT'.lower())
+        response = request_method()
+        if 'edit_machine' in REDIRECT_OPERATIONS:
+            assert_response_found(response)
+        else:
+            assert_response_ok(response)
+        print('Success!!!')
+
+    def test_get_machine(self, pretty_print, owner_api_token):
+        """Test case for get_machine
+
+        Get machine
+        """
+        query_string = setup_data.get('get_machine', {}).get(
+            'query_string') or [('only', 'id'),
+                                ('deref', 'auto')]
+        machine = setup_data.get('get_machine', {}).get('machine') or \
+            setup_data.get('machine') or 'my-machine'
+        uri = MIST_URL + '/api/v2/machines/{machine}'.format(machine=machine)
+        request = MistRequests(
+            api_token=owner_api_token,
+            uri=uri,
+            params=query_string)
+        request_method = getattr(request, 'GET'.lower())
+        response = request_method()
+        if 'get_machine' in REDIRECT_OPERATIONS:
+            assert_response_found(response)
+        else:
+            assert_response_ok(response)
+        print('Success!!!')
+
+    def test_list_machines(self, pretty_print, owner_api_token):
+        """Test case for list_machines
+
+        List machines
+        """
+        default_query_string = [('cloud', '0194030499e74b02bdf68fa7130fb0b2'),
+                                ('search',
+                                 'state:running'),
+                                ('sort',
+                                 '-name'),
+                                ('start',
+                                 '50'),
+                                ('limit', 56),
+                                ('only',
+                                 'id'),
+                                ('deref',
+                                 'auto'),
+                                ('at', '2021-07-21T17:32:28Z')]
+        query_string = setup_data.get('list_machines', {}).get(
+            'query_string') or default_query_string
+        uri = MIST_URL + '/api/v2/machines'
+        request = MistRequests(
+            api_token=owner_api_token,
+            uri=uri,
+            params=query_string)
+        request_method = getattr(request, 'GET'.lower())
+        response = request_method()
+        if 'list_machines' in REDIRECT_OPERATIONS:
+            assert_response_found(response)
+        else:
+            assert_response_ok(response)
+        print('Success!!!')
+
+    def test_rename_machine(self, pretty_print, owner_api_token):
+        """Test case for rename_machine
+
+        Rename machine
+        """
+        query_string = setup_data.get('rename_machine', {}).get(
+            'query_string') or [('name', 'my-renamed-machine')]
+        machine = setup_data.get('rename_machine', {}).get(
+            'machine') or setup_data.get('machine') or 'my-machine'
+        uri = MIST_URL + '/api/v2/machines/{machine}/actions/rename'.format(
+            machine=machine)
         request = MistRequests(
             api_token=owner_api_token,
             uri=uri,
             params=query_string)
         request_method = getattr(request, 'POST'.lower())
         response = request_method()
-        if 'clone_machine' in REDIRECT_OPERATIONS:
+        if 'rename_machine' in REDIRECT_OPERATIONS:
             assert_response_found(response)
         else:
             assert_response_ok(response)
         print('Success!!!')
 
-    def test_console(self, pretty_print, owner_api_token):
-        """Test case for console
+    def test_ssh(self, pretty_print, owner_api_token):
+        """Test case for ssh
 
-        Open console
+        Open secure shell
         """
-        uri = MIST_URL + '/api/v2/machines/{machine}/actions/console'.format(
-            machine=setup_data.get('console', {}).get('machine')
-            or setup_data.get('machine') or 'my-machine')
+        machine = setup_data.get('ssh', {}).get(
+            'machine') or setup_data.get('machine') or 'my-machine'
+        uri = MIST_URL + \
+            '/api/v2/machines/{machine}/actions/ssh'.format(machine=machine)
         request = MistRequests(
             api_token=owner_api_token,
             uri=uri)
         request_method = getattr(request, 'POST'.lower())
         response = request_method()
-        if 'console' in REDIRECT_OPERATIONS:
-            assert_response_found(response)
-        else:
-            assert_response_ok(response)
-        print('Success!!!')
-
-    def test_destroy_machine(self, pretty_print, owner_api_token):
-        """Test case for destroy_machine
-
-        Destroy machine
-        """
-        uri = MIST_URL + '/api/v2/machines/{machine}/actions/destroy'.format(
-            machine=setup_data.get('destroy_machine', {}).get('machine')
-            or setup_data.get('machine') or 'my-machine')
-        request = MistRequests(
-            api_token=owner_api_token,
-            uri=uri)
-        request_method = getattr(request, 'POST'.lower())
-        response = request_method()
-        if 'destroy_machine' in REDIRECT_OPERATIONS:
-            assert_response_found(response)
-        else:
-            assert_response_ok(response)
-        print('Success!!!')
-
-    def test_resume_machine(self, pretty_print, owner_api_token):
-        """Test case for resume_machine
-
-        Resume machine
-        """
-        uri = MIST_URL + '/api/v2/machines/{machine}/actions/resume'.format(
-            machine=setup_data.get('resume_machine', {}).get('machine')
-            or setup_data.get('machine') or 'my-machine')
-        request = MistRequests(
-            api_token=owner_api_token,
-            uri=uri)
-        request_method = getattr(request, 'POST'.lower())
-        response = request_method()
-        if 'resume_machine' in REDIRECT_OPERATIONS:
-            assert_response_found(response)
-        else:
-            assert_response_ok(response)
-        print('Success!!!')
-
-    def test_suspend_machine(self, pretty_print, owner_api_token):
-        """Test case for suspend_machine
-
-        Suspend machine
-        """
-        uri = MIST_URL + '/api/v2/machines/{machine}/actions/suspend'.format(
-            machine=setup_data.get('suspend_machine', {}).get('machine')
-            or setup_data.get('machine') or 'my-machine')
-        request = MistRequests(
-            api_token=owner_api_token,
-            uri=uri)
-        request_method = getattr(request, 'POST'.lower())
-        response = request_method()
-        if 'suspend_machine' in REDIRECT_OPERATIONS:
-            assert_response_found(response)
-        else:
-            assert_response_ok(response)
-        print('Success!!!')
-
-    def test_undefine_machine(self, pretty_print, owner_api_token):
-        """Test case for undefine_machine
-
-        Undefine machine
-        """
-        query_string = setup_data.get('undefine_machine', {}).get(
-            'query_string') or [('delete_domain_image', True)]
-        uri = MIST_URL + '/api/v2/machines/{machine}/actions/undefine'.format(
-            machine=setup_data.get('undefine_machine', {}).get('machine')
-            or setup_data.get('machine') or 'my-machine')
-        request = MistRequests(
-            api_token=owner_api_token,
-            uri=uri,
-            params=query_string)
-        request_method = getattr(request, 'POST'.lower())
-        response = request_method()
-        if 'undefine_machine' in REDIRECT_OPERATIONS:
+        if 'ssh' in REDIRECT_OPERATIONS:
             assert_response_found(response)
         else:
             assert_response_ok(response)
@@ -157,8 +276,8 @@ class TestMachinesController2:
 # Impose custom ordering of machines test methods
 for order, k in enumerate(_setup_module.TEST_METHOD_ORDERING):
     method_name = k if k.startswith('test_') else f'test_{k}'
-    method = getattr(TestMachinesController2, method_name)
-    setattr(TestMachinesController2, method_name,
+    method = getattr(TestMachinesController1, method_name)
+    setattr(TestMachinesController1, method_name,
             pytest.mark.order(order + 1)(method))
 
 # Add setup and teardown methods to test class
@@ -178,5 +297,5 @@ def setup(owner_api_token):
         class_setup_done = True
 
 
-TestMachinesController2 = pytest.mark.usefixtures('setup')(
-    TestMachinesController2)
+TestMachinesController1 = pytest.mark.usefixtures('setup')(
+    TestMachinesController1)

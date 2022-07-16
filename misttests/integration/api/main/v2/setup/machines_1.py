@@ -1,5 +1,4 @@
 from functools import partial
-from datetime import datetime, timedelta
 
 from misttests.config import inject_vault_credentials
 from misttests.config import MIST_URL
@@ -18,13 +17,6 @@ TEST_METHOD_ORDERING = [
     'stop_machine',
     'resize_machine',
     'start_machine',
-    'associate_key',
-    'ssh',
-    'disassociate_key',
-    'edit_machine',
-    'rename_machine',
-    'get_machine',
-    'list_machines',
 ]
 
 DEFAULT_TIMEOUT = 600
@@ -36,6 +28,7 @@ V2_ENDPOINT = 'api/v2'
 CLOUDS_ENDPOINT = f'{V2_ENDPOINT}/clouds'
 CLOUDS_URI = f'{MIST_URL}/{CLOUDS_ENDPOINT}'
 KEYS_ENDPOINT = f'{V2_ENDPOINT}/keys'
+KEYS_URI = f'{MIST_URL}/{KEYS_ENDPOINT}'
 IMAGES_ENDPOINT = f'{V2_ENDPOINT}/images'
 IMAGES_URI = f'{MIST_URL}/{IMAGES_ENDPOINT}'
 LOCATIONS_ENDPOINT = f'{V2_ENDPOINT}/locations'
@@ -68,9 +61,10 @@ def setup(api_token):
         'name': key_name,
         'private': kvm_private_key
     }
-    keys_uri = f'{MIST_URL}/{KEYS_ENDPOINT}'
     request = MistRequests(
-        api_token=api_token, uri=keys_uri, json=add_key_request)
+        api_token=api_token,
+        uri=KEYS_URI,
+        json=add_key_request)
     response = request.post()
     assert_response_ok(response)
     # Wait until amazon image is available
@@ -87,8 +81,6 @@ def setup(api_token):
         data={'name': AMAZON_SIZE})
     amazon_machine_name = uniquify_string('test-machine')
     amazon_machine_uri = f'{MACHINES_URI}/{amazon_machine_name}'
-    dt = datetime.now() + timedelta(hours=1)
-    edit_machine_date = dt.strftime('%Y-%m-%d %H:%M:%S')
     test_args = {
         'create_machine': {
             'request_body': {
@@ -126,6 +118,10 @@ def setup(api_token):
                 timeout=DEFAULT_TIMEOUT,
                 data={'state': 'stopped'})
         },
+        'resize_machine': {
+            'query_string': [('size', AMAZON_SIZE)],
+            'machine': amazon_machine_name
+        },
         'start_machine': {
             'machine': amazon_machine_name,
             'callback': partial(
@@ -133,38 +129,7 @@ def setup(api_token):
                 api_token=api_token,
                 uri=amazon_machine_uri,
                 data={'state': 'running'},
-                timeout=DEFAULT_TIMEOUT,
-                post_delay=10)
-        },
-        'associate_key': {
-            'request_body': {'key': key_name},
-            'machine': amazon_machine_name,
-        },
-        'disassociate_key': {
-            'request_body': {'key': key_name},
-            'machine': amazon_machine_name,
-        },
-        'ssh': {'machine': amazon_machine_name},
-        'resize_machine': {
-            'query_string': [('size', AMAZON_SIZE)],
-            'machine': amazon_machine_name
-        },
-        'edit_machine': {
-            'machine': amazon_machine_name,
-            'request_body': {
-                'expiration': {
-                    'date': edit_machine_date,
-                    'action': 'destroy',
-                    'notify': 0
-                }
-            }
-        },
-        'get_machine': {
-            'machine': amazon_machine_name,
-        },
-        'rename_machine': {
-            'machine': amazon_machine_name,
-            'query_string': [('name', amazon_machine_name)],
+                timeout=DEFAULT_TIMEOUT)
         },
     }
     setup_data = dict(**test_args,
@@ -176,17 +141,16 @@ def setup(api_token):
 def teardown(api_token, setup_data):
     # Destroy amazon machine
     machine_name = setup_data['create_machine']['request_body']['name']
-    uri = (f'{MIST_URL}/{MACHINES_ENDPOINT}'
-           f'/{machine_name}/actions/destroy')
+    uri = f'{MACHINES_URI}/{machine_name}/actions/destroy'
     request = MistRequests(api_token=api_token, uri=uri)
     request.post()
     # Delete key
     key_name = setup_data['key']
-    uri = f'{MIST_URL}/{KEYS_ENDPOINT}/{key_name}'
+    uri = f'{KEYS_URI}/{key_name}'
     request = MistRequests(api_token=api_token, uri=uri)
     request.delete()
     # Remove amazon cloud
     amazon_cloud_name = setup_data['amazon_cloud']
-    uri = f'{MIST_URL}/{CLOUDS_ENDPOINT}/{amazon_cloud_name}'
+    uri = f'{CLOUDS_URI}/{amazon_cloud_name}'
     request = MistRequests(api_token=api_token, uri=uri)
     request.delete()
