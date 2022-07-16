@@ -129,7 +129,15 @@ def find_subdict(obj, subdict, exact_match=False):
     def contains(dict1, dict2):
         if exact_match:
             return dict2.items() <= dict1.items()
-        return all(k in dict1 and v in dict1[k] for k, v in dict2.items())
+        for k, v in dict2.items():
+            kcontained = k in dict1
+            if kcontained and isinstance(v, dict):
+                valcontained = v.items() <= dict1[k].items()
+            elif kcontained:
+                valcontained = v in dict1[k]
+            if not kcontained or not valcontained:
+                return False
+        return True
     if isinstance(obj, dict):
         return contains(obj, subdict)
     for d in obj:
