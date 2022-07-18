@@ -100,7 +100,7 @@ def setup(api_token):
                 poll,
                 api_token=api_token,
                 uri=amazon_machine_uri,
-                data={'state': 'running'},
+                data={'state': 'running', 'actions': {'rename': True}},
                 timeout=DEFAULT_TIMEOUT,
                 post_delay=60)
         },
@@ -121,7 +121,14 @@ def setup(api_token):
                     'action': 'destroy',
                     'notify': 0
                 }
-            }
+            },
+            'callback': partial(
+                poll,
+                api_token=api_token,
+                uri=amazon_machine_uri,
+                data={'actions': {'rename': True}},
+                timeout=DEFAULT_TIMEOUT,
+                post_delay=60)
         },
         'rename_machine': {
             'machine': amazon_machine_name,

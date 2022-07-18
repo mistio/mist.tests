@@ -105,7 +105,7 @@ def setup(api_token):
     assert poll(
         api_token=api_token,
         uri=f'{MIST_URL}/{MACHINES_ENDPOINT}/{kvm_machine_name}',
-        data={'state': 'running'},
+        data={'state': 'running', 'actions': {'clone': True}},
         timeout=DEFAULT_TIMEOUT)
     clone_machine_name = kvm_machine_name + '-clone'
     clone_machine_uri = f'{MACHINES_URI}/{clone_machine_name}'
@@ -119,6 +119,7 @@ def setup(api_token):
                 poll,
                 api_token=api_token,
                 uri=clone_machine_uri,
+                data={'state': 'running', 'actions': {'suspend': True}},
                 timeout=DEFAULT_TIMEOUT)
         },
         'console': {'machine': clone_machine_name},
@@ -128,7 +129,7 @@ def setup(api_token):
                 poll,
                 api_token=api_token,
                 uri=clone_machine_uri,
-                data={'state': 'suspended'},
+                data={'state': 'suspended', 'actions': {'resume': True}},
                 timeout=DEFAULT_TIMEOUT)
         },
         'resume_machine': {
@@ -137,7 +138,7 @@ def setup(api_token):
                 poll,
                 api_token=api_token,
                 uri=clone_machine_uri,
-                data={'state': 'running'},
+                data={'state': 'running', 'actions': {'destroy': True}},
                 timeout=DEFAULT_TIMEOUT)
         },
         'destroy_machine': {
@@ -146,7 +147,7 @@ def setup(api_token):
                 poll,
                 api_token=api_token,
                 uri=clone_machine_uri,
-                data={'actions': {'undefine': True}},
+                data={'state': 'terminated', 'actions': {'undefine': True}},
                 timeout=DEFAULT_TIMEOUT)
         },
         'undefine_machine': {'machine': clone_machine_name}
