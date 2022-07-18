@@ -1,5 +1,4 @@
 from requests import codes
-from functools import partial
 
 from misttests.config import MIST_URL
 from misttests.config import safe_get_var
@@ -115,44 +114,15 @@ def setup(api_token):
             'query_string': [
                 ('name', clone_machine_name),
                 ('run_async', False)],
-            'callback': partial(
-                poll,
-                api_token=api_token,
-                uri=clone_machine_uri,
-                data={'state': 'running', 'actions': {'suspend': True}},
-                timeout=DEFAULT_TIMEOUT)
         },
         'console': {'machine': clone_machine_name},
-        'suspend_machine': {
-            'machine': clone_machine_name,
-            'callback': partial(
-                poll,
-                api_token=api_token,
-                uri=clone_machine_uri,
-                data={'state': 'suspended', 'actions': {'resume': True}},
-                timeout=DEFAULT_TIMEOUT)
-        },
-        'resume_machine': {
-            'machine': clone_machine_name,
-            'callback': partial(
-                poll,
-                api_token=api_token,
-                uri=clone_machine_uri,
-                data={'state': 'running', 'actions': {'destroy': True}},
-                timeout=DEFAULT_TIMEOUT)
-        },
-        'destroy_machine': {
-            'machine': clone_machine_name,
-            'callback': partial(
-                poll,
-                api_token=api_token,
-                uri=clone_machine_uri,
-                data={'state': 'terminated', 'actions': {'undefine': True}},
-                timeout=DEFAULT_TIMEOUT)
-        },
+        'suspend_machine': {'machine': clone_machine_name},
+        'resume_machine': {'machine': clone_machine_name},
+        'destroy_machine': {'machine': clone_machine_name},
         'undefine_machine': {'machine': clone_machine_name}
     }
     setup_data = dict(**test_args,
+                      clone_machine_uri=clone_machine_uri,
                       kvm_cloud=kvm_cloud_name,
                       kvm_machine=kvm_machine_name,
                       key=key_name)
