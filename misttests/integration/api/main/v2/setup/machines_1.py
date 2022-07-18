@@ -95,9 +95,8 @@ def setup(api_token):
                 poll,
                 api_token=api_token,
                 uri=amazon_machine_uri,
-                data={'state': 'running'},
-                timeout=DEFAULT_TIMEOUT,
-                post_delay=10)
+                data={'state': 'running', 'actions': {'reboot': True}},
+                timeout=DEFAULT_TIMEOUT)
         },
         'reboot_machine': {
             'machine': amazon_machine_name,
@@ -105,9 +104,8 @@ def setup(api_token):
                 poll,
                 api_token=api_token,
                 uri=amazon_machine_uri,
-                data={'state': 'running'},
-                timeout=DEFAULT_TIMEOUT,
-                post_delay=10)
+                data={'state': 'running', 'actions': {'stop': True}},
+                timeout=DEFAULT_TIMEOUT)
         },
         'stop_machine': {
             'machine': amazon_machine_name,
@@ -116,11 +114,17 @@ def setup(api_token):
                 api_token=api_token,
                 uri=amazon_machine_uri,
                 timeout=DEFAULT_TIMEOUT,
-                data={'state': 'stopped'})
+                data={'state': 'stopped', 'actions': {'resize': True}})
         },
         'resize_machine': {
             'query_string': [('size', AMAZON_SIZE)],
-            'machine': amazon_machine_name
+            'machine': amazon_machine_name,
+            'callback': partial(
+                poll,
+                api_token=api_token,
+                uri=amazon_machine_uri,
+                timeout=DEFAULT_TIMEOUT,
+                data={'actions': {'start': True}})
         },
         'start_machine': {
             'machine': amazon_machine_name,

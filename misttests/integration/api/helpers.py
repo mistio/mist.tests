@@ -168,8 +168,7 @@ def find_subdict(obj, subdict, exact_match=False):
     if isinstance(obj, dict):
         return contains(obj, subdict)
     for d in obj:
-        assert isinstance(d, dict)
-        if contains(d, subdict):
+        if isinstance(d, dict) and contains(d, subdict):
             return True
     return False
 
