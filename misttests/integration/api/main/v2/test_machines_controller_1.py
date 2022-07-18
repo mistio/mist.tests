@@ -4,6 +4,7 @@ import time
 import pytest
 
 from misttests.config import MIST_URL
+from misttests.integration.api.helpers import poll
 from misttests.integration.api.helpers import assert_response_found
 from misttests.integration.api.helpers import assert_response_ok
 from misttests.integration.api.mistrequests import MistRequests
@@ -85,6 +86,11 @@ class TestMachinesController1:
             assert_response_found(response)
         else:
             assert_response_ok(response)
+        assert poll(
+            api_token=owner_api_token,
+            uri=setup_data['amazon_machine_uri'],
+            data={'state': 'running', 'actions': {'reboot': True}},
+            timeout=_setup_module.DEFAULT_TIMEOUT)
         print('Success!!!')
 
     def test_reboot_machine(self, pretty_print, owner_api_token):
@@ -105,6 +111,11 @@ class TestMachinesController1:
             assert_response_found(response)
         else:
             assert_response_ok(response)
+        assert poll(
+            api_token=owner_api_token,
+            uri=setup_data['amazon_machine_uri'],
+            data={'state': 'running', 'actions': {'stop': True}},
+            timeout=_setup_module.DEFAULT_TIMEOUT)
         print('Success!!!')
 
     def test_resize_machine(self, pretty_print, owner_api_token):
@@ -128,6 +139,11 @@ class TestMachinesController1:
             assert_response_found(response)
         else:
             assert_response_ok(response)
+        assert poll(
+            api_token=owner_api_token,
+            uri=setup_data['amazon_machine_uri'],
+            data={'actions': {'start': True}},
+            timeout=_setup_module.DEFAULT_TIMEOUT)
         print('Success!!!')
 
     def test_start_machine(self, pretty_print, owner_api_token):
@@ -148,6 +164,11 @@ class TestMachinesController1:
             assert_response_found(response)
         else:
             assert_response_ok(response)
+        assert poll(
+            api_token=owner_api_token,
+            uri=setup_data['amazon_machine_uri'],
+            data={'state': 'running', 'actions': {'stop': True}},
+            timeout=_setup_module.DEFAULT_TIMEOUT)
         print('Success!!!')
 
     def test_stop_machine(self, pretty_print, owner_api_token):
@@ -168,6 +189,11 @@ class TestMachinesController1:
             assert_response_found(response)
         else:
             assert_response_ok(response)
+        assert poll(
+            api_token=owner_api_token,
+            uri=setup_data['amazon_machine_uri'],
+            data={'state': 'stopped', 'actions': {'resize': True}},
+            timeout=_setup_module.DEFAULT_TIMEOUT)
         print('Success!!!')
 
 

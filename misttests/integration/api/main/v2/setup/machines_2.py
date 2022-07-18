@@ -1,4 +1,3 @@
-from functools import partial
 from datetime import datetime, timedelta
 
 from misttests.config import inject_vault_credentials
@@ -96,13 +95,6 @@ def setup(api_token):
                 'size': AMAZON_SIZE,
                 'dry': False
             },
-            'callback': partial(
-                poll,
-                api_token=api_token,
-                uri=amazon_machine_uri,
-                data={'state': 'running', 'actions': {'rename': True}},
-                timeout=DEFAULT_TIMEOUT,
-                post_delay=60)
         },
         'associate_key': {
             'request_body': {'key': key_name},
@@ -122,13 +114,6 @@ def setup(api_token):
                     'notify': 0
                 }
             },
-            'callback': partial(
-                poll,
-                api_token=api_token,
-                uri=amazon_machine_uri,
-                data={'actions': {'rename': True}},
-                timeout=DEFAULT_TIMEOUT,
-                post_delay=60)
         },
         'rename_machine': {
             'machine': amazon_machine_name,
@@ -139,6 +124,7 @@ def setup(api_token):
         },
     }
     setup_data = dict(**test_args,
+                      amazon_machine_uri=amazon_machine_uri,
                       amazon_cloud=amazon_cloud_name,
                       key=key_name)
     return setup_data
