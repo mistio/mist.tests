@@ -1,5 +1,3 @@
-from functools import partial
-
 from misttests.config import inject_vault_credentials
 from misttests.config import MIST_URL
 from misttests.config import safe_get_var
@@ -91,52 +89,17 @@ def setup(api_token):
                 'size': AMAZON_SIZE,
                 'dry': False
             },
-            'callback': partial(
-                poll,
-                api_token=api_token,
-                uri=amazon_machine_uri,
-                data={'state': 'running', 'actions': {'reboot': True}},
-                timeout=DEFAULT_TIMEOUT)
         },
-        'reboot_machine': {
-            'machine': amazon_machine_name,
-            'callback': partial(
-                poll,
-                api_token=api_token,
-                uri=amazon_machine_uri,
-                data={'state': 'running', 'actions': {'stop': True}},
-                timeout=DEFAULT_TIMEOUT)
-        },
-        'stop_machine': {
-            'machine': amazon_machine_name,
-            'callback': partial(
-                poll,
-                api_token=api_token,
-                uri=amazon_machine_uri,
-                timeout=DEFAULT_TIMEOUT,
-                data={'state': 'stopped', 'actions': {'resize': True}})
-        },
+        'reboot_machine': {'machine': amazon_machine_name},
+        'stop_machine': {'machine': amazon_machine_name},
         'resize_machine': {
             'query_string': [('size', AMAZON_SIZE)],
-            'machine': amazon_machine_name,
-            'callback': partial(
-                poll,
-                api_token=api_token,
-                uri=amazon_machine_uri,
-                timeout=DEFAULT_TIMEOUT,
-                data={'actions': {'start': True}})
+            'machine': amazon_machine_name
         },
-        'start_machine': {
-            'machine': amazon_machine_name,
-            'callback': partial(
-                poll,
-                api_token=api_token,
-                uri=amazon_machine_uri,
-                data={'state': 'running'},
-                timeout=DEFAULT_TIMEOUT)
-        },
+        'start_machine': {'machine': amazon_machine_name},
     }
     setup_data = dict(**test_args,
+                      amazon_machine_uri=amazon_machine_uri,
                       amazon_cloud=amazon_cloud_name,
                       key=key_name)
     return setup_data

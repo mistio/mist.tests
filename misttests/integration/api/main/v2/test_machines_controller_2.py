@@ -4,6 +4,7 @@ import time
 import pytest
 
 from misttests.config import MIST_URL
+from misttests.integration.api.helpers import poll
 from misttests.integration.api.helpers import assert_response_found
 from misttests.integration.api.helpers import assert_response_ok
 from misttests.integration.api.mistrequests import MistRequests
@@ -116,6 +117,12 @@ class TestMachinesController1:
             assert_response_found(response)
         else:
             assert_response_ok(response)
+        assert poll(
+            api_token=owner_api_token,
+            uri=setup_data['amazon_machine_uri'],
+            data={'state': 'running', 'actions': {'rename': True}},
+            timeout=_setup_module.DEFAULT_TIMEOUT,
+            post_delay=60)
         print('Success!!!')
 
     def test_disassociate_key(self, pretty_print, owner_api_token):
@@ -171,6 +178,11 @@ class TestMachinesController1:
             assert_response_found(response)
         else:
             assert_response_ok(response)
+        assert poll(
+            api_token=owner_api_token,
+            uri=setup_data['amazon_machine_uri'],
+            data={'actions': {'rename': True}},
+            timeout=_setup_module.DEFAULT_TIMEOUT)
         print('Success!!!')
 
     def test_get_machine(self, pretty_print, owner_api_token):
