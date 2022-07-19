@@ -12,6 +12,7 @@ CLOUDS_ENDPOINT = f'{V2_ENDPOINT}/clouds'
 CLUSTERS_ENDPOINT = f'{V2_ENDPOINT}/clusters'
 LOCATIONS_ENDPOINT = f'{V2_ENDPOINT}/locations'
 
+
 def setup(api_token):
     cloud_name = uniquify_string('test-cloud')
     add_cloud_request = {
@@ -41,6 +42,7 @@ def setup(api_token):
                 data={'name': 'us-central1-c'})
 
     cluster_name = uniquify_string('test-cluster')
+    nodepool_name = f'{cluster_name}-pool-0'
     cluster_uri = f'{MIST_URL}/{CLUSTERS_ENDPOINT}/{cluster_name}'
     test_args = {
         'create_cluster': {
@@ -55,6 +57,18 @@ def setup(api_token):
                                 uri=cluster_uri,
                                 data={'state': 'running'},
                                 timeout=800),
+        },
+        'scale_nodepool': {
+            'request_body': {
+                'desired_nodes': 1,
+            },
+            'callback': partial(poll,
+                                api_token=api_token,
+                                uri=cluster_uri,
+                                data={'total_nodes': 1},
+                                timeout=800),
+            'cluster': cluster_name,
+            'nodepool': nodepool_name,
         },
         'get_cluster': {
             'cluster': cluster_name,

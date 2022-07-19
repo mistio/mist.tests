@@ -101,7 +101,7 @@ def get_keys_with_id(name, keys):
 
 
 def get_random_key_name(existing_keys):
-     while True:
+    while True:
         random_key_name = get_random_str()
         keys = get_keys_with_id(random_key_name, existing_keys)
         if len(keys) == 0:
@@ -133,6 +133,8 @@ def find_subdict(obj, subdict, exact_match=False):
             kcontained = k in dict1
             if kcontained and isinstance(v, dict):
                 valcontained = v.items() <= dict1[k].items()
+            elif kcontained and isinstance(v, int):
+                valcontained = (v == dict1[k])
             elif kcontained:
                 valcontained = v in dict1[k]
             if not kcontained or not valcontained:
