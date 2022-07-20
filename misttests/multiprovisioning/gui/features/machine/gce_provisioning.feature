@@ -51,7 +51,7 @@ Feature: Multiprovisioning
     And I wait for 60 seconds
     Then I click the "Shell" action button in the "machine" page
     And I wait for 5 seconds
-    And I expect terminal to open within 5 seconds
+    And I expect terminal to open within 20 seconds
     And shell input should be available after 30 seconds
     And I type in the terminal "sudo su"
     And I wait for 2 seconds
@@ -61,4 +61,4 @@ Feature: Multiprovisioning
 
     Examples: Providers to be tested
     | cloud         | size                                                    | location         | image                         | machine-name           |
-    | Google Cloud  | f1-micro (1 vCPU (shared physical core) and 0.6 GB RAM) | europe-west1-c   | ubuntu-1804-bionic            | gce-mp-test-random     |
+    | Google Cloud  | f1-micro (1 vCPU (shared physical core) and 0.6 GB RAM) | europe-east1-c   | ubuntu-1804-bionic            | gce-mp-test-random     |
