@@ -61,4 +61,4 @@ Feature: Multiprovisioning
 
     Examples: Providers to be tested
     | cloud         | size                                                    | location         | image                         | machine-name           |
-    | Google Cloud  | f1-micro (1 vCPU (shared physical core) and 0.6 GB RAM) | europe-east1-c   | ubuntu-1804-bionic            | gce-mp-test-random     |
+    | Google Cloud  | f1-micro (1 vCPU (shared physical core) and 0.6 GB RAM) | us-east1-c   | ubuntu-1804-bionic            | gce-mp-test-random     |
