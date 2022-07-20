@@ -48,7 +48,7 @@ Feature: Multiprovisioning
     And "<machine-name>" machine state has to be "running" within 180 seconds
     And I click the "<machine-name>" "machine"
     And I expect the "machine" page to be visible within max 5 seconds
-    And I wait for 120 seconds
+    And I wait for 90 seconds
     Then I click the "Shell" action button in the "machine" page
     And I wait for 5 seconds
     And I expect terminal to open within 20 seconds
@@ -60,5 +60,5 @@ Feature: Multiprovisioning
     Then new_file should be included in the output
 
     Examples: Providers to be tested
-    | cloud         | size                                                    | location         | image                         | machine-name           |
-    | Google Cloud  | f1-micro (1 vCPU (shared physical core) and 0.6 GB RAM) | us-east1-c   | ubuntu-1804-bionic            | gce-mp-test-random     |
+    | cloud         | size                                                    | location     | image                         | machine-name           |
+    | Google Cloud  | f1-micro (1 vCPU (shared physical core) and 0.6 GB RAM) | us-east1-c   | ubuntu-1804-bionic-v          | gce-mp-test-random     |
