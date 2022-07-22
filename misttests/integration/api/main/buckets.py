@@ -1,7 +1,7 @@
 import pytest
 
 from misttests.integration.api.helpers import assert_response_unauthorized
-from misttests.integration.api.utils import assert_equal, assert_less_or_equal, assert_response_not_found
+from misttests.integration.api.utils import assert_less_or_equal, assert_response_not_found
 from misttests.config import safe_get_var
 from misttests.integration.api.helpers import assert_response_ok
 
@@ -76,12 +76,12 @@ class TestBucketsFunctionality:
                           owner_api_token):
 
         response = mist_core.add_cloud(
-            title='EC2', provider='ec2', api_token=owner_api_token,
+            name='EC2', provider='ec2', api_token=owner_api_token,
             region=safe_get_var('clouds/aws', 'region'),
             apikey=safe_get_var('clouds/aws', 'apikey'),
             apisecret=safe_get_var('clouds/aws', 'apisecret'),
             object_storage_enabled=True
-            ).post()
+        ).post()
         assert_response_ok(response)
         assert mist_core.poll_buckets(owner_api_token)
         response = mist_core.list_buckets(api_token=owner_api_token).get()
