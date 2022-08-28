@@ -28,4 +28,4 @@ Feature: Schedulers
     And shell input should be available after 30 seconds
     And I type in the terminal "ls -la /var"
     And I wait for 1 seconds
-    Then dummy_file should be included in the terminal output
+    Then dummy_file should be included in the output
