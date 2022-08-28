@@ -24,8 +24,8 @@ Feature: Schedulers
     When I wait for 35 seconds
     And I click the "Shell" action button in the "machine" page
     And I wait for 5 seconds
-    Then I expect in-page terminal to open within 20 seconds
-    And in-page shell input should be available after 30 seconds
-    And I type in the in-page terminal "ls -la /var"
+    Then I expect terminal to open within 20 seconds
+    And shell input should be available after 30 seconds
+    And I type in the terminal "ls -la /var"
     And I wait for 1 seconds
-    Then dummy_file should be included in the in-page terminal output
+    Then dummy_file should be included in the terminal output
