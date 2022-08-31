@@ -267,7 +267,7 @@ class TestSchedulesFunctionality:
         response = mist_core.edit_schedule(api_token=owner_api_token,
                                            schedule_id=cache.get(
                                                'crontab_schedule_id', ''),
-                                                data={
+                                                data=json.dumps({
                                                     'action': 'stop',
                                                     'schedule_type': 'crontab',
                                                     'schedule_entry':{
@@ -277,7 +277,7 @@ class TestSchedulesFunctionality:
                                                         'day_of_month': '*',
                                                         'month_of_year': '*'
                                                     }
-                                                }
+                                                })
                                             ).patch()
         assert_response_ok(response)
         print("Success!!!")
