@@ -4,7 +4,7 @@ import requests
 class MistRequests(object):
     """
     Simple class to make requests with or without cookies etc.
-    This way we can have the same request methods both in io and core
+    This way we can have the same request methods both in CE and EE/HS
     """
 
     def __init__(self, uri, params=None, data=None, json=None, cookie=None,

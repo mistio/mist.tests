@@ -56,18 +56,18 @@ def get_random_script_name(existing_scripts):
             return random_script_name
 
 
-def add_bash_script(mist_core, valid_api_token):
-    response = mist_core.list_scripts(api_token=valid_api_token).get()
+def add_bash_script(mist_api_v1, valid_api_token):
+    response = mist_api_v1.list_scripts(api_token=valid_api_token).get()
     assert_response_ok(response)
     script_list = json.loads(response.content)
     script_name = get_random_script_name(script_list)
-    response = mist_core.add_script(api_token=valid_api_token,
+    response = mist_api_v1.add_script(api_token=valid_api_token,
                                     name=script_name,
                                     location_type='inline',
                                     exec_type='executable',
                                     script=bash_script).post()
     assert_response_ok(response)
-    response = mist_core.list_scripts(api_token=valid_api_token).get()
+    response = mist_api_v1.list_scripts(api_token=valid_api_token).get()
     assert_response_ok(response)
     script = get_scripts_with_name(
         script_name,
@@ -112,9 +112,9 @@ def uniquify_string(string):
     return f"{string}-{str(uuid.uuid4()).split('-')[0]}"
 
 
-def destroy_machine(log, mist_core, api_token, cloud_id, machine_id):
-    mist_core.list_machines(cloud_id=cloud_id, api_token=api_token).get()
-    response = mist_core.destroy_machine(api_token=api_token,
+def destroy_machine(log, mist_api_v1, api_token, cloud_id, machine_id):
+    mist_api_v1.list_machines(cloud_id=cloud_id, api_token=api_token).get()
+    response = mist_api_v1.destroy_machine(api_token=api_token,
                                          cloud_id=cloud_id,
                                          machine_id=machine_id).post()
     try:
