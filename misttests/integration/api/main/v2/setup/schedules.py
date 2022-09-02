@@ -85,7 +85,7 @@ def setup(api_token):
                 'expires' : (datetime.now() + timedelta(days=8)).strftime("%Y-%m-%d %H:%m:%S"),
                 'name' : schedule_name,
                 'description' : "Test schedule",
-                'run_immediately' : false,
+                'run_immediately' : True,
                 'selectors' : [ {'ids':[machine_id], 'type': 'machines'}],
                 'actions' : [{'action_type':'reboot'}],
                 'enabled' : true
