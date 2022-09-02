@@ -88,7 +88,7 @@ def setup(api_token):
                 'run_immediately' : True,
                 'selectors' : [ {'ids':[machine_id], 'type': 'machines'}],
                 'actions' : [{'action_type':'reboot'}],
-                'enabled' : true
+                'enabled' : True
             },
         },
         'edit_schedule': {
