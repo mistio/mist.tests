@@ -8,7 +8,7 @@ from selenium.webdriver.support import expected_conditions as EC
 from selenium.common.exceptions import TimeoutException
 from selenium.common.exceptions import NoSuchElementException
 
-from .utils import safe_get_element_text, expand_shadow_root
+from misttests.integration.gui.steps.utils import safe_get_element_text, expand_shadow_root
 
 
 @step('I click the "{button}" button in the get-started-page')
@@ -68,7 +68,7 @@ def open_login_popup(context, kind):
 
 @step("I click the {text} button in the landing page popup")
 def click_button_in_landing_page(context, text):
-    from .buttons import clicketi_click
+    from misttests.integration.gui.steps.buttons import clicketi_click
     text = text.lower()
     if text not in ['email', 'google', 'github', 'sign in', 'sign up',
                     'submit', 'forgot password', 'reset_password_email_submit',

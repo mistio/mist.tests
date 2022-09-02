@@ -49,5 +49,5 @@ pytest tests/api/io/machines.py
 
 while for GUI machines tests you should run
 
-behave -k --tags=machines tests/gui/core/pr/features/
+behave -k --tags=machines tests/gui/v1/pr/features/
 

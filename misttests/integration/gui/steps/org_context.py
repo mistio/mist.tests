@@ -2,8 +2,8 @@ from behave import step
 
 from selenium.webdriver.common.by import By
 
-from .utils import safe_get_element_text, get_page_element, expand_shadow_root
-from .buttons import click_button_from_collection
+from misttests.integration.gui.steps.utils import safe_get_element_text, get_page_element, expand_shadow_root
+from misttests.integration.gui.steps.buttons import click_button_from_collection
 
 
 def get_current_org(user_menu):
@@ -16,7 +16,7 @@ def get_current_org(user_menu):
 
 @step('I ensure that I am in the "{organization}" organization context')
 def ensure_organizational_context(context, organization):
-    from .navigation import get_user_menu
+    from misttests.integration.gui.steps.navigation import get_user_menu
     context.execute_steps('''
         Then I open the user menu
     ''')

@@ -1,7 +1,7 @@
 from behave import step
 from selenium.webdriver.common.by import By
 
-from .utils import get_page_element, expand_shadow_root
+from misttests.integration.gui.steps.utils import get_page_element, expand_shadow_root
 
 
 @step('there should be {subnets} subnets visible in single network page')

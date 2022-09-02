@@ -5,7 +5,7 @@ from selenium.webdriver.common.by import By
 from selenium.common.exceptions import NoSuchElementException
 from selenium.common.exceptions import StaleElementReferenceException
 
-from .utils import safe_get_element_text, get_page_element, expand_shadow_root
+from misttests.integration.gui.steps.utils import safe_get_element_text, get_page_element, expand_shadow_root
 
 def get_insights_element(context, shadow=False):
     insights_page = get_page_element(context, 'insights')

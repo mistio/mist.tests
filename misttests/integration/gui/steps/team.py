@@ -2,9 +2,9 @@ from behave import step
 
 from selenium.webdriver.common.by import By
 
-from .buttons import clicketi_click
+from misttests.integration.gui.steps.buttons import clicketi_click
 
-from .utils import get_page_element, expand_shadow_root
+from misttests.integration.gui.steps.utils import get_page_element, expand_shadow_root
 
 
 def get_member_list(context):

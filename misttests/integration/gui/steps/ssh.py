@@ -5,9 +5,9 @@ from behave import step
 from time import time
 from time import sleep
 
-from .buttons import clicketi_click
+from misttests.integration.gui.steps.buttons import clicketi_click
 
-from .utils import safe_get_element_text, expand_shadow_root
+from misttests.integration.gui.steps.utils import safe_get_element_text, expand_shadow_root
 
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait

@@ -12,15 +12,15 @@ from selenium.common.exceptions import NoSuchElementException
 from selenium.common.exceptions import StaleElementReferenceException
 from selenium.common.exceptions import ElementNotVisibleException
 
-from .utils import safe_get_element_text, expand_shadow_root, get_page_element, has_finished_loading, add_credit_card_if_needed
+from misttests.integration.gui.steps.utils import safe_get_element_text, expand_shadow_root, get_page_element, has_finished_loading, add_credit_card_if_needed
 
-from .forms import set_value_to_field, get_add_form
-from .forms import clear_input_and_send_keys
+from misttests.integration.gui.steps.forms import set_value_to_field, get_add_form
+from misttests.integration.gui.steps.forms import clear_input_and_send_keys
 
-from .buttons import clicketi_click
-from .buttons import click_button_from_collection
+from misttests.integration.gui.steps.buttons import clicketi_click
+from misttests.integration.gui.steps.buttons import click_button_from_collection
 
-from .dialog import get_dialog
+from misttests.integration.gui.steps.dialog import get_dialog
 
 
 def set_gce_creds(context):
