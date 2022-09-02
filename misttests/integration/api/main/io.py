@@ -92,13 +92,13 @@ class MistIoApi(object):
         return req
 
     def remove_cloud(self, cloud_id, cookie=None, csrf_token=None,
-                     api_token=None):
-        # data = {
-        #     'delete_from_vault': delete_from_vault
-        # }
+                     api_token=None, delete_from_vault=None):
+        payload = {}
+        if delete_from_vault:
+            payload['delete_from_vault'] = True
         req = MistRequests(uri=self.uri + '/api/v1/clouds/' + cloud_id,
                            cookie=cookie, csrf_token=csrf_token,
-                           api_token=api_token)
+                           api_token=api_token, data=json.dumps(payload))
         req.get = req.unavailable_api_call
         req.post = req.unavailable_api_call
         req.put = req.unavailable_api_call
@@ -1194,7 +1194,7 @@ class MistIoApi(object):
                 'rtags': rtags
                 }
         req = MistRequests(uri=self.uri + '/api/v1/org/%s/teams/%s/'
-                                          'policy/rules''' % (org_id, team_id),
+                                          'policy/rules' % (org_id, team_id),
                            data=data, api_token=api_token)
         req.put = req.unavailable_api_call
         req.delete = req.unavailable_api_call

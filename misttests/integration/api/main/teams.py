@@ -196,7 +196,7 @@ class TestTeamsFunctionality:
 
     def test_show_user_org(self, pretty_print, mist_api_v1, owner_api_token, cache):
         response = mist_api_v1.show_user_org(api_token=owner_api_token).get()
-        assert response.json()['members_count'] == 1, "The brand new org has more than 1 members!!!"
+        assert len(response.json()['members']) == 1, "The brand new org has more than 1 members!!!"
         assert len(response.json()['teams']) == 1, "The brand new org has more than 1 teams!!!"
         assert response.json()['teams'][0]['name'] == 'Owners', "The default team was not owners!!!"
         cache.set('default_org_id',response.json()['id'])

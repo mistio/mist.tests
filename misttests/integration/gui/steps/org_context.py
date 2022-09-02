@@ -2,8 +2,11 @@ from behave import step
 
 from selenium.webdriver.common.by import By
 
-from misttests.integration.gui.steps.utils import safe_get_element_text, get_page_element, expand_shadow_root
-from misttests.integration.gui.steps.buttons import click_button_from_collection
+from misttests.integration.gui.steps.utils import safe_get_element_text
+from misttests.integration.gui.steps.utils import get_page_element
+from misttests.integration.gui.steps.utils import expand_shadow_root
+from misttests.integration.gui.steps.buttons import \
+    click_button_from_collection
 
 
 def get_current_org(user_menu):

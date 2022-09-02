@@ -5,7 +5,8 @@ from behave import step
 from misttests.integration.gui.steps.utils import safe_get_element_text
 
 from misttests.integration.gui.steps.buttons import clicketi_click
-from misttests.integration.gui.steps.buttons import click_button_from_collection
+from misttests.integration.gui.steps.buttons import \
+    click_button_from_collection
 
 from selenium.common.exceptions import TimeoutException
 from selenium.common.exceptions import WebDriverException
