@@ -222,6 +222,7 @@ class TestSchedulesFunctionality:
         date_now = datetime.datetime.now().replace(microsecond=0)
         scheduled_date = date_now + datetime.timedelta(seconds=10)
         machine_ids = []
+        assert cache.get('machine_2_id', '') != ''
         machine_ids.append(cache.get('machine_2_id', ''))
         selectors = [{"type": "machines", "ids": machine_ids}]
 
@@ -266,8 +267,18 @@ class TestSchedulesFunctionality:
         response = mist_core.edit_schedule(api_token=owner_api_token,
                                            schedule_id=cache.get(
                                                'crontab_schedule_id', ''),
-                                           data={'action': 'stop'}
-                                           ).patch()
+                                                data=json.dumps({
+                                                    'action': 'stop',
+                                                    'schedule_type': 'crontab',
+                                                    'schedule_entry':{
+                                                        'minute': '*',
+                                                        'hour': '*',
+                                                        'day_of_week': '*',
+                                                        'day_of_month': '*',
+                                                        'month_of_year': '*'
+                                                    }
+                                                })
+                                            ).patch()
         assert_response_ok(response)
         print("Success!!!")
 
