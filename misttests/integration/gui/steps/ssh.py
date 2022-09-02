@@ -137,7 +137,16 @@ def type_in_terminal(context, command):
     terminal_container = context.browser.find_element(By.CSS_SELECTOR, "#terminal-container")
     msg = '' + command
     context.browser.execute_script("arguments[0].term.paste('{}');".format(msg), terminal_container)
-    context.browser.execute_script("arguments[0].term.paste('\\n');", terminal_container)
+    context.browser.execute_script("""document.querySelector('textarea').dispatchEvent(
+        new KeyboardEvent('keydown', {
+            altKey:false, bubbles: true, cancelBubble: false,
+            cancelable: true, charCode: 0, code: 'Enter', composed: true,
+            ctrlKey: false, currentTarget: null, defaultPrevented: true,
+            detail: 0, eventPhase: 0, isComposing: false, isTrusted: true,
+            key: 'Enter', keyCode: 13, location: 0, metaKey: false,
+            repeat: false, returnValue: false, shiftKey: false,
+            type: 'keydown', which: 13
+        }))""", terminal_container)
 
 
 @step('{output} should be included in the output')
