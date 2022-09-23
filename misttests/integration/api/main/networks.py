@@ -148,10 +148,10 @@ def test_delete_subnet_wrong_cloud_id(pretty_print, mist_core, owner_api_token):
 class TestNetworksFunctionality:
 
     def test_create_network_ec2(self, mist_core, cache, owner_api_token, network_valid_cidr):
-        response = mist_core.add_cloud(title='AWS', provider= 'ec2', api_token=owner_api_token,
-                                       api_key=safe_get_var('clouds/aws', 'api_key', config.CREDENTIALS['EC2']['api_key']),
-                                       api_secret=safe_get_var('clouds/aws', 'api_secret', config.CREDENTIALS['EC2']['api_secret']),
-                                       region=safe_get_var('clouds/aws', 'region_id', config.CREDENTIALS['EC2']['region_id'])).post()
+        response = mist_core.add_cloud(name='AWS', provider= 'ec2', api_token=owner_api_token,
+                                       api_key=safe_get_var('clouds/aws', 'apikey', config.CREDENTIALS['EC2']['apikey']),
+                                       api_secret=safe_get_var('clouds/aws', 'apisecret', config.CREDENTIALS['EC2']['apisecret']),
+                                       region=safe_get_var('clouds/aws', 'region', config.CREDENTIALS['EC2']['region'])).post()
         assert_response_ok(response)
         cache.set('cloud_ids/ec2', response.json()['id'])
         response = mist_core.create_network(api_token=owner_api_token,

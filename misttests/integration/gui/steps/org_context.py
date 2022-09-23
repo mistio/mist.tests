@@ -1,12 +1,16 @@
 from behave import step
 
+from selenium.webdriver.common.by import By
+
 from .utils import safe_get_element_text, get_page_element, expand_shadow_root
 from .buttons import click_button_from_collection
 
 
 def get_current_org(user_menu):
-    return safe_get_element_text(user_menu.find_element_by_css_selector(
-            'div.current.context').find_element_by_tag_name('h4')).\
+    return safe_get_element_text(
+        user_menu.find_element(
+            By.CSS_SELECTOR, 'div.current.context').find_element(
+                By.CSS_SELECTOR, 'h4')).\
         strip().lower()
 
 
@@ -21,7 +25,7 @@ def ensure_organizational_context(context, organization):
     if get_current_org(user_menu) == organization:
         return True
     else:
-        buttons = user_menu.find_elements_by_css_selector('paper-item')
+        buttons = user_menu.find_elements(By.CSS_SELECTOR, 'paper-item')
         click_button_from_collection(context, organization, buttons)
         context.execute_steps('''
             Then I wait for the dashboard to load
@@ -33,6 +37,6 @@ def ensure_organizational_context(context, organization):
 def ensure_onboarding_form_is_visible(context):
     dashboard = get_page_element(context, 'dashboard')
     dashboard_shadow = expand_shadow_root(context, dashboard)
-    onb_element = dashboard_shadow.find_element_by_css_selector('onb-element')
+    onb_element = dashboard_shadow.find_element(By.CSS_SELECTOR, 'onb-element')
     assert onb_element.is_displayed(), "Form to set name for new org \
         is not displayed"

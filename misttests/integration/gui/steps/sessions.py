@@ -1,5 +1,7 @@
 from behave import step
 
+from selenium.webdriver.common.by import By
+
 from .utils import focus_on_element
 
 from .buttons import clicketi_click
@@ -9,10 +11,10 @@ from selenium.common.exceptions import NoSuchElementException
 
 @step('I revoke all sessions')
 def revoke_all_sessions(context):
-    session_items = context.browser.find_elements_by_class_name('session-record')
+    session_items = context.browser.find_elements(By.CSS_SELECTOR, '.session-record')
     for session_item in session_items:
         try:
-            revoke_btn = session_item.find_element_by_class_name('ui-btn')
+            revoke_btn = session_item.find_element(By.CSS_SELECTOR, '.ui-btn')
             focus_on_element(context, revoke_btn)
             clicketi_click(context, revoke_btn)
             context.execute_steps('''

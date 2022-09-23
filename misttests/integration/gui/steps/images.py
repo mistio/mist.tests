@@ -1,5 +1,7 @@
 from behave import step
 
+from selenium.webdriver.common.by import By
+
 from time import time
 
 from .utils import safe_get_element_text, get_page_element
@@ -9,7 +11,7 @@ from .utils import expand_shadow_root, get_list_filtered_items
 def find_image(image, images_list):
     for check_image in images_list:
         if image in safe_get_element_text(check_image):
-            return check_image.find_element_by_css_selector('strong.name')
+            return check_image.find_element(By.CSS_SELECTOR, 'strong.name')
 
 
 @step('the "{image}" image should be "{state}" within {seconds} seconds')
@@ -19,7 +21,7 @@ def assert_starred_unstarred_image(context, image, state, seconds):
         raise Exception('Unknown type of state')
     images_page = get_page_element(context, 'images')
     images_page_shadow = expand_shadow_root(context, images_page)
-    mist_list = images_page_shadow.find_element_by_css_selector('mist-list')
+    mist_list = images_page_shadow.find_element(By.CSS_SELECTOR, 'mist-list')
     end_time = time() + int(seconds)
     while time() < end_time:
         starred = get_list_filtered_items(context, mist_list)[0]['starred']

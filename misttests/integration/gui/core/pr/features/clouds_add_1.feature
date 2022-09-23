@@ -9,7 +9,7 @@ Feature: Add second-tier clouds
     When I click the fab button in the "dashboard" page
     Then I expect the "Cloud" add form to be visible within max 5 seconds
     When I select the "<provider>" provider
-    Then I expect the field "Title" in the cloud add form to be visible within max 4 seconds
+    Then I expect the field "Name" in the cloud add form to be visible within max 4 seconds
     When I use my "<provider>" credentials
     And I focus on the button "Add Cloud" in the "cloud" add form
     And I click the button "Add Cloud" in the "cloud" add form
@@ -39,7 +39,7 @@ Feature: Add second-tier clouds
     When I click the fab button in the "dashboard" page
     Then I expect the "Cloud" add form to be visible within max 5 seconds
     When I select the "Other Server" provider
-    Then I expect the field "Cloud Title" in the cloud add form to be visible within max 4 seconds
+    Then I expect the field "Cloud Name" in the cloud add form to be visible within max 4 seconds
     When I use my "Other Server" credentials
     And I focus on the button "Add Cloud" in the "cloud" add form
     Then I click the button "Add Cloud" in the "cloud" add form
@@ -52,7 +52,7 @@ Feature: Add second-tier clouds
     When I click the fab button in the "dashboard" page
     Then I expect the "Cloud" add form to be visible within max 5 seconds
     When I select the "KVM" provider
-    Then I expect the field "Title" in the cloud add form to be visible within max 4 seconds
+    Then I expect the field "Name" in the cloud add form to be visible within max 4 seconds
     When I use my "KVM" credentials
     And I focus on the button "Add Cloud" in the "cloud" add form
     Then I click the button "Add Cloud" in the "cloud" add form

@@ -14,9 +14,9 @@ Feature: Images-Networks
     And I wait for 2 seconds
     And I search for "Ubuntu 20.04 (LTS) x64"
     Then "Ubuntu 20.04 (LTS) x64" image should be present within 15 seconds
-    And "Debian 9 x64" image should be absent within 10 seconds
+    And "Debian 11 x64" image should be absent within 10 seconds
     When I clear the search bar
-    Then "Debian 9 x64" image should be present within 5 seconds
+    Then "Debian 11 x64" image should be present within 5 seconds
 
   @image-star
   Scenario: Star image

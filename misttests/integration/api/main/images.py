@@ -6,23 +6,23 @@ from misttests import config
 # needs to change in the backend: get instead of post...
 def test_list_images(pretty_print, mist_core, owner_api_token, cache):
     if config.LOCAL:
-        response = mist_core.add_cloud(title='Docker', provider='docker', api_token=owner_api_token,
+        response = mist_core.add_cloud(name='Docker', provider='docker', api_token=owner_api_token,
                                    docker_host=config.LOCAL_DOCKER,
                                    docker_port='2375').post()
     else:
-        response = mist_core.add_cloud(title='Docker', provider='docker', api_token=owner_api_token,
+        response = mist_core.add_cloud(name='Docker', provider='docker', api_token=owner_api_token,
                                    docker_host=safe_get_var('clouds/dockerhost', 'host',
                                                             config.CREDENTIALS['DOCKER']['host']),
                                    docker_port=int(safe_get_var('clouds/dockerhost', 'port',
                                                             config.CREDENTIALS['DOCKER']['port'])),
                                    authentication=safe_get_var('clouds/dockerhost', 'authentication',
                                                                config.CREDENTIALS['DOCKER']['authentication']),
-                                   ca_cert_file=safe_get_var('clouds/dockerhost', 'ca',
-                                                             config.CREDENTIALS['DOCKER']['ca']),
-                                   key_file=safe_get_var('clouds/dockerhost', 'key',
-                                                         config.CREDENTIALS['DOCKER']['key']),
-                                   cert_file=safe_get_var('clouds/dockerhost', 'cert',
-                                                          config.CREDENTIALS['DOCKER']['cert']), show_all=True).post()
+                                   ca_cert_file=safe_get_var('clouds/dockerhost', 'tlsCaCert',
+                                                             config.CREDENTIALS['DOCKER']['tlsCaCert']),
+                                   key_file=safe_get_var('clouds/dockerhost', 'tlsKey',
+                                                         config.CREDENTIALS['DOCKER']['tlsKey']),
+                                   cert_file=safe_get_var('clouds/dockerhost', 'tlsCert',
+                                                          config.CREDENTIALS['DOCKER']['tlsCert']), show_all=True).post()
     assert_response_ok(response)
     response = mist_core.list_clouds(api_token=owner_api_token).get()
     assert_response_ok(response)
@@ -31,7 +31,7 @@ def test_list_images(pretty_print, mist_core, owner_api_token, cache):
     response = mist_core.list_images(cloud_id=cache.get('cloud_id',''), api_token=owner_api_token).get()
     assert_response_ok(response)
     for image in response.json():
-        if 'collectd' in image['name']:
+        if config.DEFAULT_IMAGE_NAME in image['name']:
             cache.set('image_id', image['id'])
             break
     assert len(response.json()) > 0, "No images are listed for Docker cloud"

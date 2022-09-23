@@ -114,23 +114,23 @@ class TestSchedulesFunctionality:
 
     def test_create_resources(self, pretty_print, mist_core, owner_api_token, cache):
         if config.LOCAL:
-            response = mist_core.add_cloud(title='Docker', provider='docker', api_token=owner_api_token,
+            response = mist_core.add_cloud(name='Docker', provider='docker', api_token=owner_api_token,
                                        docker_host=config.LOCAL_DOCKER,
                                        docker_port='2375').post()
         else:
-            response = mist_core.add_cloud(title='Docker', provider='docker', api_token=owner_api_token,
+            response = mist_core.add_cloud(name='Docker', provider='docker', api_token=owner_api_token,
                                        docker_host=safe_get_var('clouds/dockerhost', 'host',
                                                                 config.CREDENTIALS['DOCKER']['host']),
                                        docker_port=int(safe_get_var('clouds/dockerhost', 'port',
                                                                 config.CREDENTIALS['DOCKER']['port'])),
                                        authentication=safe_get_var('clouds/dockerhost', 'authentication',
                                                                    config.CREDENTIALS['DOCKER']['authentication']),
-                                       ca_cert_file=safe_get_var('clouds/dockerhost', 'ca',
-                                                                 config.CREDENTIALS['DOCKER']['ca']),
-                                       key_file=safe_get_var('clouds/dockerhost', 'key',
-                                                             config.CREDENTIALS['DOCKER']['key']),
-                                       cert_file=safe_get_var('clouds/dockerhost', 'cert',
-                                                              config.CREDENTIALS['DOCKER']['cert']), show_all=True).post()
+                                       ca_cert_file=safe_get_var('clouds/dockerhost', 'tlsCaCert',
+                                                                 config.CREDENTIALS['DOCKER']['tlsCaCert']),
+                                       key_file=safe_get_var('clouds/dockerhost', 'tlsKey',
+                                                             config.CREDENTIALS['DOCKER']['tlsKey']),
+                                       cert_file=safe_get_var('clouds/dockerhost', 'tlsCert',
+                                                              config.CREDENTIALS['DOCKER']['tlsCert']), show_all=True).post()
         assert_response_ok(response)
         cache.set('docker_id', response.json()['id'])
 
@@ -174,9 +174,9 @@ class TestSchedulesFunctionality:
         print("Success!!!")
 
     def test_add_one_off_schedule_missing_schedule_entry(self, pretty_print, mist_core, owner_api_token, cache):
-        machines_uuids = []
-        machines_uuids.append(cache.get('machine_1_id', ''))
-        selectors = [{"type": "machines", "ids": machines_uuids}]
+        machine_ids = []
+        machine_ids.append(cache.get('machine_1_id', ''))
+        selectors = [{"type": "machines", "ids": machine_ids}]
         response = mist_core.add_schedule(api_token=owner_api_token,
                                           name='TestSchedule1',
                                           action='stop',
@@ -188,9 +188,9 @@ class TestSchedulesFunctionality:
     def test_add_interval_schedule_run_immediately_ok(self, pretty_print, mist_core, owner_api_token, cache):
         response = mist_core.list_machines(cloud_id=cache.get('docker_id', ''), api_token=owner_api_token).get()
         assert_response_ok(response)
-        machines_uuids = []
-        machines_uuids.append(cache.get('machine_1_id', ''))
-        selectors = [{"type":"machines","ids":machines_uuids}]
+        machine_ids = []
+        machine_ids.append(cache.get('machine_1_id', ''))
+        selectors = [{"type":"machines","ids":machine_ids}]
         response = mist_core.add_schedule(api_token=owner_api_token, name='TestSchedule1',
                                           action='stop', schedule_type='interval',
                                           selectors=selectors,
@@ -221,9 +221,10 @@ class TestSchedulesFunctionality:
                                      cache, owner_api_token):
         date_now = datetime.datetime.now().replace(microsecond=0)
         scheduled_date = date_now + datetime.timedelta(seconds=10)
-        machines_uuids = []
-        machines_uuids.append(cache.get('machine_2_id', ''))
-        selectors = [{"type": "machines", "ids": machines_uuids}]
+        machine_ids = []
+        assert cache.get('machine_2_id', '') != ''
+        machine_ids.append(cache.get('machine_2_id', ''))
+        selectors = [{"type": "machines", "ids": machine_ids}]
 
         response = mist_core.add_schedule(api_token=owner_api_token,
                                           name='TestSchedule3',
@@ -240,9 +241,9 @@ class TestSchedulesFunctionality:
 
     def test_add_crontab_schedule_ok(self, pretty_print, mist_core,
                                      cache, owner_api_token):
-        machines_uuids = []
-        machines_uuids.append(cache.get('machine_3_id', ''))
-        selectors = [{"type": "machines", "ids": machines_uuids}]
+        machine_ids = []
+        machine_ids.append(cache.get('machine_3_id', ''))
+        selectors = [{"type": "machines", "ids": machine_ids}]
 
         response = mist_core.add_schedule(api_token=owner_api_token,
                                           name='CrontabSchedule',
@@ -266,8 +267,18 @@ class TestSchedulesFunctionality:
         response = mist_core.edit_schedule(api_token=owner_api_token,
                                            schedule_id=cache.get(
                                                'crontab_schedule_id', ''),
-                                           data={'action': 'stop'}
-                                           ).patch()
+                                                data=json.dumps({
+                                                    'action': 'stop',
+                                                    'schedule_type': 'crontab',
+                                                    'schedule_entry':{
+                                                        'minute': '*',
+                                                        'hour': '*',
+                                                        'day_of_week': '*',
+                                                        'day_of_month': '*',
+                                                        'month_of_year': '*'
+                                                    }
+                                                })
+                                            ).patch()
         assert_response_ok(response)
         print("Success!!!")
 
@@ -290,9 +301,9 @@ class TestSchedulesFunctionality:
 
     def test_add_schedule_dup_name(self, pretty_print, mist_core,
                                    owner_api_token, cache):
-        machines_uuids = []
-        machines_uuids.append(cache.get('machine_1_id', ''))
-        selectors = [{"type": "machines", "ids": machines_uuids}]
+        machine_ids = []
+        machine_ids.append(cache.get('machine_1_id', ''))
+        selectors = [{"type": "machines", "ids": machine_ids}]
 
         now = datetime.datetime.now()
         response = mist_core.add_schedule(api_token=owner_api_token,
@@ -306,10 +317,10 @@ class TestSchedulesFunctionality:
 
     def test_add_one_off_schedule_wrong_date(self, pretty_print, mist_core,
                                              owner_api_token, cache):
-        machines_uuids = []
-        machines_uuids.append(cache.get('machine_1_id', ''))
+        machine_ids = []
+        machine_ids.append(cache.get('machine_1_id', ''))
         date_now = datetime.datetime.now().replace(microsecond=0)
-        selectors = [{"type": "machines", "ids": machines_uuids}]
+        selectors = [{"type": "machines", "ids": machine_ids}]
         response = mist_core.add_schedule(api_token=owner_api_token,
                                           name='TestSchedule5',
                                           action='stop',
@@ -329,9 +340,9 @@ class TestSchedulesFunctionality:
 
     def test_add_disabled_schedule(self, pretty_print, mist_core,
                                    owner_api_token, cache):
-        machines_uuids = []
-        machines_uuids.append(cache.get('machine_1_id', ''))
-        selectors = [{"type": "machines", "ids": machines_uuids}]
+        machine_ids = []
+        machine_ids.append(cache.get('machine_1_id', ''))
+        selectors = [{"type": "machines", "ids": machine_ids}]
         response = mist_core.add_schedule(api_token=owner_api_token,
                                           name='DisabledSchedule',
                                           action='stop',

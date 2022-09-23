@@ -2,6 +2,8 @@
 
 declare -A pytest_paths
 
+pytest_paths["buckets"]='misttests/integration/api/main/buckets.py'
+pytest_paths["secrets"]='misttests/integration/api/main/secrets.py'
 pytest_paths["clouds"]='misttests/integration/api/main/clouds.py'
 pytest_paths["images"]='misttests/integration/api/main/images.py'
 pytest_paths["libcloud1"]='misttests/integration/api/main/libcloud_1.py'

@@ -4,6 +4,8 @@ from .utils import safe_get_element_text
 from selenium.common.exceptions import NoSuchElementException
 from selenium.common.exceptions import StaleElementReferenceException
 
+from selenium.webdriver.common.by import By
+
 
 @step('key "{key_name}" should be default key')
 def check_if_default_key(context, key_name):
@@ -17,7 +19,7 @@ def add_or_select_key(context, key_name):
     if context.mist_config.get(key_name):
         key_name = context.mist_config.get(key_name)
 
-    keys = context.browser.find_element_by_id('key').find_elements_by_tag_name('li')
+    keys = context.browser.find_element(By.CSS_SELECTOR, '#key').find_elements(By.CSS_SELECTOR, 'li')
     for key in keys:
         if key_name == safe_get_element_text(key):
             key.click()
@@ -38,7 +40,7 @@ def find_key(context, key_title):
     context.execute_steps('''
             When I visit the Keys page
     ''')
-    key_items = context.browser.find_elements_by_tag_name('list-item')
+    key_items = context.browser.find_elements(By.CSS_SELECTOR, 'list-item')
     keys = []
     for key in key_items:
         try:
@@ -48,7 +50,7 @@ def find_key(context, key_title):
              pass
     for key in keys:
         try:
-            title = key.find_element_by_class_name('name')
+            title = key.find_element(By.CSS_SELECTOR, '.name')
             if safe_get_element_text(title).lower().strip() == key_title:
                 return key
         except (NoSuchElementException, StaleElementReferenceException):

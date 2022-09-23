@@ -1,9 +1,11 @@
+import time
 import uuid
 import json
 import string
 import random
 
 from misttests.integration.api.utils import *
+from misttests.integration.api.mistrequests import MistRequests
 from misttests import config
 
 from misttests.config import safe_get_var
@@ -99,7 +101,7 @@ def get_keys_with_id(name, keys):
 
 
 def get_random_key_name(existing_keys):
-     while True:
+    while True:
         random_key_name = get_random_str()
         keys = get_keys_with_id(random_key_name, existing_keys)
         if len(keys) == 0:
@@ -121,3 +123,50 @@ def destroy_machine(log, mist_core, api_token, cloud_id, machine_id):
     except AssertionError as e:
         log.error("Machine destruction was not successful!")
         raise e
+
+
+def find_subdict(obj, subdict, exact_match=False):
+    def contains(dict1, dict2):
+        if exact_match:
+            return dict2.items() <= dict1.items()
+        for k, v in dict2.items():
+            kcontained = k in dict1
+            if kcontained and isinstance(v, dict):
+                valcontained = v.items() <= dict1[k].items()
+            elif kcontained and isinstance(v, int):
+                valcontained = (v == dict1[k])
+            elif kcontained:
+                valcontained = v in dict1[k]
+            if not kcontained or not valcontained:
+                return False
+        return True
+    if isinstance(obj, dict):
+        return contains(obj, subdict)
+    for d in obj:
+        if isinstance(d, dict) and contains(d, subdict):
+            return True
+    return False
+
+
+def poll(api_token, uri, data={}, query_params=None,
+         timeout=60 * 5, interval=10, post_delay=None):
+    req_kwargs = dict(api_token=api_token, uri=uri)
+    if query_params:
+        req_kwargs['params'] = query_params
+    request = MistRequests(**req_kwargs)
+    t_end = time.time() + timeout
+    while time.time() < t_end:
+        response = request.get()
+        response_body = response.json()
+        try:
+            response_data = response_body['data']
+        except (KeyError, TypeError):
+            response_data = response_body
+        if response_data and not data:
+            return True
+        if data and find_subdict(response_data, data):
+            if post_delay:
+                time.sleep(post_delay)
+            return True
+        time.sleep(interval)
+    return False

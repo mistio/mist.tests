@@ -34,7 +34,7 @@ providers = {
     "Docker": {
         "size": "",
         "location": "",
-        "image": "mist/ubuntu-14.04"
+        "image": "mist/debian-ssh"
     },
     "DigitalOcean": {
         "size": "512mb",
@@ -122,7 +122,7 @@ def check_cloud_exists(provider):
     cloud_id = None
 
     for cloud in resp.json():
-        if cloud['title'] == provider:
+        if cloud['name'] == provider:
             cloud_id = cloud['id']
     return cloud_id
 
@@ -131,26 +131,26 @@ def add_cloud(provider):
     cloud_id = check_cloud_exists(provider)
     if cloud_id == None:
         if provider == 'AWS':
-            response = mist_core.add_cloud(title=provider, provider= 'ec2', api_token=config.MIST_API_TOKEN,
-                                       api_key=safe_get_var('clouds/aws_no_images', 'api_key', config.CREDENTIALS['EC2']['api_key']),
-                                       api_secret=safe_get_var('clouds/aws_no_images', 'api_secret', config.CREDENTIALS['EC2']['api_secret']),
+            response = mist_core.add_cloud(name=provider, provider= 'ec2', api_token=config.MIST_API_TOKEN,
+                                       api_key=safe_get_var('clouds/aws_no_images', 'apikey', config.CREDENTIALS['EC2']['apikey']),
+                                       api_secret=safe_get_var('clouds/aws_no_images', 'apisecret', config.CREDENTIALS['EC2']['apisecret']),
                                        region=providers[provider]['location']).post()
 
         elif provider == 'DigitalOcean':
-            response = mist_core.add_cloud(title=provider, provider= 'digitalocean', api_token=config.MIST_API_TOKEN,
+            response = mist_core.add_cloud(name=provider, provider= 'digitalocean', api_token=config.MIST_API_TOKEN,
                                        token=safe_get_var('clouds/digitalocean', 'token', config.CREDENTIALS['DIGITALOCEAN']['token'])).post()
 
         elif provider == "Linode":
-            response = mist_core.add_cloud(title=provider, provider= 'linode', api_token=config.MIST_API_TOKEN,
-                                       api_key=safe_get_var('clouds/linode', 'api_key_new', config.CREDENTIALS['LINODE']['api_key'])).post()
+            response = mist_core.add_cloud(name=provider, provider= 'linode', api_token=config.MIST_API_TOKEN,
+                                       api_key=safe_get_var('clouds/linode', 'api_key_new', config.CREDENTIALS['LINODE']['apikey'])).post()
 
         elif provider == "Azure":
-            response = mist_core.add_cloud(title=provider, provider= 'azure', api_token=config.MIST_API_TOKEN,
+            response = mist_core.add_cloud(name=provider, provider= 'azure', api_token=config.MIST_API_TOKEN,
                                        subscription_id=safe_get_var('clouds/azure', 'subscription_id', config.CREDENTIALS['AZURE']['subscription_id']),
                                        certificate=safe_get_var('clouds/azure', 'certificate', config.CREDENTIALS['AZURE']['certificate'])).post()
 
         elif provider == "Azure_ARM":
-            response = mist_core.add_cloud(title=provider, provider= 'azure_arm', api_token=config.MIST_API_TOKEN,
+            response = mist_core.add_cloud(name=provider, provider= 'azure_arm', api_token=config.MIST_API_TOKEN,
                                        tenant_id=safe_get_var('clouds/azure_arm', 'tenant_id',
                                                               config.CREDENTIALS['AZURE_ARM']['tenant_id']),
                                        subscription_id=safe_get_var('clouds/azure_arm', 'subscription_id',
@@ -161,7 +161,7 @@ def add_cloud(provider):
                                                               config.CREDENTIALS['AZURE_ARM']['client_secret'])).post()
 
         elif provider == 'Docker':
-            response = mist_core.add_cloud(title=provider, provider= 'docker', api_token=config.MIST_API_TOKEN,
+            response = mist_core.add_cloud(name=provider, provider= 'docker', api_token=config.MIST_API_TOKEN,
                                        docker_host=safe_get_var('dockerhosts/godzilla', 'host', config.CREDENTIALS['DOCKER']['host']),
                                        docker_port=safe_get_var('dockerhosts/godzilla', 'port', config.CREDENTIALS['DOCKER']['port']),
                                        authentication=safe_get_var('dockerhosts/godzilla', 'authentication', config.CREDENTIALS['DOCKER']['authentication']),
@@ -170,36 +170,36 @@ def add_cloud(provider):
                                        cert_file=safe_get_var('dockerhosts/godzilla', 'cert', config.CREDENTIALS['DOCKER']['cert'])).post()
 
         elif provider == "SoftLayer":
-            response = mist_core.add_cloud(title=provider, provider= 'softlayer', api_token=config.MIST_API_TOKEN,
+            response = mist_core.add_cloud(name=provider, provider= 'softlayer', api_token=config.MIST_API_TOKEN,
                                        username=safe_get_var('clouds/softlayer', 'username', config.CREDENTIALS['SOFTLAYER']['username']),
                                        api_key=safe_get_var('clouds/softlayer', 'api_key', config.CREDENTIALS['SOFTLAYER']['api_key'])).post()
 
         elif provider == "GCE":
-            response = mist_core.add_cloud(title='GCE', provider= 'gce', api_token=config.MIST_API_TOKEN,
-                                      project_id=safe_get_var('clouds/gce/mist-dev', 'project_id',
-                                                              config.CREDENTIALS['GCE']['project_id']),
-                                      private_key = json.dumps(safe_get_var('clouds/gce/mist-dev', 'private_key',
-                                                              config.CREDENTIALS['GCE']['private_key']))).post()
+            response = mist_core.add_cloud(name='GCE', provider= 'gce', api_token=config.MIST_API_TOKEN,
+                                      project_id=safe_get_var('clouds/gce/mist-dev-tests', 'projectId',
+                                                              config.CREDENTIALS['GCE']['projectId']),
+                                      private_key = json.dumps(safe_get_var('clouds/gce/mist-dev-tests', 'privateKeyDetailed',
+                                                              config.CREDENTIALS['GCE']['privateKeyDetailed']))).post()
 
         elif provider == "Rackspace":
-            response = mist_core.add_cloud(title='Rackspace', provider= 'rackspace', api_token=config.MIST_API_TOKEN,
+            response = mist_core.add_cloud(name='Rackspace', provider= 'rackspace', api_token=config.MIST_API_TOKEN,
                                        region='dfw',
                                        username = safe_get_var('clouds/rackspace', 'username',
                                                            config.CREDENTIALS['RACKSPACE']['username']),
-                                       api_key = safe_get_var('clouds/rackspace', 'api_key',
-                                                           config.CREDENTIALS['RACKSPACE']['api_key'])).post()
+                                       api_key = safe_get_var('clouds/rackspace', 'apikey',
+                                                           config.CREDENTIALS['RACKSPACE']['apikey'])).post()
 
         elif provider == "Equinix Metal":
-            response = mist_core.add_cloud(title='Equinix Metal', provider= 'equinixmetal', api_token=config.MIST_API_TOKEN,
-                                           api_key=safe_get_var('clouds/packet', 'api_key',
-                                                                config.CREDENTIALS['PACKET']['api_key'])).post()
+            response = mist_core.add_cloud(name='Equinix Metal', provider= 'equinixmetal', api_token=config.MIST_API_TOKEN,
+                                           api_key=safe_get_var('clouds/packet', 'apikey',
+                                                                config.CREDENTIALS['PACKET']['apikey'])).post()
 
         elif provider == "Vultr":
-            response = mist_core.add_cloud(title='Vultr', provider= 'vultr', api_token=config.MIST_API_TOKEN,
+            response = mist_core.add_cloud(name='Vultr', provider= 'vultr', api_token=config.MIST_API_TOKEN,
                                        api_key=safe_get_var('clouds/vultr', 'apikey',
                                                             config.CREDENTIALS['VULTR']['apikey'])).post()
         elif provider == "CloudSigma":
-            response = mist_core.add_cloud(title='CloudSigma', provider= 'cloudsigma', api_token=config.MIST_API_TOKEN,
+            response = mist_core.add_cloud(name='CloudSigma', provider= 'cloudsigma', api_token=config.MIST_API_TOKEN,
                                            username=safe_get_var('clouds/cloudsigma', 'email',
                                                                  config.CREDENTIALS['CLOUDSIGMA']['email']),
                                            password=safe_get_var('clouds/cloudsigma', 'password',

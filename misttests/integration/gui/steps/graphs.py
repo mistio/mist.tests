@@ -1,4 +1,5 @@
 import re
+import logging
 import requests
 
 from behave import step
@@ -22,20 +23,22 @@ from selenium.webdriver import ActionChains
 from selenium.common.exceptions import TimeoutException
 from selenium.common.exceptions import NoSuchElementException, StaleElementReferenceException
 
+log = logging.getLogger(__name__)
+
 
 @step('I wait for the monitoring graphs to appear in the "{page}" page')
 def wait_graphs_to_appear(context, page):
     page_element = get_page(context, page)
     page_shadow = expand_shadow_root(context, page_element)
     try:
-        mist_monitoring = page_shadow.find_element_by_css_selector('mist-monitoring')
+        mist_monitoring = page_shadow.find_element(By.CSS_SELECTOR, 'mist-monitoring')
         container = expand_shadow_root(context, mist_monitoring)
     except NoSuchElementException:
         container = page_shadow
     timeout = time() + 60
     while time() < timeout:
         try:
-            polyana_dashboard = container.find_element_by_css_selector('polyana-dashboard')
+            polyana_dashboard = container.find_element(By.CSS_SELECTOR, 'polyana-dashboard')
             polyana_dashboard_shadow = expand_shadow_root(context, polyana_dashboard)
             WebDriverWait(polyana_dashboard_shadow, 90).until(
                 EC.presence_of_element_located(
@@ -51,7 +54,7 @@ def wait_for_graphs_to_disappear(context, seconds):
     timeout = time() + int(seconds)
     while time() < timeout:
         try:
-            context.browser.find_element_by_tag_name("polyana-dashboard")
+            context.browser.find_element(By.CSS_SELECTOR, "polyana-dashboard")
             sleep(1)
         except NoSuchElementException:
             return
@@ -61,7 +64,7 @@ def wait_for_graphs_to_disappear(context, seconds):
 def check_if_graph_is_visible(context, graph_id, timeout, seconds):
     while time() < timeout:
         try:
-            context.browser.find_element_by_id(graph_id)
+            context.browser.find_element(By.CSS_SELECTOR, '#' + graph_id)
             return
         except NoSuchElementException:
             sleep(1)
@@ -73,16 +76,16 @@ def wait_for_all_graphs_to_appear(context, graph_count, timeout, page):
     page_element = get_page(context, page)
     page_shadow = expand_shadow_root(context, page_element)
     try:
-        mist_monitoring = page_shadow.find_element_by_css_selector('mist-monitoring')
+        mist_monitoring = page_shadow.find_element(By.CSS_SELECTOR, 'mist-monitoring')
         container = expand_shadow_root(context, mist_monitoring)
     except NoSuchElementException:
         container = page_shadow
     timeout = time() + 30
     while time() < timeout:
         try:
-            polyana_dashboard = container.find_element_by_css_selector('polyana-dashboard')
+            polyana_dashboard = container.find_element(By.CSS_SELECTOR, 'polyana-dashboard')
             polyana_dashboard_shadow = expand_shadow_root(context, polyana_dashboard)
-            dashboard_panels = polyana_dashboard_shadow.find_elements_by_css_selector('dashboard-panel:not([hidden])')
+            dashboard_panels = polyana_dashboard_shadow.find_elements(By.CSS_SELECTOR, 'dashboard-panel:not([hidden])')
             if len(dashboard_panels) >= int(graph_count):
                 return
         except NoSuchElementException as StaleElementReferenceException:
@@ -97,7 +100,7 @@ def wait_metric_buttons(context, seconds):
     timeout = time() + int(seconds)
     while time() < timeout:
         try:
-            expand_shadow_root(context, dialog).find_element_by_css_selector('metric-menu')
+            expand_shadow_root(context, dialog).find_element(By.CSS_SELECTOR, 'metric-menu')
             return
         except NoSuchElementException as StaleElementReferenceException:
             sleep(1)
@@ -115,22 +118,22 @@ def get_graph_panel(context, graph_title, page, timeout):
     page_element = get_page(context, page)
     page_shadow = expand_shadow_root(context, page_element)
     try:
-        mist_monitoring = page_shadow.find_element_by_css_selector('mist-monitoring')
+        mist_monitoring = page_shadow.find_element(By.CSS_SELECTOR, 'mist-monitoring')
         container = expand_shadow_root(context, mist_monitoring)
     except NoSuchElementException:
         container = page_shadow
-    polyana_dashboard = container.find_element_by_css_selector('polyana-dashboard')
+    polyana_dashboard = container.find_element(By.CSS_SELECTOR, 'polyana-dashboard')
     polyana_dashboard_shadow = expand_shadow_root(context, polyana_dashboard)
     end = time() + int(timeout)
     while time() < end:
         try:
-            dashboard_panels = polyana_dashboard_shadow.find_elements_by_css_selector('dashboard-panel:not([hidden])')
+            dashboard_panels = polyana_dashboard_shadow.find_elements(By.CSS_SELECTOR, 'dashboard-panel:not([hidden])')
             for panel in dashboard_panels:
                 panel_shadow = expand_shadow_root(context, panel)
-                panel_title = safe_get_element_text(panel_shadow.find_element_by_css_selector('div.title'))
+                panel_title = safe_get_element_text(panel_shadow.find_element(By.CSS_SELECTOR, 'div.title'))
                 if graph_title in panel_title.lower():
                     return panel
-        except NoSuchElementException as StaleElementReferenceException:
+        except (NoSuchElementException, StaleElementReferenceException):
             pass
         sleep(2)
     assert False, 'Could not find "%s" graph in %s page within %s seconds' % (graph_title, page, timeout)
@@ -146,10 +149,10 @@ def graph_some_value(context, graph_title, page):
             graph_panel = get_graph_panel(context, graph_title, page, 5)
             datapoints = graph_panel.get_property('chartData')['series'][0]['data']
             non_null = [v[1] for v in datapoints if v[1]]
-            print(graph_panel, len(datapoints), len(non_null))
+            log.info(graph_panel, len(datapoints), len(non_null))
             if non_null:
                 break
-        except IndexError as KeyError:
+        except (IndexError, KeyError):
             sleep(2)
     assert non_null, 'Graph does not have any values'
 
@@ -159,7 +162,7 @@ def fill_metric_mame(context, name):
     from .dialog import get_dialog
     dialog = get_dialog(context, "Custom graph")
     dialog_shadow = expand_shadow_root(context, dialog)
-    textfield = dialog_shadow.find_element_by_css_selector("paper-input#name")
+    textfield = dialog_shadow.find_element(By.CSS_SELECTOR, "paper-input#name")
     my_metric_name = name
     for letter in my_metric_name:
         textfield.send_keys(letter)
@@ -171,7 +174,7 @@ def delete_a_graph(context, graph_title, page):
     graph_panel = get_graph_panel(context, graph_title, page, 5)
     graph_shadow = expand_shadow_root(context, graph_panel)
     try:
-        delete_button = graph_shadow.find_element_by_css_selector("paper-icon-button")
+        delete_button = graph_shadow.find_element(By.CSS_SELECTOR, "paper-icon-button")
     except NoSuchElementException:
         assert False, "Could not find X button in the graph with title %s" % graph_title
     delete_button.click()
@@ -187,10 +190,10 @@ def delete_a_graph(context, graph_title, page):
 @step('I select "{metric}" in the dialog "{dialog}"')
 def select_metric_from_dialog(context,metric,dialog):
     if dialog == 'Select target for graph':
-        dialog_element = context.browser.find_element_by_id('selectTarget')
+        dialog_element = context.browser.find_element(By.CSS_SELECTOR, '#selectTarget')
     else:
         assert False, "Unknown dialog given"
-    option_to_click = dialog_element.find_element_by_id(metric)
+    option_to_click = dialog_element.find_element(By.CSS_SELECTOR, '#' + metric)
     clicketi_click(context,option_to_click)
 
 
@@ -198,12 +201,12 @@ def select_metric_from_dialog(context,metric,dialog):
 def disable_resource_monitoring(context, resource_type):
     page_element = get_page(context, resource_type)
     page_shadow = expand_shadow_root(context, page_element)
-    mist_monitoring = page_shadow.find_element_by_css_selector('mist-monitoring')
+    mist_monitoring = page_shadow.find_element(By.CSS_SELECTOR, 'mist-monitoring')
     mist_monitoring_shadow = expand_shadow_root(context, mist_monitoring)
-    menu_button = mist_monitoring_shadow.find_element_by_css_selector('paper-menu-button')
+    menu_button = mist_monitoring_shadow.find_element(By.CSS_SELECTOR, 'paper-menu-button')
     menu_button.click()
     sleep(1)
-    menu_button.find_element_by_css_selector('paper-button#disable').click()
+    menu_button.find_element(By.CSS_SELECTOR, 'paper-button#disable').click()
 
 
 @step('I select the "{option}" {dropdown} when adding new rule in the "{resource_type}" page')
@@ -212,33 +215,33 @@ def select_option_when_adding_rule(context, option, dropdown, resource_type):
         option = context.mist_config.get(option)
     page_element = get_page(context, resource_type)
     page_shadow = expand_shadow_root(context, page_element)
-    mist_rules = page_shadow.find_element_by_css_selector('mist-rules')
+    mist_rules = page_shadow.find_element(By.CSS_SELECTOR, 'mist-rules')
     mist_rules_shadow = expand_shadow_root(context, mist_rules)
-    new_rule = mist_rules_shadow.find_element_by_css_selector('paper-material#add-new-rule-dialog > rule-edit')
+    new_rule = mist_rules_shadow.find_element(By.CSS_SELECTOR, 'paper-material#add-new-rule-dialog > rule-edit')
     new_rule_shadow = expand_shadow_root(context, new_rule)
     if dropdown in ['team']:
-        menu = new_rule_shadow.find_element_by_css_selector('mist-dropdown-multi#teams')
+        menu = new_rule_shadow.find_element(By.CSS_SELECTOR, 'mist-dropdown-multi#teams')
         menu_shadow = expand_shadow_root(context, menu)
-        menu = menu_shadow.find_element_by_css_selector('paper-dropdown-menu')
+        menu = menu_shadow.find_element(By.CSS_SELECTOR, 'paper-dropdown-menu')
         selector = 'paper-checkbox:not([hidden])'
     elif dropdown in ['user']:
-        menu = new_rule_shadow.find_element_by_css_selector('mist-dropdown-multi#members')
+        menu = new_rule_shadow.find_element(By.CSS_SELECTOR, 'mist-dropdown-multi#members')
         menu_shadow = expand_shadow_root(context, menu)
-        menu = menu_shadow.find_element_by_css_selector('paper-dropdown-menu')
+        menu = menu_shadow.find_element(By.CSS_SELECTOR, 'paper-dropdown-menu')
         selector = 'paper-checkbox:not([hidden])'
     else:
-        menu = new_rule_shadow.find_element_by_css_selector('paper-dropdown-menu.%s' % dropdown)
+        menu = new_rule_shadow.find_element(By.CSS_SELECTOR, 'paper-dropdown-menu.%s' % dropdown)
         selector = 'paper-item:not([hidden])'
-    if menu.find_element_by_css_selector('.dropdown-content').get_attribute('aria-expanded') != 'true':
+    if menu.find_element(By.CSS_SELECTOR, '.dropdown-content').get_attribute('aria-expanded') != 'true':
         clicketi_click(context, menu)
         sleep(.5)
     item = get_button_from_form(context, menu, option, selector)
     clicketi_click(context, item)
     sleep(.5)
-    if menu.find_element_by_css_selector('.dropdown-content').get_attribute('aria-expanded') == 'true' and dropdown != 'target':
+    if menu.find_element(By.CSS_SELECTOR, '.dropdown-content').get_attribute('aria-expanded') == 'true' and dropdown != 'target':
         # If the menu is still open, close it without losing the selected value.
         if 'checkbox' in selector:
-            clicketi_click(context, mist_rules_shadow.find_element_by_css_selector('paper-material'))
+            clicketi_click(context, mist_rules_shadow.find_element(By.CSS_SELECTOR, 'paper-material'))
         else:
             clicketi_click(context, item)
         sleep(.5)
@@ -250,9 +253,9 @@ def set_new_rule_threshold(context, value, page, input_class_or_id):
         value = context.mist_config.get(value)
     page_element = get_page(context, page)
     page_shadow = expand_shadow_root(context, page_element)
-    mist_rules = page_shadow.find_element_by_css_selector('mist-rules')
+    mist_rules = page_shadow.find_element(By.CSS_SELECTOR, 'mist-rules')
     mist_rules_shadow = expand_shadow_root(context, mist_rules)
-    new_rule = mist_rules_shadow.find_element_by_css_selector('paper-material#add-new-rule-dialog > rule-edit')
+    new_rule = mist_rules_shadow.find_element(By.CSS_SELECTOR, 'paper-material#add-new-rule-dialog > rule-edit')
     new_rule_shadow = expand_shadow_root(context, new_rule)
     try:
         paper_input = new_rule_shadow.find_element_by_css_selector('paper-input.%s' % input_class_or_id)
@@ -295,9 +298,9 @@ def check_slack_webhook(context, channel, seconds):
 def save_new_rule(context, page):
     page_element = get_page(context, page)
     page_shadow = expand_shadow_root(context, page_element)
-    mist_rules = page_shadow.find_element_by_css_selector('mist-rules')
+    mist_rules = page_shadow.find_element(By.CSS_SELECTOR, 'mist-rules')
     mist_rules_shadow = expand_shadow_root(context, mist_rules)
-    new_rule = mist_rules_shadow.find_element_by_css_selector('paper-material#add-new-rule-dialog > rule-edit')
+    new_rule = mist_rules_shadow.find_element(By.CSS_SELECTOR, 'paper-material#add-new-rule-dialog > rule-edit')
     new_rule_shadow = expand_shadow_root(context, new_rule)
     save_button = get_button_from_form(context, new_rule_shadow, 'save rule')
     clicketi_click(context, save_button)
@@ -307,17 +310,17 @@ def save_new_rule(context, page):
 def remove_previous_rules(context, page):
     page_element = get_page(context, page)
     page_shadow = expand_shadow_root(context, page_element)
-    mist_rules = page_shadow.find_element_by_css_selector('mist-rules')
+    mist_rules = page_shadow.find_element(By.CSS_SELECTOR, 'mist-rules')
     mist_rules_shadow = expand_shadow_root(context, mist_rules)
-    items = mist_rules_shadow.find_elements_by_css_selector('rule-item')
+    items = mist_rules_shadow.find_elements(By.CSS_SELECTOR, 'rule-item')
     while items:
         item = items.pop()
         item_shadow = expand_shadow_root(context, item)
         try:
-            delete_button = item_shadow.find_element_by_css_selector('paper-icon-button.delete-btn:not([hidden]):not([disabled])')
+            delete_button = item_shadow.find_element(By.CSS_SELECTOR, 'paper-icon-button.delete-btn:not([hidden]):not([disabled])')
             clicketi_click(context, delete_button)
             sleep(1)
-            items = mist_rules_shadow.find_elements_by_css_selector('rule-item')
+            items = mist_rules_shadow.find_elements(By.CSS_SELECTOR, 'rule-item')
         except:
             continue
 

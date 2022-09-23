@@ -133,23 +133,23 @@ class TestMachinesFunctionality:
 
     def test_list_machines(self, pretty_print, mist_core, cache, owner_api_token):
         if config.LOCAL:
-            response = mist_core.add_cloud(title='Docker', provider='docker', api_token=owner_api_token,
+            response = mist_core.add_cloud(name='Docker', provider='docker', api_token=owner_api_token,
                                        docker_host=config.LOCAL_DOCKER,
                                        docker_port='2375').post()
         else:
-            response = mist_core.add_cloud(title='Docker', provider='docker', api_token=owner_api_token,
+            response = mist_core.add_cloud(name='Docker', provider='docker', api_token=owner_api_token,
                                        docker_host=safe_get_var('clouds/dockerhost', 'host',
                                                                 config.CREDENTIALS['DOCKER']['host']),
                                        docker_port=int(safe_get_var('clouds/dockerhost', 'port',
                                                                 config.CREDENTIALS['DOCKER']['port'])),
                                        authentication=safe_get_var('clouds/dockerhost', 'authentication',
                                                                    config.CREDENTIALS['DOCKER']['authentication']),
-                                       ca_cert_file=safe_get_var('clouds/dockerhost', 'ca',
-                                                                 config.CREDENTIALS['DOCKER']['ca']),
-                                       key_file=safe_get_var('clouds/dockerhost', 'key',
-                                                             config.CREDENTIALS['DOCKER']['key']),
-                                       cert_file=safe_get_var('clouds/dockerhost', 'cert',
-                                                              config.CREDENTIALS['DOCKER']['cert']), show_all=True).post()
+                                       ca_cert_file=safe_get_var('clouds/dockerhost', 'tlsCaCert',
+                                                                 config.CREDENTIALS['DOCKER']['tlsCaCert']),
+                                       key_file=safe_get_var('clouds/dockerhost', 'tlsKey',
+                                                             config.CREDENTIALS['DOCKER']['tlsKey']),
+                                       cert_file=safe_get_var('clouds/dockerhost', 'tlsCert',
+                                                              config.CREDENTIALS['DOCKER']['tlsCert']), show_all=True).post()
         assert_response_ok(response)
         cache.set('cloud_id', response.json()['id'])
         response = mist_core.list_machines(cloud_id=cache.get('cloud_id', ''), api_token=owner_api_token).get()

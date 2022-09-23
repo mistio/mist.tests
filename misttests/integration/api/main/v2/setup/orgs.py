@@ -14,10 +14,16 @@ def setup(api_token):
     response = request.get()
     assert_response_ok(response)
     member_id = response.json()['data'][0]['id']
-    return {
-        'org': org_id,
-        'member': member_id
+    setup_data = {
+        'get_member': {
+            'org': org_id,
+            'member': member_id
+        },
+        'get_org': {'org': org_id},
+        'list_org_members': {'org': org_id},
+        'list_org_teams': {'org': org_id}
     }
+    return setup_data
 
 
 def teardown(api_token, setup_data):

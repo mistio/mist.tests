@@ -14,7 +14,6 @@ def register_member_1(context):
     context.mist_config['MEMBER1_EMAIL'] = "%s+%d@gmail.com" % (BASE_EMAIL, random.randint(1,200000))
     context.mist_config['MEMBER2_EMAIL'] = "%s+%d@gmail.com" % (BASE_EMAIL, random.randint(1,200000))
     context.mist_config['ORG_NAME'] = "rbac_org_%d" % random.randint(1,200000)
-
     payload = {
         'email': context.mist_config['MEMBER1_EMAIL'],
         'password': context.mist_config['MEMBER1_PASSWORD'],
@@ -54,22 +53,26 @@ def add_user_to_team(context, email):
     assert response.status_code == 200, "Could not add %s to Test Team. Response was %s" % (email, response.status_code)
 
 
-@step('rbac members, organization and team are initialized')
-def initialize_rbac_members(context):
-
-    register_member_1(context)
-
-    BASE_EMAIL = context.mist_config['BASE_EMAIL']
-    context.mist_config['MEMBER2_EMAIL'] = "%s+%d@gmail.com" % (BASE_EMAIL, random.randint(1,200000))
-    context.mist_config['ORG_NAME'] = "rbac_org_%d" % random.randint(1,200000)
-
+def register_member(context, email, password):
     payload = {
-        'email': context.mist_config['MEMBER2_EMAIL'],
-        'password': context.mist_config['MEMBER2_PASSWORD'],
+        'email': email,
+        'password': password,
         'name': "Atheofovos Gkikas"
     }
 
     requests.post("%s/api/v1/dev/register" % context.mist_config['MIST_URL'], data=json.dumps(payload))
+
+
+@step(u'rbac members, organization and team are initialized')
+def initialize_rbac_members(context):
+
+
+    BASE_EMAIL = context.mist_config['BASE_EMAIL']
+    context.mist_config['MEMBER1_EMAIL'] = "%s+%d@gmail.com" % (BASE_EMAIL, random.randint(1,200000))
+    context.mist_config['MEMBER2_EMAIL'] = "%s+%d@gmail.com" % (BASE_EMAIL, random.randint(1,200000))
+
+    register_member(context, context.mist_config['MEMBER1_EMAIL'], context.mist_config['MEMBER1_PASSWORD'])
+    register_member(context, context.mist_config['MEMBER2_EMAIL'], context.mist_config['MEMBER2_PASSWORD'])
 
     headers = {'Authorization': get_owner_api_token(context)}
 
@@ -175,7 +178,7 @@ def add_cloud_api_request(context, cloud):
 
         if context.mist_config['LOCAL']:
             payload = {
-                'title': "Docker",
+                'name': "Docker",
                 'provider': "docker",
                 'docker_host': context.mist_config['LOCAL_DOCKER'],
                 'docker_port': '2375',
@@ -185,25 +188,25 @@ def add_cloud_api_request(context, cloud):
         else:
 
             payload = {
-                'title': "Docker",
+                'name': "Docker",
                 'provider': "docker",
                 'docker_host': safe_get_var('clouds/dockerhost', 'host', context.mist_config['CREDENTIALS']['DOCKER']['host']),
                 'docker_port': safe_get_var('clouds/dockerhost', 'port', context.mist_config['CREDENTIALS']['DOCKER']['port']),
                 'authentication': safe_get_var('clouds/dockerhost', 'authentication', context.mist_config['CREDENTIALS']['DOCKER']['authentication']),
-                'ca_cert_file': safe_get_var('clouds/dockerhost', 'ca', context.mist_config['CREDENTIALS']['DOCKER']['ca']),
-                'key_file': safe_get_var('clouds/dockerhost', 'key', context.mist_config['CREDENTIALS']['DOCKER']['key']),
-                'cert_file': safe_get_var('clouds/dockerhost', 'cert', context.mist_config['CREDENTIALS']['DOCKER']['cert']),
+                'ca_cert_file': safe_get_var('clouds/dockerhost', 'tlsCaCert', context.mist_config['CREDENTIALS']['DOCKER']['tlsCaCert']),
+                'key_file': safe_get_var('clouds/dockerhost', 'tlsKey', context.mist_config['CREDENTIALS']['DOCKER']['tlsKey']),
+                'cert_file': safe_get_var('clouds/dockerhost', 'tlsCert', context.mist_config['CREDENTIALS']['DOCKER']['tlsCert']),
                 'show_all': True
             }
 
     elif cloud == 'GCE':
         payload = {
-            'title': 'GCE',
+            'name': 'GCE',
             'provider': 'gce',
-            'project_id': safe_get_var('clouds/gce/mist-dev', 'project_id',
-                                      context.mist_config['CREDENTIALS']['GCE']['project_id']),
-            'private_key': json.dumps(safe_get_var('clouds/gce/mist-dev', 'private_key',
-                                   context.mist_config['CREDENTIALS']['GCE']['private_key'])),
+            'project_id': safe_get_var('clouds/gce/mist-dev-tests', 'projectId',
+                                      context.mist_config['CREDENTIALS']['GCE']['projectId']),
+            'private_key': json.dumps(safe_get_var('clouds/gce/mist-dev-tests', 'privateKeyDetailed',
+                                   context.mist_config['CREDENTIALS']['GCE']['privateKeyDetailed'])),
             'dns_enabled': True
         }
 
@@ -247,3 +250,38 @@ def create_docker_machine(context, machine_name):
 
     re = requests.post(context.mist_config['MIST_URL'] + "/api/v1/clouds/" + cloud_id + "/machines", data=json.dumps(payload), headers=headers)
     assert re.status_code == 200, "Could not create machine. Response was %s" % re.status_code
+
+
+@step('Docker machine "{machine_name}" with "{key_name}" key and "{script_name}" script has been added via API-v2 request')
+def create_docker_machine_with_scheduled_script_v2(context,
+                                                   machine_name,
+                                                   key_name,
+                                                   script_name):
+    headers = {
+        'Authorization': get_owner_api_token(context),
+        'Content-Type': 'application/json',
+    }
+
+    if 'random' in machine_name:
+        value_key = machine_name
+        machine_name = machine_name.replace("random", str(randrange(1000)))
+        context.mist_config[value_key] = machine_name
+
+    payload = {
+        'name': machine_name,
+        'image': DEFAULT_IMAGE_NAME,
+        'key': key_name,
+        'schedules': [{
+            'schedule_type': 'interval',
+            'every': 1,
+            'period': 'minutes',
+            'script': {
+                'script': script_name
+            }}],
+        'dry': False,
+    }
+
+    response = requests.post(context.mist_config['MIST_URL'] + '/api/v2/machines',
+                             data=json.dumps(payload), headers=headers)
+
+    assert response.status_code == 200, 'Could not create machine. Response was %s' % response.status_code

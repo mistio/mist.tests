@@ -97,12 +97,12 @@ Feature: Machines
     And I wait for 2 seconds
     Then I click the "Shell" action button in the "machine" page
     And I wait for 5 seconds
-    And I expect in-page terminal to open within 7 seconds
-    And in-page shell input should be available after 8 seconds
-    And I type in the in-page terminal "ls -l /var"
+    And I expect terminal to open within 7 seconds
+    And shell input should be available after 8 seconds
+    And I type in the terminal "ls -l /var"
     And I wait for 1 seconds
-    Then dummy_file should be included in the in-page terminal output
-    And I close the in-page terminal
+    Then dummy_file should be included in the output
+    And I close the terminal
 
   @machine-stop
   Scenario: Stop machine created above and check state
@@ -145,6 +145,6 @@ Feature: Machines
     When I visit the Machines page
     And I search for "ui-test-create-machine-random"
     Then "ui-test-create-machine-random" machine should be absent within 60 seconds
-    When I visit the Home page
-    And I wait for 1 seconds
-    Then I should see a(n) "observation" log entry of action "destroy_machine" added "a few seconds ago" in the "dashboard" page within 60 seconds
+    # When I visit the Home page
+    # And I wait for 1 seconds
+    # Then I should see a(n) "observation" log entry of action "destroy_machine" added "a few seconds ago" in the "dashboard" page within 60 seconds

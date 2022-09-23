@@ -25,14 +25,14 @@ RUN set -x && \
     apt-get -y install google-chrome-stable && \
     rm -rf /var/lib/apt/lists/* /var/cache/apt/*
 
-ARG CHROMEDRIVER_VERSION=95.0.4638.69
+ARG CHROMEDRIVER_VERSION=104.0.5112.79
 RUN curl -SLO "https://chromedriver.storage.googleapis.com/$CHROMEDRIVER_VERSION/chromedriver_linux64.zip" && \
     unzip chromedriver_linux64.zip && \
     mv chromedriver /usr/local/bin && \
     rm chromedriver_linux64.zip
 
 # Install latest version of GNU parallel
-RUN (wget -O - pi.dk/3 || curl pi.dk/3/ || fetch -o - http://pi.dk/3) | bash
+# RUN (wget -O - pi.dk/3 || curl pi.dk/3/ || fetch -o - http://pi.dk/3) | bash
 
 #Install latest tmux
 RUN git clone https://github.com/tmux/tmux.git && cd tmux && sh autogen.sh && ./configure && make && mv tmux /usr/bin/
@@ -46,7 +46,5 @@ COPY . /mist.tests/
 WORKDIR /mist.tests/
 
 RUN pip install -e .
-
-RUN ln -s /mist.tests/container/start_test_env.sh /test_env.sh
 
 ENV DISPLAY=:1.0

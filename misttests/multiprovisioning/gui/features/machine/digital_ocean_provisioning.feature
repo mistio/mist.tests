@@ -79,4 +79,4 @@ Feature: Multiprovisioning
 
   Examples: Providers to be tested
     | cloud        | size                                      | location         | image                                        | machine-name           |
-    | DigitalOcean | 1 CPU, 0.5 GB, 20 GB SSD Disk, $5.0/month | Amsterdam 3      | Ubuntu 18.04 (LTS) x64                       | do-mp-test-random      |
+    | DigitalOcean | 1 CPU, 0.5 GB, 20 GB SSD Disk, $6.0/month | Amsterdam 3      | Ubuntu 18.04 (LTS) x64                       | do-mp-test-random      |

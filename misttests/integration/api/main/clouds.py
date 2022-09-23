@@ -50,12 +50,33 @@ def test_add_cloud_ok(pretty_print, mist_core, owner_api_token, name='Docker'):
                                                             config.CREDENTIALS['DOCKER']['port'])),
                                    authentication=safe_get_var('clouds/dockerhost', 'authentication',
                                                                config.CREDENTIALS['DOCKER']['authentication']),
-                                   ca_cert_file=safe_get_var('clouds/dockerhost', 'ca',
-                                                             config.CREDENTIALS['DOCKER']['ca']),
-                                   key_file=safe_get_var('clouds/dockerhost', 'key',
-                                                         config.CREDENTIALS['DOCKER']['key']),
-                                   cert_file=safe_get_var('clouds/dockerhost', 'cert',
-                                                          config.CREDENTIALS['DOCKER']['cert']), show_all=True).post()
+                                   ca_cert_file=safe_get_var('clouds/dockerhost', 'tlsCaCert',
+                                                             config.CREDENTIALS['DOCKER']['tlsCaCert']),
+                                   key_file=safe_get_var('clouds/dockerhost', 'tlsKey',
+                                                         config.CREDENTIALS['DOCKER']['tlsKey']),
+                                   cert_file=safe_get_var('clouds/dockerhost', 'tlsCert',
+                                                          config.CREDENTIALS['DOCKER']['tlsCert']), show_all=True).post()
+    assert_response_ok(response)
+    print("Success!!!")
+
+
+def test_add_cloud_from_secret(pretty_print, mist_core, owner_api_token, name='Docker3'):
+    if config.LOCAL:
+        response = mist_core.add_cloud(name, provider='docker', api_token=owner_api_token,
+                                       docker_host=config.LOCAL_DOCKER,
+                                       docker_port='2375').post()
+    else:
+        response = mist_core.add_cloud(name, provider='docker', api_token=owner_api_token,
+                                       docker_host=safe_get_var('clouds/dockerhost', 'host',
+                                                                config.CREDENTIALS['DOCKER']['host']),
+                                       docker_port=int(safe_get_var('clouds/dockerhost', 'port',
+                                                                    config.CREDENTIALS['DOCKER']['port'])),
+                                       authentication=safe_get_var('clouds/dockerhost', 'authentication',
+                                                                   config.CREDENTIALS['DOCKER']['authentication']),
+                                       ca_cert_file='secret(mist/clouds/Docker:ca_cert_file)',
+                                       key_file='secret(mist/clouds/Docker:key_file)',
+                                       cert_file='secret(mist/clouds/Docker:cert_file)',
+                                       show_all=True).post()
     assert_response_ok(response)
     print("Success!!!")
 
@@ -134,14 +155,14 @@ class TestCloudsFunctionality:
     def test_list_clouds(self, pretty_print, mist_core, owner_api_token):
         response = mist_core.list_clouds(api_token=owner_api_token).get()
         assert_response_ok(response)
-        assert len(response.json()) == 1
+        assert len(response.json()) == 2
         print("Success!!!")
 
     def test_add_multiple_clouds(self, pretty_print, mist_core, owner_api_token):
         test_add_cloud_ok(pretty_print, mist_core, owner_api_token, name='Docker2')
         response = mist_core.list_clouds(api_token=owner_api_token).get()
         assert_response_ok(response)
-        assert len(response.json()) == 2
+        assert len(response.json()) == 3
         print("Success!!!")
 
     def test_add_cloud_failures(self, pretty_print, mist_core, owner_api_token):
@@ -150,7 +171,7 @@ class TestCloudsFunctionality:
         test_add_cloud_wrong_api_token(pretty_print, mist_core, owner_api_token)
         response = mist_core.list_clouds(api_token=owner_api_token).get()
         assert_response_ok(response)
-        assert len(response.json()) == 2
+        assert len(response.json()) == 3
         print("Success!!!")
 
     def test_remove_cloud(self, pretty_print, mist_core, owner_api_token):
@@ -160,12 +181,12 @@ class TestCloudsFunctionality:
         assert_response_ok(response)
         response = mist_core.list_clouds(api_token=owner_api_token).get()
         assert_response_ok(response)
-        assert len(response.json()) == 1
+        assert len(response.json()) == 2
         response = mist_core.remove_cloud(cloud_id=linode_id, api_token=owner_api_token).delete()
         assert_response_not_found(response)
         response = mist_core.list_clouds(api_token=owner_api_token).get()
         assert_response_ok(response)
-        assert len(response.json()) == 1
+        assert len(response.json()) == 2
         print("Success!!!")
 
     def test_remove_cloud_failures(self, pretty_print, mist_core, owner_api_token):
@@ -176,11 +197,11 @@ class TestCloudsFunctionality:
         print("Success!!!")
         response = mist_core.list_clouds(api_token=owner_api_token).get()
         assert_response_ok(response)
-        assert len(response.json()) == 1
+        assert len(response.json()) == 2
         test_remove_cloud_no_api_token(pretty_print, mist_core)
         response = mist_core.list_clouds(api_token=owner_api_token).get()
         assert_response_ok(response)
-        assert len(response.json()) == 1
+        assert len(response.json()) == 2
         print("Success!!!")
 
     def test_rename_cloud(self, pretty_print, mist_core, owner_api_token):
@@ -190,7 +211,7 @@ class TestCloudsFunctionality:
         assert_response_ok(response)
         response = mist_core.list_clouds(api_token=owner_api_token).get()
         for cloud in response.json():
-            if cloud['title'] == 'Renamed':
+            if cloud['name'] == 'Renamed':
                 print("Success!!!")
                 return
         assert False, "Renaming cloud did not work!!!"

@@ -129,7 +129,7 @@ def schedules_cleanup(mist_core, owner_api_token, cache):
         if 'api_test_machine' in machine['name']:
             mist_core.machine_action(cloud_id=cache.get('docker_id', ''),
                                      api_token=owner_api_token,
-                                     machine_id=machine['machine_id'],
+                                     machine_id=machine['external_id'],
                                      action='destroy').post()
 
 
@@ -224,4 +224,4 @@ def network_valid_cidr(request):
 
 @pytest.fixture(scope='module')
 def availability_zone(request):
-    return safe_get_var('clouds/aws', 'region_id', config.CREDENTIALS['EC2']['region_id']) + 'a'
+    return safe_get_var('clouds/aws', 'region', config.CREDENTIALS['EC2']['region']) + 'a'
