@@ -52,6 +52,7 @@ Feature: Production
     And I select the "any" aggregation when adding new rule in the "machine" page
     And I select the "alert" action when adding new rule in the "machine" page
     And I select the "Owners" team when adding new rule in the "machine" page
+    And I type "tester.mist.io@dmo.bar" in the emails when adding new rule in the "machine" page
     And I wait for 2 seconds
     And I save the new rule in the "machine" page
     And I wait for 10 seconds
@@ -70,10 +71,10 @@ Feature: Production
     And I click the "Reboot" action button in the "machine" page
     Then I expect the "Reboot Machine" dialog to be open within 4 seconds
     When I click the "Reboot" button in the "Reboot Machine" dialog
-    And I wait for 60 seconds
+    And I wait for 80 seconds
     And I click the "Shell" action button in the "machine" page
     And I wait for 5 seconds
-    Then I expect terminal to open within 14 seconds
+    Then I expect terminal to open within 20 seconds
     And shell input should be available after 30 seconds
     When I type in the terminal "uptime"
     And I wait for 2 seconds

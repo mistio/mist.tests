@@ -33,16 +33,18 @@ def search_for_mayday_machine(context):
     search_for_something(context, text)
 
 
-def _get_imap_box():
-    host, port = os.getenv('GMAIL_SOCKS_HOST'), os.getenv('GMAIL_SOCKS_PORT')
+def _get_imap_box(context):
+    # host, port = os.getenv('GMAIL_SOCKS_HOST'), os.getenv('GMAIL_SOCKS_PORT')
+    host = context.mist_config['RULES_TEST_HOST']
+    port = context.mist_config.get('RULES_TEST_PORT', None)
     try:
         port = int(port)
     except (ValueError, TypeError):
         port = None
     if host and port:
-        return imaplib.IMAP4(host, port)
+        return imaplib.IMAP4_SSL(host, port)
     elif host:
-        return imaplib.IMAP4(host)
+        return imaplib.IMAP4_SSL(host)
     else:
         return imaplib.IMAP4_SSL("imap.gmail.com")
 
@@ -50,9 +52,9 @@ def _get_imap_box():
 @step('I delete old mayday emails')
 def delete_old_mayday_emails(context):
 
-    box = _get_imap_box()
-    box.login(context.mist_config['GOOGLE_TEST_EMAIL'],
-                      context.mist_config['GOOGLE_TEST_PASSWORD'])
+    box = _get_imap_box(context)
+    box.login(context.mist_config['RULES_TEST_EMAIL'],
+                      context.mist_config['RULES_TEST_PASSWORD'])
     box.select("INBOX")
     typ, data = box.search(None, 'ALL')
     if not data[0].split():
@@ -71,9 +73,9 @@ def receive_mail(context, seconds):
 
     while time() < end_time:
         try:
-            box = _get_imap_box()
-            box.login(context.mist_config['GOOGLE_TEST_EMAIL'],
-                              context.mist_config['GOOGLE_TEST_PASSWORD'])
+            box = _get_imap_box(context)
+            box.login(context.mist_config['RULES_TEST_EMAIL'],
+                              context.mist_config['RULES_TEST_PASSWORD'])
             if not box:
                 error = "login failed"
                 continue
