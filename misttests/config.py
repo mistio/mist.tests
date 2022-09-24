@@ -135,7 +135,7 @@ def get_setting(setting, default_value=None, priority='config_file'):
 
 LOCAL = get_setting("LOCAL", True)
 
-VAULT_ENABLED = get_setting("VAULT_ENABLED", True, priority='environment')
+VAULT_ENABLED = get_setting("VAULT_ENABLED", False, priority='environment')
 
 VAULT_SERVER = get_setting("VAULT_SERVER", "https://vault.ops.mist.io:8200")
 

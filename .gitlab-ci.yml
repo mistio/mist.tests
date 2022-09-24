@@ -3,7 +3,7 @@ stages:
   - test
 
 variables:
-  img: gcr.io/mist-ops/tests
+  img: registry.ops.mist.io/mistio/mist.tests
 
 build:
   stage: build
