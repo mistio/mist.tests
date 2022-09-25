@@ -258,15 +258,20 @@ def set_new_rule_threshold(context, value, page, input_class_or_id):
     new_rule = mist_rules_shadow.find_element(By.CSS_SELECTOR, 'paper-material#add-new-rule-dialog > rule-edit')
     new_rule_shadow = expand_shadow_root(context, new_rule)
     try:
-        paper_input = new_rule_shadow.find_element_by_css_selector('paper-input.%s' % input_class_or_id)
-        expand_shadow_root(context, paper_input).find_element_by_css_selector('input').send_keys(value)
+        paper_input = new_rule_shadow.find_element(
+            By.CSS_SELECTOR, 'paper-input.%s' % input_class_or_id)
+        expand_shadow_root(context, paper_input).find_element(By.CSS_SELECTOR, 'input').send_keys(value)
     except NoSuchElementException:
         try:
-            paper_input = new_rule_shadow.find_element_by_css_selector('paper-textarea.%s' % input_class_or_id)
+            paper_input = new_rule_shadow.find_element(
+                By.CSS_SELECTOR, 'paper-textarea.%s' % input_class_or_id)
             paper_input.send_keys(value)
         except NoSuchElementException:
-            paper_input = new_rule_shadow.find_element_by_css_selector(f'paper-input#{input_class_or_id}')
-            expand_shadow_root(context, paper_input).find_element_by_css_selector('input').send_keys(value)
+            paper_input = new_rule_shadow.find_element(
+                By.CSS_SELECTOR, f'paper-input#{input_class_or_id}'
+            )
+            expand_shadow_root(context, paper_input).find_element(
+                By.CSS_SELECTOR, 'input').send_keys(value)
 
 
 @step('a new webhook alert should have been posted in slack channel "{channel}" within {seconds} seconds')
