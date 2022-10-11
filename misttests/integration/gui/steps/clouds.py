@@ -251,14 +251,15 @@ def set_kubevirt_creds(context):
     context.execute_steps('''
                 Then I open the "Authentication" dropdown in the "cloud" add form
                 And I wait for 1 seconds
-                And I click the "Token Bearer" button in the "Authentication" dropdown in the "cloud" add form
-                And I wait for 1 seconds
                 Then I set the value "%s" to field "Hostname or IP" in the "cloud" add form
-                Then I set the value "%s" to field "Bearer Token" in the "cloud" add form
                 Then I set the value "%s" to field "Port" in the "cloud" add form
+                Then I set the value "%s" to field "User Certificate" in the "cloud" add form
+                Then I set the value "%s" to field "Private Key" in the "cloud" add form
             ''' % (safe_get_var('clouds/kubevirt', 'host', context.mist_config['CREDENTIALS']['KUBEVIRT']['host']),
-                   safe_get_var('clouds/kubevirt', 'token', context.mist_config['CREDENTIALS']['KUBEVIRT']['token']),
-                   safe_get_var('clouds/kubevirt', 'port', context.mist_config['CREDENTIALS']['KUBEVIRT']['port'])
+                   safe_get_var('clouds/kubevirt', 'port', context.mist_config['CREDENTIALS']['KUBEVIRT']['port']),
+                   safe_get_var('clouds/kubevirt', 'token', context.mist_config['CREDENTIALS']['KUBEVIRT']['cert']),
+                   safe_get_var('clouds/kubevirt', 'token', context.mist_config['CREDENTIALS']['KUBEVIRT']['key']),
+
             ))
 
     ca = safe_get_var('clouds/kubevirt', 'tlsCaCert', context.mist_config['CREDENTIALS']['KUBEVIRT']['tlsCaCert'])
