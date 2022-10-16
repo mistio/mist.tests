@@ -49,8 +49,8 @@ def set_rackspace_creds(context):
 
 
 def set_ibm_clouds_creds(context):
-    username = safe_get_var('clouds/softlayer', 'username', context.mist_config['CREDENTIALS']['SOFTLAYER']['username'])
-    api_key = safe_get_var('clouds/softlayer', 'api_key', context.mist_config['CREDENTIALS']['SOFTLAYER']['api_key'])
+    username = safe_get_var('clouds/ibm', 'username', context.mist_config['CREDENTIALS']['SOFTLAYER']['username'])
+    api_key = safe_get_var('clouds/ibm', 'api_key', context.mist_config['CREDENTIALS']['SOFTLAYER']['api_key'])
     context.execute_steps('''
         Then I set the value "%s" to field "Username" in the "cloud" add form
         Then I set the value "%s" to field "API Key" in the "cloud" add form
@@ -216,11 +216,10 @@ def set_vsphere_creds(context):
                 Then I set the value "%s" to field "Username" in the "cloud" add form
                 Then I set the value "%s" to field "Password" in the "cloud" add form
                 Then I set the value "%s" to field "Hostname" in the "cloud" add form
-            ''' % (safe_get_var('clouds/VCenter-packet', 'username', context.mist_config['CREDENTIALS']['VSPHERE']['username']),
-                   safe_get_var('clouds/VCenter-packet', 'password', context.mist_config['CREDENTIALS']['VSPHERE']['password']),
-                   safe_get_var('clouds/VCenter-packet', 'host', context.mist_config['CREDENTIALS']['VSPHERE']['host']),))
-
-    ca = safe_get_var('clouds/VCenter-packet', 'ca_cert_file', context.mist_config['CREDENTIALS']['VSPHERE']['ca_cert'])
+            ''' % (safe_get_var('clouds/vsphere', 'username', context.mist_config['CREDENTIALS']['VSPHERE']['username']),
+                   safe_get_var('clouds/vsphere', 'password', context.mist_config['CREDENTIALS']['VSPHERE']['password']),
+                   safe_get_var('clouds/vsphere', 'host', context.mist_config['CREDENTIALS']['VSPHERE']['host']),))
+    ca = safe_get_var('clouds/vsphere', 'ca_cert', context.mist_config['CREDENTIALS']['VSPHERE']['ca_cert'])
     set_value_to_field(context, ca, 'ca certificate', 'cloud', 'add')
 
 
@@ -249,21 +248,22 @@ def set_maxihost_creds(context):
 
 def set_kubevirt_creds(context):
     context.execute_steps('''
-                Then I open the "Authentication" dropdown in the "cloud" add form
-                And I wait for 1 seconds
                 Then I set the value "%s" to field "Hostname or IP" in the "cloud" add form
                 Then I set the value "%s" to field "Port" in the "cloud" add form
-                Then I set the value "%s" to field "User Certificate" in the "cloud" add form
-                Then I set the value "%s" to field "Private Key" in the "cloud" add form
             ''' % (safe_get_var('clouds/kubevirt', 'host', context.mist_config['CREDENTIALS']['KUBEVIRT']['host']),
                    safe_get_var('clouds/kubevirt', 'port', context.mist_config['CREDENTIALS']['KUBEVIRT']['port']),
-                   safe_get_var('clouds/kubevirt', 'token', context.mist_config['CREDENTIALS']['KUBEVIRT']['cert']),
-                   safe_get_var('clouds/kubevirt', 'token', context.mist_config['CREDENTIALS']['KUBEVIRT']['key']),
-
             ))
 
     ca = safe_get_var('clouds/kubevirt', 'tlsCaCert', context.mist_config['CREDENTIALS']['KUBEVIRT']['tlsCaCert'])
-    set_value_to_field(context, ca, 'ca certificate', 'cloud', 'add')
+    if ca:
+        set_value_to_field(context, ca, 'ca certificate', 'cloud', 'add')
+    cert = safe_get_var('clouds/kubevirt', 'cert', context.mist_config['CREDENTIALS']['KUBEVIRT']['cert'])
+    if cert:
+        set_value_to_field(context, cert, 'User Certificate', 'cloud', 'add')
+    key = safe_get_var('clouds/kubevirt', 'key', context.mist_config['CREDENTIALS']['KUBEVIRT']['key'])
+    if key:
+        set_value_to_field(context, key, 'Private Key', 'cloud', 'add')
+
 
 
 def set_lxd_creds(context):
