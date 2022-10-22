@@ -290,7 +290,7 @@ def check_slack_webhook(context, channel, seconds):
     timeout = time() + int(seconds)
     while time() < timeout:
         resp = requests.get('https://slack.com/api/conversations.history', params=params)
-        if resp.json()['messages'] == current_msgs:
+        if resp.json()['messages'] != current_msgs:
             return True
         else:
             sleep(10)
