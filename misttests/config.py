@@ -44,7 +44,7 @@ PROVIDER_VAULT_MAP = {
     'google': 'gce/mist-dev-tests',
     'amazon': 'aws',
     'docker': 'dockerhost',
-    'vsphere': 'VCenter-packet'
+    'vsphere': 'vsphere'
 }
 
 # TODO: modify so that it can parse nested objects as well
