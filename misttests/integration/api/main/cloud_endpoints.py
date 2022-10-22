@@ -21,10 +21,10 @@ import pytest
 ###### Adding clouds #############
 def test_add_vsphere_cloud(pretty_print, mist_api_v1, cache, owner_api_token, name='VSphere'):
     response = mist_api_v1.add_cloud(name, provider='vsphere', api_token=owner_api_token,
-                                   host=safe_get_var('clouds/vsphere-7', 'host'),
-                                   username=safe_get_var('clouds/vsphere-7', 'username'),
-                                   password=safe_get_var('clouds/vsphere-7', 'password'),
-                                   ca_cert_file=safe_get_var('clouds/vsphere-7', 'ca_cert')
+                                   host=safe_get_var('clouds/vsphere', 'host'),
+                                   username=safe_get_var('clouds/vsphere', 'username'),
+                                   password=safe_get_var('clouds/vsphere', 'password'),
+                                   ca_cert_file=safe_get_var('clouds/vsphere', 'ca_cert_file')
                                    ).post()
     assert_response_ok(response)
     cache.set('vsphere_cloud_id', response.json()['id'])
