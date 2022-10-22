@@ -90,8 +90,8 @@ class TestLibcloudFunctionality:
 
     def test_list_machines_softlayer(self, pretty_print, mist_api_v1, cache, owner_api_token):
         response = mist_api_v1.add_cloud(name='Softlayer', provider= 'softlayer', api_token=owner_api_token,
-                                       username=safe_get_var('clouds/softlayer', 'username', config.CREDENTIALS['SOFTLAYER']['username']),
-                                       api_key=safe_get_var('clouds/softlayer', 'api_key', config.CREDENTIALS['SOFTLAYER']['api_key'])).post()
+                                       username=safe_get_var('clouds/ibm', 'username', config.CREDENTIALS['SOFTLAYER']['username']),
+                                       api_key=safe_get_var('clouds/ibm', 'api_key', config.CREDENTIALS['SOFTLAYER']['api_key'])).post()
         assert_response_ok(response)
         cache.set('softlayer_cloud_id', response.json()['id'])
         response = mist_api_v1.list_machines(cloud_id=cache.get('softlayer_cloud_id', ''), api_token=owner_api_token).get()

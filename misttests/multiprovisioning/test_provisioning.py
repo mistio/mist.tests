@@ -171,8 +171,8 @@ def add_cloud(provider):
 
         elif provider == "SoftLayer":
             response = mist_api_v1.add_cloud(name=provider, provider= 'softlayer', api_token=config.MIST_API_TOKEN,
-                                       username=safe_get_var('clouds/softlayer', 'username', config.CREDENTIALS['SOFTLAYER']['username']),
-                                       api_key=safe_get_var('clouds/softlayer', 'api_key', config.CREDENTIALS['SOFTLAYER']['api_key'])).post()
+                                       username=safe_get_var('clouds/ibm', 'username', config.CREDENTIALS['SOFTLAYER']['username']),
+                                       api_key=safe_get_var('clouds/ibm', 'api_key', config.CREDENTIALS['SOFTLAYER']['api_key'])).post()
 
         elif provider == "GCE":
             response = mist_api_v1.add_cloud(name='GCE', provider= 'gce', api_token=config.MIST_API_TOKEN,
