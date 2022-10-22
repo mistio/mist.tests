@@ -89,9 +89,9 @@ class TestLibcloudFunctionality:
        print("Success!!!")
 
     def test_list_machines_softlayer(self, pretty_print, mist_core, cache, owner_api_token):
-        response = mist_core.add_cloud(title='Softlayer', provider= 'softlayer', api_token=owner_api_token,
-                                       username=safe_get_var('clouds/softlayer', 'username', config.CREDENTIALS['SOFTLAYER']['username']),
-                                       api_key=safe_get_var('clouds/softlayer', 'api_key', config.CREDENTIALS['SOFTLAYER']['api_key'])).post()
+        response = mist_core.add_cloud(name='Softlayer', provider= 'softlayer', api_token=owner_api_token,
+                                       username=safe_get_var('clouds/ibm', 'username', config.CREDENTIALS['SOFTLAYER']['username']),
+                                       api_key=safe_get_var('clouds/ibm', 'api_key', config.CREDENTIALS['SOFTLAYER']['api_key'])).post()
         assert_response_ok(response)
         cache.set('softlayer_cloud_id', response.json()['id'])
         response = mist_core.list_machines(cloud_id=cache.get('softlayer_cloud_id', ''), api_token=owner_api_token).get()

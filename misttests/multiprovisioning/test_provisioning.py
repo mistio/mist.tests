@@ -170,9 +170,9 @@ def add_cloud(provider):
                                        cert_file=safe_get_var('dockerhosts/godzilla', 'cert', config.CREDENTIALS['DOCKER']['cert'])).post()
 
         elif provider == "SoftLayer":
-            response = mist_core.add_cloud(title=provider, provider= 'softlayer', api_token=config.MIST_API_TOKEN,
-                                       username=safe_get_var('clouds/softlayer', 'username', config.CREDENTIALS['SOFTLAYER']['username']),
-                                       api_key=safe_get_var('clouds/softlayer', 'api_key', config.CREDENTIALS['SOFTLAYER']['api_key'])).post()
+            response = mist_core.add_cloud(name=provider, provider= 'softlayer', api_token=config.MIST_API_TOKEN,
+                                       username=safe_get_var('clouds/ibm', 'username', config.CREDENTIALS['SOFTLAYER']['username']),
+                                       api_key=safe_get_var('clouds/ibm', 'api_key', config.CREDENTIALS['SOFTLAYER']['api_key'])).post()
 
         elif provider == "GCE":
             response = mist_core.add_cloud(title='GCE', provider= 'gce', api_token=config.MIST_API_TOKEN,
