@@ -10,7 +10,7 @@ CLOUDS_ENDPOINT = f'{V2_ENDPOINT}/clouds'
 MACHINES_ENDPOINT = f'{V2_ENDPOINT}/machines'
 IMAGES_ENDPOINT = f'{V2_ENDPOINT}/images'
 LOCATIONS_ENDPOINT = f'{V2_ENDPOINT}/locations'
-VSPHERE_IMAGE = 'template'
+VSPHERE_IMAGE = 'debian11-installer'
 
 
 def setup(api_token):
