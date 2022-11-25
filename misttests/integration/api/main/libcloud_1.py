@@ -76,17 +76,17 @@ class TestLibcloudFunctionality:
         print("Success!!!")
 
     def test_list_machines_gce(self, pretty_print, mist_api_v1, cache, owner_api_token):
-       response = mist_api_v1.add_cloud(name='GCE', provider= 'gce', api_token=owner_api_token,
-                                      project_id=safe_get_var('clouds/gce/mist-dev-tests', 'projectId',
-                                                              config.CREDENTIALS['GCE']['projectId']),
-                                      private_key = json.dumps(safe_get_var('clouds/gce/mist-dev-tests', 'privateKeyDetailed',
-                                                              config.CREDENTIALS['GCE']['privateKeyDetailed']))).post()
-       assert_response_ok(response)
-       cache.set('gce_cloud_id', response.json()['id'])
-       response = mist_api_v1.list_machines(cloud_id=cache.get('gce_cloud_id', ''), api_token=owner_api_token).get()
-       assert_response_ok(response)
-       assert len(response.json()) >= 0, "List GCE machines did not return a proper result"
-       print("Success!!!")
+        response = mist_api_v1.add_cloud(name='GCE', provider= 'gce', api_token=owner_api_token,
+                                         project_id=safe_get_var('clouds/gce/mist-dev-tests', 'projectId',
+                                                                 config.CREDENTIALS['GCE']['projectId']),
+                                         private_key = json.dumps(safe_get_var('clouds/gce/mist-dev-tests', 'privateKeyDetailed',
+                                                                  config.CREDENTIALS['GCE']['privateKeyDetailed']))).post()
+        assert_response_ok(response)
+        cache.set('gce_cloud_id', response.json()['id'])
+        response = mist_api_v1.list_machines(cloud_id=cache.get('gce_cloud_id', ''), api_token=owner_api_token).get()
+        assert_response_ok(response)
+        assert len(response.json()) >= 0, "List GCE machines did not return a proper result"
+        print("Success!!!")
 
     def test_list_machines_softlayer(self, pretty_print, mist_api_v1, cache, owner_api_token):
         response = mist_api_v1.add_cloud(name='Softlayer', provider= 'softlayer', api_token=owner_api_token,
@@ -178,10 +178,15 @@ class TestLibcloudFunctionality:
         print("Success!!!")
 
     def test_list_locations_gce(self, pretty_print, mist_api_v1, cache, owner_api_token):
-       response = mist_api_v1.list_locations(cloud_id=cache.get('gce_cloud_id', ''), api_token=owner_api_token).get()
-       assert_response_ok(response)
-       assert len(response.json()) > 0, "List GCE locations did not return any locations"
-       print("Success!!!")
+        response = mist_api_v1.list_locations(cloud_id=cache.get('gce_cloud_id', ''), api_token=owner_api_token).get()
+        i = 0
+        while response.status_code == 422 and i < 10:
+            sleep(10)
+            response = mist_api_v1.list_locations(cloud_id=cache.get('gce_cloud_id', ''), api_token=owner_api_token).get()
+            i += 1
+        assert_response_ok(response)
+        assert len(response.json()) > 0, "List GCE locations did not return any locations"
+        print("Success!!!")
 
     def test_list_locations_softlayer(self, pretty_print, mist_api_v1, cache, owner_api_token):
         response = mist_api_v1.list_locations(cloud_id=cache.get('softlayer_cloud_id', ''), api_token=owner_api_token).get()
