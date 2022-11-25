@@ -21,6 +21,15 @@ pytest_paths["tunnels"]='misttests/integration/api/plugin/tunnels.py'
 pytest_paths["orchestration"]='misttests/integration/api/plugin/orchestration.py'
 pytest_paths["endpoints"]='misttests/integration/api/main/cloud_endpoints.py'
 
+pytest_paths["orgs-v2"]='misttests/integration/api/main/v2/test_orgs_controller.py'
+pytest_paths["clouds-v2"]='misttests/integration/api/main/v2/test_clouds_controller.py'
+pytest_paths["jobs-v2"]='misttests/integration/api/main/v2/test_jobs_controller.py'
+pytest_paths["snapshots-v2"]='misttests/integration/api/main/v2/test_snapshots_controller.py'
+pytest_paths["zones-v2"]='misttests/integration/api/main/v2/test_zones_controller.py'
+pytest_paths["snapshots-v2"]='misttests/integration/api/main/v2/test_snapshots_controller.py'
+pytest_paths["machines-v2-1"]='misttests/integration/api/main/v2/test_machines_controller_1.py'
+pytest_paths["machines-v2-2"]='misttests/integration/api/main/v2/test_machines_controller_2.py'
+pytest_paths["machines-v2-3"]='misttests/integration/api/main/v2/test_machines_controller_3.py'
 declare -A behave_tags
 
 behave_tags["clouds-add-1"]='clouds-add-1'
@@ -33,10 +42,12 @@ behave_tags["machines-1"]='machines-1'
 behave_tags["machines-2"]='machines-2'
 behave_tags["rules-1"]='rules-1'
 behave_tags["rules-2"]='rules-2'
+behave_tags["rules-3"]='rules-3'
 behave_tags["users"]='user-actions'
 behave_tags["teams"]='teams'
 behave_tags["schedules-1"]='schedulers-1'
 behave_tags["schedules-2"]='schedulers-2'
+behave_tags["schedulers-script"]='schedulers-script'
 behave_tags["ip-whitelisting"]='ip-whitelisting'
 
 behave_tags["monitoring"]='monitoring'
@@ -88,7 +99,7 @@ run_api_tests_suite() {
     if [ "${test_suite_paths}" == "" ]; then
         echo "No api tests available for $suites"
     else
-        time parallel --no-notice --fg --tmuxpane /mist.tests/wrapper.sh api $datadir $break_on_failure ::: $test_suite_paths
+        time /mist.tests/wrapper.sh api $datadir $break_on_failure $test_suite_paths
     fi
 }
 
