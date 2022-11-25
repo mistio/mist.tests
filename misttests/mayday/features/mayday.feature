@@ -74,7 +74,7 @@ Feature: Production
     And I wait for 80 seconds
     And I click the "Shell" action button in the "machine" page
     And I wait for 5 seconds
-    Then I expect terminal to open within 20 seconds
+    Then I expect terminal to open within 25 seconds
     And shell input should be available after 30 seconds
     When I type in the terminal "uptime"
     And I wait for 2 seconds
