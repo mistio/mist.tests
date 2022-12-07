@@ -5,11 +5,11 @@ from selenium.webdriver.common.by import By
 from time import time
 from time import sleep
 
-from .utils import safe_get_element_text, get_page_element, expand_shadow_root
-from .utils import get_list_item_from_checkbox
-from .utils import get_list_filtered_items
+from misttests.integration.gui.steps.utils import safe_get_element_text, get_page_element, expand_shadow_root
+from misttests.integration.gui.steps.utils import get_list_item_from_checkbox
+from misttests.integration.gui.steps.utils import get_list_filtered_items
 
-from .buttons import clicketi_click
+from misttests.integration.gui.steps.buttons import clicketi_click
 
 from selenium.common.exceptions import NoSuchElementException
 from selenium.common.exceptions import StaleElementReferenceException

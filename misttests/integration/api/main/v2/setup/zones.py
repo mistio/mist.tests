@@ -28,10 +28,14 @@ def setup(api_token):
         'name': cloud,
         'provider': 'google',
         'credentials': {
-            'projectId': None,
-            'privateKey': None,
-            'email': None
+            'projectId': 'test',
+            'privateKey': 'key',
+            'email': 'email'
         },
+        'features': {
+            'compute': True,
+            'dns': True
+        }
     }
     inject_vault_credentials(add_cloud_request)
     uri = f'{MIST_URL}/{CLOUDS_ENDPOINT}'

@@ -15,6 +15,6 @@ from misttests.integration.gui.steps.api_requests import *
 from misttests.integration.gui.steps.landing import *
 from misttests.integration.gui.steps.dialog import *
 from misttests.integration.gui.steps.search import *
-from misttests.integration.gui.steps.email import *
+from misttests.integration.gui.steps.mail import *
 from misttests.integration.gui.steps.logs import *
-from misttests.integration.gui.core.environment import *
+from misttests.integration.gui.v1.environment import *

@@ -2,7 +2,7 @@ from misttests.integration.gui.steps.modals import *
 from misttests.integration.gui.steps.clouds import *
 from misttests.integration.gui.steps.landing import *
 from misttests.integration.gui.steps.popups import *
-from misttests.integration.gui.steps.email import *
+from misttests.integration.gui.steps.mail import *
 from misttests.integration.gui.steps.navigation import *
 from misttests.integration.gui.steps.browser import *
 from misttests.integration.gui.steps.sessions import *

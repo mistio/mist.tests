@@ -1,7 +1,7 @@
 from behave import step, use_step_matcher
 
-from .utils import focus_on_element, get_page_element, clear_input_and_send_keys, get_page
-from .utils import safe_get_element_text, expand_shadow_root, expand_slot
+from misttests.integration.gui.steps.utils import focus_on_element, get_page_element, clear_input_and_send_keys, get_page
+from misttests.integration.gui.steps.utils import safe_get_element_text, expand_shadow_root, expand_slot
 
 from selenium.common.exceptions import NoSuchElementException
 from selenium.webdriver.common.keys import Keys
@@ -215,7 +215,7 @@ def set_value_to_field(context, value, name, title, form_type):
         app_form_shadow = expand_shadow_root(context, app_form)
         form_checkboxes = app_form_shadow.find_elements(By.CSS_SELECTOR, 'paper-checkbox[name="%s"]' % name.lower())
         assert len(form_checkboxes), "Could not set value to field %s" % name
-        from .buttons import click_button_from_collection
+        from misttests.integration.gui.steps.buttons import click_button_from_collection
         click_button_from_collection(context, value, form_checkboxes)
     else:
         clear_input_and_send_keys(form_input, value)
@@ -271,7 +271,7 @@ def click_button_in_form(context, button_name, title):
     form = get_add_form(context, title)
     form_shadow = expand_shadow_root(context, form)
     button = get_button_from_form(context, form_shadow, button_name.lower())
-    from .buttons import clicketi_click
+    from misttests.integration.gui.steps.buttons import clicketi_click
     clicketi_click(context, button)
 
 
@@ -280,7 +280,7 @@ def click_button_in_resource_page(context, button_name, title):
     form = get_page(context, title)
     form_shadow = expand_shadow_root(context, form)
     button = get_button_from_form(context, form_shadow, button_name.lower())
-    from .buttons import clicketi_click
+    from misttests.integration.gui.steps.buttons import clicketi_click
     clicketi_click(context, button)
 
 
@@ -332,7 +332,7 @@ def find_dropdown(context, container, dropdown_text):
 
 @step('I open the "{dropdown_text}" dropdown in the "{resource_type}" add form')
 def open_drop_down_in_add_form(context, dropdown_text, resource_type):
-    from .buttons import clicketi_click
+    from misttests.integration.gui.steps.buttons import clicketi_click
     page = get_add_form(context, resource_type)
     page_shadow = expand_shadow_root(context, page)
     dropdown = find_dropdown(context, page_shadow, dropdown_text.lower())
@@ -342,8 +342,8 @@ def open_drop_down_in_add_form(context, dropdown_text, resource_type):
 use_step_matcher("re")
 @step('I click the "(?P<button_name>[A-Za-z ]+)" button in the "(?P<dialog_title>[A-Za-z? ]+)" dialog')
 def click_button_in_dialog(context, button_name, dialog_title):
-    from .buttons import clicketi_click
-    from .dialog import get_dialog
+    from misttests.integration.gui.steps.buttons import clicketi_click
+    from misttests.integration.gui.steps.dialog import get_dialog
     dialog = get_dialog(context, dialog_title)
     dialog_shadow = expand_shadow_root(context, dialog)
     button = get_button_from_form(context, dialog_shadow, button_name.lower(), tag_name='paper-button:not([hidden]), paper-item:not([hidden])')
@@ -352,8 +352,8 @@ def click_button_in_dialog(context, button_name, dialog_title):
 
 @step('I click the "(?P<button_name>[A-Za-z0-9_ ]+)" button in the "(?P<dropdown_title>[A-Za-z ]+)" dropdown in the "(?P<dialog_title>[A-Za-z ]+)" dialog')
 def click_button_in_dropdown_in_dialog(context, button_name, dropdown_title, dialog_title):
-    from .buttons import clicketi_click
-    from .dialog import get_dialog
+    from misttests.integration.gui.steps.buttons import clicketi_click
+    from misttests.integration.gui.steps.dialog import get_dialog
     if context.mist_config.get(button_name):
         button_name = context.mist_config.get(button_name)
     dialog = get_dialog(context, dialog_title)
@@ -365,8 +365,8 @@ def click_button_in_dropdown_in_dialog(context, button_name, dropdown_title, dia
 use_step_matcher('parse')
 @step('I open the "{dropdown_text}" dropdown in the "{dialog_title}" dialog')
 def open_drop_down_in_dialog(context, dropdown_text, dialog_title):
-    from .buttons import clicketi_click
-    from .dialog import get_dialog
+    from misttests.integration.gui.steps.buttons import clicketi_click
+    from misttests.integration.gui.steps.dialog import get_dialog
     dialog = get_dialog(context, dialog_title)
     dialog_shadow = expand_shadow_root(context, dialog)
     dropdown = find_dropdown(context, dialog_shadow, dropdown_text.lower())

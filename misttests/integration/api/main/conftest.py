@@ -6,11 +6,11 @@ from misttests.integration.api.helpers import *
 from misttests.helpers.setup import setup_user_if_not_exists
 
 from .io import MistIoApi
-from misttests.integration.api.plugin.core import MistCoreApi
+from misttests.integration.api.main.io import MistIoApi
 
 
-def mist_core():
-    return MistCoreApi(config.MIST_URL)
+def mist_api_v1():
+    return MistIoApi(config.MIST_URL)
 
 
 def owner_email():
@@ -62,9 +62,9 @@ def mist_io():
     return MistIoApi(config.MIST_URL + '/api/v1')
 
 
-@pytest.fixture(name='mist_core')
-def mist_core_fixture():
-    return mist_core()
+@pytest.fixture(name='mist_api_v1')
+def mist_api_v1_fixture():
+    return mist_api_v1()
 
 
 @pytest.fixture(name='owner_email')
@@ -118,16 +118,16 @@ def private_key():
 
 
 @pytest.fixture()
-def schedules_cleanup(mist_core, owner_api_token, cache):
+def schedules_cleanup(mist_api_v1, owner_api_token, cache):
     yield
-    response = mist_core.list_schedules(api_token=owner_api_token).get()
+    response = mist_api_v1.list_schedules(api_token=owner_api_token).get()
     assert_response_ok(response)
     for schedule in response.json():
-        mist_core.delete_schedule(api_token=owner_api_token, schedule_id=schedule['id']).delete()
-    response = mist_core.list_machines(cloud_id=cache.get('docker_id', ''), api_token=owner_api_token).get()
+        mist_api_v1.delete_schedule(api_token=owner_api_token, schedule_id=schedule['id']).delete()
+    response = mist_api_v1.list_machines(cloud_id=cache.get('docker_id', ''), api_token=owner_api_token).get()
     for machine in response.json():
         if 'api_test_machine' in machine['name']:
-            mist_core.machine_action(cloud_id=cache.get('docker_id', ''),
+            mist_api_v1.machine_action(cloud_id=cache.get('docker_id', ''),
                                      api_token=owner_api_token,
                                      machine_id=machine['external_id'],
                                      action='destroy').post()
@@ -162,8 +162,8 @@ def base_exec_inline_script(request):
 
 
 def common_valid_api_token(request, email, password, org_id=None):
-    _mist_core = mist_core()
-    response = _mist_core.create_token(email=email,
+    _mist_api_v1 = mist_api_v1()
+    response = _mist_api_v1.create_token(email=email,
                                        password=password,
                                        org_id=org_id).post()
     assert_response_ok(response)
@@ -175,15 +175,15 @@ def common_valid_api_token(request, email, password, org_id=None):
 
 @pytest.fixture(scope='module')
 def owner_api_token(request):
-    _mist_core = mist_core()
+    _mist_api_v1 = mist_api_v1()
     email = owner_email()
     password = owner_password()
     setup_user_if_not_exists(email, password, 'Owner')
-    _mist_core.login(email, password)
+    _mist_api_v1.login(email, password)
     personal_api_token = common_valid_api_token(request,
                                                 email=email,
                                                 password=password)
-    response = _mist_core.list_orgs(api_token=personal_api_token).get()
+    response = _mist_api_v1.list_orgs(api_token=personal_api_token).get()
     assert_response_ok(response)
     org_id = None
     org = response.json()
@@ -199,13 +199,13 @@ def owner_api_token(request):
 
 @pytest.fixture(scope='module')
 def member1_api_token(request):
-    _mist_core = mist_core()
+    _mist_api_v1 = mist_api_v1()
     email = member1_email()
     password = member1_password()
     personal_api_token = common_valid_api_token(request,
                                                 email=email,
                                                 password=password)
-    response = _mist_core.list_orgs(api_token=personal_api_token).get()
+    response = _mist_api_v1.list_orgs(api_token=personal_api_token).get()
     assert_response_ok(response)
     org_id = None
     org = response.json()

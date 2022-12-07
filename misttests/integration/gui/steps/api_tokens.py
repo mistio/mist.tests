@@ -2,9 +2,9 @@ from behave import step
 
 from selenium.webdriver.common.by import By
 
-from .utils import focus_on_element, expand_shadow_root
-from .utils import safe_get_element_text, get_page_element
-from .buttons import clicketi_click
+from misttests.integration.gui.steps.utils import focus_on_element, expand_shadow_root
+from misttests.integration.gui.steps.utils import safe_get_element_text, get_page_element
+from misttests.integration.gui.steps.buttons import clicketi_click
 
 
 @step('I revoke token "{token}"')
@@ -36,10 +36,10 @@ def get_new_token_value(context, token_name):
 
 @step('I test the api token "{token_value}". It should {work_or_fail}.')
 def test_api_token(context, token_value, work_or_fail):
-    from misttests.integration.api.plugin.core import MistCoreApi as mist_core
+    from misttests.integration.api.main.io import MistIoApi as mist_api_v1
     if work_or_fail not in ['work', 'fail']:
         raise ValueError('Token can either work or fail.')
-    response = mist_core(context.mist_config['MIST_URL']).check_token(api_token=context.mist_config[token_value]).post()
+    response = mist_api_v1(context.mist_config['MIST_URL']).check_token(api_token=context.mist_config[token_value]).post()
     if work_or_fail == 'work':
         assert response.status_code == 200, "Api token with value %s did not " \
                                             "work" % context.mist_config[token_value]
