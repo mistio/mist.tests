@@ -272,12 +272,18 @@ def create_docker_machine_with_scheduled_script_v2(context,
         'image': DEFAULT_IMAGE_NAME,
         'key': key_name,
         'schedules': [{
-            'schedule_type': 'interval',
-            'every': 1,
-            'period': 'minutes',
-            'script': {
-                'script': script_name
-            }}],
+            'when': {
+                'schedule_type': 'interval',
+                'every': 1,
+                'period': 'minutes',
+            },
+            'actions': [{
+                'action_type': 'run_script',
+                'script_type': 'existing',
+                'script': script_name,
+                'params': ''
+            }],
+        }],
         'dry': False,
     }
 
