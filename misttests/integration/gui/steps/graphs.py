@@ -7,12 +7,12 @@ from behave import step
 from time import time
 from time import sleep
 
-from .machines import comparisons
+from misttests.integration.gui.steps.machines import comparisons
 
-from .utils import safe_get_element_text, get_page_element, expand_shadow_root, scroll_into_view, get_page
+from misttests.integration.gui.steps.utils import safe_get_element_text, get_page_element, expand_shadow_root, scroll_into_view, get_page
 
-from .buttons import clicketi_click
-from .forms import get_button_from_form
+from misttests.integration.gui.steps.buttons import clicketi_click
+from misttests.integration.gui.steps.forms import get_button_from_form
 
 from selenium.webdriver.common.by import By
 
@@ -95,7 +95,7 @@ def wait_for_all_graphs_to_appear(context, graph_count, timeout, page):
 
 @step('I expect the metric buttons to appear within {seconds} seconds')
 def wait_metric_buttons(context, seconds):
-    from .dialog import get_dialog
+    from misttests.integration.gui.steps.dialog import get_dialog
     dialog = get_dialog(context, "Select target for graph")
     timeout = time() + int(seconds)
     while time() < timeout:
@@ -159,7 +159,7 @@ def graph_some_value(context, graph_title, page):
 
 @step('I give a "{name}" name for my custom metric')
 def fill_metric_mame(context, name):
-    from .dialog import get_dialog
+    from misttests.integration.gui.steps.dialog import get_dialog
     dialog = get_dialog(context, "Custom graph")
     dialog_shadow = expand_shadow_root(context, dialog)
     textfield = dialog_shadow.find_element(By.CSS_SELECTOR, "paper-input#name")
@@ -292,7 +292,7 @@ def check_slack_webhook(context, channel, seconds):
     timeout = time() + int(seconds)
     while time() < timeout:
         resp = requests.get('https://slack.com/api/conversations.history', params=params)
-        if resp.json()['messages'] == current_msgs:
+        if resp.json()['messages'] != current_msgs:
             return True
         else:
             sleep(10)

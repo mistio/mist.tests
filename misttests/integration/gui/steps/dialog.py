@@ -7,12 +7,12 @@ from selenium.webdriver.common.by import By
 from selenium.common.exceptions import StaleElementReferenceException
 from selenium.common.exceptions import NoSuchElementException
 
-from .utils import safe_get_element_text, expand_shadow_root
+from misttests.integration.gui.steps.utils import safe_get_element_text, expand_shadow_root
 
-from .buttons import click_button_from_collection, clicketi_click
+from misttests.integration.gui.steps.buttons import click_button_from_collection, clicketi_click
 
-from .forms import get_input_element_from_form
-from .forms import clear_input_and_send_keys, get_button_from_form
+from misttests.integration.gui.steps.forms import get_input_element_from_form
+from misttests.integration.gui.steps.forms import clear_input_and_send_keys, get_button_from_form
 
 
 def get_dialog(context, title):

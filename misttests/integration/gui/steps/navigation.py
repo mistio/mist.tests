@@ -3,13 +3,13 @@ from behave import step, then
 from time import time
 from time import sleep
 
-from .buttons import clicketi_click
-from .buttons import click_the_user_icon
-from .buttons import click_button_from_collection
+from misttests.integration.gui.steps.buttons import clicketi_click
+from misttests.integration.gui.steps.buttons import click_the_user_icon
+from misttests.integration.gui.steps.buttons import click_button_from_collection
 
-from .forms import clear_input_and_send_keys
+from misttests.integration.gui.steps.forms import clear_input_and_send_keys
 
-from .utils import safe_get_element_text, expand_shadow_root, get_page_element, add_credit_card_if_needed, check_page_is_visible
+from misttests.integration.gui.steps.utils import safe_get_element_text, expand_shadow_root, get_page_element, add_credit_card_if_needed, check_page_is_visible
 
 from selenium.common.exceptions import TimeoutException
 from selenium.common.exceptions import NoSuchElementException
@@ -388,5 +388,5 @@ def go_to_some_page_without_waiting(context, title):
 
 @step('I logout')
 def logout(context):
-    from .buttons import click_the_user_menu_button
+    from misttests.integration.gui.steps.buttons import click_the_user_menu_button
     click_the_user_menu_button(context, 'logout')

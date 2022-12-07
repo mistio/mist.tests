@@ -2,9 +2,9 @@ from behave import step
 
 from selenium.webdriver.common.by import By
 
-from .utils import focus_on_element
+from misttests.integration.gui.steps.utils import focus_on_element
 
-from .buttons import clicketi_click
+from misttests.integration.gui.steps.buttons import clicketi_click
 
 from selenium.common.exceptions import NoSuchElementException
 

@@ -19,14 +19,14 @@ def valid_api_token(request):
 
 @pytest.fixture(scope='module')
 def member2_api_token(request):
-    _mist_core = mist_core()
+    _mist_api_v1 = mist_api_v1()
     email = member2_email()
     password = member2_password()
     personal_api_token = common_valid_api_token(request,
                                                 email=email,
                                                 password=password)
     _org_name = org_name()
-    response = _mist_core.list_orgs(api_token=personal_api_token).get()
+    response = _mist_api_v1.list_orgs(api_token=personal_api_token).get()
     assert_response_ok(response)
     org_id = None
     for org in response.json():

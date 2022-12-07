@@ -1,1 +1,1 @@
-from misttests.integration.gui.core.environment import *
+from misttests.integration.gui.v1.environment import *

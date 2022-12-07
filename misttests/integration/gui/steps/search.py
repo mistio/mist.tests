@@ -5,9 +5,9 @@ from behave import step
 
 from selenium.webdriver.common.by import By
 
-from .forms import clear_input_and_send_keys
-from .buttons import clicketi_click
-from .utils import expand_shadow_root
+from misttests.integration.gui.steps.forms import clear_input_and_send_keys
+from misttests.integration.gui.steps.buttons import clicketi_click
+from misttests.integration.gui.steps.utils import expand_shadow_root
 
 log = logging.getLogger(__name__)
 

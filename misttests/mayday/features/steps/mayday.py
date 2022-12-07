@@ -4,7 +4,7 @@ from datetime import datetime
 
 from selenium.webdriver.common.by import By
 
-from misttests.integration.gui.steps.email import *
+from misttests.integration.gui.steps.mail import *
 from misttests.integration.gui.steps.sso import *
 from misttests.integration.gui.steps.navigation import *
 from misttests.integration.gui.steps.landing import *

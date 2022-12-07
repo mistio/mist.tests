@@ -5,7 +5,7 @@ from time import sleep
 
 from selenium.webdriver.common.by import By
 
-from .utils import expand_shadow_root, get_page_element
+from misttests.integration.gui.steps.utils import expand_shadow_root, get_page_element
 
 
 @step('I should see a(n) "{log_type}" log entry of action "{action}" added "{time_entry}" in the "{page}" page within {timeout} seconds')

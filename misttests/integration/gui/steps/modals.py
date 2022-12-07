@@ -1,6 +1,6 @@
 from behave import step
 
-from .buttons import click_button_from_collection
+from misttests.integration.gui.steps.buttons import click_button_from_collection
 
 from selenium.common.exceptions import TimeoutException
 

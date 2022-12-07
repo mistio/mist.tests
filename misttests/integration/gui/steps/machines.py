@@ -8,12 +8,12 @@ from selenium.webdriver.common.by import By
 
 from random import randrange
 
-from .utils import safe_get_element_text, get_page_element, expand_shadow_root
-from .utils import get_page, clear_input_and_send_keys
-from .forms import get_add_form
-from .dialog import get_dialog
+from misttests.integration.gui.steps.utils import safe_get_element_text, get_page_element, expand_shadow_root
+from misttests.integration.gui.steps.utils import get_page, clear_input_and_send_keys
+from misttests.integration.gui.steps.forms import get_add_form
+from misttests.integration.gui.steps.dialog import get_dialog
 
-from .buttons import clicketi_click, click_button_from_collection
+from misttests.integration.gui.steps.buttons import clicketi_click, click_button_from_collection
 
 from selenium.webdriver.common.keys import Keys
 

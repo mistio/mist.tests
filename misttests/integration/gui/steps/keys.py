@@ -1,6 +1,6 @@
 from behave import step
 
-from .utils import safe_get_element_text
+from misttests.integration.gui.steps.utils import safe_get_element_text
 from selenium.common.exceptions import NoSuchElementException
 from selenium.common.exceptions import StaleElementReferenceException
 
@@ -9,7 +9,7 @@ from selenium.webdriver.common.by import By
 
 @step('key "{key_name}" should be default key')
 def check_if_default_key(context, key_name):
-    from .list import get_list_item
+    from misttests.integration.gui.steps.list import get_list_item
     item = get_list_item(context, 'key', key_name)
     assert item.get('isDefault')
 

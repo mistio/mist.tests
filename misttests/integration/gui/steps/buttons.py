@@ -5,11 +5,11 @@ from random import randrange
 
 import logging
 
-from .utils import safe_get_element_text, scroll_into_view
-from .utils import focus_on_element, get_page_element, expand_shadow_root
+from misttests.integration.gui.steps.utils import safe_get_element_text, scroll_into_view
+from misttests.integration.gui.steps.utils import focus_on_element, get_page_element, expand_shadow_root
 
-from .forms import find_dropdown, get_button_from_form
-from .forms import get_current_value_of_dropdown
+from misttests.integration.gui.steps.forms import find_dropdown, get_button_from_form
+from misttests.integration.gui.steps.forms import get_current_value_of_dropdown
 
 from selenium.webdriver import ActionChains
 from selenium.webdriver.common.by import By
@@ -167,7 +167,7 @@ def click_button_in_dropdown_within_container_partial_match(context, button, dro
 def click_button_in_dropdown(context, button_name, dropdown_name, resource_type, partial_match=False):
     if context.mist_config.get(button_name):
         button_name = context.mist_config.get(button_name)
-    from .forms import get_add_form
+    from misttests.integration.gui.steps.forms import get_add_form
     page = get_add_form(context, resource_type)
     page_shadow = expand_shadow_root(context, page)
     click_button_in_dropdown_within_container(context, page_shadow, button_name, dropdown_name, partial_match)
@@ -176,7 +176,7 @@ def click_button_in_dropdown(context, button_name, dropdown_name, resource_type,
 use_step_matcher("re")
 @step('I click the "(?P<button_name>[A-Za-z1-9 \-/]+)" toggle button in the "(?P<resource_type>[A-Za-z]+)" add form')
 def click_toggle_button_in_add_form(context, button_name, resource_type):
-    from .forms import get_add_form
+    from misttests.integration.gui.steps.forms import get_add_form
     form = get_add_form(context, resource_type)
     form_shadow = expand_shadow_root(context, form)
     button = get_button_from_form(context, form_shadow, button_name, tag_name='paper-toggle-button')
@@ -185,7 +185,7 @@ def click_toggle_button_in_add_form(context, button_name, resource_type):
 
 @step('I click the "(?P<button_name>[A-Za-z ]+)" radio button in the "(?P<resource_type>[A-Za-z]+)" add form')
 def click_toggle_button_in_add_form(context, button_name, resource_type):
-    from .forms import get_add_form
+    from misttests.integration.gui.steps.forms import get_add_form
     form = get_add_form(context, resource_type)
     form_shadow = expand_shadow_root(context, form)
     button = get_button_from_form(context, form_shadow, button_name, tag_name='paper-radio-button')
@@ -248,7 +248,7 @@ def select_members_in_mist_dropdown(context, members, dropdown, container_id=Non
 
 @step('I click the button "{button}" in the user menu')
 def click_the_user_menu_button(context, button):
-    from .navigation import click_user_icon_and_wait_for_menu, get_user_menu
+    from misttests.integration.gui.steps.navigation import click_user_icon_and_wait_for_menu, get_user_menu
     click_user_icon_and_wait_for_menu(context)
     user_menu = get_user_menu(context)
     timeout = time() + 5
@@ -331,7 +331,7 @@ def click_item(context, text, resource_type):
 
 @step('cloud "{search_cloud}" should be "{state}"')
 def state_of_cloud(context,search_cloud,state):
-    from .clouds import find_cloud
+    from misttests.integration.gui.steps.clouds import find_cloud
     cloud = find_cloud(context,search_cloud.lower())
     if not cloud:
         assert False, "Cloud %s is not added" % cloud

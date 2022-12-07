@@ -1,4 +1,4 @@
-FROM python:3.9-bullseye
+FROM python:3.11-bullseye
 MAINTAINER mist.io <support@mist.io>
 
 RUN set -x && \
@@ -25,7 +25,7 @@ RUN set -x && \
     apt-get -y install google-chrome-stable && \
     rm -rf /var/lib/apt/lists/* /var/cache/apt/*
 
-ARG CHROMEDRIVER_VERSION=104.0.5112.79
+ARG CHROMEDRIVER_VERSION=108.0.5359.71
 RUN curl -SLO "https://chromedriver.storage.googleapis.com/$CHROMEDRIVER_VERSION/chromedriver_linux64.zip" && \
     unzip chromedriver_linux64.zip && \
     mv chromedriver /usr/local/bin && \

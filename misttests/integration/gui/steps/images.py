@@ -4,8 +4,10 @@ from selenium.webdriver.common.by import By
 
 from time import time
 
-from .utils import safe_get_element_text, get_page_element
-from .utils import expand_shadow_root, get_list_filtered_items
+from misttests.integration.gui.steps.utils import safe_get_element_text
+from misttests.integration.gui.steps.utils import get_page_element
+from misttests.integration.gui.steps.utils import expand_shadow_root
+from misttests.integration.gui.steps.utils import get_list_filtered_items
 
 
 def find_image(image, images_list):

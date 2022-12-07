@@ -44,7 +44,7 @@ PROVIDER_VAULT_MAP = {
     'google': 'gce/mist-dev-tests',
     'amazon': 'aws',
     'docker': 'dockerhost',
-    'vsphere': 'VCenter-packet'
+    'vsphere': 'vsphere'
 }
 
 # TODO: modify so that it can parse nested objects as well
@@ -318,7 +318,7 @@ DEFAULT_CREDENTIALS = {
     'DOCKER_MONITORING':{'host': '', 'port': ''},
     'ONAPP':{'username':'', 'apikey':'', 'host':'', 'verify_ssl': False},
     'MAXIHOST': {'token': ''},
-    'KUBEVIRT': {'host': '', 'tlsCaCert': '', 'token': '', 'port': ''},
+    'KUBEVIRT': {'host': '', 'tlsCaCert': '', 'cert': '', 'key': '', 'port': ''},
     'LXD': {'host': '', 'tlsKey': '', 'tlsCert': '', 'ca': ''},
     'GIG_G8': {'api_key': '', 'url': '', 'user_id': ''},
     'CLOUDSIGMA': {'email': '', 'password': '', 'region': ''},

@@ -70,6 +70,7 @@ Feature: Rbac
    @add-member2
    Scenario: Add member2
     Given I am logged in to mist as rbac_owner
+    Then I ensure that I am in the "ORG_NAME" organization context
     And I visit the Teams page
     And I wait for 1 seconds
     When I click the "Test team" "team"

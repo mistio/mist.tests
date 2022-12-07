@@ -8,27 +8,18 @@ from behave import step
 
 from selenium.webdriver.common.by import By
 
-from .landing import clear_input_and_send_keys
+from misttests.integration.gui.steps.utils import clear_input_and_send_keys
 
-from .search import search_for_something
+from misttests.integration.gui.steps.search import search_for_something
 
-from .utils import safe_get_element_text
+from misttests.integration.gui.steps.utils import safe_get_element_text
 
-from .buttons import search_for_button
-
-from .navigation import click_the_gravatar
+from misttests.integration.gui.steps.buttons import search_for_button
 
 from selenium.common.exceptions import NoSuchElementException
 from selenium.common.exceptions import StaleElementReferenceException
 
 from selenium.webdriver import ActionChains
-
-
-@step('I clear the search bar')
-def clear_search_bar(context):
-    input_field = context.browser.find_element(By.CSS_SELECTOR, '.team-search')
-    while input_field.get_attribute('value') != '':
-        input_field.send_keys('\\ue003')
 
 
 @step('I switch to the {org} organization')

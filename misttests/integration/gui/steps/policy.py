@@ -3,13 +3,13 @@ from behave import step
 from selenium.webdriver.common.by import By
 from selenium.webdriver.common.keys import Keys
 
-from .forms import get_edit_form
+from misttests.integration.gui.steps.forms import get_edit_form
 
-from .buttons import clicketi_click
-from .buttons import click_button_from_collection
+from misttests.integration.gui.steps.buttons import clicketi_click
+from misttests.integration.gui.steps.buttons import click_button_from_collection
 
-from .utils import safe_get_element_text, get_page_element, expand_shadow_root
-from .utils import clear_input_and_send_keys
+from misttests.integration.gui.steps.utils import safe_get_element_text, get_page_element, expand_shadow_root
+from misttests.integration.gui.steps.utils import clear_input_and_send_keys
 
 from time import sleep
 

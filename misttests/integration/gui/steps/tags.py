@@ -5,12 +5,12 @@ from time import sleep
 
 from selenium.webdriver.common.by import By
 
-from .utils import safe_get_element_text, expand_shadow_root, get_page_element
+from misttests.integration.gui.steps.utils import safe_get_element_text, expand_shadow_root, get_page_element
 
-from .buttons import clicketi_click
+from misttests.integration.gui.steps.buttons import clicketi_click
 
-from .forms import clear_input_and_send_keys
-from .dialog import get_dialog
+from misttests.integration.gui.steps.forms import clear_input_and_send_keys
+from misttests.integration.gui.steps.dialog import get_dialog
 
 
 def get_tags_list(tags_dialog):
@@ -73,7 +73,7 @@ def close_some_tag(context, key):
 
 @step('I ensure that the "{type_of_item}" has the tags "{tags}" within {seconds} seconds')
 def ensure_tags_are_present(context, type_of_item, tags, seconds):
-    from .forms import get_edit_form
+    from misttests.integration.gui.steps.forms import get_edit_form
     #form = get_edit_form(context, type_of_item)
     _, key_page = get_page_element(context, type_of_item + 's', type_of_item)
     key_page_shadow = expand_shadow_root(context, key_page)
