@@ -21,9 +21,9 @@ Feature: Schedulers
     Then "test-script-schedule-random" machine state has to be "running" within 60 seconds
     And I click the "test-script-schedule-random" "machine"
     Then I expect the "machine" page to be visible within max 5 seconds
-    When I wait for 15 seconds
+    When I wait for 25 seconds
     And I click the "Shell" action button in the "machine" page
-    And I wait for 5 seconds
+    And I wait for 55 seconds
     Then I expect terminal to open within 20 seconds
     And shell input should be available after 30 seconds
     And I type in the terminal "ls -la /var"
