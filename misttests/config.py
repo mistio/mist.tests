@@ -84,14 +84,14 @@ def inject_vault_credentials(dikt):
     if 'provider' not in dikt:
         return
     provider = PROVIDER_VAULT_MAP[dikt['provider']]
-    credentials = safe_get_var(f'clouds/{provider}', '*')
+    credentials = safe_get_var(f'clouds/{provider}', '*') or {}
     dikt_credentials = dikt.get('credentials', {})
     for key in dikt_credentials:
-        dikt_credentials[key] = credentials[key]
+        dikt_credentials[key] = credentials.get(key)
     if not dikt_credentials:
         for key in credentials:
             if key in dikt:
-                dikt[key] = credentials[key]
+                dikt[key] = credentials.get(key)
 
 
 def get_user_pass_ad_member():
@@ -135,7 +135,7 @@ def get_setting(setting, default_value=None, priority='config_file'):
 
 LOCAL = get_setting("LOCAL", True)
 
-VAULT_ENABLED = get_setting("VAULT_ENABLED", False, priority='environment')
+VAULT_ENABLED = get_setting("VAULT_ENABLED", True, priority='environment')
 
 VAULT_SERVER = get_setting("VAULT_SERVER", "https://vault.ops.mist.io:8200")
 
