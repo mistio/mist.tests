@@ -85,6 +85,8 @@ Feature: Ip-whitelisting
     Then I should receive an email at the address "EMAIL" with subject "Account IP whitelist request" within 30 seconds
     And I follow the link inside the email
     And I delete old emails
+    And I refresh the page
+    And I wait for 1 seconds
 
   @user-successfully-logs-in-and-create-resources
   Scenario:  User logs in and can once again create resources. Verify that he can also view existing resources
