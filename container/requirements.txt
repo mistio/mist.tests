@@ -10,7 +10,7 @@ requests==2.27.1
 selenium==4.7.2
 flake8==6.0.0
 ipdb==0.13.9
-ipython==8.7.0
+ipython==8.10.0
 hvac==1.0.2
 pillow==9.3.0
 py==1.11.0
